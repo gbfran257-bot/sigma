@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="ajaxupload.js"></script>
+
+<style type="text/css">
+	body{
+		margin:0;
+		padding:0;
+		font:normal 12px Arial, Helvetica, sans-serif
+	}
+	#content{
+		width:500px;
+		margin:20px auto;
+		height:340px;
+		border:4px solid black;
+		padding-top:10px;
+		overflow-y:auto;
+		text-align:left;
+		display:block;
+	}
+	#upload{  
+		padding:12px;  
+		font-size:1.5em;
+        text-align:center;  
+        background:#bd0926;  
+        color:white;  
+        border:1px solid #ccc;  
+        width:150px;
+		display:block;  
+        -moz-border-radius:5px;
+		-webkit-border-radius:5px; 
+		margin:0 auto; 
+		text-decoration:none
+    }
+	#gallery{
+		list-style:none;
+		margin:20px 0 0 0;
+		padding:0
+	}
+	#gallery li{
+		display:block;
+		width:222px;
+		height:250px;
+		background:white;
+		border:1px none black;
+		text-align:center;
+		padding:6px 0;
+		margin:5px 0 5px 14px;
+		position:relative;
+		float:left;
+	}
+	#gallery li img{
+		width:220px;
+		height:240px
+	}
+	#gallery li a{
+		position:absolute;
+		right:10px;
+		top:10px
+	}
+	#gallery li a img{ width:auto; height:auto}
+	
+</style>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		//top.frameFotoP.mifuncion()
+		var button = $('#upload'), interval;
+		var idP=document.getElementById('idP').value;
+		new AjaxUpload(button,{
+			action: 'subirFotosIdentificacion.php?action=&key='+window.parent.asigna(), 
+			name: 'image',
+			onSubmit : function(file, ext){
+				// cambiar el texto del boton cuando se selecicione la imagen		
+				button.text('Subiendo');
+				// desabilitar el boton
+				this.disable();
+				
+				interval = window.setInterval(function(){
+					var text = button.text();
+					if (text.length < 11){
+						button.text(text + '.');					
+					} else {
+						button.text('Subiendo');				
+					}
+				}, 200);
+			},
+			onComplete: function(file, response){
+				button.text('Subir Archivo');
+							
+				window.clearInterval(interval);
+					//alert(response[0]);		
+				// Habilitar boton otra vez
+				this.enable();
+				
+				// Añadiendo las imagenes a mi lista
+				
+				if($('#gallery li').length == 0){
+					$('#gallery').html(response).fadeIn("fast");
+					$('#gallery li').eq(0).hide().show("slow");
+				}else{
+					$('#gallery').prepend(response);
+					$('#gallery li').eq(0).hide().show("slow");
+				}
+				
+				if(response==''){
+					window.parent.badFP('Sólo se pueden subir dos Archivos.');
+				}else{window.parent.goodFP();}
+				if(response[0]=='<'){
+					window.parent.goodFP1();
+				}
+			}
+		});
+		
+		// Listar  fotos que hay en mi tabla
+		var miPuta = window.parent.asigna(), miPuta1='';
+		miPuta1='subirFotosIdentificacion.php?action=listFotos&key='+miPuta;
+		$("#gallery").load(miPuta1);
+		
+		// Eliminar
+		
+		$("#gallery .eliminame").live("click",function(){
+			var a = $(this);
+			var miPutaX = window.parent.asigna(), miPutaX1='';
+			miPutaX1='subirFotosIdentificacion.php?action=eliminar&key='+miPutaX;
+			$.get(miPutaX1,{id:a.attr("name")},function(){
+				a.parent().fadeOut("slow");
+				window.parent.goodFP();
+			})
+		})
+	});
+
+</script>
+</head>
+
+<body>
+	<input name="idP" id="idP" type="hidden" value="koby" />
+    <div id="content">
+        <a href="javascript:;" id="upload">Subir Archivo</a>
+        <ul id="gallery">
+            <!-- Cargar Fotos -->
+        </ul>
+    </div>
+<script>
+function asigna(x){
+	//alert(x);
+	//document.getElementById('idP').value=x;
+	//alert(document.getElementById('idP').value);
+}
+</script>
+</body>
+</html>

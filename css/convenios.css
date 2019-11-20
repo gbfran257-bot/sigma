@@ -1,0 +1,36 @@
+@charset "utf-8";
+/* CSS Document */
+#contenido{ margin:25px auto;}
+
+.data_tPrincipal{ display:block; position:relative; float:left; top:4px; padding:0 0 5px 0; width:100%; }
+
+ #dataTableBMConsulta_wrapper, #dataTableBEImagen9_wrapper{ margin:-20px 0px 0px 0px;}
+ 
+#dataTablePrincipal_wrapper{ margin-top:10px;}
+#dataTablePrincipal, #dataTable, #dataTable1, #dataTable2, #dataTableC, #dataTableSC{padding: 0;margin:0; font-size:1.1em; text-shadow:0px 0px 0px black;}
+#dataTablePrincipal_wrapper{width:98%;} #dataTable_wrapper{width:100%; border:1px solid #0071BC;} #dataTable1_wrapper{width:100%; border:1px solid #0071BC;} #dataTable2_wrapper{width:100%; border:1px solid #0071BC;}
+#dataTablePrincipal_wrapper th, #dataTable_wrapper th, #dataTable1_wrapper th, #dataTable2_wrapper th {cursor:pointer;}
+#dataTablePrincipal_wrapper tr, #dataTable_wrapper tr, #dataTable1_wrapper tr, #dataTable2_wrapper tr{ vertical-align:middle; text-align:left;} 
+	
+#dataTable{ background-color:rgba(56,172,220,0.1);} .
+
+input[type = text]{ text-align:left; color:; font-size:1em; min-height:20px; }
+
+.dataTablasP td{border:1px solid rgba(0,0,0, 0.2); }
+
+#dataTablePrincipal_info{color:#7e8081;}
+
+#dataTablePrincipal_wrapper tr.odd:hover, #dataTableBconceptos_wrapper tr.odd:hover{
+	color:#FF6633; background-color:rgba(254,254,254,1); font-size:1em; text-shadow:0px 0px 0px white;
+}
+#dataTablePrincipal_wrapper tr.even:hover, #dataTableBconceptos_wrapper tr.even:hover{
+	color:#FF6633; background-color:rgba(254,254,254,1); font-size:1em; text-shadow:0px 0px 0px white;
+}
+
+.formatoHC{ border:1px solid red; }
+.formatoRangosIMC{ background-color: rgba(255,255,255,0.4); color:black; border:1px solid red; }
+
+select{ width: 240px; height:200px; overflow:hidden; }
+
+#dataTableHistorial tr.odd, .tablilla tr.odd{ background-color:#E6E7E8;}
+#dataTableHistorial tr.even, .tablilla tr.even{ background-color:#DCDDDE;}

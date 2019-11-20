@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Documento sin título</title>
+</head>
+
+<body>
+
+<iframe src="http://localhost/sigma/" name="a" style="height:400px"></iframe>
+<iframe src="http://sigma-csa.noip.me:8080/oviyam2/viewer.html?patientID=150723161" name="b" style="height:400px"></iframe>
+<script>
+$(document).ready(function(e) {
+    document.domain = document.domain;
+});
+  function work() {
+    alert('work at '+location.host)
+  }
+  document.domain = document.domain
+</script>
+
+</body>
+</html>

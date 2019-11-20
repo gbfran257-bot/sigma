@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<link href='../fullcalendar.min.css' rel='stylesheet' />
+<link href='../fullcalendar.print.min.css' rel='stylesheet' media='print' />
+<script src='../lib/jquery.min.js'></script>
+<script src='../lib/moment.min.js'></script>
+<script src='../lib/jquery-ui.custom.min.js'></script>
+<script src='../fullcalendar.js'></script>
+<script src='../locale/es.js'></script>
+
+<script>
+  $(document).ready(function () {  
+      function fmt(date) { //alert(moment.utc(date).format()); 
+	  	if (date == null){ date = $('#starti').val();return moment.utc(date).format() }
+		else{ $('#starti').val(date); return moment.utc(date).format() }
+      }
+
+      var date = new Date(), d = date.getDate(), m = date.getMonth(), y = date.getFullYear();
+
+      var calendar = $('#calendar').fullCalendar({
+        editable: true, lang: 'es',
+        header: {
+          left: 'prev,next today', center: 'title', right: 'month,agendaWeek,agendaDay'
+        }, defaultView: 'agendaWeek',
+        events: "php/events.php",allDayDefault: false,
+        // Convert the allDay from string to boolean
+        eventRender: function(ev, el, v) {
+			if(ev.allDay && ev.end){ ev.end.add(1, 'days'); console.log(ev.end); }
+		},
+        selectable: true, selectHelper: true,
+        select: function (start, end, allDay) {
+          var title = prompt('Event Title:');
+          if (title) {
+            var start = fmt(start);
+            var end = fmt(end);
+            $.ajax({
+              url: 'php/add_events.php',
+              data: 'title=' + title + '&start=' + start + '&end=' + end,
+              type: "POST",
+              success: function (json) {
+                //alert('Added Successfully');
+              }
+            });
+            calendar.fullCalendar('renderEvent',
+                { title: title, start: start, end: end, allDay: allDay }, true // make the event "stick"
+            );
+          }
+          calendar.fullCalendar('unselect');
+        },
+        editable: true,
+        eventDrop: function (event, delta) {//document.getElementById('starti').value=event.start;//alert(delta);
+          var start = fmt(event.start);
+          var end = fmt(event.end); 
+          $.ajax({
+            url: 'php/update_events.php',
+            data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,
+            type: "POST",
+            success: function (json) {
+              //alert("Updated Successfully");
+            }
+          });
+        },
+        eventClick: function (event) {
+          var decision = confirm("Do you want to remove event?");
+          if (decision) {
+            $.ajax({
+              type: "POST",
+              url: "php/delete_event.php",
+              data: "&id=" + event.id,
+              success: function (json) {
+                $('#calendar').fullCalendar('removeEvents', event.id);
+                //alert("Updated Successfully");
+              }
+            });
+          }
+        },
+        eventResize: function (event) {
+          var start = fmt(event.start);
+          var end = fmt(event.end);
+          $.ajax({
+            url: 'php/update_events.php',
+            data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,
+            type: "POST",
+            success: function (json) {
+              //alert("Updated Successfully");
+            }
+          });
+        }
+      });
+    });
+
+</script>
+<style>
+  body{ margin: 40px 10px; padding: 0; font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif; font-size: 14px; }
+  #calendar { max-width: 800px; margin: 0 auto; }
+</style>
+</head>
+<body>
+  <input name="starti" type="hidden" value="" id="starti">
+  <div id='calendar'></div>
+
+</body>
+</html>

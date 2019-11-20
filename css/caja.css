@@ -1,0 +1,63 @@
+@charset "utf-8";
+/* CSS Document */
+#contenido{ margin:39px auto;}
+
+.data_tPrincipal{ display:block; position:relative; float:left; top:4px; padding:0 0 5px 0; width:100%; } #dataTableBMConsulta_wrapper, #dataTableBEImagen9_wrapper{ margin:-20px 0px 0px 0px;}
+
+	#dataTablePrincipal_wrapper{ margin-top:10px;}
+	#dataTablePrincipal{ background-color:rgba(0,0,0,0.9);}
+	#dataTablePrincipal, #dataTable, #dataTable1, #dataTable2, #dataTableC, #dataTableSC{padding: 0;margin:0; font-size:1em; text-shadow:0px 0px 0px black;}
+	#dataTablePrincipal_wrapper{width:98%;} #dataTable_wrapper{width:100%; border:1px none #0071BC;} #dataTable1_wrapper{width:100%; border:1px none #0071BC;} #dataTable2_wrapper{width:100%; border:1px none #0071BC;}
+	#dataTablePrincipal_wrapper th, #dataTable_wrapper th, #dataTable1_wrapper th, #dataTable2_wrapper th {cursor:pointer;font-size:1em; }
+
+	#dataTablePrincipal_wrapper tr.odd:hover, #dataTable1_wrapper tr.odd:hover {color:white; background-color:rgba(125,126,125,1); font-size:1em;}
+	#dataTablePrincipal_wrapper tr.odd td.sorting_1, #dataTable1_wrapper tr.odd td.sorting_1 {color:black; background-color:transparent;}
+	#dataTablePrincipal_wrapper tr.odd:hover td.sorting_1, #dataTable1_wrapper tr.odd:hover td.sorting_1 {color:white; background-color:rgba(125,126,125,1);}
+
+	#dataTablePrincipal_wrapper tr.even:hover, #dataTable1_wrapper tr.even:hover{color:white; background-color:#0071BC; font-size:1em;}
+	#dataTablePrincipal_wrapper tr.even td.sorting_1, #dataTable1_wrapper tr.even td.sorting_1 {color:black; background-color:transparent;}
+	#dataTablePrincipal_wrapper tr.even:hover td.sorting_1, #dataTable1_wrapper tr.even:hover td.sorting_1 {color:white; background-color:#0071BC;}
+	
+	#dataTableBMConsulta{ background-color:rgba(0,0,0,0.8);}#dataTableBEImagen{ background-image:url(../jquery-ui-1.11.3/images/ui-bg_glass_45_0078ae_1x400.png); background-size:cover;}
+	#dataTableC_wrapper, #dataTableSC_wrapper, #dataTableBMConsulta_wrapper, #dataTableBEImagen_wrapper{width:100%; border:1px none #0071BC;} 
+	#dataTableC_wrapper th, #dataTableSC_wrapper th, #dataTableBMConsulta_wrapper th, #dataTableBEImagen_wrapper th{cursor:pointer; } 
+	#dataTableC_wrapper tr, #dataTableSC_wrapper tr, #dataTableBMConsulta_wrapper tr, #dataTableBEImagen_wrapper tr{ 
+		vertical-align:middle; text-align:left;
+	} 
+	#dataTableC_wrapper tr.odd, #dataTableSC_wrapper tr.odd, #dataTableBMConsulta_wrapper tr.odd, #dataTableBEImagen_wrapper tr.odd{
+		color:#FFFFFF; background-color:rgba(114,172,42,0.1);
+	}
+	#dataTableC_wrapper tr.odd:hover, #dataTableSC_wrapper tr.odd:hover, #dataTableBMConsulta_wrapper tr.odd:hover, #dataTableBEImagen_wrapper tr.odd:hover{color:white; background-color:rgba(125,126,125,1); } 
+	#dataTableC_wrapper tr.odd td.sorting_1, #dataTableSC_wrapper tr.odd td.sorting_1, #dataTableBMConsulta_wrapper tr.odd td.sorting_1, #dataTableBEImagen_wrapper tr.odd td.sorting_1 {color:white; }
+	#dataTableC_wrapper tr.odd:hover td.sorting_1, #dataTableSC_wrapper tr.odd:hover td.sorting_1, #dataTableBMConsulta_wrapper tr.odd:hover td.sorting_1, #dataTableBEImagen_wrapper tr.odd:hover td.sorting_1 {color:white;} 
+	#dataTableC_wrapper tr.even, #dataTableSC_wrapper tr.even, #dataTableBMConsulta_wrapper tr.even, #dataTableBEImagen_wrapper tr.even {color:#FFFFFF; background-color:rgba(65,181,227,0.1);}
+	#dataTableC_wrapper tr.even:hover, #dataTableSC_wrapper tr.even:hover, #dataTableBMConsulta_wrapper tr.even:hover, #dataTableBMConsulta_wrapper tr.even:hover, #dataTableBEImagen_wrapper tr.even:hover{color:white; background-color:#0071BC;} 
+	#dataTableC_wrapper tr.even td.sorting_1, #dataTableSC_wrapper tr.even td.sorting_1, #dataTableBMConsulta_wrapper tr.even td.sorting_1, #dataTableBEImagen_wrapper tr.even td.sorting_1 {color:#FFFFFF; }
+	#dataTableC_wrapper tr.even:hover td.sorting_1, #dataTableSC_wrapper tr.even:hover td.sorting_1, #dataTableBMConsulta_wrapper tr.even:hover td.sorting_1, #dataTableBEImagen_wrapper tr.even:hover td.sorting_1 {color:white; background-color:#0071B;}
+	
+#dataTable{ background-color:rgba(56,172,220,0.1);} .
+
+.dataTablasP td{border: 1px  ridge rgba(95, 158,160, 0.5); }
+
+#dataTableBMConsulta td,#dataTableBEImagen td{cursor:pointer;border: 1px ridge rgba(0,255,255, 0.4);} #dataTableESImagen, .dataTableEstudios{ background-image:url(../jquery-ui-1.11.3/images/ui-bg_glass_45_0078ae_1x400.png); background-size:cover;}  
+#dataTableESImagen td, .dataTableEstudios td{border: 1px ridge rgba(0,255,255, 0.4);} .dataTableEstudios{ color:black;}
+
+tr.selected1 td, tr.selected1 span{ background-color:white; color:#FF6633; }
+tr.selected2 td, tr.selected2 span{ background-color:white; color:#FF6633; }
+
+td.details-control {
+    background: url('../DataTables-1.9.1/examples/examples_support/details_open.png') no-repeat center center; cursor: pointer;
+}
+tr.details td.details-control {
+    background: url('../DataTables-1.9.1/examples/examples_support/details_close.png') no-repeat center center;
+}
+
+#dataTable_wrapper tr.odd:hover, #dataTableBDX_wrapper tr.odd:hover, #dataTableBMedicamentos_wrapper tr.odd:hover, #dataTableHSe_wrapper tr.odd:hover, #dataTableHEn_wrapper tr.odd:hover, #dataTableHLa_wrapper tr.odd:hover, #dataTableHIm_wrapper tr.odd:hover, #dataTableHCo_wrapper tr.odd:hover{
+	color:#FF6633; background-color:rgba(254,254,254,1); font-size:1em; text-shadow:0px 0px 0px white;
+}
+#dataTable_wrapper tr.even:hover, #dataTableBDX_wrapper tr.even:hover, #dataTableBMedicamentos_wrapper tr.even:hover, #dataTableHSe_wrapper tr.even:hover, #dataTableHEn_wrapper tr.even:hover, #dataTableHLa_wrapper tr.even:hover, #dataTableHIm_wrapper tr.even:hover, #dataTableHCo_wrapper tr.even:hover{
+	color:#FF6633; background-color:rgba(254,254,254,1); font-size:1em; text-shadow:0px 0px 0px white;
+}
+
+#dataTableHistorial tr.odd, .tablilla tr.odd, .tablilla td.odd{ background-color:#E6E7E8;}
+#dataTableHistorial tr.even, .tablilla tr.even, .tablilla td.even{ background-color:#DCDDDE;}

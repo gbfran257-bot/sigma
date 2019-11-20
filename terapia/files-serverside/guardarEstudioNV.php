@@ -1,0 +1,35 @@
+<?php
+require("../../Connections/horizonte.php");
+require("../../funciones/php/values.php");
+
+ $noTemp = sqlValue($_POST["noAleatorio"], "text");
+ $idP = sqlValue($_POST["idP"], "int");
+ $idU = sqlValue($_POST["idU"], "int");
+ $idMedico = sqlValue($_POST["idMedico"], "int");
+ $idE = sqlValue($_POST["idE"], "int");
+	 mysql_select_db($database_horizonte, $horizonte); 
+	 $resultC = mysql_query("SELECT id_to, id_departamento_to, id_area_to, precio_to from conceptos where id_to = $idE ", $horizonte) or die (mysql_error());
+	 $rowC = mysql_fetch_row($resultC);
+
+ $idConvenio = sqlValue($_POST["idConvenio"], "int");
+ if($_POST["idConvenio"]==''){$idConvenio=0;}
+ $idDepartamento = sqlValue($rowC[1], "int");
+ $idArea = sqlValue($rowC[2], "int");
+ $idSucursal = sqlValue($_POST["idSucursal"], "int");
+ $observaciones = sqlValue($_POST["observaciones"], "text");
+ $now = sqlValue(date('Y-m-d H:i:s'), "date");
+ $precio = sqlValue($_POST["precioTo"], "double");
+ $tipoConcepto = sqlValue($_POST["tipoConcepto"], "int");
+ $id_con_bene = sqlValue($_POST["id_con_bene"], "int");
+	
+ mysql_select_db($database_horizonte, $horizonte); 
+$sql="INSERT INTO venta_conceptos(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,departamento_vc,area_vc,id_sucursal_vc,observaciones_vc,fecha_venta_vc,tipo_concepto_vc,precio_normal_vc,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios)";
+$sql.= "VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $idDepartamento, $idArea, $idSucursal, $observaciones, $now, $tipoConcepto, $precio, $idU, $now, $id_con_bene)";
+  
+$update = mysql_query($sql, $horizonte) or die (mysql_error());
+	
+if (!$update) { echo $sql; }else{  echo 1; }
+
+ //Cerrar conexión a la Base de Datos
+ mysql_close($horizonte);
+?>

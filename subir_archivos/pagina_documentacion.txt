@@ -1,0 +1,4 @@
+https://github.com/blueimp/jQuery-File-Upload/wiki
+
+
+https://github.com/blueimp/jQuery-File-Upload/wiki/Basic-plugin

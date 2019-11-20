@@ -1,0 +1,33 @@
+@charset "utf-8";
+/* CSS Document */
+#contenido{ margin:20px auto;}
+
+ #dataTableBMConsulta_wrapper, #dataTableBEImagen9_wrapper{ margin:-20px 0px 0px 0px;}
+ 
+.filtro1Principal input, .filtroBMC input{ 
+	margin:2px auto; text-transform:uppercase; text-align:left; font-size:1.3em; border-radius:; min-width:300px; min-height:30px; 		
+	border:2px solid #a4a5a7; color:rgba(126,128,129,1);
+}
+
+#dataTablePrincipal_wrapper{ margin-top:10px;}
+#dataTablePrincipal_wrapper{width:98%;} #dataTable_wrapper{width:100%; border:1px solid #0071BC;} #dataTable1_wrapper{width:100%; border:1px solid #0071BC;} #dataTable2_wrapper{width:100%; border:1px solid #0071BC;}
+#dataTablePrincipal_wrapper th, #dataTable_wrapper th, #dataTable1_wrapper th, #dataTable2_wrapper th {cursor:pointer;}
+#dataTablePrincipal_wrapper tr, #dataTable_wrapper tr, #dataTable1_wrapper tr, #dataTable2_wrapper tr{ vertical-align:middle; text-align:left;} 
+	
+.campoITtab{
+	width:100%; min-height:25px; height:1.6em; -moz-border-radius:4px;-webkit-border-radius:4px;border-radius:4px; 
+	background-color:; border:1px #BCBEC0 solid; border-radius:4px; color:black; font-size:1.5em; text-align:left;
+}
+.campoITtab1{width:97%; border:1px #BCBEC0 solid; min-height:25px; height:1.8em; -moz-border-radius:4px;-webkit-border-radius:4px;border-radius:4px; background-color:#d9dadc; color:black; font-size:1.5em; text-align:left;}
+
+#dataTable{ background-color:rgba(56,172,220,0.1);} .
+
+.dataTablasP td{border:1px solid rgba(0,0,0, 0.2); }
+
+#dataTablePrincipal_info{color:#7e8081;}
+
+#dataTablePrincipal_wrapper tr.odd:hover{color:#FF6633; background-color:rgba(254,254,254,1); font-size:1em; text-shadow:0px 0px 0px white;}
+#dataTablePrincipal_wrapper tr.even:hover{color:#FF6633; background-color:rgba(254,254,254,1); font-size:1em; text-shadow:0px 0px 0px white;}
+
+#dataTableHistorial tr.odd, .tablilla tr.odd{ background-color:#E6E7E8;}
+#dataTableHistorial tr.even, .tablilla tr.even{ background-color:#DCDDDE;}

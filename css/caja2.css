@@ -1,0 +1,33 @@
+@charset "utf-8";
+/* CSS Document */
+
+.data_tPrincipal{ display:block; position:relative; float:left; top:4px; padding:0 0 5px 0; width:100%; } #dataTableBMConsulta_wrapper, #dataTableBEImagen9_wrapper{ margin:-20px 0px 0px 0px;}
+.filtro1Principal input, .filtroBMC input{ margin:2px auto; text-transform:uppercase; text-align:left; font-size:1.4em; border-radius:2px; min-width:300px; min-height:30px; color:rgba(143,2,34,1); background-color:white;}
+
+#dataTablePrincipal_wrapper{ margin-top:10px;}
+
+.dataTablasP td{border: 1px  ridge rgba(0,255,255, 0.4); }
+
+tr.selected1 td, tr.selected1 span{ background-color:#DB7093; }
+tr.selected2 td, tr.selected2 span{ background-color:#DB7093; }
+
+td.details-control {
+    background: url('../DataTables-1.9.1/examples/examples_support/details_open.png') no-repeat center center; cursor: pointer;
+}
+tr.details td.details-control {
+    background: url('../DataTables-1.9.1/examples/examples_support/details_close.png') no-repeat center center;
+}
+
+#dataTable_wrapper tr.odd:hover, #dataTableBDX_wrapper tr.odd:hover{
+	color:#FF6633; background-color:rgba(254,254,254,1); font-size:1em; text-shadow:0px 0px 0px white;
+}
+#dataTable_wrapper tr.even:hover, #dataTableBDX_wrapper tr.even:hover{
+	color:#FF6633; background-color:rgba(254,254,254,1); font-size:1em; text-shadow:0px 0px 0px white;
+}
+
+.formatoRangosIMC{
+	background-color: rgba(255,255,255,0.4); color:black; border:1px solid red;
+}
+#dataTableHistorial tr.odd, .tablilla tr.odd, .tablilla td.odd{ background-color:#E6E7E8;}
+#dataTableHistorial tr.even, .tablilla tr.even, .tablilla td.even{ background-color:#DCDDDE;}
+.centrado{ text-align:center;}

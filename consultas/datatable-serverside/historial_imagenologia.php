@@ -1,0 +1,165 @@
+<?php
+require("../../Connections/horizonte.php");
+require("../../Connections/ipacs.php");
+	$aColumns = array('vc.id_vc', 'DATE_FORMAT(vc.fecha_venta_vc,"%d/%c/%Y")', 'c.concepto_to', 'concat(u.nombre_u," ",u.apaterno_u)', 'vc.id_vc', 'c.id_tipo_concepto_to','p.nombre_completo_p','vc.no_temp_vc','vc.referencia_vc','vc.referencia_vc','u.amaterno_u', 'vc.id_vc', 'vc.id_vc', 'vc.id_paciente_vc', 'vc.id_pacs');
+     
+    // DB tables to use 
+    $aTables = array( 'venta_conceptos vc');
+     
+    // Indexed column (used for fast and accurate table cardinality) 
+    $sIndexColumn = "vc.id_vc";
+     
+	 // Joins   
+	$sJoin = 'left join conceptos c on c.id_to = vc.id_concepto_es left join catalogo_tipo_conceptos t on t.id_tc = c.id_tipo_concepto_to left join pacientes p on p.id_p = vc.id_paciente_vc left join usuarios u on u.id_u = vc.usuarioEdo4_e';
+	 
+    // CONDITIONS 
+    $sWhere="WHERE vc.id_paciente_vc = '$_GET[aleatorio]' and c.id_tipo_concepto_to = 4 and vc.estatus_vc >= 5 and c.id_area_to not in (29,58,85) ";
+
+    /* Database connection information */
+    $gaSql['user']       = $username_horizonte;
+    $gaSql['password']   = $password_horizonte;
+    $gaSql['db']         = $database_horizonte;
+    $gaSql['server']     = $hostname_horizonte;
+     
+    $gaSql['link'] =  mysql_pconnect( $gaSql['server'], $gaSql['user'], $gaSql['password']  ) or
+        die( 'Could not open connection to server' );
+     
+    mysql_select_db( $gaSql['db'], $gaSql['link'] ) or 
+        die( 'Could not select database '. $gaSql['db'] );
+     
+    /* * Paging */
+    $sLimit = "";
+    if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' )
+    {
+        $sLimit = "LIMIT ".mysql_real_escape_string( $_GET['iDisplayStart'] ).", ".
+            mysql_real_escape_string( $_GET['iDisplayLength'] );
+    }
+     
+    /* * Ordering */
+    $sOrder = " order by vc.id_vc desc";
+    if ( isset( $_GET['iSortCol_0'] ) )
+    {
+        $sOrder = "ORDER BY  ";
+        for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ )
+        {
+            if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" )
+            {
+                $sOrder .= $aColumns[ intval( $_GET['iSortCol_'.$i] ) ]."
+                    ".mysql_real_escape_string( $_GET['sSortDir_'.$i] ) .", ";
+            }
+        }
+         
+        $sOrder = substr_replace( $sOrder, "", -2 );
+        if ( $sOrder == "ORDER BY" ) { $sOrder = ""; }
+    }
+     
+    /* 
+     * Filtering
+     * NOTE this does not match the built-in DataTables filtering which does it
+     * word by word on any field. It's possible to do here, but concerned about efficiency
+     * on very large tables, and MySQL's regex functionality is very limited
+    */
+ 
+    if ( isset($_GET['sSearch']) && $_GET['sSearch'] != "" )
+    {
+        $sWhere .= "AND (";
+        for ( $i=0 ; $i<count($aColumns) ; $i++ )
+        {
+            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string( $_GET['sSearch'] )."%' OR ";
+        }
+        $sWhere = substr_replace( $sWhere, "", -3 );
+        $sWhere .= ')';
+    }
+     
+    /* Individual column filtering */
+    for ( $i=0 ; $i<count($aColumns) ; $i++ )
+    {
+        if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' )
+        {
+            if ( $sWhere == "" ) { $sWhere = "WHERE "; }
+            else { $sWhere .= " AND "; }
+            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+        }
+    }
+     
+    /* * SQL queries * Get data to display */
+    $sQuery = "
+        SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."
+        FROM   ".str_replace(" , ", " ", implode(", ", $aTables))."
+		$sJoin
+        $sWhere
+        $sOrder
+        $sLimit";
+ 
+    $rResult = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
+     
+    /* Data set length after filtering */
+    $sQuery = "
+        SELECT FOUND_ROWS()
+    ";
+    $rResultFilterTotal = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
+    $aResultFilterTotal = mysql_fetch_array($rResultFilterTotal);
+    $iFilteredTotal = $aResultFilterTotal[0];
+     
+    /* Total data set length */
+    $sQuery = "
+        SELECT COUNT(".$sIndexColumn.")
+        FROM   ".$aTables[0];
+     
+    $rResultTotal = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
+    $aResultTotal = mysql_fetch_array($rResultTotal);
+    $iTotal = $aResultTotal[0];
+     
+    /* * Output */
+    $output = array(
+        "sEcho" => intval($_GET['sEcho']),
+        "iTotalRecords" => $iTotal,
+        "iTotalDisplayRecords" => $iFilteredTotal,
+        "aaData" => array()
+    );
+	$hh=0;
+     
+    while ( $aRow = mysql_fetch_array( $rResult ) )
+    {
+		$hh++;
+        $row = array();
+        for ( $i=0 ; $i<count($aColumns) ; $i++ )
+        {
+            if ( $aColumns[$i] == "version" ) { $row[] = ($aRow[ $aColumns[$i] ]=="0") ? '-' : $aRow[ $aColumns[$i] ]; }
+            else if ( $aColumns[$i] != ' ' ) { $row[] = $aRow[$i]; }
+			
+        }
+		
+		$x='"'.$row[6].'"';
+		$x1='"'.$row[1].'"';
+		$x2='"'.$row[7].'"';
+		$miRef = substr($row[8], 2); $miRef = str_replace("-","",$miRef);
+		$x3='"'.$miRef.'"'; $id_estud = '"'.$row[2].'"'; $miRefh='"'.$row[14].'"';
+		
+		$row[2]="<div align='left' lang='$_GET[idCo]' name='$_GET[aleatorio]' onClick='rhImg(this.lang,$row[13],$id_estud,$row[0],$x,$x1,$x2,$x3,1)' class='$row[11] histol'><span style='cursor:pointer;'>$row[2]</span></div>";
+		
+		$row[0]=$hh;
+		$row[3] = $row[3].' '.$row[10];
+		
+		$miRef = $row[14];
+		
+		mysql_select_db($database_ipacs, $ipacs);
+		$resultPc1=mysql_query("SELECT count(pk) from patient where pat_id = '$miRef' ",$ipacs) or die (mysql_error());
+		$rowPc1 = mysql_fetch_row($resultPc1);
+		
+		if($rowPc1[0]>0){//Hay por lo menos un estudio de la db del pacs ligado a uno de sigma
+			$row[3] ="<div align='center'><button type='button' class='btn btn-default btn-xs' onClick='histo_pacs($miRefh);'><i class='fa fa-file-image-o' aria-hidden='true'></i></button></div>";
+		}else{//No hay estudios ligados
+			$row[3] ="";
+		}
+		
+		mysql_select_db($database_horizonte, $horizonte); //Para el primer img
+		$result1i = mysql_query("SELECT v.id_vc, c.concepto_to from venta_conceptos v left join conceptos c on c.id_to = v.id_concepto_es where v.id_paciente_vc = '$_GET[aleatorio]' and c.id_tipo_concepto_to = 4 and v.estatus_vc >= 5 and c.id_area_to not in (29,58,85) order by v.id_vc desc limit 1 ", $horizonte) or die (mysql_error());
+		$row1i = mysql_fetch_row($result1i);
+		
+		$row[11] = $row1i[0]; $row[12] = $row1i[1];
+		
+		$output['aaData'][] = $row;
+    }
+    echo json_encode( $output );
+?>

@@ -1,0 +1,12 @@
+<?php
+require_once('../../../Connections/horizonte.php');
+
+mysql_select_db($database_horizonte, $horizonte);
+$consulta = "SELECT DISTINCT unidad_un, id_un from unidades order by unidad_un asc";
+$query = mysql_query($consulta) or die (mysql_error());
+echo '<option value="">'.'-SELEECCIONAR-'.'</option>';
+while ($fila = mysql_fetch_array($query)) {
+	echo '<option value="'.$fila['id_un'].'">'.$fila['unidad_un'].'</option>';
+};
+
+?>

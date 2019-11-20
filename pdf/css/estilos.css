@@ -1,0 +1,111 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+@font-face {
+    font-family: hootl;
+    src: url(fonts/hootl.ttf);
+}
+
+body {
+  background: url(../images/bk.jpg) repeat;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font-family: hootl;
+  letter-spacing:1px;
+  color: #0f0;
+}
+
+a{color: #0f0;}
+
+.wrap { 
+  margin: 0 auto;
+  width: 80%;
+}
+
+input{font-family:hootl !important;}
+
+#header_main {
+	background: #bf007f;
+	margin: 15px 0;
+	text-align: center;
+	font-size: 25px;
+	border-radius: 10px;
+	line-height: 35px;
+	width: 100%;
+}
+
+.campos, .campos label, .campos input{
+	float:left;
+	padding: 0px;
+	width: 100%;
+}
+
+#opcionesTitulosPromos, #cargarText{
+	
+	background: #44AA00;
+	float:left;
+	padding: 20px 0;
+	border-radius: 10px;
+	margin-left:1%;
+	width: 100%;
+}
+
+div label {
+  width: 25%;
+  float: left;
+}
+ 
+#formulario{
+    width: 50%;
+    margin: 0 auto;
+}
+#formulario form p{
+    float: left;
+    width: 55%
+}
+ 
+#generar{float:left; margin-bottom: 20px; width:100%}
+ 
+#generar p {float: left;width: 30%;}
+#generar input {float: left; width: 35%;}
+#fecha{float:left;}
+#formulario form #fecha p {float: left; width: 16%;}
+#formulario form #fecha select {margin: 0 10px 0 25px; float: left; width: 16%;}
+#formulario form #fecha .de{float: left; width:3%}
+ 
+#formulario form .generarBorrar{height: auto; width: 45%;}
+
+#form_visit div{  float: left; width: 100%;}
+#form_visit label{ float: left; margin-right: 10px; text-align: right; width: 35%;}
+#form_visit input{width: 52%;}
+#form_visit .generarBorrar{ box-sizing: border-box; float: left; width: 50%;}
+#form_preguntas div{}
+#form_preguntas label{}
+#form_preguntas input{}
+.row{margin:0; width:100%}
+.row .column{float:left; width:30%;}
+#formularios{background: #aa6c39; border-radius: 10px;}
+#left{float: left; width: 100%; background:none; border-radius:10px;}
+#agregarCampo, #agregarTabla{margin:10px 0;}
+#respuestaAjax{background:#aa6c39; width: 100%; min-height: 100px; border-radius:10px; margin-bottom:20px;}
+#tablaUser{background:#aa6c39; width: 100%; min-height: 200px; border-radius:10px; margin-bottom:20px;}
+.menu{
+	background: none repeat scroll 0 0 #bf007f;
+    border-radius: 5px;
+    box-sizing: border-box;
+    float: left;
+    margin-bottom: 4px;
+    padding: 5px;
+    width: 100%;
+}
+
+.inside{
+    margin: 0 auto;
+    width: 12%;
+}
+.titulo{text-align:center;}
+
+img{width:100%;}
