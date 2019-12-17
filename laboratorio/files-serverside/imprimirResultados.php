@@ -10,10 +10,16 @@ $tabla = '<table id="p_contenido" width="100" border="0" cellspacing="8" cellpad
 mysql_select_db($database_horizonte, $horizonte);
 $consulta = "SELECT r.id_rl, t.id_cvr, t.tipo_cvr, r.numero1_rango_rl, r.numero2_rango_rl, r.valor_maximo_rl, r.valor_minimo_rl, r.valor_estable_rl, r.valor_variable_rl, r.valor_texto_rl, r.boleano_rl, u.abreviacion_un, u.unidad_un, r.r_rango_rl, r.r_vmaximo_rl, r.r_vminimo_rl, r.r_valor_estable_rl, r.r_valor_texto, r.r_boleano_rl, b.base_b, r.r_valor_normal, r.r_valor_r1_moderado, r.r_valor_r2_moderado, r.r_valor_alto, r.r_valor_nma_rl, r.r_valor_normal_i, r.r_valor_r1_moderado_i, r.r_valor_r2_moderado_i, r.r_valor_alto_i, r.r_valor_nma_i_rl from resultados_laboratorio r left join catalogo_valores_referencia t on t.id_cvr = r.id_valor_referencia_rl left join bases b on b.id_b = r.id_base_rl left join unidades u on u.id_un = b.unidad_medida_r_b where r.id_estudio_vc_rl = $idEvc order by r.id_rl asc ";
 $query = mysql_query($consulta) or die (mysql_error());
+$anterior = "";
 while ($fila = mysql_fetch_array($query)) {//$fila['convenio_cv'];
 	//Para el tipo TEXTO
+	$fila['base_b'] = explode("_", $fila['base_b'])[0];
+	if($anterior === $fila['base_b'])
+		$fila['base_b'] = "";
+	else
+		$anterior = $fila['base_b'];
 	if($fila['id_cvr']==1){
-		if($fila['base_b']=='GRUPO SANGUINEO' or $fila['base_b']=='FACTOR RH'){
+		if($anterior=='GRUPO SANGUINEO' or $anterior=='FACTOR RH'){
 			if($fila['r_valor_texto']!=$fila['valor_texto_rl']){$asterix = ''; $f++;}else{$asterix = '';}
 		}else{
 			if($fila['r_valor_texto']!=$fila['valor_texto_rl']){$asterix = '<strong>*</strong>'; $f++;}else{$asterix = '';}
@@ -34,7 +40,7 @@ while ($fila = mysql_fetch_array($query)) {//$fila['convenio_cv'];
 		if($fila['r_boleano_rl']==1){ $filita = 'POSITIVO';
 		}else{ $filita = 'NEGATIVO'; }
 		
-		if($fila['base_b']=='FACTOR RH'){
+		if($anterior=='FACTOR RH'){
 			if($filita!=$bol){$asterix = ''; $f++;}else{$asterix = '';}
 		}else{
 			if($filita!=$bol){$asterix = '<strong>*</strong>'; $f++;}else{$asterix = '';}
