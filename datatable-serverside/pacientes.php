@@ -225,7 +225,7 @@ require_once("../funciones/php/values.php");
 		
 		$row[8] = "<button onClick='nuevaVisita(this.id, $visitaP);' id='$row[9]' class='btn btn-info btn-sm' title=''><i class='fa fa-cart-plus' aria-hidden='true'></i> </button>";
 		
-		$row[9] = "<button onClick='formatos(this.id, $nombreP)' id='$row[11]' class='btn btn-default btn-sm' title=''><i class='fa fa-file-text-o' aria-hidden='true'></i> </button>";
+		$row[9] = "<button onClick='formatos(this.id, $nombreP)' id='$row[11]' class='btn btn-primary btn-sm' title=''><i class='fa fa-file-text-o' aria-hidden='true'></i> </button>";
 		
 		$row[10] = "<button onClick='documentos(this.id, $nombreP)' id='$row[11]' class='btn btn-default btn-sm' title=''><i class='fa fa-files-o' aria-hidden='true'></i> </button>";
 		

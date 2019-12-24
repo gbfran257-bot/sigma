@@ -230,8 +230,7 @@ function nuevoEstudio(){
 				if (data==1){//si el paciente se Actualizó 
 					$('#clickme').click(); $('#myModalx').modal('hide'); //$btn.button('reset'); $('#btn_cancel_new_u').show(); 
 					swal({
-					  title: "¡CONFIRMACIÓN!", type: "success", text: "El medicamento se ha creado satisfactoriamente.",
-					  timer: 1800, showConfirmButton: false
+					  title: "¡CONFIRMACIÓN!", type: "success", text: "El medicamento se ha creado satisfactoriamente", timer: 1800, showConfirmButton: false
 					}); return;
 				} else{alert(data);}
 			});

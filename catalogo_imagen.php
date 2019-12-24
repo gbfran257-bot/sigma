@@ -262,7 +262,7 @@ function fichaEstudio(idE, nameE){
 			setTimeout(function(){ tinymce.get("input").execCommand('mceInsertContent', false, data1x); }, 500);
 
 			var datos ={idE:idE, idSucursal:$('#miSucursal').val()}
-			$.post('imagen/estudios/files-serverside/fichaEstudio.php',datos).done(function( data1 ) {
+			$.post('imagen/estudios/files-serverside/fichaEstudio.php',datos).done(function(data1){
 				var datosI = data1.split('*}');
 
 				$("#miSucursalNS").load('pacientes/genera/genera_sucursales_ov.php?idU='+$('#id_user').val(),function(response,status,xhr){
@@ -277,8 +277,8 @@ function fichaEstudio(idE, nameE){
 			});
 
 			$('#formEstudio').validator().on('submit', function (e) {
-			  if (e.isDefaultPrevented()) { // handle the invalid form...
-			  } else { // everything looks good!
+			  if(e.isDefaultPrevented()){ // handle the invalid form...
+			  }else{ // everything looks good!
 				e.preventDefault(); 
 				var $btn = $('#btn_save1').button('loading'); $('#btn_cancel1').hide();
 				var datosP = $('#myModal1 #formEstudio').serialize();

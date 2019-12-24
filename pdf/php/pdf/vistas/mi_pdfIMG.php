@@ -9,12 +9,12 @@ $resultR = mysql_query("SELECT margen_e_im, margen_p_im, no_temp_su from sucursa
 $rowR = mysql_fetch_row($resultR); $idSuc = sqlValue($rowR[2], "text");
 
 mysql_select_db($database_horizonte, $horizonte); //Membrete encabezado estudios img
- $resultMNE = mysql_query("SELECT id_do, ext_do from documentos where aleatorio_do = $idSuc and que_es_do = 'MEMBRETE RESULTADOS IMAGENOLOGIA' and tipo_quien_do = 2 and nombre_do = 'ENCABEZADO'", $horizonte) or die (mysql_error());
- $rowMNE = mysql_fetch_row($resultMNE); $encaNM = '../../../sucursales/membretes/files/'.$rowMNE[0].'.'.$rowMNE[1];
+$resultMNE = mysql_query("SELECT id_do, ext_do from documentos where aleatorio_do = $idSuc and que_es_do = 'MEMBRETE RESULTADOS IMAGENOLOGIA' and tipo_quien_do = 2 and nombre_do = 'ENCABEZADO'", $horizonte) or die (mysql_error());
+$rowMNE = mysql_fetch_row($resultMNE); $encaNM = '../../../sucursales/membretes/files/'.$rowMNE[0].'.'.$rowMNE[1];
  
- mysql_select_db($database_horizonte, $horizonte); //Membrete pie estudios img
- $resultMNP = mysql_query("SELECT id_do, ext_do from documentos where aleatorio_do = $idSuc and que_es_do = 'MEMBRETE RESULTADOS IMAGENOLOGIA' and tipo_quien_do = 2 and nombre_do = 'PIE'", $horizonte) or die (mysql_error());
- $rowMNP = mysql_fetch_row($resultMNP); $pieNM = '../../../sucursales/membretes/files/'.$rowMNP[0].'.'.$rowMNP[1];
+mysql_select_db($database_horizonte, $horizonte); //Membrete pie estudios img
+$resultMNP = mysql_query("SELECT id_do, ext_do from documentos where aleatorio_do = $idSuc and que_es_do = 'MEMBRETE RESULTADOS IMAGENOLOGIA' and tipo_quien_do = 2 and nombre_do = 'PIE'", $horizonte) or die (mysql_error());
+$rowMNP = mysql_fetch_row($resultMNP); $pieNM = '../../../sucursales/membretes/files/'.$rowMNP[0].'.'.$rowMNP[1];
 
 mysql_select_db($database_horizonte, $horizonte);
 $query_usuario = sprintf("SELECT variable_temporal_u, variable_temporal1_u, variable_temporal2_u, variable_temporal3_u, variable_temporal4_u FROM usuarios WHERE id_u = %s", $_GET["iduL"]);

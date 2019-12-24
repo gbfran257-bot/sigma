@@ -46,10 +46,12 @@ if (isset($_POST['usuario'], $_POST['token'])) {
 	}else{
 		$calert = 1; echo ' '; $myuser_rc = 1;//$_POST['usuario'];
 		$vmy_alert = 'Esta petición se ha originado de una fuente desconocida, posible ataque.';
-		header("Location: ". $MM_redirectLoginFailed ); 
+		
 	}
 }else{
 	if(isset($_POST['usuarioRC'])) { $calert = 2; echo ' ';
 	  	$myuser_rc = $_POST['usuarioRC'];
-	}else{header("Location: ". $MM_redirectLoginFailed );}
+	}else{
+
+}
 }
