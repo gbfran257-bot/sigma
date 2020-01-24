@@ -33,7 +33,7 @@ if (!$update) { echo $sql; }else{
 	 $rowS = mysql_fetch_row($resultS); $id_sv = sqlValue($rowS[0], "int");
  
 	mysql_select_db($database_horizonte, $horizonte);
- 	$sqlY = "UPDATE venta_conceptos SET id_signosv_vc = $id_sv where id_vc = $idC limit 1";
+ 	$sqlY = "UPDATE venta_conceptos SET id_signosv_vc = $id_sv where id_vc = $idC and id_paciente_vc = $idP limit 1";
 	$updateY = mysql_query($sqlY, $horizonte) or die (mysql_error());
 	
 	if (!$updateY) { echo $sqlY; }else {echo 1;}

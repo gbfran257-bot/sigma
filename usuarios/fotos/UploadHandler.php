@@ -18,7 +18,7 @@ $row1F = mysql_fetch_row($result1F);
 
 if($row1F[0]==0){
 	mysql_select_db($database_horizonte, $horizonte);
-	$result = mysql_query("SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'documentos' and TABLE_SCHEMA = 'sigma-nuevo'", $horizonte) 	or die(mysql_error());
+	$result = mysql_query("SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'documentos' and TABLE_SCHEMA = '$database_horizonte'", $horizonte) 	or die(mysql_error());
 	$row = mysql_fetch_row($result);
 
 	$xxx = $row[0];//$xxx = $_REQUEST['titulo_d']; noT

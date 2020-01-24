@@ -1,7 +1,7 @@
 <?php
 require("../../Connections/horizonte.php"); 
 
-	$aColumns = array('c.id_to','c.concepto_to','a.nombre_a','c.precio_to', 'c.precio_urgencia_to','c.precio_m', 'c.precio_mu', 'c.id_to','c.concepto_to', 'c.id_to');
+	$aColumns = array('c.id_to','c.concepto_to','a.nombre_a','c.precio_to', 'c.precio_urgencia_to','c.precio_m', 'c.precio_mu', 'honorarios_c', 'honorarios_cu', 'c.c_costo', 'c.id_to');
      
     // DB tables to use 
     $aTables = array('conceptos c');
@@ -137,7 +137,7 @@ require("../../Connections/horizonte.php");
 		$row[0]="<span>$hh</span>";
 		
 		if($_GET['acc_user']<2){//Si es administrador
-			$row[1]="<button type='button' lang='$row[9]' class='btn btn-link btn-xs' onClick='editar_concepto(this.lang)'>$row[1]</button>";
+			$row[1]="<button type='button' lang='$row[10]' class='btn btn-link btn-xs' onClick='editar_concepto(this.lang)'>$row[1]</button>";
 		}else{ $row[1]=$row[1]; }
 								
 		$output['aaData'][] = $row;

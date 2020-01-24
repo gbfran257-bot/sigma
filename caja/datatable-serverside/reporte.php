@@ -127,7 +127,6 @@ require("../../funciones/php/values.php");
 		if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
 			
 			$query_Recordset1 = "SELECT distinct(vc.id_paciente_vc) FROM pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE vc.temporal_vc != 1 and e.id_departamento_to = $row[1] and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'";
-			//echo $query_Recordset1;
 			$Recordset1 = mysql_query($query_Recordset1, $horizonte) or die(mysql_error());
 			$row_Recordset1 = mysql_fetch_assoc($Recordset1);
 			$totalRows_Recordset1 = mysql_num_rows($Recordset1);
