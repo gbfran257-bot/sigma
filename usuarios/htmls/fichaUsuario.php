@@ -42,7 +42,7 @@ $id_del_user = $_SESSION['id'];
         </li>
         <li class="dropdown no_document no_nota no_receta no_forma_i">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">CONFIGURACIÓN <span class="caret"></span></a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" style="z-index:10000">
               <li class="nav-item" id="tab_mi_esc">
                 <a class="nav-link" id="escolaridad-tab" data-toggle="tab" href="#t_escolaridad" role="tab" aria-controls="escolaridad">ESCOLARIDAD</a>
               </li>
@@ -67,7 +67,7 @@ $id_del_user = $_SESSION['id'];
         </li>
         <li class="dropdown no_document no_nota no_receta no_forma_i">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">SEGURIDAD <span class="caret"></span></a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" style="z-index:10000">
            	  <li class="nav-item" id="tab_mi_suc">
                 <a class="nav-link" id="sucur-tab" data-toggle="tab" href="#t_sucur" role="tab" aria-controls="sucur">SUCURSALES</a>
               </li>
@@ -283,7 +283,7 @@ $id_del_user = $_SESSION['id'];
               <!-- Table -->
               <table width="100%" height="" border="0" cellspacing="0" cellpadding="0" class="table-condensed table-striped">
                 <tr align="left">
-                  	<td width="50%"></td>
+                  	<td width="30%"></td>
                     <td width="1%" nowrap>
                     	<div class="i-checks">
                         <label><input type="checkbox" value="" checked="" name="checkbox-lu" id="checkbox-lu" class="checki" onClick=""> <i></i> LUNES </label>
@@ -302,10 +302,10 @@ $id_del_user = $_SESSION['id'];
                             <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                         </div>
                     </td>
-                    <td width="50%"></td>
+                    <td width="30%"></td>
                 </tr>
                 <tr align="left">
-                  	<td width="50%"></td>
+                  	<td width="30%"></td>
                     <td width="1%" nowrap>
                     	<div class="i-checks">
                         <label><input type="checkbox" value="" checked="" name="checkbox-ma" id="checkbox-ma" class="checki"> <i></i> MARTES </label>
@@ -324,10 +324,10 @@ $id_del_user = $_SESSION['id'];
                             <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                         </div>
                     </td>
-                    <td width="50%"></td>
+                    <td width="30%"></td>
                 </tr>
                 <tr align="left">
-                  	<td width="50%"></td>
+                  	<td width="30%"></td>
                     <td width="1%" nowrap>
                     	<div class="i-checks">
                         <label><input type="checkbox" value="" checked="" name="checkbox-mi" id="checkbox-mi" class="checki"> <i></i> MIÉRCOLES </label>
@@ -346,10 +346,10 @@ $id_del_user = $_SESSION['id'];
                             <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                         </div>
                     </td>
-                    <td width="50%"></td>
+                    <td width="30%"></td>
                 </tr>
                 <tr align="left">
-                  	<td width="50%"></td>
+                  	<td width="30%"></td>
                     <td width="1%" nowrap>
                     	<div class="i-checks">
                         <label><input type="checkbox" value="" checked="" name="checkbox-ju" id="checkbox-ju" class="checki"> <i></i> JUEVES </label>
@@ -368,10 +368,10 @@ $id_del_user = $_SESSION['id'];
                             <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                         </div>
                     </td>
-                    <td width="50%"></td>
+                    <td width="30%"></td>
                 </tr>
                 <tr align="left">
-                  	<td width="50%"></td>
+                  	<td width="30%"></td>
                     <td width="1%" nowrap>
                     	<div class="i-checks">
                         <label><input type="checkbox" value="" checked="" name="checkbox-vi" id="checkbox-vi" class="checki"> <i></i> VIERNES </label>
@@ -390,10 +390,10 @@ $id_del_user = $_SESSION['id'];
                             <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                         </div>
                     </td>
-                    <td width="50%"></td>
+                    <td width="30%"></td>
                 </tr>
                 <tr align="left">
-                  	<td width="50%"></td>
+                  	<td width="30%"></td>
                     <td width="1%" nowrap>
                     	<div class="i-checks">
                         <label><input type="checkbox" value="" checked="" name="checkbox-sa" id="checkbox-sa" class="checki"> <i></i> SÁBADO </label>
@@ -412,10 +412,10 @@ $id_del_user = $_SESSION['id'];
                             <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                         </div>
                     </td>
-                    <td width="50%"></td>
+                    <td width="30%"></td>
                 </tr>
                 <tr align="left">
-                  	<td width="50%"></td>
+                  	<td width="30%"></td>
                     <td width="1%" nowrap>
                     	<div class="i-checks">
                         <label><input type="checkbox" value="" checked="" name="checkbox-do" id="checkbox-do" class="checki"> <i></i> DOMINGO </label>
@@ -434,7 +434,7 @@ $id_del_user = $_SESSION['id'];
                             <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                         </div>
                     </td>
-                    <td width="50%"></td>
+                    <td width="30%"></td>
                 </tr>
                 </table>
             </div>
@@ -442,7 +442,7 @@ $id_del_user = $_SESSION['id'];
         <div class="tab-pane tap-pane-primary" id="t_conceptos" role="tabpanel" aria-labelledby="conceptos-tab"><br>
         	<div class="panel panel-default small hidden" id="panel_concepto">
               <div class="panel-heading">
-                <h3 class="panel-title">DAR DE ALTA UN COMCEPTO PARA EL USUARIO</h3>
+                <h3 class="panel-title">DAR DE ALTA UN CONCEPTO PARA EL USUARIO</h3>
               </div>
               <div class="panel-body">
                 <div class="row">
@@ -485,11 +485,40 @@ $id_del_user = $_SESSION['id'];
                           <input name="precio_mu" id="precio_mu" type="number" class="form-control form-control-sm" placeholder="Precio de membresía con urgencia" step="0.01">
                         </div>
                     </div>
+                    <div class="form-group col-md-3 col-sm-3 col-lg-3 text-primary">
+                        <label for="honorario_c" class="col-form-label">* HONORARIOS NORMAL</label>
+                        <div class="input-group">
+                          <span class="input-group-addon">$</span>
+                          <input name="honorario_c" id="honorario_c" type="number" class="form-control form-control-sm" placeholder="Honorarios normal" step="0.01">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3 col-sm-3 col-lg-3 text-primary">
+                        <label for="honorario_cu" class="col-form-label">* HONORARIOS URGENCIA</label>
+                        <div class="input-group">
+                          <span class="input-group-addon">$</span>
+                          <input name="honorario_cu" id="honorario_cu" type="number" class="form-control form-control-sm" placeholder="Honorarios urgencia" step="0.01">
+                        </div>
+                    </div>
 					<div class="form-group col-md-3 col-sm-3 col-lg-3 text-primary">
                         <label for="precio_h" class="col-form-label">PRECIO HOSPITAL</label>
                         <div class="input-group">
                           <span class="input-group-addon">$</span>
                           <input name="precio_h" id="precio_h" type="number" class="form-control form-control-sm" placeholder="Precio hospital" step="0.01">
+                        </div>
+                    </div>
+					<div class="form-group col-md-3 col-sm-3 col-lg-3 text-primary">
+                        <label for="precio_costoproduccion" class="col-form-label">COSTO DE PRODUCCION</label>
+                        <div class="input-group">
+                          <span class="input-group-addon">$</span>
+                          <input name="precio_costoproduccion" id="precio_costoproduccion" type="number" class="form-control form-control-sm" placeholder="Costo de producción" step="0.01">
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-right">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" value="1" id="cambioGlobal_cg">
+                                Aplicar honorarios normal al historial
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -510,10 +539,13 @@ $id_del_user = $_SESSION['id'];
                 <button type="button" class="btn btn-default btn-xs" id="nvo_cto" onClick=""><i class="fa fa-plus" aria-hidden="true"></i> CONCEPTO</button>
                 </th>
                 <th align="center" nowrap data-priority="4" width="">ÁREA</th>
-                <th align="center" data-priority="3" width="90px" nowrap>$ PRECIO</th>
-                <th align="center" nowrap data-priority="4" width="120px">$ URGENCIA</th>
-                <th align="center" data-priority="3" width="90px" nowrap>$ MEMBRESÍA</th>
-                <th align="center" nowrap data-priority="4" width="150px">$ MEMBRESÍA URGENCIA</th>
+                <th title="Precio" align="center" data-priority="3" width="90px" nowrap>$ P.</th>
+                <th title="Precio urgencia" align="center" nowrap data-priority="4" width="90px">$ P. U.</th>
+                <th title="Membresia" align="center" data-priority="3" width="90px" nowrap>$ Mem.</th>
+                <th title="Membresia urgencia" align="center" nowrap data-priority="4" width="90px">$ Mem. U.</th>
+                <th title="Honorarios" align="center" nowrap data-priority="4" width="90px">$ Hon.</th>
+                <th title="Honorarios urgencia" align="center" nowrap data-priority="4" width="90px">$ Hon. U.</th>
+                <th title="Costo de produccion" align="center" nowrap data-priority="4" width="90px">$ C.</th>
               </tr>
             </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
             </table>
