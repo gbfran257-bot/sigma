@@ -29,7 +29,7 @@ require("../../../funciones/php/values.php");
 		$precio_nor = $_POST['miSucursalNS'].'_precio'; $precio_ur = $_POST['miSucursalNS'].'_precio_u';
 		
 		mysql_select_db($database_horizonte, $horizonte);
- 		$sql = "UPDATE conceptos set concepto_to = $nombre, $precio_nor = $precio, $precio_ur = $precioU, id_area_to = $idArea, formato = $formato, precio_to = $precioMa, precio_urgencia_to = $precioMau, precio1_to = $precioSu, precio_urgencia1_to = $precioSuu, dicom = $dicom, precio_m = $precioM, precio_mu = $precioMU, precio_h = $precioH, costo_maquila_to = $precioMa, costo_maquila_u_to = $precioMau where id_to = $idEstudio"; 
+ 		$sql = "UPDATE conceptos set concepto_to = $nombre, $precio_nor = $precio, $precio_ur = $precioU, id_area_to = $idArea, formato = $formato, precio_to = $precioMa, precio_urgencia_to = $precioMau, precio1_to = $precioSu, precio_urgencia1_to = $precioSuu, dicom = $dicom, precio_m = $precioM, precio_mu = $precioMU, precio_h = $precioH, costo_maquila_to = $precioMa, costo_maquila_u_to = $precioMau where id_to = $idEstudio";
 	}else{
 		mysql_select_db($database_horizonte, $horizonte);
  		$sql = "UPDATE conceptos set concepto_to = $nombre, precio_to = $precioMa, precio_urgencia_to = $precioMau, id_area_to = $idArea, formato = $formato, precio1_to = $precioSu, precio_urgencia1_to = $precioSuu, dicom = $dicom, precio_m = $precioM, precio_mu = $precioMU, precio_h = $precioH, costo_maquila_to = $precioMa, costo_maquila_u_to = $precioMau where id_to = $idEstudio";

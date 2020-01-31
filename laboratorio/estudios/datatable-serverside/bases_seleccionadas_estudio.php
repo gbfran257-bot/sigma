@@ -1,6 +1,6 @@
 <?php
 require("../../../Connections/horizonte.php");
-	$aColumns = array('ab.id_ab', 'b.base_b', 'a.nombre_a', 'u.abreviacion_un', 'u.unidad_un', 'ab.id_ab' );
+	$aColumns = array('ab.id_ab', 'b.base_b', 'a.nombre_a', 'u.abreviacion_un', 'u.unidad_un', 'ab.id_ab', 'b.precio_maquila_b' );
      
     // DB tables to use 
     $aTables = array( 'asignar_bases ab');
@@ -131,7 +131,8 @@ require("../../../Connections/horizonte.php");
 		$row[3] = "<span title='$row[4]'>$row[3]</span>";
 		
 		$row[4] = "<div style='text-align:center;'><button id='$row[5]' onclick='borrarBaseE(this.id);' type='button' class='btn btn-warning btn-xs'><i class='fa fa-trash' aria-hidden='true'></i></button></div>";
-		
+        if($_GET['costo'] == 1)
+            $row[4] = "<span class='costobaseprod'>".$row[6]."</span>";
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );

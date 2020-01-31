@@ -52,13 +52,23 @@ require("../../../funciones/php/values.php");
 	
 	//Checamos si tiene membresía el paciente y si está vigente
 	mysql_select_db($database_horizonte, $horizonte);
-	$resultMe = mysql_query("SELECT DATEDIFF(fecha_f_me, fecha_i_me) from membresias where id_paciente_me = '$_GET[idP]' order by id_me desc limit 1 ", $horizonte) or die (mysql_error()); $rowMe = mysql_fetch_row($resultMe); //echo $_GET['idP'];
-	
-	if($rowMe[0]>0){
+	$resultMeV = mysql_query("SELECT count(id_me) from membresias where id_paciente_me = '$_GET[idP]'", $horizonte) or die (mysql_error());
+	$rowMeV = mysql_fetch_row($resultMeV); $con_membresia = 0;
+
+	if($rowMeV[0]>0){//Tiene membresía
+		mysql_select_db($database_horizonte, $horizonte);
+		$resultMe = mysql_query("SELECT DATEDIFF(fecha_f_me, fecha_i_me) from membresias where id_paciente_me = '$_GET[idP]' order by id_me desc limit 1 ", $horizonte) or die (mysql_error()); $rowMe = mysql_fetch_row($resultMe); //echo $_GET['idP'];
+
+		if($rowMe[0]>0){//Está Vigente
+			$con_membresia++;
+		}else{}
+	}else{}
+
+	if($con_membresia>0){//Tiene membresía vigente
 		if($urgencia==1){//Nocturno
-			$aColumns = array('e.concepto_to', 'a.nombre_a', 'e.precio_urgencia1_to', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.id_to', 'e.id_to' );
+			$aColumns = array('e.concepto_to', 'a.nombre_a', 'e.precio_mu', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.id_to', 'e.id_to' );
 		}else{
-			$aColumns = array('e.concepto_to', 'a.nombre_a', 'e.precio1_to', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.id_to', 'e.id_to' );
+			$aColumns = array('e.concepto_to', 'a.nombre_a', 'e.precio_m', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.id_to', 'e.id_to' );
 		}
 		// DB tables to use 
 		$aTables = array( 'conceptos e');
@@ -97,29 +107,7 @@ require("../../../funciones/php/values.php");
 				$lista = $lista.','.$fila['id_concepto_es'];
 			};//echo $lista;
 			$sWhere = "WHERE e.id_to not in ($lista) and e.id_tipo_concepto_to = 3 and e.concepto_to not like '%BIOMETRIA HEMATICA EN%' ";
-		}/*else if($_GET['idConvenio']==1){//Con Membresía
-			if($urgencia==1){
-				$aColumns = array('e.concepto_to', 'a.nombre_a', $precio_ur_me, 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
-			}else{
-				$aColumns = array('e.concepto_to', 'a.nombre_a', $precio_nor_me, 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
-			}
-			// DB tables to use 
-			$aTables = array( 'conceptos e');
-			// Indexed column (used for fast and accurate table cardinality) 
-			$sIndexColumn = "e.id_to";
-			 // Joins   
-			$sJoin = 'left join areas a on a.id_a = e.id_area_to left join convenios c on c.id_cv = 1';
-			// CONDITIONS
-			$lista = '0';
-			mysql_select_db($database_horizonte, $horizonte);
-			$consulta = "SELECT id_concepto_es from venta_conceptos where no_temp_vc = '$_GET[aleatorio]' and tipo_concepto_vc = 4 ";
-			$query = mysql_query($consulta) or die (mysql_error());
-			while ($fila = mysql_fetch_array($query)) {
-				$lista = $lista.','.$fila['id_concepto_es'];
-			};//echo $lista;
-			$sWhere = "WHERE e.id_to not in ($lista) and e.id_tipo_concepto_to = 4 ";
-		}*/
-		else{//Con algún convenio
+		}else{//Con algún convenio
 			if($urgencia==1){
 				$aColumns = array('c.concepto_to', 'a.nombre_a', 'acc.precio_urgencia_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb');
 			}else{

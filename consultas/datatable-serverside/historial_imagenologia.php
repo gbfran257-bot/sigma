@@ -143,9 +143,9 @@ require("../../Connections/ipacs.php");
 		
 		$miRef = $row[14];
 		
-		mysql_select_db($database_ipacs, $ipacs);
-		$resultPc1=mysql_query("SELECT count(pk) from patient where pat_id = '$miRef' ",$ipacs) or die (mysql_error());
-		$rowPc1 = mysql_fetch_row($resultPc1);
+		//mysql_select_db($database_ipacs, $ipacs);
+		$resultPc1=pg_query($ipacs, "SELECT count(pk) from patient where pat_id = '$miRef' ");
+		$rowPc1 = pg_fetch_row($resultPc1);
 		
 		if($rowPc1[0]>0){//Hay por lo menos un estudio de la db del pacs ligado a uno de sigma
 			$row[3] ="<div align='center'><button type='button' class='btn btn-default btn-xs' onClick='histo_pacs($miRefh);'><i class='fa fa-file-image-o' aria-hidden='true'></i></button></div>";
@@ -162,4 +162,6 @@ require("../../Connections/ipacs.php");
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );
+    pg_close($ipacs);
+    mysql_close($horizonte);
 ?>

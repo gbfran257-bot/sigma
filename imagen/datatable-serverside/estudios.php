@@ -1,4 +1,10 @@
 <?php
+ini_set('max_execution_time', 6000);
+if($_GET['min'] == 'undefined 00:00:00' || $_GET['max'] == 'undefined 23:59:59'){
+	$_GET['max'] = $_GET['min'] = date("Y-m-d");
+	$_GET['max'] .= " 23:59:59";
+	$_GET['min'] .= " 00:00:00";
+}
 require("../../Connections/horizonte.php");
 require("../../Connections/ipacs.php");
 require("../../funciones/php/values.php");
@@ -80,7 +86,8 @@ include_once '../../recursos/datauser.php';
     $gaSql['password']   = $password_horizonte;
     $gaSql['db']         = $database_horizonte;
     $gaSql['server']     = $hostname_horizonte;
-     
+    $soloCinco = 10;
+    $soloCincuenta = 50;
     $gaSql['link'] =  mysql_pconnect( $gaSql['server'], $gaSql['user'], $gaSql['password']  ) or
         die( 'Could not open connection to server' );
      
@@ -275,10 +282,24 @@ include_once '../../recursos/datauser.php';
 		
 		if($row[14]==55){//Si es un RX
 			//Checamos que $miRef exista en la lista de pacientes de la db del pacs
-			mysql_select_db($database_ipacs, $ipacs);
-			$resultPc2 = mysql_query("SELECT count(pk) from patient where pat_id = '$miRef' ", $ipacs) or die (mysql_error());
-			$rowPc2 = mysql_fetch_row($resultPc2); 
-			
+			///mysql_select_db($database_ipacs, $ipacs);
+			$resultPc2 = pg_query($ipacs, "SELECT count(pk) from patient where pat_id = '$miRef' ");
+			$rowPc2 = pg_fetch_row($resultPc2); 
+			if($rowPc2[0]==0 && $soloCinco > 0){
+				$pr_r = pg_query($ipacs, "SELECT pk from patient_id where pat_id='$miRef'");
+				$pr_row = pg_fetch_row($pr_r)[0];
+
+				if(!empty($pr_row)){
+					$ppr_r = pg_query($ipacs, "SELECT pk from patient where pat_id is null and pk=".$pr_row);
+					$ppr_row = pg_fetch_row($ppr_r)[0];
+					if(!empty($ppr_row)){
+						$pr_r = pg_query($ipacs, "update patient set pat_id='$miRef' where pk=".$pr_row." and pat_id is null");
+						$resultPc1=pg_query($ipacs, "SELECT count(pk) from patient where pat_id = '$miRef' ");
+						$rowPc2 = pg_fetch_row($resultPc1);
+					}
+				}
+				$soloCinco--;
+			}
 			if($rowPc2[0]>0){//Hay por lo menos un estudio de la db del pacs ligado a uno de sigma
 				$row[7] = "<span name='$row[22]' id='$row[22]' lang='$row[10]' onClick='est(this.lang, this.lang, $su_id_pacs)' style='cursor:pointer;' class='text-success'><h3><u>$miRef</u></h3></span>";
 			}else{//No hay estudios ligados
@@ -291,10 +312,25 @@ include_once '../../recursos/datauser.php';
 			}
 		}else{ //Preguntar si los rayos se van a agrupar en el pacs
 			//Checamos que $miRef exista en la lista de pacientes de la db del pacs
-			mysql_select_db($database_ipacs, $ipacs);
-			$resultPc1=mysql_query("SELECT count(pk) from patient where pat_id = '$miRef' ",$ipacs) or die (mysql_error());
-			$rowPc1 = mysql_fetch_row($resultPc1); 
-			
+			///mysql_select_db($database_ipacs, $ipacs);
+			$resultPc1=pg_query($ipacs, "SELECT count(pk) from patient where pat_id = '$miRef' ");
+			$rowPc1 = pg_fetch_row($resultPc1); 
+
+			if($rowPc1[0]==0 && $soloCinco > 0){
+				$pr_r = pg_query($ipacs, "SELECT pk from patient_id where pat_id='$miRef'");
+				$pr_row = pg_fetch_row($pr_r)[0];
+
+				if(!empty($pr_row)){
+					$ppr_r = pg_query($ipacs, "SELECT pk from patient where pat_id is null and pk=".$pr_row);
+					$ppr_row = pg_fetch_row($ppr_r)[0];
+					if(!empty($ppr_row)){
+						$pr_r = pg_query($ipacs, "update patient set pat_id='$miRef' where pk=".$pr_row." and pat_id is null");
+						$resultPc1=pg_query($ipacs, "SELECT count(pk) from patient where pat_id = '$miRef' ");
+						$rowPc1 = pg_fetch_row($resultPc1);
+					}
+				}
+				$soloCinco--;
+			}
 			if($rowPc1[0]>0){//Hay por lo menos un estudio de la db del pacs ligado a uno de sigma
 				$row[7] = "<span name='$row[22]' id='$row[22]' lang='$row[10]' onClick='est(this.lang, this.lang, $su_id_pacs)' style='cursor:pointer;' class='text-success'><h3><u>$miRef</u></h3></span>";
 			}else{//No hay estudios ligados
@@ -321,4 +357,6 @@ include_once '../../recursos/datauser.php';
     }
      
     echo json_encode( $output );
+    pg_close($ipacs);
+    mysql_close($horizonte);
 ?>

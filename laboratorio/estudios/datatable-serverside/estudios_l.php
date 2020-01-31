@@ -13,10 +13,13 @@ include_once '../../../recursos/utilities.php';
 		$existsT = (mysql_num_rows($resultT))?TRUE:FALSE;
 		if($existsT) { $precio_nor = $_GET['idSu'].'_precio'; $precio_ur = $_GET['idSu'].'_precio_u';}
 		else{ $precio_nor = 'c.precio_to'; $precio_ur = 'c.precio_urgencia_to'; }
-		
-		$aColumns = array('c.id_to','c.concepto_to', 'a.nombre_a', 'c.dias_entrega_to', $precio_nor,$precio_ur, 'c.precio_to','c.precio_urgencia_to', 'c.precio1_to','c.precio_urgencia1_to', 'u.usuario_u','c.id_to', 'c.aleatorio_c', 'DATE_FORMAT(c.fecha_to,"%d/%m/%Y %H:%i")');
+		/// 'c.precio_to','c.precio_urgencia_to' deberia ser costo_maquila y costomaquilau
+        /// 'c.precio1_to','c.precio_urgencia1_to' deberia ser precio_to y precio_urgen_to
+		$aColumns = array('c.id_to','c.concepto_to', 'a.nombre_a', 'c.dias_entrega_to', $precio_nor,$precio_ur,
+            'c.costo_maquila_to','c.costo_maquila_u_to', 'c.precio_to','c.precio_urgencia_to', 'u.usuario_u','c.id_to', 'c.aleatorio_c', 'DATE_FORMAT(c.fecha_to,"%d/%m/%Y %H:%i")');
 	}else{
-		$aColumns = array('c.id_to', 'c.concepto_to', 'a.nombre_a', 'c.dias_entrega_to', 'c.precio_to','c.precio_urgencia_to', 'c.precio_to','c.precio_urgencia_to', 'c.precio1_to','c.precio_urgencia1_to', 'u.usuario_u','c.id_to', 'c.aleatorio_c', 'DATE_FORMAT(c.fecha_to,"%d/%m/%Y %H:%i")');
+		$aColumns = array('c.id_to', 'c.concepto_to', 'a.nombre_a', 'c.dias_entrega_to', 'c.precio_to','c.precio_urgencia_to',
+            'c.costo_maquila_to','c.costo_maquila_u_to', 'c.precio_to','c.precio_urgencia_to', 'u.usuario_u','c.id_to', 'c.aleatorio_c', 'DATE_FORMAT(c.fecha_to,"%d/%m/%Y %H:%i")');
 	}
 	    
     // DB tables to use 

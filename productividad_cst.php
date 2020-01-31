@@ -79,6 +79,10 @@
 		<th style="vertical-align:middle;" nowrap>#VENTAS</th>
 		<th style="vertical-align:middle;" nowrap>PORCENTAJE VENTAS</th>
 		<th style="vertical-align:middle;" nowrap>MÉDICO</th>
+		<th style="vertical-align:middle;" nowrap>TOTAL</th>
+		<th style="vertical-align:middle;" nowrap>HONORARIOS</th>
+		<th style="vertical-align:middle;" nowrap>COSTO</th>
+		<th style="vertical-align:middle;" nowrap>UTILIDAD</th>
 	  </tr>
 	</thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
 	<tfoot>
@@ -86,6 +90,10 @@
 			<th><input type="hidden"></th>
 			<th><input type="hidden"></th>
 			<th><input type="hidden" class="sCalculo" /></th>
+			<th><input type="hidden"></th>
+			<th><input type="hidden"></th>
+			<th><input type="hidden"></th>
+			<th><input type="hidden"></th>
 			<th><input type="hidden"></th>
 			<th><input type="hidden"></th>
 		</tr>
@@ -114,7 +122,7 @@ $(document).ready(function(e) {
             var nCells = nRow.getElementsByTagName('th');
             nCells[2].innerHTML = redondear(parseFloat(iTotal * 100)/100,2);
 		},
-		"aoColumns":[ {"bVisible":true}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
+		"aoColumns":[ {"bVisible":true}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
 		"sDom": '<"filtro1Principal"f>rT<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false,
 		"oTableTools": {

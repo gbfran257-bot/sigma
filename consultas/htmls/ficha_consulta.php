@@ -26,10 +26,10 @@
 						<li role="presentation" class="active tab_consulta hide_nsv hide_nhc hide_dx hide_meds no_graf no_histo hsh" id="tab_nme">
 							<a href="#tNM" aria-controls="tNM" role="tab" data-toggle="tab" id="my_tb_nm">NOTA MÉDICA</a>
 						</li>
-						<li role="presentation" class="tab_consulta hide_nsv hide_nhc hide_dx hide_meds no_graf no_histo hsh">
+						<li role="presentation" class="tab_consulta hide_nsv hide_nhc hide_dx hide_meds no_graf no_histo hsh" id="tabs_receta">
 							<a href="#tReceta" aria-controls="tReceta" role="tab" data-toggle="tab" id="my_tb_re">RECETA</a>
 						</li>
-						<li role="presentation" class="tab_consulta hide_nsv hide_nhc hide_dx hide_meds no_graf no_histo hsh">
+						<li role="presentation" class="tab_consulta hide_nsv hide_nhc hide_dx hide_meds no_graf no_histo hsh" id="tabs_imagenes">
 							<a href="#tImgs" aria-controls="tImgs" role="tab" data-toggle="tab">IMÁGENES</a>
 						</li>
 						<li role="presentation" class="tab_consulta hidden hsh" id="tab_dx">
@@ -49,18 +49,18 @@
 				<td align="right" nowrap>
 					<button type="button" data-loading-text="<i class='fa fa-circle-o-notch fa-spin' aria-hidden='true'></i> Procesando..." class="btn btn-primary btn-sm btns-consulta" id="salvarConsulta"><i class="fa fa-cloud" aria-hidden="true"></i> Guardar</button>
 					<button type="button" data-loading-text="<i class='fa fa-circle-o-notch fa-spin' aria-hidden='true'></i> Procesando..." class="btn btn-success btn-sm btns-consulta" id="finalizarConsulta"><i class="fa fa-check" aria-hidden="true"></i> Finalizar</button>
-                    <button type="button" class="btn btn-info btn-sm hidden" id="hospitalizarP"><i class="fa fa-ban" aria-hidden="true"></i> Hospitalizar</button>
+                    <button type="button" class="btn btn-info btn-sm" id="hospitalizarP"><i class="fa fa-bed" aria-hidden="true"></i> </button>
 					
-					<button type="button" class="btn btn-danger" data-dismiss="modal" id="salirSGconsulta">Salir</button>
-					<button type="submit" class="btn btn-success hidden" id="btn_guardar_sv" form="formSignosVitales">Guardar</button>
-					<button type="submit" class="btn btn-success hidden" id="b_actualizarHC" form="formHistoriaClinica">Guardar</button>
-					<button type="button" class="btn btn-warning hidden" id="btn_cancelar_sv">Cancelar</button>
-					<button type="button" class="btn btn-warning hidden" id="b_cancelHC">Cancelar</button>
-					<button type="button" class="btn btn-warning hidden" id="b_cancel_dxs">Regresar</button>
-					<button type="button" class="btn btn-warning hidden" id="b_cancel_medis">Regresar</button>
-					<button type="button" class="btn btn-warning hidden si_graf" onClick="no_graficas();">Regresar</button>
-					<button type="button" class="btn btn-warning hidden si_histo no_img_h" onClick="no_historiales();">Regresar</button>
-					<button type="button" class="btn btn-warning hidden si_img_h" onClick="no_img_h();">Regresar</button>
+					<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" id="salirSGconsulta">Salir</button>
+					<button type="submit" class="btn btn-success btn-sm hidden" id="btn_guardar_sv" form="formSignosVitales">Guardar</button>
+					<button type="submit" class="btn btn-success btn-sm hidden" id="b_actualizarHC" form="formHistoriaClinica">Guardar</button>
+					<button type="button" class="btn btn-warning btn-sm hidden" id="btn_cancelar_sv">Cancelar</button>
+					<button type="button" class="btn btn-warning btn-sm hidden" id="b_cancelHC">Cancelar</button>
+					<button type="button" class="btn btn-warning btn-sm hidden" id="b_cancel_dxs">Regresar</button>
+					<button type="button" class="btn btn-warning btn-sm hidden" id="b_cancel_medis">Regresar</button>
+					<button type="button" class="btn btn-warning btn-sm hidden si_graf" onClick="no_graficas();">Regresar</button>
+					<button type="button" class="btn btn-warning btn-sm hidden si_histo no_img_h" onClick="no_historiales();">Regresar</button>
+					<button type="button" class="btn btn-warning btn-sm hidden si_img_h" onClick="no_img_h();">Regresar</button>
 				</td>
 			</tr>
 		</table>

@@ -118,28 +118,30 @@ require("../../funciones/php/values.php");
 	$idPP = sqlValue($referenciaPacs, "text");
 	
 	//Seleccionamos el id del paciente en la tabla patient de la DB del ipacs
-	mysql_select_db($database_ipacs, $ipacs);
+	//mysql_select_db($database_ipacs, $ipacs);
   
-	$resultP1 = mysql_query("SELECT pk from patient where pat_id = $idPP ", $ipacs) or die (mysql_error());
- 	$rowP1 = mysql_fetch_row($resultP1); $idPP1 = sqlValue($rowP1[0], "int");//Is id de patient $idPP
+	$resultP1 = pg_query($ipacs, "SELECT pk from patient where pat_id = $idPP ");
+ 	$rowP1 = pg_fetch_row($resultP1); $idPP1 = sqlValue($rowP1[0], "int");//Is id de patient $idPP
 	
 	//Seleccionamos el número de imágenes en el estudio completo de la DB del ipacs
-	mysql_select_db($database_ipacs, $ipacs);
+	//mysql_select_db($database_ipacs, $ipacs);
   
-	$resultNI = mysql_query("SELECT num_instances from study where patient_fk = $idPP1 ", $ipacs) or die (mysql_error());
- 	$rowNI = mysql_fetch_row($resultNI); $ni = sqlValue($rowNI[0], "int");
-	
+	$resultNI = pg_query($ipacs, "SELECT num_instances from study where patient_fk = $idPP1 ");
+ 	$rowNI = pg_fetch_row($resultNI); $ni = sqlValue($rowNI[0], "int");
+	$res = pg_query($ipacs, "SELECT pat_id from patient_id where pk = $idPP1 ");
+ 	$ro = pg_fetch_row($res); $ni = $ro[0];
+	$refre = $ni;
 	$i = 0; $j=0;
 	$lista = '';
 	
 	//Seleccionamos el study_iuid de la tabla de study del ipacs para pasarlo al osirix
-	mysql_select_db($database_ipacs, $ipacs);
+	//mysql_select_db($database_ipacs, $ipacs);
 	$consulta = "SELECT i.sop_iuid as mi, s.series_iuid as ms, e.study_iuid as me from instance i left join series s on s.pk = i.series_fk left join study e on e.pk = s.study_fk left join patient p on p.pk = e.patient_fk where p.pk = $idPP1";
-	$query = mysql_query($consulta) or die (mysql_error());
+	$query = pg_query($ipacs, $consulta);
 	
 	$c = 0;
-	while ($fila = mysql_fetch_array($query)) { $c++;
-		$lista = '"'.'osirix://?methodName=DownloadURL&amp;Display=YES&amp;URL='."'".'http://'.$host.':8080/wado?requestType=WADO&studyUID='.$fila['me'].'&seriesUID='.$fila['ms'].'&objectUID='.$fila['mi'].'&contentType=application%2Fdicom&transferSyntax=1.2.840.10008.1.2.1'."'".'"';
+	while ($fila = pg_fetch_array($query)) { $c++;
+		$lista = '"'.'osirix://?methodName=DownloadURL&amp;Display=YES&amp;URL='."'".'http://'.$host.':8887/dcm4chee-arc/aets/DCM4CHEE/wado?requestType=WADO&studyUID='.$fila['me'].'&seriesUID='.$fila['ms'].'&objectUID='.$fila['mi'].'&contentType=application%2Fdicom&transferSyntax=1.2.840.10008.1.2.1'."'".'"';
 	};
 	
 	$tabla = '<div style=" width:100%; text-align:center; border:1px none red;" align="center"> <table id="p_contenido1" width="15cm" border="0" cellspacing="4" cellpadding="0"> <tr> <td width="360">PACIENTE: '.$row1[2].' '.$row1[3].'</td> <td nowrap>EDAD: '.$row1[0].' SEXO: '.$row1[1].' </td> </tr> <tr> <td class="myMedicoP">'.$miMedico.'</td> <td nowrap>FECHA '.$row[3].'</td> </tr> <tr> <td align="left" style="font-weight:bold;" nowrap>'.$row3[0].'</td> <td nowrap> REFERENCIA: '.$row[0].' </td> </tr> </table></div>';
@@ -159,10 +161,11 @@ require("../../funciones/php/values.php");
  	
 	if(!$updateX){ echo $sqlX; }
  	else{
-		echo $nombre.';*}-{'.$row[0].';*}-{'.$row1[0].';*}-{'.$row1[1].";*}-{".$row[3].";*}-{".$row[1].";*}-{".$row[2].";*}-{".$medicoEstudio.";*}-{".$row3[0].";*}-{".$medicoInterpreta.";*}-{".$row4[3].";*}-{".$row[7].".png".";*}-{".$referenciaPacs.";*}-{".$row[10].";*}-{".$row1[4].";*}-{".$row4[5].";*}-{".$ni.";*}-{".$lista.";*}-{".$row4[6].";*}-{".$linkP.";*}-{".$row1x[0].';*}-{'.$row[16].';*}-{'.$rowMa[0].';*}-{'.$row4[7].';*}-{'.$row4[8].';*}-{'.$rowDo[0].';*}-{'.$rowMNE[0].';*}-{'.$rowMNE[1].';*}-{'.$rowMNE[2].';*}-{'.$rowMNP[0].';*}-{'.$rowMNP[1].';*}-{'.$rowMNP[2].';*}-{'.$row[15].';*}-{'.$row[21];
+		echo $nombre.';*}-{'.$row[0].';*}-{'.$row1[0].';*}-{'.$row1[1].";*}-{".$row[3].";*}-{".$row[1].";*}-{".$row[2].";*}-{".$medicoEstudio.";*}-{".$row3[0].";*}-{".$medicoInterpreta.";*}-{".$row4[3].";*}-{".$row[7].".png".";*}-{".$referenciaPacs.";*}-{".$row[10].";*}-{".$row1[4].";*}-{".$row4[5].";*}-{".$ni.";*}-{".$lista.";*}-{".$row4[6].";*}-{".$linkP.";*}-{".$row1x[0].';*}-{'.$row[16].';*}-{'.$rowMa[0].';*}-{'.$row4[7].';*}-{'.$row4[8].';*}-{'.$rowDo[0].';*}-{'.$rowMNE[0].';*}-{'.$rowMNE[1].';*}-{'.$rowMNE[2].';*}-{'.$rowMNP[0].';*}-{'.$rowMNP[1].';*}-{'.$rowMNP[2].';*}-{'.$row[15].';*}-{'.$row[21].';*}-{'.$refre;
 	}
 	
  //Cerrar conexión a la Base de Datos
  mysql_close($horizonte);
- mysql_close($ipacs);
+ //mysql_close($ipacs);
+ pg_close($ipacs);
 ?>

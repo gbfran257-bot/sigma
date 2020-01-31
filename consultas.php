@@ -192,7 +192,7 @@ function checarEscala(id){//if($('#'+id).val()>0){ }else{}
 	if(x<1){$('#row_texto_puntuacion_g').addClass('hidden');}else{$('#row_texto_puntuacion_g').removeClass('hidden');}
 }
 
-function tomar_sv(idP,control,idC, id_s){ $(document).ready(function(e) {//si control es 1 al cerrar la ventana abre VerSignos
+function tomar_sv(idP,control,idC, id_s){ //si control es 1 al cerrar la ventana abre VerSignos
 	$('#idUsuario_sv').val($('#id_user').val()); $('#idUsuario_c').val($('#id_user').val()); $('#formSignosVitales').validator();
 	$('#tabs_consulta .hide_nsv, #tabs_sv .hide_nsv').hide(); $('#titulo_toma_sv').html('TOMAR SIGNOS VITALES');
 	$('#b_agregarSignosC, #salirSGconsulta, #salvarConsulta, #finalizarConsulta').addClass('hidden'); $('#btn_cancelar_sv, #btn_guardar_sv').removeClass('hidden');
@@ -241,33 +241,30 @@ function tomar_sv(idP,control,idC, id_s){ $(document).ready(function(e) {//si co
 			$('#titulo_toma_sv').html('SIGNOS VITALES | FECHA DE LA TOMA: <span id="fechaSignosC" name="fechaSignosC"></span>'); cargar_todo_signos_vitales(idP,idC); $('#b_agregarSignosC').click(function(e) { tomar_sv(idP,2,idC,id_s); });
 		});
 
-		$('#btn_guardar_sv').click(function(event) {	
-			$('#formSignosVitales').validator().on('submit', function (e) {
-			  if (e.isDefaultPrevented()) { // handle the invalid form...
-				//$("#alerta1").fadeTo(2000,500).slideUp(500,function(){ $("#alerta1").slideUp(600); });
-			  } else { // everything looks good!
-				e.preventDefault(); //var $btn = $('#btn_save1').button('loading'); $('#btn_cancel1').hide();
-				var datos={
-					idPx1:idP,idU:$('#idUsuario_sv').val(),peso:$('#pesoSV').val(),talla:$('#tallaSV').val(), idC:idC,
-					cintura:$('#cinturaSV').val(), imc:$('#imcSV').val(), t:$('#tSV').val(),a:$('#aSV').val(),fr:$('#frSV').val(),
-					fc:$('#fcSV').val(), temp:$('#tempSV').val(), notas:$('#notasSV').val(), oximetria:$('#oxiSV').val(), 
-					aocular:$('#abertura_ocular').val(), rverbal:$('#respuesta_verbal').val(), rmotriz:$('#respuesta_motriz').val()
-				}
-				$.post('enfermeria/files-serverside/guardarSV.php',datos).done(function(data){ 
-					if(data==1){ $('#btn_cancelar_sv').click();
-						swal({
-						  title: "¡CONFIRMACIÓN!", type: "success", text: "Los signos vitales se han guardado satisfactoriamente.",
-						  timer: 2500, showConfirmButton: false
-						});$('#myModalx').modal('hide');
-						atenderC(idP,idC,2,0,id_s); window.setTimeout(function(){$('#tab_sv_1').click();},1500);
-					} else{alert(data);}
-				});
-			  }
+		$('#formSignosVitales').validator().on('submit', function (e) {
+		  if (e.isDefaultPrevented()) { // handle the invalid form...
+			//$("#alerta1").fadeTo(2000,500).slideUp(500,function(){ $("#alerta1").slideUp(600); });
+		  } else { // everything looks good!
+			e.preventDefault(); //var $btn = $('#btn_save1').button('loading'); $('#btn_cancel1').hide();
+			var datos={
+				idPx1:idP,idU:$('#idUsuario_sv').val(),peso:$('#pesoSV').val(),talla:$('#tallaSV').val(), idC:idC,
+				cintura:$('#cinturaSV').val(), imc:$('#imcSV').val(), t:$('#tSV').val(),a:$('#aSV').val(),fr:$('#frSV').val(),
+				fc:$('#fcSV').val(), temp:$('#tempSV').val(), notas:$('#notasSV').val(), oximetria:$('#oxiSV').val(), 
+				aocular:$('#abertura_ocular').val(), rverbal:$('#respuesta_verbal').val(), rmotriz:$('#respuesta_motriz').val()
+			}
+			$.post('enfermeria/files-serverside/guardarSV.php',datos).done(function(data){ 
+				if(data==1){ $('#btn_cancelar_sv').click();
+					swal({
+					  title: "¡CONFIRMACIÓN!", type: "success", text: "Los signos vitales se han guardado satisfactoriamente.",
+					  timer: 2500, showConfirmButton: false
+					});$('#myModalx').modal('hide');
+					atenderC(idP,idC,2,0,id_s); window.setTimeout(function(){$('#tab_sv_1').click();},1500);
+				} else{alert(data);}
 			});
+		  }
 		});
-		
 	});
-}); }
+}
 
 function cargar_todo_signos_vitales(idP,idC){
 	var datosCon = {idP:idP, idC:idC}
@@ -554,30 +551,28 @@ function tomar_historia_clinica(idP, idC,id_s){
 		cargar_todo_historia_clinica(idP,idC,id_s);
 	});
 	
-	//$('#b_actualizarHC').click(function(event) {
-		$('#formHistoriaClinica').validator().on('submit', function (e) {
-		  if (e.isDefaultPrevented()) { // handle the invalid form...
-		  } else { // everything looks good!
-			e.preventDefault(); //var $btn = $('#btn_save1').button('loading'); $('#btn_cancel1').hide();
-			var datos = $('#formHistoriaClinica').serialize();
-			$.post('consultas/files-serverside/actualizarHC.php',datos).done(function(data){ if(data==1){ $('#b_cancelHC').click();
-				swal({
-				  title: "¡CONFIRMACIÓN!", type: "success", text: "La historia clínica se ha guardado satisfactoriamente.",
-				  timer: 2500, showConfirmButton: false
-				});$('#myModalx').modal('hide');
+	$('#formHistoriaClinica').validator().on('submit', function (e) {
+	  if (e.isDefaultPrevented()) { // handle the invalid form...
+	  } else { // everything looks good!
+		e.preventDefault(); //var $btn = $('#btn_save1').button('loading'); $('#btn_cancel1').hide();
+		var datos = $('#formHistoriaClinica').serialize();
+		$.post('consultas/files-serverside/actualizarHC.php',datos).done(function(data){ if(data==1){ $('#b_cancelHC').click();
+			swal({
+			  title: "¡CONFIRMACIÓN!", type: "success", text: "La historia clínica se ha guardado satisfactoriamente.",
+			  timer: 2500, showConfirmButton: false
+			});$('#myModalx').modal('hide');
+			window.setTimeout(function(){
+				atenderC(idP,idC,2,0,id_s);
 				window.setTimeout(function(){
-					atenderC(idP,idC,2,0,id_s);
-					window.setTimeout(function(){
-						var datosAl = {idPac:idP, idConsul:idC}
-						$.post('consultas/files-serverside/notaEvo.php',datosAl).done(function(data){
-							var alergis = data.split(';*}-{'); $('#alergias0').text(alergis[14]);
-						}); $('#tab_my_hc_x').click();
-					},1500);
-				},500);
-			} else{alert(data);} });
-		  }
-		});
-	//});
+					var datosAl = {idPac:idP, idConsul:idC}
+					$.post('consultas/files-serverside/notaEvo.php',datosAl).done(function(data){
+						var alergis = data.split(';*}-{'); $('#alergias0').text(alergis[14]);
+					}); $('#tab_my_hc_x').click();
+				},1500);
+			},500);
+		} else{alert(data);} });
+	  }
+	});
 }
 
 function cargar_historiales(idP,idC){
@@ -1016,7 +1011,28 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 							$('#imprimirRecetaF').click(function(e){ preImprimir(idC,idP,2,id_s); });
 							$("#tipoNotaMed").remove(); $("#tipoRecetaMed").remove();
 						}else{
-							$("#tipoNotaMed").load("consultas/files-serverside/tNotaMedica.php?x="+$('#id_user').val(), function(response,status,xhr){ if(status=="success"){
+							var datosCC = {id_vc:idC}
+							$.post('consultas/files-serverside/check_hospitalizado.php',datosCC).done(function(data){
+								if(data<1){
+									$('#hospitalizarP').click(function(e){
+										swal({
+										  title: "", text: "¿Desea hospitalizar a éste paciente?", showCancelButton: true, confirmButtonColor: "#DD6B55",type:"warning",
+										  showConfirmButton: true, confirmButtonText: 'Hospitalizar', cancelButtonText: "Cancelar", closeOnConfirm: false,
+										},
+										function(){
+											var datosT = {idP:idP, idU:$('#id_user').val(), id_vc:idC}
+											$.post('consultas/files-serverside/hospitalizar.php',datosT).done(function(data){
+												if(data==1){
+													$('#clickme').click(); $('#hospitalizarP').remove();
+													swal({title:"",type:"success",text:"El paciente ha sido hospitalizado.", timer: 2000, showConfirmButton: false });
+												}else{alert(data);}
+											});
+										});								
+									});
+								}else{ $('#hospitalizarP').remove(); }
+							});
+							
+							$("#tipoNotaMed").load("consultas/files-serverside/tNotaMedica.php?x="+$('#id_user').val(),function(response,status,xhr){ if(status=="success"){
 								var datosT = {idP:idP, idU:$('#id_user').val(), id_vc:idC}
 								$.post('consultas/files-serverside/cat_texts.php',datosT).done(function(dataT){ var datosTe = dataT.split('-{]');
 									var alergiasx = datosTe[0], edadx = datosTe[1], sexox = datosTe[2], nombre_pacientex = datosTe[3];
@@ -1086,7 +1102,6 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 										});
 									});
 								});
-							
 							}});
 							$("#tipoRecetaMed").load("consultas/files-serverside/tRecetaMedica.php?x="+$('#id_user').val(), function(response,status,xhr){ if(status=="success"){
 								var datosT = {idP:idP, idU:$('#id_user').val(), id_vc:idC}
@@ -1340,8 +1355,7 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 									
 									var dataURL1 = canvas1.toDataURL();
 									$.ajax({
-									  type: "POST", url: "consultas/files-serverside/guardarImgNormalC.php",
-									  data: { imgBase64: dataURL1, cont:j, id:idC }
+									  type: "POST", url: "consultas/files-serverside/guardarImgNormalC.php", data: { imgBase64: dataURL1, cont:j, id:idC }
 									}).done(function(o) { console.log('saved'); });
 									
 									var dataURL = canvasX.toDataURL();
@@ -1593,9 +1607,7 @@ else {
 }
 
 function procesarV() {
-	if(recognizing==false){
-		recognition.start();recognizing=true; $('#dictado').html('<span class="ui-icon ui-icon-pencil"></span> DETENER DICTADO');
-	}
+	if(recognizing==false){ recognition.start();recognizing=true; $('#dictado').html('<span class="ui-icon ui-icon-pencil"></span> DETENER DICTADO'); }
 	else{recognition.stop();recognizing=false;$('#dictado').html('<span class="ui-icon ui-icon-pencil"></span> INICIAR DICTADO');}
 }
 
@@ -1628,89 +1640,53 @@ function historiales(o){
 			$('#tab_histo_1').click();
 		break; 
 		case 2: $('#tab_histo_2').click();
-			window.setTimeout(function(){
-				$('#clickmeHLab, #tab_histo_lab').click();
-				window.setTimeout(function(){
-					rhLab($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val());
-				},100);
+			window.setTimeout(function(){ $('#clickmeHLab, #tab_histo_lab').click();
+				window.setTimeout(function(){ rhLab($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val()); },100);
 			},500);
 		break;
 		case 3: $('#tab_histo_3').click(); 
-			window.setTimeout(function(){
-				$('#clickmeHusg, #tab_histo_usg').click();
-				window.setTimeout(function(){
-					rhUsg($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val());
-				},100);
+			window.setTimeout(function(){ $('#clickmeHusg, #tab_histo_usg').click();
+				window.setTimeout(function(){ rhUsg($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val()); },100);
 			},500);
 		break;
 		case 4: $('#tab_histo_4').click();
-			window.setTimeout(function(){
-				$('#clickmeHimg, #tab_histo_img').click();
-				window.setTimeout(function(){
-					rhImg($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val());
-				},100);
+			window.setTimeout(function(){ $('#clickmeHimg, #tab_histo_img').click();
+				window.setTimeout(function(){ rhImg($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val()); },100);
 			},500);
 		break; 
 		case 5: $('#tab_histo_5').click(); 
-			window.setTimeout(function(){
-				$('#clickmeHend, #tab_histo_end').click();
-				window.setTimeout(function(){
-					rhEnd($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val());
-				},100);
+			window.setTimeout(function(){ $('#clickmeHend, #tab_histo_end').click();
+				window.setTimeout(function(){ rhEnd($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val()); },100);
 			},500);
 		break;
 		case 6: $('#tab_histo_6').click();
-			window.setTimeout(function(){
-				$('#clickmeHcol, #tab_histo_col').click();
-				window.setTimeout(function(){
-					rhCol($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val());
-				},100);
+			window.setTimeout(function(){ $('#clickmeHcol, #tab_histo_col').click();
+				window.setTimeout(function(){ rhCol($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val()); },100);
 			},500);
 		break;
 		case 7: $('#tab_histo_7').click();
-			window.setTimeout(function(){
-				$('#clickmeHnot, #tab_histo_not').click();
-				window.setTimeout(function(){
-					rhNot($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val());
-				},100);
+			window.setTimeout(function(){ $('#clickmeHnot, #tab_histo_not').click();
+				window.setTimeout(function(){ rhNot($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val()); },100);
 			},500);
 		break;
 	}
-	$('#tab_histo_2').click(function(e){
-		$('#clickmeHLab').click();
-		window.setTimeout(function(){
-		rhLab($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val());
-		},300);
+	$('#tab_histo_2').click(function(e){ $('#clickmeHLab').click();
+		window.setTimeout(function(){ rhLab($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val()); },300);
 	});
-	$('#tab_histo_3').click(function(e){
-		$('#clickmeHusg').click();
-		window.setTimeout(function(){
-		rhUsg($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val());
-		},300);
+	$('#tab_histo_3').click(function(e){ $('#clickmeHusg').click();
+		window.setTimeout(function(){ rhUsg($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val()); },300);
 	});
-	$('#tab_histo_4').click(function(e){
-		$('#clickmeHimg').click();
-		window.setTimeout(function(){
-		rhImg($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val());
-		},300);
+	$('#tab_histo_4').click(function(e){ $('#clickmeHimg').click();
+		window.setTimeout(function(){ rhImg($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val()); },300);
 	});
-	$('#tab_histo_5').click(function(e){
-		$('#clickmeHend').click();
-		window.setTimeout(function(){
-		rhEnd($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val());
-		},300);
+	$('#tab_histo_5').click(function(e){ $('#clickmeHend').click();
+		window.setTimeout(function(){ rhEnd($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val()); },300);
 	});
-	$('#tab_histo_6').click(function(e){
-		$('#clickmeHcol').click();
-		window.setTimeout(function(){
-		rhCol($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val());
-		},300);
+	$('#tab_histo_6').click(function(e){ $('#clickmeHcol').click();
+		window.setTimeout(function(){ rhCol($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val()); },300);
 	});
-	$('#tab_histo_7').click(function(e){
-		$('#clickmeHnot').click();
-		window.setTimeout(function(){
-		rhNot($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val());
-		},300);
+	$('#tab_histo_7').click(function(e){ $('#clickmeHnot').click();
+		window.setTimeout(function(){ rhNot($('#id_cons').val(),$('#idPaciente_c').val(),$('#nombre_primer_vc').val(),$('#id_primer_vc').val()); },300);
 	});
 }
 function no_historiales(){
@@ -1899,7 +1875,7 @@ function rhLab(idC,idP,n,idE){//alert(idC+' '+idP+' '+n+' '+idE);
 							$("#misResultados").load('laboratorio/files-serverside/resultadosCoproparasitoscopio3.php?idE='+idE, function(response,status,xhr){if ( status == "success" ) { } });
 						break;
 						default:
-							$(".myDiagnosticoP").load('laboratorio/files-serverside/resultados_h.php?idE='+idE, function(response,status,xhr){if ( status == "success" ) { 
+							$(".myDiagnosticoP").load('laboratorio/files-serverside/resultados_h.php?idE='+idE,function(response,status,xhr){if( status == "success" ) { 
 							} });
 					}
 				});

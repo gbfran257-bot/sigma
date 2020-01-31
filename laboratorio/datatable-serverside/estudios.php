@@ -1,11 +1,16 @@
 <?php
+ini_set('max_execution_time', 300);
 require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
 
 include_once '../../recursos/session.php';
 include_once '../../Connections/database.php';
 include_once '../../recursos/utilities.php';
-
+if($_GET['min'] == 'undefined 00:00:00' || $_GET['max'] == 'undefined 23:59:59'){
+	$_GET['max'] = $_GET['min'] = date("Y-m-d");
+	$_GET['max'] .= " 23:59:59";
+	$_GET['min'] .= " 00:00:00";
+}
 $tipo_user = $_SESSION['MM_UserGroup'];
 $sucu_user = $_SESSION['MM_Usersucu'];
     /* Array of database columns which should be read and sent back to DataTables. Use a space where * you want to insert a non-database field (for example a counter or static image) */
@@ -61,7 +66,7 @@ $sucu_user = $_SESSION['MM_Usersucu'];
     $gaSql['user']       = $username_horizonte; $gaSql['password']   = $password_horizonte; $gaSql['db']         = $database_horizonte; $gaSql['server']     = $hostname_horizonte;
  
      
-    $gaSql['link'] =  mysql_pconnect( $gaSql['server'], $gaSql['user'], $gaSql['password']  ) or die( 'Could not open connection to server' );
+    $gaSql['link'] =  $horizonte;//mysql_pconnect( $gaSql['server'], $gaSql['user'], $gaSql['password']  ) or die( 'Could not open connection to server' );
      
     mysql_select_db( $gaSql['db'], $gaSql['link'] ) or die( 'Could not select database '. $gaSql['db'] );
      

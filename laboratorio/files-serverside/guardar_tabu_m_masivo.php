@@ -10,12 +10,12 @@ require("../../funciones/php/values.php");
 
  //Checamos si hay cambio, sino hay cambio entonces no se actualiza
  mysql_select_db($database_horizonte, $horizonte);
- $result = mysql_query("SELECT precio_to from conceptos where id_to = $id_to ", $horizonte) or die (mysql_error());
+ $result = mysql_query("SELECT costo_maquila_to from conceptos where id_to = $id_to ", $horizonte) or die (mysql_error());
  $row = mysql_fetch_row($result);
 
  if($row[0] < $valor or $row[0] > $valor){
 	 mysql_select_db($database_horizonte, $horizonte);
-	 $sql = "UPDATE conceptos set precio_to = $valor, usuario_to = $id_u, fecha_to = $now where id_to = $id_to";
+	 $sql = "UPDATE conceptos set costo_maquila_to = $valor, usuario_to = $id_u, fecha_to = $now where id_to = $id_to";
 	 $update = mysql_query($sql, $horizonte) or die (mysql_error());
 
 	 if (!$update) { echo $sql; }else{ echo 1; } 
