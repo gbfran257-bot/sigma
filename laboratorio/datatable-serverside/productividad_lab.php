@@ -3,7 +3,7 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('v.id_vc', 'e.concepto_to', 'count(v.id_vc) as suma', 'v.id_vc' );
+	$aColumns = array('v.id_vc', 'e.concepto_to', 'count(v.id_vc) as suma', 'v.id_vc', 'e.aleatorio_c', 'e.c_costo', 'sum(v.precio_vc)' );
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -96,6 +96,9 @@ require("../../funciones/php/values.php");
     );
 	$hh=0;
      
+    $resultT = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es where e.id_tipo_concepto_to = 3 and v.temporal_vc=0 and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die(mysql_error());
+    $rowT = mysql_fetch_row($resultT);
+        
     while ( $aRow = mysql_fetch_array( $rResult ) )
     {
 		$hh++;
@@ -106,14 +109,20 @@ require("../../funciones/php/values.php");
         for ( $j=0 ; $j<count($aColumns) ; $j++ ) { if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; } else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; } }
 		
 		$row[0] = "<span>$hh</span>";
-		
-		mysql_select_db($database_horizonte, $horizonte);
-		$resultT = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es where e.id_tipo_concepto_to = 3 and v.temporal_vc=0 and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die(mysql_error());
-		$rowT = mysql_fetch_row($resultT);
+
+        $resultPr = mysql_query("SELECT sum(b.precio_maquila_b) from asignar_bases ab ".
+            "left join bases b on b.id_b = ab.id_base_ab where ab.aleatorio_ab='$row[4]'", $horizonte) or die(mysql_error());
+        $rowPr = mysql_fetch_row($resultPr);
 		
 		$porce = round(($row[2]*100)/$rowT[0],4);
 		
 		$row[3] = "<span>$porce %</span>";
+        $row[4] = $row[6];
+        $total = $row[6];
+        $costo = ($rowPr[0]+$row[5])*$row[2];
+        $utilidad = $total - $costo;
+        $row[5] = $costo;
+        $row[6] = $utilidad;
 				
 		$output['aaData'][] = $row;
     }

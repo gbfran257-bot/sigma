@@ -28,7 +28,6 @@ require("../../../funciones/php/values.php");
 		mysql_select_db($database_horizonte, $horizonte);
  		$sql = "INSERT INTO conceptos (usuario_to, concepto_to, $precio_nor, $precio_ur, id_area_to, formato, fecha_to, id_departamento_to, id_tipo_concepto_to, precio_to, precio_urgencia_to, precio1_to, precio_urgencia1_to, aleatorio_c, dicom, precio_m, precio_mu, precio_h, costo_maquila_to, costo_maquila_u_to)";
  		$sql.= "VALUES ($idUsuario, $nombre, $precio, $precioU, $idArea, $formato, $now, 2, 4, $precio, $precioU, $precioS, $precioSU, $noTemp, $dicom, $precioM, $precioMU, $precioH, $precioMa, $precioMaU)";
- 
 	}else{
 		mysql_select_db($database_horizonte, $horizonte);
  		$sql = "INSERT INTO conceptos (usuario_to, concepto_to, precio_to, precio_urgencia_to, id_area_to, formato, fecha_to, id_departamento_to, id_tipo_concepto_to, precio1_to, precio_urgencia1_to, aleatorio_c, dicom, precio_m, precio_mu, precio_h, costo_maquila_to, costo_maquila_u_to)";

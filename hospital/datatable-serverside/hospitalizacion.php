@@ -2,7 +2,7 @@
 require("../../Connections/horizonte.php"); 
     /* Array of database columns which should be read and sent back to DataTables. Use a space where * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('h.id_h', 'concat(p.nombre_p," ", p.apaterno_p)', 'DATE_FORMAT(h.fecha_inicio_h,"%d/%m/%Y %H:%i:%s")', 'es.estatus_est', 'concat(c.no_ca," ",c.ubicacion_ca)','m.usuario_u', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h','h.id_h','DATE_FORMAT(h.fecha_fin_h,"%d/%m/%Y %H:%i:%s")', 'p.amaterno_p', 'es.id_est', 'concat(m.titulo_u," ",m.nombre_u," ",m.apaterno_u)', 'm.amaterno_u', 'p.id_p' );
+	$aColumns = array('h.id_h', 'p.nombre_completo_p', 'DATE_FORMAT(h.fecha_inicio_h,"%d/%m/%Y %H:%i:%s")', 'es.estatus_est', 'concat(c.no_ca," ",c.ubicacion_ca)','m.usuario_u', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h','h.id_h','DATE_FORMAT(h.fecha_fin_h,"%d/%m/%Y %H:%i:%s")', 'p.amaterno_p', 'es.id_est', 'concat(m.titulo_u," ",m.nombre_u," ",m.apaterno_u)', 'm.amaterno_u', 'p.id_p' );
      
     // DB tables to use 
     $aTables = array( 'hospitalizacion h');
@@ -142,7 +142,6 @@ require("../../Connections/horizonte.php");
 		
 		$row[0]=$hh;
 		
-		$row[1] = $row[1]." ".$row[13];
 		
 		$row[5] = "<span title='$row[15] $row[16]'>$row[5]</span>";
 		

@@ -67,6 +67,12 @@
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
     <link href="c3/c3.css" rel="stylesheet">
+    <style>
+		/*#dataTablePrincipal tr td:nth-child(n+5){
+			text-align: right;
+			padding-right: 10px;
+		}*/
+    </style>
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
@@ -78,6 +84,9 @@
 		<th style="vertical-align:middle;">ESTUDIO</th>
 		<th style="vertical-align:middle;" nowrap>#VENTAS</th>
 		  <th style="vertical-align:middle;" nowrap>PORCENTAJE VENTAS</th>
+		  <th style="vertical-align:middle;" nowrap>TOTAL</th>
+		  <th style="vertical-align:middle;" nowrap>COSTO</th>
+		  <th style="vertical-align:middle;" nowrap>UTILIDAD</th>
 	  </tr>
 	</thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
 	<tfoot>
@@ -85,7 +94,10 @@
 			<th><input type="hidden"></th>
 			<th><input type="hidden"></th>
 			<th><input type="hidden" class="sCalculo" /></th>
-			<th><input type="hidden"></th>
+			<th><input type="hidden" class="sCalculo"></th>
+			<th><input type="hidden" class="sCalculo"></th>
+			<th><input type="hidden" class="sCalculo"></th>
+			<th><input type="hidden" class="sCalculo"></th>
 		</tr>
 	</tfoot>
 </table>
@@ -105,14 +117,22 @@ $(document).ready(function(e) {
 	var oTableP = $('#dataTablePrincipal').DataTable({
 		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true, scroller: false, responsive: true,
 		"fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay){
-			var iTotal = 0;
-            for(var i=iStart ; i<iEnd ; i++){ iTotal += aaData[ aiDisplay[i] ][2]*1; }
+			var iTotal = 0, iTotalTotal=0, iTotalCosto=0, iTotalUtilidad=0;
+            for(var i=iStart ; i<iEnd ; i++){
+            	iTotal += aaData[ aiDisplay[i] ][2]*1;
+            	iTotalTotal += aaData[ aiDisplay[i] ][4]*1;
+				iTotalCosto += aaData[ aiDisplay[i] ][5]*1;
+				iTotalUtilidad += aaData[ aiDisplay[i] ][6]*1;
+            }
 
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
             nCells[2].innerHTML = redondear(parseFloat(iTotal * 100)/100,2);
+            nCells[4].innerHTML = redondear((parseFloat(iTotalTotal) * 100)/100,2);
+            nCells[5].innerHTML = redondear((parseFloat(iTotalCosto) * 100)/100,2);
+            nCells[6].innerHTML = redondear((parseFloat(iTotalUtilidad) * 100)/100,2);
 		},
-		"aoColumns":[ {"bVisible":true}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true } ],
+		"aoColumns":[ {"bVisible":true}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
 		"sDom": '<"filtro1Principal"f>rT<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false,
 		"oTableTools": {

@@ -6,10 +6,10 @@ require("../../funciones/php/values.php");
 	$idCons = sqlValue($_POST["idCo"], "int");
 	
 	mysql_select_db($database_horizonte, $horizonte);
-	$resultDC = mysql_query("SELECT id_signosv_vc, count(id_vc) from venta_conceptos where id_vc = $idCons ", $horizonte) or die (mysql_error());
+	$resultDC = mysql_query("SELECT id_signosv_vc, count(id_vc) from venta_conceptos where id_vc = $idCons and id_paciente_vc = $idP ", $horizonte) or die (mysql_error());
 	$rowDC = mysql_fetch_row($resultDC);
 	
-	if($rowDC[0]>0){
+	if($rowDC[1]>0){
 		$idSV = sqlValue($rowDC[0], "int");
 	}else{
 		mysql_select_db($database_horizonte, $horizonte);

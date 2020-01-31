@@ -12,7 +12,7 @@
             <li role="presentation" class="active no_base" id="tabi_1">
                 <a href="#tEstudio" aria-controls="tEstudio" role="tab" data-toggle="tab" id="tab_estudio">ESTUDIO</a>
             </li>
-			<li role="presentation"><a href="#tTabulador" aria-controls="tTabulador" role="tab" data-toggle="tab" id="tab_tabulador">TABULADOR</a></li>
+			<li role="presentation" class="no_base"><a href="#tTabulador" aria-controls="tTabulador" role="tab" data-toggle="tab" id="tab_tabulador">TABULADOR</a></li>
             <li role="presentation" id="tabi_2" class="no_base">
                 <a href="#tFormato" aria-controls="tFormato" role="tab" data-toggle="tab" id="tab_formato">BASES</a>
             </li>
@@ -21,8 +21,9 @@
             <li role="presentation" id="tabi_3" class="si_base hidden">
                 <a href="#tBases" aria-controls="tFormato" role="tab" data-toggle="tab" id="tab_bases">BASES DEL ESTUDIO</a>
             </li>
-			<li role="presentation" id="t_tIndicaciones"><a href="#tIndicaciones" aria-controls="tIndicaciones" role="tab" data-toggle="tab">INDICACIONES</a></li>
-			<li role="presentation"><a href="#tFormato1" aria-controls="tFormato1" role="tab" data-toggle="tab" id="tab_formato1">FORMATO</a></li>
+			<li role="presentation" id="t_tIndicaciones" class="no_base"><a href="#tIndicaciones" aria-controls="tIndicaciones" role="tab" data-toggle="tab">INDICACIONES</a></li>
+			<li role="presentation" class="no_base"><a href="#tFormato1" aria-controls="tFormato1" role="tab" data-toggle="tab" id="tab_formato1">FORMATO</a></li>
+			<li role="presentation" class="no_base"><a href="#tProductividad" aria-controls="tProductividad" role="tab" data-toggle="tab" id="tab_productividad">PRODUCTIVIDAD</a></li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
@@ -46,28 +47,22 @@
                      <input type="text" class="form-control input-sm" id="precioUrgenciaE" name="precioUrgenciaE" required onKeyUp="numeros_decimales(this.value, this.name);">
                      </div>
                 </div>
-                <div class="col-sm-6 col-xs-6 col-md-6 tabulacion">
+				<div class="col-sm-6 col-md-6">
                     <div class="form-group">
-                     <label for="precioEM">* TABULADOR MAQUILA($)</label>
-                     <input type="text" class="form-control input-sm" id="precioEM" name="precioEM" required onKeyUp="numeros_decimales(this.value, this.name);">
+                     <label for="precioME">* PRECIO DE MEMBRESÍA($)</label>
+                     <input type="text" class="form-control input-sm" id="precioME" name="precioME" required onKeyUp="numeros_decimales(this.value, this.name);">
                      </div>
                 </div>
-                <div class="col-sm-6 col-xs-6 col-md-6 tabulacion">
+                <div class="col-sm-6 col-md-6">
                     <div class="form-group">
-                     <label for="precioUrgenciaM">* TABULADOR MAQUILA URGENCIA($)</label>
-                     <input type="text" class="form-control input-sm" id="precioUrgenciaM" name="precioUrgenciaM" required onKeyUp="numeros_decimales(this.value, this.name);">
+                     <label for="precioUrgenciaME">* PRECIO MEMBRESÍA URGENCIA($)</label>
+                     <input type="text" class="form-control input-sm" id="precioUrgenciaME" name="precioUrgenciaME" required onKeyUp="numeros_decimales(this.value, this.name);">
                      </div>
                 </div>
-                <div class="col-sm-6 col-xs-6 col-md-6 tabulacion">
+				<div class="col-sm-6 col-md-6">
                     <div class="form-group">
-                     <label for="precioES">* TABULADOR SUCURSAL($)</label>
-                     <input type="text" class="form-control input-sm" id="precioES" name="precioES" required onKeyUp="numeros_decimales(this.value, this.name);">
-                     </div>
-                </div>
-                <div class="col-sm-6 col-xs-6 col-md-6 tabulacion">
-                    <div class="form-group">
-                     <label for="precioUrgenciaS">* TABULADOR SUCURSAL URGENCIA($)</label>
-                     <input type="text" class="form-control input-sm" id="precioUrgenciaS" name="precioUrgenciaS" required onKeyUp="numeros_decimales(this.value, this.name);">
+                     <label for="precioHO">* PRECIO DE HOSPITAL($)</label>
+                     <input type="text" class="form-control input-sm" id="precioHO" name="precioHO" required onKeyUp="numeros_decimales(this.value, this.name);">
                      </div>
                 </div>
                 <div class="col-sm-3 col-xs-3 col-md-3">
@@ -443,6 +438,36 @@
                     <input name="aleatorio_rmed" id="aleatorio_rmed" type="hidden">
                 </td></tr>
                 </table>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tProductividad"><br>
+            	<input name="aleatorioB" type="hidden" id="aleatorioB">
+              	<div class="row">
+              		<div class="col-md-4">
+              			<label class="control-label">Costo de producción extra</label>
+              			<input type="number" step="0.01" class="form-control" name="costoproduccion" value="0">
+              		</div>
+              		<div class="col-md-4">
+              			<label class="control-label">Motivo del costo extra</label>
+              			<input type="text" class="form-control" name="motivocostoproduccion">
+              		</div>
+              		<div class="col-md-4">
+              			<label class="control-label">Costo de producción total</label>
+              			<input type="number" step="0.01" class="form-control" name="costototalprod" value="0" disabled>
+              		</div>
+              	</div>
+              	<hr>
+                <table width="100%" id="dataTableProd" class="table-condensed table-bordered">
+	                <thead id="">
+	                  <tr id="" class="bg-primary">
+	                    <th id="" align="center" width="20px">#</th>
+	                    <th> BASES </th>
+	                    <th>AREA</th>
+	                    <th>UNIDAD</th>
+	                    <th>COSTO</th>
+	                  </tr>
+	                </thead>
+                	<tbody style="color:black"> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
+              	</table>
             </div>
         </div>
                   

@@ -64,6 +64,11 @@
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
     <link href="c3/c3.css" rel="stylesheet">
+    <style>
+		.nav-tabs > li > a{
+			padding: 10px 10px 10px 10px;
+		}
+    </style>
 </head>
 <?php include_once 'partes/header.php';?>
 <!-- Contenido -->
@@ -89,19 +94,13 @@
 	<tfoot>
         <tr class="bg-primary">
             <th></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Estudio"/></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Área" style="max-width:100px;"/></th>
+            <th><input type="text" class="form-control input-sm filtrodataTablePrincipal" placeholder="Estudio"/></th>
+            <th><input type="text" class="form-control input-sm filtrodataTablePrincipal" placeholder="Área" style="max-width:100px;"/></th>
             <th colspan="7" align="center" style="text-align: center;">
 				<?php if($_SESSION['MM_UserGroup']==1){ ?>
 					<button type="button" class="btn btn-sm btn-success" onClick="save_all();">GUARDAR TODO</button>
 				<?php } ?>
 			</th>
-			<!--<th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>-->
             <th></th>
         </tr>
     </tfoot>
@@ -140,8 +139,8 @@ $(document).ready(function(e) {
 		},
 		"oLanguage": {
 			"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
-			"sInfo": "SERVICIOS FILTRADOS: _END_",
-			"sInfoEmpty": "NINGÚN SERVICIO FILTRADO.", "sInfoFiltered": " TOTAL DE SERVICIOS: _MAX_", "sSearch": "",
+			"sInfo": "ESTUDIOS FILTRADOS: _END_",
+			"sInfoEmpty": "NINGÚN ESTUDIO FILTRADO.", "sInfoFiltered": " TOTAL DE ESTUDIOS: _MAX_", "sSearch": "",
 			"oPaginate": { "sNext": "<span class='paginacionPrincipal'>Siguiente</span>", "sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;" }
 		},"iDisplayLength": 100, paging: true,
 	});
@@ -152,7 +151,7 @@ $(document).ready(function(e) {
 	oTableP.columns().every( function () {
 		var that = this;
  
-		$( 'input', this.footer() ).on( 'keyup change', function () {
+		$( '.filtrodataTablePrincipal', this.footer() ).on( 'keyup change', function () {
 			if ( that.search() !== this.value ) { that .search( this.value ) .draw(); }
 		} );
 	} );
@@ -473,6 +472,14 @@ function nuevoEstudio(){
 		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
 	} });
 }
+function recalculaProd(){
+	var totalidad = 0;
+	$("#tProductividad .costobaseprod").each(function(i, e){
+		totalidad += parseFloat($(e).html());
+	});
+	totalidad += parseFloat($("#tProductividad input[name='costoproduccion']").val());
+	$("#tProductividad input[name='costototalprod']").val(totalidad);
+}
 function fichaEstudio(idE, na){
 	$("#myModal1").load("laboratorio/estudios/htmls/ficha_estudio_l.php",function(response,status,xhr){ if(status=="success"){
 		$(".insers").load('genera/inserciones.php', function( response, status, xhr ) { if ( status == "success" ) { } });
@@ -546,9 +553,14 @@ function fichaEstudio(idE, na){
 				$('#idUsuarioE').val($('#id_user').val()); $('#idEstudioE').val(idE);
 				$('#areaE').load('laboratorio/estudios/genera/areasEstudios.php', function( response, status, xhr ){ $(this).val(datosI[1]); });
 				$('#nombreE').val(datosI[0]); $('#precioE').val(datosI[2]); $('#precioUrgenciaE').val(datosI[3]);
-				$('#precioEM').val(datosI[5]); $('#precioUrgenciaM').val(datosI[6]); $('#precioES').val(datosI[7]);
+				$('#precioEM').val(datosI[13]); $('#precioUrgenciaM').val(datosI[14]); $('#precioES').val(datosI[7]);
 				$('#precioUrgenciaS').val(datosI[8]); $('#dEntregaE').val(datosI[9]);
-
+				$('#precioME').val(datosI[10]); $('#precioUrgenciaME').val(datosI[11]); $('#precioHO').val(datosI[12]);
+				$("#tProductividad input[name='costoproduccion']").val(datosI[15]);
+				$("#tProductividad input[name='costoproduccion']").change(function(){
+					recalculaProd();
+				});
+				$("#tProductividad input[name='motivocostoproduccion']").val(datosI[16]);
 				var now = new Date().getTime(); var d = new Date();
 
 				if(na==undefined || na==''){//No hay numero aleatorio
@@ -653,13 +665,6 @@ function fichaEstudio(idE, na){
 				});
 				$('#clickmeIn').click(function(e){oTableIeB.draw();}); $('#t_tIndicaciones').click(function(e) { oTableIeB.draw(); });
 
-				//para los fintros individuales por campo de texto
-				oTableReB.columns().every( function () {
-					var that = this;
-					$( 'input', this.footer() ).on( 'keyup change', function () { if ( that.search() !== this.value ) { that .search( this.value ) .draw(); } } );
-				} );
-				//fin filtros individuales por campo de texto
-
 				$('#bBaseE').click(function(e) {
 					$('.no_base').addClass('hidden'); $('.si_base').removeClass('hidden'); $('#tab_bases').click();
 					window.setTimeout(function(){$('#clickmeBasesE, #clickmeBBasB').click();},200);
@@ -702,6 +707,34 @@ function fichaEstudio(idE, na){
 					"aLengthMenu": [[9, 25, 50, 100, -1], [9, 25, 50, 100, "Todos"]],
 					"oLanguage": { "sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", "sInfo": "MOSTRADAS: _END_", "sInfoEmpty": "MOSTRADAS: 0", "sInfoFiltered": "<br/>BASES: _MAX_", "sSearch": "" }
 				});/*fin datatable*/ $('#clickmeBBasB').click(function(e) { oTableReB2.fnDraw(); });
+
+				var oTableProd;
+				oTableProd = $('#dataTableProd').DataTable({
+					"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { },
+					"bJQueryUI":false, "bRetrieve": true, "sScrollY": "auto", "bAutoWidth": true, "bStateSave": false,
+					"bInfo": true, "bFilter": false, "aaSorting": [[0, "asc"]], ordering: false,
+					"aoColumns": [ { "bSortable": false }, { "bSortable": false }, { "bSortable": false }, { "bSortable": false }, { "bSortable": false } ],
+					"iDisplayLength": 50, "bLengthChange": false, "bProcessing": true, "bServerSide": true, 
+					"sAjaxSource": "laboratorio/estudios/datatable-serverside/bases_seleccionadas_estudio.php",
+					"fnServerParams": function (aoData, fnCallback) { 
+						var aleatorio = $('#aleatorioB').val(); aoData.push(  {"name": "aleatorio", "value": aleatorio } ); 
+						aoData.push(  {"name": "costo", "value": 1 } );
+					},
+					"initComplete": function(){
+						recalculaProd();
+					},
+					"sDom": '<"filtroC">l<"infoC">r<"data_tC"t>', 
+					"aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
+					"oLanguage": { 
+						"sLengthMenu": "MONSTRANDO _MENU_ records per page",
+						"sZeroRecords": "EL ESTUDIO NO CUENTA CON BASES ASIGNADAS","sInfo": "MOSTRADAS: _END_", 
+						"sInfoEmpty": "MOSTRADAS: 0", "sInfoFiltered": "<br/>BASES: _MAX_", "sSearch": "BUSCAR" 
+					}
+				});
+				$('#tab_productividad').click(function(e){
+					oTableProd.draw();
+					recalculaProd();
+				});
 			});
 
 			$('#formEstudio').validator().on('submit', function (e) {

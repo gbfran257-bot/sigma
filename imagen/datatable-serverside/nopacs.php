@@ -1,6 +1,6 @@
 <?php
 require("../../Connections/ipacs.php");
-	$aColumns = array('p.created_time', 'p.pat_name', 's.modality', 'p.pat_id', 'p.pk' );
+	$aColumns = array('p.created_time', 'family_name', 'sq.mods_in_study', 'p.pat_id', 'given_name', 'middle_name', 'name_prefix', 'p.pk' );
      
     // DB tables to use 
     $aTables = array( 'patient p');
@@ -9,11 +9,13 @@ require("../../Connections/ipacs.php");
     $sIndexColumn = "p.pk";
      
 	 // Joins   
-	$sJoin = 'left join series s on s.study_fk = p.pk ';
+	$sJoin = 'inner join person_name pe on pe.pk=p.pat_name_fk '.
+             'left join study s on s.patient_fk = p.pk '.
+             'left join study_query_attrs sq on sq.study_fk = s.pk ';
 	 
     // CONDITIONS
 	//if(isset($_GET['min']) && $_GET['min'] != ''){} idPacs
-    $sWhere = "WHERE 1 = 1 " ;
+    $sWhere = "WHERE 1=1 " ;
 
     /* Database connection information */
     $gaSql['user']       = $username_ipacs;
@@ -21,14 +23,12 @@ require("../../Connections/ipacs.php");
     $gaSql['db']         = $database_ipacs;
     $gaSql['server']     = $hostname_ipacs;
      
-    $gaSql['link'] =  mysql_pconnect( $gaSql['server'], $gaSql['user'], $gaSql['password']  ) or
-        die( 'Could not open connection to server' );
+    $gaSql['link'] =  $ipacs;
      
-    mysql_select_db( $gaSql['db'], $gaSql['link'] ) or 
-        die( 'Could not select database '. $gaSql['db'] );
-	mysql_query("SET character_set_client=utf8", $gaSql['link']);
+    //mysql_select_db( $gaSql['db'], $gaSql['link'] );
+	/*mysql_query("SET character_set_client=utf8", $gaSql['link']);
 	mysql_query("SET character_set_connection=utf8", $gaSql['link']);
-	mysql_query("SET character_set_results=utf8", $gaSql['link']);
+	mysql_query("SET character_set_results=utf8", $gaSql['link']);*/
      
     /*  * Paging */
     $sLimit = "";
@@ -39,7 +39,7 @@ require("../../Connections/ipacs.php");
     }
      
     /* * Ordering */
-    $sOrder = "GROUP BY p.pat_name";
+    $sOrder = "GROUP BY p.pk, s.pk, sq.pk, pe.pk";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
         $sOrder = "ORDER BY  ";
@@ -54,7 +54,7 @@ require("../../Connections/ipacs.php");
          
         $sOrder = substr_replace( $sOrder, "", -2 );
         if ( $sOrder == "ORDER BY" ) { $sOrder = ""; }
-		$sOrder = "group by p.pat_name order by p.created_time desc";
+		$sOrder = "group by p.pk, s.pk, sq.pk, pe.pk order by p.created_time desc";
     }
      
     /* 
@@ -69,7 +69,7 @@ require("../../Connections/ipacs.php");
         $sWhere .= "AND (";
         for ( $i=0 ; $i<count($aColumns) ; $i++ )
         {
-            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string( $_GET['sSearch'] )."%' OR ";
+            $sWhere .= $aColumns[$i]." LIKE '%".( $_GET['sSearch'] )."%' OR ";
         }
         $sWhere = substr_replace( $sWhere, "", -3 );
         $sWhere .= ')';
@@ -82,36 +82,44 @@ require("../../Connections/ipacs.php");
         {
             if ( $sWhere == "" ) { $sWhere = "WHERE "; }
             else { $sWhere .= " AND "; }
-            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+
+            if($i == 1){
+                $sWhere .= "(".$aColumns[$i]." LIKE '".($_GET['sSearch_'.$i])."%' or ".$aColumns[4]." LIKE '%".($_GET['sSearch_'.$i])."%' or ".$aColumns[5]." LIKE '%".($_GET['sSearch_'.$i])."%' or ".$aColumns[6]." LIKE '%".($_GET['sSearch_'.$i])."%') ";
+            }else{
+                $sWhere .= $aColumns[$i]." LIKE '%".($_GET['sSearch_'.$i])."%' ";
+            }
         }
     }
      
     /* * SQL queries * Get data to display */
     $sQuery = "
-        SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."
+        SELECT ".str_replace(" , ", " ", implode(", ", $aColumns))."
         FROM   ".str_replace(" , ", " ", implode(", ", $aTables))."
 		$sJoin
         $sWhere
         $sOrder
         $sLimit";
      
-    $rResult = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
-     
+    //$rResult = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
+    $rResult = pg_query($ipacs, $sQuery);
+    //echo $sQuery;
     /* Data set length after filtering */
-    $sQuery = "
+    /*$sQuery = "
         SELECT FOUND_ROWS()
-    ";
-    $rResultFilterTotal = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
-    $aResultFilterTotal = mysql_fetch_array($rResultFilterTotal);
-    $iFilteredTotal = $aResultFilterTotal[0];
-     
+    ";*/
+    //$rResultFilterTotal = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
+    //$rResultFilterTotal = pg_query($ipacs, $sQuery);
+    $aResultFilterTotal = pg_num_rows( $rResult );
+    $iFilteredTotal = $aResultFilterTotal;//[0];
+    
     /* Total data set length */
     $sQuery = "
         SELECT COUNT(".$sIndexColumn.")
         FROM   ".$aTables[0];
      
-    $rResultTotal = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
-    $aResultTotal = mysql_fetch_array($rResultTotal);
+    //$rResultTotal = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
+    $rResultTotal = pg_query($ipacs, $sQuery);
+    $aResultTotal = pg_fetch_array($rResultTotal);
     $iTotal = $aResultTotal[0];
      
     /* * Output */
@@ -123,7 +131,7 @@ require("../../Connections/ipacs.php");
     );
 	$hh=0;
      
-    while ( $aRow = mysql_fetch_array( $rResult ) )
+    while ( $aRow = pg_fetch_array( $rResult ) )
     {
 		$hh++;
         $row = array();
@@ -134,15 +142,19 @@ require("../../Connections/ipacs.php");
 			
         }
 		
-		mysql_select_db($database_ipacs, $ipacs);
-		$resultTC = mysql_query("SELECT REPLACE(pat_name,'^',' ') from patient WHERE pk = $row[4] ",$ipacs) or die (mysql_error());
-		$rowTC = mysql_fetch_row($resultTC);
+		//mysql_select_db($database_ipacs, $ipacs);
+		//$resultTC = pg_query($ipacs, "SELECT concat(family_name, ' ', given_name, ' ', middle_name, ' ', name_prefix) from person_name WHERE pk = $row[4] ");
+
+		//$rowTC = mysql_fetch_row($resultTC);
+        //$rowTC = pg_fetch_row($resultTC);
 		
-		$row[1] = $rowTC[0];
-		$row[0] = "<div lang='$row[4]'>$row[0]</div>";
+		//$row[1] = $rowTC[0];
+        $row[1] = $row[5]." ".$row[6]." ".$row[1]." ".$row[4];
+		$row[0] = "<div lang='$row[7]'>".date("d-m-Y H:i", strtotime($row[0]))."</div>";
 		
 		$output['aaData'][] = $row;	
     }
 			
     echo json_encode( $output );
+    pg_close($ipacs);
 ?>

@@ -9,10 +9,8 @@ require("../../../funciones/php/values.php");
 	$existsT = (mysql_num_rows($resultT))?TRUE:FALSE;
 	if($existsT) {
 		$precio_nor = $_POST['idSucursal'].'_precio'; $precio_ur = $_POST['idSucursal'].'_precio_u';
-		//$precio_nor_me = $_POST['idSucursal'].'_precio_mem'; $precio_ur_me = $_POST['idSucursal'].'_precio_mem_u';
 	}else{
 		$precio_nor = 'precio_to'; $precio_ur = 'precio_urgencia_to';
-		//$precio_nor_me = 'precio_membrecia_to'; $precio_ur_me = 'precio_membrecia1';
 	} 
  
  	mysql_select_db($database_horizonte, $horizonte);

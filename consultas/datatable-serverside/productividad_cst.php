@@ -3,7 +3,7 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('v.id_vc', 'e.concepto_to', 'count(v.id_vc) as suma', 'v.id_vc', 'concat(t.abreviacion_ti," ",m.nombre_u, " ", m.apaterno_u)', 'm.amaterno_u' );
+	$aColumns = array('v.id_vc', 'e.concepto_to', 'count(v.id_vc) as suma', 'v.id_vc', 'concat(t.abreviacion_ti," ",m.nombre_u, " ", m.apaterno_u)', 'm.amaterno_u', 'sum(v.precio_vc)', 'sum(v.honorarios)', 'e.c_costo');
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -95,7 +95,8 @@ require("../../funciones/php/values.php");
         "aaData" => array()
     );
 	$hh=0;
-     
+    $resultT = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es where e.id_tipo_concepto_to = 1 and v.temporal_vc=0 and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die(mysql_error());
+    $rowT = mysql_fetch_row($resultT);
     while ( $aRow = mysql_fetch_array( $rResult ) )
     {
 		$hh++;
@@ -108,15 +109,18 @@ require("../../funciones/php/values.php");
 		$row[0] = "<span>$hh</span>";
 		
 		mysql_select_db($database_horizonte, $horizonte);
-		$resultT = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es where e.id_tipo_concepto_to = 1 and v.temporal_vc=0 and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die(mysql_error());
-		$rowT = mysql_fetch_row($resultT);
+		
+
 		
 		$porce = round(($row[2]*100)/$rowT[0],4);
 		
 		$row[3] = "<span>$porce %</span>";
 		
 		$row[4] = "<span>$row[4] $row[5]</span>";
-				
+	    $row[5] = $row[6];
+        $row[6] = $row[7];
+        $row[7] = $row[8]*$row[2];
+        $row[8] = $row[5] - $row[6] - $row[7];
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );
