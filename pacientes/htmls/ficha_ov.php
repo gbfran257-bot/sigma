@@ -759,8 +759,8 @@
                                     <tbody align="left"> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
                                     <tfoot align="center">
                                         <tr>
-                                            <th><input type="text" class="form-control input-sm" style="width:99%;" placeholder="Buscar"></th>
-                                            <th><input type="text" class="form-control input-sm" style="width:99%;" placeholder="Buscar"></th>
+                                            <th><input type="text" class="form-control input-sm catemaco_limpia" style="width:99%;" placeholder="Buscar"></th>
+                                            <th><input type="text" class="form-control input-sm catemaco_limpia" style="width:99%;" placeholder="Buscar"></th>
                                             <th></th>
                                             <th><select id="beneficio_c1" name="beneficio_c1" class="form-control input-sm" style=""> </select></th>
                                         </tr>
@@ -772,12 +772,14 @@
                                     <table width="100%" cellspacing="0" id="dataTableCmS1" height="100%" border="0" cellpadding="0" class="table table-bordered table-hover table-responsive">
                                     <thead>
                                       <tr class="bg-success">
-                                        <th id="clickmeCoS1" align="center" width="1%">#</th>
-                                        <th align="center">CONSULTAS SELECCIONADAS</th>
-                                        <th align="center">MÉDICO</th>
-                                        <th align="center">PRECIO</th>
-                                        <th align="center">BENEFICIO</th>
-                                        <th align="center" width="1%">ELIMINAR</th>
+                                        <th id="clickmeCoS1" align="center" width="3%">#</th>
+                                        <th align="center" width="50%">CONSULTAS SELECCIONADAS</th>
+                                        <th align="center" width="20%">MÉDICO</th>
+                                        <th align="center" width="4%">PRECIO</th>
+                                        <th align="center" width="4%">DESCUENTO</th>
+                                        <th align="center" width="4%">SUBTOTAL</th>
+                                        <th align="center" width="10%">BENEFICIO</th>
+                                        <th align="center" width="5%">&times;</th>
                                       </tr>
                                     </thead>
                                     <tbody align="left"> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
@@ -792,8 +794,8 @@
                                  	<input type="text" class="form-control" id="motivo_c1" name="motivo_c1" placeholder="Motivo de las consultas">
                                 </div>
                             </div>
-                            <div class="col-sm-4 col-xs-4 depende_con1 hidden">
-                            	<div class="form-group" align="center">
+                            <div class="depende_con1 hidden">
+                            	<div class="form-group hidden" align="center">
                                      <label for="po_descuento_c1">% Descuento</label>
                                      <div class="input-group">
                                      	<input type="text" class="form-control desc_cargo_c1" id="po_descuento_c1" name="po_descuento_c1" placeholder="0" style="text-align:right;" min="0" max="100" value="0" data-minlength="0" data-maxlength="100" onKeyUp="cargos_descuentos_c1(this.value,this.id);">
@@ -801,8 +803,8 @@
                                      </div>
                                  </div>
                             </div>
-                            <div class="col-sm-4 col-xs-4 depende_con1 hidden">
-                            	<div class="form-group" align="center">
+                            <div class="depende_con1 hidden">
+                            	<div class="form-group hidden" align="center">
                                      <label for="da_descuento_c1">$ Descuento</label>
                                      <div class="input-group">
                                      	<span class="input-group-addon bootstrap-touchspin-postfix">$</span>
@@ -819,12 +821,13 @@
                                      </div>
                                  </div>
                             </div>
-                            <div class="col-sm-12 col-xs-12 depende_descuento_c1 hidden">
+                            <div class="col-sm-8 col-xs-8 depende_descuento_c1 hidden">
                             	<div class="form-group">
                                  <label for="motivo_descuento_c1">Motivo del descuento o del cargo extra</label>
                                  <input type="text" class="form-control" id="motivo_descuento_c1" name="motivo_descuento_c1" placeholder="Motivo del descuento o del cargo extra">
                                  </div>
                             </div>
+                            <div class="col-xs-12"></div>
                             <div class="col-sm-4 col-xs-4 depende_con1 hidden">
                             	<div class="form-group" align="center">
                                      <label for="precio_c1" class="text-info">Precio consultas</label>

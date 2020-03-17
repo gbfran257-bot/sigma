@@ -41,9 +41,10 @@ $idSuc = sqlValue($rowR[2], "text"); $idVisi = sqlValue($_GET["idVC"], "int");
  $resultL = mysql_query("SELECT id_do,ext_do from documentos where nombre_do = 'LOGOTIPO' and tipo_quien_do = 5 and id_quien_do = $idschool", $horizonte) or die (mysql_error());
  $rowL = mysql_fetch_row($resultL);
  
- $fileL = '../../../escuelas/logotipos/files/'.$rowL[0].'.'.$rowL[1];
- if(file_exists($fileL)){ $fondo='../../../escuelas/logotipos/files/'.$rowL[0].'.'.$rowL[1]; }
- else{ $fondo=''; }
+ //$fileL = '../../../escuelas/logotipos/files/'.$rowL[0].'.'.$rowL[1];
+ //if(file_exists($fileL)){ $fondo='../../../escuelas/logotipos/files/'.$rowL[0].'.'.$rowL[1]; }
+ //else{ $fondo=''; }
+ $fondo='';
 		
 $orientation = 'landscape';
 ?>

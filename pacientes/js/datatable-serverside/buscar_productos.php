@@ -52,13 +52,23 @@ require("../../../funciones/php/values.php");
 	
 	//Checamos si tiene membresía el paciente y si está vigente
 	mysql_select_db($database_horizonte, $horizonte);
-	$resultMe = mysql_query("SELECT DATEDIFF(fecha_f_me, fecha_i_me) from membresias where id_paciente_me = '$_GET[idP]' order by id_me desc limit 1 ", $horizonte) or die (mysql_error()); $rowMe = mysql_fetch_row($resultMe); //echo $_GET['idP'];
-	
-	if($rowMe[0]>0){
+	$resultMeV = mysql_query("SELECT count(id_me) from membresias where id_paciente_me = '$_GET[idP]'", $horizonte) or die (mysql_error());
+	$rowMeV = mysql_fetch_row($resultMeV); $con_membresia = 0;
+
+	if($rowMeV[0]>0){//Tiene membresía
+		mysql_select_db($database_horizonte, $horizonte);
+		$resultMe = mysql_query("SELECT DATEDIFF(fecha_f_me, fecha_i_me) from membresias where id_paciente_me = '$_GET[idP]' order by id_me desc limit 1 ", $horizonte) or die (mysql_error()); $rowMe = mysql_fetch_row($resultMe); //echo $_GET['idP'];
+
+		if($rowMe[0]>0){//Está Vigente
+			$con_membresia++;
+		}else{}
+	}else{}
+
+	if($con_membresia>0){//Tiene membresía vigente
 		if($urgencia==1){//Nocturno
-			$aColumns = array('e.concepto_to', 'a.nombre_a', 'e.precio_urgencia1_to', 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
+			$aColumns = array('e.concepto_to', 'a.nombre_a', 'e.precio_mu', 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
 		}else{
-			$aColumns = array('e.concepto_to', 'a.nombre_a', 'e.precio1_to', 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
+			$aColumns = array('e.concepto_to', 'a.nombre_a', 'e.precio_m', 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
 		}
 		// DB tables to use 
 		$aTables = array( 'conceptos e');

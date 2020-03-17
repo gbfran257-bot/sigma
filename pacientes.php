@@ -68,6 +68,10 @@
     <style>
     td.details-control { background: url('DataTables-1.10.5/examples/resources/details_open.png') no-repeat center center; cursor: pointer; }
 	tr.details td.details-control { background: url('DataTables-1.10.5/examples/resources/details_close.png') no-repeat center center; }
+	.modal {
+	  overflow-x: hidden;
+	  overflow-y: auto;
+	}
     </style>
 </head>
 <?php include_once 'partes/header.php'; ?>
@@ -116,6 +120,49 @@
         </tr>
     </tfoot>
 </table>
+</div>
+<div class="modal fade" id="modal-precios-descuentos-consulta" style="z-index: 2951!important">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Modificación de precio de la consulta</h4>
+			</div>
+			<form action="" method="POST" role="form">
+				<input type="hidden" name="id_vc" id="inputId_vc" class="form-control" value="">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<span class="label">Precio de la consulta</span>
+								<input type="number" name="precio_original" id="inputPrecio_original" class="form-control" value="" step="0.01" required="required">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<span class="label">Honorarios para el médico</span>
+								<input type="number" name="honorarios" id="inputHonorarios" class="form-control" value="" step="0.01" required="required">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<span class="label">Descuento</span>
+								<input type="number" name="descuento" id="inputDescuento" class="form-control" value="" step="0.01">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<span class="label">Motivo de esta modificación*</span>
+							<input type="text" name="motivo_alteracion" id="inputMotivo_alteracion" class="form-control" value="" required="required">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+					<button type="submit" class="btn btn-primary">Guardar cambios</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
 <!-- FIN Contenido -->  
 <?php include_once 'partes/footer.php'; ?>
@@ -249,7 +296,7 @@ function formatos(id_p, nombre_p){
 		},200);
 		
 		$('#myModal1').modal('show'); $('#myModal1').on('shown.bs.modal', function (e) { });
-		$('#myModal1').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal1").empty(); });
+		$('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1 .modal-content").remove(); $("#myModal1").empty(); });
 	} });
 }
 
@@ -303,7 +350,16 @@ function membresia(id_p, nombre_p, estatus_m, costo_m, periodo_m, fecha_i, fecha
 		});
 	}
 }
-
+function modifica_precio(id){
+	$("#modal-precios-descuentos-consulta #inputId_vc").val(id);
+	$.post("pacientes/files-serverside/dameVC.php", {id_vc: id}, function(res){
+		$("#modal-precios-descuentos-consulta #inputPrecio_original").val(res[2]);
+		$("#modal-precios-descuentos-consulta #inputDescuento").val(res[3]);
+		$("#modal-precios-descuentos-consulta #inputPrecio_original").attr("min", res[0]);
+		$("#modal-precios-descuentos-consulta #inputHonorarios").val(res[1]);
+		$("#modal-precios-descuentos-consulta").modal("show");
+	}, "json");
+}
 $(document).ready(function(e) {
 	//breadcrumb
 	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>RECEPCIÓN</li><li class="active"><strong>PACIENTES</strong></li>');
@@ -311,7 +367,22 @@ $(document).ready(function(e) {
 	$('body').popover({selector: '[data-toggle="popover"]', 'trigger': 'hover', 'placement': 'left'});
 	
 	$(document).on('focus', ':not(.popover)', function(){ $('.popover').popover('hide'); }); //$('[data-toggle="popover"]').popover({ });
-	
+	$("#modal-precios-descuentos-consulta form").submit(function(e){
+		e.preventDefault();
+		$.post("pacientes/files-serverside/modificaPrecioConsulta.php",
+			$("#modal-precios-descuentos-consulta form").serialize(),
+			function(res){
+				if(res == "1"){
+					$("#modal-precios-descuentos-consulta form")[0].reset();
+					$("#modal-precios-descuentos-consulta").modal("hide");
+					$('#clickmeCoS1').click();
+					totales_consultas();
+				}else{
+					alert("Error: "+res);
+				}
+			}
+		);
+	});
 	$('#my_search').removeClass('hidden'); 
 	
 	var tamP = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-$('#breadc').height()-204;
@@ -342,7 +413,7 @@ $(document).ready(function(e) {
 			"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
 			"sInfo": "PACIENTES FILTRADOS: _END_", "sInfoEmpty": "NINGÚN PACIENTE FILTRADO.", "sInfoFiltered": " TOTAL DE PACIENTES: _MAX_", "sSearch": "",
 			"oPaginate": { "sNext": "<span class='paginacionPrincipal'>Siguiente</span>", "sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;" }
-		},"iDisplayLength": 50, paging: true,
+		},"iDisplayLength": 25, paging: true,
 	});
 	
 	$('#clickme').click(function(e) { oTableP.draw(); }); window.setTimeout(function(){$('#clickme').click();},500);
@@ -476,7 +547,7 @@ function nuevo_paciente(){ //Para poder crear un usuario nuevo, el usuario actua
 			var i=0; $('#t_tDireccion').click(function(e) { if(i%2==0){i++; ubicacion('tren escenico cuautla morelos'); } });
 			$('#form-ficha_us').validator(); $('#form-ficha_us input').keyup(function(e) { $('#alerta_new_user').hide(); });
 		});
-		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
+		$('#myModal').on('hidden.bs.modal', function (e) { $("#myModal .modal-content").remove(); $("#myModal").empty(); });
 	} });
 }
 
@@ -626,7 +697,7 @@ function verPaciente(idP){
 		$('#myModal').on('shown.bs.modal', function(e){
 			$('#form-ficha_us').validator(); $('#form-ficha_us input').keyup(function(e) { $('#alerta_new_user').hide(); });
 		});
-		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
+		$('#myModal').on('hidden.bs.modal', function (e) { $("#myModal .modal-content").remove(); $("#myModal").empty(); });
 	} });
 }
 function siempre(la,lo){
@@ -1153,10 +1224,64 @@ function ver_ov(id_p, name_p, ref, temp){
 			});
 			$('#myModal4').on('hidden.bs.modal', function (e) { 
 				if(ref){ window.setTimeout(function(){historialPaciente($('#mi_histo').val());},300); }else{ }
-				$(".modal-content").remove(); $("#myModal4").empty();
+				$("#myModal4 .modal-content").remove(); $("#myModal4").empty();
 			});
 		} });
 	},300);
+}
+
+function forzarImpresion(id){
+	console.warn("imprimiendo: ", id);
+	$("#myModal1").load('pacientes/htmls/ticket.php', function( response, status, xhr ){ if(status=="success"){
+		//var tamP = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-144;
+		$('#contenedorAnteriores, #myAbonadoA').hide();
+		$("#myModal2").modal("hide");
+		var oTableT = $('#dataTableResumenT').DataTable({
+			serverSide:true,"sScrollY":'100%',ordering:false,searching:false,scrollCollapse:false,"scrollX": true,
+			"fnFooterCallback":function(nRow, aaData, iStart, iEnd, aiDisplay){ },scroller:false,responsive:false,
+			"aoColumns": [
+				{"bVisible": true}, {"bVisible": false}, {"bVisible": false}, {"bVisible": true}, {"bVisible": false}, {"bVisible": true}
+			],
+			"sDom": '<"filtroCt"><"infoCt"><"data_tCt"t>', 
+			deferRender: true, select: false, "processing": false, 
+			"sAjaxSource": "pacientes/js/datatable-serverside/totales_nvTi.php",
+			"fnServerParams": function (aoData, fnCallback) { 
+				var aleatorio = id; aoData.push(  {"name": "aleatorio", "value": aleatorio } );
+			},
+			"oLanguage": {
+				"sLengthMenu":"MONSTRANDO _MENU_ records per page", "sZeroRecords":"LA ORDEN DE VENTA ESTA VACIA",
+				"sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": " CONCEPTOS: _MAX_", "sSearch": "BUSCAR"
+			},"iDisplayLength": 50000, paging: false
+		});
+
+		var datosTi = {noAleatorio:id};
+		$.post('pacientes/files-serverside/datosTicketNV.php',datosTi).done(function(data){
+			var datosT = data.split(';}'); if(datosT[5]==''){datosT[5]=0;} //alert(data);
+			//para el ticket
+			$('#fechaT').text(datosT[0]);$('#referenciaT').text(datosT[1]);$('#pacienteT').text(datosT[2]);
+			$('#adicionalesT').text(datosT[10]);$('#totalT').text(datosT[4]);$('#pagoT').text(datosT[5]);
+			$('#saldoT').text(datosT[6]);$('#usuarioIT').text(datosT[7]);$('#fechaIT').text(datosT[8]);
+			$('#medicoAtendioIT').text(datosT[32]);
+			$('#horaIT').text(datosT[9]); $('#formaPagoT').text(datosT[11]);
+			$('#cantidadLetraT').text(nn(datosT[4])); $('#municipioS').text(datosT[16]);
+			$('#calleSucursal').text(datosT[19]); $('#coloniaSucursal').text(datosT[18]);
+			$('#cpSucursal').text(datosT[20]);$('#telefonoSucursal').text(datosT[21]);
+			$('#municipioSucursal').text(datosT[17]);$('#estadoSucursal').text(datosT[15]);
+			$('#sitioS').text(datosT[22]);$('#emailSucursal').text(datosT[23]);$('#descuentoT').text(datosT[24]);
+			$('#subTotalT').text(datosT[29]);
+			if(datosT[25]>0){
+				x='sucursales/documentos/files/'+datosT[26]+'.'+datosT[27]+'?'+Math.round(Math.random()*1000);
+				$('#myLogoS').html('<img src='+x+' width="150" style="border:5px none white; background-color:rgba(255, 255, 255, 1);">');
+			}
+			if(datosT[28]>0){ $('#myIva').removeClass('hidden'); }else{$('#myIva').addClass('hidden');}
+			$('#ivaT').text(datosT[28]); $('#abonosT').val(datosT[29]); $('#saldosT').val(datosT[30]);
+			
+			$('#imprimirTic').click(function(e){ $('#tablaTicket').css('font-size','8px').printElement();});
+		});
+		
+		$('#myModal1').modal('show');
+		$('#myModal1').on('hidden.bs.modal',function(e){ $("#myModal1 .modal-content").remove(); $("#myModal1").empty(); });
+	}});	
 }
 
 function nuevaVisita(idP, nombreP){
@@ -1316,7 +1441,7 @@ function nuevaVisita(idP, nombreP){
 							
 							$('#myModal1').modal('show');
 							$('#myModal1').on('shown.bs.modal',function(e){ });
-							$('#myModal1').on('hidden.bs.modal',function(e){ $(".modal-content").remove(); $("#myModal1").empty(); });
+							$('#myModal1').on('hidden.bs.modal',function(e){ $("#myModal1 .modal-content").remove(); $("#myModal1").empty(); });
 						}});					
 					});
 					return;
@@ -1581,7 +1706,7 @@ function nuevaVisita(idP, nombreP){
 			var rowData = oTableCo1.rows( indexes ).data().toArray(); //alert(rowData[0][6]); //alert(rowData[0][9]);
 			if(rowData[0][8]==undefined){var coveni = 0, ocu = 0;}else{var coveni = rowData[0][8], ocu = rowData[0][9];}
 			subirEstudioC1(rowData[0][4], $('#aleatorio_ov').val(), idP, $('#id_usr_reg').val(), $('#medico_c1').val(),
-				$('#mi_id_convenioC1').val(),$('#sucursal_fi_p').val(),$('#observacionesC1_NV').val(),2,rowData[0][2], 2, coveni, ocu
+				$('#mi_id_convenioC1').val(),$('#sucursal_fi_p').val(),$('#observacionesC1_NV').val(),2,rowData[0][2], 2, coveni, ocu, rowData[0][6]
 			); 
 			$('.desc_cargo_c1').change(function(e){nota_desc_cargo_c1();}); $('.desc_cargo_c1').keyup(function(e){nota_desc_cargo_c1();});
 		} );
@@ -1589,7 +1714,7 @@ function nuevaVisita(idP, nombreP){
 		var oTableCoS1 = $('#dataTableCmS1').DataTable({
 			serverSide: true,"sScrollY": 120, ordering: false, searching: true, scrollCollapse: false,
 			"scrollX":true, "fnFooterCallback":function(nRow, aaData, iStart, iEnd, aiDisplay){}, scroller:false, responsive:true,
-			"aoColumns":[{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true}],
+			"aoColumns":[{"bVisible":true, width:"3%"},{"bVisible":true, width:"50%"},{"bVisible":true, width:"20%"},{"bVisible":true, width:"4%"},{"bVisible":true, width:"4%"},{"bVisible":true, width:"4%"},{"bVisible":true, width:"10%"},{"bVisible":true, width:"5%"}],
 			"sDom": '<"">r<""t><""S><"">', 
 			deferRender: true, select: false, "processing": false, "sAjaxSource": "pacientes/js/datatable-serverside/consultas_seleccionadas.php",
 			"fnServerParams": function (aoData, fnCallback) {
@@ -1675,7 +1800,7 @@ function nuevaVisita(idP, nombreP){
 		});
 		$('#myModal4').on('hidden.bs.modal', function (e) { 
 			//if(ref){ window.setTimeout(function(){historialPaciente($('#mi_histo').val());},300); }else{ }
-			$(".modal-content").remove(); $("#myModal4").empty();
+			$("#myModal4 .modal-content").remove(); $("#myModal4").empty();
 		});
 	} });
 }
@@ -1742,7 +1867,9 @@ function borrarItemNVC1(idConcepto){
 	$.post('pacientes/files-serverside/eliminarItem.php',datosBINV).done(function( data ) { 
 	if (data==1){ $('#clickmeCo1,#clickmeCoS1').click();
 		var datos={aleatorio:$('#aleatorio_ov').val()}
-		$.post('pacientes/files-serverside/sumar_precios_consultas.php',datos).done(function(data){
+		$.post('pacientes/files-serverside/sumar_precios_consultas.php',datos, function(dataT){
+			var data = dataT[0];
+			$("#da_descuento_c1").val(dataT[1]);
 			if(!parseFloat(data)){data=0;}else{data=data;}
 			if($('#hay_iva_ov').val()==1){$('#cb_facturada_ov').click();}
 			var pd = $('#po_descuento_c1').val(), ce = $('#cargo_extra_c1').val(), dd = $('#da_descuento_c1').val();
@@ -1753,7 +1880,7 @@ function borrarItemNVC1(idConcepto){
 			if(parseFloat(pd)){ $('#to_descuento_c1').val( (parseFloat(data)*parseFloat(pd))/100 ); }
 			else if(parseFloat(dd)){$('#to_descuento_c1').val(dd);}else{$('#to_descuento_c1').val(0);}
 			calcular_totales();
-		});
+		}, "json");
 	} else{alert(data);} });
 }
 function borrarItemNVP(idConcepto){
@@ -1813,10 +1940,10 @@ function subirEstudioS(idE,noAleatorio,idP, idU, idMedico, idConvenio, idSucursa
 		}else{alert(data);} 
 	});
 }
-function subirEstudioC1(idE,noAleatorio,idP, idU, idMedico, idConvenio, idSucursal, observaciones, departamento,p,t,id_con_bene,ocup){
+function subirEstudioC1(idE,noAleatorio,idP, idU, idMedico, idConvenio, idSucursal, observaciones, departamento,p,t,id_con_bene,ocup, honor){
 	var datosSENV = {noAleatorio:noAleatorio, idP:idP, idU:idU, idMedico:idMedico, idE:idE, agendar:$('#agendarOV').val(),
 		idConvenio:idConvenio, idSucursal:idSucursal, observaciones:observaciones, departamento:departamento,
-		precioTo:p,tipoConcepto:t,id_con_bene:id_con_bene,fechaC:$('#fichaNV').val()+' '+$('#horaNV').val(), ocupado:ocup
+		precioTo:p,tipoConcepto:t,id_con_bene:id_con_bene,fechaC:$('#fichaNV').val()+' '+$('#horaNV').val(), ocupado:ocup, honor: honor
 	}
 	$.post('pacientes/files-serverside/guardarEstudioNV.php',datosSENV).done(function( data ) { 
 		if(data==1){ $('#clickmeCo1,#clickmeCoS1').click();
@@ -2028,13 +2155,16 @@ function totales_consultas(precio, pd, dd, ce){ //alert(precio+';'+pd+';'+dd+';'
 	if(parseFloat(ce)){var cargo_extra = ce;}else{var cargo_extra = 0;} //$('#precio_i, #total_i').val(precio);
 	//Sumar los precios
 	var datos={aleatorio:$('#aleatorio_ov').val()}
-	$.post('pacientes/files-serverside/sumar_precios_consultas.php',datos).done(function(data){
+	$.post('pacientes/files-serverside/sumar_precios_consultas.php',datos, function(dataT){
+		var data = dataT[0];
+		$("#da_descuento_c1").val(dataT[1]);
+		dd = dataT[1];
 		if(!parseFloat(data)){data=0;}else{data=data;}
 		$('#precio_c1').val(data);
 		if(parseFloat(pd)){ $('#to_descuento_c1').val( (parseFloat(data)*parseFloat(pd))/100 ); }
 		else if(parseFloat(dd)){$('#to_descuento_c1').val(dd);}else{$('#to_descuento_c1').val(0);}
 		calcular_totales();
-	});
+	}, "json");
 }
 function totales_productos(precio, pd, dd, ce){ //alert(precio+';'+pd+';'+dd+';'+ce);
 	if($('#hay_iva_ov').val()==1){$('#cb_facturada_ov').click();} 
@@ -2202,7 +2332,7 @@ function historialPaciente(dataH){
 				
 		$('#myModal2').modal('show');
 		$('#myModal2').on('shown.bs.modal', function (e){ });
-		$('#myModal2').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal2").empty(); });
+		$('#myModal2').on('hidden.bs.modal', function (e) { $("#myModal2").empty(); });
 	} });//fin de load
 }
 function format(d){ //alert(d[2]);
@@ -2272,6 +2402,6 @@ function cancelar_ov(idVC,nombreP,refe){
 function initMap() { }
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbPi4G3-wjEbEt_77OmTBhxWvmR23ds9Q&signed_in=true&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKRXUg9f2KUavJ57mlSwl5DCBcRD_hICA&callback=initMap"
 	async defer>
 </script>

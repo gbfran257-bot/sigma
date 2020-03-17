@@ -133,7 +133,7 @@ $(document).ready(function(e) {
 			"sInfo": "SERVICIOS FILTRADOS: _END_",
 			"sInfoEmpty": "NINGÚN SERVICIO FILTRADO.", "sInfoFiltered": " TOTAL DE SERVICIOS: _MAX_", "sSearch": "",
 			"oPaginate": { "sNext": "<span class='paginacionPrincipal'>Siguiente</span>", "sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;" }
-		},"iDisplayLength": 50000, paging: false,
+		},"iDisplayLength": 50000, paging: false
 	});
 	
 	$('#clickme').click(function(e) { oTableP.draw(); }); window.setTimeout(function(){$('#clickme').click();},500);
