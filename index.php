@@ -41,18 +41,246 @@
     <link href="DataTables-1.10.13/media/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.10.13/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.10.13/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet">
+    <style>
+        #inicio-menuPrincipal .menu{
+            cursor: pointer;
+        }
+    </style>
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
 <p><h1 class="text-center text-primary"><?php echo $usuario_bienvenida; ?></h1></p>
+<div style="width:80%" class="center-block">
+    <br>
+    <div class="row hidden animated activo" id="inicio-menuPrincipal">
+        <div class="col-md-2">
+            <img src="imagenes/ig/Recepcion-01.png" class="img-responsive fadeInLeft wow menu" data-id="#inicio-menuRecepcion" data-wow-delay="0.1s">
+        </div>
+        <div class="col-md-2">
+            <img src="imagenes/ig/Consultas1-01.png" class="img-responsive fadeInDown wow menu" data-id="#inicio-menuConsultas" data-wow-delay="0.2s">
+        </div>
+        <div class="col-md-2">
+            <a href="enfermeria.php"><img src="imagenes/ig/Enfermeria-01.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <img src="imagenes/ig/Hospital-01.png" class="img-responsive fadeInLeft wow menu" data-id="#inicio-menuHospital" data-wow-delay="0.25s">
+        </div>
+        <div class="col-md-2">
+            <img src="imagenes/ig/Imagen-01.png" class="img-responsive fadeIn wow menu" data-id="#inicio-menuImagen" data-wow-delay="0.35s">
+        </div>
+        <div class="col-md-2">
+            <img src="imagenes/ig/Lab-01.png" class="img-responsive fadeInRight wow menu" data-id="#inicio-menuLaboratorio" data-wow-delay="0.25s">
+        </div>
+        <div class="col-md-2">
+            <img src="imagenes/menu/_servicios.png" class="img-responsive fadeInLeft wow menu" data-id="#inicio-menuServicios" data-wow-delay="0.1s">
+        </div>
+        <div class="col-md-2">
+            <img src="imagenes/ig/Farmacia-01.png" class="img-responsive fadeInUp wow menu" data-id="#inicio-menuFarmacia" data-wow-delay="0.2s">
+        </div>
+        <div class="col-md-2">
+            <img src="imagenes/ig/Admon-01.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s">
+        </div>
+    </div>
+    <div class="row hidden animated" id="inicio-menuRecepcion">
+        <div class="col-md-12 text-center">
+            <h1>Recepción</h1>
+        </div>
+        <div class="col-md-2">
+            <a href="pacientes.php"><img src="imagenes/ig/Pacientes-01.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <img src="imagenes/ig/CorteCaja-01.png" class="img-responsive fadeInDown wow menu" data-id="#inicio-menuRecepcionCorte" data-wow-delay="0.2s">
+        </div>
+        <div class="col-md-2">
+            <a href="agenda.php"><img src="imagenes/ig/Agenda-01.png" class="img-responsive fadeIn wow menu" data-wow-delay="0.25s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="productividad_rec.php"><img src="imagenes/ig/Productividad-01.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <img src="imagenes/ig/Inicio-01.png" class="img-responsive fadeInUp wow menu" data-wow-delay="0.3s" data-id="#inicio-menuPrincipal">
+        </div>
+    </div>
+    <div class="row hidden animated" id="inicio-menuConsultas">
+        <div class="col-md-12 text-center">
+            <h1>Consultas</h1>
+        </div>
+        <div class="col-md-2">
+            <a href="consultas.php"><img src="imagenes/ig/ConsultasMedicas-01.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="catalogo_consultas.php"><img src="imagenes/ig/Catalogos-01.png" class="img-responsive fadeInDown wow menu" data-wow-delay="0.2s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="productividad_cst.php"><img src="imagenes/ig/Productividad-01.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <img src="imagenes/ig/Inicio-01.png" class="img-responsive fadeInUp wow menu" data-wow-delay="0.3s" data-id="#inicio-menuPrincipal">
+        </div>
+    </div>
+    <div class="row hidden animated" id="inicio-menuHospital">
+        <div class="col-md-12 text-center">
+            <h1>Hospital</h1>
+        </div>
+        <div class="col-md-2">
+            <a href="hospitalizacion.php"><img src="imagenes/ig/Hospital-01.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="camas.php"><img src="imagenes/ig/Camas-01.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <img src="imagenes/ig/Inicio-01.png" class="img-responsive fadeInUp wow menu" data-wow-delay="0.2s" data-id="#inicio-menuPrincipal">
+        </div>
+    </div>
+    <div class="row hidden animated" id="inicio-menuImagen">
+        <div class="col-md-12 text-center">
+            <h1>Imagen</h1>
+        </div>
+        <div class="col-md-2">
+            <a href="imagen.php"><img src="imagenes/ig/Imagenologia-01.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="endoscopia.php"><img src="imagenes/ig/Endoscopia-01.png" class="img-responsive fadeInDown wow menu" data-wow-delay="0.2s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="ultrasonido.php"><img src="imagenes/menu/_ultrasonido.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="colposcopia.php"><img src="imagenes/ig/Colposcopia-01.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="catalogo_imagen.php"><img src="imagenes/ig/Catalogos-01.png" class="img-responsive fadeInDown wow menu" data-wow-delay="0.2s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="productividad_img.php"><img src="imagenes/ig/Productividad-01.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <img src="imagenes/ig/Inicio-01.png" class="img-responsive fadeInUp wow menu" data-wow-delay="0.3s" data-id="#inicio-menuPrincipal">
+        </div>
+    </div>
+    <div class="row hidden animated" id="inicio-menuLaboratorio">
+        <div class="col-md-12 text-center">
+            <h1>Laboratorios</h1>
+        </div>
+        <div class="col-md-2">
+            <a href="laboratorio.php"><img src="imagenes/ig/EstudiosLab-01.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="bases_lab.php"><img src="imagenes/ig/Bases-01.png" class="img-responsive fadeInDown wow menu" data-wow-delay="0.2s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="bitacora_lab.php"><img src="imagenes/ig/Bitacoras-01.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="catalogo_laboratorio.php"><img src="imagenes/ig/Catalogos-01.png" class="img-responsive fadeInDown wow menu" data-wow-delay="0.2s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="productividad_lab.php"><img src="imagenes/ig/Productividad-01.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <img src="imagenes/ig/Inicio-01.png" class="img-responsive fadeInUp wow menu" data-wow-delay="0.3s" data-id="#inicio-menuPrincipal">
+        </div>
+    </div>
+    <div class="row hidden animated" id="inicio-menuServicios">
+        <div class="col-md-12 text-center">
+            <h1>Servicios</h1>
+        </div>
+        <div class="col-md-2">
+            <a href="servicios.php"><img src="imagenes/menu/_servicios_m.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="catalogo_servicios.php"><img src="imagenes/ig/Catalogos-01.png" class="img-responsive fadeInDown wow menu" data-wow-delay="0.2s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="productividad_ser.php"><img src="imagenes/ig/Productividad-01.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <img src="imagenes/ig/Inicio-01.png" class="img-responsive fadeInUp wow menu" data-wow-delay="0.3s" data-id="#inicio-menuPrincipal">
+        </div>
+    </div>
+    <div class="row hidden animated" id="inicio-menuFarmacia">
+        <div class="col-md-12 text-center">
+            <h1>Farmacia</h1>
+        </div>
+        <div class="col-md-2">
+            <a href="catalogo_medicamentos.php"><img src="imagenes/ig/Medicamentos-01.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="#"><img src="imagenes/ig/Productos-01.png" class="img-responsive fadeInDown wow menu" data-wow-delay="0.2s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="#"><img src="imagenes/ig/CorteCaja-01.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="#"><img src="imagenes/menu/_stock.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="productividad_far.php"><img src="imagenes/ig/Productividad-01.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <img src="imagenes/ig/Inicio-01.png" class="img-responsive fadeInUp wow menu" data-wow-delay="0.3s" data-id="#inicio-menuPrincipal">
+        </div>
+    </div>
+    <div class="row hidden animated" id="inicio-menuRecepcionCorte">
+        <div class="col-md-12 text-center">
+            <h1>Recepción -> Corte de caja</h1>
+        </div>
+        <div class="col-md-2">
+            <a href="ordenes_venta_r.php"><img src="imagenes/ig/OrdenVenta-01.png" class="img-responsive fadeInDown wow menu" data-wow-delay="0.2s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="pagos_usuario_r.php"><img src="imagenes/ig/PagosPendientes-01.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="resumen_cc_r.php"><img src="imagenes/menu/_resumen_ventas.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"></a>
+        </div>
+
+        <div class="col-md-2">
+            <img src="imagenes/ig/Inicio-01.png" class="img-responsive fadeInUp wow menu" data-wow-delay="0.3s" data-id="#inicio-menuPrincipal">
+        </div>
+    </div>
+</div>
 <!-- FIN Contenido -->  
 <?php include_once 'partes/footer.php'; ?>
-
+<script src="js/plugins/wow/wow.min.js"></script>
 <script>
+    function reset($elem) {
+        $elem.before($elem.clone(true));
+        var $newElem = $elem.prev();
+        $elem.remove();
+        return $newElem;
+    } // end reset()
+
+    $("#button").click(function () {
+        var $this = $(this);
+        $this.removeClass();
+        $this = reset($this);
+        $this.addClass("fadeInDown");
+    });
+    var esto_;
 $(document).ready(function(e) {
-	//breadcrumb
+    //breadcrumb
+   new WOW().init();
 	$('#breadc').html('<li class="active"><strong>HOME</strong></li>');
 	
     $('#container').height($('#referencia').height()-$('#my_nav').height()-$('#my_footer').height()-$('#breadc').height()-7);
+    $("#inicio-menuPrincipal").removeClass("hidden");
+    $(".menu").click(function(){
+        if($(this).attr("data-id") != undefined){
+            esto_ = $(this).attr("data-id");
+            $(".activo").addClass("fadeOutLeft");
+            console.log(esto_);
+            setTimeout(function(){
+                $(".activo").addClass("hidden");
+                $(".activo").removeClass("fadeOutLeft");
+                $(".activo .menu").each(function(e){
+                    reset($(this));
+                });
+                $(".activo").removeClass("activo");
+                $(esto_).removeClass("hidden");
+                $(esto_).addClass("activo");
+            }, 200);
+        }
+    });
 });
 </script>

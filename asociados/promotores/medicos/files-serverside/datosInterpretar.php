@@ -77,28 +77,28 @@ require("../../../../funciones/php/values.php");
 	$idPP = sqlValue($referenciaPacs, "text");
 	
 	//Seleccionamos el id del paciente en la tabla patient de la DB del ipacs
-	mysql_select_db($database_ipacs, $ipacs);
+	//mysql_select_db($database_ipacs, $ipacs);
   
-	$resultP1 = mysql_query("SELECT pk from patient where pat_id = $idPP ", $ipacs) or die (mysql_error());
- 	$rowP1 = mysql_fetch_row($resultP1); $idPP1 = sqlValue($rowP1[0], "int");//Is id de patient $idPP
+	$resultP1 = pg_query($ipacs, "SELECT pk from patient where pat_id = $idPP ");
+ 	$rowP1 = pg_fetch_row($resultP1); $idPP1 = sqlValue($rowP1[0], "int");//Is id de patient $idPP
 	
 	//Seleccionamos el número de imágenes en el estudio completo de la DB del ipacs
-	mysql_select_db($database_ipacs, $ipacs);
+	//mysql_select_db($database_ipacs, $ipacs);
   
-	$resultNI = mysql_query("SELECT num_instances from study where patient_fk = $idPP1 ", $ipacs) or die (mysql_error());
- 	$rowNI = mysql_fetch_row($resultNI); $ni = sqlValue($rowNI[0], "int");
+	$resultNI = pg_query($ipacs, "SELECT num_instances from study where patient_fk = $idPP1 ");
+ 	$rowNI = pg_fetch_row($resultNI); $ni = sqlValue($rowNI[0], "int");
 	
 	$i = 0; $j=0;
 	$lista = '';
 	
 	//Seleccionamos el study_iuid de la tabla de study del ipacs para pasarlo al osirix
-	mysql_select_db($database_ipacs, $ipacs);
+	//mysql_select_db($database_ipacs, $ipacs);
   
 	$consulta = "SELECT i.sop_iuid as mi, s.series_iuid as ms, e.study_iuid as me from instance i left join series s on s.pk = i.series_fk left join study e on e.pk = s.study_fk left join patient p on p.pk = e.patient_fk where p.pk = $idPP1";
-	$query = mysql_query($consulta) or die (mysql_error());
+	$query = pg_query($ipacs, $consulta);
 	
 	$c = 0;
-	while ($fila = mysql_fetch_array($query)) { $c++;
+	while ($fila = pg_fetch_array($query)) { $c++;
 		//$lista = $lista.'&studyUID='.$fila['me'].'&seriesUID='.$fila['ms'].'&objectUID='.$fila['mi'].'&contentType=application%2Fdicom&transferSyntax=1.2.840.10008.1.2.1'."'";
 		//$lista = '"'.'osirix://?methodName=DownloadURL&amp;Display=YES&amp;URL='."'".'http://manantiales.no-ip.biz:8080/wado?requestType=WADO&studyUID='.$fila['me'].'&seriesUID='.$fila['ms'].'&objectUID='.$fila['mi'].'&contentType=application%2Fdicom&transferSyntax=1.2.840.10008.1.2.1'."'".'"';
 		$lista = '"'.'osirix://?methodName=DownloadURL&amp;Display=YES&amp;URL='."'".'http://'.$host.':8080/wado?requestType=WADO&studyUID='.$fila['me'].'&seriesUID='.$fila['ms'].'&objectUID='.$fila['mi'].'&contentType=application%2Fdicom&transferSyntax=1.2.840.10008.1.2.1'."'".'"';

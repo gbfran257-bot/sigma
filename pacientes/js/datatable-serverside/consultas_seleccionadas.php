@@ -1,6 +1,6 @@
 <?php
 require("../../../Connections/horizonte.php");
-	$aColumns = array('vc.id_vc','concat(e.concepto_to," (",a.nombre_a,")")','concat(u.nombre_u," ", u.apaterno_u)', 'vc.precio_vc', 'c.convenio_cv', 'vc.id_vc', 'vc.id_vc', 'e.id_to' );
+	$aColumns = array('vc.id_vc','concat(e.concepto_to," (",a.nombre_a,")")','concat(u.nombre_u," ", u.apaterno_u)', 'vc.precio_original', 'vc.descuento', 'vc.precio_vc', 'c.convenio_cv', 'vc.id_vc', 'vc.id_vc', 'e.id_to' );
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos vc');
@@ -129,9 +129,12 @@ require("../../../Connections/horizonte.php");
             else if ( $aColumns[$i] != ' ' ) { $row[] = $aRow[$i]; }
         }
 		$row[0]="<span lang='$row[7]'>$hh</span>";
-		if($row[4]==''){$row[4]='PARTICULAR';}
+        $row[3] = "<a onclick='modifica_precio($row[7])'>".$row[3]."</a>";
+        $row[4] = "<a onclick='modifica_precio($row[7])'>".$row[4]."</a>";
+        $row[5] = "<a onclick='modifica_precio($row[7])'>".$row[5]."</a>";
+		if($row[6]==''){$row[6]='PARTICULAR';}
 		
-		$row[5] = "<div align='center'><button type='button' class='btn btn-xs btn-danger' onClick='borrarItemNVC1(this.id);' id='$row[6]'><i class='fa fa-trash' aria-hidden='true'></i></button></div>";
+		$row[7] = "<div align='center'><button type='button' class='btn btn-xs btn-danger' onClick='borrarItemNVC1(this.id);' id='$row[8]'><i class='fa fa-trash' aria-hidden='true'></i></button></div>";
 		
 		$output['aaData'][] = $row;
     }

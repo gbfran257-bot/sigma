@@ -171,7 +171,8 @@ $(document).ready(function(e) {
 	
 });
 function verSucursal(id_s, nombre_s){
-	$("#myModal").load('sucursales/htmls/fichaSucursal.php',function(response,status,xhr){if(status=="success"){ var datosF = {id:1}
+	$("#myModal").load('sucursales/htmls/fichaSucursal.php',function(response,status,xhr){if(status=="success"){
+		$(".insers").load('genera/inserciones.php', function( response, status, xhr ) { if ( status == "success" ) { } }); var datosF = {id:1}
 		$.post('sucursales/files-serverside/formatos_base.php',datosF).done(function(data){ var formato_x = data.split('{*]-[}');
 			tinymce.remove("#input"); tinymce.remove("#input1"); tinymce.remove("#input2"); tinymce.remove("#input3"); tinymce.remove("#input4");
 			tinymce.remove("#input5"); tinymce.remove("#input6"); tinymce.remove("#input7");
@@ -754,6 +755,7 @@ function verSucursal(id_s, nombre_s){
 }
 function nuevaSucursal(){
 	$("#myModal").load('sucursales/htmls/fichaSucursal.php', function( response, status, xhr ){ if(status=="success"){ var datosF = {id:1}
+		$(".insers").load('genera/inserciones.php', function( response, status, xhr ) { if ( status == "success" ) { } });
 		$.post('sucursales/files-serverside/formatos_base.php',datosF).done(function(data){ var formato_x = data.split('{*]-[}');
 			tinymce.remove("#input"); tinymce.remove("#input1"); tinymce.remove("#input2"); tinymce.remove("#input3"); tinymce.remove("#input4");
 			tinymce.remove("#input5"); tinymce.remove("#input6"); tinymce.remove("#input7");
@@ -1464,6 +1466,6 @@ function cargar_editores(){
 }
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbPi4G3-wjEbEt_77OmTBhxWvmR23ds9Q&signed_in=true&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKRXUg9f2KUavJ57mlSwl5DCBcRD_hICA&callback=initMap"
 	async defer>
 </script>

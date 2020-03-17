@@ -197,7 +197,7 @@ require_once("../../funciones/php/values.php");
 		$no_temp = '"'.$row[19].'"'; $no_refe = '"'.$row[2].'"';
 		
 		//$row[2] = "<button type='button' class='btn btn-link btn-xs' onClick='ver_ov($id_pa, $nombreP, $no_refe, $no_temp);'>$row[2]</button>";
-		$row[2] = "<button type='button' class='btn btn-link btn-xs'>$row[2]</button>";
+		$row[2] = "<a type='button' class='btn btn-link btn-xs' onclick='forzarImpresion(\"$row[19]\")'>$row[2]</a>";
 		
 		$row[6] = $rowTabo[0];
 		

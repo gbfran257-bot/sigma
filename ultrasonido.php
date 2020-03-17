@@ -181,7 +181,7 @@ function fichaEstudio(e,i,idPx1a,id_s){ //e es el estatus del estudio e i es el 
 		if(e>2 & e<5){//Realizados 3 y capturados 4
 			var dato = { idE:i, idU:$('#id_user').val(), nova:1 }
 			$.post('imagen/files-serverside/datosInterpretarEn.php', dato).done(function( data ) { //alert(data);
-				tinymce.init({ 
+				tinymce.init({
 					selector:'#tInterpretacion #input',resize:false,height:$('#myModal').height()*0.63,theme: "modern",
 					plugins: 
 						"table, charmap, emoticons, textcolor colorpicker, hr, image imagetools, image, insertdatetime, lists, noneditable, pagebreak, paste, preview, print, visualblocks, wordcount, code, importcss", table_default_styles: { width: '100%' },
@@ -462,7 +462,38 @@ function fichaEstudio(e,i,idPx1a,id_s){ //e es el estatus del estudio e i es el 
 			$('#guardarE, #finalizarE, #dictado').removeClass('hidden');
 			var dato = { idE:i, idU:$('#id_user').val() }
 			$.post('imagen/files-serverside/datosInterpretarEn.php', dato).done(function( data ) { //alert(data);
-				var datos = data.split(';*-'); window.setTimeout(function(){ tinymce.get("input").setContent(datos[5]);},500);
+				var datos = data.split(';*-');
+				window.setTimeout(function(){
+					tinymce.init({
+						selector:'#tInterpretacion #input',resize:false,height:$('#myModal').height()*0.63,theme: "modern",
+						plugins: 
+							"table, charmap, emoticons, textcolor colorpicker, hr, image imagetools, image, insertdatetime, lists, noneditable, pagebreak, paste, preview, print, visualblocks, wordcount, code, importcss", table_default_styles: { width: '100%' },
+						relative_urls: true, image_advtab: true, menubar: false, plugin_preview_width: $('#myModal').width()*0.8,
+						toolbar: 
+							"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor  | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP | mybutton | mybutton1 |",
+						insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
+						paste_data_images: true, paste_as_text: true, browser_spellcheck: true, 
+						force_br_newlines : true, force_p_newlines : false, orced_root_block : '', 
+						setup: function(editor){
+							editor.addButton( 'mybutton', {
+									text: 'INSERTAR IMGS', icon: false,
+									onclick:function(){
+										var datos = {idVC:i}
+										$.post('imagen/files-serverside/insertarIMGsUSG.php',datos).done(function(data){editor.insertContent(data);});
+									}
+							});
+							editor.addButton( 'mybutton1', { text: 'DICTAR', icon: false, onclick:function(){ procesarV(); } });
+							editor.addButton( 'mybuttonVP', {
+								text: 'VPI', icon: false, tooltip: 'Vista previa de impresión',
+								onclick:function(){
+									var res = tinyMCE.get("input").getContent().replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); //alert(res);
+									$('#dpa_imprimir1').html(res).css('background-image','url(imagenes/vista_previa.png)').css('background-size','65%');
+									$('#dpa_imprimir1').html(res); $('#dpa_imprimir1').printElement();
+								}
+							});
+						}
+					}); tinymce.get("input").setContent(datos[5]);
+				},500);
 			});
 		}
 		if(e>=4){ }

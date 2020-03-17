@@ -257,8 +257,8 @@ function fichaEstudio(idE, nameS){
 				$('#idUsuarioE').val($('#id_user').val()); $('#idEstudioE').val(idE);
 
 				$('#nombreE').val(datosI[0]); $('#precioE').val(datosI[2]); $('#precioUrgenciaE').val(datosI[3]);
-				$('#precioEM').val(datosI[5]); $('#precioUrgenciaM').val(datosI[6]); $('#precioES').val(datosI[7]);
-				$('#precioUrgenciaS').val(datosI[8]); //window.setTimeout(function(){tinymce.get('input').setContent(datosI[4]);},400);
+				$('#precioME').val(datosI[10]); $('#precioUrgenciaME').val(datosI[11]); $('#precioES').val(datosI[7]);
+				$('#precioUrgenciaS').val(datosI[8]); $('#precioHO').val(datosI[12]); $('#precioEM').val(datosI[13]); $('#precioUrgenciaM').val(datosI[14]);
 			});
 
 			$('#formEstudio').validator().on('submit', function (e) {

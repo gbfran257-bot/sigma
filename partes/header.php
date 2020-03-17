@@ -9,9 +9,15 @@
 
 <?php
 	mysql_select_db($database_horizonte, $horizonte);
- 	$resultS=mysql_query("SELECT sexo_u from usuarios where id_u = '$_SESSION[id]' limit 1",$horizonte) or die (mysql_error());
- 	$rowS = mysql_fetch_row($resultS);
+ 	$resultS=mysql_query("SELECT sexo_u,permisos_u from usuarios where id_u = '$_SESSION[id]' limit 1",$horizonte) or die (mysql_error());
+    $rowS = mysql_fetch_row($resultS);
+    $permisos = $rowS[1]; 
 ?>
+
+<style>
+#container{ height: 90%; }
+#myModal20{ max-height: 100%;overflow-y: auto; }
+</style>
 
 <div id="referencia" style="display:none; position:fixed; width:100%; height:100%; z-index:1000000000000000000000;"></div>
 
@@ -41,162 +47,193 @@
             <li class="active">
                 <a href="index.php" id="m_home"> <i class="fa fa-home"></i> <span class="nav-label">HOME</span> </a>
             </li>
-            <li class=""> <!--class="active" -->
-                <a href="" id="m_recepcion">
-                    <i class="fa fa-address-book"></i> <span class="nav-label">RECEPCIÓN</span><span class="fa arrow"></span>
-                </a>
-                <ul class="nav nav-second-level collapse">
-                    <li class=""><a href="pacientes.php" id="m_r_pacientes"><i class="fa fa-users"></i> PACIENTES</a></li>
-					<li>
-                        <a href="#"><i class="fa fa-dollar"></i> CORTE DE CAJA <span class="fa arrow"></span></a>
-                        <ul class="nav nav-third-level collapse">
-                            <li style="white-space:nowrap;"><a href="ordenes_venta_r.php"><i class="fa fa-shopping-cart"></i> ÓRDENES DE VENTA</a></li>
-                            <li style="white-space:nowrap;"><a href="pagos_usuario_r.php"><i class="fa fa-dollar"></i> PAGOS</a></li>
-							<li style="white-space:nowrap;"><a href="resumen_cc_r.php"><i class="fa fa-dollar"></i> RESUMEN</a></li>
+            <?php if(substr($permisos,0,7) != "0000000"){?>
+                <li class=""> <!--class="active" -->
+                    <a href="" id="m_recepcion">
+                        <i class="fa fa-address-book"></i> <span class="nav-label">RECEPCIÓN</span><span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level collapse">
+                    <?php if($permisos[0]){?><li class=""><a href="pacientes.php" id="m_r_pacientes"><i class="fa fa-users"></i> PACIENTES</a></li> <?php }?>
+                        <?php if(substr($permisos,1,3) != "000"){ ?>
+                            <li>
+                                <a href="#"><i class="fa fa-dollar"></i> CORTE DE CAJA <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level collapse">
+                                    <?php if($permisos[1]){?><li style="white-space:nowrap;"><a href="ordenes_venta_r.php"><i class="fa fa-shopping-cart"></i> ÓRDENES DE VENTA</a></li><?php }?>
+                                    <li style="white-space:nowrap;"><a href="ordenes_venta_agenda.php"><i class="fa fa-shopping-cart"></i> ÓRDENES AGENDADAS</a></li>
+                                    <?php if($permisos[2]){?><li style="white-space:nowrap;"><a href="pagos_usuario_r.php"><i class="fa fa-dollar"></i> PAGOS</a></li><?php }?>
+                                    <?php if($permisos[3]){?><li style="white-space:nowrap;"><a href="resumen_cc_r.php"><i class="fa fa-dollar"></i> RESUMEN</a></li><?php }?>
+                                </ul>
+                            </li>
+                        <?php }?>
+                        <?php if($permisos[4]){?> <li><a href="agenda.php"><i class="fa fa-calendar"></i> AGENDA</a></li> <?php }?>
+                        <?php if($permisos[5]){?> <li style="white-space:nowrap;"><a href="membresias.php"><i class="fa fa-address-card"></i> MEMBRESÍAS</a></li> <?php }?>
+                        <?php if($permisos[6]){?><li style="white-space:nowrap;"><a href="productividad_rec.php"><i class="fa fa-line-chart"></i> PRODUCTIVIDAD</a></li> <?php }?>
+                    </ul>
+                </li>
+            <?php }?>
+            <?php if($_SESSION['MM_UserGroup']!=14){ ?>
+                <?php if(substr($permisos,7,3) != "000"){?>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-stethoscope"></i> <span class="nav-label">CONSULTAS</span><span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level collapse">
+                            <?php if($permisos[7]){?> <li style="white-space:nowrap;"><a href="consultas.php"><i class="fa fa-user-md"></i> CONSULTAS MÉDICAS</a></li> <?php }?>
+                            <li><a href="agenda_consultas.php"><i class="fa fa-calendar"></i> AGENDA CONSULTAS</a></li>
+                            <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>-->
+                            <?php if($permisos[8]){?> <li><a href="catalogo_consultas.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li> <?php }?>
+                            <?php if($permisos[9]){?> <li><a href="productividad_cst.php"><i class="fa fa-list-alt"></i> PRODUCTIVIDAD</a></li> <?php }?>
+                            <!--<li><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
                         </ul>
                     </li>
-                    <li><a href="agenda.php"><i class="fa fa-calendar"></i> AGENDA</a></li>
-                    <li style="white-space:nowrap;"><a href="membresias.php"><i class="fa fa-address-card"></i> MEMBRESÍAS</a></li>
-                    <li style="white-space:nowrap;"><a href="productividad_rec.php"><i class="fa fa-line-chart"></i> PRODUCTIVIDAD</a></li>
-                </ul>
-            </li>
-            <?php if($_SESSION['MM_UserGroup']!=14){ ?>
-            <li>
-                <a href="#">
-                    <i class="fa fa-stethoscope"></i> <span class="nav-label">CONSULTAS</span><span class="fa arrow"></span>
-                </a>
-                <ul class="nav nav-second-level collapse">
-                    <li style="white-space:nowrap;"><a href="consultas.php"><i class="fa fa-user-md"></i> CONSULTAS MÉDICAS</a></li>
-                    <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>-->
-                    <li><a href="catalogo_consultas.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li>
-					<li><a href="productividad_cst.php"><i class="fa fa-list-alt"></i> PRODUCTIVIDAD</a></li>
-					<!--<li><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
-                </ul>
-            </li>
-            <li>
-                <a href="enfermeria.php"><i class="fa fa-thermometer-half"></i><i class="fa fa-enfermeria-o"></i><span class="nav-label">ENFERMERÍA</span></a>
-                <!--<ul class="nav nav-second-level collapse">
-                    <li><a href="enfermeria.php"><i class="fa fa-thermometer-half"></i> Enfermería</a></li>
-                </ul> -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-hospital-o"></i> <span class="nav-label">HOSPITAL</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    <li style="white-space:nowrap;"><a href="hospitalizacion.php"><i class="fa fa-heartbeat"></i> HOSPITALIZACIÓN</a></li>
-                    <!--<li style="white-space:nowrap;"><a href="#"><i class="fa fa-address-book-o"></i> NOTAS MÉDICAS</a></li>-->
-                    <li><a href="camas.php"><i class="fa fa-bed"></i> CAMAS</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-file-image-o"></i> <span class="nav-label">IMAGEN</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    <li style="white-space:nowrap;"><a href="imagen.php"><i class="fa fa-id-badge"></i> IMAGENOLOGÍA</a></li>
-                    <li><a href="endoscopia.php"><i class="fa fa-user-md"></i> ENDOSCOPÍA</a></li>
-                    <li><a href="ultrasonido.php"><i class="fa fa-user-md"></i> ULTRASONIDO</a></li>
-                    <li><a href="colposcopia.php"><i class="fa fa-user-md"></i> COLPOSCOPÍA</a></li>
-                    <li><a href="catalogo_imagen.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li>
-					<li><a href="productividad_img.php"><i class="fa fa-list-alt"></i> PRODUCTIVIDAD</a></li>
-                </ul>
-            </li>
+                <?php }?>
+                <?php if($permisos[10]){?>
+                    <li>
+                        <a href="enfermeria.php"><i class="fa fa-thermometer-half"></i><i class="fa fa-enfermeria-o"></i><span class="nav-label">ENFERMERÍA</span></a>
+                        <!--<ul class="nav nav-second-level collapse">
+                            <li><a href="enfermeria.php"><i class="fa fa-thermometer-half"></i> Enfermería</a></li>
+                        </ul> -->
+                    </li>
+                <?php }?>
+                <?php if(substr($permisos,11,2) != "00"){?>
+                    <li>
+                        <a href="#"><i class="fa fa-hospital-o"></i> <span class="nav-label">HOSPITAL</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <?php if($permisos[11]){?> <li style="white-space:nowrap;"><a href="hospitalizacion.php"><i class="fa fa-heartbeat"></i> HOSPITALIZACIÓN</a></li> <?php }?>
+                            <!--<li style="white-space:nowrap;"><a href="#"><i class="fa fa-address-book-o"></i> NOTAS MÉDICAS</a></li>-->
+                            <?php if($permisos[12]){?> <li><a href="camas.php"><i class="fa fa-bed"></i> CAMAS</a></li> <?php }?>
+                        </ul>
+                    </li>
+                <?php }?>
+                <?php if(substr($permisos,13,6) != "000000"){?>
+                    <li>
+                        <a href="#"><i class="fa fa-file-image-o"></i> <span class="nav-label">IMAGEN</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <?php if($permisos[13]){?> <li style="white-space:nowrap;"><a href="imagen.php"><i class="fa fa-id-badge"></i> IMAGENOLOGÍA</a></li> <?php }?>
+                            <li><a href="agenda_imagen.php"><i class="fa fa-calendar"></i> AGENDA IMAGEN</a></li>
+                            <?php if($permisos[14]){?> <li><a href="endoscopia.php"><i class="fa fa-user-md"></i> ENDOSCOPÍA</a></li> <?php }?>
+                            <?php if($permisos[15]){?> <li><a href="ultrasonido.php"><i class="fa fa-user-md"></i> ULTRASONIDO</a></li> <?php }?>
+                            <?php if($permisos[16]){?> <li><a href="colposcopia.php"><i class="fa fa-user-md"></i> COLPOSCOPÍA</a></li> <?php }?>
+                            <?php if($permisos[17]){?> <li><a href="catalogo_imagen.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li> <?php }?>
+                            <?php if($permisos[18]){?> <li><a href="productividad_img.php"><i class="fa fa-list-alt"></i> PRODUCTIVIDAD</a></li> <?php }?>
+                        </ul>
+                    </li>
+                <?php }?>
             <?php } ?>
-            <li>
-                <a href="#">
-                    <i class="fa fa-flask"></i> <span class="nav-label">LABORATORIO</span><span class="fa arrow"></span>
-                </a>
-                <ul class="nav nav-second-level collapse">
-                    <li><a href="laboratorio.php"><i class="fa fa-address-book"></i> ESTUDIOS</a></li>
-                    <?php if($_SESSION['MM_UserGroup']!=14){ ?>
-                    <li style="white-space:nowrap;"><a href="bases_lab.php"><i class="fa fa-sitemap"></i> BASES</a></li>
-                    <li><a href="bitacora_lab.php"><i class="fa fa-list"></i> BITÁCORAS</a></li>
-                    <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>
-                    <li><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
-                    <li><a href="catalogo_laboratorio.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li>
-					<li><a href="productividad_lab.php"><i class="fa fa-list-alt"></i> PRODUCTIVIDAD</a></li>
-                    <?php } ?>
-                </ul>
-            </li>
+            <?php if(substr($permisos,19,5) != "00000"){?>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-flask"></i> <span class="nav-label">LABORATORIO</span><span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level collapse">
+                        <?php if($permisos[19]){?><li><a href="laboratorio.php"><i class="fa fa-address-book"></i> ESTUDIOS</a></li> <?php } ?>
+                        <?php if($_SESSION['MM_UserGroup']!=14){ ?>
+                            <li><a href="agenda_laboratorio.php"><i class="fa fa-calendar"></i> AGENDA LABORATORIO</a></li>
+                            <?php if($permisos[20]){?> <li style="white-space:nowrap;"><a href="bases_lab.php"><i class="fa fa-sitemap"></i> BASES</a></li> <?php } ?>
+                            <?php if($permisos[21]){?> <li><a href="bitacora_lab.php"><i class="fa fa-list"></i> BITÁCORAS</a></li> <?php } ?>
+                            <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>
+                            <li><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
+                            <?php if($permisos[22]){?> <li><a href="catalogo_laboratorio.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li> <?php } ?>
+                            <?php if($permisos[23]){?> <li><a href="productividad_lab.php"><i class="fa fa-list-alt"></i> PRODUCTIVIDAD</a></li> <?php } ?>
+                        <?php } ?>
+                    </ul>
+                </li>
+            <?php } ?>
             <?php if($_SESSION['MM_UserGroup']!=14){ ?>
-            <li>
-                <a href="#"><i class="fa fa-plus-square"></i><span class="nav-label"> SERVICIOS</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    <li style="white-space:nowrap;"><a href="servicios.php"><i class="fa fa-user-md"></i> SERVICIOS MÉDICOS</a></li>
-                    <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>
-                    <li><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
-                    <li><a href="catalogo_servicios.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li>
-					<li><a href="productividad_ser.php"><i class="fa fa-list-alt"></i> PRODUCTIVIDAD</a></li>
-                </ul>
-            </li>
-            
-            <li class="hidden">
-                <a href="#">
-                    <i class="fa fa-wheelchair"></i> <span class="nav-label">REHABILITACIÓN</span><span class="fa arrow"></span>
-                </a>
-               <ul class="nav nav-second-level collapse">
-                    <li style="white-space:nowrap;"><a href="#"><i class="fa fa-handshake-o"></i> TRABAJO SOCIAL</a></li>
-                    <li style="white-space:nowrap;"><a href="#"><i class="fa fa-plus-square"></i> SERVICIOS MÉDICOS</a></li>
-                    <li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>
-                    <li style="white-space:nowrap;"><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-medkit"></i> <span class="nav-label">FARMACIA</span><span class="fa arrow"></span>
-                </a>
-                <ul class="nav nav-second-level collapse">
-                    <li style="white-space:nowrap;"><a href="#"><i class="fa fa-credit-card"></i> PUNTO DE VENTA</a></li>
-                    <li style="white-space:nowrap;"><a href="catalogo_medicamentos.php"><i class="fa fa-medkit"></i> MEDICAMENTOS</a></li>
-                    <li><a href="#"><i class="fa fa-product-hunt"></i> PRODUCTOS</a></li>
-                    <li style="white-space:nowrap;"><a href="#"><i class="fa fa-dollar"></i> CORTE DE CAJA</a></li>
-                    <li><a href="#"><i class="fa fa-stack-exchange"></i> STOCK</a></li>
-                    <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>
-                    <li style="white-space:nowrap;"><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
-					<li><a href="productividad_far.php"><i class="fa fa-list-alt"></i> PRODUCTIVIDAD</a></li>
-                </ul>
-            </li>
-            <li class="hidden">
-                <a href="#">
-                    <i class="fa fa-handshake-o"></i> <span class="nav-label">ASOCIADOS</span><span class="fa arrow"></span>
-                </a>
-                <ul class="nav nav-second-level collapse">
-                    <li><a href="#"><i class="fa fa-user-md"></i> MÉDICOS</a></li>
+                <?php if(substr($permisos,24,3) != "000"){?>
                     <li>
-                        <a href="#"><i class="fa fa-user"></i> PROMOTORES <span class="fa arrow"></span></a>
-                        <ul class="nav nav-third-level collapse">
-                            <li><a href="#"><i class="fa fa-list-alt"></i> REPORTE</a></li>
-                            <li style="white-space:nowrap;"><a href="#"><i class="fa fa-users"></i> MIS MÉDICOS</a></li>
+                        <a href="#"><i class="fa fa-plus-square"></i><span class="nav-label"> SERVICIOS</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <?php if($permisos[24]){?> <li style="white-space:nowrap;"><a href="servicios.php"><i class="fa fa-user-md"></i> SERVICIOS MÉDICOS</a></li> <?php } ?>
+                            <li><a href="agenda_servicios.php"><i class="fa fa-calendar"></i> AGENDA SERVICIOS</a></li>
+                            <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>
+                            <li><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
+                            <?php if($permisos[25]){?> <li><a href="catalogo_servicios.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li> <?php } ?>
+                            <?php if($permisos[26]){?> <li><a href="productividad_ser.php"><i class="fa fa-list-alt"></i> PRODUCTIVIDAD</a></li> <?php } ?>
                         </ul>
                     </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-lock"></i> <span class="nav-label">ADMINISTRACIÓN</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    <li style="white-space:nowrap;"><a href="usuarios.php"><i class="fa fa-users"></i> USUARIOS</a></li>
-                    <li><a href="sucursales.php"><i class="fa fa-building"></i> SUCURSALES</a></li>
-                    <li style="white-space:nowrap;"><a href="escuelas.php"><i class="fa fa-university"></i> ESCUELAS</a></li>
-                    <?php if($_SESSION['MM_UserGroup']==1){ ?>
-                    <!--<li style="white-space:nowrap;"><a href="corte_caja_a.php"><i class="fa fa-dollar"></i> CORTE DE CAJA</a></li>-->
-					<li>
-                        <a href="#"><i class="fa fa-dollar"></i> CORTE DE CAJA <span class="fa arrow"></span></a>
-                        <ul class="nav nav-third-level collapse">
-                            <li style="white-space:nowrap;"><a href="ordenes_venta_a.php"><i class="fa fa-shopping-cart"></i> ÓRDENES DE VENTA</a></li>
-                            <li style="white-space:nowrap;"><a href="pagos_usuario_a.php"><i class="fa fa-dollar"></i> PAGOS</a></li>
-							<li style="white-space:nowrap;"><a href="resumen_cc.php"><i class="fa fa-dollar"></i> RESUMEN</a></li>
+                <?php } ?>
+                <?php if(substr($permisos,27,4) != "0000"){?>
+                    <li class="hidden">
+                        <a href="#">
+                            <i class="fa fa-wheelchair"></i> <span class="nav-label">REHABILITACIÓN</span><span class="fa arrow"></span>
+                        </a>
+                    <ul class="nav nav-second-level collapse">
+                            <?php if($permisos[27]){?> <li style="white-space:nowrap;"><a href="#"><i class="fa fa-handshake-o"></i> TRABAJO SOCIAL</a></li> <?php } ?>
+                            <?php if($permisos[28]){?> <li style="white-space:nowrap;"><a href="#"><i class="fa fa-plus-square"></i> SERVICIOS MÉDICOS</a></li> <?php } ?>
+                            <?php if($permisos[29]){?> <li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li> <?php } ?>
+                            <?php if($permisos[30]){?> <li style="white-space:nowrap;"><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li> <?php } ?>
                         </ul>
                     </li>
-                    <li style="white-space:nowrap;"><a href="#"><i class="fa fa-hand-peace-o"></i> BENEFICIOS</a></li>
-                    <li><a href="formatos.php"><i class="fa fa-book"></i> FORMATOS</a></li>
+                <?php } ?>
+                <?php if(substr($permisos,31,6) != "000000"){?>
                     <li>
-                        <a href="#"><i class="fa fa-list-alt"></i> CATÁLOGOS <span class="fa arrow"></span></a>
-                        <ul class="nav nav-third-level collapse">
-                            <li><a href="unidades_medida.php"><i class="fa fa-thermometer-half"></i> UNIDADES DE MEDIDA</a></li>
+                        <a href="#">
+                            <i class="fa fa-medkit"></i> <span class="nav-label">FARMACIA</span><span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level collapse"> 
+                            <?php if($permisos[31]){?> <li style="white-space:nowrap;"><a href="#"><i class="fa fa-credit-card"></i> PUNTO DE VENTA</a></li> <?php } ?>
+                            <?php if($permisos[32]){?> <li style="white-space:nowrap;"><a href="catalogo_medicamentos.php"><i class="fa fa-medkit"></i> MEDICAMENTOS</a></li> <?php } ?>
+                            <?php if($permisos[33]){?> <li><a href="#"><i class="fa fa-product-hunt"></i> PRODUCTOS</a></li> <?php } ?>
+                            <?php if($permisos[34]){?> <li style="white-space:nowrap;"><a href="#"><i class="fa fa-dollar"></i> CORTE DE CAJA</a></li> <?php } ?>
+                            <?php if($permisos[35]){?> <li><a href="#"><i class="fa fa-stack-exchange"></i> STOCK</a></li> <?php } ?>
+                            <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>
+                            <li style="white-space:nowrap;"><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
+                            <?php if($permisos[36]){?> <li><a href="productividad_far.php"><i class="fa fa-list-alt"></i> PRODUCTIVIDAD</a></li> <?php } ?>
                         </ul>
                     </li>
-                    <!--<li style="white-space:nowrap;"><a href="#"><i class="fa fa-cogs"></i> PRODUCTIVIDAD</a></li>-->
-                    <li><a href="configuracion.php"><i class="fa fa-cog"></i> CONFIGURACIÓN</a></li>
-                    <?php } ?>
-                </ul>
-            </li>
+                <?php } ?>
+                <li class="hidden">
+                    <a href="#">
+                        <i class="fa fa-handshake-o"></i> <span class="nav-label">ASOCIADOS</span><span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="#"><i class="fa fa-user-md"></i> MÉDICOS</a></li>
+                        <li>
+                            <a href="#"><i class="fa fa-user"></i> PROMOTORES <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level collapse">
+                                <li><a href="#"><i class="fa fa-list-alt"></i> REPORTE</a></li>
+                                <li style="white-space:nowrap;"><a href="#"><i class="fa fa-users"></i> MIS MÉDICOS</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <?php if(substr($permisos,37,10) != "0000000000"){?>
+                    <li>
+                        <a href="#"><i class="fa fa-lock"></i> <span class="nav-label">ADMINISTRACIÓN</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <?php if($permisos[37]){?> <li style="white-space:nowrap;"><a href="usuarios.php"><i class="fa fa-users"></i> USUARIOS</a></li> <?php } ?>
+                            <?php if($permisos[38]){?> <li><a href="sucursales.php"><i class="fa fa-building"></i> SUCURSALES</a></li> <?php } ?>
+                            <?php if($permisos[39]){?> <li style="white-space:nowrap;"><a href="escuelas.php"><i class="fa fa-university"></i> ESCUELAS</a></li> <?php } ?>
+                            
+                            <?php if($_SESSION['MM_UserGroup']==1){ ?>
+                                <!--<li style="white-space:nowrap;"><a href="corte_caja_a.php"><i class="fa fa-dollar"></i> CORTE DE CAJA</a></li>-->
+                                <?php if(substr($permisos,40,3) != "000"){?>
+                                    <li>
+                                        <a href="#"><i class="fa fa-dollar"></i> CORTE DE CAJA <span class="fa arrow"></span></a>
+                                        <ul class="nav nav-third-level collapse">
+                                            <?php if($permisos[40]){?> <li style="white-space:nowrap;"><a href="ordenes_venta_a.php"><i class="fa fa-shopping-cart"></i> ÓRDENES DE VENTA</a></li> <?php }?>
+                                            <?php if($permisos[41]){?> <li style="white-space:nowrap;"><a href="pagos_usuario_a.php"><i class="fa fa-dollar"></i> PAGOS</a></li> <?php }?>
+                                            <?php if($permisos[42]){?> <li style="white-space:nowrap;"><a href="resumen_cc.php"><i class="fa fa-dollar"></i> RESUMEN</a></li> <?php }?>
+                                        </ul>
+                                    </li>
+                                <?php }?>
+                                <?php if($permisos[43]){?> <li style="white-space:nowrap;"><a href="#"><i class="fa fa-hand-peace-o"></i> BENEFICIOS</a></li> <?php }?>
+                                <?php if($permisos[44]){?><li><a href="formatos.php"><i class="fa fa-book"></i> FORMATOS</a></li> <?php }?>
+                                <?php if($permisos[45]){?>
+                                    <li>
+                                        <a href="#"><i class="fa fa-list-alt"></i> CATÁLOGOS <span class="fa arrow"></span></a>
+                                        <ul class="nav nav-third-level collapse">
+                                            <li><a href="unidades_medida.php"><i class="fa fa-thermometer-half"></i> UNIDADES DE MEDIDA</a></li>
+                                        </ul>
+                                    </li>
+                                <?php }?>
+                                <!--<li style="white-space:nowrap;"><a href="#"><i class="fa fa-cogs"></i> PRODUCTIVIDAD</a></li>-->
+                                <?php if($permisos[46]){?> <li><a href="configuracion.php"><i class="fa fa-cog"></i> CONFIGURACIÓN</a></li> <?php }?>
+                            <?php } ?>
+                        </ul>
+                    </li>
+                <?php } ?>
             <?php } ?>
         </ul>
 

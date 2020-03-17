@@ -11,9 +11,9 @@ require("../../../Connections/horizonte.php");
 			$precio_nor = 'c.precio_to'; $precio_ur = 'c.precio_urgencia_to';
 		}
 		
-		$aColumns = array('c.id_to','c.concepto_to', $precio_nor,$precio_ur, 'c.precio_to','c.precio_urgencia_to', 'c.precio1_to','c.precio_urgencia1_to','c.id_to');
+		$aColumns = array('c.id_to','c.concepto_to', $precio_nor,$precio_ur, 'c.costo_maquila_to','c.costo_maquila_u_to', 'c.precio1_to','c.precio_urgencia1_to','c.id_to');
 	}else{
-		$aColumns = array('c.id_to', 'c.concepto_to', 'c.precio_to','c.precio_urgencia_to', 'c.precio_to','c.precio_urgencia_to', 'c.precio1_to','c.precio_urgencia1_to','c.id_to');
+		$aColumns = array('c.id_to', 'c.concepto_to', 'c.precio_to','c.precio_urgencia_to', 'c.costo_maquila_to','c.costo_maquila_u_to', 'c.precio1_to','c.precio_urgencia1_to','c.id_to');
 	}
 	    
     // DB tables to use 
@@ -22,7 +22,7 @@ require("../../../Connections/horizonte.php");
     // Indexed column (used for fast and accurate table cardinality) 
     $sIndexColumn = "c.id_to";
      
-	 // Joins hasta aqui
+	// Joins hasta aqui
 	$sJoin = 'left join areas a on a.id_a = c.id_area_to';
 	 
     // CONDITIONS
@@ -33,7 +33,6 @@ require("../../../Connections/horizonte.php");
     $gaSql['password']   = $password_horizonte;
     $gaSql['db']         = $database_horizonte;
     $gaSql['server']     = $hostname_horizonte;
- 
      
     $gaSql['link'] =  mysql_pconnect( $gaSql['server'], $gaSql['user'], $gaSql['password']  ) or
         die( 'Could not open connection to server' );

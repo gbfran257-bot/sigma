@@ -6,14 +6,14 @@ require("../../../funciones/php/values.php");
 
 	//primero tenemos que saber si existe su tabulador, sino entnces escogemos el tabulador base
 	$tabu = $_GET['idSucursal'].'_precio'; $resultT = mysql_query("SHOW COLUMNS FROM conceptos LIKE '$tabu' ");
-	$existsT = (mysql_num_rows($resultT))?TRUE:FALSE;
-	if($existsT) {
-		$precio_nor = $_GET['idSucursal'].'_precio'; $precio_ur = $_GET['idSucursal'].'_precio_u';
-		$precio_nor_me = $_GET['idSucursal'].'_precio_mem'; $precio_ur_me = $_GET['idSucursal'].'_precio_mem_u';
-	}else{
+	//$existsT = (mysql_num_rows($resultT))?TRUE:FALSE;
+	//if($existsT) {
+		//$precio_nor = $_GET['idSucursal'].'_precio'; $precio_ur = $_GET['idSucursal'].'_precio_u';
+		//$precio_nor_me = $_GET['idSucursal'].'_precio_mem'; $precio_ur_me = $_GET['idSucursal'].'_precio_mem_u';
+	//}else{
 		$precio_nor = 'e.precio_to'; $precio_ur = 'e.precio_urgencia_to';
-		$precio_nor_me = 'e.precio_membrecia_to'; $precio_ur_me = 'e.precio_membrecia1';
-	}
+		//$precio_nor_me = 'e.precio_membrecia_to'; $precio_ur_me = 'e.precio_membrecia1';
+	//}
 	//Luego sacamos el día actual, y la hora actual
 	$dia_actual = sqlValue(date('N'), "int"); $hora_actual = sqlValue(date('G:i'), "date"); $urgencia = '';
 		
@@ -50,15 +50,25 @@ require("../../../funciones/php/values.php");
 		default: $urgencia=0; $rowHl[1] = '000000000';
 	}
 	
-	//Checamos si tiene membresía el paciente y si está vigente
+	//Checamos si el paciente tiene membresía y si está vigente
 	mysql_select_db($database_horizonte, $horizonte);
-	$resultMe = mysql_query("SELECT DATEDIFF(fecha_f_me, fecha_i_me) from membresias where id_paciente_me = '$_GET[idP]' order by id_me desc limit 1 ", $horizonte) or die (mysql_error()); $rowMe = mysql_fetch_row($resultMe); //echo $_GET['idP'];
-	
-	if($rowMe[0]>0){
+	$resultMeV = mysql_query("SELECT count(id_me) from membresias where id_paciente_me = '$_GET[idP]'", $horizonte) or die (mysql_error());
+	$rowMeV = mysql_fetch_row($resultMeV); $con_membresia = 0;
+
+	if($rowMeV[0]>0){//Tiene membresía
+		mysql_select_db($database_horizonte, $horizonte);
+		$resultMe = mysql_query("SELECT DATEDIFF(fecha_f_me, fecha_i_me) from membresias where id_paciente_me = '$_GET[idP]' order by id_me desc limit 1 ", $horizonte) or die (mysql_error()); $rowMe = mysql_fetch_row($resultMe); //echo $_GET['idP'];
+
+		if($rowMe[0]>0){//Está Vigente
+			$con_membresia++;
+		}else{}
+	}else{}
+
+	if($con_membresia>0){//Tiene membresía vigente
 		if($urgencia==1){//Nocturno
-			$aColumns = array('concat(e.concepto_to," (",a.nombre_a,")")', 'concat(u.nombre_u," ", u.apaterno_u)', 'e.precio_urgencia1_to', 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
+			$aColumns = array('concat(e.concepto_to," (",a.nombre_a,")")', 'concat(u.nombre_u," ", u.apaterno_u)', 'e.precio_mu', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.honorarios_cu' );
 		}else{
-			$aColumns = array('concat(e.concepto_to," (",a.nombre_a,")")', 'concat(u.nombre_u," ", u.apaterno_u)', 'e.precio1_to', 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
+			$aColumns = array('concat(e.concepto_to," (",a.nombre_a,")")', 'concat(u.nombre_u," ", u.apaterno_u)', 'e.precio_m', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.honorarios_c' );
 		}
 		// DB tables to use 
 		$aTables = array( 'conceptos e');
@@ -75,12 +85,12 @@ require("../../../funciones/php/values.php");
 			$lista = $lista.','.$fila['id_concepto_es'];
 		};//echo $lista;
 		$sWhere = "WHERE e.id_to not in ($lista) and e.id_tipo_concepto_to = 1 and u.nombre_u != '' ";
-	}else{
+	}else{//No tiene membresía vigente
 		if($_GET['idConvenio']==0){//Sin convenios
 			if($urgencia==1){//Nocturno
-				$aColumns = array('concat(e.concepto_to," (",a.nombre_a,")")', 'concat(u.nombre_u," ", u.apaterno_u)', $precio_ur, 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
+				$aColumns = array('concat(e.concepto_to," (",a.nombre_a,")")', 'concat(u.nombre_u," ", u.apaterno_u)', $precio_ur, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.honorarios_cu' );
 			}else{
-				$aColumns = array('concat(e.concepto_to," (",a.nombre_a,")")', 'concat(u.nombre_u," ", u.apaterno_u)', $precio_nor, 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
+				$aColumns = array('concat(e.concepto_to," (",a.nombre_a,")")', 'concat(u.nombre_u," ", u.apaterno_u)', $precio_nor, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.honorarios_c' );
 			}
 			// DB tables to use 
 			$aTables = array( 'conceptos e');

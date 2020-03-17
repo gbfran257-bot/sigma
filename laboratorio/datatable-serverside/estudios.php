@@ -188,21 +188,21 @@ $sucu_user = $_SESSION['MM_Usersucu'];
 		
 		if ($row[4] == "PENDIENTE"){
 			if($tipo_user!=14){
-				$row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[9]' value='$row[9]' onClick='procesar(this.id, this.lang)' style='cursor:pointer; text-decoration:underline;'> $row[4] </span>"; 
+				$row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[9]' value='$row[9]' ".(empty($_GET['_essucur'])?"onClick='procesar(this.id, this.lang)'":'')." style='cursor:pointer; text-decoration:underline;'> $row[4] </span>"; 
 			}else{
 				$row[4] = "$row[4]"; 
 			}
 		}
 		if ($row[4] == "PROCESO"){
 			if($tipo_user!=14){
-				$row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[9]' value='$row[9]' onClick='realizar(this.id, this.lang, $nombreEstu,$row[14])' style='cursor:pointer; text-decoration:underline;'> $row[4] </span>"; 
+				$row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[9]' value='$row[9]' ".(empty($_GET['_essucur'])?"onClick='realizar(this.id, this.lang, $nombreEstu,$row[14])'":'')." style='cursor:pointer; text-decoration:underline;'> $row[4] </span>"; 
 			}else{
 				$row[4] = "$row[4]"; 
 			}
 		}
 		if ($row[4] == "CAPTURADO"){ 
 			if($tipo_user!=14){
-				$row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[9]' value='$row[9]' onClick='interpretar(this.id, this.lang, $nombreEstu,$row[14])' style='cursor:pointer; text-decoration:underline;'> $row[4] </span>"; 
+				$row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[9]' value='$row[9]' ".(empty($_GET['_essucur'])?"onClick='interpretar(this.id, this.lang, $nombreEstu,$row[14])'":'')." style='cursor:pointer; text-decoration:underline;'> $row[4] </span>"; 
 			}else{
 				$row[4] = "$row[4]"; 
 			}
@@ -216,7 +216,7 @@ $sucu_user = $_SESSION['MM_Usersucu'];
 			}
 		}
 		if ($row[4] == "CARGADO"){ 
-			$row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[9]' value='$row[9]' onClick='visualizar(this.lang, this.lang)' style='cursor:pointer; text-decoration:underline;'> $row[4] </span>"; 
+			$row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[9]' value='$row[9]' ".(empty($_GET['_essucur'])?"onClick='visualizar(this.lang, this.lang)'":'')." style='cursor:pointer; text-decoration:underline;'> $row[4] </span>"; 
 		}
 		
 		$row[6] = "<span name='a-$row[0]' id='a-$row[0]' style='text-align:;' title='$row[13]'>$row[6]</span>";
