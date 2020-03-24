@@ -109,7 +109,7 @@ if (!$update) { echo $sql; }else{
 		$k8 = $row[0].'_costo_maquila_u'; $k9 = $row[0].'_costo_produccion'; $k10 = $row[0].'_dias_entrega';
 		$k11 = $row[0].'_formato';
 	
-		$sql1 = "ALTER TABLE conceptos ADD $k1 FLOAT(8,2) UNSIGNED NOT NULL, ADD $k2 FLOAT(8,2) UNSIGNED NOT NULL";
+		$sql1 = "ALTER TABLE conceptos ADD $k1 FLOAT(8,2) UNSIGNED NULL, ADD $k2 FLOAT(8,2) UNSIGNED NULL";
 		$update1 = mysql_query($sql1, $horizonte) or die (mysql_error());
 		
 		if (!$update1) { echo $sql1; }else{ $uno = $porcentaje_t_i*0.01;
@@ -117,7 +117,7 @@ if (!$update) { echo $sql; }else{
 			if($_POST["tab_img"]==1){//tabulador base maquila
 				$sql2 = "update conceptos set $k1 = precio_to*$uno, $k2 = precio_urgencia_to*$uno where id_tipo_concepto_to = 4";
 			}else{//tabulador base sucursal
-				$sql2 = "update conceptos set $k1 = precio1_to*$uno, $k2 = precio_urgencia1_to*$uno where id_tipo_concepto_to = 4";
+				$sql2 = "update conceptos set $k1 = precio_to*$uno, $k2 = precio_urgencia_to*$uno where id_tipo_concepto_to = 4";
 			}
 			//Para laboratorio
 			$update2 = mysql_query($sql2, $horizonte) or die (mysql_error());
@@ -125,7 +125,7 @@ if (!$update) { echo $sql; }else{
 				if($_POST["tab_lab"]==1){//tabulador base maquila
 					$sql3 = "update conceptos set $k1 = precio_to*$dos, $k2 = precio_urgencia_to*$dos where id_tipo_concepto_to = 3";
 				}else{//tabulador base sucursal
-					$sql3 = "update conceptos set $k1 = precio1_to*$dos, $k2 = precio_urgencia1_to*$dos where id_tipo_concepto_to = 3";
+					$sql3 = "update conceptos set $k1 = precio_to*$dos, $k2 = precio_urgencia_to*$dos where id_tipo_concepto_to = 3";
 				}
 				//Para servicios
 				$update3 = mysql_query($sql3, $horizonte) or die (mysql_error());
