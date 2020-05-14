@@ -99,7 +99,7 @@ if(!$insertar){ echo $sql; }else{
 	mysql_select_db($database_horizonte, $horizonte);
 	$sqlI = "UPDATE documentos set id_quien_do = $idSu where aleatorio_do = $temporal";
 	$insertI = mysql_query($sqlI, $horizonte) or die (mysql_error());
-	if (!$insertI) { echo $sqlI; }else{
+	/*if (!$insertI) { echo $sqlI; }else{
 		$k1 = $row[0].'_precio'; $k2 = $row[0].'_precio_u';
 		//Para imagen
 		if($row[0]!=$porcentaje_t_i){
@@ -125,9 +125,9 @@ if(!$insertar){ echo $sql; }else{
 		if($row[2]!=$porcentaje_t_s)
 			$sql4 = "update conceptos set $k1 = precio_to*$tres, $k2 = precio_urgencia_to*$tres where id_tipo_concepto_to = 2";
 			$update4 = mysql_query($sql4, $horizonte) or die (mysql_error());
-		}
+		}*/
 		echo 1;
-	}
+	//}
 }
  //Cerrar conexión a la Base de Datos
  mysql_close($horizonte);
