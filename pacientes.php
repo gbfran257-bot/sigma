@@ -1582,9 +1582,9 @@ function nuevaVisita(idP, nombreP){
 		oTableEla.on( 'select', function ( e, dt, type, indexes ) {
 			$('.depende_lab').removeClass('hidden');
 			var rowData = oTableEla.rows( indexes ).data().toArray(); //alert(rowData[0][6]); //alert(rowData[0][9]);
-			if(rowData[0][8]==undefined){var coveni = 0, ocu = 0;}else{var coveni = rowData[0][8], ocu = rowData[0][9];}
+			/*if(rowData[0][8]==undefined){*/var coveni = 0, ocu = 0;/*}else{var coveni = rowData[0][8], ocu = rowData[0][9];}*/
 			subirEstudioL(rowData[0][7], $('#aleatorio_ov').val(), idP, $('#id_usr_reg').val(), $('#medico_l').val(),
-				$('#mi_id_convenioL').val(),$('#sucursal_fi_p').val(),$('#observacionesL_NV').val(), 2, rowData[0][2], 3, coveni, ocu
+				$('#mi_id_convenioL').val(),$('#sucursal_fi_p').val(),$('#observacionesL_NV').val(), 2, rowData[0][2], 3, coveni, ocu, rowData[0][8]
 			); 
 			$('.desc_cargo_l').change(function(e){nota_desc_cargo_l();}); $('.desc_cargo_l').keyup(function(e){nota_desc_cargo_l();});
 		} );
@@ -1915,10 +1915,10 @@ function subirEstudio(idE, noAleatorio, idP, idU, idMedico, idConvenio, idSucurs
 		}else{alert(data);} 
 	});
 }
-function subirEstudioL(idE,noAleatorio, idP, idU, idMedico, idConvenio, idSucursal, observaciones, departamento,p,t,id_con_bene,ocup){
+function subirEstudioL(idE,noAleatorio, idP, idU, idMedico, idConvenio, idSucursal, observaciones, departamento,p,t,id_con_bene,ocup,po){
 	var datosSENV = {noAleatorio:noAleatorio, idP:idP, idU:idU, idMedico:idMedico, idE:idE, agendar:$('#agendarOV').val(),
 		idConvenio:idConvenio, idSucursal:idSucursal, observaciones:observaciones, departamento:departamento,
-		precioTo:p,tipoConcepto:t,id_con_bene:id_con_bene,fechaC:$('#fichaNV').val()+' '+$('#horaNV').val(), ocupado:ocup
+		precioTo:p,tipoConcepto:t,id_con_bene:id_con_bene,fechaC:$('#fichaNV').val()+' '+$('#horaNV').val(), ocupado:ocup, precio_original:po
 	}
 	$.post('pacientes/files-serverside/guardarEstudioNV.php',datosSENV).done(function( data ) { 
 		if(data==1){ 

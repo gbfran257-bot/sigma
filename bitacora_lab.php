@@ -82,7 +82,8 @@
         <th width="100px" id="t_user">USUARIO</th>
         <th id="t_estu">ESTUDIOS</th>
         <th id="t_mues">MUESTRAS</th>
-        <th id="t_tota">TOTAL</th>
+        <th id="t_tota">TOTAL ING</th>
+        <th>COMISION</th>
       </tr>
     </thead>
     <tbody id="t_tbody"> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
@@ -99,7 +100,9 @@
 			<th><input type="text" style="width:100px;" placeholder="Usuario" class="form-control input-sm" /></th>
             <th></th>
             <th></th>
+            <th></th>
             <th id="t_total"></th>
+            <th id="t_total_comi"></th>
 		</tr>
 	</tfoot>
   </table>
@@ -182,11 +185,16 @@ $(document).ready(function(e) {
 			
 			/* Calculate the market share for browsers on this page */
             var iCargosE=0;
-            for ( var i=iStart ; i<iEnd ; i++ ){ iCargosE += aaData[ aiDisplay[i] ][10]*1; }
+            var iCargosEComi=0;
+            for ( var i=iStart ; i<iEnd ; i++ ){
+            	iCargosE += aaData[ aiDisplay[i] ][10]*1;
+            	iCargosEComi += aaData[ aiDisplay[i] ][11]*1;
+            }
              
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
 			nCells[7].innerHTML = '$'+redondear(parseFloat(iCargosE * 100)/100,2);
+			nCells[8].innerHTML = '$'+redondear(parseFloat(iCargosEComi * 100)/100,2);
 			$('#c_total').val('$'+redondear(parseFloat(iCargosE * 100)/100,2));
 			
 			window.setTimeout(function(){$('.erase1').each(function(index, element){ $(this).parent().parent().remove(); });},200);

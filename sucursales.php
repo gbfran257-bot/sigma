@@ -217,7 +217,7 @@ function verSucursal(id_s, nombre_s){
 				cargar_editores();
 				
 				$('#nombreS').val(dato[2]); $('#claveS').val(dato[1]); $('#cluesS').val(dato[35]); siempre(dato[12], dato[13]);
-				$("#ionrange_tabu_img").ionRangeSlider({
+				$("#p_tabu_img").ionRangeSlider({
 					min:0, max: 200, from: dato[3], prefix: "%", grid: true, onChange: function (data) { $('#p_tabu_img').val(dato[3]); }
 				});
 				$("#p_tabu_lab").ionRangeSlider({
@@ -779,7 +779,7 @@ function nuevaSucursal(){
 			
 			cargar_editores();
 					
-			$("#ionrange_tabu_img").ionRangeSlider({
+			$("#p_tabu_img").ionRangeSlider({
 				min:0,max:200,from:100,prefix:"%",grid:true,onChange:function(data){$('#p_tabu_img').val(data.from);}
 			});
 			$("#p_tabu_lab").ionRangeSlider({

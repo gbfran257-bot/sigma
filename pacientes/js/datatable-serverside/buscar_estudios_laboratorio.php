@@ -8,6 +8,10 @@ require("../../../funciones/php/values.php");
 	$tabu = $_GET['idSucursal'].'_precio'; $resultT = mysql_query("SHOW COLUMNS FROM conceptos LIKE '$tabu' ");
 	$existsT = (mysql_num_rows($resultT))?TRUE:FALSE;
 	if($existsT) {
+		$resultT = mysql_query("SELECT tipo_tabulador_su FROM sucursales WHERE id_su=".$_GET['idSucursal']." and tipo_tabulador_su=1 limit 1");
+		$existsT = (mysql_num_rows($resultT))?TRUE:FALSE;
+	}
+	if($existsT){
 		$precio_nor = $_GET['idSucursal'].'_precio'; $precio_ur = $_GET['idSucursal'].'_precio_u';
 		$precio_nor_me = $_GET['idSucursal'].'_precio_mem'; $precio_ur_me = $_GET['idSucursal'].'_precio_mem_u';
 	}else{
@@ -86,11 +90,11 @@ require("../../../funciones/php/values.php");
 		};//echo $lista;
 		$sWhere = "WHERE e.id_to not in ($lista) and e.id_tipo_concepto_to = 3 and e.concepto_to not like '%BIOMETRIA HEMATICA EN%' ";
 	}else{
-		if($_GET['idConvenio']==0){//Sin convenios
+		//if($_GET['idConvenio']==0){//Sin convenios
 			if($urgencia==1){//Nocturno
-				$aColumns = array('e.concepto_to', 'a.nombre_a', $precio_ur, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.id_to', 'e.id_to' );
+				$aColumns = array('e.concepto_to', 'a.nombre_a', $precio_ur, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.id_to', 'e.id_to', 'precio_to' );
 			}else{
-				$aColumns = array('e.concepto_to', 'a.nombre_a', $precio_nor, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.id_to', 'e.id_to' );
+				$aColumns = array('e.concepto_to', 'a.nombre_a', $precio_nor, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.id_to', 'e.id_to', 'precio_urgencia_to' );
 			}
 			// DB tables to use 
 			$aTables = array( 'conceptos e');
@@ -107,7 +111,7 @@ require("../../../funciones/php/values.php");
 				$lista = $lista.','.$fila['id_concepto_es'];
 			};//echo $lista;
 			$sWhere = "WHERE e.id_to not in ($lista) and e.id_tipo_concepto_to = 3 and e.concepto_to not like '%BIOMETRIA HEMATICA EN%' ";
-		}else{//Con algún convenio
+		/*}else{//Con algún convenio
 			if($urgencia==1){
 				$aColumns = array('c.concepto_to', 'a.nombre_a', 'acc.precio_urgencia_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb');
 			}else{
@@ -128,7 +132,7 @@ require("../../../funciones/php/values.php");
 				$lista = $lista.','.$fila['id_conceptos_beneficios'];
 			};//echo $lista;
 			$sWhere = "WHERE cb.id_cb not in ($lista) and c.id_tipo_concepto_to = 3 and cv.id_cv = '$_GET[idConvenio]' and cb.id_paciente_cb = '$_GET[idP]' ";
-		}
+		}*/
 	}
 
     /* Database connection information */
