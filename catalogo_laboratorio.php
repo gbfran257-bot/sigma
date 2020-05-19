@@ -84,10 +84,8 @@
 	<th style="vertical-align:middle;" nowrap>DÍAS</th>
     <th style="vertical-align:middle;">PRECIO</th>
     <th style="vertical-align:middle;" nowrap>PRECIO UR</th>
-    <th style="vertical-align:middle;" nowrap>TAB MAQ</th>
-    <th style="vertical-align:middle;" nowrap>TAB MAQ UR</th>
-    <th style="vertical-align:middle;" nowrap>TAB SUC</th>
-    <th style="vertical-align:middle;" nowrap>TAB SUC UR</th>
+    <th style="vertical-align:middle;" nowrap><span class="tipo_tabulador">TAB</span></th>
+    <th style="vertical-align:middle;" nowrap><span class="tipo_tabulador">TAB</span> UR</th>
     <th style="vertical-align:middle;" nowrap>ÚLTIMA A</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
@@ -96,7 +94,7 @@
             <th></th>
             <th><input type="text" class="form-control input-sm filtrodataTablePrincipal" placeholder="Estudio"/></th>
             <th><input type="text" class="form-control input-sm filtrodataTablePrincipal" placeholder="Área" style="max-width:100px;"/></th>
-            <th colspan="7" align="center" style="text-align: center;">
+            <th colspan="5" align="center" style="text-align: center;">
 				<?php if($_SESSION['MM_UserGroup']==1){ ?>
 					<button type="button" class="btn btn-sm btn-success" onClick="save_all();">GUARDAR TODO</button>
 				<?php } ?>
@@ -123,7 +121,7 @@ $(document).ready(function(e) {
 		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
-			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},
+			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true},
 			{"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
@@ -184,28 +182,28 @@ function save_all(){
 	$('.precio_p_i').each(function() {
 		if(parseFloat($(this).val())){
 			var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
-			$.post('laboratorio/files-serverside/guardar_precio_p_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+			$.post('laboratorio/files-serverside/guardar_tabu_s_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
 		}
 	});
 	
 	$('.precio_p_u_i').each(function() {
 		if(parseFloat($(this).val())){
 			var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
-			$.post('laboratorio/files-serverside/guardar_precio_p_u_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+			$.post('laboratorio/files-serverside/guardar_tabu_s_u_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
 		}
 	});
 	
 	$('.tabu_m_i').each(function() {
 		if(parseFloat($(this).val())){
 			var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
-			$.post('laboratorio/files-serverside/guardar_tabu_m_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+			$.post('laboratorio/files-serverside/guardar_precio_p_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
 		}
 	});
 	
 	$('.tabu_m_u_i').each(function() {
 		if(parseFloat($(this).val())){
 			var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
-			$.post('laboratorio/files-serverside/guardar_tabu_m_u_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+			$.post('laboratorio/files-serverside/guardar_precio_p_u_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
 		}
 	});
 	
@@ -223,7 +221,7 @@ function save_all(){
 		}
 	});
 	
-	swal({title:"ConfirmaciÓN",type:"success",text:"Los datos se han guardado correctamente.",timer:1800,showConfirmButton:false});
+	swal({title:"Confirmación",type:"success",text:"Los datos se han guardado correctamente.",timer:1800,showConfirmButton:false});
 }
 	
 function subirMuestra(muestra, noAleatorio, idU){ //alert(muestra);
@@ -552,9 +550,9 @@ function fichaEstudio(idE, na){
 
 				$('#idUsuarioE').val($('#id_user').val()); $('#idEstudioE').val(idE);
 				$('#areaE').load('laboratorio/estudios/genera/areasEstudios.php', function( response, status, xhr ){ $(this).val(datosI[1]); });
-				$('#nombreE').val(datosI[0]); $('#precioE').val(datosI[2]); $('#precioUrgenciaE').val(datosI[3]);
-				$('#precioEM').val(datosI[13]); $('#precioUrgenciaM').val(datosI[14]); $('#precioES').val(datosI[7]);
-				$('#precioUrgenciaS').val(datosI[8]); $('#dEntregaE').val(datosI[9]);
+				$('#nombreE').val(datosI[0]); $('#precioE').val(datosI[7]); $('#precioUrgenciaE').val(datosI[8]);
+				$('#precioEM').val(datosI[2]); $('#precioUrgenciaM').val(datosI[3]); /*$('#precioES').val(datosI[7]);
+				$('#precioUrgenciaS').val(datosI[8]);*/ $('#dEntregaE').val(datosI[9]);
 				$('#precioME').val(datosI[10]); $('#precioUrgenciaME').val(datosI[11]); $('#precioHO').val(datosI[12]);
 				$("#tProductividad input[name='costoproduccion']").val(datosI[15]);
 				$("#tProductividad input[name='costoproduccion']").change(function(){
