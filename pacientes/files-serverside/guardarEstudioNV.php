@@ -28,6 +28,10 @@ require("../../funciones/php/values.php");
  $observaciones = sqlValue($_POST["observaciones"], "text");
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
  $precio = sqlValue($_POST["precioTo"], "double");
+ if(empty($_POST["precio_original"]))
+ 	$precio_orig = $precio;
+ else
+ 	$precio_orig = sqlValue($_POST["precio_original"], "double");
  $honor = sqlValue($_POST["honor"], "double");
  $tipoConcepto = sqlValue($_POST["tipoConcepto"], "int");
  $id_con_bene = sqlValue($_POST["id_con_bene"], "int");
@@ -38,7 +42,7 @@ require("../../funciones/php/values.php");
  if($ocupado==0){
 	 mysql_select_db($database_horizonte, $horizonte); 
 	 $sql="INSERT INTO venta_conceptos(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,precio_original,honorarios,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios)";
-	 $sql.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio, $precio, $honor, $idU, $fechaC, $id_con_bene)";
+	 $sql.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio, $precio_orig, $honor, $idU, $fechaC, $id_con_bene)";
 	 
 	 $sql_1="INSERT INTO venta_conceptos_1(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios)";
 	 $sql_1.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio, $idU, $fechaC, $id_con_bene)";
