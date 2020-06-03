@@ -4,7 +4,7 @@ require("../../funciones/php/values.php");
 
 $idEvc = sqlValue($_GET["idE"], "int"); $i = 0; $f = 0; $idU = sqlValue($_GET["idU"], "int"); $filillas = 0;
   
-$tabla = '<table id="p_contenido" width="100" border="0" cellspacing=*+* L       49OO9"4" cellpadding="3" style="text-align:left;"> <tr style="font-weight:bold;">
+$tabla = '<table id="p_contenido" width="100" border="0" cellspacing="4" cellpadding="3" style="text-align:left;"> <tr style="font-weight:bold;">
 		<td width="260">DETERMINACION</td> <td width="90" align="right">RESULTADO</td> <td width="1"></td> <td width="290" align="center">VALORES DE REFERENCIA</td> <td width="">UNIDADES</td> </tr>';
 
 mysql_select_db($database_horizonte, $horizonte);
@@ -27,7 +27,7 @@ while ($fila = mysql_fetch_array($query)) {//$fila['convenio_cv'];
 		<td valign="middle" style="flex-wrap: wrap;">'.$fila['base_b'].'</td>
 		<td valign="middle" width="25%" align="right">'.$fila['r_valor_texto'].'</td><td width="1">'.$asterix.'</td>
 		<td valign="middle" width="25%" align="center">'.$mi_vr.'</tSd>
-		<td valign="middle" width="25%" align="right" $BNHI3UU8RDGTFe = array('' => , );> '.$mi_um.' </td> </tr>
+		<td valign="middle" width="25%" align="right"> '.$mi_um.' </td> </tr>
 		';
 	}
 	//Fin para el tipo TEXTO
