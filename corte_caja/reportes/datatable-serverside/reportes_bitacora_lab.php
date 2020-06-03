@@ -3,7 +3,7 @@
 <?php
 	// consulta para horizonte
 	$obligatorio = 0;
-	$aColumns = array('pa.referencia_pag','pa.referencia_pag' , 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'ov.id_ov', 'ov.muestras_ov', 'ov.gran_total_ov', 'ov.id_ov', 'ov.gran_total_ov', 'ov.id_ov', 'ov.id_ov', 'tipo_tabulador_su', 's.id_su');
+	$aColumns = array('pa.referencia_pag','pa.referencia_pag' , 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'ov.id_ov', 'ov.muestras_ov', 'ov.gran_total_ov', 'ov.id_ov', 'ov.gran_total_ov', 'ov.id_ov', 'ov.id_ov', 'tipo_tabulador_su', 's.id_su', 'p_tabulador_l_su');
      
     // DB tables to use 
     $aTables = array( 'orden_venta ov');
@@ -170,15 +170,11 @@
 		$contX = 0; $koka = '';
 		
 		mysql_select_db($database_horizonte, $horizonte);
-		$result = mysql_query("SELECT c.concepto_to, v.contador_vc, c.".$row[14]."_precio, v.precio_original from orden_venta o left join venta_conceptos v on v.referencia_vc = o.referencia_ov left join conceptos c on c.id_to = v.id_concepto_es where o.referencia_ov = $refi order by v.contador_vc asc", $horizonte) or die (mysql_error()); 
-        $totalActual = 0;
+		$result = mysql_query("SELECT c.concepto_to, v.contador_vc, c.".$row[14]."_precio, v.precio_original from orden_venta o left join venta_conceptos v on v.referencia_vc = o.referencia_ov left join conceptos c on c.id_to = v.id_concepto_es where o.referencia_ov = $refi order by v.contador_vc asc", $horizonte) or die (mysql_error());
 		while ( $rowX = mysql_fetch_row($result) ){ $contX++;
 			$koka=$koka.'<strong>'.$rowX[1].'.</strong>&nbsp;&nbsp;'.$rowX[0].'<br>';
-            $totalActual += $rowX[2];
 		}
-        if($row[13] == 1){ // maquila
-            $totalActual = $row[8];
-        }
+        $totalActual = $row[8];
 		
 		$koka = $koka.'';
 		
@@ -189,11 +185,19 @@
 		}else{
 			$row[7]="<span lang='$row[1]' id='$row[9]' onDblClick='muestras(this.lang, this.id);'>$row[7]</span>";
 		}
-		$tmp = $row[8];
-		$row[8] = "<div align='right'>$row[8]</div>";
-        $row[9] = "<div align='right'>".($tmp - $totalActual)."</div>";
-        $row[11] = ($tmp - $totalActual);
-				
+        if($row[13] == 1)
+            $row[15] = 100;
+        $row[9] = intval(($totalActual*(1-($row[15]*0.01)))*100)/100;
+        $row[10] = $row[8]-$row[9];
+        $idov = $row[12];
+        $result = mysql_query("SELECT id from pagos_sucursal where id_ov=".$idov, $horizonte) or die (mysql_error());
+        $rowX = mysql_fetch_row($result);
+        $row[12] = $row[11];
+        if(!empty($rowX[0])){
+            $row[11] = "P";
+        }else{
+		    $row[11] = "<input type='checkbox' name='apagarbitacora' amount='".$totalActual."' idov='".$idov."' checked>";
+        }
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );

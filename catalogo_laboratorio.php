@@ -68,6 +68,18 @@
 		.nav-tabs > li > a{
 			padding: 10px 10px 10px 10px;
 		}
+		#cabecera_tBusquedaPrincipal th:nth-child(9){
+			border-left: 1px solid white;
+		}
+		#cabecera_tBusquedaPrincipal th:nth-child(10){
+			border-right: 1px solid white;
+		}
+		#dataTablePrincipal td:nth-child(10){
+			border-right: 1px solid #cecece;
+		}
+		#dataTablePrincipal td:nth-child(9){
+			border-left: 1px solid #cecece;
+		}
     </style>
 </head>
 <?php include_once 'partes/header.php';?>
@@ -84,6 +96,8 @@
 	<th style="vertical-align:middle;" nowrap>DÍAS</th>
     <th style="vertical-align:middle;">PRECIO</th>
     <th style="vertical-align:middle;" nowrap>PRECIO UR</th>
+    <th style="vertical-align:middle;">MAQUILA</th>
+    <th style="vertical-align:middle;" nowrap>MAQUILA UR</th>
     <th style="vertical-align:middle;" nowrap><span class="tipo_tabulador">TAB</span></th>
     <th style="vertical-align:middle;" nowrap><span class="tipo_tabulador">TAB</span> UR</th>
     <th style="vertical-align:middle;" nowrap>ÚLTIMA A</th>
@@ -94,12 +108,22 @@
             <th></th>
             <th><input type="text" class="form-control input-sm filtrodataTablePrincipal" placeholder="Estudio"/></th>
             <th><input type="text" class="form-control input-sm filtrodataTablePrincipal" placeholder="Área" style="max-width:100px;"/></th>
-            <th colspan="5" align="center" style="text-align: center;">
+            <th></th>
+            <th class="text-center" colspan="2">
+				<?php if($_SESSION['MM_UserGroup']==1){ ?>
+					<button type="button" class="btn btn-sm btn-info" onClick="aplicarA(2);">APLICAR PRECIO SUC</button>
+				<?php } ?>
+			</th>
+            <th class="text-center" colspan="2">
+				<?php if($_SESSION['MM_UserGroup']==1){ ?>
+					<button type="button" class="btn btn-sm btn-info" onClick="aplicarA(1);">APLICAR PRECIO MAQ</button>
+				<?php } ?>
+			</th>
+            <th class="text-right" colspan="3">
 				<?php if($_SESSION['MM_UserGroup']==1){ ?>
 					<button type="button" class="btn btn-sm btn-success" onClick="save_all();">GUARDAR TODO</button>
 				<?php } ?>
 			</th>
-            <th></th>
         </tr>
     </tfoot>
 </table>
@@ -121,7 +145,7 @@ $(document).ready(function(e) {
 		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
-			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true},
+			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true},{ "bVisible": true }, {"bVisible":true},
 			{"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
@@ -163,63 +187,183 @@ $(document).ready(function(e) {
 		if (status = "success"){
 			var datosUS = {idU:$('#id_user').val()}
 			$.post('servicios/servicios/files-serverside/datosSucursalU.php',datosUS).done(function(data){ 
-				$("#miSucursal").val(data); $('#clickme').click(); $("#miSucursal").change(function(e) { $('#clickme').click(); });
+				$("#miSucursal").val(data); $('#clickme').click();
+				$("#miSucursal").change(function(e) {
+					$('#clickme').click();
+					var t = $("#miSucursal option:selected").attr("tipo");
+					$(".tipo_tabulador").html( $("#miSucursal option:selected").attr("clave")+" ("+(t==1?'M':(t==2?'S':'NA'))+")");
+				});
+				$("#miSucursal").trigger("change");
 			});
 		}
 	});
 	//$('.infoPrincipal').append( "<div style='border:1px solid none; text-align:right;'><table id='ocultarFP' style='float:right;' width='100%' border='1' cellspacing='0' cellpadding='6'> <tr><td><select name='miSucursal' id='miSucursal' class='form-control input-sm'></select></td></tr> </table></div>" );
 	
 });
-	
+function aplicarA(tipo){
+	swal({
+	  title: "APLICAR PRECIO", text: "Se colocarán los precios listados "+(tipo==1?"de maquila":"")+" a la sucursal "+$(".tipo_tabulador").html()+"\n¿Estás seguro de continuar?", type: "",
+	  showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "Aplicar", cancelButtonText: "Cancelar", closeOnConfirm: false
+	},
+	function(){
+		var datos = {
+			val1: new Array(),
+			val2: new Array(),
+			id_to: new Array(),
+			tipo: tipo,
+			id_su:$('#miSucursal').val(),
+			id_u:$('#id_user').val()
+		};
+		if(tipo == 1){
+			$('.precio_m_i').each(function() {
+				datos.val1.push($(this).val());
+				datos.id_to.push($(this).prop('lang'));
+			});
+			$('.precio_m_u_i').each(function() {
+				datos.val2.push($(this).val());
+			});
+		}else{
+			$('.precio_p_i').each(function() {
+				datos.val1.push($(this).val());
+				datos.id_to.push($(this).prop('lang'));
+			});
+			$('.precio_p_u_i').each(function() {
+				datos.val2.push($(this).val());
+			});
+		}
+		$.post('laboratorio/estudios/files-serverside/aplicarPrecios.php',datos).done(function(data){ 
+			swal({ title:"PRECIOS APLICADOS",type: "success",text:"Se han aplicado los cambios.",timer:1800,showConfirmButton:false });
+			$('#clickme').click();
+		});
+		
+	});
+}	
 function save_all(){
+	var datos = {
+		val: new Array(),
+		id_to: new Array(),
+		id_su:$('#miSucursal').val(),
+		id_u:$('#id_user').val()
+	};
 	$('.dias_i').each(function() {
 		if(parseFloat($(this).val())){
-			var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
-			$.post('laboratorio/files-serverside/guardar_dias_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+			//var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
+			datos.val.push($(this).val());
+			datos.id_to.push($(this).prop('lang'));
+			//$.post('laboratorio/files-serverside/guardar_dias_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
 		}
 	});
-	
+	if(datos.val.length > 0){
+		$.post('laboratorio/files-serverside/guardar_dias_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+	}
+
+	var datos = {
+		val: new Array(),
+		id_to: new Array(),
+		id_su:$('#miSucursal').val(),
+		id_u:$('#id_user').val()
+	};
 	$('.precio_p_i').each(function() {
 		if(parseFloat($(this).val())){
-			var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
-			$.post('laboratorio/files-serverside/guardar_tabu_s_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+			//var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
+			datos.val.push($(this).val());
+			datos.id_to.push($(this).prop('lang'));
+			//$.post('laboratorio/files-serverside/guardar_tabu_s_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
 		}
 	});
+	if(datos.val.length > 0){
+		$.post('laboratorio/files-serverside/guardar_tabu_s_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+	}
 	
+	var datos = {
+		val: new Array(),
+		id_to: new Array(),
+		id_su:$('#miSucursal').val(),
+		id_u:$('#id_user').val()
+	};
 	$('.precio_p_u_i').each(function() {
 		if(parseFloat($(this).val())){
-			var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
-			$.post('laboratorio/files-serverside/guardar_tabu_s_u_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+			//var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
+			datos.val.push($(this).val());
+			datos.id_to.push($(this).prop('lang'));
+			//$.post('laboratorio/files-serverside/guardar_tabu_s_u_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
 		}
 	});
-	
+	if(datos.val.length > 0){
+		$.post('laboratorio/files-serverside/guardar_tabu_s_u_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+	}
+
+	var datos = {
+		val: new Array(),
+		id_to: new Array(),
+		id_su:$('#miSucursal').val(),
+		id_u:$('#id_user').val()
+	};
 	$('.tabu_m_i').each(function() {
 		if(parseFloat($(this).val())){
-			var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
-			$.post('laboratorio/files-serverside/guardar_precio_p_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+			//var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
+			datos.val.push($(this).val());
+			datos.id_to.push($(this).prop('lang'));
+			//$.post('laboratorio/files-serverside/guardar_precio_p_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
 		}
 	});
+	if(datos.val.length > 0){
+		$.post('laboratorio/files-serverside/guardar_precio_p_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+	}
 	
+	var datos = {
+		val: new Array(),
+		id_to: new Array(),
+		id_su:$('#miSucursal').val(),
+		id_u:$('#id_user').val()
+	};
 	$('.tabu_m_u_i').each(function() {
 		if(parseFloat($(this).val())){
-			var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
-			$.post('laboratorio/files-serverside/guardar_precio_p_u_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+			//var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
+			datos.val.push($(this).val());
+			datos.id_to.push($(this).prop('lang'));
+			//$.post('laboratorio/files-serverside/guardar_precio_p_u_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
 		}
 	});
+	if(datos.val.length > 0){
+		$.post('laboratorio/files-serverside/guardar_precio_p_u_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+	}
 	
-	$('.tabu_s_i').each(function() {
+	var datos = {
+		val: new Array(),
+		id_to: new Array(),
+		id_su:$('#miSucursal').val(),
+		id_u:$('#id_user').val()
+	};
+	$('.precio_m_i').each(function() {
 		if(parseFloat($(this).val())){
-			var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
-			$.post('laboratorio/files-serverside/guardar_tabu_s_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+			//var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
+			datos.val.push($(this).val());
+			datos.id_to.push($(this).prop('lang'));
+			//$.post('laboratorio/files-serverside/guardar_tabu_m_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
 		}
 	});
+	if(datos.val.length > 0){
+		$.post('laboratorio/files-serverside/guardar_tabu_m_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+	}
 	
-	$('.tabu_s_u_i').each(function() {
+	var datos = {
+		val: new Array(),
+		id_to: new Array(),
+		id_su:$('#miSucursal').val(),
+		id_u:$('#id_user').val()
+	};
+	$('.precio_m_u_i').each(function() {
 		if(parseFloat($(this).val())){
-			var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
-			$.post('laboratorio/files-serverside/guardar_tabu_s_u_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+			//var datos = {val:$(this).val(), id_to:$(this).prop('lang'), id_su:$('#miSucursal').val(), id_u:$('#id_user').val()}
+			datos.val.push($(this).val());
+			datos.id_to.push($(this).prop('lang'));
+			//$.post('laboratorio/files-serverside/guardar_tabu_m_u_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
 		}
 	});
+	if(datos.val.length > 0){
+		$.post('laboratorio/files-serverside/guardar_tabu_m_u_masivo.php',datos).done(function(data){ if (data==1){ } else{alert(data);} });
+	}
 	
 	swal({title:"Confirmación",type:"success",text:"Los datos se han guardado correctamente.",timer:1800,showConfirmButton:false});
 }
@@ -553,7 +697,7 @@ function fichaEstudio(idE, na){
 				$('#nombreE').val(datosI[0]); $('#precioE').val(datosI[7]); $('#precioUrgenciaE').val(datosI[8]);
 				$('#precioEM').val(datosI[2]); $('#precioUrgenciaM').val(datosI[3]); /*$('#precioES').val(datosI[7]);
 				$('#precioUrgenciaS').val(datosI[8]);*/ $('#dEntregaE').val(datosI[9]);
-				$('#precioME').val(datosI[10]); $('#precioUrgenciaME').val(datosI[11]); $('#precioHO').val(datosI[12]);
+				$('#precioME').val(datosI[13]); $('#precioUrgenciaME').val(datosI[14]); $('#precioHO').val(datosI[12]);
 				$("#tProductividad input[name='costoproduccion']").val(datosI[15]);
 				$("#tProductividad input[name='costoproduccion']").change(function(){
 					recalculaProd();

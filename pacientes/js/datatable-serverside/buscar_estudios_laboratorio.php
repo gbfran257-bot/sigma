@@ -7,10 +7,6 @@ require("../../../funciones/php/values.php");
 	//primero tenemos que saber si existe su tabulador, sino entnces escogemos el tabulador base
 	$tabu = $_GET['idSucursal'].'_precio'; $resultT = mysql_query("SHOW COLUMNS FROM conceptos LIKE '$tabu' ");
 	$existsT = (mysql_num_rows($resultT))?TRUE:FALSE;
-	if($existsT) {
-		$resultT = mysql_query("SELECT tipo_tabulador_su FROM sucursales WHERE id_su=".$_GET['idSucursal']." and tipo_tabulador_su=1 limit 1");
-		$existsT = (mysql_num_rows($resultT))?TRUE:FALSE;
-	}
 	if($existsT){
 		$precio_nor = $_GET['idSucursal'].'_precio'; $precio_ur = $_GET['idSucursal'].'_precio_u';
 		$precio_nor_me = $_GET['idSucursal'].'_precio_mem'; $precio_ur_me = $_GET['idSucursal'].'_precio_mem_u';

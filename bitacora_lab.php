@@ -84,6 +84,8 @@
         <th id="t_mues">MUESTRAS</th>
         <th id="t_tota">TOTAL ING</th>
         <th>COMISION</th>
+        <th>A PAGAR</th>
+        <th><input type="checkbox" name="seleccionartodos"></th>
       </tr>
     </thead>
     <tbody id="t_tbody"> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
@@ -103,6 +105,7 @@
             <th></th>
             <th id="t_total"></th>
             <th id="t_total_comi"></th>
+            <th><button class='btn btn-icon btn-success' onclick="preparaPago();">P</button></th>
 		</tr>
 	</tfoot>
   </table>
@@ -131,6 +134,26 @@
 <?php include_once 'partes/footer.php'; ?>
 
 <script>
+function preparaPago(){
+	var iCargosEAP=0;
+	var data = [];
+	$("input[name='apagarbitacora']").each(function(i, e){
+		if($(this).prop("checked")){
+			iCargosEAP += $(this).attr("amount")*1;
+			data.push($(this).attr("idov"));
+		}
+	});
+	iCargosEAP = redondear(parseFloat(iCargosEAP * 100)/100,2);
+	swal({
+	    title: "Realizar pago por "+iCargosEAP, text: "¿Deseas marcar como pagado?", type: "info", showCancelButton: true,
+	    confirmButtonText: "Ok", cancelButtonText: "Salir", closeOnConfirm: false
+	},
+	function(){
+		$.post("corte_caja/reportes/files-serverside/marcaPagado.php", {datos: data, monto: iCargosEAP}, function(r){
+			swal({title: "Marcado como pagado", type:"success"});
+		});
+	});
+}
 function imprimir(){
 	var datosP={idU:$('#id_user').val()}
 	$.post('corte_caja/reportes/files-serverside/datos_impre.php',datosP).done(function(data){
@@ -186,16 +209,20 @@ $(document).ready(function(e) {
 			/* Calculate the market share for browsers on this page */
             var iCargosE=0;
             var iCargosEComi=0;
+            var iCargosEAP=0;
             for ( var i=iStart ; i<iEnd ; i++ ){
-            	iCargosE += aaData[ aiDisplay[i] ][10]*1;
-            	iCargosEComi += aaData[ aiDisplay[i] ][11]*1;
+            	iCargosE += aaData[ aiDisplay[i] ][8]*1;
+            	iCargosEComi += aaData[ aiDisplay[i] ][9]*1;
+            	if(aaData[ aiDisplay[i] ][11] != 'P')
+            		iCargosEAP += aaData[aiDisplay[i]][10]*1;
             }
              
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
 			nCells[7].innerHTML = '$'+redondear(parseFloat(iCargosE * 100)/100,2);
 			nCells[8].innerHTML = '$'+redondear(parseFloat(iCargosEComi * 100)/100,2);
-			$('#c_total').val('$'+redondear(parseFloat(iCargosE * 100)/100,2));
+			nCells[9].innerHTML = '$'+redondear(parseFloat(iCargosEAP * 100)/100,2);
+			$('#c_total').val('$'+redondear(parseFloat(iCargosEAP * 100)/100,2));
 			
 			window.setTimeout(function(){$('.erase1').each(function(index, element){ $(this).parent().parent().remove(); });},200);
         },
@@ -293,6 +320,21 @@ $(document).ready(function(e) {
     $("tfoot input").blur( function (i) {
         if ( this.value == "" ) { this.className = "search_init form-control input-sm"; this.value = asInitVals[$("tfoot input").index(this)]; }
     } );
+
+    $("input[name='seleccionartodos']").click(function(e){
+    	$("input[name='apagarbitacora]").prop("checked", true);
+    	$(this).prop("checked", false);
+    });
+    $(document).on("click", "input[name='apagarbitacora']", function(){
+    	var iCargosEAP=0;
+    	$("input[name='apagarbitacora']").each(function(i, e){
+    		if($(this).prop("checked")){
+    			iCargosEAP += $(this).attr("amount")*1;
+    		}
+    	});
+		$('#c_total').val('$'+redondear(parseFloat(iCargosEAP * 100)/100,2));
+    	$(".dataTables_scrollFoot #t_total_comi").html($('#c_total').val());
+    });
 });
 
 function pagar(ref, tot, sal, abo, pac, noTemp){

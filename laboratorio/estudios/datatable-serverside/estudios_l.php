@@ -161,15 +161,19 @@ include_once '../../../recursos/utilities.php';
 		if($_GET['accesoU']==1){
 			$row[1]= "<span class='text-info' style='cursor:pointer; text-decoration:underline;' lang='$row[12]' id='$row[11]' onClick='fichaEstudio(this.id, this.lang);'>$row[1]</span>";
 			
-            $row[6]="<input type='text' class='form-control input-sm tabu_m_i' value='$row[4]' style='width:75px; text-align:right;' lang='$row[11]'>";
-            $row[7]="<input type='text' class='form-control input-sm tabu_m_u_i' value='$row[5]' style='width:75px; text-align:right;' lang='$row[11]'>";
+            $row[6]="<input type='text' class='form-control input-sm precio_m_i' value='$row[6]' style='width:75px; text-align:right;' lang='$row[11]'>";
+            $row[7]="<input type='text' class='form-control input-sm precio_m_u_i' value='$row[7]' style='width:75px; text-align:right;' lang='$row[11]'>";
+            $r8 = $row[8];
+            $row[8]="<input type='text' class='form-control input-sm tabu_m_i' value='$row[4]' style='width:75px; text-align:right;' lang='$row[11]'>";
+            $r9 = $row[9];
+            $row[9]="<input type='text' class='form-control input-sm tabu_m_u_i' value='$row[5]' style='width:75px; text-align:right;' lang='$row[11]'>";
 			$row[3]="<input type='text' class='form-control input-sm dias_i' value='$row[3]' style='width:40px; text-align:right;' lang='$row[11]'>";
-			$row[4]="<input type='text' class='form-control input-sm precio_p_i' value='$row[8]' style='width:75px; text-align:right;' lang='$row[11]'>";
-			$row[5]="<input type='text' class='form-control input-sm precio_p_u_i' value='$row[9]' style='width:75px; text-align:right;' lang='$row[11]'>";
+			$row[4]="<input type='text' class='form-control input-sm precio_p_i' value='$r8' style='width:75px; text-align:right;' lang='$row[11]'>";
+			$row[5]="<input type='text' class='form-control input-sm precio_p_u_i' value='$r9' style='width:75px; text-align:right;' lang='$row[11]'>";
 			
 		}else{ $row[1]="<span id='$row[6]'>$row[1]</span>"; }
 		
-		$row[8]="<div align='center'>$row[10]<br>$row[13]</div>";
+		$row[10]="<div align='center'>$row[10]<br>$row[13]</div>";
 										
 		$output['aaData'][] = $row;
     }
