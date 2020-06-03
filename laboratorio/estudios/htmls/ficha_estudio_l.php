@@ -49,13 +49,13 @@
                 </div>
 				<div class="col-sm-6 col-md-6">
                     <div class="form-group">
-                     <label for="precioME">* PRECIO DE MEMBRESÍA($)</label>
+                     <label for="precioME">* PRECIO DE MAQUILA($)</label>
                      <input type="text" class="form-control input-sm" id="precioME" name="precioME" required onKeyUp="numeros_decimales(this.value, this.name);">
                      </div>
                 </div>
                 <div class="col-sm-6 col-md-6">
                     <div class="form-group">
-                     <label for="precioUrgenciaME">* PRECIO MEMBRESÍA URGENCIA($)</label>
+                     <label for="precioUrgenciaME">* PRECIO MAQUILA URGENCIA($)</label>
                      <input type="text" class="form-control input-sm" id="precioUrgenciaME" name="precioUrgenciaME" required onKeyUp="numeros_decimales(this.value, this.name);">
                      </div>
                 </div>
