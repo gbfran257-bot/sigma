@@ -26,7 +26,7 @@ while ($fila = mysql_fetch_array($query)) {//$fila['convenio_cv'];
 		<tr> 
 		<td valign="middle" style="flex-wrap: wrap;">'.$fila['base_b'].'</td>
 		<td valign="middle" width="25%" align="right">'.$fila['r_valor_texto'].'</td><td width="1">'.$asterix.'</td>
-		<td valign="middle" width="25%" align="center">'.$mi_vr.'</tSd>
+		<td valign="middle" width="25%" align="center">'.$mi_vr.'</td>
 		<td valign="middle" width="25%" align="right"> '.$mi_um.' </td> </tr>
 		';
 	}
