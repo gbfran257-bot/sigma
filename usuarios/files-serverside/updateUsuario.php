@@ -65,9 +65,19 @@ require("../../funciones/php/values.php");
  $estatus_laboral = sqlValue($_POST["estatusU"], "int"); $estatus_escolar = sqlValue($_POST["estatus_ge"], "int");
  $tipo_acceso = sqlValue($_POST["tipo_acceso"], "int");
  
- $permisos = sqlValue($_POST["h_pacie"].$_POST["h_corte_r"].$_POST["h_agend"].$_POST["h_consul"].$_POST["h_rep_c"].$_POST["h_estadi_c"].$_POST["h_cat_c"].$_POST["h_hospi"].$_POST["h_enfer"].$_POST["h_notas_h"].$_POST["h_cama_h"].$_POST["h_img"].$_POST["h_endo"].$_POST["h_ultra"].$_POST["h_colpo"].$_POST["h_cat_i"].$_POST["h_tab_i"].$_POST["h_rep_i"].$_POST["h_estadi_i"].$_POST["h_lab"].$_POST["h_bases"].$_POST["h_bita_l"].$_POST["h_cat_l"].$_POST["h_tab_l"].$_POST["h_rep_l"].$_POST["h_estadi_l"].$_POST["h_serv"].$_POST["h_cat_s"].$_POST["h_tab_s"].$_POST["h_rep_s"].$_POST["h_estadi_s"].$_POST["h_puntov_m"].$_POST["h_medis"].$_POST["h_produ_f"].$_POST["h_corte_f"].$_POST["h_inv_f"].$_POST["h_rep_f"].$_POST["h_estadi_f"].$_POST["h_medi_a"].$_POST["h_promo_a"].$_POST["h_usu"].$_POST["h_sucu"].$_POST["h_corte_a"].$_POST["h_bene_a"].$_POST["h_forma_a"].$_POST["h_prod_f"].$_POST["h_config"], "text");
+// $permisos = sqlValue($_POST["h_pacie"].$_POST["h_corte_r"].$_POST["h_agend"].$_POST["h_consul"].$_POST["h_rep_c"].$_POST["h_estadi_c"].$_POST["h_cat_c"].$_POST["h_hospi"].$_POST["h_enfer"].$_POST["h_notas_h"].$_POST["h_cama_h"].$_POST["h_img"].$_POST["h_endo"].$_POST["h_ultra"].$_POST["h_colpo"].$_POST["h_cat_i"].$_POST["h_tab_i"].$_POST["h_rep_i"].$_POST["h_estadi_i"].$_POST["h_lab"].$_POST["h_bases"].$_POST["h_bita_l"].$_POST["h_cat_l"].$_POST["h_tab_l"].$_POST["h_rep_l"].$_POST["h_estadi_l"].$_POST["h_serv"].$_POST["h_cat_s"].$_POST["h_tab_s"].$_POST["h_rep_s"].$_POST["h_estadi_s"].$_POST["h_puntov_m"].$_POST["h_medis"].$_POST["h_produ_f"].$_POST["h_corte_f"].$_POST["h_inv_f"].$_POST["h_rep_f"].$_POST["h_estadi_f"].$_POST["h_medi_a"].$_POST["h_promo_a"].$_POST["h_usu"].$_POST["h_sucu"].$_POST["h_corte_a"].$_POST["h_bene_a"].$_POST["h_forma_a"].$_POST["h_prod_f"].$_POST["h_config"], "text");
+$permisos = "";
+for($i=0; $i<48; $i++){
+	$permisos .= $_POST['h_permisos'][$i];
+}
+$permisos = sqlValue($permisos, "text");
  
  mysql_select_db($database_horizonte, $horizonte); //foto_u, firma_u, $foto, $firmaU, idOcupacion_u, $ocupacion, 
+ $resultR = mysql_query("SELECT perm from tipo_usuario where id_tu = $tipoUsuario", $horizonte) or die (mysql_error());
+ $pp = mysql_fetch_assoc($resultR)['perm'];
+ if(!empty($pp))
+ 	$permisos = $pp;
+
  $sql = "UPDATE usuarios set coordenadas_u = GEOMFROMTEXT('POINT($latitud $longitud)'), nombre_u = $nombre, apaterno_u = $apaterno, amaterno_u = $amaterno, sexo_u = $idSexo, nacionalidad_u = $nacionalidad, fNac_u = $fechaNacimiento, curp_u = $curp, rfc_u = $rfc, idSucursal_u = $idSucursal, acceso_u = $tipoUsuario, notas_u = $notas, tCelular_u = $tCelular, tSanguineo_u = $tsanguineoP, entidadFederativa_u = $estado, municipio_u = $municipio, colonia_u = $colonia, calle_u = $calle, cp_u = $cp, tParticular_u = $tParticular, tTrabajo_u = $telefonoTrabajo, extensionTt_u = $extensionTT, contactoEmergencia_u = $avisarA, tEmergencia_u = $telefonoE, email_u = $email, idDepartamento_u = $departamento, idPuesto_u = $puesto, idEscolaridad_u = $escolaridad, idProfesion_u = $profesion, titulo_u = $titulo, cedulaProfesional_u = $cedula, especialidad_u = $especialidad, cedulaProfesionalE_u = $cedula1, horario_e_lu = $horario_lu_e, horario_s_lu = $horario_lu_s, horario_e_ma = $horario_ma_e, horario_s_ma = $horario_ma_s, horario_e_mi = $horario_mi_e, horario_s_mi = $horario_mi_s, horario_e_ju = $horario_ju_e, horario_s_ju = $horario_ju_s, horario_e_vi = $horario_vi_e, horario_s_vi = $horario_vi_s, horario_e_sa = $horario_sa_e, horario_s_sa = $horario_sa_s, horario_e_do = $horario_do_e, horario_s_do = $horario_do_s, universidad_u = $universidad, multisucursal_u = $tipo_acceso, estatus_laboral_u = $estatus_laboral, estatus_escolar_u = $estatus_escolar, id_titulo_u = $titulo, permisos_u = $permisos, universidad_e_u = $universidadE where id_u = $idU";
   //echo $sql;
 $update = mysql_query($sql, $horizonte) or die (mysql_error());

@@ -68,6 +68,8 @@
 </head>
 <?php include_once 'partes/header.php'; ?>
 <input name="c_total" type="hidden" value="" id="c_total">
+<input name="" type="hidden" value="" id="comi_total">
+<input name="" type="hidden" value="" id="toting_total">
 <!-- Contenido -->
 <div id="div_tabla_pacientes" class="table-responsive" style="border:1px none red; vertical-align:top; margin-top:0px;">
 <button type="button" class="btn btn-default" onClick="imprimir();">Imprimir <i class="fa fa-print"></i></button><br>
@@ -158,10 +160,12 @@ function imprimir(){
 	var datosP={idU:$('#id_user').val()}
 	$.post('corte_caja/reportes/files-serverside/datos_impre.php',datosP).done(function(data){
 		var datos = data.split('_;}{');
-		$('#t_tbody').prepend('<tr><td align="center" colspan="8"><strong>LISTA DE PACIENTES ENVIADOS. SUCURSAL: '+datos[1]+'. FECHA '+datos[2]+' '+datos[3]+'. USUARIO: '+datos[0]+'</strong></td></tr><tr><td><strong>#</strong></td><td><strong>REFERENCIA</strong></td><td><strong>PACIENTE</strong></td><td><strong>SUCURSAL</strong></td><td><strong>USUARIO</strong></td><td><strong>ESTUDIOS</strong></td><td><strong>MUESTRAS</strong></td><td align="center"><strong>TOTAL</strong></td></tr>');
-		$('#t_tbody').append('<tr><td></td><td></td><td></td><td></td><td></td><td></td><td align="center">TOTAL</td><td>'+$('#c_total').val()+'</td></tr><tr><td align="center" colspan="4" width="50%"><br><br><br><br><span style="text-decoration:overline">NOMBRE Y FIRMA DE QUIÉN ENTREGA</span></td><td align="center" colspan="4"><br><br><br><br><span style="text-decoration:overline">NOMBRE Y FIRMA DE QUIÉN RECIBE</span></td></tr>');
-	
-		$('#dataTable').printElement(); $('#clickme').click();
+		$('#t_tbody').prepend('<tr><td align="center" colspan="8"><strong>LISTA DE PACIENTES ENVIADOS. SUCURSAL: '+datos[1]+'. FECHA '+datos[2]+' '+datos[3]+'. USUARIO: '+datos[0]+'</strong></td></tr><tr><td><strong>#</strong></td><td><strong>REFERENCIA</strong></td><td><strong>PACIENTE</strong></td><td><strong>SUCURSAL</strong></td><td><strong>USUARIO</strong></td><td><strong>ESTUDIOS</strong></td><td><strong>MUESTRAS</strong></td><td align="center"><strong>TOTAL ING</strong></td><td align="center"><strong>COMI</strong></td><td align="center"><strong>A PAGAR</strong></td></tr>');
+		$('#t_tbody').append('<tr><td></td><td></td><td></td><td></td><td></td><td></td><td align="center">TOTAL ING</td><td>'+$('#toting_total').val()+'</td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td align="center">COMISION</td><td>'+$('#comi_total').val()+'</td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td align="center">A PAGAR</td><td>'+$('#c_total').val()+'</td></tr><tr><td align="center" colspan="4" width="50%"><br><br><br><br><span style="text-decoration:overline">NOMBRE Y FIRMA DE QUIÉN ENTREGA</span></td><td align="center" colspan="4"><br><br><br><br><span style="text-decoration:overline">NOMBRE Y FIRMA DE QUIÉN RECIBE</span></td></tr>');
+		$('#dataTable td:nth-child(4)').hide();
+		$('#dataTable td:nth-child(5)').hide();
+		$('#dataTable').printElement();
+		setTimeout(function(){ $('#clickme').click(); }, 2000);
 	});
 }
 function muestras(ref,id){
@@ -182,7 +186,7 @@ function guardar_muestra(ref,id,val){
 		}else{alert(data);}
 	});
 }
-
+var oTable;
 $(document).ready(function(e) {
 	//breadcrumb
 	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>LABORATORIO</li><li class="active"><strong>BITÁCORA DE ESTUDIOS DE LABORATORIO</strong></li>');
@@ -196,7 +200,7 @@ $(document).ready(function(e) {
 	var tam = $('#referencia').height() - 242-$('#breadc').height();
 	var wT = $('#referencia').width()*0.9;
 	//$('#dataTable').css('width',100);
-	var oTable = $('#dataTable').dataTable({
+	oTable = $('#dataTable').dataTable({
 		//funciones para calcular los totales en los campos del pie de página
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
 			$( '#rangosFechas' ).buttonset();
@@ -223,6 +227,8 @@ $(document).ready(function(e) {
 			nCells[8].innerHTML = '$'+redondear(parseFloat(iCargosEComi * 100)/100,2);
 			nCells[9].innerHTML = '$'+redondear(parseFloat(iCargosEAP * 100)/100,2);
 			$('#c_total').val('$'+redondear(parseFloat(iCargosEAP * 100)/100,2));
+			$('#toting_total').val('$'+redondear(parseFloat(iCargosE * 100)/100,2));
+			$('#comi_total').val('$'+redondear(parseFloat(iCargosEComi * 100)/100,2));
 			
 			window.setTimeout(function(){$('.erase1').each(function(index, element){ $(this).parent().parent().remove(); });},200);
         },

@@ -1176,53 +1176,9 @@ function verUsuario(idU, nombre_u, tempi_u){
 				if($(this).is(':checked')){$('#domingo_de1').val('08:00');$('#domingo_a1').val('14:00');$('#t_domingo').val(1); }
 				else{$('#domingo_de1').val('00:00');$('#domingo_a1').val('00:00');$('#t_domingo').val(0); } 
 			});
-			if(dato[55][0]==1){$('#h_pacie').val(1); $('#c_pacie').attr('checked', 'checked');}else{ $('#h_pacie').val(0); }
-			if(dato[55][1]==1){$('#h_corte_r').val(1); $('#c_corte_r').attr('checked', 'checked');}else{ $('#h_corte_r').val(0); }
-			if(dato[55][2]==1){$('#h_agend').val(1); $('#c_agend').attr('checked', 'checked');}else{ $('#h_agend').val(0); }
-			if(dato[55][3]==1){$('#h_consul').val(1); $('#c_consul').attr('checked', 'checked');}else{ $('#h_consul').val(0); }
-			if(dato[55][4]==1){$('#h_rep_c').val(1); $('#c_rep_c').attr('checked', 'checked');}else{ $('#h_rep_c').val(0); }
-			if(dato[55][5]==1){$('#h_estadi_c').val(1); $('#c_estadi_c').attr('checked', 'checked');}else{ $('#h_estadi_c').val(0); }
-			if(dato[55][6]==1){$('#h_cat_c').val(1); $('#c_cat_c').attr('checked', 'checked');}else{ $('#h_cat_c').val(0); }
-			if(dato[55][7]==1){$('#h_hospi').val(1); $('#c_hospi').attr('checked', 'checked');}else{ $('#h_hospi').val(0); }
-			if(dato[55][8]==1){$('#h_enfer').val(1); $('#c_enfer').attr('checked', 'checked');}else{ $('#h_enfer').val(0); }
-			if(dato[55][9]==1){$('#h_notas_h').val(1); $('#c_notas_h').attr('checked', 'checked');}else{ $('#h_notas_h').val(0); }
-			if(dato[55][10]==1){$('#h_cama_h').val(1); $('#c_cama_h').attr('checked', 'checked');}else{ $('#h_cama_h').val(0); }
-			if(dato[55][11]==1){$('#h_img').val(1); $('#c_img').attr('checked', 'checked');}else{ $('#h_img').val(0); }
-			if(dato[55][12]==1){$('#h_endo').val(1); $('#c_endo').attr('checked', 'checked');}else{ $('#h_endo').val(0); }
-			if(dato[55][13]==1){$('#h_ultra').val(1); $('#c_ultra').attr('checked', 'checked');}else{ $('#h_ultra').val(0); }
-			if(dato[55][14]==1){$('#h_colpo').val(1); $('#c_colpo').attr('checked', 'checked');}else{ $('#h_colpo').val(0); }
-			if(dato[55][15]==1){$('#h_cat_i').val(1); $('#c_cat_i').attr('checked', 'checked');}else{ $('#h_cat_i').val(0); }
-			if(dato[55][16]==1){$('#h_tab_i').val(1); $('#c_tab_i').attr('checked', 'checked');}else{ $('#h_tab_i').val(0); }
-			if(dato[55][17]==1){$('#h_rep_i').val(1); $('#c_rep_i').attr('checked', 'checked');}else{ $('#h_rep_i').val(0); }
-			if(dato[55][18]==1){$('#h_estadi_i').val(1); $('#c_estadi_i').attr('checked', 'checked');}else{ $('#h_estadi_i').val(0); }
-			if(dato[55][19]==1){$('#h_lab').val(1); $('#c_lab').attr('checked', 'checked');}else{ $('#h_lab').val(0); }
-			if(dato[55][20]==1){$('#h_bases').val(1); $('#c_bases').attr('checked', 'checked');}else{ $('#h_bases').val(0); }
-			if(dato[55][21]==1){$('#h_bita_l').val(1); $('#c_bita_l').attr('checked', 'checked');}else{ $('#h_bita_l').val(0); }
-			if(dato[55][22]==1){$('#h_cat_l').val(1); $('#c_cat_l').attr('checked', 'checked');}else{ $('#h_cat_l').val(0); }
-			if(dato[55][23]==1){$('#h_tab_l').val(1); $('#c_tab_l').attr('checked', 'checked');}else{ $('#h_tab_l').val(0); }
-			if(dato[55][24]==1){$('#h_rep_l').val(1); $('#c_rep_l').attr('checked', 'checked');}else{ $('#h_rep_l').val(0); }
-			if(dato[55][25]==1){$('#h_estadi_l').val(1); $('#c_estadi_l').attr('checked', 'checked');}else{ $('#h_estadi_l').val(0); }
-			if(dato[55][26]==1){$('#h_serv').val(1); $('#c_serv').attr('checked', 'checked');}else{ $('#h_serv').val(0); }
-			if(dato[55][27]==1){$('#h_cat_s').val(1); $('#c_cat_s').attr('checked', 'checked');}else{ $('#h_cat_s').val(0); }
-			if(dato[55][28]==1){$('#h_tab_s').val(1); $('#c_tab_s').attr('checked', 'checked');}else{ $('#h_tab_s').val(0); }
-			if(dato[55][29]==1){$('#h_rep_s').val(1); $('#c_rep_s').attr('checked', 'checked');}else{ $('#h_rep_s').val(0); }
-			if(dato[55][30]==1){$('#h_estadi_s').val(1); $('#c_estadi_s').attr('checked', 'checked');}else{ $('#h_estadi_s').val(0); }
-			if(dato[55][31]==1){$('#h_puntov_m').val(1); $('#c_puntov_m').attr('checked', 'checked');}else{ $('#h_puntov_m').val(0); }
-			if(dato[55][32]==1){$('#h_medis').val(1); $('#c_medis').attr('checked', 'checked');}else{ $('#h_medis').val(0); }
-			if(dato[55][33]==1){$('#h_produ_f').val(1); $('#c_produ_f').attr('checked', 'checked');}else{ $('#h_produ_f').val(0); }
-			if(dato[55][34]==1){$('#h_corte_f').val(1); $('#c_corte_f').attr('checked', 'checked');}else{ $('#h_corte_f').val(0); }
-			if(dato[55][35]==1){$('#h_inv_f').val(1); $('#c_inv_f').attr('checked', 'checked');}else{ $('#h_inv_f').val(0); }
-			if(dato[55][36]==1){$('#h_rep_f').val(1); $('#c_rep_f').attr('checked', 'checked');}else{ $('#h_rep_f').val(0); }
-			if(dato[55][37]==1){$('#h_estadi_f').val(1); $('#c_estadi_f').attr('checked', 'checked');}else{ $('#h_estadi_f').val(0); }
-			if(dato[55][38]==1){$('#h_medi_a').val(1); $('#c_medi_a').attr('checked', 'checked');}else{ $('#h_medi_a').val(0); }
-			if(dato[55][39]==1){$('#h_promo_a').val(1); $('#c_promo_a').attr('checked', 'checked');}else{ $('#h_promo_a').val(0); }
-			if(dato[55][40]==1){$('#h_usu').val(1); $('#c_usu').attr('checked', 'checked');}else{ $('#h_usu').val(0); }
-			if(dato[55][41]==1){$('#h_sucu').val(1); $('#c_sucu').attr('checked', 'checked');}else{ $('#h_sucu').val(0); }
-			if(dato[55][42]==1){$('#h_corte_a').val(1); $('#c_corte_a').attr('checked', 'checked');}else{ $('#h_corte_a').val(0); }
-			if(dato[55][43]==1){$('#h_bene_a').val(1); $('#c_bene_a').attr('checked', 'checked');}else{ $('#h_bene_a').val(0); }
-			if(dato[55][44]==1){$('#h_forma_a').val(1); $('#c_forma_a').attr('checked', 'checked');}else{ $('#h_forma_a').val(0); }
-			if(dato[55][45]==1){$('#h_prod_f').val(1); $('#c_prod_f').attr('checked', 'checked');}else{ $('#h_prod_f').val(0); }
-			if(dato[55][46]==1){$('#h_config').val(1); $('#c_config').attr('checked', 'checked');}else{ $('#h_config').val(0); }
+			for(var it=0; it<48; it++){
+				if(dato[55][it]==1){$("input[name='h_permisos[]']").eq(it).val(1); $("input[name='p_"+it+"']").prop('checked', true);}else{ $("input[name='h_permisos[]']").eq(it).val(0); }
+			}
 			
 			$('#sucursal_as').load('usuarios/genera/sucursales.php?tempo='+tempo,function(response,status,xhr){if(status=="success"){
 				window.setTimeout(function(){
@@ -1265,7 +1221,7 @@ function verUsuario(idU, nombre_u, tempi_u){
 			$('#tab_mi_suc').click(function(e) { window.setTimeout(function(){oTableSuc.draw();},200); });
 			
 			$('.chekito').click(function(e) { //alert($(this).attr('lang'));
-				if($(this).is(':checked')){ $('#'+$(this).attr('lang')).val(1);}else{ $('#'+$(this).attr('lang')).val(0); }
+				if($(this).is(':checked')){ $(this).parent().parent().children("input[name='h_permisos[]']").val(1);}else{ $(this).parent().parent().children("input[name='h_permisos[]']").val(0); }
 			});
 			
 			$('#form-registro').validator().on('submit', function (e) {
