@@ -32,11 +32,15 @@ require("../../../funciones/php/values.php");
 
 		if (!$update) { echo $sql; }
 
- 		$sql = "UPDATE conceptos set $precio_nor = $valor, $precio_ur = $valoru, usuario_to = $id_u, fecha_to = $now where id_to = $id_to and ($precio_nor != $valor or $precio_ur != $valoru)";
-		$update = mysql_query($sql, $horizonte) or die (mysql_error());
- 		if (!$update) { echo $sql; }
+ 		
 		
 	}
+	if($_POST['tipo'] == 1)
+		$sql = "UPDATE conceptos set $precio_nor = costo_maquila_to, $precio_ur = costo_maquila_u_to, usuario_to = $id_u, fecha_to = $now where id_tipo_concepto_to = 3";
+	else
+		$sql = "UPDATE conceptos set $precio_nor = precio_to, $precio_ur = precio_urgencia_to, usuario_to = $id_u, fecha_to = $now where id_tipo_concepto_to = 3";
+	$update = mysql_query($sql, $horizonte) or die (mysql_error());
+		if (!$update) { echo $sql; }
  }
 echo 1;
  //Cerrar conexión a la Base de Datos
