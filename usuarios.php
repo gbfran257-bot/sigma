@@ -154,7 +154,7 @@ $(document).ready(function(e){
 	
 	if($('#xhgc').val()!=''){
 		var datos = {id:$('#xhgc').val()}
-		$.post('usuarios/files-serverside/name_u.php',datos).done(function(data){ verUsuario($('#xhgc').val(), data); });
+		$.post('usuarios/files-serverside/name_u.php',datos).done(function(data){ verUsuario($('#xhgc').val(), data); $("#contrasena-tab").click(); });
 	}else{ }
 	//var bootstrapButton = $.fn.button.noConflict();  $.fn.bootstrapBtn = bootstrapButton; 
 	
