@@ -194,9 +194,10 @@
         $rowX = mysql_fetch_row($result);
         $row[12] = $row[11];
         if(!empty($rowX[0])){
+            $row[10]  = 0;
             $row[11] = "P";
         }else{
-		    $row[11] = "<input type='checkbox' name='apagarbitacora' amount='".$totalActual."' idov='".$idov."' checked>";
+		    $row[11] = "<input type='checkbox' name='apagarbitacora' amount='".$row[10]."' idov='".$idov."'>";
         }
 		$output['aaData'][] = $row;
     }
