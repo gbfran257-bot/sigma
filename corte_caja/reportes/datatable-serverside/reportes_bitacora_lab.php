@@ -19,21 +19,21 @@
 	if(isset($_GET['depto']) && $_GET['depto'] != 'x' && $_GET['depto'] != ''){//para las solicitudes con departamento
 		if(isset($_GET['saldos']) && $_GET['saldos'] == 'SI'){//para las solicitudes con saldos
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-				$sWhere = "WHERE ov.gran_total_ov > pa.pago_pag and pa.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' and pa.id_departamento_pag = '$_GET[depto]'";
+				$sWhere = "WHERE ov.gran_total_ov > pa.pago_pag and ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]' and pa.id_departamento_pag = '$_GET[depto]'";
 			}else{$sWhere = "WHERE ov.gran_total_ov > pa.pago_pag" ;}
 		}else{//si no se solicitan los registros con saldo (que deben dinero)
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-				$sWhere = "WHERE pa.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' and pa.id_departamento_pag = '$_GET[depto]'";
+				$sWhere = "WHERE ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]' and pa.id_departamento_pag = '$_GET[depto]'";
 			}else{$sWhere = "WHERE 1=1" ;}
 		}
 	}else{
 		if(isset($_GET['saldos']) && $_GET['saldos'] == 'SI'){//para las solicitudes con saldos
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-				$sWhere = "WHERE ov.gran_total_ov > pa.pago_pag and pa.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'";
+				$sWhere = "WHERE ov.gran_total_ov > pa.pago_pag and ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'";
 			}else{$sWhere = "WHERE ov.gran_total_ov > pa.pago_pag" ;}
 			}else{//si no se solicitan los registros con saldo (que deben dinero)
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-				$sWhere = "WHERE pa.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'";
+				$sWhere = "WHERE ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'";
 			}else{$sWhere = "WHERE 1=1 " ;}
 		}
 	}
