@@ -11,7 +11,7 @@ if($_GET['min'] == 'undefined 00:00:00' || $_GET['max'] == 'undefined 23:59:59')
 	$_GET['max'] .= " 23:59:59";
 	$_GET['min'] .= " 00:00:00";
 }
-$tipo_user = $_SESSION['MM_Tier'];
+$tipo_user = $_SESSION['MM_UserGroup'];
 $sucu_user = $_SESSION['MM_Usersucu'];
     /* Array of database columns which should be read and sent back to DataTables. Use a space where * you want to insert a non-database field (for example a counter or static image) */
 	
