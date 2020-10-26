@@ -75,6 +75,10 @@
 	  overflow-x: hidden;
 	  overflow-y: auto;
 	}
+	.dt-buttons{
+			float:right;
+			padding-right: 15px;
+		}
     </style>
 </head>
 <?php include_once 'partes/header.php'; ?>
