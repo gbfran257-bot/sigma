@@ -31,6 +31,9 @@
     <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
     <script src="DataTables-1.10.13/media/js/dataTables.bootstrap.min.js"></script>
     <script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script>
 	<script src="TableTools-2.1.5/media/js/TableTools.js"></script>
     <script src="TableTools-2.1.5/media/js/ZeroClipboard.js"></script>
     <script src="bootstrap-validator/js/validator.js"></script>
@@ -394,7 +397,13 @@ $(document).ready(function(e) {
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": false }, { "bVisible": true }, { "bVisible": true },
 			{"bVisible":false}, {"bVisible":false },{ "bVisible": false }, { "bVisible": false }, { "bVisible": true }
 		],
-		"sDom": '<"filtro1Principal"f>Tr<"data_tPrincipal"t><"infoPrincipal"iS><"proc"p>',
+		"sDom": '<"filtro1Principal"f>Bl<"data_tPrincipal"t><"infoPrincipal"iS><"proc"p>',
+        buttons: [ {
+            extend: 'excelHtml5',
+            autoFilter: true,
+            sheetName: 'Pacientes'
+        } ],
+        lengthMenu: [[25, 100, -1], [25, 100, "Todo"]],
 		"oTableTools": {
 			"sSwfPath": "TableTools-2.1.5/media/swf/copy_csv_xls_pdf.swf",
 			"aButtons": [ 
@@ -410,7 +419,7 @@ $(document).ready(function(e) {
 			aoData.push( {"name": "convenio", "value": cv } ); 
 		},
 		"oLanguage": {
-			"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
+			"sLengthMenu": "MOSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
 			"sInfo": "PACIENTES FILTRADOS: _END_", "sInfoEmpty": "NINGÚN PACIENTE FILTRADO.", "sInfoFiltered": " TOTAL DE PACIENTES: _MAX_", "sSearch": "",
 			"oPaginate": { "sNext": "<span class='paginacionPrincipal'>Siguiente</span>", "sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;" }
 		},"iDisplayLength": 25, paging: true,

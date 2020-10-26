@@ -30,6 +30,9 @@
     <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
     <script src="DataTables-1.10.13/media/js/dataTables.bootstrap.min.js"></script>
     <script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script>
     <script src="bootstrap-validator/js/validator.js"></script>
     <script src="sweetalert/dist/sweetalert.min.js"></script>
     <script src="chosen/chosen.jquery.js" type="text/javascript"></script>
@@ -134,6 +137,7 @@
 <?php include_once 'partes/footer.php'; ?>
 
 <script>
+	var oTableP, globalisima = 0;
 $(document).ready(function(e) {
 	//breadcrumb
 	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>LABORATORIO</li><li class="active"><strong>CATÁLOGO DE ESTUDIOS DE LABORATORIO</strong></li>');
@@ -141,14 +145,20 @@ $(document).ready(function(e) {
 	$('#my_search').removeClass('hidden'); $.fn.datepicker.defaults.autoclose = true; 
 	
 	var tamP = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-155-$('#breadc').height();
-	var oTableP = $('#dataTablePrincipal').DataTable({
+	oTableP = $('#dataTablePrincipal').DataTable({
 		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true},{ "bVisible": true }, {"bVisible":true},
 			{"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
 		],
-		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
+		"sDom": '<"filtro1Principal"f>Blr<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
+		buttons: [ {
+            extend: 'excelHtml5',
+            autoFilter: true,
+            sheetName: 'Catalogo de laboratorio'
+        } ],
+        lengthMenu: [[100, 500, -1], [100, 500, "Todo"]],
 		deferRender: true, select: false, "processing": false, 
 		"sAjaxSource": "laboratorio/estudios/datatable-serverside/estudios_l.php",
 		"fnServerParams": function (aoData, fnCallback) { 
@@ -157,16 +167,22 @@ $(document).ready(function(e) {
 			
 			aoData.push( {"name": "nombre", "value": nombre } );
 			aoData.push(  {"name": "accesoU", "value": acceso } );
+			aoData.push(  {"name": "enExcel", "value": globalisima } );
 			aoData.push(  {"name": "idU", "value": idU } ); aoData.push({"name": "idSu", "value": de });
 		},
 		"oLanguage": {
-			"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
+			"sLengthMenu": "MOSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
 			"sInfo": "ESTUDIOS FILTRADOS: _END_",
 			"sInfoEmpty": "NINGÚN ESTUDIO FILTRADO.", "sInfoFiltered": " TOTAL DE ESTUDIOS: _MAX_", "sSearch": "",
 			"oPaginate": { "sNext": "<span class='paginacionPrincipal'>Siguiente</span>", "sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;" }
 		},"iDisplayLength": 100, paging: true,
 	});
-	
+	oTableP.on( 'buttons-action', function ( e, buttonApi, dataTable, node, config ) {
+	    //console.log( 'Button '+buttonApi.text()+' was activated' );
+	    e.preventDefault();
+	    globalisima = 1;
+	    oTableP.draw();
+	} );
 	$('#clickme').click(function(e) { oTableP.draw(); }); window.setTimeout(function(){$('#clickme').click();},500);
 	
 	//para los fintros individuales por campo de texto
