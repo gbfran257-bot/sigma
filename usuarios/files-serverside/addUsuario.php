@@ -87,6 +87,11 @@ require("../../funciones/php/values.php");
  $hashed_password = sqlValue(password_hash($_POST["username"], PASSWORD_DEFAULT), "text");
  
  $permisos = sqlValue($_POST["h_pacie"].$_POST["h_corte_r"].$_POST["h_agend"].$_POST["h_consul"].$_POST["h_rep_c"].$_POST["h_estadi_c"].$_POST["h_cat_c"].$_POST["h_hospi"].$_POST["h_enfer"].$_POST["h_notas_h"].$_POST["h_cama_h"].$_POST["h_img"].$_POST["h_endo"].$_POST["h_ultra"].$_POST["h_colpo"].$_POST["h_cat_i"].$_POST["h_tab_i"].$_POST["h_rep_i"].$_POST["h_estadi_i"].$_POST["h_lab"].$_POST["h_bases"].$_POST["h_bita_l"].$_POST["h_cat_l"].$_POST["h_tab_l"].$_POST["h_rep_l"].$_POST["h_estadi_l"].$_POST["h_serv"].$_POST["h_cat_s"].$_POST["h_tab_s"].$_POST["h_rep_s"].$_POST["h_estadi_s"].$_POST["h_puntov_m"].$_POST["h_medis"].$_POST["h_produ_f"].$_POST["h_corte_f"].$_POST["h_inv_f"].$_POST["h_rep_f"].$_POST["h_estadi_f"].$_POST["h_medi_a"].$_POST["h_promo_a"].$_POST["h_usu"].$_POST["h_sucu"].$_POST["h_corte_a"].$_POST["h_bene_a"].$_POST["h_forma_a"].$_POST["h_prod_f"].$_POST["h_config"], "text");
+$permisos = "";
+for($i=0; $i<48; $i++){
+	$permisos .= $_POST['h_permisos'][$i];
+}
+$permisos = sqlValue($permisos, "text");
 
  mysql_select_db($database_horizonte, $horizonte); //foto_u, firma_u, $foto, $firmaU, idOcupacion_u, $ocupacion, 
  $sql = "INSERT INTO usuarios(temporal_u, coordenadas_u, idUsuarioR_u, nombre_u, apaterno_u, amaterno_u, sexo_u, nacionalidad_u, fNac_u, curp_u, rfc_u, idSucursal_u, acceso_u, usuario_u, contrasena_u, notas_u, tCelular_u, tSanguineo_u, entidadFederativa_u, municipio_u, colonia_u, calle_u, cp_u, tParticular_u, tTrabajo_u, extensionTt_u, contactoEmergencia_u, tEmergencia_u, email_u, idDepartamento_u, idArea_u, idPuesto_u, idEscolaridad_u, idProfesion_u, titulo_u, cedulaProfesional_u, especialidad_u, cedulaProfesionalE_u, horario_e_lu, horario_s_lu, horario_e_ma, horario_s_ma, horario_e_mi, horario_s_mi, horario_e_ju, horario_s_ju, horario_e_vi, horario_s_vi, horario_e_sa, horario_s_sa, horario_e_do, horario_s_do, fecha_ingreso_u, universidad_u, multisucursal_u, estatus_laboral_u, estatus_escolar_u, id_titulo_u, permisos_u, universidad_e_u)";
