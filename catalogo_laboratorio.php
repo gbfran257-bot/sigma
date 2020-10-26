@@ -83,6 +83,10 @@
 		#dataTablePrincipal td:nth-child(9){
 			border-left: 1px solid #cecece;
 		}
+		.dt-buttons{
+			float:right;
+			padding-right: 15px;
+		}
     </style>
 </head>
 <?php include_once 'partes/header.php';?>
