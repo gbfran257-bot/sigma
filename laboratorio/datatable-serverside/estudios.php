@@ -187,21 +187,21 @@ $sucu_user = $_SESSION['MM_Usersucu'];
 		$row[7] = "<div align='center'><button type='button' class='btn btn-xs btn-primary disabled' name='$row[8]' id='$row[9]' lang='$row[9]' value='$row[9]'><i class='fa fa-pencil' aria-hidden='true'></i></button></div>";
 		
 		if ($row[4] == "PENDIENTE"){
-			if($tipo_user>=2){
+			if($tipo_user!=14){
 				$row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[9]' value='$row[9]' ".(empty($_GET['_essucur'])?"onClick='procesar(this.id, this.lang)'":'')." style='cursor:pointer; text-decoration:underline;'> $row[4] </span>"; 
 			}else{
 				$row[4] = "$row[4]"; 
 			}
 		}
 		if ($row[4] == "PROCESO"){
-			if($tipo_user>=2){
+			if($tipo_user!=14){
 				$row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[9]' value='$row[9]' ".(empty($_GET['_essucur'])?"onClick='realizar(this.id, this.lang, $nombreEstu,$row[14])'":'')." style='cursor:pointer; text-decoration:underline;'> $row[4] </span>"; 
 			}else{
 				$row[4] = "$row[4]"; 
 			}
 		}
 		if ($row[4] == "CAPTURADO"){ 
-			if($tipo_user>=2){
+			if($tipo_user!=14){
 				$row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[9]' value='$row[9]' ".(empty($_GET['_essucur'])?"onClick='interpretar(this.id, this.lang, $nombreEstu,$row[14])'":'')." style='cursor:pointer; text-decoration:underline;'> $row[4] </span>"; 
 			}else{
 				$row[4] = "$row[4]"; 
@@ -210,7 +210,7 @@ $sucu_user = $_SESSION['MM_Usersucu'];
 		if ($row[4] == "AUTORIZADO"){ 
             //if($tipo_user >= 3){
 			    $row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[9]' value='$row[3]' onClick='autorizado(this.id, this.lang, $nombreEstu,$row[14],this.value)' style='cursor:pointer; text-decoration:underline;'> $row[4] </span><br>$row[16] $row[17]";
-            if($tipo_user>=2){
+            if($tipo_user!=14){
 				$row[7] = "<div align='center'><button type='button' class='btn btn-xs btn-primary' name='$row[8]' id='$row[8]' lang='$row[9]' value='' onClick='editar(this.lang, $nombreEstu, $referenciaE, $nombreP)'><i class='fa fa-pencil' aria-hidden='true'></i></button></div>";
 			}else{
 				$row[7] = "-"; 
