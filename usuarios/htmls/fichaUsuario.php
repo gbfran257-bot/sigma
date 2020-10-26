@@ -636,16 +636,36 @@ $id_del_user = $_SESSION['id'];
               <table class="table-condensed">
               	<tr>
                 	<td>
-                      <label><input type="checkbox" id="c_pacie" name="c_pacie" lang="h_pacie" class="chekito"> PACIENTES</label>
-                      <input name="h_pacie" id="h_pacie" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_0" class="chekito"> PACIENTES</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_corte_r" name="c_corte_r" lang="h_corte_r" class="chekito"> CORTE DE CAJA</label>
-                      <input name="h_corte_r" id="h_corte_r" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_1" class="chekito"> ÓRDENES DE VENTA</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_agend" name="c_agend" lang="h_agend" class="chekito"> AGENDA</label>
-                      <input name="h_agend" id="h_agend" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_2" class="chekito"> ÓRDENES AGENDADAS</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
+                    </td>
+                    <td>
+                      <label><input type="checkbox" name="p_3" class="chekito"> PAGOS</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
+                    </td>
+                    <td>
+                      <label><input type="checkbox" name="p_4" class="chekito"> RESUMEN</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
+                    </td>
+                    <td>
+                      <label><input type="checkbox" name="p_5" class="chekito"> AGENDA</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
+                    </td>
+                    <td>
+                      <label><input type="checkbox" name="p_6" class="chekito"> MEMBRESÍAS</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
+                    </td>
+                    <td>
+                      <label><input type="checkbox" name="p_7" class="chekito"> PRODUCTIVIDAD</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                 </tr>
               </table>
@@ -655,20 +675,20 @@ $id_del_user = $_SESSION['id'];
               <table class="table-condensed">
               	<tr>
                 	<td>
-                      <label><input type="checkbox" id="c_consul" name="c_consul" lang="h_consul" class="chekito"> CONSULTAS MÉDICAS</label>
-                      <input name="h_consul" id="h_consul" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_8" class="chekito"> CONSULTAS MÉDICAS</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_rep_c" name="c_rep_c" lang="h_rep_c" class="chekito"> REPORTES</label>
-                      <input name="h_rep_c" id="h_rep_c" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_9" class="chekito"> AGENDA CONSULTAS</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_estadi_c" name="c_estadi_c" lang="h_estadi_c" class="chekito"> ESTADÍSTICAS</label>
-                      <input name="h_estadi_c" id="h_estadi_c" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_10" class="chekito"> CATÁLOGO</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_cat_c" name="c_cat_c" lang="h_cat_c" class="chekito"> CATÁLOGO</label>
-                      <input name="h_cat_c" id="h_cat_c" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_11" class="chekito"> PRODUCTIVIDAD</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                 </tr>
               </table>
@@ -677,21 +697,17 @@ $id_del_user = $_SESSION['id'];
               <div class="panel-heading">HOSPITAL</div>
               <table class="table-condensed">
               	<tr>
+                    <td>
+                      <label><input type="checkbox" name="p_12" class="chekito"> ENFERMERÍA</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
+                    </td>
                 	<td>
-                      <label><input type="checkbox" id="c_hospi" name="c_hospi" lang="h_hospi" class="chekito"> HOSPITALIZACIÓN</label>
-                      <input name="h_hospi" id="h_hospi" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_13" class="chekito"> HOSPITALIZACIÓN</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_enfer" name="c_enfer" lang="h_enfer" class="chekito"> ENFERMERÍA</label>
-                      <input name="h_enfer" id="h_enfer" type="hidden" value="0">
-                    </td>
-                    <td>
-                      <label><input type="checkbox" id="c_notas_h" name="c_notas_h" lang="h_notas_h" class="chekito"> NOTAS MÉDICAS</label>
-                      <input name="h_notas_h" id="h_notas_h" type="hidden" value="0">
-                    </td>
-                    <td>
-                      <label><input type="checkbox" id="c_cama_h" name="c_cama_h" lang="h_cama_h" class="chekito"> CAMAS</label>
-                      <input name="h_cama_h" id="h_cama_h" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_14" class="chekito"> CAMAS</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                 </tr>
               </table>
@@ -701,36 +717,32 @@ $id_del_user = $_SESSION['id'];
               <table class="table-condensed">
               	<tr>
                 	<td>
-                      <label><input type="checkbox" id="c_img" name="c_img" lang="h_img" class="chekito"> IMAGENOLOGÍA</label>
-                      <input name="h_img" id="h_img" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_15" class="chekito"> IMAGENOLOGÍA</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_endo" name="c_endo" lang="h_endo" class="chekito"> ENDOSCOPÍA</label>
-                      <input name="h_endo" id="h_endo" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_16" class="chekito"> AGENDA IMGEN</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_ultra" name="c_ultra" lang="h_ultra" class="chekito"> ULTRASONIDO</label>
-                      <input name="h_ultra" id="h_ultra" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_17" class="chekito"> ENDOSCOPÍA</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_colpo" name="c_colpo" lang="h_colpo" class="chekito"> COLPOSCOPÍA</label>
-                      <input name="h_colpo" id="h_colpo" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_18" class="chekito"> ULTRASONIDO</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_cat_i" name="c_cat_i" lang="h_cat_i" class="chekito"> CATÁLOGO</label>
-                      <input name="h_cat_i" id="h_cat_i" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_19" class="chekito"> COLPOSCOPÍA</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_tab_i" name="c_tab_i" lang="h_tab_i" class="chekito"> TABULADOR BASE</label>
-                      <input name="h_tab_i" id="h_tab_i" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_20" class="chekito"> CATÁLOGO</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_rep_i" name="c_rep_i" lang="h_rep_i" class="chekito"> REPORTES</label>
-                      <input name="h_rep_i" id="h_rep_i" type="hidden" value="0">
-                    </td>
-                    <td>
-                      <label><input type="checkbox" id="c_estadi_i" name="c_estadi_i" lang="h_estadi_i" class="chekito"> ESTADÍSTICAS</label>
-                      <input name="h_estadi_i" id="h_estadi_i" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_21" class="chekito"> PRODUCTIVIDAD</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                 </tr>
               </table>
@@ -740,32 +752,28 @@ $id_del_user = $_SESSION['id'];
               <table class="table-condensed">
               	<tr>
                 	<td>
-                      <label><input type="checkbox" id="c_lab" name="c_lab" lang="h_lab" class="chekito"> ESTUDIOS</label>
-                      <input name="h_lab" id="h_lab" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_22" class="chekito"> ESTUDIOS</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_bases" name="c_bases" lang="h_bases" class="chekito"> BASES</label>
-                      <input name="h_bases" id="h_bases" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_23" class="chekito"> AGENDA LABORATORIO</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_bita_l" name="c_bita_l" lang="h_bita_l" class="chekito"> BITÁCORAS</label>
-                      <input name="h_bita_l" id="h_bita_l" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_24" class="chekito"> BASES</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_cat_l" name="c_cat_l" lang="h_cat_l" class="chekito"> CATÁLOGO</label>
-                      <input name="h_cat_l" id="h_cat_l" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_25" class="chekito"> BITÁCORAS</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_tab_l" name="c_tab_l" lang="h_tab_l" class="chekito"> TABULADOR BASE</label>
-                      <input name="h_tab_l" id="h_tab_l" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_26" class="chekito"> CATÁLOGO</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_rep_l" name="c_rep_l" lang="h_rep_l" class="chekito"> REPORTES</label>
-                      <input name="h_rep_l" id="h_rep_l" type="hidden" value="0">
-                    </td>
-                    <td>
-                      <label><input type="checkbox" id="c_estadi_l" name="c_estadi_l" lang="h_estadi_l" class="chekito"> ESTADÍSTICAS</label>
-                      <input name="h_estadi_l" id="h_estadi_l" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_27" class="chekito"> PRODUCTIVIDAD</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                 </tr>
               </table>
@@ -775,24 +783,20 @@ $id_del_user = $_SESSION['id'];
               <table class="table-condensed">
               	<tr>
                 	<td>
-                      <label><input type="checkbox" id="c_serv" name="c_serv" lang="h_serv" class="chekito"> SERVICIOS MÉDICOS</label>
-                      <input name="h_serv" id="h_serv" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_28" class="chekito"> SERVICIOS MÉDICOS</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_cat_s" name="c_cat_s" lang="h_cat_s" class="chekito"> CATÁLOGO</label>
-                      <input name="h_cat_s" id="h_cat_s" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_29" class="chekito"> AGENDA LABORATORIO</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_tab_s" name="c_tab_s" lang="h_tab_s" class="chekito"> TABULADOR BASE</label>
-                      <input name="h_tab_s" id="h_tab_s" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_30" class="chekito"> CATÁLOGO</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_rep_s" name="c_rep_s" lang="h_rep_s" class="chekito"> REPORTES</label>
-                      <input name="h_rep_s" id="h_rep_s" type="hidden" value="0">
-                    </td>
-                    <td>
-                      <label><input type="checkbox" id="c_estadi_s" name="c_estadi_s" lang="h_estadi_s" class="chekito"> ESTADÍSTICAS</label>
-                      <input name="h_estadi_s" id="h_estadi_s" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_31" class="chekito"> PRODUCTIVIDAD</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                 </tr>
               </table>
@@ -802,48 +806,30 @@ $id_del_user = $_SESSION['id'];
               <table class="table-condensed">
               	<tr>
                     <td>
-                      <label><input type="checkbox" id="c_puntov_m" name="c_puntov_m" lang="h_puntov_m" class="chekito"> PUNTO DE VENTA</label>
-                      <input name="h_puntov_m" id="h_puntov_m" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_32" class="chekito"> PUNTO DE VENTA</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_medis" name="c_medis" lang="h_medis" class="chekito"> MEDICAMENTOS</label>
-                      <input name="h_medis" id="h_medis" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_33" class="chekito"> MEDICAMENTOS</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_produ_f" name="c_produ_f" lang="h_produ_f" class="chekito"> PRODUCTOS</label>
-                      <input name="h_produ_f" id="h_produ_f" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_34" class="chekito"> PRODUCTOS</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_corte_f" name="c_corte_f" lang="h_corte_f" class="chekito"> CORTE DE CAJA</label>
-                      <input name="h_corte_f" id="h_corte_f" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_35" class="chekito"> CORTE DE CAJA</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_inv_f" name="c_inv_f" lang="h_inv_f" class="chekito"> INVENTARIO</label>
-                      <input name="h_inv_f" id="h_inv_f" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_36" class="chekito"> INVENTARIO</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_rep_f" name="c_rep_f" lang="h_rep_f" class="chekito"> REPORTES</label>
-                      <input name="h_rep_f" id="h_rep_f" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_37" class="chekito"> PRODUCTIVIDAD</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
-                    <td>
-                      <label><input type="checkbox" id="c_estadi_f" name="c_estadi_f" lang="h_estadi_f" class="chekito"> ESTADÍSTICAS</label>
-                      <input name="h_estadi_f" id="h_estadi_f" type="hidden" value="0">
-                    </td>
-                </tr>
-              </table>
-          </div>
-          <div class="panel panel-info">
-              <div class="panel-heading">ASOCIADOS</div>
-              <table class="table-condensed">
-              	<tr>
-                    <td>
-                      <label><input type="checkbox" id="c_medi_a" name="c_medi_a" lang="h_medi_a" class="chekito"> MÉDICOS</label>
-                      <input name="h_medi_a" id="h_medi_a" type="hidden" value="0">
-                    </td>
-                    <td>
-                      <label><input type="checkbox" id="c_promo_a" name="c_promo_a" lang="h_promo_a" class="chekito"> PROMOTORES</label>
-                      <input name="h_promo_a" id="h_promo_a" type="hidden" value="0">
-                    </td>
+
                 </tr>
               </table>
           </div>
@@ -852,32 +838,44 @@ $id_del_user = $_SESSION['id'];
               <table class="table-condensed">
               	<tr>
                 	<td>
-                      <label><input type="checkbox" id="c_usu" name="c_usu" lang="h_usu" class="chekito"> USUARIOS</label>
-                      <input name="h_usu" id="h_usu" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_38" class="chekito"> USUARIOS</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_sucu" name="c_sucu" lang="h_sucu" class="chekito"> SUCURSALES</label>
-                      <input name="h_sucu" id="h_sucu" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_39" class="chekito"> SUCURSALES</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_corte_a" name="c_corte_a" lang="h_corte_a" class="chekito"> CORTE DE CAJA</label>
-                      <input name="h_corte_a" id="h_corte_a" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_40" class="chekito"> ESCUELAS </label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_bene_a" name="c_bene_a" lang="h_bene_a" class="chekito"> BENEFICIOS</label>
-                      <input name="h_bene_a" id="h_bene_a" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_41" class="chekito"> ÓRDENES DE VENTA</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_forma_a" name="c_forma_a" lang="h_forma_a" class="chekito"> FORMATOS</label>
-                      <input name="h_forma_a" id="h_forma_a" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_42" class="chekito"> PAGOS</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_prod_f" name="c_prod_f" lang="h_prod_f" class="chekito"> PRODUCTIVIDAD</label>
-                      <input name="h_prod_f" id="h_prod_f" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_43" class="chekito"> CORTE DE CAJA</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" id="c_config" name="c_config" lang="h_config" class="chekito"> CONFIGURACIÓN</label>
-                      <input name="h_config" id="h_config" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_44" class="chekito"> BENEFICIOS</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
+                    </td>
+                    <td>
+                      <label><input type="checkbox" name="p_45" class="chekito"> FORMATOS </label>
+                      <input name="h_permisos[]" type="hidden" value="0">
+                    </td>
+                    <td class="hidden">
+                      <label><input type="checkbox" name="p_46" class="chekito"> UNIDADES DE MEDIDA </label>
+                      <input name="h_permisos[]" type="hidden" value="0">
+                    </td>
+                    <td class="hidden">
+                      <label><input type="checkbox" name="p_47" class="chekito"> CONFIGURACIÓN</label>
+                      <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                 </tr>
               </table>
