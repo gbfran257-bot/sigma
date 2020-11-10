@@ -17,7 +17,7 @@ require("../../funciones/php/values.php");
 	$sWhere="WHERE v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and e.id_tipo_concepto_to = 3 and v.temporal_vc=0";
 	//Vemos si el usuario es multisucursal
     mysql_select_db($database_horizonte, $horizonte); 
-    $resultSu = mysql_query("SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[idu]'",$horizonte) or die (mysql_error());
+    $resultSu = mysql_query("SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[idU]'",$horizonte) or die (mysql_error());
     $rowAU = mysql_fetch_row($resultSu); $id_suc = sqlValue($rowAU[1], "int");
     switch($rowAU[0]){
         case 0:
