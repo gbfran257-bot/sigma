@@ -14,8 +14,25 @@ require("../../funciones/php/values.php");
 	 // Joins   
 	$sJoin = 'left join orden_venta o on o.referencia_ov = v.referencia_vc left JOIN pacientes p ON p.id_p = v.id_paciente_vc left join usuarios m on m.id_u = v.id_personal_medico_vc left join conceptos e on e.id_to = v.id_concepto_es left join sucursales s on s.id_su = o.sucursal_ov';
 		
-	$sWhere="WHERE v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and e.id_tipo_concepto_to = 3 and v.temporal_vc=0 group by e.concepto_to order by suma desc ";
-	
+	$sWhere="WHERE v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and e.id_tipo_concepto_to = 3 and v.temporal_vc=0";
+	//Vemos si el usuario es multisucursal
+    mysql_select_db($database_horizonte, $horizonte); 
+    $resultSu = mysql_query("SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[idu]'",$horizonte) or die (mysql_error());
+    $rowAU = mysql_fetch_row($resultSu); $id_suc = sqlValue($rowAU[1], "int");
+    switch($rowAU[0]){
+        case 0:
+            $sWhere .= " and o.sucursal_ov = $id_suc ";
+            break;
+        case 2:
+            $sWhere .= " and o.sucursal_ov = $id_suc ";
+            break;
+        case 3:
+            $sWhere .= " and o.sucursal_ov = $id_suc ";
+            break;
+        default:
+            break;
+    }
+    $sWhere .= " group by e.concepto_to order by suma desc ";
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;
     $gaSql['password']   = $password_horizonte;
@@ -95,8 +112,21 @@ require("../../funciones/php/values.php");
         "aaData" => array()
     );
 	$hh=0;
-     
-    $resultT = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es where e.id_tipo_concepto_to = 3 and v.temporal_vc=0 and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die(mysql_error());
+    /*$extra="";
+    switch($rowAU[0]){
+        case 0:
+            $extra = " and o.sucursal_ov = $id_suc ";
+            break;
+        case 2:
+            $extra = " and o.sucursal_ov = $id_suc ";
+            break;
+        case 3:
+            $extra = " and o.sucursal_ov = $id_suc ";
+            break;
+        default:
+            break;
+    }*/
+    $resultT = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es where e.id_tipo_concepto_to = 3 and v.temporal_vc=0 and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' ", $horizonte) or die(mysql_error());
     $rowT = mysql_fetch_row($resultT);
         
     while ( $aRow = mysql_fetch_array( $rResult ) )
