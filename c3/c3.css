@@ -172,3 +172,8 @@
 
 .c3-chart-arc.c3-target.c3-focused g path {
   opacity: 1; }
+
+
+tr.bg-primary{
+  background-color: red;
+}
