@@ -4,7 +4,9 @@
   	   url("../webfonts/quicksand/Quicksand-Light.ttf"), url("../webfonts/quicksand/Quicksand-Medium.ttf");
 }
 @font-face { font-family: "gurajada"; src: url("../webfonts/Acme/Acme-Regular.ttf"); }
-
+tr.bg-primary{
+  background-color: red;
+}
 .no-spin::-webkit-inner-spin-button, .no-spin::-webkit-outer-spin-button {
     -webkit-appearance: none !important; margin: 0 !important; -moz-appearance:textfield !important;
 }
