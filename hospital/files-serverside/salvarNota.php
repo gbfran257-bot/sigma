@@ -10,7 +10,7 @@ require("../../funciones/php/values.php");
  $idN = sqlValue($_POST["idN"], "int");
  
  mysql_select_db($database_horizonte, $horizonte);
- $sql = "insert into notas_de_hospital (nota_nh, id_hospitalizacion_nh, id_nota_nh, usuario_nh, fecha_nh, tipo_nota_nh, id_sv_nh) VALUES($notaDictamen, $idC, $idN, $idU, $now,1,0)";
+ $sql = "insert into notas_de_hospital (nota_nh, id_hospitalizacion_nh, id_nota_nh, usuario_nh, fecha_nh, tipo_nota_nh, id_sv_nh, aleatorio_nh) VALUES($notaDictamen, $idC, $idN, $idU, $now,1,0, '".date("Y-m-d-H-i-s")."')";
  $update = mysql_query($sql, $horizonte) or die (mysql_error());
 
  if (!$update) { echo $sql; } else{ echo 1; }
