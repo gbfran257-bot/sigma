@@ -173,7 +173,7 @@ require("../../Connections/horizonte.php");
 		
 		$row[10] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick=''><i class='fa fa-camera' aria-hidden='true'></i></button></div>";
 		
-		if($row[12]==''){ $row[12] = '<div align="center">-</div>'; }
+		if($row[12]==''){ $row[12] = '<div align="center"><button type="button" class="btn btn-primary btn-sm" onClick="egresar();">Egresar</button></div>'; }
 							
 		$output['aaData'][] = $row;
     }
