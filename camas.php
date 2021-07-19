@@ -48,7 +48,7 @@
     <script src="funciones/js/calcula_edad.js"></script>
     <script src="funciones/js/stdlib.js"></script>
     <script src="funciones/js/bs-modal-fullscreen.js"></script>
-    
+
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -64,7 +64,20 @@
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
     <link href="c3/c3.css" rel="stylesheet">
+
+	<style>
+		/* Estilo necesario para que se muestre el select2 en el modal */
+		.select2-container {
+			z-index: 9999;
+		}
+	</style>
+
+	<!--Select2-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<script src="js/select2Gen.js"></script>
 </head>
+
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
 <div id="div_tabla_pacientes" class="table-responsive" style="border:1px none red; vertical-align:top; margin-top:-9px; font-size: 1.2em;">
@@ -141,14 +154,15 @@ $(document).ready(function(e) {
 
 function nueva_cama(){
 	$("#myModal").load('hospital/camas/htmls/cama.php', function(response, status, xhr){ if(status=="success"){
-		$('#titulo_modal').text('CREAR UNA NUEVA CAMA DE HOSPITAL'); $('#idUser_esc').val($('#id_user').val());
+		$('#titulo_modal').text('CREAR UNA NUEVA CAMA DE HOSPITAL'); $('#usuario_ca').val($('#id_user').val());
 		
 		$('#form-escuela').validator().on('submit', function (e) {
 		  if (e.isDefaultPrevented()) { // handle the invalid form...
 		  } else { // everything looks good!
 			e.preventDefault(); 
 			var datosP = $('#myModal #form-escuela').serialize();
-			$.post('escuelas/files-serverside/addSchool.php',datosP).done(function( data ) {
+			// console.log('Datosp: ', datosP)
+			$.post('hospital/camas/files-serverside/addCamaBase.php', datosP).done(function( data ) {
 				if (data==1){//si el paciente se Actualizó 
 					$('#clickme').click(); $('#myModal').modal('hide'); //$('#btn_cancel_registro').show(); //$btn.button('reset');
 					swal({ title: "", type: "success", text: "La cama de hospital ha sido creada.", timer: 1800, showConfirmButton: false }); return;

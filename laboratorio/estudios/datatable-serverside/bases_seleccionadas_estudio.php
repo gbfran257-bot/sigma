@@ -30,8 +30,8 @@ require("../../../Connections/horizonte.php");
     $sLimit = "";
     if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' )
     {
-        $sLimit = "LIMIT ".mysql_real_escape_string( $_GET['iDisplayStart'] ).", ".
-            mysql_real_escape_string( $_GET['iDisplayLength'] );
+        /*$sLimit = "LIMIT ".mysql_real_escape_string( $_GET['iDisplayStart'] ).", ".
+            mysql_real_escape_string( $_GET['iDisplayLength'] );*/
     }
      
     /* * Ordering */

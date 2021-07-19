@@ -1,0 +1,1 @@
+ALTER TABLE `camas` ADD `ocupado_ca` BOOLEAN NOT NULL DEFAULT FALSE AFTER `descripcion_ca`;

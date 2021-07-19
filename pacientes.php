@@ -714,6 +714,10 @@ function verPaciente(idP){
 	} });
 }
 function siempre(la,lo){
+	ubicaDobleX = la;
+	ubicaDobleY = lo;
+	if(bloqueo_ubica)
+		return;
 	  var map = new google.maps.Map(document.getElementById('map'), {
 		center: new google.maps.LatLng(la, lo), zoom: 16, scrollwheel: false //Cuautla :3
 	  });
@@ -2364,8 +2368,27 @@ function CancelItem(id, ref, concept){ //id es el id de vc
 		} else{alert(data);} });
 	});
 }
-
-function ubicacion(ubi){	
+var ultima_ubica = null;
+var bloqueo_ubica = true;
+var ubicaDobleX = null;
+var ubicaDobleY = null;
+function calculaUbica(){
+	bloqueo_ubica = false;
+	if(ubicaDobleX != null){
+		ultima_ubica = null;
+		siempre(ubicaDobleX, ubicaDobleY);
+		ubicaDobleX = null;
+		ubicaDobleY = null;
+	}else{
+		if(ultima_ubica != null)
+			ubicacion(ultima_ubica);
+	}
+	bloqueo_ubica = true;
+}
+function ubicacion(ubi){
+	ultima_ubica = ubi;	
+	if(bloqueo_ubica)
+		return;
 	var geocoder = new google.maps.Geocoder(), address = ubi;
 
 	geocoder.geocode({'address': address}, function(results, status) { 

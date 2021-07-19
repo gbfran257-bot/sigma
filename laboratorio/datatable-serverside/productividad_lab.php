@@ -32,7 +32,7 @@ require("../../funciones/php/values.php");
         default:
             break;
     }
-    $sWhere .= " group by e.concepto_to order by suma desc ";
+    
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;
     $gaSql['password']   = $password_horizonte;
@@ -77,6 +77,8 @@ require("../../funciones/php/values.php");
             $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
         }
     }
+
+    $sWhere .= " group by e.concepto_to order by suma desc ";
      
     /*  * SQL queries  * Get data to display */
     $sQuery = "
@@ -87,6 +89,7 @@ require("../../funciones/php/values.php");
         $sOrder
         $sLimit";
 
+    // echo $sQuery.'---------------------------------------.'.$sWhere;
     $rResult = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
      
     /* Data set length after filtering */

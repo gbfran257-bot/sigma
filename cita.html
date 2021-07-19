@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <style>
+        body {
+            height: 100%;
+        }
+        .doctorImagen {
+            background-image: url('doctor.png');      
+            background-size: contain; height: 100%;
+            background-repeat: no-repeat;
+        }
+        .pacientes {
+            margin-top: 9%; 
+            border-radius: 10px; 
+            border: solid 2px blue;
+            border-top: solid 40px blue;
+        }
+        .formulario {
+            padding: 20px;
+        }
+        .titulo {
+            text-align: center; 
+            position: relative; 
+            bottom: 40px; 
+            color: white;
+        }
+        button {
+            margin-top: 10px
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="height: 100%;">
+        <div class="row" style="height: 100%;">
+            <div class="col-6">
+                <div class="doctorImagen"></div>
+            </div>
+            <div class="col-6">
+                <div class="pacientes">
+                    <div>
+                        <h3 class="titulo">Datos</h3>
+                    </div>
+                    <form class="formulario">
+                        
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="inputEmail">Email</label>
+                                <input type="nombre" class="form-control" id="inputEmail" placeholder="correo@email.com">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputNombre">Nombre</label>
+                                <input type="nombre" class="form-control" id="inputNombre" placeholder="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputApellidoP">Apellido paterno</label>
+                                <input type="apellido" class="form-control" id="inputApellidoP" placeholder="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputApellidoM">Apellido materno</label>
+                                <input type="apellido" class="form-control" id="inputApellidoM" placeholder="">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputSexo">Sexo</label>
+                                <select id="inputSexo" class="form-control">
+                                <option selected>Seleccionar...</option>
+                                <option>Masculino</option>
+                                <option>Femenino</option>
+                            </select>
+                            </div>
+                        </div>
+                        <p for="inputAddress" style="text-align: center; margin-top: 5px; margin-bottom: 0px;">Dirección</p>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" id="inputLocalidad" placeholder="Localidad">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" id="inputColonia" placeholder="Colonia ">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" id="inputCalle" placeholder="Calle">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="inputCity">Ciudad</label>
+                                <input type="text" class="form-control" id="inputCity">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputState">Estado</label>
+                                <select id="inputState" class="form-control">
+                                <option selected>Escoger</option>
+                                <option>Morelos</option>
+                                <option>CDMX</option>
+                                <option>Guerrero</option>
+                                <option>Puebla</option>
+                                <option>Edo.de Mex</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="inputZip">C. P.</label>
+                                <input type="text" class="form-control" id="inputZip">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputFecha">Fecha</label>
+                                <input type="date" class="form-control" id="inputZip">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Agendar cita</button>
+                    </form>
+                    <ul>
+                        <li>
+                            <label>
+                                <input name="laboratorio" type="radio">
+                                Laboratorio Jiutepec
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input name="laboratorio" type="radio">
+                                Laboratorio Cuernavaca
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input name="laboratorio" type="radio">
+                                Laboratorio Zapata
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</html>

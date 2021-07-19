@@ -14,7 +14,6 @@
 	 // Joins   hasta aqui
 	$sJoin = 'left join pacientes p ON ov.id_paciente_ov = p.id_p left join pagos_ov pa on ov.referencia_ov = pa.referencia_pag left join usuarios u on u.id_u = ov.usuario_ov left join sucursales s on s.id_su = ov.sucursal_ov';
 	// left join conceptos to on to. =  left join departamentos d on d.id_d = pa.id_departamento_pag
-	 
     // CONDITIONS 
 	if(isset($_GET['depto']) && $_GET['depto'] != 'x' && $_GET['depto'] != ''){//para las solicitudes con departamento
 		if(isset($_GET['saldos']) && $_GET['saldos'] == 'SI'){//para las solicitudes con saldos
@@ -37,6 +36,14 @@
 			}else{$sWhere = "WHERE 1=1 " ;}
 		}
 	}
+    $resultSu = mysql_query("SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[usuario]'",$horizonte) or die (mysql_error());
+	$rowAU = mysql_fetch_row($resultSu); $id_suc = sqlValue($rowAU[1], "int");
+	
+	switch($rowAU[0]){
+        case 2:
+            $sWhere .= "and ov.sucursal_ov = $id_suc ";
+            break;
+    }
 	 
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;

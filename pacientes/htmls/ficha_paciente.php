@@ -205,7 +205,9 @@
                     </div> </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12 col-xs-12"> <div class="form-group">
+                    <div class="col-sm-12 col-xs-12">
+                        <button onclick="calculaUbica();" type="button">Calcular Ubicación</button>
+                    <div class="form-group">
                         <input name="lati_ud" id="lati_ud" type="hidden" value="">
                         <input name="long_ud" id="long_ud" type="hidden" value="">
                         <label for="lat_us" class="col-sm-3 col-xs-3">Latitud</label>

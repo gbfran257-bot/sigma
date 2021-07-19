@@ -92,7 +92,7 @@
 	<tfoot>
 		<tr class="bg-primary">
 			<th><input type="hidden"></th>
-			<th><input type="hidden"></th>
+			<th><input style="color: black" type="text" id="estudio"></th>
 			<th><input type="hidden" class="sCalculo" /></th>
 			<th><input type="hidden" class="sCalculo"></th>
 			<th><input type="hidden" class="sCalculo"></th>
@@ -127,10 +127,10 @@ $(document).ready(function(e) {
 
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
-            nCells[2].innerHTML = redondear(parseFloat(iTotal * 100)/100,2);
-            nCells[4].innerHTML = redondear((parseFloat(iTotalTotal) * 100)/100,2);
-            nCells[5].innerHTML = redondear((parseFloat(iTotalCosto) * 100)/100,2);
-            nCells[6].innerHTML = redondear((parseFloat(iTotalUtilidad) * 100)/100,2);
+            nCells[2].innerHTML = new Intl.NumberFormat().format(redondear(parseFloat(iTotal * 100)/100,2));
+            nCells[4].innerHTML = new Intl.NumberFormat().format(redondear((parseFloat(iTotalTotal) * 100)/100,2));
+            nCells[5].innerHTML = new Intl.NumberFormat().format(redondear((parseFloat(iTotalCosto) * 100)/100,2));
+            nCells[6].innerHTML = new Intl.NumberFormat().format(redondear((parseFloat(iTotalUtilidad) * 100)/100,2));
 		},
 		"aoColumns":[ {"bVisible":true}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
 		"sDom": '<"filtro1Principal"f>rT<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
@@ -149,12 +149,14 @@ $(document).ready(function(e) {
 			var nombre = $('#top-search').val();
 			var de = $('#fechaDe').val()+' 00:00:00'; var a = $('#fechaA').val()+' 23:59:59';
 			var acceso = $('#acc_user').val(); var idU = $('#id_user').val();
+			var estudio = $('#estudio').val();
 			
 			aoData.push( {"name": "nombre", "value": nombre } );
 			aoData.push(  {"name": "min", "value": de } ); 
 			aoData.push(  {"name": "max", "value": a } );
 			aoData.push(  {"name": "accesoU", "value": acceso } );
 			aoData.push(  {"name": "idU", "value": idU } );
+			aoData.push(  {"name": "estudio", "value": estudio } );
 		},
 		"oLanguage": {
 			"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 

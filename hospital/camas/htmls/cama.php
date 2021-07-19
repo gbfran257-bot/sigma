@@ -9,27 +9,26 @@
       <div class="modal-body">
 
         <form action="" method="post" name="form-escuela" id="form-escuela" target="_self" style="height:100%;">
-        	<input name="idEscuela" id="idEscuela" type="hidden" value="">
-            <input name="idUser_esc" id="idUser_esc" type="hidden" value="">
+            <input name="usuario_ca" id="usuario_ca" type="hidden" value="">
         	<div class="row">
                 <div class="form-group col-md-6 col-sm-6 text-primary">
-                    <label for="identificador_c" class="col-form-label">* IDENTIFICADOR DE LA CAMA</label>
-                    <input name="identificador_c" id="identificador_c" type="text" class="form-control form-control-sm" placeholder="Identificador de la cama" required>
+                    <label for="no_ca" class="col-form-label">* IDENTIFICADOR DE LA CAMA</label>
+                    <input name="no_ca" id="no_ca" type="text" class="form-control form-control-sm" placeholder="Identificador de la cama" required>
                     <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group col-md-6 col-sm-6 text-primary">
-                    <label for="area_c" class="col-form-label">* ÁREA</label>
-                    <select name="area_c" id="area_c" class="form-control form-control-sm" required> </select>
+                    <label for="area_ca" class="col-form-label">* ÁREA</label>
+                    <select name="area_ca" id="area_ca" class="form-control form-control-sm" required> </select>
                     <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group col-md-12 col-sm-12 text-primary">
-                    <label for="ubicacion_c" class="col-form-label">* UBICACIÓN DE LA CAMA</label>
-                    <input name="ubicacion_c" id="ubicacion_c" type="text" class="form-control form-control-sm" placeholder="Ubicación de la cama" required>
+                    <label for="ubicacion_ca" class="col-form-label">* UBICACIÓN DE LA CAMA</label>
+                    <input name="ubicacion_ca" id="ubicacion_ca" type="text" class="form-control form-control-sm" placeholder="Ubicación de la cama" required>
                     <div class="help-block with-errors"></div>
                 </div>
 				<div class="form-group col-md-12 col-sm-12 text-primary">
-                    <label for="descripcion_c" class="col-form-label">DESCRIPCIÓN</label>
-                    <input name="descripcion_c" id="descripcion_c" type="text" class="form-control form-control-sm" placeholder="Descripción">
+                    <label for="descripcion_ca" class="col-form-label">DESCRIPCIÓN</label>
+                    <input name="descripcion_ca" id="descripcion_ca" type="text" class="form-control form-control-sm" placeholder="Descripción">
                 </div>
             </div>
         </form>
@@ -46,3 +45,9 @@
       </div>
     </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
+
+<script>
+$(document).ready(function (e) {
+    select2ini("#area_ca", "hospital/camas/files-serverside/select2Area.php", "Áreas");
+})
+</script>

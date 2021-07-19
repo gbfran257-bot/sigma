@@ -92,6 +92,11 @@ for($i=0; $i<48; $i++){
 	$permisos .= $_POST['h_permisos'][$i];
 }
 $permisos = sqlValue($permisos, "text");
+mysql_select_db($database_horizonte, $horizonte); //foto_u, firma_u, $foto, $firmaU, idOcupacion_u, $ocupacion, 
+$resultR = mysql_query("SELECT perm from tipo_usuario where id_tu = $tipoUsuario", $horizonte) or die (mysql_error());
+$pp = mysql_fetch_assoc($resultR)['perm'];
+if(empty($permisos))
+	$permisos = $pp;
 
  mysql_select_db($database_horizonte, $horizonte); //foto_u, firma_u, $foto, $firmaU, idOcupacion_u, $ocupacion, 
  $sql = "INSERT INTO usuarios(temporal_u, coordenadas_u, idUsuarioR_u, nombre_u, apaterno_u, amaterno_u, sexo_u, nacionalidad_u, fNac_u, curp_u, rfc_u, idSucursal_u, acceso_u, usuario_u, contrasena_u, notas_u, tCelular_u, tSanguineo_u, entidadFederativa_u, municipio_u, colonia_u, calle_u, cp_u, tParticular_u, tTrabajo_u, extensionTt_u, contactoEmergencia_u, tEmergencia_u, email_u, idDepartamento_u, idArea_u, idPuesto_u, idEscolaridad_u, idProfesion_u, titulo_u, cedulaProfesional_u, especialidad_u, cedulaProfesionalE_u, horario_e_lu, horario_s_lu, horario_e_ma, horario_s_ma, horario_e_mi, horario_s_mi, horario_e_ju, horario_s_ju, horario_e_vi, horario_s_vi, horario_e_sa, horario_s_sa, horario_e_do, horario_s_do, fecha_ingreso_u, universidad_u, multisucursal_u, estatus_laboral_u, estatus_escolar_u, id_titulo_u, permisos_u, universidad_e_u)";

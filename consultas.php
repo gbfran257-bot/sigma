@@ -64,6 +64,18 @@
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
     <link href="c3/c3.css" rel="stylesheet">
+
+	<style>
+		/* Estilo necesario para que se muestre el select2 en el modal */
+		.select2-container {
+			z-index: 9999;
+		}
+	</style>
+
+	<!--Select2-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<script src="js/select2Gen.js"></script>
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
@@ -1012,24 +1024,50 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 							$("#tipoNotaMed").remove(); $("#tipoRecetaMed").remove();
 						}else{
 							var datosCC = {id_vc:idC}
-							$.post('consultas/files-serverside/check_hospitalizado.php',datosCC).done(function(data){
-								if(data<1){
-									$('#hospitalizarP').click(function(e){
-										swal({
-										  title: "", text: "¿Desea hospitalizar a éste paciente?", showCancelButton: true, confirmButtonColor: "#DD6B55",type:"warning",
-										  showConfirmButton: true, confirmButtonText: 'Hospitalizar', cancelButtonText: "Cancelar", closeOnConfirm: false,
-										},
-										function(){
-											var datosT = {idP:idP, idU:$('#id_user').val(), id_vc:idC}
-											$.post('consultas/files-serverside/hospitalizar.php',datosT).done(function(data){
-												if(data==1){
-													$('#clickme').click(); $('#hospitalizarP').remove();
-													swal({title:"",type:"success",text:"El paciente ha sido hospitalizado.", timer: 2000, showConfirmButton: false });
-												}else{alert(data);}
+							/**
+							 * Colocar el modal que pedira:
+							 *  -El usuario
+							 * 	-Una cama disponible
+							 * 	-Descripción
+							 */
+							$('#hospitalizarP').click(function(e){
+								$("#myModal1").load('consultas/htmls/selecciona_cama.php', function(response, status, xhr){ if(status=="success"){
+									// $("#myModal1").attr('tabindex', 2);
+									$('#titulo_modal').text('SELECCIONA UNA CAMA DEL HOSPITAL'); 
+									
+									$('#form-selecciona-cama').validator().on('submit', function (e) {
+										if (e.isDefaultPrevented()) { // handle the invalid form...
+										} else { // everything looks good!
+											e.preventDefault(); 
+											var datosP = $('#myModal1 #form-selecciona-cama').serialize();
+											// console.log('Datosp: ', datosP)
+
+											// Aqui ya se hospitaliza
+											$.post('consultas/files-serverside/check_hospitalizado.php',datosCC).done(function(data){
+												if(data<1){
+													swal({
+													title: "", text: "¿Desea hospitalizar a éste paciente?", showCancelButton: true, confirmButtonColor: "#DD6B55",type:"warning",
+													showConfirmButton: true, confirmButtonText: 'Hospitalizar', cancelButtonText: "Cancelar", closeOnConfirm: false,
+													},
+													function(){
+														var datosT = {idP:idP, idU:$('#id_user').val(), id_vc:idC, id_cama_h: $('#id_cama_h').val(), motivo_h: $('#motivo_h').val()}
+														$.post('consultas/files-serverside/hospitalizar.php',datosT).done(function(data){
+															if(data==1){
+																$('#clickme').click(); $('#hospitalizarP').remove();
+																swal({title:"",type:"success",text:"El paciente ha sido hospitalizado.", timer: 2000, showConfirmButton: false });
+																$('#myModal1').modal('hide');
+															}else{alert(data);}
+														});
+													});
+												}else{ $('#hospitalizarP').remove(); }
 											});
-										});								
+										}
 									});
-								}else{ $('#hospitalizarP').remove(); }
+											
+									$('#myModal1').modal('show');
+									$('#myModal1').on('shown.bs.modal', function(e){ $('#form-selecciona-cama').validator(); });
+									$('#myModal1').on('hidden.bs.modal', function(e){ $("#myModal1 .modal-content").remove(); $("#myModal1").empty(); });
+								}});
 							});
 							
 							$("#tipoNotaMed").load("consultas/files-serverside/tNotaMedica.php?x="+$('#id_user').val(),function(response,status,xhr){ if(status=="success"){

@@ -110,6 +110,8 @@
 <?php include_once 'partes/footer.php'; ?>
 
 <script>
+var oTableP = null;
+
 $(document).ready(function(e) {
 	//breadcrumb
 	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>HOSPITAL</li><li class="active"><strong>HOSPITALIZACIÓN</strong></li>');
@@ -117,7 +119,7 @@ $(document).ready(function(e) {
 	$('#my_search').removeClass('hidden'); $.fn.datepicker.defaults.autoclose = true; 
 	
 	var tamP = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-169;
-	var oTableP = $('#dataTablePrincipal').DataTable({
+	oTableP = $('#dataTablePrincipal').DataTable({
 		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
@@ -175,6 +177,26 @@ $(document).ready(function(e) {
 	$('#fechaDe').on('changeDate', function(e) { oTableP.draw(); });
 	$("#fechaA").on('changeDate', function(e) { oTableP.draw(); });
 });
+
+function egresar (id, id_cama) {
+	const DATOS = {
+		id_h: id,
+		id_cama_h: id_cama 
+	}
+	swal({
+		title: "", text: "¿Desea egresar a éste paciente?", showCancelButton: true, confirmButtonColor: "#DD6B55", type:"warning",
+		showConfirmButton: true, confirmButtonText: 'Egresar', cancelButtonText: "Cancelar", closeOnConfirm: false,
+	},
+	function(){
+		$.post('hospital/files-serverside/egresar.php', DATOS).done(function(data){
+			if(data==1){
+				// Actualiza el datatable
+				oTableP.draw();
+				swal({title:"",type:"success",text:"El paciente ha sido egresado.", timer: 2000, showConfirmButton: false });
+			}else{alert(data);}
+		});
+	});
+}
 	
 function medicamentos(id_h, id_p, nombre_p, id_s){
 	$("#myModal2").load('hospital/htmls/medicamentos.php', function( response, status, xhr ){ if(status=="success"){

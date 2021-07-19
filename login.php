@@ -42,7 +42,7 @@ $(document).ready(function() {
 				var datos = data.split('[;}');//1 es usuario nuevo, 2 no existe y 0 si existe
 				if(datos[0]==1){//Se abre la ventana para configurar la nueva contraseña del usuario y verificar su email
 					crearVNU(datos[4], escape(datos[1]), datos[2], datos[3]);
-				}else{ console.log("enviando", $("#form1").serialize()); $('#form1').trigger("submit"); /*Se loguea al usuario normalmente*/ }
+				}else{ $('#form1').submit(); /*Se loguea al usuario normalmente*/ }
 			});
 		} }
 	});
