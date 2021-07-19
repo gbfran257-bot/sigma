@@ -47,7 +47,7 @@
             <li class="active">
                 <a href="index.php" id="m_home"> <i class="fa fa-home"></i> <span class="nav-label">HOME</span> </a>
             </li>
-            <?php if(substr($permisos,0,8) != "00000000"){?>
+            <?php if(substr($permisos,0,7) != "0000000"){?>
                 <li class=""> <!--class="active" -->
                     <a href="" id="m_recepcion">
                         <i class="fa fa-address-book"></i> <span class="nav-label">RECEPCIÓN</span><span class="fa arrow"></span>
@@ -67,11 +67,11 @@
                         <?php }?>
                         <?php if($permisos[5]){?> <li><a href="agenda.php"><i class="fa fa-calendar"></i> AGENDA</a></li> <?php }?>
                         <?php if($permisos[6]){?> <li style="white-space:nowrap;"><a href="membresias.php"><i class="fa fa-address-card"></i> MEMBRESÍAS</a></li> <?php }?>
-                        <?php if($permisos[7]){?><li style="white-space:nowrap;"><a href="productividad_rec.php"><i class="fa fa-line-chart"></i> PRODUCTIVIDAD</a></li> <?php }?>
+                        
                     </ul>
                 </li>
             <?php }?>
-            <?php if(substr($permisos,8,4) != "0000"){?>
+            <?php if(substr($permisos,8,3) != "000"){?>
                 <li>
                     <a href="#">
                         <i class="fa fa-stethoscope"></i> <span class="nav-label">CONSULTAS</span><span class="fa arrow"></span>
@@ -81,7 +81,7 @@
                         <?php if($permisos[9]){?> <li><a href="agenda_consultas.php"><i class="fa fa-calendar"></i> AGENDA CONSULTAS</a></li><?php }?>
                         <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>-->
                         <?php if($permisos[10]){?> <li><a href="catalogo_consultas.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li> <?php }?>
-                        <?php if($permisos[11]){?> <li><a href="productividad_cst.php"><i class="fa fa-list-alt"></i> PRODUCTIVIDAD</a></li> <?php }?>
+                        
                         <!--<li><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
                     </ul>
                 </li>
@@ -104,7 +104,7 @@
                     </ul>
                 </li>
             <?php }?>
-            <?php if(substr($permisos,15,7) != "0000000"){?>
+            <?php if(substr($permisos,15,6) != "000000"){?>
                 <li>
                     <a href="#"><i class="fa fa-file-image-o"></i> <span class="nav-label">IMAGEN</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
@@ -114,11 +114,11 @@
                         <?php if($permisos[18]){?> <li><a href="ultrasonido.php"><i class="fa fa-user-md"></i> ULTRASONIDO</a></li> <?php }?>
                         <?php if($permisos[19]){?> <li><a href="colposcopia.php"><i class="fa fa-user-md"></i> COLPOSCOPÍA</a></li> <?php }?>
                         <?php if($permisos[20]){?> <li><a href="catalogo_imagen.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li> <?php }?>
-                        <?php if($permisos[21]){?> <li><a href="productividad_img.php"><i class="fa fa-list-alt"></i> PRODUCTIVIDAD</a></li> <?php }?>
+                        
                     </ul>
                 </li>
             <?php }?>
-            <?php if(substr($permisos,22,6) != "000000"){?>
+            <?php if(substr($permisos,22,5) != "00000"){?>
                 <li>
                     <a href="#">
                         <i class="fa fa-flask"></i> <span class="nav-label">LABORATORIO</span><span class="fa arrow"></span>
@@ -131,11 +131,11 @@
                         <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>
                         <li><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
                         <?php if($permisos[26]){?> <li><a href="catalogo_laboratorio.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li> <?php } ?>
-                        <?php if($permisos[27]){?> <li><a href="productividad_lab.php"><i class="fa fa-list-alt"></i> PRODUCTIVIDAD</a></li> <?php } ?>
+                        
                     </ul>
                 </li>
             <?php } ?>
-            <?php if(substr($permisos,28,4) != "0000"){?>
+            <?php if(substr($permisos,28,3) != "000"){?>
                 <li>
                     <a href="#"><i class="fa fa-plus-square"></i><span class="nav-label"> SERVICIOS</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
@@ -144,11 +144,10 @@
                         <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>
                         <li><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
                         <?php if($permisos[30]){?> <li><a href="catalogo_servicios.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li> <?php } ?>
-                        <?php if($permisos[31]){?> <li><a href="productividad_ser.php"><i class="fa fa-list-alt"></i> PRODUCTIVIDAD</a></li> <?php } ?>
                     </ul>
                 </li>
             <?php } ?>
-            <?php if(substr($permisos,32,6) != "000000"){?>
+            <?php if(substr($permisos,32,5) != "00000"){?>
                 <li>
                     <a href="#">
                         <i class="fa fa-medkit"></i> <span class="nav-label">FARMACIA</span><span class="fa arrow"></span>
@@ -161,7 +160,7 @@
                         <?php if($permisos[36]){?> <li><a href="#"><i class="fa fa-stack-exchange"></i> STOCK</a></li> <?php } ?>
                         <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>
                         <li style="white-space:nowrap;"><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
-                        <?php if($permisos[37]){?> <li><a href="productividad_far.php"><i class="fa fa-list-alt"></i> PRODUCTIVIDAD</a></li> <?php } ?>
+                       
                     </ul>
                 </li>
             <?php } ?>
@@ -199,6 +198,20 @@
                                 </ul>
                             </li>
                         <?php }?>
+                        <?php if($permisos[7] ||  $permisos[11] || $permisos[21] || $permisos[27] || $permisos[31] || $permisos[37]){?>
+                        <li>
+                            <a href="#"><i class="fa fa-dollar"></i> PRODUCTIVIDAD <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level collapse">
+                                <?php if($permisos[7]){?><li style="white-space:nowrap;"><a href="productividad_rec.php"><i class="fa fa-line-chart"></i> P. RECEPCIÓN</a></li> <?php }?>
+                                <?php if($permisos[11]){?> <li><a href="productividad_cst.php"><i class="fa fa-list-alt"></i> P. CONSULTAS</a></li> <?php }?>
+                                <?php if($permisos[21]){?> <li><a href="productividad_img.php"><i class="fa fa-list-alt"></i> P. IMAGEN</a></li> <?php }?>
+                                <?php if($permisos[27]){?> <li><a href="productividad_lab.php"><i class="fa fa-list-alt"></i> P. LABORATORIO</a></li> <?php } ?>
+                                <?php if($permisos[31]){?> <li><a href="productividad_ser.php"><i class="fa fa-list-alt"></i> P. SERVICIOS</a></li> <?php } ?>
+                                <?php if($permisos[37]){?> <li><a href="productividad_far.php"><i class="fa fa-list-alt"></i> P. FARMACIA</a></li> <?php } ?>
+                                
+                            </ul>
+                        </li>
+                        <?php }?>
                         <?php if($permisos[44]){?> <li style="white-space:nowrap;"><a href="#"><i class="fa fa-hand-peace-o"></i> BENEFICIOS</a></li> <?php }?>
                         <?php if($permisos[45]){?><li><a href="formatos.php"><i class="fa fa-book"></i> FORMATOS</a></li> <?php }?>
                         <?php if($permisos[46]){?>
@@ -206,6 +219,10 @@
                                 <a href="#"><i class="fa fa-list-alt"></i> CATÁLOGOS <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level collapse">
                                     <li><a href="unidades_medida.php"><i class="fa fa-thermometer-half"></i> UNIDADES DE MEDIDA</a></li>
+                                    <li><a href="catalogo_bases_referencias.php"><i class="fa fa-thermometer-half"></i> REFERENCIAS DE BASES LAB</a></li>
+                                    <li><a href="catalogo_profesiones.php"><i class="fa fa-briefcase"></i> PROFESIONES</a></li>
+                                    <li><a href="catalogo_direcciones.php"><i class="fa fa-address-book-o"></i> DIRECCIONES</a></li>
+                                    <li><a href="catalogo_met_lab.php"><i class="fa fa-flask"></i> METODOS LABORATORIO</a></li>
                                 </ul>
                             </li>
                         <?php }?>

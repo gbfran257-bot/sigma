@@ -92,7 +92,7 @@
 	<tfoot>
 		<tr class="bg-primary">
 			<th><input type="hidden"></th>
-			<th><input style="color: black" type="text" id="estudio"></th>
+			<th><input type="text" class="form-control input-sm" placeholder ="Nombre de Estudio"></th>
 			<th><input type="hidden" class="sCalculo" /></th>
 			<th><input type="hidden" class="sCalculo"></th>
 			<th><input type="hidden" class="sCalculo"></th>

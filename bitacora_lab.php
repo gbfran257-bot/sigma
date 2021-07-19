@@ -72,7 +72,8 @@
 <input name="" type="hidden" value="" id="toting_total">
 <!-- Contenido -->
 <div id="div_tabla_pacientes" class="table-responsive" style="border:1px none red; vertical-align:top; margin-top:0px;">
-<button type="button" class="btn btn-default" onClick="imprimir();">Imprimir <i class="fa fa-print"></i></button><br>
+<button type="button" class="btn btn-default" onClick="imprimir();">Imprimir <i class="fa fa-print"></i></button>
+<button type="button" class="btn btn-info" onClick="filtro_pago();">Ocultar Pagados <i class="fa fa-search"></i></button><br>
 <table border="0" cellspacing="0" id="dataTable" width="90%" height="100%" class="table-condensed table-striped table-hover">
     <thead>
       <tr class="bg-primary">
@@ -86,8 +87,12 @@
         <th id="t_mues">MUESTRAS</th>
         <th id="t_tota">TOTAL ING</th>
         <th>COMISION</th>
-        <th>A PAGAR</th>
-        <th><input type="checkbox" name="seleccionartodos"></th>
+		<th>A PAGAR</th>
+        <th>SALDO</th>
+        <th><input type="checkbox" name="seleccionartodos" id="check_pago" onclick="filtro_pago();"></th>
+		<th>FECHA PAGO</th>
+        <th>USUARIO PAGO</th>
+		<th>VER</th>
       </tr>
     </thead>
     <tbody id="t_tbody"> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
@@ -102,12 +107,16 @@
                 <input type="text" style="width:100px;" placeholder="Sucursal" class="form-control input-sm"/>
             </th>
 			<th><input type="text" style="width:100px;" placeholder="Usuario" class="form-control input-sm" /></th>
+            <th><input type="text" style="width:100px;" placeholder="Estudios" class="form-control input-sm" /></th>
             <th></th>
             <th></th>
-            <th></th>
+			<th id="10"></th>
+			<th id="t_total_comi"></th>
             <th id="t_total"></th>
-            <th id="t_total_comi"></th>
             <th><button class='btn btn-icon btn-success' onclick="preparaPago();">P</button></th>
+			<th></th>
+            <th></th>
+			<th></th>
 		</tr>
 	</tfoot>
   </table>
@@ -153,8 +162,43 @@ function preparaPago(){
 	function(){
 		$.post("corte_caja/reportes/files-serverside/marcaPagado.php", {datos: data, monto: iCargosEAP}, function(r){
 			swal({title: "Marcado como pagado", type:"success"});
+			// location.reload();
 		});
 	});
+}
+function ver_depto(referencia,sucursal){
+	$("#myModal").load('corte_caja/reportes/htmls/deptos.php', function(response, status, xhr){ if(status=="success"){
+		$('#titulo_modal').text('REPORTE POR DEPARTAMENTO'); 
+		$('#idUser_esc').val($('#id_user').val());
+
+		var datosP={ref:referencia,sucu:sucursal}
+		$.post('corte_caja/reportes/files-serverside/datos_deptos.php',datosP).done(function(data){
+			var datos = data.split('_;}{');
+			$('#num_ref_t').text(referencia);
+			$('#con_table').html(datos[0]);
+			$('#total_ref').text(datos[1]);
+			// alert(data);
+		});
+			
+		
+		$('#form-escuela').validator().on('submit', function (e) {
+		  if (e.isDefaultPrevented()) { // handle the invalid form...
+		  } else { // everything looks good!
+			e.preventDefault(); 
+			var datosP = $('#myModal #form-escuela').serialize();
+			$.post('escuelas/files-serverside/addSchool.php',datosP).done(function( data ) {
+				if (data==1){//si el paciente se Actualizó 
+					$('#clickme').click(); $('#myModal').modal('hide'); //$('#btn_cancel_registro').show(); //$btn.button('reset');
+					swal({ title: "", type: "success", text: "La escuela ha sido creada.", timer: 1800, showConfirmButton: false }); return;
+				} else{alert(data);}
+			});
+		  }
+		});
+				
+		$('#myModal').modal('show');
+		$('#myModal').on('shown.bs.modal', function(e){ $('#form-escuela').validator(); });
+		$('#myModal').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModal").empty(); });
+	}});
 }
 function imprimir(){
 	var datosP={idU:$('#id_user').val()}
@@ -214,18 +258,22 @@ $(document).ready(function(e) {
             var iCargosE=0;
             var iCargosEComi=0;
             var iCargosEAP=0;
+			var total_a_Pagar = 0;
             for ( var i=iStart ; i<iEnd ; i++ ){
             	iCargosE += aaData[ aiDisplay[i] ][8]*1;
             	iCargosEComi += aaData[ aiDisplay[i] ][9]*1;
-            	if(aaData[ aiDisplay[i] ][11] != 'P')
-            		iCargosEAP += aaData[aiDisplay[i]][10]*1;
+				total_a_Pagar += aaData[ aiDisplay[i] ][10]*1;
+				total_a_Pagar -= aaData[ aiDisplay[i] ][11]*1
+            	if(aaData[ aiDisplay[i] ][12] != 'P')
+            		iCargosEAP += aaData[aiDisplay[i]][11]*1;
             }
              
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
 			nCells[7].innerHTML = '$'+redondear(parseFloat(iCargosE * 100)/100,2);
 			nCells[8].innerHTML = '$'+redondear(parseFloat(iCargosEComi * 100)/100,2);
-			nCells[9].innerHTML = '$'+redondear(parseFloat(iCargosEAP * 100)/100,2);
+			nCells[9].innerHTML = '$'+redondear(parseFloat(total_a_Pagar * 100)/100,2);
+			nCells[10].innerHTML = '$'+redondear(parseFloat(iCargosEAP * 100)/100,2);
 			$('#c_total').val('$'+redondear(parseFloat(iCargosEAP * 100)/100,2));
 			$('#toting_total').val('$'+redondear(parseFloat(iCargosE * 100)/100,2));
 			$('#comi_total').val('$'+redondear(parseFloat(iCargosEComi * 100)/100,2));
@@ -342,6 +390,16 @@ $(document).ready(function(e) {
     	$(".dataTables_scrollFoot #t_total_comi").html($('#c_total').val());
     });
 });
+
+function filtro_pago(){
+	console.log("estoy dentro");
+	$("#dataTable tbody tr ").filter(function() {
+		var td = $(this).prop('cells')[11].firstChild.tagName;
+		if(td == "SPAN"){
+			$(this).toggle();			
+		}
+	});
+}
 
 function pagar(ref, tot, sal, abo, pac, noTemp){
 	$("#myModal").load("corte_caja/reportes/htmls/dialogPagarOV.php",function(response,status,xhr){if (status == "success"){

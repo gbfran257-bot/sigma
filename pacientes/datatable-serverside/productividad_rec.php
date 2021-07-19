@@ -13,8 +13,20 @@ require("../../funciones/php/values.php");
      
 	 // Joins   
 	$sJoin = 'left join orden_venta o on o.usuario_ov = u.id_u';
-		
-	$sWhere="WHERE o.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]' group by u.id_u order by suma desc ";
+
+    $sWhere="";
+
+    /* Individual column filtering */
+    for ( $i=0 ; $i<count($aColumns) ; $i++ )
+    {
+        if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' )
+        {
+            if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " AND "; }
+            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+        }
+    }
+    if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " AND "; }
+	$sWhere.=" o.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]' group by u.id_u order by suma desc ";
 	
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;
@@ -51,15 +63,7 @@ require("../../funciones/php/values.php");
         $sWhere .= ')';
     }
      
-    /* Individual column filtering */
-    for ( $i=0 ; $i<count($aColumns) ; $i++ )
-    {
-        if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' )
-        {
-            if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " AND "; }
-            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
-        }
-    }
+  
      
     /*  * SQL queries  * Get data to display */
     $sQuery = "

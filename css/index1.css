@@ -1,0 +1,8 @@
+@font-face {
+  font-family: "quicksand";
+  src: url("../webfonts/quicksand/Quicksand-Regular.ttf"), url("../webfonts/quicksand/Quicksand-Bold.ttf"),
+  	   url("../webfonts/quicksand/Quicksand-Light.ttf"), url("../webfonts/quicksand/Quicksand-Medium.ttf");
+}
+*{font-family: "quicksand";}
+body{ background-color:#EEEEEE;}
+.row div{ }

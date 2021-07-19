@@ -14,7 +14,7 @@
             </li>
 			<li role="presentation" class="no_base"><a href="#tTabulador" aria-controls="tTabulador" role="tab" data-toggle="tab" id="tab_tabulador">TABULADOR</a></li>
             <li role="presentation" id="tabi_2" class="no_base">
-                <a href="#tFormato" aria-controls="tFormato" role="tab" data-toggle="tab" id="tab_formato">BASES</a>
+                <a href="#tFormato" aria-controls="tFormato" role="tab" data-toggle="tab" id="tab_formato">BASES / FORMATO</a>
             </li>
 			<li role="presentation" id="t_tMuestras" class="no_base"><a href="#tMuestras" aria-controls="tMuestras" role="tab" data-toggle="tab">MUESTRAS</a></li>
         	<li role="presentation" id="t_tMetodos" class="no_base"><a href="#tMetodos" aria-controls="tMetodos" role="tab" data-toggle="tab">MÉTODOS</a></li>
@@ -22,7 +22,7 @@
                 <a href="#tBases" aria-controls="tFormato" role="tab" data-toggle="tab" id="tab_bases">BASES DEL ESTUDIO</a>
             </li>
 			<li role="presentation" id="t_tIndicaciones" class="no_base"><a href="#tIndicaciones" aria-controls="tIndicaciones" role="tab" data-toggle="tab">INDICACIONES</a></li>
-			<li role="presentation" class="no_base"><a href="#tFormato1" aria-controls="tFormato1" role="tab" data-toggle="tab" id="tab_formato1">FORMATO</a></li>
+			<!-- <li role="presentation" class="no_base"><a href="#tFormato1" aria-controls="tFormato1" role="tab" data-toggle="tab" id="tab_formato1">FORMATO</a></li> -->
 			<li role="presentation" class="no_base"><a href="#tProductividad" aria-controls="tProductividad" role="tab" data-toggle="tab" id="tab_productividad">PRODUCTIVIDAD</a></li>
         </ul>
         <!-- Tab panes -->
@@ -129,18 +129,62 @@
             </div>
 			
             <div role="tabpanel" class="tab-pane" id="tFormato"><br>
-            	<input name="aleatorioB" type="hidden" id="aleatorioB">
-                <table width="100%" id="dataTableBBE" class="table-condensed table-bordered">
-                <thead id="cabecera_tBusquedaPrincipal1">
-                  <tr id="mymy" class="bg-primary">
-                    <th id="clickmeBBE" align="center" width="20px">#</th>
-                    <th> BASES <button type="button" class="btn btn-default btn-xs" id="bBaseE"><i class="fa fa-refresh" aria-hidden="true"></i></button></th>
-                    <th>AREA</th>
-                    <th>UNIDAD</th>
-                  </tr>
-                </thead>
-                	<tbody style="color:black"> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
-              	</table>
+			
+			<div class="row">
+			<div class="col-sm-6">
+				<div class="input-group">
+				<span class="input-group-addon">
+					<input type="radio" id="base_radio" name="base_formato" value="1" aria-label="...">
+				</span>
+				<input type="text" class="form-control" disabled placeholder="BASES" aria-label="...">
+				</div><!-- /input-group -->
+			</div><!-- /.col-lg-6 -->
+			<div class="col-sm-6">
+				<div class="input-group">
+				<span class="input-group-addon">
+					<input type="radio" id="formato_radio" name="base_formato" value="2" aria-label="...">
+				</span>
+				<input type="text" class="form-control"  disabled placeholder="FORMATO"  aria-label="...">
+				</div><!-- /input-group -->
+			</div><!-- /.col-lg-6 -->
+			</div><!-- /.row --> <br>
+				<!-- <select name="base_formato" id="base_formato" class="form-control input-sm">
+					<option value="1">BASES</option>
+					<option value="2">FORMATO</option>
+				</select> <br> -->
+				<div id="content_bases">
+					<input name="aleatorioB" type="hidden" id="aleatorioB">
+					<table width="100%" id="dataTableBBE" class="table-condensed table-bordered">
+					<thead id="cabecera_tBusquedaPrincipal1">
+					<tr id="mymy" class="bg-primary">
+						<th id="clickmeBBE" align="center" width="20px">#</th>
+						<th> BASES <button type="button" class="btn btn-default btn-xs" id="bBaseE"><i class="fa fa-refresh" aria-hidden="true"></i></button></th>
+						<th>AREA</th>
+						<th>UNIDAD</th>
+					</tr>
+					</thead>
+						<tbody style="color:black"> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
+					</table>
+				</div>
+				<div id="content_formato" class="hide">
+					<table width="100%" height="100%" border="1" class="table-condensed table-bordered">
+					<tr align="left" style="display:;"> <td height="1px" nowrap>
+						<table width="100%" border="0" cellspacing="1" class="table-condensed">
+						<tr>
+							<td><select name="inserta_algo" id="inserta_algo" onChange="insertAtCaret(this.value);return false;" class="form-control input-sm insers">
+							</select></td>
+							<td align="right" width="1%" nowrap class="text-primary">FORMATO DEL ESTUDIO:</td>
+						</tr>
+						</table>
+					</td> </tr>
+					<tr id="contieneET1" align="left"><td colspan="4">
+						<textarea style="height:90%; resize:none; vertical-align:top;" name="input" id="input" type="text" value="" class="jqte-test"></textarea>
+						<input name="miDiagnostico1" id="miDiagnostico1" type="hidden"> <input name="id_rmed" id="id_rmed" type="hidden">
+						<input name="aleatorio_rmed" id="aleatorio_rmed" type="hidden">
+					</td></tr>
+					</table>
+				</div>
+            	
             </div>
 			<div role="tabpanel" class="tab-pane" id="tMuestras"><br>
 				<div class="panel panel-primary hidden" id="new_muestra">
@@ -421,8 +465,8 @@
 				  </table>
 				</div>
 			</div>
-			<div role="tabpanel" class="tab-pane" id="tFormato1"><br>
-            	<table width="100%" height="100%" border="1" class="table-condensed table-bordered">
+			<!-- <div role="tabpanel" class="tab-pane" id="tFormato1"><br> -->
+            	<!-- <table width="100%" height="100%" border="1" class="table-condensed table-bordered">
                   <tr align="left" style="display:;"> <td height="1px" nowrap>
                     <table width="100%" border="0" cellspacing="1" class="table-condensed">
                       <tr>
@@ -437,10 +481,10 @@
                     <input name="miDiagnostico1" id="miDiagnostico1" type="hidden"> <input name="id_rmed" id="id_rmed" type="hidden">
                     <input name="aleatorio_rmed" id="aleatorio_rmed" type="hidden">
                 </td></tr>
-                </table>
-            </div>
+                </table> -->
+            <!-- </div> -->
             <div role="tabpanel" class="tab-pane" id="tProductividad"><br>
-            	<input name="aleatorioB" type="hidden" id="aleatorioB">
+            	<!-- <input name="aleatorioB" type="hidden" id="aleatorioB"> -->
               	<div class="row">
               		<div class="col-md-4">
               			<label class="control-label">Costo de producción extra</label>

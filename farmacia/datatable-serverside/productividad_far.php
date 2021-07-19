@@ -14,7 +14,20 @@ require("../../funciones/php/values.php");
 	 // Joins   
 	$sJoin = 'left join orden_venta o on o.referencia_ov = v.referencia_vc left JOIN pacientes p ON p.id_p = v.id_paciente_vc left join usuarios m on m.id_u = v.id_personal_medico_vc left join conceptos e on e.id_to = v.id_concepto_es left join sucursales s on s.id_su = o.sucursal_ov';
 		
-	$sWhere="WHERE v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and e.id_tipo_concepto_to = 5 and v.temporal_vc=0 group by e.concepto_to order by suma desc ";
+    $sWhere = "";
+
+     /* Individual column filtering */
+     for ( $i=0 ; $i<count($aColumns) ; $i++ )
+     {
+         if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' )
+         {
+             if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " AND "; }
+             $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+         }
+     }
+
+     if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " AND "; }
+	$sWhere.=" v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and e.id_tipo_concepto_to = 5 and v.temporal_vc=0 group by e.concepto_to order by suma desc ";
 	
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;
@@ -51,15 +64,7 @@ require("../../funciones/php/values.php");
         $sWhere .= ')';
     }
      
-    /* Individual column filtering */
-    for ( $i=0 ; $i<count($aColumns) ; $i++ )
-    {
-        if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' )
-        {
-            if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " AND "; }
-            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
-        }
-    }
+   
      
     /*  * SQL queries  * Get data to display */
     $sQuery = "

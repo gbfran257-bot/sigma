@@ -6,9 +6,9 @@ require("../../funciones/php/values.php");
  if($_POST["p_latitud_s"]==''){$latitud = 0.0;}else{$latitud = $_POST["p_latitud_s"];}
  if($_POST["p_longitud_s"]==''){$longitud = 0.0;}else{$longitud = $_POST["p_longitud_s"];}
  $idUsuario = sqlValue($_POST["idUsuarioP"], "int");
- $nombre = sqlValue(mb_strtoupper($_POST["nombreP"]), "text");
- $apaterno = sqlValue(mb_strtoupper($_POST["apaternoP"]), "text");
- $amaterno = sqlValue(mb_strtoupper($_POST["amaternoP"]), "text");
+ $nombre = sqlValue(mb_strtoupper(trim($_POST["nombreP"])), "text");
+ $apaterno = sqlValue(mb_strtoupper(trim($_POST["apaternoP"])), "text");
+ $amaterno = sqlValue(mb_strtoupper(trim($_POST["amaternoP"])), "text");
  $idSexo = sqlValue($_POST["sexoP"], "int");
  $nacionalidad = sqlValue(mb_strtoupper($_POST["nacionalidadP"]), "text");
  list( $dia, $mes, $ano ) = explode( "/", $_POST['fnacP'] ); $raya = "-"; $f_nac = $ano.$raya.$mes.$raya.$dia;
@@ -86,10 +86,14 @@ require("../../funciones/php/values.php");
  
  $hashed_password = sqlValue(password_hash($_POST["username"], PASSWORD_DEFAULT), "text");
  
- $permisos = sqlValue($_POST["h_pacie"].$_POST["h_corte_r"].$_POST["h_agend"].$_POST["h_consul"].$_POST["h_rep_c"].$_POST["h_estadi_c"].$_POST["h_cat_c"].$_POST["h_hospi"].$_POST["h_enfer"].$_POST["h_notas_h"].$_POST["h_cama_h"].$_POST["h_img"].$_POST["h_endo"].$_POST["h_ultra"].$_POST["h_colpo"].$_POST["h_cat_i"].$_POST["h_tab_i"].$_POST["h_rep_i"].$_POST["h_estadi_i"].$_POST["h_lab"].$_POST["h_bases"].$_POST["h_bita_l"].$_POST["h_cat_l"].$_POST["h_tab_l"].$_POST["h_rep_l"].$_POST["h_estadi_l"].$_POST["h_serv"].$_POST["h_cat_s"].$_POST["h_tab_s"].$_POST["h_rep_s"].$_POST["h_estadi_s"].$_POST["h_puntov_m"].$_POST["h_medis"].$_POST["h_produ_f"].$_POST["h_corte_f"].$_POST["h_inv_f"].$_POST["h_rep_f"].$_POST["h_estadi_f"].$_POST["h_medi_a"].$_POST["h_promo_a"].$_POST["h_usu"].$_POST["h_sucu"].$_POST["h_corte_a"].$_POST["h_bene_a"].$_POST["h_forma_a"].$_POST["h_prod_f"].$_POST["h_config"], "text");
+//  $permisos = sqlValue($_POST["h_pacie"].$_POST["h_corte_r"].$_POST["h_agend"].$_POST["h_consul"].$_POST["h_rep_c"].$_POST["h_estadi_c"].$_POST["h_cat_c"].$_POST["h_hospi"].$_POST["h_enfer"].$_POST["h_notas_h"].$_POST["h_cama_h"].$_POST["h_img"].$_POST["h_endo"].$_POST["h_ultra"].$_POST["h_colpo"].$_POST["h_cat_i"].$_POST["h_tab_i"].$_POST["h_rep_i"].$_POST["h_estadi_i"].$_POST["h_lab"].$_POST["h_bases"].$_POST["h_bita_l"].$_POST["h_cat_l"].$_POST["h_tab_l"].$_POST["h_rep_l"].$_POST["h_estadi_l"].$_POST["h_serv"].$_POST["h_cat_s"].$_POST["h_tab_s"].$_POST["h_rep_s"].$_POST["h_estadi_s"].$_POST["h_puntov_m"].$_POST["h_medis"].$_POST["h_produ_f"].$_POST["h_corte_f"].$_POST["h_inv_f"].$_POST["h_rep_f"].$_POST["h_estadi_f"].$_POST["h_medi_a"].$_POST["h_promo_a"].$_POST["h_usu"].$_POST["h_sucu"].$_POST["h_corte_a"].$_POST["h_bene_a"].$_POST["h_forma_a"].$_POST["h_prod_f"].$_POST["h_config"], "text");
 $permisos = "";
 for($i=0; $i<48; $i++){
-	$permisos .= $_POST['h_permisos'][$i];
+	if(isset($_POST['p_'.$i])){
+		$permisos .= 1;
+	}else{
+		$permisos .= 0;
+	}
 }
 $permisos = sqlValue($permisos, "text");
 mysql_select_db($database_horizonte, $horizonte); //foto_u, firma_u, $foto, $firmaU, idOcupacion_u, $ocupacion, 

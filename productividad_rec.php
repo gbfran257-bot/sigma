@@ -19,6 +19,7 @@
     
     <!-- Mainly scripts -->
 	<script src="js/jquery-3.2.1.js"></script>
+	<script src="jquery-ui-1.12.0/jquery-ui.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script src="bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js"></script>
@@ -30,6 +31,7 @@
     <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
     <script src="DataTables-1.10.13/media/js/dataTables.bootstrap.min.js"></script>
     <script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script>
+	<script src="DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
 	<script src="TableTools-2.1.5/media/js/TableTools.js"></script>
     <script src="TableTools-2.1.5/media/js/ZeroClipboard.js"></script>
     <script src="bootstrap-validator/js/validator.js"></script>
@@ -40,7 +42,7 @@
     <script src="funciones/js/jquery.sparkline.min.js" type="text/javascript"></script>
     <script src="jQuery-TE_v.1.4.0/uncompressed/jquery-te-1.4.0.js" charset="utf-8"></script>
     <script src='tinymce/tinymce.min.js'></script>
-    <script src='c3/c3.min.js'></script>
+	<script src='c3/c3.min.js'></script>
     <script src='c3/d3/d3.min.js'></script>
     <!-- Input Mask-->
     <script src="jasny-bootstrap/js/jasny-bootstrap.min.js"></script> 
@@ -85,7 +87,7 @@
 	<tfoot>
 		<tr class="bg-primary">
 			<th><input type="hidden"></th>
-			<th><input type="hidden"></th>
+			<th><input type="text" class="form-control input-sm" placeholder ="Nombre de Usuario"></th>
 			<th><input type="hidden" class="sCalculo"/></th>
 			<th><input type="hidden"></th>
 			<th><input type="hidden" class="sCalculo"/></th>
@@ -102,7 +104,7 @@
 $(document).ready(function(e) {
 	//breadcrumb
 	$('#breadc').html('<li><a href="index.php">RECEPCIÓN</a></li><li class="active"><strong>REPORTE DE PRODUCTIVIDAD</strong></li>');
-	
+	var asInitVals = new Array();
 	//$('#my_search').removeClass('hidden'); $.fn.datepicker.defaults.autoclose = true; 
 	
 	var tamP = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-210;
@@ -141,9 +143,12 @@ $(document).ready(function(e) {
 			aoData.push(  {"name": "idU", "value": idU } );
 		},
 		"oLanguage": {
-			"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
+			"sLengthMenu": "MONSTRANDO _MENU_ records per page", 
+			"sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
 			"sInfo": "SERVICIOS FILTRADOS: _END_",
-			"sInfoEmpty": "NINGÚN SERVICIO FILTRADO.", "sInfoFiltered": " TOTAL DE SERVICIOS: _MAX_", "sSearch": "",
+			"sInfoEmpty": "NINGÚN SERVICIO FILTRADO.", 
+			"sInfoFiltered": " TOTAL DE SERVICIOS: _MAX_", 
+			"sSearch": "BUSCAR",
 			"oPaginate": { "sNext": "<span class='paginacionPrincipal'>Siguiente</span>", "sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;" }
 		},"iDisplayLength": 50000, paging: false,
 	});

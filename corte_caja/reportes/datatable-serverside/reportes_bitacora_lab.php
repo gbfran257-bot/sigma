@@ -2,8 +2,8 @@
 <?php require_once("../../../funciones/php/values.php"); ?>
 <?php
 	// consulta para horizonte
-	$obligatorio = 0;
-	$aColumns = array('pa.referencia_pag','pa.referencia_pag' , 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'ov.id_ov', 'ov.muestras_ov', 'ov.gran_total_ov', 'ov.id_ov', 'ov.gran_total_ov', 'ov.id_ov', 'ov.id_ov', 'tipo_tabulador_su', 's.id_su', 'p_tabulador_l_su');
+	$obligatorio = 0; 
+	$aColumns = array('pa.referencia_pag','pa.referencia_pag' , 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u','concat(v.contador_vc," ",c.concepto_to)','ov.muestras_ov', 'ov.gran_total_ov', 'ov.id_ov', 'ov.gran_total_ov', 'ov.id_ov', 'ov.id_ov', 'tipo_tabulador_su', 's.id_su', 'p_tabulador_l_su');
      
     // DB tables to use 
     $aTables = array( 'orden_venta ov');
@@ -12,7 +12,9 @@
     $sIndexColumn = "ov.referencia_ov";
      
 	 // Joins   hasta aqui
-	$sJoin = 'left join pacientes p ON ov.id_paciente_ov = p.id_p left join pagos_ov pa on ov.referencia_ov = pa.referencia_pag left join usuarios u on u.id_u = ov.usuario_ov left join sucursales s on s.id_su = ov.sucursal_ov';
+	$sJoin = 'left join pacientes p ON ov.id_paciente_ov = p.id_p left join pagos_ov pa on ov.referencia_ov = pa.referencia_pag left join usuarios u on u.id_u = ov.usuario_ov left join sucursales s on s.id_su = ov.sucursal_ov 
+    left join venta_conceptos v on v.referencia_vc = ov.referencia_ov 
+    left join conceptos c on c.id_to = v.id_concepto_es';
 	// left join conceptos to on to. =  left join departamentos d on d.id_d = pa.id_departamento_pag
     // CONDITIONS 
 	if(isset($_GET['depto']) && $_GET['depto'] != 'x' && $_GET['depto'] != ''){//para las solicitudes con departamento
@@ -202,16 +204,23 @@
             $row[15] = 100;
         $row[9] = intval(($totalActual*(1-($row[15]*0.01)))*100)/100;
         $row[10] = $row[8]-$row[9];
+        $row[11] = $row[8]-$row[9];
         $idov = $row[12];
-        $result = mysql_query("SELECT id from pagos_sucursal where id_ov=".$idov, $horizonte) or die (mysql_error());
+        $result = mysql_query("SELECT ps.id, ps.tiempo, u.usuario_u from pagos_sucursal ps left join usuarios u on u.id_u = ps.usuario where id_ov=".$idov, $horizonte) or die (mysql_error());
+        // echo $result;
         $rowX = mysql_fetch_row($result);
-        $row[12] = $row[11];
+        $row[13] = $row[12];
         if(!empty($rowX[0])){
-            $row[10]  = 0;
-            $row[11] = "P";
+            $row[11]  = 0;
+            $row[12] = "<span class='ticket_pagado'>P</span>";
+            $row[13] = $rowX[1];
+            $row[14] = $rowX[2];
         }else{
-		    $row[11] = "<input type='checkbox' name='apagarbitacora' amount='".$row[10]."' idov='".$idov."'>";
+		    $row[12] = "<input type='checkbox' name='apagarbitacora' amount='".$row[11]."' idov='".$idov."'>";
+            $row[13] = "-";
+            $row[14] = "-";
         }
+        $row[15] = "<button class='btn btn-primary' lang='$row[1]' id='$row[4]' onClick='ver_depto(this.lang, this.id);'><i class='fa fa-eye'></i></button>";
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );

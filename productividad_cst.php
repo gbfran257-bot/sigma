@@ -88,10 +88,10 @@
 	<tfoot>
 		<tr class="bg-primary">
 			<th><input type="hidden"></th>
-			<th><input type="hidden"></th>
+			<th><input type="text" class="form-control input-sm" placeholder ="Nombre de consulta"></th>
 			<th><input type="hidden" class="sCalculo" /></th>
 			<th><input type="hidden"></th>
-			<th><input type="hidden"></th>
+			<th><input type="text" class="form-control input-sm" placeholder ="Nombre Médico"></th>
 			<th><input type="hidden"></th>
 			<th><input type="hidden"></th>
 			<th><input type="hidden"></th>

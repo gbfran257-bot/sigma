@@ -179,6 +179,28 @@ function regresar(){
 	$('.si_impre').addClass('hidden'); $('.no_impre').removeClass('hidden'); $('#mi_formato').html('');
 }
 function crear_formato(nombre_f, id_f, id_p){
+	tinymce.init({
+		selector:'#mi_formato',resize:false,height:$('#myModal1').height()*0.63,theme: "modern",
+		plugins: 
+			"table, charmap, emoticons, textcolor colorpicker, hr, image imagetools, image, insertdatetime, lists, noneditable, pagebreak, paste, preview, print, visualblocks, wordcount, code, importcss",
+		table_default_styles: { width: '100%' },
+		relative_urls: true, image_advtab: true, menubar: false, plugin_preview_width: $('#referencia').width()*0.8,
+		toolbar: 
+			"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP |",
+		insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
+		paste_data_images: true, paste_as_text: true, browser_spellcheck: true, 
+		setup: function (editor) {
+			editor.addButton( 'mybuttonVP', {
+				text: 'IMPRIMIR', icon: false, tooltip: 'Vista de impresión',
+				onclick:function(){
+					var res = tinyMCE.get("mi_formato").getContent().replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); //alert(res);
+					//$('#dpa_imprimir1').html(res).css('background-image','url(imagenes/vista_previa.png)').css('background-size','65%');
+					$('#dpa_imprimir1').html(res); $('#dpa_imprimir1').printElement();
+				}
+			});
+		}
+	});
+
 	$('.si_impre').removeClass('hidden'); $('.no_impre').addClass('hidden');
 	var idForma = {id_f:id_f} //Generamos la nota de evolución si nunca ha sido guardada la consulta
 	$.post('pacientes/files-serverside/formato.php',idForma).done(function(datax){
@@ -279,6 +301,7 @@ function formatos(id_p, nombre_p){
 				$( 'input', this.footer() ).on( 'keyup change', function () { if ( that.search() !== this.value ) { that .search( this.value ) .draw(); } } );
 			}); //fin filtros individuales por campo de texto
 			
+			tinymce.remove('#mi_formato');
 			tinymce.init({
 				selector:'#mi_formato',resize:false,height:$('#myModal1').height()*0.63,theme: "modern",
 				plugins: 

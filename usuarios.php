@@ -154,7 +154,25 @@ $(document).ready(function(e){
 	
 	if($('#xhgc').val()!=''){
 		var datos = {id:$('#xhgc').val()}
-		$.post('usuarios/files-serverside/name_u.php',datos).done(function(data){ verUsuario($('#xhgc').val(), data); setTimeout(function(){ $("#contrasena-tab").click(); }, 500); });
+		$.post('usuarios/files-serverside/name_u.php',datos).done(function(data){ verUsuario($('#xhgc').val(), data); setTimeout(function(){    
+			
+			$('#tab_mi_grales').addClass('hide'); 
+			$('#tab_mi_dir').addClass('hide'); 
+			$('#tab_mi_con').addClass('hide'); 
+			$('#tab_mi_hor').addClass('hide'); 
+			$('#tab_mi_arc').addClass('hide'); 
+			$('#tab_mi_fir').addClass('hide'); 
+			$('#tab_mi_fot').addClass('hide'); 
+			$('#tab_mi_esc').addClass('hide'); 
+			$('#tab_mi_not').addClass('hide'); 
+			$('#tab_mi_rec').addClass('hide'); 
+			$('#tab_mi_format_im').addClass('hide'); 
+			$('#tab_mi_conc').addClass('hide'); 
+			$('#tab-seguridad').addClass('hide'); 
+			// $('#tab_per').addClass('hide'); 
+
+
+			$("#contrasena-tab").click(); }, 500);  });
 	}else{ }
 	//var bootstrapButton = $.fn.button.noConflict();  $.fn.bootstrapBtn = bootstrapButton; 
 	
@@ -203,6 +221,47 @@ $(document).ready(function(e){
 	$('.filtro1Principal').addClass('hidden');
 		
 });
+
+function cambiarFotoPerfil(id_u){
+
+	const btnEnviar = document.querySelector("#actualizar_foto_p");
+	const inputFile = document.querySelector("#foto_p");
+
+	if (inputFile.files.length > 0) {
+		let formData = new FormData();
+		formData.append("idP", id_u);
+		formData.append("idU", id_u);
+		// formData.append("fecha", inputFile.files[0]);
+		formData.append("NombreArchivo", 'foto_perfil');
+		formData.append("archivo", inputFile.files[0]); // En la posición 0; es decir, el primer elemento
+		fetch("usuarios/fotos/guardar.php", {
+			method: 'POST',
+			body: formData,
+		})
+			.then(respuesta => respuesta.text())
+			.then(decodificado => {
+				if(decodificado == 'Subido con éxito'){
+					swal({
+						title: "¡Bien!",
+						text: decodificado,
+						type: "success"
+						}, function() {
+							$("#fotP").load('usuarios/files-serverside/perfil_usuario.php?id='+id_u,function(response,status,xhr){
+								if(status=="success"){ 
+								$("#fotP").attr("src","usuarios/fotos/"+response);
+							// 	// $("#tableImg").html(response);
+								}
+							});
+						});							
+				}else{
+					swal("¡Uppss!", decodificado, "error");
+				}
+			});
+	} else {
+		// El usuario no ha seleccionado archivos
+		alert("Selecciona un archivo");
+	}		
+}
 
 function resetP(idU, usr, op){
 	if(op == 1){ var titulo1 = "DESACTIVAR A "+usr, subt = "¿Deseas desactivar la cuenta del usuario?"; }
@@ -845,6 +904,18 @@ function verUsuario(idU, nombre_u, tempi_u){
 						$('#dpa_imprimir1').html(res); $('#dpa_imprimir1').printElement();
 					}
 				});
+			}
+		});
+
+		$("#fotP").load('usuarios/files-serverside/perfil_usuario.php?id='+idU,function(response,status,xhr){
+			if(status=="success"){ 
+				if(response != '.'){
+					$("#fotP").attr("src","usuarios/fotos/"+response);
+				}else{
+					$("#fotP").attr("src","imagenes/user_profile_male.png");
+				}
+			
+		// 	// $("#tableImg").html(response);
 			}
 		});
 		

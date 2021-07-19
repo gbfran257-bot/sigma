@@ -479,7 +479,8 @@ function borrarIndicacionNB(idIndicacion){
 }
 
 function nuevoEstudio(){
-	$("#myModal").load("laboratorio/estudios/htmls/ficha_estudio_l.php",function(response,status,xhr){ if(status=="success"){ tinymce.remove("#input");
+	$("#myModal").load("laboratorio/estudios/htmls/ficha_estudio_l.php",function(response,status,xhr){ if(status=="success"){ 
+		tinymce.remove("#input");
 		$(".insers").load('genera/inserciones.php', function( response, status, xhr ) { if ( status == "success" ) { } });
 		
 		var datosFts ={idU:$('#id_user').val(), idSucursal:$('#miSucursal').val()}
@@ -647,7 +648,8 @@ function fichaEstudio(idE, na){
 		$(".insers").load('genera/inserciones.php', function( response, status, xhr ) { if ( status == "success" ) { } });
 		
 		var datosFts ={idU:$('#id_user').val(), idSucursal:$('#miSucursal').val(), idE:idE}
-		$.post('laboratorio/estudios/files-serverside/check_formato_individual.php',datosFts).done(function(data1x){ tinymce.remove("#input");
+		$.post('laboratorio/estudios/files-serverside/check_formato_individual.php',datosFts).done(function(data1x){ 
+			tinymce.remove("#input");
 			tinymce.init({ 
 				selector:'#myModal1 #input',resize:false,height:$('#referencia').height()*0.48,theme: "modern",
 				plugins: 
@@ -662,15 +664,14 @@ function fichaEstudio(idE, na){
 					editor.addButton( 'mybuttonVP', {
 						text: 'VPI', icon: false, tooltip: 'Vista previa de impresión',
 						onclick:function(){
-							var res = tinyMCE.get("input").getContent().replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); //alert(res);
+							var res = tinymce.get("input").getContent().replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); //alert(res);
 							$('#dpa_imprimir1').html(res).css('background-image','url(imagenes/vista_previa.png)').css('background-size','65%');
 							$('#dpa_imprimir1').html(res); $('#dpa_imprimir1').printElement();
 						}
 					});
 				}
 			}); 
-			setTimeout(function(){ tinymce.get("input").execCommand('mceInsertContent', false, data1x); }, 500);
-																													
+			setTimeout(function(){ tinymce.get("input").execCommand('mceInsertContent', false, data1x);}, 500);																							
 			$('#alerta_muestra, #alerta_metodo, .alerta_altas, .alerta_altas1, #alerta_indicacion').hide(); //$('.tabulacion, #tabi_3, #tabi_2').remove();
 			$('#condicion_n_mue').load('laboratorio/bases/files-serverside/generaCondicionesMuestras.php',function(response,status,xhr){});
 			$('#btn-new_metodo').click(function(e) { $('#new_metodo').removeClass('hidden'); });
@@ -707,7 +708,18 @@ function fichaEstudio(idE, na){
 			var datos ={idE:idE, idSucursal:$('#miSucursal').val()}
 			$.post('laboratorio/estudios/files-serverside/fichaEstudio_l.php',datos).done(function(data1){
 				var datosI = data1.split('*}'); $('#titulo_modal').text('FICHA DEL ESTUDIO '+datosI[0]);
-
+				if(datosI[17]== 2){
+					$('#formato_radio').attr("checked",true);
+					$('#content_bases').addClass('hide');
+					$('#content_formato').removeClass('hide');
+				}else if(datosI[17] == 1){
+					$('#base_radio').attr("checked",true);
+					$('#content_bases').removeClass('hide');
+					$('#content_formato').addClass('hide');
+				}else{
+					$('#content_bases').addClass('hide');
+					$('#content_formato').addClass('hide');
+				}
 				$("#miSucursalNS").load('pacientes/genera/genera_sucursales_ov.php?idU='+$('#id_user').val(),function(response,status,xhr){
 					if (status = "success"){ $("#miSucursalNS").val($('#miSucursal').val()); }
 				});
@@ -808,7 +820,7 @@ function fichaEstudio(idE, na){
 						"sInfoEmpty": "MOSTRADAS: 0", "sInfoFiltered": "<br/>BASES: _MAX_", "sSearch": "BUSCAR" 
 					}
 				});
-				$('#clickmeBBE').click(function(e){oTableReB.draw();}); $('#tab_formato').click(function(e){oTableReB.draw(); });
+				$('#clickmeBBE').click(function(e){oTableReB.draw();}); $('#tab_formato').click(function(e){oTableReB.draw();});
 
 				var oTableIeB;
 				oTableIeB = $('#dataTableIndicaciones').DataTable({
@@ -826,6 +838,16 @@ function fichaEstudio(idE, na){
 					}
 				});
 				$('#clickmeIn').click(function(e){oTableIeB.draw();}); $('#t_tIndicaciones').click(function(e) { oTableIeB.draw(); });
+
+				$('input:radio[name=base_formato]').click(function(e){
+					if($('input:radio[name=base_formato]:checked').val() == 1){
+						$('#content_bases').removeClass('hide');
+						$('#content_formato').addClass('hide');
+					}else if($('input:radio[name=base_formato]:checked').val() == 2){
+						$('#content_formato').removeClass('hide');
+						$('#content_bases').addClass('hide');
+					}
+				});
 
 				$('#bBaseE').click(function(e) {
 					$('.no_base').addClass('hidden'); $('.si_base').removeClass('hidden'); $('#tab_bases').click();
@@ -903,14 +925,26 @@ function fichaEstudio(idE, na){
 			  if (e.isDefaultPrevented()) { // handle the invalid form...
 			  } else { // everything looks good!
 				e.preventDefault(); 
-				var $btn = $('#btn_save1').button('loading'); $('#btn_cancel1').hide();
-				var datosP = $('#myModal1 #formEstudio').serialize();
-				$.post('laboratorio/estudios/files-serverside/updateEstudio_l.php',datosP).done(function( data ) {
-					if (data==1){//si el paciente se Actualizó 
-						$('#clickme').click(); $btn.button('reset'); $('#btn_cancel1').show(); $('#myModal1').modal('hide');
-						swal({ title: "", type: "success", text: "El estudio se ha actualizado.", timer: 2000, showConfirmButton: false }); return;
-					} else{alert(data);}
-				});
+				var input2 = $('#input').val();
+				$.post('laboratorio/estudios/files-serverside/check_formato_vacio.php',input2).done(function( dato ) {});
+				window.setTimeout(function(){
+					if($('input:radio[name=base_formato]:checked').val() == 2){
+						var idest = idE;
+						$.post('laboratorio/estudios/files-serverside/quitar_bases_estudio.php?idest='+idest).done(function( dat ) {
+							if (dat==1)console.log("bases borradas correctamente");
+						});
+					}
+					var $btn = $('#btn_save1').button('loading'); $('#btn_cancel1').hide();
+					var datosP = $('#myModal1 #formEstudio').serialize();
+					$.post('laboratorio/estudios/files-serverside/updateEstudio_l.php',datosP).done(function( data ) {
+						if (data==1){//si el paciente se Actualizó 
+							$('#clickme').click(); $btn.button('reset'); $('#btn_cancel1').show(); $('#myModal1').modal('hide');
+							swal({ title: "", type: "success", text: "El estudio se ha actualizado.", timer: 2000, showConfirmButton: false }); return;
+						} else{alert(data);}
+					});
+
+				},500);
+				
 			  }
 			});
 		});
@@ -934,4 +968,7 @@ function subirBase(base, noAleatorio, idU, idE){
 		} else{alert(data);} });
 	}
 }
+
+function insertAtCaret(text) { tinymce.get("input").execCommand('mceInsertContent', false, text); $('#inserta_algo').val(''); }
+
 </script>

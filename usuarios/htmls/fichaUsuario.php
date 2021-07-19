@@ -65,7 +65,7 @@ $id_del_user = $_SESSION['id'];
               <?php }else{ ?> <?php } ?>
             </ul>
         </li>
-        <li class="dropdown no_document no_nota no_receta no_forma_i">
+        <li class="dropdown no_document no_nota no_receta no_forma_i" id="tab-seguridad">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">SEGURIDAD <span class="caret"></span></a>
             <ul class="dropdown-menu" style="z-index:10000">
            	  <li class="nav-item" id="tab_mi_suc">
@@ -663,10 +663,6 @@ $id_del_user = $_SESSION['id'];
                       <label><input type="checkbox" name="p_6" class="chekito"> MEMBRESÍAS</label>
                       <input name="h_permisos[]" type="hidden" value="0">
                     </td>
-                    <td>
-                      <label><input type="checkbox" name="p_7" class="chekito"> PRODUCTIVIDAD</label>
-                      <input name="h_permisos[]" type="hidden" value="0">
-                    </td>
                 </tr>
               </table>
           </div>
@@ -684,10 +680,6 @@ $id_del_user = $_SESSION['id'];
                     </td>
                     <td>
                       <label><input type="checkbox" name="p_10" class="chekito"> CATÁLOGO</label>
-                      <input name="h_permisos[]" type="hidden" value="0">
-                    </td>
-                    <td>
-                      <label><input type="checkbox" name="p_11" class="chekito"> PRODUCTIVIDAD</label>
                       <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                 </tr>
@@ -740,10 +732,6 @@ $id_del_user = $_SESSION['id'];
                       <label><input type="checkbox" name="p_20" class="chekito"> CATÁLOGO</label>
                       <input name="h_permisos[]" type="hidden" value="0">
                     </td>
-                    <td>
-                      <label><input type="checkbox" name="p_21" class="chekito"> PRODUCTIVIDAD</label>
-                      <input name="h_permisos[]" type="hidden" value="0">
-                    </td>
                 </tr>
               </table>
           </div>
@@ -771,10 +759,6 @@ $id_del_user = $_SESSION['id'];
                       <label><input type="checkbox" name="p_26" class="chekito"> CATÁLOGO</label>
                       <input name="h_permisos[]" type="hidden" value="0">
                     </td>
-                    <td>
-                      <label><input type="checkbox" name="p_27" class="chekito"> PRODUCTIVIDAD</label>
-                      <input name="h_permisos[]" type="hidden" value="0">
-                    </td>
                 </tr>
               </table>
           </div>
@@ -792,10 +776,6 @@ $id_del_user = $_SESSION['id'];
                     </td>
                     <td>
                       <label><input type="checkbox" name="p_30" class="chekito"> CATÁLOGO</label>
-                      <input name="h_permisos[]" type="hidden" value="0">
-                    </td>
-                    <td>
-                      <label><input type="checkbox" name="p_31" class="chekito"> PRODUCTIVIDAD</label>
                       <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                 </tr>
@@ -825,10 +805,7 @@ $id_del_user = $_SESSION['id'];
                       <label><input type="checkbox" name="p_36" class="chekito"> INVENTARIO</label>
                       <input name="h_permisos[]" type="hidden" value="0">
                     </td>
-                    <td>
-                      <label><input type="checkbox" name="p_37" class="chekito"> PRODUCTIVIDAD</label>
-                      <input name="h_permisos[]" type="hidden" value="0">
-                    </td>
+                    
 
                 </tr>
               </table>
@@ -877,6 +854,32 @@ $id_del_user = $_SESSION['id'];
                       <label><input type="checkbox" name="p_47" class="chekito"> CONFIGURACIÓN</label>
                       <input name="h_permisos[]" type="hidden" value="0">
                     </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label><input type="checkbox" name="p_7" class="chekito"> P. RECEPCIÓN</label>
+                    <!-- <input name="h_permisos[]" type="hidden" value="0"> -->
+                  </td>
+                  <td>
+                    <label><input type="checkbox" name="p_11" class="chekito"> P. CONSULTAS</label>
+                    <!-- <input name="h_permisos[]" type="hidden" value="0"> -->
+                  </td>
+                  <td>
+                    <label><input type="checkbox" name="p_21" class="chekito"> P. IMAGEN</label>
+                    <!-- <input name="h_permisos[]" type="hidden" value="0"> -->
+                  </td>
+                  <td>
+                    <label><input type="checkbox" name="p_27" class="chekito"> P. LABORATORIO</label>
+                    <!-- <input name="h_permisos[]" type="hidden" value="0"> -->
+                  </td>
+                  <td>
+                    <label><input type="checkbox" name="p_31" class="chekito"> P. SERVICIOS</label>
+                    <!-- <input name="h_permisos[]" type="hidden" value="0"> -->
+                  </td>
+                  <td>
+                    <label><input type="checkbox" name="p_37" class="chekito"> P. FARMACIA</label>
+                    <!-- <input name="h_permisos[]" type="hidden" value="0"> -->
+                  </td>
                 </tr>
               </table>
           </div>
@@ -1072,31 +1075,44 @@ $id_del_user = $_SESSION['id'];
             </table>
         </div>
         <div class="tab-pane tap-pane-primary" id="t_contra" role="tabpanel" aria-labelledby="contra-tab"><br>
-        	<div class="panel panel-primary">
-              <div class="panel-heading">
-                <h3 class="panel-title">CONFIGURAR UNA NUEVA CONTRASEÑA</h3>
-              </div>
-              <div class="panel-body">
-                <div class="row">
-                    <div class="form-group col-md-12 col-sm-12 text-primary">
-                      <label for="contra_actual" class="col-form-label">* CONTRASEÑA ACTUAL</label>
-                      <input type="password" class="form-control form-control-sm" id="contra_actual" name="contra_actual" placeholder="Introduzca su contraseña actual" maxlength="20">
-                    </div>
-                    <div class="form-group col-md-12 col-sm-12 text-primary">
-                      <label for="contra_new" class="col-form-label">* NUEVA CONTRASEÑA</label>
-                      <input type="password" class="form-control form-control-sm" id="contra_new" name="contra_new" placeholder="Introduzca su nueva contraseña" maxlength="20">
-                    </div>
-                    <div class="form-group col-md-12 col-sm-12 text-primary">
-                      <label for="re_contra_new" class="col-form-label">* CONFIRME SU NUEVA CONTRASEÑA</label>
-                      <input type="password" class="form-control form-control-sm" id="re_contra_new" name="re_contra_new" placeholder="Confirme su nueva contraseña" maxlength="20">
-                    </div>
-                    <p class="text-danger">* La nueva contraseña debe ser de por lo menos 6 dígitos</p>
-                </div>
-              </div>
-              <div class="panel-footer">
-              	<button type="button" class="btn btn-warning btn-sm" id="btn_update_contra_u">Actualizar contraseña</button>
+          <div class="row">
+            <div class="col-sm-3">
+              <img src="imagenes/user_profile_male.png" width="150px" height="150px" style="border-radius:50%; margin-bottom:20px; margin-left:10px" alt="" id=fotP>
+              <div class="row">
+                <input type="file" id="foto_p" class="form-control form-control-sm hidden">
+                <span class="btn btn-primary" style="margin-left:20px;margin-bottom:20px" onclick="	$('#foto_p').click();"><i class="fa fa-file-text compu fa-1x" aria-hidden="true"></i></span>
+                <span class="btn btn-primary" style="margin-left:10px;margin-bottom:20px" onclick="cambiarFotoPerfil(<?php echo $id_del_user; ?>)" id="actualizar_foto_p">Actualizar Foto</span>
               </div>
             </div>
+            <div class="col-sm-9">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title">CONFIGURAR UNA NUEVA CONTRASEÑA</h3>
+                </div>
+                <div class="panel-body">
+                  <div class="row">
+                      <div class="form-group col-md-12 col-sm-12 text-primary">
+                        <label for="contra_actual" class="col-form-label">* CONTRASEÑA ACTUAL</label>
+                        <input type="password" class="form-control form-control-sm" id="contra_actual" name="contra_actual" placeholder="Introduzca su contraseña actual" maxlength="20">
+                      </div>
+                      <div class="form-group col-md-12 col-sm-12 text-primary">
+                        <label for="contra_new" class="col-form-label">* NUEVA CONTRASEÑA</label>
+                        <input type="password" class="form-control form-control-sm" id="contra_new" name="contra_new" placeholder="Introduzca su nueva contraseña" maxlength="20">
+                      </div>
+                      <div class="form-group col-md-12 col-sm-12 text-primary">
+                        <label for="re_contra_new" class="col-form-label">* CONFIRME SU NUEVA CONTRASEÑA</label>
+                        <input type="password" class="form-control form-control-sm" id="re_contra_new" name="re_contra_new" placeholder="Confirme su nueva contraseña" maxlength="20">
+                      </div>
+                      <p class="text-danger">* La nueva contraseña debe ser de por lo menos 6 dígitos</p>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                  <button type="button" class="btn btn-warning btn-sm" id="btn_update_contra_u">Actualizar contraseña</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        
         </div>
     </div>          
 </form>

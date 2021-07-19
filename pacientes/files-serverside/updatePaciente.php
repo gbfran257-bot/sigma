@@ -7,9 +7,9 @@ require("../../funciones/php/values.php");
  $idP = sqlValue($_POST["id_paciente_v"], "int");
  $idU = sqlValue($_POST["id_usr_reg"], "int");
  $id_sucu = sqlValue($_POST["id_sucu"], "int");
- $nombre = sqlValue(mb_strtoupper($_POST["nombre_p"]), "text");
- $apaterno = sqlValue(mb_strtoupper($_POST["apaterno_p"]), "text");
- $amaterno = sqlValue(mb_strtoupper($_POST["amaterno_p"]), "text");
+ $nombre = sqlValue(mb_strtoupper(trim($_POST["nombre_p"])), "text");
+ $apaterno = sqlValue(mb_strtoupper(trim($_POST["apaterno_p"])), "text");
+ $amaterno = sqlValue(mb_strtoupper(trim($_POST["amaterno_p"])), "text");
  $fechaNacimiento = sqlValue($f_nac, "date");
  $idSexo = sqlValue($_POST["sexo_us"], "int");
  $id_pais = sqlValue($_POST["pais_p"], "int");
@@ -24,7 +24,7 @@ require("../../funciones/php/values.php");
  $tSangreP = sqlValue($_POST["sangre_p"], "int");
  $avisara = sqlValue(mb_strtoupper($_POST["contacto_emergencia_p"]), "text");
  $temergencia = sqlValue(mb_strtoupper($_POST["tel_emergencia_p"]), "text");
- $nombre_completo = $_POST["nombre_p"].' '.$_POST["apaterno_p"].' '.$_POST["amaterno_p"];
+ $nombre_completo = trim($_POST["nombre_p"]).' '.trim($_POST["apaterno_p"]).' '.trim($_POST["amaterno_p"]);
  $nombre_completo = sqlValue(mb_strtoupper($nombre_completo), "text");
  
  //Datos de dirección

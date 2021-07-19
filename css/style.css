@@ -8557,3 +8557,10 @@ body.md-skin {
     margin: 0;
   }
 }
+
+.alin{
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

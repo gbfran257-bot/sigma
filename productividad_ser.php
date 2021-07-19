@@ -83,7 +83,7 @@
 	<tfoot>
 		<tr class="bg-primary">
 			<th><input type="hidden"></th>
-			<th><input type="hidden"></th>
+			<th><input type="text" class="form-control input-sm" placeholder ="Servicio Médico"></th>
 			<th><input type="hidden" class="sCalculo" /></th>
 			<th><input type="hidden"></th>
 		</tr>
