@@ -130,7 +130,7 @@ require("../../funciones/php/values.php");
 	$antropometria = 'PESO: '.$row1s[12].' Kg TALLA: '.$row1s[13].' m';
 	
 	mysql_select_db($database_horizonte, $horizonte); 
- 	$resultH = mysql_query("SELECT a1.adiccion_ca, i1.inicio_ci, f1.frecuencia_cf, a2.adiccion_ca, i2.inicio_ci, f2.frecuencia_cf, a3.adiccion_ca, i3.inicio_ci, f3.frecuencia_cf from historia_clinica h left join catalogo_adicciones a1 on a1.id_ca = h.adiccion1 left join catalogo_inicios i1 on i1.id_ci = h.inicio_adiccion1 left join catalogo_frecuencias f1 on f1.if_cf = h.frecuencia_adiccion1 left join catalogo_adicciones a2 on a2.id_ca = h.adiccion2 left join catalogo_inicios i2 on i2.id_ci = h.inicio_adiccion2 left join catalogo_frecuencias f2 on f2.if_cf = h.frecuencia_adiccion2 left join catalogo_adicciones a3 on a3.id_ca = h.adiccion3 left join catalogo_inicios i3 on i3.id_ci = h.inicio_adiccion3 left join catalogo_frecuencias f3 on f3.if_cf = h.frecuencia_adiccion3 where h.id_paciente_hc = $idP", $horizonte) or die (mysql_error());
+ 	$resultH = mysql_query("SELECT a1.adiccion_ca, i1.inicio_ci, f1.frecuencia_cf, a2.adiccion_ca, i2.inicio_ci, f2.frecuencia_cf, a3.adiccion_ca, i3.inicio_ci, f3.frecuencia_cf, h.estatus_padre_hc, h.estatus_madre_hc, h.estatus_conyugue, ahf_padre_1, ahf_padre_2, ahf_padre_3, ahf_padre_4, ahf_madre_1, ahf_madre_2, ahf_madre_3, ahf_madre_4, ahf_conyugue_1, ahf_conyugue_2, ahf_conyugue_3, ahf_conyugue_4, no_hermanos, ahf_hnos_1, ahf_hnos_2, ahf_hnos_3, ahf_hnos_4, no_hijos_hc, ahf_hijos_1, ahf_hijos_2, ahf_hijos_3, ahf_hijos_4, ahf_notas from historia_clinica h left join catalogo_adicciones a1 on a1.id_ca = h.adiccion1 left join catalogo_inicios i1 on i1.id_ci = h.inicio_adiccion1 left join catalogo_frecuencias f1 on f1.if_cf = h.frecuencia_adiccion1 left join catalogo_adicciones a2 on a2.id_ca = h.adiccion2 left join catalogo_inicios i2 on i2.id_ci = h.inicio_adiccion2 left join catalogo_frecuencias f2 on f2.if_cf = h.frecuencia_adiccion2 left join catalogo_adicciones a3 on a3.id_ca = h.adiccion3 left join catalogo_inicios i3 on i3.id_ci = h.inicio_adiccion3 left join catalogo_frecuencias f3 on f3.if_cf = h.frecuencia_adiccion3 where h.id_paciente_hc = $idP order by h.id_hc desc", $horizonte) or die (mysql_error());
  	$rowH = mysql_fetch_row($resultH);
  
  	$conH = 0;
@@ -139,8 +139,39 @@ require("../../funciones/php/values.php");
  	if($rowH[6]!=NULL or $rowH[6]!=''){ $adiccion3 = ', ADICCION '.$rowH[8].' '.$rowH[6].' '.$rowH[7]; $conH++; }
  	if($conH==0){ $adicciones = 'ANTECEDENTES TABÁQUICOS, ALCOHÓLICOS Y SUSTANCIAS PSICOACTIVAS:'; }
  	else{$adicciones = $adiccion1.' '.$adiccion2.' '.$adiccion3;}
-		
-	$datos = $alergias.'-{]'.$row[3].'-{]'.$row[2].'-{]'.$row[0].' '.$row[1].'-{]'.$rowM[0].' '.$rowM[1].'-{]'.$signos_v.'-{]'.$abitus.'-{]'.$adicciones.'-{]'.$puntuacion_g.'-{]'.$antropometria.'-{]'.$fecha_hora.'-{]'.$rowM[0].' '.$rowM[1].'-{]'.$row[3].'-{]'.$rowM[3].'-{]'.$rowM[4].'-{]'.$row[3].'-{]'.$rowM[5].'-{]'.$dia.'-{]'.$mes1.'-{]'.$anio.'-{]'.$hora.'-{]'.$rowVC[0].'-{]'.$rowM[6].'-{]'.$row1s[12].'-{]'.$row1s[13].'-{]'.$row[2].'-{]'.$row[4].'-{]'.$rowM[7].'-{]'.$rowVC[1].'-{]'.$rowVC[2].' '.$rowVC[3].'-{]'.$mes.'-{]'.$myFirma.'-{]'.$rowFrts[0].'-{]'.$rowVC[4].'-{]'.$row1s[0].'-{]'.$row1s[1].'-{]'.$row1s[3].'-{]'.$row1s[2].'-{]'.$row1s[4].' ºC'.'-{]'.$rowVC[5].'-{]'.$rowVC[6].'-{]'.$rowVC[7].' '.$rowVC[8].'-{]'.$encaNM.'-{]'.$encaNM1.'-{]'.$encaNM2.'-{]'.$encaNM3.'-{]'.$logoMedicina.'-{]'.$rowVC[10].'-{]'.$rowVC[11].'-{]'.$rowVC_1[0].'-{]'.$lista.'-{]'.$lista1;
+	$estatus[1] = "VIVO";
+	$estatus[2] = "FINADO";
+	$enfermedades[6] = 'ALERGIAS';
+	$enfermedades[15] = 'ASMA';
+	$enfermedades[1] = 'CANCER';
+	$enfermedades[2] = 'CARDIOPATIAS';
+	$enfermedades[5] = 'DIABETES';
+	$enfermedades[14] = 'EN AMIGDALAS';
+	$enfermedades[16] = 'EN BRONQUIOS';
+	$enfermedades[13] = 'EN OIDOS';
+	$enfermedades[18] = 'ENDOCRINAS';
+	$enfermedades[8] = 'EPILEPSIA';
+	$enfermedades[4] = 'HIPERTENSION';
+	$enfermedades[9] = 'MALFORMACIONES';
+	$enfermedades[19] = 'OSTEOMUSCULARES';
+	$enfermedades[12] = 'SARAMPION';
+	$enfermedades[17] = 'SEXUALES';
+	$enfermedades[7] = 'SIDA';
+	$enfermedades[10] = 'T.MENTALES';
+	$enfermedades[3] = 'TUBERCULOSIS';
+	$enfermedades[11] = 'VARICELA';
+
+	
+	$historia = "<table>".
+	 	"<tr><td colspan='3'>ANTECEDENTES HEREDOFAMILIARES</td></tr>".
+		"<tr><td>Padre</td><td>".(empty($rowH[9]) ? '-' : $estatus[$rowH[9]])."</td><td>".(empty($rowH[12]) ? '' : $enfermedades[$rowH[12]]).(empty($rowH[13]) ? '' : ', '. $enfermedades[$rowH[13]]).(empty($rowH[14]) ? '' : ', '. $enfermedades[$rowH[14]]).(empty($rowH[15]) ? '' : ', '. $enfermedades[$rowH[15]])."</td></tr>".
+		"<tr><td>Madre</td><td>".(empty($rowH[10]) ? '-' : $estatus[$rowH[10]])."</td><td>".(empty($rowH[16]) ? '' : $enfermedades[$rowH[16]]).(empty($rowH[17]) ? '' : ', '. $enfermedades[$rowH[17]]).(empty($rowH[18]) ? '' : ', '. $enfermedades[$rowH[18]]).(empty($rowH[19]) ? '' : ', '. $enfermedades[$rowH[19]])."</td></tr>".
+		"<tr><td>Hermanos</td><td>".$rowH[24]."</td><td>".(empty($rowH[25]) ? '' : $enfermedades[$rowH[25]]).(empty($rowH[26]) ? '' : ', '. $enfermedades[$rowH[26]]).(empty($rowH[27]) ? '' : ', '. $enfermedades[$rowH[27]]).(empty($rowH[28]) ? '' : ', '. $enfermedades[$rowH[28]])."</td></tr>".
+		"<tr><td>Conyugue</td><td>".(empty($rowH[11]) ? '-' : $estatus[$rowH[11]])."</td><td>".(empty($rowH[20]) ? '' : $enfermedades[$rowH[20]]).(empty($rowH[21]) ? '' : ', '. $enfermedades[$rowH[21]]).(empty($rowH[22]) ? '' : ', '. $enfermedades[$rowH[22]]).(empty($rowH[23]) ? '' : ', '. $enfermedades[$rowH[23]])."</td></tr>".
+		"<tr><td>Hijos</td><td>".$rowH[29]."</td><td>".(empty($rowH[30]) ? '' : $enfermedades[$rowH[30]]).(empty($rowH[31]) ? '' : ', '. $enfermedades[$rowH[31]]).(empty($rowH[32]) ? '' : ', '. $enfermedades[$rowH[32]]).(empty($rowH[33]) ? '' : ', '. $enfermedades[$rowH[33]])."</td></tr>".
+		"<tr><td>Notas</td><td colspan='2'>".$rowH[34]."</td></tr>".
+		"</table>";
+	$datos = $alergias.'-{]'.$row[3].'-{]'.$row[2].'-{]'.$row[0].' '.$row[1].'-{]'.$rowM[0].' '.$rowM[1].'-{]'.$signos_v.'-{]'.$abitus.'-{]'.$adicciones.'-{]'.$puntuacion_g.'-{]'.$antropometria.'-{]'.$fecha_hora.'-{]'.$rowM[0].' '.$rowM[1].'-{]'.$row[3].'-{]'.$rowM[3].'-{]'.$rowM[4].'-{]'.$row[3].'-{]'.$rowM[5].'-{]'.$dia.'-{]'.$mes1.'-{]'.$anio.'-{]'.$hora.'-{]'.$rowVC[0].'-{]'.$rowM[6].'-{]'.$row1s[12].'-{]'.$row1s[13].'-{]'.$row[2].'-{]'.$row[4].'-{]'.$rowM[7].'-{]'.$rowVC[1].'-{]'.$rowVC[2].' '.$rowVC[3].'-{]'.$mes.'-{]'.$myFirma.'-{]'.$rowFrts[0].'-{]'.$rowVC[4].'-{]'.$row1s[0].'-{]'.$row1s[1].'-{]'.$row1s[3].'-{]'.$row1s[2].'-{]'.$row1s[4].' ºC'.'-{]'.$rowVC[5].'-{]'.$rowVC[6].'-{]'.$rowVC[7].' '.$rowVC[8].'-{]'.$encaNM.'-{]'.$encaNM1.'-{]'.$encaNM2.'-{]'.$encaNM3.'-{]'.$logoMedicina.'-{]'.$rowVC[10].'-{]'.$rowVC[11].'-{]'.$rowVC_1[0].'-{]'.$lista.'-{]'.$lista1.'-{]'.$historia;
 	
 	echo $datos;
  	//Cerrar conexión a la Base de Datos

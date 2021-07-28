@@ -5,6 +5,7 @@
 	echo '<option value="{et_edad}">EDAD DEL PACIENTE (en años)</option>';
 	echo '<option value="{et_especialidadm}">ESPECIALIDAD DEL PERSONAL MÉDICO</option>';
 	echo '<option value="{et_fecha_dia}">DÍA DE ELEBORACIÓN</option>';
+	echo '<option value="{et_historia_clinica}">HISTORIA CLINICA</option>';
 	echo '<option value="{et_fecha_mes_numero}">MES DE ELEBORACIÓN(número)</option>';
 	echo '<option value="{et_fecha_mes_letra}">MES DE ELEBORACIÓN(letra)</option>';
 	echo '<option value="{et_fecha_anio}">AÑO DE ELEBORACIÓN</option>';
