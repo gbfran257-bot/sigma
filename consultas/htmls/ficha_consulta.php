@@ -3,6 +3,7 @@
       <div class="modal-header">
         <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title"><strong><span id="titulo_modal">CREAR UN NUEVO PACIENTE</span></strong></h4>
+        <button type="button" data-loading-text="<i class='fa fa-circle-o-notch fa-spin' aria-hidden='true'></i> Procesando..." style="position: absolute;right: 15px;top: 10px;" class="btn btn-success btn-sm btns-consulta" id="finalizarConsulta"><i class="fa fa-check" aria-hidden="true"></i> Finalizar</button>
       </div>
       <div class="modal-body">
       	<input name="idUsuario_c" id="idUsuario_c" type="hidden" value=""> 
@@ -48,7 +49,6 @@
 				</td>
 				<td align="right" nowrap>
 					<button type="button" data-loading-text="<i class='fa fa-circle-o-notch fa-spin' aria-hidden='true'></i> Procesando..." class="btn btn-primary btn-sm btns-consulta" id="salvarConsulta"><i class="fa fa-cloud" aria-hidden="true"></i> Guardar</button>
-					<button type="button" data-loading-text="<i class='fa fa-circle-o-notch fa-spin' aria-hidden='true'></i> Procesando..." class="btn btn-success btn-sm btns-consulta" id="finalizarConsulta"><i class="fa fa-check" aria-hidden="true"></i> Finalizar</button>
                     <button type="button" class="btn btn-info btn-sm" id="hospitalizarP"><i class="fa fa-bed" aria-hidden="true"></i> </button>
 					
 					<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" id="salirSGconsulta">Salir</button>
