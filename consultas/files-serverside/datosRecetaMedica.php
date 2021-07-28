@@ -7,7 +7,8 @@ require("../../funciones/php/values.php");
 	mysql_select_db($database_horizonte, $horizonte);
 	$result = mysql_query("SELECT v.nota_receta from venta_conceptos v where v.id_vc = $idE ", $horizonte) or die (mysql_error());
  	$row = mysql_fetch_row($result);
-
+ 	$row[0] = str_replace("../../../escuela", "/sigma/escuela", $row[0]);
+ 	$row[0] = str_replace("../../../imagenes", "/sigma/imagenes", $row[0]);
 		echo $row[0];
 	
  //Cerrar conexión a la Base de Datos
