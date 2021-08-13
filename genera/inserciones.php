@@ -6,6 +6,10 @@
 	echo '<option value="{et_especialidadm}">ESPECIALIDAD DEL PERSONAL MÉDICO</option>';
 	echo '<option value="{et_fecha_dia}">DÍA DE ELEBORACIÓN</option>';
 	echo '<option value="{et_historia_clinica}">HISTORIA CLINICA</option>';
+	echo '<option value="{et_historia_clinica_AHF}">H.C. ANTECEDENTES HEREDO FAMILIARES</option>';
+	echo '<option value="{et_historia_clinica_APNP}">H.C. ANTECEDENTES PATOLÓGICOS NO PERSONALES</option>';
+	echo '<option value="{et_historia_clinica_APP}">H.C. ANTECEDENTES PATOLÓGICOS NO PERSONALES</option>';
+	echo '<option value="{et_historia_clinica_AGO}">H.C. ANTECEDENTES GINECO-OBSTÉTRICOS</option>';
 	echo '<option value="{et_fecha_mes_numero}">MES DE ELEBORACIÓN(número)</option>';
 	echo '<option value="{et_fecha_mes_letra}">MES DE ELEBORACIÓN(letra)</option>';
 	echo '<option value="{et_fecha_anio}">AÑO DE ELEBORACIÓN</option>';
