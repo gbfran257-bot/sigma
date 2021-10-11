@@ -15,6 +15,9 @@
       <li role="presentation" class="hidden ocul" id="t-adicionales">
       	<a href="#tAdicionales" aria-controls="tAdicionales" role="tab" data-toggle="tab">ADICIONALES</a>
       </li>
+      <li role="presentation" class="hidden" id="t-medicamento">
+      	<a id="link-tab-3" href="#tMedicamento" aria-controls="tMedicamento" role="tab" data-toggle="tab">NUEVO MEDICAMENTO GENERICO</a>
+      </li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
@@ -22,7 +25,7 @@
         	<div class="panel panel-success">
               <!-- Default panel contents-->
               <!--<div class="panel-heading"><p>Selecciona un medicamento de la lista de medicamentos genéricos</p></div>-->
-              <div class="panel-body"> Selecciona un medicamento de la lista de medicamentos genéricos </div>
+              <div class="panel-body"> Selecciona un medicamento de la lista de medicamentos genéricos <span class="btn btn-primary" id="btnNewMedGenerico"><i class="fa fa-plus"></i> Medicamento Generico</span></div>
                 <table width="100%" border="0" cellpadding="0" cellspacing="0" id="dataTableM" class="table table-hover table-striped dataTable table-condensed"> 
                 <thead id="cabecera_tBusquedaM">
                   <tr role="row" class="bg-success">
@@ -107,7 +110,7 @@
             </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="tAdicionales"><br>
-			<table class="table table-condensed">
+			    <table class="table table-condensed">
                 <tr> <td class="text-primary" valign="top">GENERALIDADES</td><td id="tex_generalidades"></td> </tr>
                 <tr> <td class="text-primary">INTERACCIONES</td><td id="tex_interacciones"></td> </tr>
                 <tr> <td class="text-primary">EFECTOS ADVERSOS</td><td id="tex_adversos"></td> </tr>
@@ -116,13 +119,120 @@
                 <tr> <td></td> <td colspan="1" id="tex_re"></td> </tr>
             </table>
         </div>
+        <div role="tabpanel" class="tab-pane" id="tMedicamento"><br>
+        <form action=""id="med_generico">
+          <div class="col-md-12">
+            <div class="col-md-3">
+              <div class="form-group col-md-8">
+                <label class="control-label" for="inputSuccess1" >Clave del medicamento</label>
+                <input type="text" class="form-control" style="margin-top:10px;" name="clv_m">
+              </div>
+              <div class="form-group col-md-4">
+                <label class="control-label" for="inputSuccess1" >Cantidad</label>
+                <input type="text" class="form-control" style="margin-top:10px;" name="cant_m">
+              </div>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group col-md-4">
+                <label class="control-label" for="inputWarning1">Nombre generico </label>
+                <input type="text" class="form-control" style="margin-top:10px;" name="nombre_generico_m">
+              </div>
+              <div class="form-group col-md-4">
+                <label class="control-label" for="inputError1" >Descripción </label>
+                <input type="text" class="form-control" style="margin-top:10px;" name="desc_m">
+              </div>
+              <div class="form-group col-md-4">
+                <label class="control-label" for="inputError1" >Nivel del medicamento</label>
+                <input type="text" class="form-control" style="margin-top:10px;" name="nivel_m">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group col-md-8">
+                <label class="control-label" for="inputWarning1">Presentación </label>
+                <input type="text" class="form-control" style="margin-top:10px;" name="present_m">
+              </div>
+              <div class="form-group col-md-4">
+                <label class="control-label" for="inputError1" >R.Embarazo </label>
+                <select name="Rembarazo_m" id="" class="form-control" style="margin-top:10px;">
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                  <option value="X">X</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group col-md-4">
+                <label class="control-label" for="inputSuccess1">Grupo médico</label>
+                <input type="text" class="form-control" style="margin-top:10px;" name=grupoMedico_m>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="control-label" for="inputSuccess1">Via administración</label>
+                <input type="text" class="form-control" style="margin-top:10px;" name="via_administracion_m">
+              </div>
+              <div class="form-group col-md-4">
+                <label class="control-label" for="inputWarning1">Contenido </label>
+                <input type="text" class="form-control" style="margin-top:10px;" name="contenido_m">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="inputWarning1">Generalidades</label>
+                <textarea name="generalidades_m" rows="2" class="form-control" cols="100" ></textarea>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="inputError1" >Efectos adversos  </label>
+                <textarea name="efectos_m" rows="2" class="form-control" cols="100"></textarea>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="inputError1" >Contraindicaciones Precauciones  </label>
+                <textarea name="contradicciones_m" rows="2" class="form-control" cols="100" ></textarea>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="inputError1" >Interacciones medicas  </label>
+                <textarea name="interacciones_m" rows="2" class="form-control" cols="100" ></textarea>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="inputError1" >Indicaciones medicas  </label>
+                <textarea name="indicaciones_m" rows="2" class="form-control" cols="100" ></textarea>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="inputError1" >via de Administración dosís</label>
+                <textarea name="via_admin_dosis_m" rows="2" class="form-control" cols="100"></textarea>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label" for="inputError1" >Presentaciones</label>
+                <textarea name="presentaciones_m" rows="1" class="form-control" cols="100"></textarea>
+              </div>
+            </div>
+            <button class="btn btn-primary" style="margin-left:15px" type="submit" id="btn_save_mg" form="med_generico">
+              Guardar medicamento generico
+            </button>
+          </div>
+        </form>
+        </div>
     </div>
       
   </div>
   <div class="modal-footer">
     <div class="form-group">
     <div class="col-sm-offset-0 col-sm-12">
-    	<button type='submit' class="btn btn-success btn-sm" id="guardarM" form="form-medicamento">Guardar</button> 
+    	  <button type='submit' class="btn btn-success btn-sm" id="guardarM" form="form-medicamento">Guardar</button> 
         <button type='button' class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
     </div>
     </div>
