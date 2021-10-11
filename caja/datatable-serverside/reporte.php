@@ -162,15 +162,17 @@ require("../../funciones/php/values.php");
 		
 		$resultTfa = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 3 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 		$rowTfa = mysql_fetch_row($resultTfa);
+
+
 						
 		//Asociación médica
-		if($row[6]==4){ $row[4] = $rowTam[0]; }
+		if($row[6]==4){$row[4] = $rowTam[0];}
 		//Imagen
-		else if($row[6]==2){ $row[4] = $rowTim[0]; }
+		else if($row[6]==2){$row[4] = $rowTim[0];}
 		//Laboratorio
-		else if($row[6]==1){ $row[4] = $rowTlb[0]; }
+		else if($row[6]==1){$row[4] = $rowTlb[0]; }
 		//Farmacia si es que hay conceptos de farmacia
-		else if($row[6]==3){ $row[4] = $rowTfa[0]; }
+		else if($row[6]==3){$row[4] = $rowTfa[0];}
 		//Enfermería si es que hay conceptos de Enfermería
 				
 		$output['aaData'][] = $row;

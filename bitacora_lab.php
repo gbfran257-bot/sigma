@@ -166,7 +166,7 @@ function preparaPago(){
 		});
 	});
 }
-function ver_depto(referencia,sucursal){
+function ver_depto(referencia,sucursal,nombre){
 	$("#myModal").load('corte_caja/reportes/htmls/deptos.php', function(response, status, xhr){ if(status=="success"){
 		$('#titulo_modal').text('REPORTE POR DEPARTAMENTO'); 
 		$('#idUser_esc').val($('#id_user').val());
@@ -174,10 +174,10 @@ function ver_depto(referencia,sucursal){
 		var datosP={ref:referencia,sucu:sucursal}
 		$.post('corte_caja/reportes/files-serverside/datos_deptos.php',datosP).done(function(data){
 			var datos = data.split('_;}{');
+			$('#nombre_paciente').text(nombre);
 			$('#num_ref_t').text(referencia);
 			$('#con_table').html(datos[0]);
 			$('#total_ref').text(datos[1]);
-			// alert(data);
 		});
 			
 		
