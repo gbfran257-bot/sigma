@@ -223,6 +223,7 @@
                                     <li><a href="catalogo_profesiones.php"><i class="fa fa-briefcase"></i> PROFESIONES</a></li>
                                     <li><a href="catalogo_direcciones.php"><i class="fa fa-address-book-o"></i> DIRECCIONES</a></li>
                                     <li><a href="catalogo_met_lab.php"><i class="fa fa-flask"></i> METODOS LABORATORIO</a></li>
+                                    <li><a href="catalogo_medicamento_g.php"><i class="fa fa-medkit"></i> MEDICAMENTO GENERICO</a></li>
                                 </ul>
                             </li>
                         <?php }?>
