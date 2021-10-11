@@ -20,6 +20,9 @@ require("../../../funciones/php/values.php");
  $precioSu = sqlValue($_POST["precioES"], "double");
  $precioSuu = sqlValue($_POST["precioUrgenciaS"], "double");
 
+ $costoProduccion = sqlValue($_POST["costoproduccion"], "int");
+ $MotivoCostoProduccion = sqlValue(mb_strtoupper($_POST["motivocostoproduccion"]), "text");
+
  //primero tenemos que saber si existe su tabulador, sino entnces escogemos el tabulador base
 	$tabu = $_POST['miSucursalNS'].'_precio'; $resultT = mysql_query("SHOW COLUMNS FROM conceptos LIKE '$tabu' ");
 	$existsT = (mysql_num_rows($resultT))?TRUE:FALSE;
@@ -27,10 +30,10 @@ require("../../../funciones/php/values.php");
 		$precio_nor = $_POST['miSucursalNS'].'_precio'; $precio_ur = $_POST['miSucursalNS'].'_precio_u';
 		
 		mysql_select_db($database_horizonte, $horizonte);
- 		$sql = "UPDATE conceptos set concepto_to = $nombre, $precio_nor = $precio, $precio_ur = $precioU, precio_to = $precio, precio_urgencia_to = $precioU, precio1_to = $precioSu, precio_urgencia1_to = $precioSuu, formato = $formato, precio_m = $precioM, precio_mu = $precioMU, precio_h = $precioH, costo_maquila_to = $precioMa, costo_maquila_u_to = $precioMau where id_to = $idEstudio";		
+ 		$sql = "UPDATE conceptos set concepto_to = $nombre, $precio_nor = $precio, $precio_ur = $precioU, precio_to = $precio, precio_urgencia_to = $precioU, precio1_to = $precioSu, precio_urgencia1_to = $precioSuu, formato = $formato, precio_m = $precioM, precio_mu = $precioMU, precio_h = $precioH, costo_maquila_to = $precioMa, costo_maquila_u_to = $precioMau, c_costo = $costoProduccion, motivo_costo = $MotivoCostoProduccion where id_to = $idEstudio";		
 	}else{
 		mysql_select_db($database_horizonte, $horizonte);
- 		$sql = "UPDATE conceptos set concepto_to = $nombre, precio_to = $precioMa, precio_urgencia_to = $precioMau, precio1_to = $precioSu, precio_urgencia1_to = $precioSuu, formato = $formato, precio_m = $precioM, precio_mu = $precioMU, precio_h = $precioH, costo_maquila_to = $precioMa, costo_maquila_u_to = $precioMau where id_to = $idEstudio";		
+ 		$sql = "UPDATE conceptos set concepto_to = $nombre, precio_to = $precioMa, precio_urgencia_to = $precioMau, precio1_to = $precioSu, precio_urgencia1_to = $precioSuu, formato = $formato, precio_m = $precioM, precio_mu = $precioMU, precio_h = $precioH, costo_maquila_to = $precioMa, costo_maquila_u_to = $precioMau, c_costo = $costoProduccion, motivo_costo = $MotivoCostoProduccion where id_to = $idEstudio";		
 	}
   
 $update = mysql_query($sql, $horizonte) or die (mysql_error());

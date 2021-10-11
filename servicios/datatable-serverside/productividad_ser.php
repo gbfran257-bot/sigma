@@ -3,7 +3,7 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('v.id_vc', 'e.concepto_to', 'count(v.id_vc) as suma', 'v.id_vc' );
+	$aColumns = array('v.id_vc', 'e.concepto_to', 'count(v.id_vc) as suma', 'v.id_vc' , 'sum(v.precio_vc)', 'e.c_costo', 'v.id_vc' );
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -116,8 +116,13 @@ require("../../funciones/php/values.php");
 		$rowT = mysql_fetch_row($resultT);
 		
 		$porce = round(($row[2]*100)/$rowT[0],4);
-		
+		$total = $row[4];
+        $costo = $row[5]*$row[2];
+		$utilidad = $total - $costo;
 		$row[3] = "<span>$porce %</span>";
+        $row[5] = $costo;
+        $row[6] = $utilidad;
+		// $row[3] = "<span>$porce %</span>";
 				
 		$output['aaData'][] = $row;
     }

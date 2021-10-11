@@ -268,6 +268,7 @@ function fichaEstudio(idE, nameE){
 				$("#miSucursalNS").load('pacientes/genera/genera_sucursales_ov.php?idU='+$('#id_user').val(),function(response,status,xhr){
 					if (status = "success"){ $("#miSucursalNS").val($('#miSucursal').val()); }
 				});
+				$('#costoproduccion').val(datosI[15]);$('#motivocostoproduccion').val(datosI[16]);
 				$('#idUsuarioE').val($('#id_user').val()); $('#idEstudioE').val(idE);
 				$('#areaE').load('imagen/estudios/genera/areasEstudios.php', function( response, status, xhr ){ $(this).val(datosI[1]); });
 				$('#nombreE').val(datosI[0]); $('#precioE').val(datosI[2]); $('#precioUrgenciaE').val(datosI[3]);

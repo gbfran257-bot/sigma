@@ -255,7 +255,7 @@ function fichaEstudio(idE, nameS){
 					if (status = "success"){ $("#miSucursalNS").val($('#miSucursal').val()); }
 				});
 				$('#idUsuarioE').val($('#id_user').val()); $('#idEstudioE').val(idE);
-
+				$('#costoproduccion').val(datosI[15]);$('#motivocostoproduccion').val(datosI[16]);
 				$('#nombreE').val(datosI[0]); $('#precioE').val(datosI[2]); $('#precioUrgenciaE').val(datosI[3]);
 				$('#precioME').val(datosI[10]); $('#precioUrgenciaME').val(datosI[11]); $('#precioES').val(datosI[7]);
 				$('#precioUrgenciaS').val(datosI[8]); $('#precioHO').val(datosI[12]); $('#precioEM').val(datosI[13]); $('#precioUrgenciaM').val(datosI[14]);

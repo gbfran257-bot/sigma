@@ -22,6 +22,7 @@
             <li role="presentation" class="active"><a href="#tEstudio" aria-controls="tEstudio" role="tab" data-toggle="tab" id="tab_estudio">ESTUDIO</a></li>
             <li role="presentation"><a href="#tTabulador" aria-controls="tTabulador" role="tab" data-toggle="tab" id="tab_tabulador">TABULADOR</a></li>
 			<li role="presentation"><a href="#tFormato" aria-controls="tFormato" role="tab" data-toggle="tab" id="tab_formato">FORMATO</a></li>
+      <li role="presentation" class="no_base"><a href="#tProductividad" aria-controls="tProductividad" role="tab" data-toggle="tab" id="tab_productividad">PRODUCTIVIDAD</a></li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
@@ -127,6 +128,20 @@
                     <input name="aleatorio_rmed" id="aleatorio_rmed" type="hidden">
                 </td></tr>
                 </table>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tProductividad"><br>
+            	<!-- <input name="aleatorioB" type="hidden" id="aleatorioB"> -->
+              	<div class="row">
+              		<div class="col-md-6">
+              			<label class="control-label">Costo de producción </label>
+              			<input type="number" step="0.01" class="form-control" name="costoproduccion" id="costoproduccion" value="0">
+              		</div>
+              		<div class="col-md-6">
+              			<label class="control-label">Motivo del costo </label>
+              			<input type="text" class="form-control" name="motivocostoproduccion" id="motivocostoproduccion">
+              		</div>
+              	</div>
+              	<hr>
             </div>
         </div>       
 	</div>
