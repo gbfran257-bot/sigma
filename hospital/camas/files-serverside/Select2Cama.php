@@ -6,7 +6,7 @@
 require("../../../Connections/horizonte.php"); 
 /// Cabecera JSON
 header('Content-Type: application/json');
-/* Database connection information */
+/* Database connection information  */
 
 $sql =  mysql_pconnect($hostname_horizonte, $username_horizonte, $password_horizonte) or die( 'Could not open connection to server' );
 mysql_select_db($database_horizonte, $sql) or die( 'Could not select database '. $database_horizonte);

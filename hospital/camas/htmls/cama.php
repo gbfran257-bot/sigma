@@ -26,6 +26,11 @@
                     <input name="ubicacion_ca" id="ubicacion_ca" type="text" class="form-control form-control-sm" placeholder="Ubicación de la cama" required>
                     <div class="help-block with-errors"></div>
                 </div>
+                <div class="form-group col-md-12 col-sm-12 text-primary">
+                    <label for="hora_ca" class="col-form-label">COSTO POR HORA</label>
+                    <input name="hora_ca" id="hora_ca" type="number" class="form-control form-control-sm" placeholder="Costo por hora" required>
+                    <div class="help-block with-errors"></div>
+                </div>
 				<div class="form-group col-md-12 col-sm-12 text-primary">
                     <label for="descripcion_ca" class="col-form-label">DESCRIPCIÓN</label>
                     <input name="descripcion_ca" id="descripcion_ca" type="text" class="form-control form-control-sm" placeholder="Descripción">
