@@ -13,105 +13,49 @@ mysql_select_db($database_horizonte, $horizonte);
  $row = mysql_fetch_row($result);
  $pagoTotalRef = $row[0];
 
- $result2 = mysql_query("SELECT p_tabulador_i_su, p_tabulador_l_su,p_tabulador_s_su from sucursales where clave_su = $sucu ", $horizonte) or die (mysql_error());
+ $result2 = mysql_query("SELECT p_tabulador_i_su, p_tabulador_l_su,p_tabulador_s_su, id_su from sucursales where clave_su = $sucu ", $horizonte) or die (mysql_error());
  $rowSu = mysql_fetch_row($result2);
  
  //tabuladores
  $t_imagen = $rowSu[0];  
  $t_lab = $rowSu[1];
  $t_ser = $rowSu[2];
+ $id_su = $rowSu[3];
 
+mysql_select_db($database_horizonte, $horizonte);
+$result2 = mysql_query("SELECT c.concepto_to,v.contador_vc,v.precio_vc,v.precio_original,o.gran_total_ov,o.t_desc_cta, o.t_desc_img,o.t_desc_lab, o.t_desc_serv,t_desc_pro from orden_venta o left join venta_conceptos v on v.referencia_vc = o.referencia_ov left join conceptos c on c.id_to = v.id_concepto_es where o.referencia_ov = $ref order by v.contador_vc asc", $horizonte) or die (mysql_error());
 
- // $resultTlb = mysql_query("SELECT p.pago_pag, ps.id_ov FROM pagos_ov p JOIN orden_venta ov on p.referencia_pag = ov.referencia_ov JOIN pagos_sucursal ps on ps.id_ov = ov.id_ov  WHERE P.departamento_pa = 1 AND p.referencia_pag = $ref ", $horizonte) or die (mysql_error());
- //    $totalTL= 0;
- //    $conTL = 0;
- //    while ($fila = mysql_fetch_assoc($resultTlb)) {
- //        $totalTL = $totalTL + intval($fila["pago_pag"]);
- //        if($fila["id_ov"] != null){
- //            $conTL++;
- //        }
- //    }
-	
-
- mysql_select_db($database_horizonte, $horizonte);
-$result1 = mysql_query("SELECT c.concepto_to, v.contador_vc, c.id_departamento_to,c.precio_to from orden_venta o left join venta_conceptos v on v.referencia_vc = o.referencia_ov left join conceptos c on c.id_to = v.id_concepto_es where o.referencia_ov = $ref order by v.contador_vc asc", $horizonte) or die (mysql_error());
-$totalLAB = 0;
-$totalIMG = 0;
-$totalFARM = 0;
-$totalSER = 0;
-while ( $rowX = mysql_fetch_row($result1) ){ 
-	$contX++;
-	$totalTL0=(($rowX[3]*$t_lab)/100);  // precio del estudio de LABORATORIO que debe pagar la sucursal
-	$totalTI0=(($rowX[3]*$t_imagen)/100);  // precio del estudio de IMAGEN que debe pagar la sucursal
-	$totalTF0=intval($rowX[3]); // precio del MEDICAMENTO de FARMACIA que debe pagar la sucursal
-	$totalTS0=(($rowX[3]*$t_ser)/100); // precio del SERVICIO  que debe pagar la sucursal
-
-
-	
+while ( $rowX_1 = mysql_fetch_row($result2) ){ 
+	$contX2++;	
+	$totalCLI = $rowX_1[4];	//total de la venta registrada en BD
+	$total_desc = $rowX_1[5]+$rowX_1[6]+$rowX_1[7]+$rowX_1[8]+$rowX_1[9]; //sacamos total de descuentos 
+	$total_precio_vendido = $total_precio_vendido + $rowX_1[2]; //total del los precios de los productos vendidos
+	$total_precio_original = $total_precio_original + $rowX_1[3]; // el total del precio original
+	// $NUM = $totalCLI - $total_desc;
+	$TOTAL_tod = round((($totalCLI*$t_lab)/100),2);
+	//tabla
 	$salida.=	"<tr>".
-
-					"<th scope='row'><strong>".$rowX[1]."</strong></th>".
-					"<td>".$rowX[0]."</td>";
-
-//mostrar precios de laboratorio
-	if($rowX[2] != 1){
-		$salida .=	"<td>0</td>";
-	}else{
-		$salida .=	"<td>".$totalTL0."</td>";
-		$totalLAB = $totalLAB + $totalTL0;
-	}
-//mostrar precios de imagen
-	if($rowX[2] != 2){
-		$salida .=	"<td>0</td>";
-	}else{
-		$salida .=	"<td>".$totalTI0."</td>";
-		$totalIMG = $totalIMG + $totalTI0;
-	}
-//mostrar precios de farmacia
-	if($rowX[2] != 3){
-		$salida .=	"<td>0</td>";
-	}else{
-		$salida .=	"<td>".$totalTF0."</td>";
-		$totalFARM = $totalFARM + $totalTF0;
-	}
-//mostrar precios de SERVICIOS
-	if($rowX[2] != 4){
-		$salida .=	"<td>0</td>";
-	}else{
-		$salida .=	"<td>".$totalTS0."</td>";
-		$totalSER = $totalSER + $totalTS0;
-	}
-	$salida .=		"<td>".$rowX[3]."</td>".
-		$totalCLI = $totalCLI + $rowX[3];
-				"</tr>";	
-
+					"<th scope='row'><strong>".$rowX_1[1]."</strong></th>".
+					"<td class='text-center'>".$rowX_1[0]."</td>".
+					"<td class='text-center'>".$rowX_1[2]."</td>".
+					"<td class='text-center'>".$rowX_1[3]."</td>".
+					"<td></td>".
+					"<td></td>".
+					"<td></td>".
+				"</tr>";
 }
- $salida.="	<tr class='bg-info'>
- 				<td>#</td>
- 				<td>TOTAL</td>
- 				<td class='bg-primary'>".$totalLAB."</td>
- 				<td class='bg-primary'>".$totalIMG."</td>
- 				<td class='bg-primary'>".$totalFARM."</td>
- 				<td class='bg-primary'>".$totalSER."</td>
- 				<td class='bg-primary'>".$totalCLI."</td>
- 			</tr>
- 		</tbody>";
- $TOTAL_tod = $totalLAB+$totalIMG+$totalFARM+$totalSER;
 
-
-
-$datos = $salida ."_;}{".$TOTAL_tod;
- echo $datos;
-//  $old_saldo = $row[1]-$old_abonado;
-//  $new_abonado = $old_abonado;
-//  $new_saldo = $old_saldo;
-//   //echo $new_abonado;
-
-// $sql="UPDATE orden_venta SET abonado_ov = $new_abonado, saldo_ov = $new_saldo where referencia_ov = ".$ref.";";
-	
-// $insertar2 = mysql_query($sql, $horizonte) or die (mysql_error());
-// if (!$insertar2) {echo $sql;}
-// else{echo "ok";}
+	$salida.=	"<tr class='bg-info'>".
+					"<td>#</td>".
+					"<td>TOTAL</td>".
+					"<td class='bg-primary text-center'>".$total_precio_vendido."</td>".
+					"<td class='bg-primary text-center'>".$total_precio_original."</td>".
+					"<td class='bg-primary text-center'>$".$totalCLI." MXN</td>". 
+					"<td class='bg-primary text-center'>$".$total_desc." MXN</td>".
+					"<td class='bg-primary text-center'>$".$TOTAL_tod." MXN</td>".
+				"</tr>"; 
+	$datos = $salida."_;}{".$TOTAL_tod;
+ 	echo $datos;
  
  //Cerrar conexión a la Base de Datos
  mysql_close($horizonte);

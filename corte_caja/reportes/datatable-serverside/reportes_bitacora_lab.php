@@ -220,7 +220,7 @@
             $row[13] = "-";
             $row[14] = "-";
         }
-        $row[15] = "<button class='btn btn-primary' lang='$row[1]' id='$row[4]' onClick='ver_depto(this.lang, this.id);'><i class='fa fa-eye'></i></button>";
+        $row[15] = "<button class='btn btn-primary' lang='$row[1]' id='$row[4]' onClick='ver_depto(this.lang, this.id, $nombreP);'><i class='fa fa-eye'></i></button>";
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );

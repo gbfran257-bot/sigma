@@ -10,23 +10,30 @@
         <div class="contairner">
             <div class="row">
                 <h3 class="text-center"># REF DE VENTA</h3>
+                <h2 class="text-center" id="nombre_paciente"></h2>
                 <h3 class="text-center" id="num_ref_t"></h3>
+                
                 <table class="table">
                   <thead class="bg-primary">
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">CONCEPTO</th>
-                      <th scope="col">LABORATORIO</th>
-                      <th scope="col">IMAGEN</th>
-                      <th scope="col">FARMACIA</th>
-                      <th scope="col">ASOCIACION MEDICA</th>
-                      <th scope="col">ING CLIENTE</th>
+                      <th scope="col">PRECIO VENDIDO</th>
+                      <th scope="col">PRECIO ORIGINAL</th>
+                      <th scope="col">PAGO REAL DEL CLIENTE</th>
+                      <th scope="col">DESCUENTOS</th>
+                      <th scope="col">PAGO SUCURSAL</th>
                     </tr>
                   </thead>
                     <tbody id="con_table"></tbody>
                 </table>
                 <hr>
-                <label class="bg-primary">TOTAL A PAGAR SUCURSAL: <span id="total_ref"></span></label>
+                <div class="col-md-12">
+                  <h2 class="text-center">TOTAL A PAGAR SUCURSAL</h2>
+                  <h1 class="text-center"><label class="">$<span id="total_ref"></span></label></h1>
+                </div>
+                
+                
 
             </div>
         </div>
