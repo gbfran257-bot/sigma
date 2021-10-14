@@ -103,21 +103,46 @@ require("../../../Connections/horizonte.php");
         "aaData" => array()
     );
 	$hh=0;
-     
+
+    
+    
+   
+    $id_su = $_GET['idSu'];
     while ( $aRow = mysql_fetch_array( $rResult ) )
-    {
+    {       
 		$hh++;
         $row = array();
         for ( $i=0 ; $i<count($aColumns) ; $i++ )
         { if ( $aColumns[$i] == "version" ) { /* Special output formatting for 'version' column */ $row[] = ($aRow[ $aColumns[$i] ]=="0") ? '-' : $aRow[ $aColumns[$i] ]; } else if ( $aColumns[$i] != ' ' ) { /* General output */ $row[] = $aRow[$i]; } }
 		$row1 = array();
         for ( $j=0 ; $j<count($aColumns) ; $j++ ) { if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; } else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; } }
+
+         /* existencias en el inevntario  */
+         $id= $row[13];
+         if(!empty($id_su)){
+            $query = "
+            SELECT SUM(existencias)
+            FROM stock_has_bach left JOIN stock s on s.id = id_stock where id_Producto = $id AND s.id_su = $id_su";
+         }else{
+            $query = "
+            SELECT SUM(existencias)
+            FROM stock_has_bach left JOIN stock s on s.id = id_stock where id_Producto = $id ";
+         }
+         $existencia = mysql_query( $query, $gaSql['link'] ) or die(mysql_error());
+         $aExistencia = mysql_fetch_array($existencia);
+         $existencias = $aExistencia[0];
 		
 		$row[0]="<span>$hh</span>";
 		
 		$nombreP = '"'.$row[2].'"';
 		
-		$row[2] = "<span id='$row[12]' onClick='verMedicamento(this.id, $nombreP);' style='cursor:pointer; text-decoration:underline;'>$row[2]</span>";
+		$row[2] = "<span id='$row[13]' onClick='verMedicamento(this.id, $nombreP);' style='cursor:pointer; text-decoration:underline;'>$row[2]</span>";
+        if($existencias != ''){
+            $row[12]= $existencias;
+        }else{
+            $row[12]= 0;
+        }
+       
 		
 		$output['aaData'][] = $row;
     }

@@ -83,6 +83,7 @@
     <th style="vertical-align:middle; white-space:nowrap;" nowrap>PRECIO P</th>
     <th style="vertical-align:middle; white-space:nowrap;" nowrap>PRECIO H</th>
     <th style="vertical-align:middle; white-space:nowrap;" nowrap>PRECIO M</th>
+	<th style="vertical-align:middle; white-space:nowrap;" nowrap>EXISTENCIAS</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -99,6 +100,7 @@
             <th></th>
             <th></th>
             <th></th>
+			<th></th>
         </tr>
     </tfoot>
 </table>
@@ -121,7 +123,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
-			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
