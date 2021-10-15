@@ -1,4 +1,4 @@
-<?php require_once('../../Connections/horizonte.php'); ?>
+<?php require_once('../../../Connections/horizonte.php'); ?>
 <?php
 
 $idSucursal = $_GET['idS'];

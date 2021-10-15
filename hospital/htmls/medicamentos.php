@@ -17,6 +17,7 @@
 			  <!-- Tab panes -->
 			  <div class="tab-content">
 				<div role="tabpanel" class="tab-pane active" id="t-asignados">
+				
 					<table width="100%" height="100%" border="0" id="dataTableMedicamentos" class="table-condensed table-striped table-bordered table-hover" style="overflow: hidden;">
 						<thead id="cabecera_tBusquedaMedicamentos" class="">
 						  <tr class="bg-primary" style="font-size: 1.1em;">
@@ -28,6 +29,7 @@
 							<th class="titulosTabs" align="center" width="" nowrap>PERSONAL MÉDICO</th>
 							<th class="titulosTabs" align="center" width="" nowrap>INDICACIÓN</th>
 							<th class="titulosTabs" align="center" width="" nowrap>APLICAR</th>
+							<th class="titulosTabs" align="center" width="" nowrap>PRECIO</th>
 						  </tr>
 						</thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 						<tfoot style="display:;">
@@ -38,11 +40,13 @@
 								<th><input type="text" class="form-control input-sm" placeholder="-PERSONAL MÉDICO-" style="width: 99%"/></th>
 								<th></th>
 								<th></th>
+								<th></th>
 							</tr>
 						</tfoot>
 					</table>
 				</div>
 				<div role="tabpanel" class="tab-pane" id="t-aplicados">
+				<div id="print">
 					<table width="100%" height="100%" border="0" id="dataTableMedicamentosA" class="table-condensed table-striped table-bordered table-hover" style="overflow: hidden;">
 						<thead id="cabecera_tBusquedaMedicamentosA" class="">
 						  <tr class="bg-primary" style="font-size: 1.1em;">
@@ -52,6 +56,7 @@
 							<th class="titulosTabs" align="center" width="" nowrap>INDICACIÓN</th>
 							<th class="titulosTabs" align="center" width="" nowrap>APLICÓ</th>
 							<th class="titulosTabs" align="center" width="" nowrap>FECHA/HORA</th>
+							<th class="titulosTabs" align="center" width="" nowrap>PRECIO</th>
 						  </tr>
 						</thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 						<tfoot style="display:;">
@@ -62,11 +67,14 @@
 								<th></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-APLICÓ-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-FECHA/HORA-" style="width: 99%"/></th>
+								<th><input type="hidden" class="sCalculo" /></th>
 							</tr>
 						</tfoot>
 					</table>
+					</div>
+					<button type="button" class="btn btn-info " id="btn_printMA">IMPRIMIR</button>
 				</div>
-				  
+				
 			  </div>
 
 			</div>
