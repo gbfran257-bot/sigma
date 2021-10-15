@@ -115,10 +115,19 @@ require("../../funciones/php/values.php");
 		mysql_select_db($database_horizonte, $horizonte);
 		$resultT = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es where e.id_tipo_concepto_to = 5 and v.temporal_vc=0 and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die(mysql_error());
 		$rowT = mysql_fetch_row($resultT);
+
+        mysql_select_db($database_horizonte, $horizonte);
+		$cosot_unitario = mysql_query("SELECT v.costo_unitario from stock_has_bach v  left join conceptos e on e.id_to = v.id_Producto where e.concepto_to = '$row[1]' ORDER BY v.id desc", $horizonte) or die(mysql_error());
+		$cost_u = mysql_fetch_row($cosot_unitario);
 		
 		$porce = round(($row[2]*100)/$rowT[0],4);
 		
+        $total = $row[4];
+        $costo = $cost_u[0]*$row[2];
+		$utilidad = $total - $costo;
 		$row[3] = "<span>$porce %</span>";
+        $row[5] = $costo;
+        $row[6] = $utilidad;
 				
 		$output['aaData'][] = $row;
     }
