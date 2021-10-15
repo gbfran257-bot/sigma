@@ -203,8 +203,7 @@ require_once("../funciones/php/values.php");
 			$row[7] = "<div style='text-align:center;'><span id='$row[8]' lang='$row[2]' onClick='verConvenios(this.id, this.lang);' style='cursor:pointer; text-decoration:underline;' title='$lista'>$rowC[0]</span></div>";
 		}
 		
-		if($row[2]=='M'){$se = 'HOMBRE';}else{$se = 'MUJER';}
-		
+		if($row[4]=='M'){$se = 'HOMBRE';}else{$se = 'MUJER';}
 		$nombreP = '"'.$row[2].'"'; $mi_fecha_i = '"'.$rowMe[2].'"'; $mi_fecha_f = '"'.$rowMe[3].'"'; 
 		
 		$mi_fecha_r_i = $rowMe[4];
@@ -251,7 +250,6 @@ require_once("../funciones/php/values.php");
 		}else{//Nunca ha tenido membresía 0
 			$row[14] = "<div align='center'><button class='btn btn-default btn-sm' onClick='membresia($id_pa, $nombreP, 0, $costo_m, $periodo_m)'><i class='fa fa-address-card' aria-hidden='true'></i> </button></div>";
 		}
-		
 		$output['aaData'][] = $row;
 		
     }
