@@ -153,7 +153,7 @@
                         <i class="fa fa-medkit"></i> <span class="nav-label">FARMACIA</span><span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level collapse"> 
-                        <?php if($permisos[32]){?> <li style="white-space:nowrap;"><a href="#"><i class="fa fa-credit-card"></i> PUNTO DE VENTA</a></li> <?php } ?>
+                        <?php if($permisos[32]){?> <li style="white-space:nowrap;"><a href="compras.php"><i class="fa fa-credit-card"></i> COMPRAS</a></li> <?php } ?>
                         <?php if($permisos[33]){?> <li style="white-space:nowrap;"><a href="catalogo_medicamentos.php"><i class="fa fa-medkit"></i> MEDICAMENTOS</a></li> <?php } ?>
                         <?php if($permisos[34]){?> <li><a href="#"><i class="fa fa-product-hunt"></i> PRODUCTOS</a></li> <?php } ?>
                         <?php if($permisos[35]){?> <li style="white-space:nowrap;"><a href="#"><i class="fa fa-dollar"></i> CORTE DE CAJA</a></li> <?php } ?>
