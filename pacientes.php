@@ -1997,10 +1997,12 @@ function subirProductoS(idE,noAleatorio,idP, idU, idConvenio, idSucursal, observ
 		precioTo:p,tipoConcepto:t,id_con_bene:id_con_bene,fechaC:$('#fichaNV').val()+' '+$('#horaNV').val(), ocupado:ocup
 	}
 	$.post('pacientes/files-serverside/guardarEstudioNV.php',datosSENV).done(function( data ) { 
-		if(data==1){ 
+		if(data==1){ 	
 			$('#clickmePr,#clickmePS').click();
 			totales_productos(p, $('#po_descuento_p').val(),$('#da_descuento_p').val(),$('#cargo_extra_p').val());
 			calcular_totales();
+		}else if(data==2){
+			swal({ title: "", type: "error", text: "El medicamento no cuenta con existencias.", timer: 1800, showConfirmButton: false });
 		}else{alert(data);} 
 	});
 }

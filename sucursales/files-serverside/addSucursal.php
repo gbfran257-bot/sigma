@@ -94,12 +94,18 @@ require("../../funciones/php/values.php");
  $sql.= "VALUES ($idUsuario, $clave, $nombre, $temporal, $now, $estado, $municipio, $ciudad, $colonia, $calle, $cp, $telefono, $email, $porcentaje_t_i, $porcentaje_t_l, $porcentaje_t_s, GeomFromText('POINT($latitud $longitud)'), $horario_lu_e, $horario_lu_s, $horario_ma_e, $horario_ma_s, $horario_mi_e, $horario_mi_s, $horario_ju_e, $horario_ju_s, $horario_vi_e, $horario_vi_s, $horario_sa_e, $horario_sa_s, $horario_do_e, $horario_do_s, $tab_lab, $tab_img,$clues, $margen_e_cm, $tamano_h_cm, $margen_p_cm, $margen_e_rm, $tamano_h_rm, $margen_p_rm, $margen_e_la, $tamano_h_la, $margen_p_la, $margen_e_im, $tamano_h_im, $margen_p_im, $margen_e_en, $tamano_h_en, $margen_p_en, $margen_e_ul, $tamano_h_ul, $margen_p_ul, $margen_e_co, $tamano_h_co, $margen_p_co, $margen_e_sm, $tamano_h_sm, $margen_p_sm, $formato, $formato1, $formato2, $formato3, $formato4, $formato5, $formato6, $formato7)";
   
 $update = mysql_query($sql, $horizonte) or die (mysql_error());
-	
+
 if (!$update) { echo $sql; }else{
 	mysql_select_db($database_horizonte, $horizonte);
 	$result=mysql_query("SELECT max(id_su) FROM sucursales", $horizonte) or die(mysql_error()); $row=mysql_fetch_row($result);
 	$idSucu = sqlValue($row[0], "int");
-	
+
+	//crear almacen de la sucursal 
+	mysql_select_db($database_horizonte, $horizonte);
+	$inv = "INSERT INTO stock (clave_su, id_su, usuario_registro, fecha_creacion, fecha_actualizacion)";
+	$inv.= "VALUES ($clave, $idSucu, $idUsuario, $now, $now)";
+	$create_inv = mysql_query($inv, $horizonte) or die (mysql_error());
+
 	mysql_select_db($database_horizonte, $horizonte);
 	$sqlI = "UPDATE documentos set id_quien_do = $idSucu where aleatorio_do = $temporal";
 	$insertI = mysql_query($sqlI, $horizonte) or die (mysql_error());

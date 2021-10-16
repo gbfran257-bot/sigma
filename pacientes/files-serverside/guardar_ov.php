@@ -99,12 +99,13 @@ require("../../funciones/php/values.php");
  	$rowR4 = mysql_fetch_row($resultR4); $la_refe = sqlValue($rowR4[0], "text");
 	
 	mysql_select_db($database_horizonte, $horizonte);
-	$consulta = "SELECT id_vc, id_conceptos_beneficios from venta_conceptos where no_temp_vc = $aleatorio";
+	$consulta = "SELECT id_vc, id_conceptos_beneficios, id_concepto_es from venta_conceptos where no_temp_vc = $aleatorio";
 	$query = mysql_query($consulta) or die (mysql_error());
 	
 	$c = 0;
 	while ($fila = mysql_fetch_array($query)) { $c++;
 		$id = $fila['id_vc'];  $idCB = $fila['id_conceptos_beneficios'];
+		$idConcepto = $fila['id_concepto_es']; 
 		$refi = "-".$c; 
 		$referencia = sqlValue($rowR4[0], "text").sqlValue($refi, "text");
 		$referencia = sqlValue(str_replace("'","",$referencia), "text");$referenciaOV = sqlValue($rowR4[0], "text");
@@ -117,6 +118,42 @@ require("../../funciones/php/values.php");
 		
 		mysql_select_db($database_horizonte, $horizonte);
  		$insertarCB = mysql_query($sqlCB, $horizonte) or die (mysql_error());
+		
+		// si el concepto es de farmacia buscamos el registro mas viejo  que aun tenga existencias
+		$banderaExistencias = false;
+		$idExistencias = 0;
+		$cantExistencias = 0;
+		//comprobamos si el concepto pertenece a farmacia
+		mysql_select_db($database_horizonte, $horizonte);
+		$farm = mysql_query("SELECT id_to FROM conceptos WHERE id_tipo_concepto_to = 5 and id_to = $idConcepto", $horizonte) or die (mysql_error());
+		$esProd = mysql_fetch_row($farm);
+
+		if($esProd[0] != ''){
+			//verificamos si tiene existencias 
+			mysql_select_db($database_horizonte, $horizonte);
+			$ext = "SELECT s.id, s.existencias from stock_has_bach s left join conceptos c  on c.id_to = s.id_Producto where s.id_Producto = $idConcepto order by s.id DESC";
+			$existen = mysql_query($ext, $horizonte) or die (mysql_error());
+			while ($stock = mysql_fetch_assoc($existen)){
+				if($stock['existencias'] >= 1 ){
+					$idExistencias =  $stock['id'];
+					$cantExistencias = $stock['existencias'];
+					$banderaExistencias = true;
+				}else{
+					if($idExistencias != 0){
+						$banderaExistencias = true;
+					}
+				}
+			}
+
+			if($banderaExistencias){
+				mysql_select_db($database_horizonte, $horizonte);
+				$menos = "UPDATE stock_has_bach SET existencias = (existencias -1) where id = $idExistencias";
+				$resta_existencias = mysql_query($menos, $horizonte) or die (mysql_error());
+			}
+
+		}
+
+
 	}; $conti = 0;
 	
 	if($_POST["pago_ov_c"]>0 and $_POST["pago_ov_c"]!=''){
