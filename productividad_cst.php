@@ -92,10 +92,10 @@
 			<th><input type="hidden" class="sCalculo" /></th>
 			<th><input type="hidden"></th>
 			<th><input type="text" class="form-control input-sm" placeholder ="Nombre Médico"></th>
-			<th><input type="hidden"></th>
-			<th><input type="hidden"></th>
-			<th><input type="hidden"></th>
-			<th><input type="hidden"></th>
+			<th><input type="hidden" class="sCalculo" /></th>
+			<th><input type="hidden" class="sCalculo" /></th>
+			<th><input type="hidden" class="sCalculo" /></th>
+			<th><input type="hidden" class="sCalculo" /></th>
 		</tr>
 	</tfoot>
 </table>
@@ -115,12 +115,22 @@ $(document).ready(function(e) {
 	var oTableP = $('#dataTablePrincipal').DataTable({
 		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true, scroller: false, responsive: true,
 		"fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay){
-			var iTotal = 0;
-            for(var i=iStart ; i<iEnd ; i++){ iTotal += aaData[ aiDisplay[i] ][2]*1; }
+			var iTotal = 0, iTotalTotal=0, iTotalCosto=0, iTotalUtilidad=0, honorarios=0;
+            for(var i=iStart ; i<iEnd ; i++){ 
+				iTotal += aaData[ aiDisplay[i] ][2]*1; 
+				iTotalTotal += aaData[ aiDisplay[i] ][5]*1;
+				honorarios += aaData[ aiDisplay[i] ][6]*1;
+				iTotalCosto += aaData[ aiDisplay[i] ][7]*1;
+				iTotalUtilidad += aaData[ aiDisplay[i] ][8]*1;
+			}
 
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
             nCells[2].innerHTML = redondear(parseFloat(iTotal * 100)/100,2);
+			nCells[5].innerHTML = redondear((parseFloat(iTotalTotal) * 100)/100,2);
+			nCells[6].innerHTML = redondear((parseFloat(honorarios) * 100)/100,2);
+            nCells[7].innerHTML = redondear((parseFloat(iTotalCosto) * 100)/100,2);
+            nCells[8].innerHTML = redondear((parseFloat(iTotalUtilidad) * 100)/100,2);
 		},
 		"aoColumns":[ {"bVisible":true}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
 		"sDom": '<"filtro1Principal"f>rT<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
