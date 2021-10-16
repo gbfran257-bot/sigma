@@ -4,7 +4,7 @@ require("../../funciones/php/values.php");
 
 	$idP = sqlValue($_GET["id_p"], "int");
 
-	$aColumns = array('m.id_mah', 'mc.concepto_to', 'm.id_mah', 'm.id_mah', 'concat(t.abreviacion_ti," ",u.nombre_u," ",apaterno_u)', 'DATE_FORMAT(m.fecha_mah,"%d/%m/%Y")', 'm.id_mah', 'DATE_FORMAT(m.fecha_mah,"%H:%i:%s")');
+	$aColumns = array('m.id_mah', 'mc.concepto_to', 'm.id_mah', 'm.id_mah', 'concat(t.abreviacion_ti," ",u.nombre_u," ",apaterno_u)', 'DATE_FORMAT(m.fecha_mah,"%d/%m/%Y")', 'm.id_mah', 'DATE_FORMAT(m.fecha_mah,"%H:%i:%s")','mc.precio_to');
      
     // DB tables to use 
     $aTables = array( 'medicamentos_aplicados_hospi m');
@@ -35,7 +35,7 @@ require("../../funciones/php/values.php");
     }
      
     /* * Ordering */
-    $sOrder = "";
+    $sOrder = "order by m.id_mah desc";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
         $sOrder = "ORDER BY  ";
@@ -133,6 +133,7 @@ require("../../funciones/php/values.php");
 		$row[0] = "<div align='center'>$hh</div>";
 		
 		$row[5] = "<div align='center'>$row[5]<br>$row[7]</div>";
+        $row[6] = $row[8];
 		
 		//$nombre_p = '"'.$row[7].'"';
 										

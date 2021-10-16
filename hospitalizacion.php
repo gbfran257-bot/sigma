@@ -30,6 +30,8 @@
     <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
     <script src="DataTables-1.10.13/media/js/dataTables.bootstrap.min.js"></script>
     <script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script>
+	<script src="TableTools-2.1.5/media/js/TableTools.js"></script>
+    <script src="TableTools-2.1.5/media/js/ZeroClipboard.js"></script>
     <script src="bootstrap-validator/js/validator.js"></script>
     <script src="sweetalert/dist/sweetalert.min.js"></script>
     <script src="chosen/chosen.jquery.js" type="text/javascript"></script>
@@ -49,14 +51,15 @@
     <script src="funciones/js/stdlib.js"></script>
     <script src="funciones/js/bs-modal-fullscreen.js"></script>
     
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" >
+    <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet"  >
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet" >
     <link href="DataTables-1.10.13/media/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="DataTables-1.10.13/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet">
-    <link href="DataTables-1.10.13/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet">
+    <link href="DataTables-1.10.13/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet" >
+    <link href="DataTables-1.10.13/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet" >
+	<link href="TableTools-2.1.5/media/css/TableTools.css" rel="stylesheet">
     <link href="bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">
     <link href="sweetalert/dist/sweetalert.css" rel="stylesheet">
     <link rel="stylesheet" href="chosen/chosen.css">
@@ -207,7 +210,7 @@ function medicamentos(id_h, id_p, nombre_p, id_s){
 			var oTable = $('#dataTableMedicamentos').DataTable({
 				serverSide: true,"sScrollY": tam, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ){ }, scroller: false, responsive: true,
-				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true } ],
+				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{"bVisible": true } ],
 				"sDom": '<"filtro1Principal"><"data_tPrincipal"t><"infoPrincipal"S><"proc">',
 				deferRender: true, select: false, "processing": false, "sAjaxSource": "hospital/datatable-serverside/medicamentos.php?id_h="+id_h,
 				"fnServerParams": function(aoData, fnCallback){ },
@@ -229,8 +232,20 @@ function medicamentos(id_h, id_p, nombre_p, id_s){
 			
 			var oTableA = $('#dataTableMedicamentosA').DataTable({
 				serverSide: true,"sScrollY": tam, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
-				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ){ }, scroller: false, responsive: true,
-				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": false }, {"bVisible":false },{ "bVisible": true },{ "bVisible": true } ],
+				scroller: false, responsive: true,
+				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ){
+					var iTotal = 0;
+						for(var i=iStart ; i<iEnd ; i++){ 
+							iTotal += aaData[ aiDisplay[i] ][6]*1;
+						}
+
+						/* Modify the footer row to match what we want */
+						var nCells = nRow.getElementsByTagName('th');
+						console.log(iTotal);
+						nCells[4].innerHTML = "Total: $" + redondear(parseFloat(iTotal * 100)/100,2);
+						
+				 },
+				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": false }, {"bVisible":false },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
 				"sDom": '<"filtro1Principal"><"data_tPrincipal"t><"infoPrincipal"S><"proc">',
 				deferRender: true, select: false, "processing": false, "sAjaxSource": "hospital/datatable-serverside/medicamentosA.php?id_h="+id_h,
 				"fnServerParams": function(aoData, fnCallback){ },
@@ -242,7 +257,8 @@ function medicamentos(id_h, id_p, nombre_p, id_s){
 			});
 
 			$('#clickmeMdtosA, #tap-aplicados').click(function(e) { oTableA.draw(); }); window.setTimeout(function(){$('#clickmeMdtosA').click();},500);
-
+			
+				$('#btn_printMA').click(function(e){ $('#print').printElement(); });
 			//para los fintros individuales por campo de texto
 			oTableA.columns().every( function () {
 				var that = this; $('input',this.footer()).on('keyup change', function (){ if(that.search() !== this.value){ that .search( this.value ) .draw(); } } );
@@ -260,9 +276,16 @@ function poner_medi(id_mh){
 	},
 	function(){
 		var datos = {id_mh:id_mh, id_u:$('#id_user').val()}
-		$.post('hospital/files-serverside/aplicar_medi.php',datos).done(function( data ) { if (data==1){ $('#clickmeMdtos').click();
-			swal({ title: "", type: "success", text: "El medicamento ha sido aplicado al paciente.", timer: 1800, showConfirmButton: false });
-		} else{alert(data);} });
+		$.post('hospital/files-serverside/aplicar_medi.php',datos).done(function( data ) {
+			 if (data==1){
+				  	$('#clickmeMdtos').click();
+					swal({ title: "", type: "success", text: "El medicamento ha sido aplicado al paciente.", timer: 1800, showConfirmButton: false });
+			}else if(data==2){
+				swal({ title: "", type: "error", text: "El medicamento no cuenta con existencias.", timer: 1800, showConfirmButton: false });
+			}else{
+				alert(data);
+			} 
+		});
 	});
 }
 	

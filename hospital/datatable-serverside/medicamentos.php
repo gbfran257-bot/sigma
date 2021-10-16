@@ -4,7 +4,7 @@ require("../../funciones/php/values.php");
 
 	$idP = sqlValue($_GET["id_p"], "int");
 
-	$aColumns = array('m.id_mh', 'DATE_FORMAT(m.fecha_mh,"%d/%m/%Y")', 'mc.concepto_to', 'concat(t.abreviacion_ti," ",u.nombre_u," ",apaterno_u)', 'm.indicacion_mh', 'm.id_hospitalizacion_mh', 'p.id_p', 'p.nombre_completo_p', 'o.sucursal_ov', 'm.id_mh', 'DATE_FORMAT(m.fecha_mh,"%H:%i:%s")');
+	$aColumns = array('m.id_mh', 'DATE_FORMAT(m.fecha_mh,"%d/%m/%Y")', 'mc.concepto_to', 'concat(t.abreviacion_ti," ",u.nombre_u," ",apaterno_u)', 'm.indicacion_mh', 'm.id_hospitalizacion_mh', 'p.id_p', 'p.nombre_completo_p', 'o.sucursal_ov', 'm.id_mh', 'DATE_FORMAT(m.fecha_mh,"%H:%i:%s")','mc.precio_to');
      
     // DB tables to use 
     $aTables = array( 'medicamentos_hospital m');
@@ -137,6 +137,8 @@ require("../../funciones/php/values.php");
 		$nombre_p = '"'.$row[7].'"';
 										
 		$row[5] = "<div align='center'><button onClick='poner_medi(this.lang)' lang='$row[9]' class='btn btn-primary btn-xs ver_nota'><i class='fa fa-check' aria-hidden='true'></i> </button></div>";
+
+        $row[6] = $row[11];
 		
 		$output['aaData'][] = $row;
 		
