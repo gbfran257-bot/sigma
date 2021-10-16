@@ -129,11 +129,15 @@ $(document).ready(function(e) {
 		"sAjaxSource": "laboratorio/datatable-serverside/estudios.php",
 		"fnServerParams": function (aoData, fnCallback) { 
 			var nombre = $('#top-search').val();
-			var de = $('#fechaDe').val()+' 00:00:00'; var a = $('#fechaA').val()+' 23:59:59';
-			var acceso = $('#acc_user').val(); var idU = $('#id_user').val();
+			var de = $('#fechaDe').val()+' 00:00:00';
+			var a = $('#fechaA').val()+' 23:59:59';
+			var acceso = $('#acc_user').val(); 
+			var idU = $('#id_user').val();
 			
-			aoData.push( {"name": "nombre", "value": nombre } ); aoData.push(  {"name": "min", "value": de } ); 
-			aoData.push(  {"name": "max", "value": a } ); aoData.push(  {"name": "acceso", "value": acceso } );
+			aoData.push( {"name": "nombre", "value": nombre } );
+			aoData.push(  {"name": "min", "value": de } ); 
+			aoData.push(  {"name": "max", "value": a } ); 
+			aoData.push(  {"name": "acceso", "value": acceso } );
 			aoData.push(  {"name": "idU", "value": idU } );
 		},
 		"oLanguage": {
