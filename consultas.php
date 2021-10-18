@@ -1059,7 +1059,10 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 															}else{alert(data);}
 														});
 													});
-												}else{ $('#hospitalizarP').remove(); }
+												}else{
+													swal({ title: "No se puede hospitalizar", type: "error", text: "El paciente ya se encuentra hospitalizado.", timer: 1800, showConfirmButton: false });
+													$('#hospitalizarP').remove();
+												}
 											});
 										}
 									});
