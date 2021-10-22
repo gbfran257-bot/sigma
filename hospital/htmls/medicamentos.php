@@ -46,20 +46,20 @@
 					</table>
 				</div>
 				<div role="tabpanel" class="tab-pane" id="t-aplicados">
-				<div id="print">
+				<div id="printt">
 					<table width="100%" height="100%" border="0" id="dataTableMedicamentosA" class="table-condensed table-striped table-bordered table-hover" style="overflow: hidden;">
 						<thead id="cabecera_tBusquedaMedicamentosA" class="">
 						  <tr class="bg-primary" style="font-size: 1.1em;">
 							<th id="clickmeMdtosA"class="titulosTabs"align="center" nowrap width="1px">#</th>
-							<th class="titulosTabs" align="center" width="">MEDICAMENTO</th>
-							<th class="titulosTabs" align="center" width="" nowrap>PRESENTACIÓN</th>
-							<th class="titulosTabs" align="center" width="" nowrap>INDICACIÓN</th>
-							<th class="titulosTabs" align="center" width="" nowrap>APLICÓ</th>
-							<th class="titulosTabs" align="center" width="" nowrap>FECHA/HORA</th>
-							<th class="titulosTabs" align="center" width="" nowrap>PRECIO</th>
+							<th class="" align="center" width="">MEDICAMENTO</th>
+							<th class="" align="center" width="" nowrap>PRESENTACIÓN</th>
+							<th class="" align="center" width="" nowrap>INDICACIÓN</th>
+							<th class="" align="center" width="" nowrap>APLICÓ</th>
+							<th class="" align="center" width="" nowrap>FECHA/HORA</th>
+							<th class="" align="center" width="" nowrap>PRECIO</th>
 						  </tr>
-						</thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
-						<tfoot style="display:;">
+						</thead> <tbody id="conten" > <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
+						<tfoot>
 							<tr>
 								<th></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-MEDICAMENTO-" style="width: 99%"/></th>
@@ -72,7 +72,7 @@
 						</tfoot>
 					</table>
 					</div>
-					<button type="button" class="btn btn-info " id="btn_printMA">IMPRIMIR</button>
+					<a href="#"type="button" class="btn btn-info " id="btn_printMA">IMPRIMIR</a>
 				</div>
 				
 			  </div>

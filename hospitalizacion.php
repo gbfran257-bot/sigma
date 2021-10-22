@@ -36,12 +36,12 @@
     <script src="sweetalert/dist/sweetalert.min.js"></script>
     <script src="chosen/chosen.jquery.js" type="text/javascript"></script>
     <script src="funciones/js/jquery.media.js" type="text/javascript"></script>
-    <script src="funciones/js/jquery.printElement.min.js" type="text/javascript"></script>
     <script src="funciones/js/jquery.sparkline.min.js" type="text/javascript"></script>
     <script src="jQuery-TE_v.1.4.0/uncompressed/jquery-te-1.4.0.js" charset="utf-8"></script>
     <script src='tinymce/tinymce.min.js'></script>
     <script src='c3/c3.min.js'></script>
     <script src='c3/d3/d3.min.js'></script>
+	<script src="funciones/js/jquery.printElement.min.js" type="text/javascript"></script>
     <!-- Input Mask-->
     <script src="jasny-bootstrap/js/jasny-bootstrap.min.js"></script> 
     <!-- Mis funciones -->
@@ -51,11 +51,11 @@
     <script src="funciones/js/stdlib.js"></script>
     <script src="funciones/js/bs-modal-fullscreen.js"></script>
     
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" >
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="all">
     <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet"  >
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet" >
+    <link href="css/style.css" rel="stylesheet" media="all" >
     <link href="DataTables-1.10.13/media/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.10.13/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet" >
     <link href="DataTables-1.10.13/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet" >
@@ -258,7 +258,9 @@ function medicamentos(id_h, id_p, nombre_p, id_s){
 
 			$('#clickmeMdtosA, #tap-aplicados').click(function(e) { oTableA.draw(); }); window.setTimeout(function(){$('#clickmeMdtosA').click();},500);
 			
-				$('#btn_printMA').click(function(e){ $('#print').printElement(); });
+				$('#btn_printMA').click(function(){ 
+					window.open("hospital/genera/mi_pdf_reporteMA.php?id_h="+id_h+"&nombre="+nombre_p, '_blank');
+				});
 			//para los fintros individuales por campo de texto
 			oTableA.columns().every( function () {
 				var that = this; $('input',this.footer()).on('keyup change', function (){ if(that.search() !== this.value){ that .search( this.value ) .draw(); } } );
