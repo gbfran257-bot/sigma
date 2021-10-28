@@ -1164,7 +1164,8 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 									var firma_medico_atiende_x = datosTe[31], et_t_x = datosTe[34], et_a_x = datosTe[35], et_fc_x = datosTe[36];
 									var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
 									var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
-									var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46];
+									var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
+									var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56];
 									
 									$("#tipoRecetaMed").change(function(e) {
 										var datos = {idNM:$("#tipoRecetaMed").val(),idC:idC}
@@ -1215,6 +1216,11 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 											data = data.replace(/{et_logoe}/gi, et_logoe_x);
 											data = data.replace(/{et_logoee}/gi, et_logoee_x);
 											data = data.replace(/{et_logogm}/gi, et_logogm_x);
+											data = data.replace(/{et_historia_clinica}/gi, et_historia_clinica_x);
+											data = data.replace(/{et_historia_clinica_AHF}/gi, et_historia_clinica_AHF_x);
+											data = data.replace(/{et_historia_clinica_APNP}/gi, et_historia_clinica_APNP_x);
+											data = data.replace(/{et_historia_clinica_APP}/gi, et_historia_clinica_APP_x);
+											data = data.replace(/{et_historia_clinica_AGO}/gi, et_historia_clinica_AGO_x);
 											tinymce.get('indiF').setContent(data);
 											//$('#tabs_nnm #tabs-1n .jqte_editor').html(data);
 										});

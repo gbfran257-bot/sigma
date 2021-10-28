@@ -406,7 +406,8 @@ function ver_nota(id_h, id_p, nombre_p, id_s, id_n){ $('#myModal').modal('hide')
 }
 	
 function imc1(a,b){ var imc = 0; $('#imcSV').val('');
-	imc=redondear((parseFloat(a)/(parseFloat(b)*parseFloat(b))),2); if(parseFloat(imc)){ $('#imcSV').val(imc); }else{$('#imcSV').val('');}
+	imc=redondear((parseFloat(a)/(parseFloat(b)*parseFloat(b))),2);
+	if(parseFloat(imc)){ $('#imcSV').val(imc); }else{$('#imcSV').val('');}
 }
 
 function checarEscala(id){//if($('#'+id).val()>0){ }else{}
@@ -470,14 +471,16 @@ function tomar_sv(idP,control,idC, id_s, nombre_p){ //si control es 1 al cerrar 
 		  } else { // everything looks good!
 			e.preventDefault(); //var $btn = $('#btn_save1').button('loading'); $('#btn_cancel1').hide();
 			var datos={
-				idPx1:idP,idU:$('#idUsuario_sv').val(),peso:$('#pesoSV').val(),talla:$('#tallaSV').val(), idC:idC, cintura:$('#cinturaSV').val(), imc:$('#imcSV').val(),
-				t:$('#tSV').val(),a:$('#aSV').val(),fr:$('#frSV').val(), fc:$('#fcSV').val(), temp:$('#tempSV').val(), notas:$('#notasSV').val(),
-				oximetria:$('#oxiSV').val(), aocular:$('#abertura_ocular').val(), rverbal:$('#respuesta_verbal').val(), rmotriz:$('#respuesta_motriz').val()
+				idPx1:idP,idU:$('#idUsuario_sv').val(),peso:$('#pesoSV').val(),talla:$('#tallaSV').val(), idC:idC,
+				cintura:$('#cinturaSV').val(), imc:$('#imcSV').val(), t:$('#tSV').val(),a:$('#aSV').val(),fr:$('#frSV').val(),
+				fc:$('#fcSV').val(), temp:$('#tempSV').val(), notas:$('#notasSV').val(), oximetria:$('#oxiSV').val(),
+				aocular:$('#abertura_ocular').val(), rverbal:$('#respuesta_verbal').val(), rmotriz:$('#respuesta_motriz').val()
 			}
 			$.post('enfermeria/files-serverside/guardarSV.php',datos).done(function(data){ 
 				if(data==1){ $('#btn_cancelar_sv').click();
 					swal({
-					  title: "¡CONFIRMACIÓN!", type: "success", text: "Los signos vitales se han guardado satisfactoriamente.",timer: 2500, showConfirmButton: false
+					  title: "¡CONFIRMACIÓN!", type: "success", text: "Los signos vitales se han guardado satisfactoriamente.",
+					  timer: 2500, showConfirmButton: false
 					});$('#myModalx').modal('hide');
 					nueva_nota(idC,idP,nombre_p,id_s); window.setTimeout(function(){$('#tab_sv_1').click();},1500);
 				} else{alert(data);}
@@ -515,7 +518,8 @@ function nueva_nota(id_h, id_p, nombre_p, id_s){ $('#myModal').modal('hide'); wi
 				var firma_medico_atiende_x = datosTe[31], et_t_x = datosTe[34], et_a_x = datosTe[35], et_fc_x = datosTe[36];
 				var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
 				var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
-				var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46];
+				var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
+				var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56];
 
 				$("#tipoNotaMed").change(function(e) {//alert('Cambia');
 					var datos = {idNM:$("#tipoNotaMed").val(),idC:id_h}
@@ -566,6 +570,11 @@ function nueva_nota(id_h, id_p, nombre_p, id_s){ $('#myModal').modal('hide'); wi
 						data = data.replace(/{et_logoe}/gi, et_logoe_x);
 						data = data.replace(/{et_logoee}/gi, et_logoee_x);
 						data = data.replace(/{et_logogm}/gi, et_logogm_x);
+						data = data.replace(/{et_historia_clinica}/gi, et_historia_clinica_x);
+						data = data.replace(/{et_historia_clinica_AHF}/gi, et_historia_clinica_AHF_x);
+						data = data.replace(/{et_historia_clinica_APNP}/gi, et_historia_clinica_APNP_x);
+						data = data.replace(/{et_historia_clinica_APP}/gi, et_historia_clinica_APP_x);
+						data = data.replace(/{et_historia_clinica_AGO}/gi, et_historia_clinica_AGO_x);
 						tinymce.get('notaMedicaC').setContent(data);
 						//$('#tabs_nnm #tabs-1n .jqte_editor').html(data);
 					});
@@ -589,7 +598,8 @@ function nueva_nota(id_h, id_p, nombre_p, id_s){ $('#myModal').modal('hide'); wi
 				var firma_medico_atiende_x = datosTe[31], et_t_x = datosTe[34], et_a_x = datosTe[35], et_fc_x = datosTe[36];
 				var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
 				var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
-				var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46];
+				var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
+				var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56];
 				var data = datosNI[1]; 
 
 				data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
@@ -638,6 +648,11 @@ function nueva_nota(id_h, id_p, nombre_p, id_s){ $('#myModal').modal('hide'); wi
 				data = data.replace(/{et_logoe}/gi, et_logoe_x);
 				data = data.replace(/{et_logoee}/gi, et_logoee_x);
 				data = data.replace(/{et_logogm}/gi, et_logogm_x);
+				data = data.replace(/{et_historia_clinica}/gi, et_historia_clinica_x);
+				data = data.replace(/{et_historia_clinica_AHF}/gi, et_historia_clinica_AHF_x);
+				data = data.replace(/{et_historia_clinica_APNP}/gi, et_historia_clinica_APNP_x);
+				data = data.replace(/{et_historia_clinica_APP}/gi, et_historia_clinica_APP_x);
+				data = data.replace(/{et_historia_clinica_AGO}/gi, et_historia_clinica_AGO_x);
 
 				$('#notaMedicaC').val(data);
 			});
@@ -1354,8 +1369,11 @@ function rhNot(idC,idP,n,idE){//alert(idC+' '+idP+' '+n+' '+idE); consultas/img_
 	
 	var datoP = {idP:idP, idE:idE}
 	$.post('consultas/files-serverside/datosInterpretarHn1.php', datoP).done(function( data ) { 
-		var datosU = data.split(';*-'); var str = datosU[6].replace('src="../../../usuarios/','src="usuarios/'); var res = str;
-		var res = res.replace(/..\/..\/..\/consultas\/img_cslta/g,'consultas/img_cslta'); var res = res.replace(/[?]\d{14}/g,'');
+		var datosU = data.split(';*-');
+		var str = datosU[6].replace('src="../../../usuarios/','src="usuarios/');
+		var res = str;
+		var res = res.replace(/..\/..\/..\/consultas\/img_cslta/g,'consultas/img_cslta');
+		var res = res.replace(/[?]\d{14}/g,'');
 		$('#dx_ehn').html(res); $('#doctor_ehn').html(datosU[9]); $('#dx_ehn1').html(datosU[16]);
 		window.setTimeout(function(){cargarImagenesCanvas4(idE);},700);
 	});
@@ -1370,9 +1388,13 @@ function rhCol(idC,idP,n,idE){//alert(idC+' '+idP+' '+n+' '+idE);
 	
 	var datoP = {idP:idP, idE:idE}
 	$.post('consultas/files-serverside/datosInterpretarHc1.php', datoP).done(function( data ) { 
-		var datosU = data.split(';*-'); var str = datosU[3].replace('src="../../../usuarios/','src="usuarios/'); var res = str;
-		var res = res.replace(/..\/..\/..\/imagen\/img_colpo/g,'imagen/img_colpo'); var res = res.replace(/[?]\d{14}/g,'');
-		$('#dx_ehc').html(res); $('#doctor_ehc').html(datosU[9]); window.setTimeout(function(){cargarImagenesCanvas3(idE);},700);
+		var datosU = data.split(';*-');
+		var str = datosU[3].replace('src="../../../usuarios/','src="usuarios/');
+		var res = str;
+		var res = res.replace(/..\/..\/..\/imagen\/img_colpo/g,'imagen/img_colpo');
+		var res = res.replace(/[?]\d{14}/g,'');
+		$('#dx_ehc').html(res); $('#doctor_ehc').html(datosU[9]);
+		window.setTimeout(function(){cargarImagenesCanvas3(idE);},700);
 	});
 					
 	$('#idControl').val(idE);
@@ -1385,9 +1407,13 @@ function rhEnd(idC,idP,n,idE){//alert(idC+' '+idP+' '+n+' '+idE);
 	
 	var datoP = {idP:idP, idE:idE}
 	$.post('consultas/files-serverside/datosInterpretarHe1.php', datoP).done(function( data ) { 
-		var datosU = data.split(';*-'); var str = datosU[3].replace('src="../../../usuarios/','src="usuarios/'); var res = str;
-		var res = res.replace(/..\/..\/..\/imagen\/img_endo/g,'imagen/img_endo'); var res = res.replace(/[?]\d{14}/g,'');
-		$('#dx_ehe').html(res); window.setTimeout(function(){cargarImagenesCanvas2(idE);},700);
+		var datosU = data.split(';*-');
+		var str = datosU[3].replace('src="../../../usuarios/','src="usuarios/');
+		var res = str;
+		var res = res.replace(/..\/..\/..\/imagen\/img_endo/g,'imagen/img_endo');
+		var res = res.replace(/[?]\d{14}/g,'');
+		$('#dx_ehe').html(res);
+		window.setTimeout(function(){cargarImagenesCanvas2(idE);},700);
 	});
 	$('#idControl').val(idE);
 	$('.histol').each(function(index, element) {
@@ -1408,8 +1434,11 @@ function rhImg(idC,idP,n,idE){//alert(idC+' '+idP+' '+n+' '+idE);
 			
 				var datoP = {idP:idP, idE:idE}
 				$.post('consultas/files-serverside/datosInterpretarHi1.php', datoP).done(function( data ) { 
-					var datosU = data.split(';*-'); var str = datosU[3].replace('src="../../../usuarios/','src="usuarios/'); var res = str;
-					$('#dx_ehi').html(res); $('#doctor_ehi').html(datosU[9]); window.setTimeout(function(){cargarImagenesCanvas1(idE);},700);
+					var datosU = data.split(';*-');
+					var str = datosU[3].replace('src="../../../usuarios/','src="usuarios/');
+					var res = str;
+					$('#dx_ehi').html(res); $('#doctor_ehi').html(datosU[9]);
+					window.setTimeout(function(){cargarImagenesCanvas1(idE);},700);
 				});
 								
 				$('#idControl').val(idE);
@@ -1446,7 +1475,8 @@ function cargarImagenesCanvas4(i){ $("#deCanvas1n").load("consultas/files-server
 	
 function histo_pacs(mi_refer1){
 	var url=window.location.href, myL = url.split('http://'), myL1 = myL[1].split('/'), koby = myL1[0].split(':8888');
-	var link_1 = koby[0]+koby[1]; var mi_refer = mi_refer1.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+	var link_1 = koby[0]+koby[1];
+	var mi_refer = mi_refer1.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
 	window.open('http://'+koby[0]+':8080/oviyam2/viewer.html?patientID='+mi_refer);
 }
 function miImg(idM,opc){
