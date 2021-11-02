@@ -1,7 +1,7 @@
 <?php
 require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
-	$aColumns = array('s.id_sv', 'DATE_FORMAT(s.fecha_sv,"%d/%c/%Y")', 's.peso_sv', 's.talla_sv', 's.imc_sv', 's.cintura_sv', 'concat(s.t_sv,"/", s.a_sv)', 's.fr_sv', 's.fc_sv', 's.temperatura_sv', 's.oximetria_sv', 's.id_usuario_sv', 's.id_sv');
+	$aColumns = array('s.id_sv', 'DATE_FORMAT(s.fecha_sv,"%d/%c/%Y - %H:%i")', 's.peso_sv', 's.talla_sv', 's.imc_sv', 's.cintura_sv', 'concat(s.t_sv,"/", s.a_sv)', 's.fr_sv', 's.fc_sv', 's.temperatura_sv', 's.oximetria_sv', 's.id_usuario_sv', 's.id_sv');
      
     // DB tables to use 
     $aTables = array( 'signos_vitales s');
