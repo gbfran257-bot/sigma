@@ -1454,9 +1454,13 @@ function rhUsg(idC,idP,n,idE){//alert(idC+' '+idP+' '+n+' '+idE);
 
 	var datoP = {idP:idP, idE:idE}
 	$.post('consultas/files-serverside/datosInterpretarHu1.php', datoP).done(function( data ) { 
-		var datosU = data.split(';*-'); var str = datosU[3].replace('src="../../../usuarios/','src="usuarios/'); var res = str;
-		var res = res.replace(/..\/..\/..\/imagen\/img_usg/g,'imagen/img_usg'); var res = res.replace(/[?]\d{14}/g,'');
-		$('#dx_ehu').html(res); $('#doctor_ehu').html(datosU[9]); window.setTimeout(function(){cargarImagenesCanvas(idE);},700);
+		var datosU = data.split(';*-');
+		var str = datosU[3].replace('src="../../../usuarios/','src="usuarios/');
+		var res = str;
+		var res = res.replace(/..\/..\/..\/imagen\/img_usg/g,'imagen/img_usg');
+		var res = res.replace(/[?]\d{14}/g,'');
+		$('#dx_ehu').html(res); $('#doctor_ehu').html(datosU[9]);
+		window.setTimeout(function(){cargarImagenesCanvas(idE);},700);
 	});
 					
 	$('#idControl').val(idE);

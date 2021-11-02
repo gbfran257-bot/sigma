@@ -143,7 +143,7 @@ require("../../Connections/horizonte.php");
 		
 		if($row[3]==''){ $row[3] = '<div align="center">-No asignado-</div>'; }
 		
-		$row[11] = "<span title='$row[19] $row[20]'>$row[11]</span>";
+		$row[11] = "<span title='$row[19] $row[20]'>".($row[12]==''?$row[11]:'EGRESADO')."</span>";
 		
 		mysql_select_db($database_horizonte, $horizonte);
 		$result1 = mysql_query("SELECT count(h.id_nh) from notas_de_hospital h where h.id_hospitalizacion_nh = $row[5] and h.tipo_nota_nh = 1 ", $horizonte) or die (mysql_error());
