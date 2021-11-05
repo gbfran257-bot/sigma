@@ -3,15 +3,15 @@ require 'class.phpmailer.php';
 $mail = new PHPMailer();
 $mail->IsSMTP();
 $mail->Mailer = 'smtp';
-$mail->SMTPSecure = 'ssl';
-$mail->Port = 465;
-$mail->Host = "smtp.gmail.com";
+$mail->SMTPSecure = null;
+$mail->Port = 587;
+$mail->Host = "preunisains.com";
 $mail->IsHTML(true);
 
 $mail->SMTPAuth = true;
-$mail->Username = "psu.sains@gmail.com";
-$mail->Password = "zun4Qx8E6_3Mfd-LA@3Z";
+$mail->Username = "info@preunisains.com";
+$mail->Password = "CAFF9511";
 
 //Sender Info
-$mail->From = "psu.sains@gmail.com";
+$mail->From = "info@preunisains.com";
 $mail->FromName = "ADMINISTRACION SISTEMA";

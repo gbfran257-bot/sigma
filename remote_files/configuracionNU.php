@@ -18,7 +18,7 @@ $sql1 = "UPDATE usuarios set usuarioNuevo_u = 0, email_u = $email, contrasena_u 
 $update1 = mysql_query($sql1, $horizonte) or die (mysql_error());
 
 mysql_select_db($database_horizonte, $horizonte);
-$result2 = mysql_query("SELECT nombre_sistema_cf, link_sistema_local, link_pacs_local, link_sistema_externo, link_pacs_externo from configuracion order by id_cf asc limit 1 ", $horizonte) or die (mysql_error());
+$result2 = mysql_query("SELECT nombre_sistema_cf, link_sistema_local, link_pacs_local, link_sistema_externo, link_pacs_externo from configuracion order by id_cf desc limit 1 ", $horizonte) or die (mysql_error());
 $row2 = mysql_fetch_row($result2);
 
 $year = sqlValue(date('Y'), "date");
@@ -30,8 +30,7 @@ if (!$update1) { echo $sql1; }else{
 						line-height:1.8em;">
 	<h2>Activacion de su cuenta en '.$row2[0].'</h2>
 	<p>Estimad@ '.$_POST["usuarioN"].'<br><br>Gracias por configurar su password y correo electronico, el siguiente paso es activar su cuenta siguiendo el siguiente link. Una vez activada su cuenta podra iniciar sesion en el sistema.</p>
-	<p><a href="'.$row2[1].''.$row2[0].'/activar.php?id='.$encode_id.'">ACTIVAR CUENTA (Link local)</a></p>
-	<p><a href="'.$row2[3].''.$row2[0].'/activar.php?id='.$encode_id.'">ACTIVAR CUENTA (Link externo)</a></p>
+	<p><a href="'.$row2[3].'/activar.php?id='.$encode_id.'">ACTIVAR CUENTA (Link externo)</a></p>
 	<p><strong>&copy;'.$year.' '.$row2[0].'</strong></p>
 	</body>
 	</html>';
