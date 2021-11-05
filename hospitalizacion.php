@@ -482,7 +482,10 @@ function tomar_sv(idP,control,idC, id_s, nombre_p){ //si control es 1 al cerrar 
 					  title: "¡CONFIRMACIÓN!", type: "success", text: "Los signos vitales se han guardado satisfactoriamente.",
 					  timer: 2500, showConfirmButton: false
 					});$('#myModalx').modal('hide');
-					nueva_nota(idC,idP,nombre_p,id_s); window.setTimeout(function(){$('#tab_sv_1').click();},1500);
+					if(!soloSV){
+						nueva_nota(idC,idP,nombre_p,id_s); window.setTimeout(function(){$('#tab_sv_1').click();},1500);
+					}
+					soloSV = false;
 				} else{alert(data);}
 			});
 		  }
@@ -1549,6 +1552,34 @@ function rhLab(idC,idP,n,idE){//alert(idC+' '+idP+' '+n+' '+idE);
 	$('#idControl').val(idE);
 	$('.histol').each(function(index, element) {
 		if($(this).hasClass(idE)){ $(this).parent().addClass('bg-success');}else{$(this).parent().removeClass('bg-success'); }
+	});
+}
+var soloSV = false;
+function verSignosV(idP,idC,opc,concept,id_s,estat){
+	var datosCon = {idP:idP, idC:idC}
+	$.post('enfermeria/files-serverside/datosSV.php',datosCon).done(function(data){var datos=data.split(';*-');
+		$("#myModalx").load('consultas/htmls/ficha_consulta.php',function(response,status,xhr){ if(status=="success"){
+			$('#titulo_modal').text('PACIENTE: '+datos[22]+' - EDAD: '+datos[1]+' - SEXO: '+datos[2]+' | FECHA: '+datos[24]);
+			$('#idUsuario_hc').val($('#id_user').val()); $('#id_cons').val(idC); $('#idPaciente_c').val(idP);
+			$('.hsh, .btns-consulta').remove(); 
+			window.setTimeout(function(){ if(opc==0){$('#tab_sv_1').click();} else if(opc==1){$('#tab_my_hc_x').click();} },500);
+			
+			//bloqueamos los campos que no son necesarios mantener abiertos para edición
+			$('#tablaSVT input, #tablaNotaSV textarea, .sv_ro').prop('readonly','readonly');
+			$('.escala_g').prop('disabled','disabled');
+			
+			$('#b_agregarSignosC').click(function(e) { tomar_sv(idP,2,idC, id_s); });
+			
+			//Cargamos los datos de los Signos Vitales y Cargamos los datos de Historia Clínica
+			cargar_todo_signos_vitales(idP,idC); cargar_todo_historia_clinica(idP,idC,id_s);
+											
+			$('#myModalx').modal('show');
+			$('#myModalx').on('shown.bs.modal', function (e) { $('#form-ficha_us').validator(); 
+				$('#form-ficha_us input').keyup(function(e) { $('#alerta_new_user').hide(); });
+			});
+			$('#myModalx').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModalx").empty(); soloSV = false; });
+			soloSV = true;
+		} });
 	});
 }
 </script>

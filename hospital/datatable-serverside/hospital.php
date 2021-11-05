@@ -2,7 +2,7 @@
 require("../../Connections/horizonte.php"); 
     /* Array of database columns which should be read and sent back to DataTables. Use a space where * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('h.id_h', 'p.nombre_completo_p', 'DATE_FORMAT(h.fecha_inicio_h,"%d/%m/%Y %H:%i:%s")', 'concat(c.no_ca," ",c.ubicacion_ca)', 'm.usuario_u','h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'es.estatus_est', 'DATE_FORMAT(h.fecha_fin_h,"%d/%m/%Y %H:%i:%s")', 'h.id_h','h.id_h','h.id_h', 'h.id_h', 'es.id_est', 'h.id_h', 'h.id_h', 'p.id_p', 'o.sucursal_ov', 'h.id_cama_h' );
+	$aColumns = array('h.id_h', 'p.nombre_completo_p', 'DATE_FORMAT(h.fecha_inicio_h,"%d/%m/%Y %H:%i:%s")', 'concat(c.no_ca," ",c.ubicacion_ca)', 'm.usuario_u', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'es.estatus_est', 'DATE_FORMAT(h.fecha_fin_h,"%d/%m/%Y %H:%i:%s")', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'es.id_est', 'h.id_h', 'h.id_h', 'p.id_p', 'o.sucursal_ov', 'h.id_cama_h', 'h.id_consulta_vc_h');
      
     // DB tables to use 
     $aTables = array( 'hospitalizacion h');
@@ -167,7 +167,7 @@ require("../../Connections/horizonte.php");
 		
 		$row[7] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='medicamentos($row[19],$row[20],$nombreP,$row[21]);'><i class='fa fa-medkit' aria-hidden='true'></i></button></div>";
 		
-		$row[8] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick=''><i class='fa fa-eye' aria-hidden='true'></i></button></div>";
+		$row[8] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='verSignosV($row[20], $row[23],0,$row[21],$row[21],0)'><i class='fa fa-eye' aria-hidden='true'></i></button></div>";
 		
 		$row[9] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick=''><i class='fa fa-list' aria-hidden='true'></i></button></div>";
 		
