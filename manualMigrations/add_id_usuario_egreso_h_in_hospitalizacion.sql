@@ -1,0 +1,1 @@
+ALTER TABLE `hospitalizacion` ADD `id_usuario_egreso_h` BIGINT(20) NULL AFTER `estatus_h`;
