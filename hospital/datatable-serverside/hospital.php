@@ -2,7 +2,7 @@
 require("../../Connections/horizonte.php"); 
     /* Array of database columns which should be read and sent back to DataTables. Use a space where * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('h.id_h', 'p.nombre_completo_p', 'DATE_FORMAT(h.fecha_inicio_h,"%d/%m/%Y %H:%i:%s")', 'concat(c.no_ca," ",c.ubicacion_ca)', 'm.usuario_u', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'es.estatus_est', 'DATE_FORMAT(h.fecha_fin_h,"%d/%m/%Y %H:%i:%s")', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'es.id_est', 'h.id_h', 'h.id_h', 'p.id_p', 'o.sucursal_ov', 'h.id_cama_h', 'h.id_consulta_vc_h');
+	$aColumns = array('h.id_h', 'p.nombre_completo_p', 'DATE_FORMAT(h.fecha_inicio_h,"%d/%m/%Y %H:%i:%s")', 'concat(c.no_ca," ",c.ubicacion_ca)', 'm.usuario_u', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'es.estatus_est', 'DATE_FORMAT(h.fecha_fin_h,"%d/%m/%Y %H:%i:%s")', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'es.id_est', 'h.id_h', 'h.id_h', 'p.id_p', 'o.sucursal_ov', 'h.id_cama_h', 'h.id_consulta_vc_h', 'u1.usuario_u', 'u.usuario_u');
      
     // DB tables to use 
     $aTables = array( 'hospitalizacion h');
@@ -11,7 +11,7 @@ require("../../Connections/horizonte.php");
     $sIndexColumn = "h.id_h";
      
 	 // Joins   
-	$sJoin = 'left JOIN pacientes p ON p.id_p = h.id_paciente_h left join estatus es on es.id_est = h.estatus_h left join camas c on c.id_ca = h.id_cama_h left join usuarios m on m.id_u = h.id_medicoh_h left join venta_conceptos v on v.id_vc = h.id_consulta_vc_h left join orden_venta o on o.referencia_ov = v.referencia_vc';
+	$sJoin = 'left JOIN pacientes p ON p.id_p = h.id_paciente_h left join estatus es on es.id_est = h.estatus_h left join camas c on c.id_ca = h.id_cama_h left join usuarios m on m.id_u = h.id_medicoh_h left join venta_conceptos v on v.id_vc = h.id_consulta_vc_h left join orden_venta o on o.referencia_ov = v.referencia_vc left join usuarios u1 on u1.id_u = h.id_usuario_egreso_h left join usuarios u on u.id_u = h.id_usuario_h';
 	 
 	if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
 	 $sWhere="WHERE h.estatus_h in (13,15)";
@@ -140,6 +140,7 @@ require("../../Connections/horizonte.php");
 		$nombreP = '"'.$row[1].'"';
 		
 		$row[0]=$hh;
+        $row[2] = '<div align="center">'. $row[2]."<br>".$row[25].'</div>';
 		
 		if($row[3]==''){ $row[3] = '<div align="center">-No asignado-</div>'; }
 		
@@ -174,7 +175,9 @@ require("../../Connections/horizonte.php");
 		$row[10] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick=''><i class='fa fa-camera' aria-hidden='true'></i></button></div>";
 		
         // Se envia el id de la hospitalización y el id de la cama
-		if($row[12]==''){ $row[12] = '<div align="center"><button type="button" class="btn btn-primary btn-sm" onClick="egresar('.$aRow[0].', '.$aRow[22].');">Egresar</button></div>'; }
+		if($row[12]==''){ $row[12] = '<div align="center"><button type="button" class="btn btn-primary btn-sm" onClick="egresar('.$aRow[0].', '.$aRow[22].');">Egresar</button></div>'; }else{
+            $row[12] = '<div align="center">'.$row[12].'<br>'.$row[24].'</div>';
+        }
 
         // $row[13] = $aRow;
 							

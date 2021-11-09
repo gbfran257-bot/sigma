@@ -150,7 +150,7 @@
             <?php if(substr($permisos,32,5) != "00000"){?>
                 <li>
                     <a href="#">
-                        <i class="fa fa-medkit"></i> <span class="nav-label">FARMACIA</span><span class="fa arrow"></span>
+                        <i class="fa fa-medkit"></i> <span class="nav-label">FARMACIA/INSUMOS</span><span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level collapse"> 
                         <?php if($permisos[32]){?> <li style="white-space:nowrap;"><a href="compras.php"><i class="fa fa-credit-card"></i> COMPRAS</a></li> <?php } ?>
@@ -224,6 +224,7 @@
                                     <li><a href="catalogo_direcciones.php"><i class="fa fa-address-book-o"></i> DIRECCIONES</a></li>
                                     <li><a href="catalogo_met_lab.php"><i class="fa fa-flask"></i> METODOS LABORATORIO</a></li>
                                     <li><a href="catalogo_medicamento_g.php"><i class="fa fa-medkit"></i> MEDICAMENTO GENERICO</a></li>
+                                    <li><a href="catalogo_estatus.php"><i class="fa fa-briefcase"></i> ESTATUS</a></li>
                                 </ul>
                             </li>
                         <?php }?>

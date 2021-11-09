@@ -183,6 +183,7 @@ $(document).ready(function(e) {
 
 function egresar (id, id_cama) {
 	const DATOS = {
+		id_u: $('#id_user').val(),
 		id_h: id,
 		id_cama_h: id_cama 
 	}
@@ -259,7 +260,7 @@ function medicamentos(id_h, id_p, nombre_p, id_s){
 			$('#clickmeMdtosA, #tap-aplicados').click(function(e) { oTableA.draw(); }); window.setTimeout(function(){$('#clickmeMdtosA').click();},500);
 			
 				$('#btn_printMA').click(function(){ 
-					window.open("hospital/genera/mi_pdf_reporteMA.php?id_h="+id_h+"&nombre="+nombre_p, '_blank');
+					window.open("hospital/genera/mi_pdf_reporteMA.php?id_h="+id_h+"&nombre="+nombre_p+"&id_u="+ $('#id_user').val(), '_blank');
 				});
 			//para los fintros individuales por campo de texto
 			oTableA.columns().every( function () {
