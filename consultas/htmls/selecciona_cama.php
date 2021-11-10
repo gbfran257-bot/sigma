@@ -17,10 +17,16 @@
                     <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group col-md-6 col-sm-6 text-primary">
+                    <label for="id_medico_t" class="col-form-label">* MEDICO TRATANTE</label>
+                    <select name="id_medico_t" id="id_medico_t" class="form-control form-control-sm" required> </select>
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-12 col-sm-12 text-primary">
                     <label for="motivo_h" class="col-form-label">* MOTIVO</label>
                     <textarea name="motivo_h" id="motivo_h" type="text" class="form-control form-control-sm" placeholder="Identificador de la cama" required></textarea>
                     <div class="help-block with-errors"></div>
-                    
                 </div>
             </div>
         </form>
@@ -45,6 +51,11 @@ $(document).ready(function (e) {
         "hospital/camas/files-serverside/select2Cama.php", 
         "Selecciona una cama disponible",
         { ocupado: 0 }    
+    );
+    select2ini(
+        "#id_medico_t", 
+        "select/medico_tratante.php", 
+        "Selecione médico tratante",  
     );
 })
 </script>

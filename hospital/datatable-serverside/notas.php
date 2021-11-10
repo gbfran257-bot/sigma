@@ -39,7 +39,7 @@ require("../../funciones/php/values.php");
     }
      
     /* * Ordering */
-    $sOrder = "";
+    $sOrder = "ORDER BY n.id_nh desc";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
         $sOrder = "ORDER BY  ";

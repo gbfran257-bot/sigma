@@ -183,7 +183,7 @@ $(document).ready(function(e) {
 
 function egresar (id, id_cama) {
 	const DATOS = {
-		id_u: $('#id_user').val(),
+		id_u: $('#id_user').val(), //mandamos el Id del usuario que egreso al paciente
 		id_h: id,
 		id_cama_h: id_cama 
 	}
@@ -202,7 +202,7 @@ function egresar (id, id_cama) {
 	});
 }
 	
-function medicamentos(id_h, id_p, nombre_p, id_s){
+function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 	$("#myModal2").load('hospital/htmls/medicamentos.php', function( response, status, xhr ){ if(status=="success"){
 		$('#titulo_modal').text('MEDICAMENTOS PARA EL PACIENTE '+nombre_p);
 		
@@ -229,6 +229,10 @@ function medicamentos(id_h, id_p, nombre_p, id_s){
 				var that = this; $('input',this.footer()).on('keyup change', function (){ if(that.search() !== this.value){ that .search( this.value ) .draw(); } } );
 			}); //fin filtros individuales por campo de texto
 			
+			if(estatus =='EGRESADO'){
+				$('#btn_add_medicamento').addClass('hide');
+				$('#title_medicamento').html('MEDICAMENTO');
+			}
 			$('#btn_add_medicamento').click(function(e){ nuevo_medicamento(id_h, id_p, nombre_p, id_s); });
 			
 			var oTableA = $('#dataTableMedicamentosA').DataTable({
@@ -351,7 +355,7 @@ function guardar_add_medi(id_h, id_p, id_m, indicacion){
 		}else{alert(data);}
 	});
 }
-function notasMedicas(id_h, id_p, nombre_p, id_s){
+function notasMedicas(id_h, id_p, nombre_p, id_s, estatus){
 	$("#myModal").load('hospital/htmls/notas.php', function( response, status, xhr ){ if(status=="success"){
 		$('#titulo_modal').text('NOTAS DE HOSPITAL PARA EL PACIENTE '+nombre_p);
 		
@@ -378,7 +382,9 @@ function notasMedicas(id_h, id_p, nombre_p, id_s){
 				var that = this;
 				$( 'input', this.footer() ).on( 'keyup change', function () { if ( that.search() !== this.value ) { that .search( this.value ) .draw(); } } );
 			}); //fin filtros individuales por campo de texto
-			
+			if(estatus == 'EGRESADO'){
+				$('#btn_nueva_nota').addClass('hide');
+			}
 			$('#btn_nueva_nota').click(function(e){ nueva_nota(id_h, id_p, nombre_p, id_s); });			
 		},200);
 	

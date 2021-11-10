@@ -23,7 +23,7 @@
 						  <tr class="bg-primary" style="font-size: 1.1em;">
 							<th id="clickmeMdtos"class="titulosTabs"align="center" nowrap width="1px">#</th>
 							<th class="titulosTabs" align="center" width="">FECHA/HORA</th>
-							<th class="titulosTabs" align="center" width="" nowrap>
+							<th class="titulosTabs" align="center" width="" id="title_medicamento" nowrap>
 								<button type="button" class="btn btn-info btn-xs" id="btn_add_medicamento">MEDICAMENTO <i class='fa fa-plus' aria-hidden='true'></i></button>
 							</th>
 							<th class="titulosTabs" align="center" width="" nowrap>PERSONAL MÉDICO</th>

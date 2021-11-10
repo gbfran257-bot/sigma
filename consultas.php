@@ -1050,7 +1050,7 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 													showConfirmButton: true, confirmButtonText: 'Hospitalizar', cancelButtonText: "Cancelar", closeOnConfirm: false,
 													},
 													function(){
-														var datosT = {idP:idP, idU:$('#id_user').val(), id_vc:idC, id_cama_h: $('#id_cama_h').val(), motivo_h: $('#motivo_h').val()}
+														var datosT = {idP:idP, idU:$('#id_user').val(), id_vc:idC, id_cama_h: $('#id_cama_h').val(), motivo_h: $('#motivo_h').val(),idM: $('#id_medico_t').val()}
 														$.post('consultas/files-serverside/hospitalizar.php',datosT).done(function(data){
 															if(data==1){
 																$('#clickme').click(); $('#hospitalizarP').remove();

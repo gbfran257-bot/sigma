@@ -14,9 +14,9 @@ require("../../Connections/horizonte.php");
 	$sJoin = 'left JOIN pacientes p ON p.id_p = h.id_paciente_h left join estatus es on es.id_est = h.estatus_h left join camas c on c.id_ca = h.id_cama_h left join usuarios m on m.id_u = h.id_medicoh_h left join venta_conceptos v on v.id_vc = h.id_consulta_vc_h left join orden_venta o on o.referencia_ov = v.referencia_vc left join usuarios u1 on u1.id_u = h.id_usuario_egreso_h left join usuarios u on u.id_u = h.id_usuario_h';
 	 
 	if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-	 $sWhere="WHERE h.estatus_h in (13,15)";
+	 $sWhere="WHERE h.estatus_h in (13,15,16)";
 	}else{
-	 $sWhere="WHERE h.estatus_h in (13,15)";
+	 $sWhere="WHERE h.estatus_h in (13,15,16)";
 	}
 	
     /* Database connection information */
@@ -143,7 +143,7 @@ require("../../Connections/horizonte.php");
         $row[2] = '<div align="center">'. $row[2]."<br>".$row[25].'</div>';
 		
 		if($row[3]==''){ $row[3] = '<div align="center">-No asignado-</div>'; }
-		
+		$estatus = $row[11]; //rescatamos el estatus antes de que se tranforme
 		$row[11] = "<span title='$row[19] $row[20]'>".($row[12]==''?$row[11]:'EGRESADO')."</span>";
 		
 		mysql_select_db($database_horizonte, $horizonte);
@@ -154,7 +154,7 @@ require("../../Connections/horizonte.php");
 		$result1a = mysql_query("SELECT h.aleatorio_nh from notas_de_hospital h where h.id_hospitalizacion_nh = $row[5] limit 1", $horizonte) or die (mysql_error());
 		$row1a = mysql_fetch_row($result1a);
 		
-		$row[5] ="<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='notasMedicas($row[19],$row[20],$nombreP,$row[21]);'>$row1[0]</button></div>";
+		$row[5] ="<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='notasMedicas($row[19],$row[20],$nombreP,$row[21],\"$estatus\");'>$row1[0]</button></div>";
 		
 		mysql_select_db($database_horizonte, $horizonte);
 		$result2 = mysql_query("SELECT count(h.id_nh) from notas_de_hospital h where h.id_hospitalizacion_nh = $row[6] and h.tipo_nota_nh = 2 ", $horizonte) or die (mysql_error());
@@ -166,7 +166,7 @@ require("../../Connections/horizonte.php");
 		
 		$row[6] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick=''><i class='fa fa-book' aria-hidden='true'></i></button></div>";
 		
-		$row[7] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='medicamentos($row[19],$row[20],$nombreP,$row[21]);'><i class='fa fa-medkit' aria-hidden='true'></i></button></div>";
+		$row[7] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='medicamentos($row[19],$row[20],$nombreP,$row[21],\"$estatus\");'><i class='fa fa-medkit' aria-hidden='true'></i></button></div>";
 		
 		$row[8] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='verSignosV($row[20], $row[23],0,$row[21],$row[21],0)'><i class='fa fa-eye' aria-hidden='true'></i></button></div>";
 		

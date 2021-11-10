@@ -116,7 +116,7 @@
                 </div>
             <?php } ?>
             <?php if(substr($permisos,32,5) != "00000"){?>
-                <div class="col-md-2">
+                <div class="col-md-2" style="width:15%">
                     <img src="imagenes/ig/Farmacia-01.png" class="img-responsive fadeInUp wow menu" data-id="#inicio-menuFarmacia" data-wow-delay="0.2s"
                     id="principal_farm"
                     onmouseenter="cambiar(this.id);" 
@@ -379,7 +379,7 @@
     </div>
     <div class="row hidden animated" id="inicio-menuFarmacia">
         <div class="col-md-12 text-center">
-            <h1 class="text-primary">Farmacia</h1> <br> <br>
+            <h1 class="text-primary">Farmacia / Insumos</h1> <br> <br>
         </div>
         <div class="row animated alin">
             <?php if($permisos[33]){?>
@@ -402,7 +402,7 @@
             <?php } ?>
             <?php if($permisos[35]){?>
                 <div class="col-md-2">
-                    <a href="#"><img src="imagenes/ig/CorteCaja-01.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"
+                    <a href="compras.php"><img src="imagenes/ig/CorteCaja-01.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"
                     id="farmacia_corte_caja"
                     onmouseenter="cambiar(this.id);" 
                     onmouseleave="returner(this.id);"

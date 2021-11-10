@@ -53,7 +53,7 @@
 					</li>
 					
                     <li role="presentation"><a href="#tServicios" aria-controls="tServicios" role="tab" data-toggle="tab">SERVICIOS</a></li>
-                    <li role="presentation"><a href="#tFarmacia" aria-controls="tFarmacia" role="tab" data-toggle="tab" id="t_farm">FARMACIA</a></li>
+                    <li role="presentation"><a href="#tFarmacia" aria-controls="tFarmacia" role="tab" data-toggle="tab" id="t_farm">FARMACIA / INSUMOS</a></li>
 					<li role="presentation"> <a href="#tResumen" aria-controls="tResumen" role="tab" data-toggle="tab">RESUMEN</a> </li>
                 </ul>
                 
