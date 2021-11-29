@@ -276,9 +276,9 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 		$('#myModal2').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal2").empty(); });
 	}});
 }
-function poner_medi(id_mh){
+function poner_medi(id_mh,med,paciente){
 	swal({
-	  title: "APLICAR EL MEDICAMENTO", text: "¿Aplicar el medicamento al paciente?", type: "warning", showCancelButton: true, confirmButtonColor: "#DD6B55",
+	  title: "¿APLICAR " + med + " AL PACIENTE "+ paciente +"?", text: "", type: "warning", showCancelButton: true, confirmButtonColor: "#DD6B55",
 	  confirmButtonText: "Aplicar", cancelButtonText: "Cancelar", closeOnConfirm: false
 	},
 	function(){
@@ -364,10 +364,15 @@ function notasMedicas(id_h, id_p, nombre_p, id_s, estatus){
 			var oTable = $('#dataTableNotas').DataTable({
 				serverSide: true,"sScrollY": tam, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ){ }, scroller: false, responsive: true,
-				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true } ],
+				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true } ],
 				"sDom": '<"filtro1Principal"><"data_tPrincipal"t><"infoPrincipal"S><"proc">',
 				deferRender: true, select: false, "processing": false, "sAjaxSource": "hospital/datatable-serverside/notas.php?id_h="+id_h,
-				"fnServerParams": function(aoData, fnCallback){ },
+				"fnServerParams": function(aoData, fnCallback){
+					var idU = $('#id_user').val();
+					var estado = estatus;
+					aoData.push( {"name": "estatus", "value": estado } );
+					aoData.push( {"name": "idU", "value": idU } );
+				 },
 				"oLanguage": {
 					"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
 					"sInfo": "NOTAS FILTRADAS: _END_", "sInfoEmpty": "NINGUNA NOTA FILTRADA.", "sInfoFiltered": " TOTAL DE NOTAS: _MAX_", "sSearch": "",
@@ -407,6 +412,207 @@ function ver_nota(id_h, id_p, nombre_p, id_s, id_n){ $('#myModal').modal('hide')
 			$('#myModal1').modal('show'); $('#myModal1').on('shown.bs.modal', function (e){});
 			$('#myModal1').on('hidden.bs.modal', function (e) {
 				$(".modal-content").remove(); $("#myModal1").empty(); window.setTimeout(function(){notasMedicas(id_h, id_p, nombre_p, id_s);},300);
+			});
+		}});
+	},300);
+}
+function editar_nota(id_h, id_p, nombre_p, id_s, id_n){ 
+	$('#myModal').modal('hide');
+	window.setTimeout(function(){
+		$("#myModalx").load('consultas/htmls/ficha_consulta.php', function( response, status, xhr ){ 
+			if(status=="success"){ 
+				console.log("ya pase...");
+				$('#tablaSVT input, #tablaNotaSV textarea, .sv_ro').prop('readonly','readonly'); 
+				$('.escala_g').prop('disabled','disabled');
+				$('#hospitalizarP, #tabs_receta, #tabs_imagenes, #finalizarConsulta, #tab_my_hc_x, #tab_sv_1').remove();
+				$('#tabRevisiones, #dictado, #verHistorialHcC, #verHistorialLabC, #verHistorialUsgC, #verHistorialImgC, #verHistorialEndC, #verHistorialColC, #verHistorialOtrosC, #verHistorialNotasC').hide(); $('#imprimirNotaE').hide(); $('#imprimirRecetaF').hide();
+
+				$('#titulo_modal').text('NOTA DE HOSPITAL PACIENTE '+nombre_p);
+				$('#contenido_tabi').html('');
+				$('#btn_print').removeClass('hidden');
+
+				tinymce.init({ 
+					selector:'#notaMedicaC',resize:false,height:$('#myModalx').height()*0.45,theme: "modern",
+					plugins: 
+						"table, charmap, emoticons, textcolor colorpicker, hr, image imagetools, image, insertdatetime, lists, noneditable, pagebreak, paste, preview, print, visualblocks, wordcount, code, importcss",
+					table_default_styles: { width: '100%' },
+					relative_urls: true, image_advtab: true, menubar: false, plugin_preview_width: $('#referencia').width()*0.8,
+					toolbar: 
+						"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP |",
+					insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
+					paste_data_images: true, paste_as_text: true, browser_spellcheck: true, 
+					setup: function (editor) {
+						editor.addButton( 'mybuttonVP', {
+							text: 'VPI', icon: false, tooltip: 'Vista previa de impresión',
+							onclick:function(){
+								var res = tinyMCE.get("notaMedicaC").getContent().replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); //alert(res);
+								$('#dpa_imprimir1').html(res).css('background-image','url(imagenes/vista_previa.png)').css('background-size','65%');
+								$('#dpa_imprimir1').html(res); $('#dpa_imprimir1').printElement();
+							}
+						});
+					}
+				});
+			
+
+				$("#tipoNotaMed").load("consultas/files-serverside/tNotaMedica.php?x="+$('#id_user').val(),function(response,status,xhr){ if(status=="success"){
+
+					var datosT = {idP:id_p, idU:$('#id_user').val(), id_vc:id_h}
+					$.post('consultas/files-serverside/cat_texts.php',datosT).done(function(dataT){ var datosTe = dataT.split('-{]');
+						var alergiasx = datosTe[0], edadx = datosTe[1], sexox = datosTe[2], nombre_pacientex = datosTe[3];
+						var nombre_medicox = datosTe[4], svx = datosTe[5], abitusx = datosTe[6], adiccionesx = datosTe[7];
+						var puntuacion_glax = datosTe[8], peso_tallax = datosTe[9], fecha_horax = datosTe[10]; //alert(et_firma_medico_atiende_x);
+						var nombre_medico_a = datosTe[11], edadx1 = datosTe[12], cedula_p_ma = datosTe[13], nombre_conceptox = datosTe[28];
+						var cedula_espe_x = datosTe[14], edad1_x = datosTe[15], especialidadm_x = datosTe[16], fecha_dia_x = datosTe[17];
+						var fecha_mes_n_x = datosTe[18], fecha_anio_x = datosTe[19], fecha_hora_x = datosTe[20], nombre_establecimiento_x = datosTe[21];
+						var nombre_universidad_x = datosTe[22], peso_x = datosTe[23], et_talla_g = datosTe[24], sex_x = datosTe[25];
+						var tiposan_x = datosTe[26], titulom_x = datosTe[27], medico_refiere_x = datosTe[28], fecha_mes_l_x = datosTe[30];
+						var firma_medico_atiende_x = datosTe[31], et_t_x = datosTe[34], et_a_x = datosTe[35], et_fc_x = datosTe[36];
+						var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
+						var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
+						var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
+						var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56];
+
+						var datosN = {id_n:id_n}
+						$.post('hospital/files-serverside/datosNotaH.php',datosN).done(function(data){
+							data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
+								data = data.replace(/{ET_EDAD}/gi, edadx1);
+								data = data.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
+								data = data.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);														
+								data = data.replace(/{ET_NOMBRE_PACIENTE}/gi, nombre_pacientex);
+								data = data.replace(/{ET_SEX}/gi, sexox);
+								data = data.replace(/{ET_SV}/gi, svx);
+								data = data.replace(/{ET_ABITUS}/gi, abitusx);
+								data = data.replace(/{et_adicciones}/gi, adiccionesx);
+								data = data.replace(/{et_puntuacion_g}/gi, puntuacion_glax);
+								data = data.replace(/{et_pesotalla_g}/gi, peso_tallax);
+								data = data.replace(/{et_fechahora}/gi, fecha_horax);
+								data = data.replace(/{et_cedulap}/gi, cedula_p_ma);
+								data = data.replace(/{et_nombre_procedimiento}/gi, nombre_conceptox);
+								data = data.replace(/{et_cedulaesp}/gi, cedula_espe_x);
+								data = data.replace(/{et_edad}/gi, edad1_x);
+								data = data.replace(/{et_especialidadm}/gi, especialidadm_x);
+								data = data.replace(/{et_fecha_dia}/gi, fecha_dia_x);
+								data = data.replace(/{et_fecha_mes_numero}/gi, fecha_mes_n_x);
+								data = data.replace(/{et_fecha_mes_letra}/gi, fecha_mes_l_x);
+								data = data.replace(/{et_fecha_anio}/gi, fecha_anio_x);
+								data = data.replace(/{et_fecha_hora}/gi, fecha_hora_x);
+								data = data.replace(/{et_nombre_establecimiento}/gi, nombre_establecimiento_x);
+								data = data.replace(/{et_nombre_medico_atiende}/gi, nombre_medico_a);
+								data = data.replace(/{et_nombre_universidad}/gi, nombre_universidad_x);
+								data = data.replace(/{et_nombre_paciente}/gi, nombre_pacientex);
+								data = data.replace(/{et_peso_g}/gi, peso_x);
+								data = data.replace(/{et_talla_g}/gi, et_talla_g);
+								data = data.replace(/{et_sex}/gi, sex_x);
+								data = data.replace(/{et_sv}/gi, svx);
+								data = data.replace(/{et_tiposan}/gi, tiposan_x);
+								data = data.replace(/{et_titulom}/gi, titulom_x);
+								data = data.replace(/{et_nombre_medico_refiere}/gi, medico_refiere_x);
+								data = data.replace(/{et_t}/gi, et_t_x);
+								data = data.replace(/{et_a}/gi, et_a_x);
+								data = data.replace(/{et_fc}/gi, et_fc_x);
+								data = data.replace(/{et_fr}/gi, et_fr_x);
+								data = data.replace(/{et_temp}/gi, et_temp_x);
+								data = data.replace(/{et_dx_envio}/gi, et_dx_envio_x);
+								data = data.replace(/{et_referencia}/gi, et_referencia_x);
+								data = data.replace(/{et_nombre_anestesiologo}/gi, et_nombre_anestesiologo_x);
+								data = data.replace(/{et_firma_medico_atiende}/gi, et_firma_medico_atiende_x);
+								data = data.replace(/{et_logo_suc}/gi, et_logo_suc_x);
+								data = data.replace(/{et_logoe}/gi, et_logoe_x);
+								data = data.replace(/{et_logoee}/gi, et_logoee_x);
+								data = data.replace(/{et_logogm}/gi, et_logogm_x);
+								data = data.replace(/{et_historia_clinica}/gi, et_historia_clinica_x);
+								data = data.replace(/{et_historia_clinica_AHF}/gi, et_historia_clinica_AHF_x);
+								data = data.replace(/{et_historia_clinica_APNP}/gi, et_historia_clinica_APNP_x);
+								data = data.replace(/{et_historia_clinica_APP}/gi, et_historia_clinica_APP_x);
+								data = data.replace(/{et_historia_clinica_AGO}/gi, et_historia_clinica_AGO_x);
+								tinymce.get('notaMedicaC').setContent(data);
+						});
+
+						$("#tipoNotaMed").change(function(e) {//alert('Cambia');
+							var datos = {idNM:$("#tipoNotaMed").val(),idC:id_h}
+							$.post('consultas/files-serverside/textoNotaM.php',datos).done(function(data){ //alert(data);
+								data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
+								data = data.replace(/{ET_EDAD}/gi, edadx1);
+								data = data.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
+								data = data.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);														
+								data = data.replace(/{ET_NOMBRE_PACIENTE}/gi, nombre_pacientex);
+								data = data.replace(/{ET_SEX}/gi, sexox);
+								data = data.replace(/{ET_SV}/gi, svx);
+								data = data.replace(/{ET_ABITUS}/gi, abitusx);
+								data = data.replace(/{et_adicciones}/gi, adiccionesx);
+								data = data.replace(/{et_puntuacion_g}/gi, puntuacion_glax);
+								data = data.replace(/{et_pesotalla_g}/gi, peso_tallax);
+								data = data.replace(/{et_fechahora}/gi, fecha_horax);
+								data = data.replace(/{et_cedulap}/gi, cedula_p_ma);
+								data = data.replace(/{et_nombre_procedimiento}/gi, nombre_conceptox);
+								data = data.replace(/{et_cedulaesp}/gi, cedula_espe_x);
+								data = data.replace(/{et_edad}/gi, edad1_x);
+								data = data.replace(/{et_especialidadm}/gi, especialidadm_x);
+								data = data.replace(/{et_fecha_dia}/gi, fecha_dia_x);
+								data = data.replace(/{et_fecha_mes_numero}/gi, fecha_mes_n_x);
+								data = data.replace(/{et_fecha_mes_letra}/gi, fecha_mes_l_x);
+								data = data.replace(/{et_fecha_anio}/gi, fecha_anio_x);
+								data = data.replace(/{et_fecha_hora}/gi, fecha_hora_x);
+								data = data.replace(/{et_nombre_establecimiento}/gi, nombre_establecimiento_x);
+								data = data.replace(/{et_nombre_medico_atiende}/gi, nombre_medico_a);
+								data = data.replace(/{et_nombre_universidad}/gi, nombre_universidad_x);
+								data = data.replace(/{et_nombre_paciente}/gi, nombre_pacientex);
+								data = data.replace(/{et_peso_g}/gi, peso_x);
+								data = data.replace(/{et_talla_g}/gi, et_talla_g);
+								data = data.replace(/{et_sex}/gi, sex_x);
+								data = data.replace(/{et_sv}/gi, svx);
+								data = data.replace(/{et_tiposan}/gi, tiposan_x);
+								data = data.replace(/{et_titulom}/gi, titulom_x);
+								data = data.replace(/{et_nombre_medico_refiere}/gi, medico_refiere_x);
+								data = data.replace(/{et_t}/gi, et_t_x);
+								data = data.replace(/{et_a}/gi, et_a_x);
+								data = data.replace(/{et_fc}/gi, et_fc_x);
+								data = data.replace(/{et_fr}/gi, et_fr_x);
+								data = data.replace(/{et_temp}/gi, et_temp_x);
+								data = data.replace(/{et_dx_envio}/gi, et_dx_envio_x);
+								data = data.replace(/{et_referencia}/gi, et_referencia_x);
+								data = data.replace(/{et_nombre_anestesiologo}/gi, et_nombre_anestesiologo_x);
+								data = data.replace(/{et_firma_medico_atiende}/gi, et_firma_medico_atiende_x);
+								data = data.replace(/{et_logo_suc}/gi, et_logo_suc_x);
+								data = data.replace(/{et_logoe}/gi, et_logoe_x);
+								data = data.replace(/{et_logoee}/gi, et_logoee_x);
+								data = data.replace(/{et_logogm}/gi, et_logogm_x);
+								data = data.replace(/{et_historia_clinica}/gi, et_historia_clinica_x);
+								data = data.replace(/{et_historia_clinica_AHF}/gi, et_historia_clinica_AHF_x);
+								data = data.replace(/{et_historia_clinica_APNP}/gi, et_historia_clinica_APNP_x);
+								data = data.replace(/{et_historia_clinica_APP}/gi, et_historia_clinica_APP_x);
+								data = data.replace(/{et_historia_clinica_AGO}/gi, et_historia_clinica_AGO_x);
+								tinymce.get('notaMedicaC').setContent(data);
+								//$('#tabs_nnm #tabs-1n .jqte_editor').html(data);
+							});
+						});
+					});
+				}});
+
+				$('#salvarConsulta').click(function(e) { 
+					var str = tinyMCE.get('notaMedicaC').getContent(); 
+					var datosGC = { id_n:id_n, nota:str } 
+					$.post('hospital/files-serverside/guardarNotaH.php',datosGC).done(function(data){ 
+						if(data == 1){
+						swal({ title:"",type:"success",text:"LOS DATOS DE LA NOTA HAN SIDO GUARDADOS.", timer:2000,showConfirmButton:false }); $('#myModalx').modal('hide');
+					}else{alert(data);} });
+				});
+				$('#salirSGconsulta').click(function(e) { 
+					$('#myModalx').on('hidden.bs.modal', function (e) {
+						tinymce.remove("#notaMedicaC");
+						$(".modal-content").remove(); 
+						$("#myModalx").empty();
+					});
+				});-
+				$('#myModalx').modal('show'); 
+				$('#myModalx').on('shown.bs.modal', function (e){});
+			$('#myModalx').on('hidden.bs.modal', function (e) {
+				tinymce.remove("#notaMedicaC");
+				$(".modal-content").remove(); 
+				$("#myModalx").empty();
+				window.setTimeout(function(){
+					notasMedicas(id_h, id_p, nombre_p, id_s);
+				},300);
 			});
 		}});
 	},300);
@@ -1589,4 +1795,75 @@ function verSignosV(idP,idC,opc,concept,id_s,estat){
 		} });
 	});
 }
+
+function diagnosticos(idC,idP,estatus){
+	$("#myModalx").load('hospital/htmls/diagnosticos.php',function(response,status,xhr){ if(status=="success"){
+
+		var oTableBDX;
+		oTableBDX = $('#dataTableBDX').DataTable({ 
+		ordering: false, scrollCollapse: false, "scrollX": true, "bRetrieve": true, "sScrollY": ($('#myModalx').height()-515)/2,
+		"bStateSave": false, "bInfo": true, "bFilter": true, "aaSorting": [[1, "asc"]], deferRender: true, select: { style: 'single' },
+		"aoColumns": [{ "bSortable": false }, { "bSortable": false }], "iDisplayLength": 50, "bLengthChange": false, "bProcessing": false,
+		"bServerSide": true, ordering: false, "sDom": 'lrtS', "sAjaxSource": "hospital/datatable-serverside/buscar_diagnosticosH.php", 
+			"oLanguage": { 
+				"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", "sInfo": "MOSTRADOS: _END_", 
+				"sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": "<br/>DIAGNÓSTICOS: _MAX_", "sSearch": "" 
+			}
+		});//fin datatable
+		$('#clickmeDXD').click(function(e) { oTableBDX.draw(); }); window.setTimeout(function(){oTableBDX.draw();},300);
+		//para los fintros individuales por campo de texto
+		oTableBDX.columns().every( function () { var that = this;
+			$('input',this.footer()).on('keyup change',function(){if(that.search() !== this.value){that .search(this.value).draw();} });
+		} );
+		//fin filtros individuales por campo de texto
+		oTableBDX.on( 'select', function ( e, dt, type, indexes ) {
+			var rowData = oTableBDX.rows( indexes ).data().toArray(); subirDX(rowData[0][5], idC, $('#id_user').val(), idP);
+		});
+
+		var oTableSDX;
+		oTableSDX = $('#dataTableDXS').DataTable({ 
+			ordering: false, scrollCollapse: false, "scrollX": true, "bRetrieve": true, "sScrollY": ($('#myModalx').height()-515)/2,
+			"bStateSave": false, "bInfo": true, "bFilter": true, "aaSorting": [[1, "asc"]], deferRender: true, select:false,
+			"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {  },
+			"aoColumns": [ {"bSortable":false},{"bSortable":false},{"bSortable":false},{"bSortable":false},{"bSortable":false} ], 
+			"iDisplayLength": 30, "bLengthChange": false, "bProcessing": false, "bServerSide": true, "sDom": 'lrtS', 
+			"sAjaxSource": "hospital/datatable-serverside/diagnosticos_seleccionadosH.php", 
+			"fnServerParams": function (aoData, fnCallback) {
+				aoData.push(  {"name": "idC", "value": idC } ); 
+				aoData.push(  {"name": "estatus", "value": estatus } ); 
+			},
+			"oLanguage": { "sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", "sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": "<br/>DIAGNÓSTICOS: _MAX_", "sSearch": "" }
+		});/*fin datatable*/ 
+		$('#clickmeDXS').click(function(e) { oTableSDX.draw(); }); window.setTimeout(function(){oTableSDX.draw();},300);
+		
+		$('#b_cancel_dxs').click(function(e) {
+			$('.hide_dx,#salirSGconsulta').removeClass('hidden'); $('#tab_dx,#b_cancel_dxs').addClass('hidden');
+			window.setTimeout(function(){ $('#my_tb_nm').click(); },300); //checarHayDX(idC);
+		});
+
+		if(estatus == 'EGRESADO'){
+			$('#tablaD').addClass('hidden');
+		}
+		$('#myModalx').modal('show');
+		$('#myModalx').on('shown.bs.modal', function (e) { });
+		$('#myModalx').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModalx").empty(); });
+	}});
+}
+function subirDX(idDX, idC, idU, idP){ var datosSDX = {idC:idC, idU:idU, idDX:idDX, idP:idP}
+	$.post('consultas/files-serverside/guardarDX.php',datosSDX).done(function( data ) { if (data==1){ 
+		$('#clickmeDXD, #clickmeDXS').click(); } else{alert(data);} 
+	});
+}
+function borrarDX(idDX, idC){ var datosBDX = {idDX:idDX, idC:idC}
+	$.post('consultas/files-serverside/eliminarDX.php',datosBDX).done(function(data){ 
+		if(data==1){ $('#clickmeDXS, #clickmeDXD').click(); }else{alert(data);} 
+	});
+}
+function dxPrimario(idDX,idC){ var datosDXP = {idDX:idDX,idC:idC}
+	$.post('consultas/files-serverside/primarioDX.php',datosDXP).done(function(data){ 
+		if(data==1){$('#clickmeDXS,#clickmeDXD').click();}else{alert(data);} 
+	});
+}
+
+
 </script>

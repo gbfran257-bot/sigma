@@ -1,7 +1,7 @@
 <?php
 require("../../../Connections/horizonte.php"); 
 	
-	$aColumns = array('c.id_ca', 'c.no_ca', 'a.nombre_a', 'c.ubicacion_ca', 'c.id_ca');
+	$aColumns = array('c.id_ca', 'c.no_ca', 'a.nombre_a', 'c.ubicacion_ca', 'c.ocupado_ca');
 	    
     // DB tables to use 
     $aTables = array( 'camas c');
@@ -138,6 +138,12 @@ require("../../../Connections/horizonte.php");
 		$row[0]="<span>$hh</span>";
 		
 		$row[1] = "<button type='button' class='btn btn-link' id='$row[4]' onClick='verPaciente(this.id);'>$row[1]</button>";
+        
+        if($row[4] == 1){
+            $row[4] = "OCUPADO";
+        }else{
+            $row[4] = "DISPONIBLE";
+        }
 								
 		$output['aaData'][] = $row;
     }

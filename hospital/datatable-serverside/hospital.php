@@ -14,7 +14,12 @@ require("../../Connections/horizonte.php");
 	$sJoin = 'left JOIN pacientes p ON p.id_p = h.id_paciente_h left join estatus es on es.id_est = h.estatus_h left join camas c on c.id_ca = h.id_cama_h left join usuarios m on m.id_u = h.id_medicoh_h left join venta_conceptos v on v.id_vc = h.id_consulta_vc_h left join orden_venta o on o.referencia_ov = v.referencia_vc left join usuarios u1 on u1.id_u = h.id_usuario_egreso_h left join usuarios u on u.id_u = h.id_usuario_h';
 	 
 	if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-	 $sWhere="WHERE h.estatus_h in (13,15,16)";
+        // el campo  __11 hace referencia a la columna es.estatus_est si se cambia de posicion dentro del arreglo $aColumns modificarlo tambien  en este if para la funcionalidad del  filtro individual de estatus
+        if ( isset($_GET['bSearchable_11']) && $_GET['bSearchable_11'] == "true" && $_GET['sSearch_11'] != '' ){
+            $sWhere="WHERE h.estatus_h in (13,15,16) AND h.fecha_inicio_h BETWEEN '$_GET[min]' AND '$_GET[max]'";
+        }else{
+            $sWhere="WHERE (h.estatus_h = 13) OR (h.estatus_h in (15,16) AND h.fecha_inicio_h BETWEEN '$_GET[min]' AND '$_GET[max]')";
+        }
 	}else{
 	 $sWhere="WHERE h.estatus_h in (13,15,16)";
 	}
@@ -37,8 +42,8 @@ require("../../Connections/horizonte.php");
      
      
     /* * Ordering */
-    $sOrder = "";
-    if ( isset( $_GET['iSortCol_0'] ) )
+    $sOrder = "ORDER BY h.estatus_h, h.fecha_inicio_h desc"; //ORDENA estatus_h de forma acendente  y  fecha_inicio_h de forma decendente
+    if ( isset( $_GET['iSortCol_0'] ) ) 
     {
         $sOrder = "ORDER BY  ";
         for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ )
@@ -91,6 +96,7 @@ require("../../Connections/horizonte.php");
         $sWhere
         $sOrder
         $sLimit";
+        // echo  $sQuery;
       
     $rResult = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
      
@@ -169,9 +175,10 @@ require("../../Connections/horizonte.php");
 		$row[7] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='medicamentos($row[19],$row[20],$nombreP,$row[21],\"$estatus\");'><i class='fa fa-medkit' aria-hidden='true'></i></button></div>";
 		
 		$row[8] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='verSignosV($row[20], $row[23],0,$row[21],$row[21],0)'><i class='fa fa-eye' aria-hidden='true'></i></button></div>";
-		
-		$row[9] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick=''><i class='fa fa-list' aria-hidden='true'></i></button></div>";
-		
+		        
+        // Se envia el id de venta concepto y el id del paciente y el estatus del hospitalizado
+        $row[9] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='diagnosticos($row[23],$row[20],\"$estatus\")'><i class='fa fa-list' aria-hidden='true'></i></button></div>";
+
 		$row[10] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick=''><i class='fa fa-camera' aria-hidden='true'></i></button></div>";
 		
         // Se envia el id de la hospitalización y el id de la cama

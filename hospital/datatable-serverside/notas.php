@@ -4,7 +4,7 @@ require("../../funciones/php/values.php");
 
 	$idP = sqlValue($_GET["id_p"], "int");
 
-	$aColumns = array('n.id_nh', 'DATE_FORMAT(n.fecha_nh,"%d/%m/%Y")', 'nm.nombre_nm', 'concat(t.abreviacion_ti," ",u.nombre_u," ",apaterno_u)', 'n.id_nh', 'n.id_hospitalizacion_nh', 'p.id_p', 'p.nombre_completo_p', 'o.sucursal_ov');
+	$aColumns = array('n.id_nh', 'DATE_FORMAT(n.fecha_nh,"%d/%m/%Y")', 'nm.nombre_nm', 'concat(t.abreviacion_ti," ",u.nombre_u," ",apaterno_u)', 'n.id_nh', 'n.id_hospitalizacion_nh', 'p.id_p', 'p.nombre_completo_p', 'o.sucursal_ov','usuario_nh');
      
     // DB tables to use 
     $aTables = array( 'notas_de_hospital n');
@@ -134,12 +134,20 @@ require("../../funciones/php/values.php");
             if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; }
             else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; }
         }
+        $idNota = $row[0];
 		$row[0] = "<div align='center'>$hh</div>";
 		
 		$nombre_p = '"'.$row[7].'"';
 										
 		$row[4] = "<div align='center'><button onClick='ver_nota($row[5], $row[6], $nombre_p, $row[8], $row[4])' lang='$row[4]' class='btn btn-primary btn-xs ver_nota'><i class='fa fa-eye' aria-hidden='true'></i> </button></div>";
-		
+        $id_h = $row[5];
+
+        if(($_GET['estatus'] == 'EGRESADO') || $_GET['idU'] != $row[9]){
+            $row[5] = "<div align='center'><button onClick='editar_nota($id_h,$row[6],$nombre_p, $row[8], $idNota)' lang='' class='btn btn-primary btn-xs ver_nota' disabled ='true'><i class='fa fa-pencil' aria-hidden='true'></i> </button></div>";
+
+        }else{
+            $row[5] = "<div align='center'><button onClick='editar_nota($id_h,$row[6],$nombre_p, $row[8], $idNota)' lang='' class='btn btn-primary btn-xs ver_nota'><i class='fa fa-pencil' aria-hidden='true'></i> </button></div>";
+        }
 		$output['aaData'][] = $row;
 		
     }

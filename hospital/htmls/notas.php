@@ -20,6 +20,7 @@
 							</th>
 							<th class="titulosTabs" align="center" width="" nowrap>PERSONAL MÉDICO</th>
 							<th class="titulosTabs" align="center" width="" nowrap>VER</th>
+							<th class="titulosTabs" align="center" width="" nowrap>EDITAR</th>
 						  </tr>
 						</thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 						<tfoot style="display:;">
@@ -28,6 +29,7 @@
 								<th><input type="text" class="form-control input-sm" placeholder="-FECHA-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-NOTA-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-PERSONAL MÉDICO-" style="width: 99%"/></th>
+								<th></th>
 								<th></th>
 							</tr>
 						</tfoot>

@@ -33,8 +33,8 @@ require("../../funciones/php/values.php");
  $colonia = sqlValue(mb_strtoupper($_POST["colonia_us"]), "text");
  $calle = sqlValue(mb_strtoupper($_POST["calle_us"]), "text");
  $cp = sqlValue(mb_strtoupper($_POST["cp_us"]), "text");
- if(isset($_POST["lati_ud"])){$latitud = $_POST["lati_ud"];}else{$latitud = 18.8161;}
- if(isset($_POST["long_ud"])){$longitud = $_POST["long_ud"];}else{$longitud = -98.954;}
+ if(isset($_POST["lati_ud"]) && !empty($_POST["lati_ud"])){$latitud = $_POST["lati_ud"];}else{$latitud = 18.8161;}
+ if(isset($_POST["long_ud"]) && !empty($_POST["long_ud"])){$longitud = $_POST["long_ud"];}else{$longitud = -98.954;}
  
  //Datos fiscales
  $razon = sqlValue(mb_strtoupper($_POST["razon_social"]), "text");

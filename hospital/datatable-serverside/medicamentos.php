@@ -137,9 +137,9 @@ require("../../funciones/php/values.php");
 		$nombre_p = '"'.$row[7].'"';
 		
         if($row[12] == 16){
-            $row[5] = "<div align='center'><button onClick='poner_medi(this.lang)' lang='$row[9]' class='btn btn-primary btn-xs ver_nota' disabled='true'><i class='fa fa-check' aria-hidden='true'></i> </button></div>";
+            $row[5] = "<div align='center'><button onClick='poner_medi(this.lang, $nombre_p)' id='$row[2]' lang='$row[9]' class='btn btn-primary btn-xs ver_nota' disabled='true'><i class='fa fa-check' aria-hidden='true'></i> </button></div>";
         }else{
-		    $row[5] = "<div align='center'><button onClick='poner_medi(this.lang)' lang='$row[9]' class='btn btn-primary btn-xs ver_nota'><i class='fa fa-check' aria-hidden='true'></i> </button></div>";
+		    $row[5] = "<div align='center'><button onClick='poner_medi(this.lang, \"$row[2]\", $nombre_p)' lang='$row[9]' class='btn btn-primary btn-xs ver_nota'><i class='fa fa-check' aria-hidden='true'></i> </button></div>";
         }
         $row[6] = $row[11];
 		
