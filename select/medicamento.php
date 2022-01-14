@@ -20,8 +20,9 @@ $consultaTotal = "select count(*) as cuantos from conceptos c where 1=1";
 /// Se modifica la consulta para traer la búsqueda de search
 if(!empty($search)){
     $search = "%".$search."%"; /// se agrega comodín al inicio y al final
-    $filtro = sprintf(" and (c.concepto_to like '%s')",
-        $search); /// un $search por cada %s
+    $filtro = sprintf(" and (c.concepto_to like '%s' or " . 
+        "c.codigo_barras_to like '%s')",
+        $search, $search); /// un $search por cada %s
     $consultaTotal .= $filtro;
     $consulta .= $filtro;
 }

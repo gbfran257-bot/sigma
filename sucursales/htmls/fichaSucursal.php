@@ -262,13 +262,13 @@ $id_del_user = $_SESSION['id'];
                         </div>
                     </td>
                     <td align="right" valign="middle" width="150px" nowrap class="texto_lu">
-                    	<div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
+                    	<div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" style="width:100px;">
                             <input type="text" class="form-control" value="08:00" id="lunes_de1" name="lunes_de1">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                         </div>
                     </td>
                     <td align="right" valign="middle" width="150px" nowrap class="texto_lu">
-                        <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
+                        <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true" style="width:100px;">
                             <input type="text" class="form-control" value="18:00" id="lunes_a1" name="lunes_a1">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                         </div>

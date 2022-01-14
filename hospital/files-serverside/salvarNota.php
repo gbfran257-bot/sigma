@@ -8,10 +8,21 @@ require("../../funciones/php/values.php");
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
  $idP = sqlValue($_POST["idP"], "int");
  $idN = sqlValue($_POST["idN"], "int");
- 
+
  mysql_select_db($database_horizonte, $horizonte);
- $sql = "insert into notas_de_hospital (nota_nh, id_hospitalizacion_nh, id_nota_nh, usuario_nh, fecha_nh, tipo_nota_nh, id_sv_nh, aleatorio_nh) VALUES($notaDictamen, $idC, $idN, $idU, $now,1,0, '".date("Y-m-d-H-i-s")."')";
- $update = mysql_query($sql, $horizonte) or die (mysql_error());
+ $sql1 = "SELECT acceso_u FROM usuarios WHERE id_u =  $idU";
+ $Tusuario = mysql_query($sql1, $horizonte) or die (mysql_error());
+ $row = mysql_fetch_row($Tusuario);
+
+ if($row[0] == 4){
+    mysql_select_db($database_horizonte, $horizonte);
+    $sql = "insert into notas_de_hospital (nota_nh, id_hospitalizacion_nh, id_nota_nh, usuario_nh, fecha_nh, tipo_nota_nh, id_sv_nh, aleatorio_nh, roll_nh) VALUES($notaDictamen, $idC, $idN, $idU, $now,1,0, '".date("Y-m-d-H-i-s")."','ENFERMERIA')";
+    $update = mysql_query($sql, $horizonte) or die (mysql_error());
+ }else{
+    mysql_select_db($database_horizonte, $horizonte);
+    $sql = "insert into notas_de_hospital (nota_nh, id_hospitalizacion_nh, id_nota_nh, usuario_nh, fecha_nh, tipo_nota_nh, id_sv_nh, aleatorio_nh) VALUES($notaDictamen, $idC, $idN, $idU, $now,1,0, '".date("Y-m-d-H-i-s")."')";
+    $update = mysql_query($sql, $horizonte) or die (mysql_error());
+ }
 
  if (!$update) { echo $sql; } else{ echo 1; }
 

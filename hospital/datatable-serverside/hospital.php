@@ -2,7 +2,7 @@
 require("../../Connections/horizonte.php"); 
     /* Array of database columns which should be read and sent back to DataTables. Use a space where * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('h.id_h', 'p.nombre_completo_p', 'DATE_FORMAT(h.fecha_inicio_h,"%d/%m/%Y %H:%i:%s")', 'concat(c.no_ca," ",c.ubicacion_ca)', 'm.usuario_u', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'es.estatus_est', 'DATE_FORMAT(h.fecha_fin_h,"%d/%m/%Y %H:%i:%s")', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'es.id_est', 'h.id_h', 'h.id_h', 'p.id_p', 'o.sucursal_ov', 'h.id_cama_h', 'h.id_consulta_vc_h', 'u1.usuario_u', 'u.usuario_u');
+	$aColumns = array('h.id_h', 'p.nombre_completo_p', 'DATE_FORMAT(h.fecha_inicio_h,"%d/%m/%Y %H:%i:%s")', 'concat(c.no_ca," ",c.ubicacion_ca)', 'm.usuario_u', 'h.id_h','h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'es.estatus_est', 'DATE_FORMAT(h.fecha_fin_h,"%d/%m/%Y %H:%i:%s")', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'es.id_est', 'h.id_h', 'h.id_h', 'p.id_p', 'o.sucursal_ov', 'h.id_cama_h', 'h.id_consulta_vc_h', 'u1.usuario_u', 'u.usuario_u');
      
     // DB tables to use 
     $aTables = array( 'hospitalizacion h');
@@ -146,44 +146,56 @@ require("../../Connections/horizonte.php");
 		$nombreP = '"'.$row[1].'"';
 		
 		$row[0]=$hh;
-        $row[2] = '<div align="center">'. $row[2]."<br>".$row[25].'</div>';
+        $row[2] = '<div align="center">'. $row[2]."<br>".$row[26].'</div>';
 		
 		if($row[3]==''){ $row[3] = '<div align="center">-No asignado-</div>'; }
-		$estatus = $row[11]; //rescatamos el estatus antes de que se tranforme
-		$row[11] = "<span title='$row[19] $row[20]'>".($row[12]==''?$row[11]:'EGRESADO')."</span>";
+		$estatus = $row[12]; //rescatamos el estatus antes de que se tranforme
+		$row[12] = "<span title='$row[20] $row[21]'>".($row[13]==''?$row[12]:'EGRESADO')."</span>";
 		
 		mysql_select_db($database_horizonte, $horizonte);
-		$result1 = mysql_query("SELECT count(h.id_nh) from notas_de_hospital h where h.id_hospitalizacion_nh = $row[5] and h.tipo_nota_nh = 1 ", $horizonte) or die (mysql_error());
+		$result1 = mysql_query("SELECT count(h.id_nh) from notas_de_hospital h where h.id_hospitalizacion_nh = $row[6] and h.tipo_nota_nh = 1 AND h.roll_nh IS NULL ", $horizonte) or die (mysql_error());
 		$row1 = mysql_fetch_row($result1);
-		
-		mysql_select_db($database_horizonte, $horizonte);
-		$result1a = mysql_query("SELECT h.aleatorio_nh from notas_de_hospital h where h.id_hospitalizacion_nh = $row[5] limit 1", $horizonte) or die (mysql_error());
-		$row1a = mysql_fetch_row($result1a);
-		
-		$row[5] ="<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='notasMedicas($row[19],$row[20],$nombreP,$row[21],\"$estatus\");'>$row1[0]</button></div>";
-		
-		mysql_select_db($database_horizonte, $horizonte);
-		$result2 = mysql_query("SELECT count(h.id_nh) from notas_de_hospital h where h.id_hospitalizacion_nh = $row[6] and h.tipo_nota_nh = 2 ", $horizonte) or die (mysql_error());
+
+        mysql_select_db($database_horizonte, $horizonte);
+		$result2 = mysql_query("SELECT count(h.id_nh) from notas_de_hospital h where h.id_hospitalizacion_nh = $row[6] and h.tipo_nota_nh = 1 AND h.roll_nh ='ENFERMERIA'", $horizonte) or die (mysql_error());
 		$row2 = mysql_fetch_row($result2);
 		
 		mysql_select_db($database_horizonte, $horizonte);
-		$result3 = mysql_query("SELECT count(DISTINCT h.id_medicamento_mh) from medicamentos_hospital h where h.id_hospitalizacion_mh = $row[6]", $horizonte) or die (mysql_error());
+		$result1a = mysql_query("SELECT h.aleatorio_nh from notas_de_hospital h where h.id_hospitalizacion_nh = $row[6] limit 1", $horizonte) or die (mysql_error());
+		$row1a = mysql_fetch_row($result1a);
+
+        $idU = $_GET['idU'];
+        mysql_select_db($database_horizonte, $horizonte);
+        $sql1 = "SELECT acceso_u FROM usuarios WHERE id_u = $idU";
+        $Tusuario = mysql_query($sql1, $horizonte) or die (mysql_error());
+        $tUser = mysql_fetch_row($Tusuario);
+		$idU_t = $tUser[0] ;
+        $row[5] ="<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='notasMedicasEnfermeria($row[20],$row[21],$nombreP,$row[22],\"$estatus\",$idU_t);'>$row2[0]</button></div>";
+
+		$row[6] ="<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='notasMedicas($row[20],$row[21],$nombreP,$row[22],\"$estatus\",$idU_t);'>$row1[0]</button></div>";
+		
+		mysql_select_db($database_horizonte, $horizonte);
+		$result2 = mysql_query("SELECT count(h.id_nh) from notas_de_hospital h where h.id_hospitalizacion_nh = $row[7] and h.tipo_nota_nh = 2 ", $horizonte) or die (mysql_error());
+		$row2 = mysql_fetch_row($result2);
+		
+		mysql_select_db($database_horizonte, $horizonte);
+		$result3 = mysql_query("SELECT count(DISTINCT h.id_medicamento_mh) from medicamentos_hospital h where h.id_hospitalizacion_mh = $row[7]", $horizonte) or die (mysql_error());
 		$row3 = mysql_fetch_row($result3);
 		
-		$row[6] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick=''><i class='fa fa-book' aria-hidden='true'></i></button></div>";
+		$row[7] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick=''><i class='fa fa-book' aria-hidden='true'></i></button></div>";
 		
-		$row[7] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='medicamentos($row[19],$row[20],$nombreP,$row[21],\"$estatus\");'><i class='fa fa-medkit' aria-hidden='true'></i></button></div>";
+		$row[8] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='medicamentos($row[20],$row[21],$nombreP,$row[22],\"$estatus\");'><i class='fa fa-medkit' aria-hidden='true'></i></button></div>";
 		
-		$row[8] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='verSignosV($row[20], $row[23],0,$row[21],$row[21],0)'><i class='fa fa-eye' aria-hidden='true'></i></button></div>";
+		$row[9] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='verSignosV($row[21], $row[21],0,$row[22],$row[22],0)'><i class='fa fa-eye' aria-hidden='true'></i></button></div>";
 		        
         // Se envia el id de venta concepto y el id del paciente y el estatus del hospitalizado
-        $row[9] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='diagnosticos($row[23],$row[20],\"$estatus\")'><i class='fa fa-list' aria-hidden='true'></i></button></div>";
+        $row[10] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='diagnosticos($row[24],$row[21],\"$estatus\")'><i class='fa fa-list' aria-hidden='true'></i></button></div>";
 
-		$row[10] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick=''><i class='fa fa-camera' aria-hidden='true'></i></button></div>";
+		$row[11] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick=''><i class='fa fa-camera' aria-hidden='true'></i></button></div>";
 		
         // Se envia el id de la hospitalización y el id de la cama
-		if($row[12]==''){ $row[12] = '<div align="center"><button type="button" class="btn btn-primary btn-sm" onClick="egresar('.$aRow[0].', '.$aRow[22].');">Egresar</button></div>'; }else{
-            $row[12] = '<div align="center">'.$row[12].'<br>'.$row[24].'</div>';
+		if($row[13]==''){ $row[13] = '<div align="center"><button type="button" class="btn btn-primary btn-sm" onClick="egresar('.$aRow[0].', '.$aRow[22].');">Egresar</button></div>'; }else{
+            $row[13] = '<div align="center">'.$row[13].'<br>'.$row[25].'</div>';
         }
 
         // $row[13] = $aRow;

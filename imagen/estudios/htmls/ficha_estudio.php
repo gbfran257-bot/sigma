@@ -28,10 +28,17 @@
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="tEstudio"><br>
             	<input name="idUsuarioE" id="idUsuarioE" type="hidden" value="">
-                <div class="col-sm-10 col-md-10">
+                <div class="col-sm-6 col-md-6">
                     <div class="form-group">
                      <label for="nombreE">* NOMBRE DEL ESTUDIO</label>
                      <input type="text" class="form-control input-sm" id="nombreE" name="nombreE" required>
+                     </div>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <div class="form-group">
+                     <label for="linea_img">* LÍNEA</label>
+                     <select name="linea_img" id="linea_img" class="form-control input-sm" required>
+                     </select>
                      </div>
                 </div>
                 <div class="col-sm-2 col-md-2">
@@ -100,13 +107,13 @@
                 </div>
                 <div class="col-sm-6 col-md-6">
                     <div class="form-group">
-                     <label for="precioES">* TABULADOR SUCURSAL($)</label>
+                     <label for="precioES">* TABULADOR CONVENIO($)</label>
                      <input type="text" class="form-control input-sm" id="precioES" name="precioES" required onKeyUp="numeros_decimales(this.value, this.name);" required>
                      </div>
                 </div>
                 <div class="col-sm-6 col-md-6">
                     <div class="form-group">
-                     <label for="precioUrgenciaS">* TABULADOR SUCURSAL URGENCIA($)</label>
+                     <label for="precioUrgenciaS">* TABULADOR CONVENIO URGENCIA($)</label>
                      <input type="text" class="form-control input-sm" id="precioUrgenciaS" name="precioUrgenciaS" required onKeyUp="numeros_decimales(this.value, this.name);" required>
                      </div>
                 </div>

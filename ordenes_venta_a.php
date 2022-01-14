@@ -68,7 +68,8 @@
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
-<div id="div_tabla_pacientes" class="" style="border:1px none red; vertical-align:top; margin-top:0px; font-size: 1.2em;">
+<a href="ordenes_venta_a_del.php" id="btnCanceladas" class="btn btn-danger">CANCELADAS</a>
+<div id="div_tabla_pacientes" class="" style="border:1px none red; vertical-align:top; margin-top:5px; margin-botom:10px font-size: 1.2em;">
 <table id="dataTable" width="90%" height="100%" class="table table-striped table-hover">
     <thead>
       <tr class="bg-primary">
@@ -279,7 +280,7 @@ $(document).ready(function(e) {
         { /* Open this row */
 			var aData = oTable.fnGetData( nTr );
 			this.src = "imagenes/generales/details_close.png";
-			var so = aData[5], so1=aData[8],ref=aData[1], depto = aData[6], area = aData[7], total = aData[9];
+			var so = aData[5], so1=aData[8],ref=aData[19], depto = aData[6], area = aData[7], total = aData[9];
 			var datoxOV ={ ref:ref }
 			$.post('corte_caja/reportes/datatable-serverside/datosAdicionales.php',datoxOV,processDataOV);//salva la OV
 			function processDataOV(dataOV) {
@@ -290,7 +291,7 @@ $(document).ready(function(e) {
     } );
 	// fin  Add event listener for opening and closing details
 	
-//para filtros con cuadro de textos individuales
+	//para filtros con cuadro de textos individuales
 	$("tfoot input").keyup( function () { oTable.fnFilter( this.value, $("tfoot input").index(this) ); });
 	 /*
      * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
@@ -306,6 +307,22 @@ $(document).ready(function(e) {
         if ( this.value == "" ) { this.className = "search_init form-control input-sm"; this.value = asInitVals[$("tfoot input").index(this)]; }
     } );
 });
+
+function ver_ov(ref){
+	$("#myModal3").load("laboratorio/htmls/ficha_ov.php",function(response,status,xhr){ if(status == "success"){
+		var dato = { ref:ref, idU:$('#id_user').val() }
+		$.post('laboratorio/archivos_save_ajax/datos_ficha_ov.php', dato).done(function(data){ var datos = data.split('*}');
+			$('#titulo_modal').text('ORDEN DE VENTA '+ref+' | '+datos[0]+' | '+datos[1]);
+			$('#fecha_o').text(datos[2]); $('#usuario_o').text(datos[3]); $('#subtotal_o').text(datos[4]); $('#extras_o').text(datos[5]);
+			$('#iva_o').text(datos[6]); $('#descuento_o').text(datos[7]); $('#total_o').text(datos[8]); $('#abonado_o').text(datos[9]);
+			$('#saldo_o').text(datos[10]); $('#estatus_o').text(datos[11]); $('#o_items').html(datos[17]);
+			
+			$('#myModal3').modal('show');
+			$('#myModal3').on('shown.bs.modal', function(e){ });
+			$('#myModal3').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModal3").empty(); });
+		}); 
+	}});
+}
 	
 function cambiar_suc(val, temp){
 	swal({

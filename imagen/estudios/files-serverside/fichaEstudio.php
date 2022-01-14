@@ -14,10 +14,10 @@ require("../../../funciones/php/values.php");
 	} 
  
  	mysql_select_db($database_horizonte, $horizonte);
- 	$result = mysql_query("SELECT concepto_to, id_area_to, $precio_nor, $precio_ur, formato, precio_to, precio_urgencia_to, precio1_to, precio_urgencia1_to, dicom, precio_m, precio_mu, precio_h, costo_maquila_to, costo_maquila_u_to, c_costo, motivo_costo from conceptos where id_to = $idE ", $horizonte) or die (mysql_error());
+ 	$result = mysql_query("SELECT concepto_to, id_area_to, $precio_nor, $precio_ur, formato, precio_to, precio_urgencia_to, precio1_to, precio_urgencia1_to, dicom, precio_m, precio_mu, precio_h, costo_maquila_to, costo_maquila_u_to, c_costo, motivo_costo, linea_c from conceptos where id_to = $idE ", $horizonte) or die (mysql_error());
  	$row = mysql_fetch_row($result);
 			 
- 	$datos = $row[0]."*}".$row[1]."*}".$row[2]."*}".$row[3]."*}".$row[4]."*}".$row[5]."*}".$row[6]."*}".$row[7]."*}".$row[8]."*}".$row[9]."*}".$row[10]."*}".$row[11]."*}".$row[12]."*}".$row[13]."*}".$row[14]."*}".$row[15]."*}".$row[16];
+ 	$datos = $row[0]."*}".$row[1]."*}".$row[2]."*}".$row[3]."*}".$row[4]."*}".$row[5]."*}".$row[6]."*}".$row[7]."*}".$row[8]."*}".$row[9]."*}".$row[10]."*}".$row[11]."*}".$row[12]."*}".$row[13]."*}".$row[14]."*}".$row[15]."*}".$row[16]."*}".$row[17];
 
 echo $datos;
  

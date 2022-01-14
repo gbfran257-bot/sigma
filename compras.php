@@ -92,23 +92,25 @@
     <th style="vertical-align:middle;">COSTO UNITARIO</th>
     <th style="vertical-align:middle;" nowrap>USUARIO REGISTRO</th>
     <th style="vertical-align:middle;" nowrap>FECHA ENTRADA</th>
+	<th style="vertical-align:middle;" nowrap>EXIST.LOTE</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
         <tr class="bg-primary">
             <th></th>
 			<th></th>
-			<th><input type="text" class="form-control input-sm" placeholder="Referencia"/></th>
+			<th><input type="text" class="form-control input-sm" placeholder="Referencia" style="max-width:90px;"/></th>
 			<th><input type="text" class="form-control input-sm" placeholder="Med. generico"/></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Producto"/></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Lote"/></th>
+            <th><input type="text" class="form-control input-sm" placeholder="Producto"style="max-width:100px;" /></th>
+            <th><input type="text" class="form-control input-sm" placeholder="Lote" style="max-width:90px;"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="Sucursal" style="max-width:100px;"/></th>
             <th></th>
-			<th></th>
+			<th><input type="text" class="form-control input-sm" placeholder="Estatus" style="max-width:100px;"/></th>
             <th></th>
             <th></th>
             <th><input type="text" class="form-control input-sm" placeholder="Usuario" style="max-width:100px;"/></th>
             <th></th>
+			<th></th>
         </tr>
     </tfoot>
 </table>
@@ -137,8 +139,8 @@ $(document).ready(function(e) {
 		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
-			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
-			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true}
+			{"bVisible":false}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true}, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
@@ -261,9 +263,9 @@ function nuevaCompra(){
 									COMPRA[index]['cantidad'] +
 						"		</td>"+
 						"		<td>";
-				if(COMPRA[index]['estatus'] == 0){
+				if(COMPRA[index]['estatus'] == 1){
 					salida += "PENDIENTE";
-				}else if(COMPRA[index]['estatus'] == 1){
+				}else if(COMPRA[index]['estatus'] == 9){
 					salida += "ENTREGADO";
 				}			
 				salida +="		</td>"+
@@ -291,6 +293,30 @@ function nuevaCompra(){
 			$('#lote').val('');
 			$('#caducidad').val('');
 			console.log(COMPRA);
+		});
+
+		$('#producto').change(function(e){
+			var datoPro = { prod : $('#producto').val() }
+			$.post('farmacia/compras/files-serverside/precioProd.php', datoPro).done(function( data ) {
+				var datos = data.split('}{[_}');
+
+				$('#productoName').text(datos[0]);
+				$('#precioPublicoProd').text("Precio público: $" + datos[1]);
+			});
+		});
+
+		$('#costoU').change(function(e){
+			var datoPr = {idU:$('#id_user').val(), prod : $('#producto').val(), costoVal : $('#costoU').val() }
+			$.post('farmacia/compras/files-serverside/costoVSprecioPublico.php', datoPr).done(function( data ) {
+				if(data == 2){
+					$('#costoAlert').text("El costo no puede ser igual o mayor al precio de venta al publico");
+					$('#costoU').css("border","solid 2px red");
+					$('#costoU').val(0);
+				}else{
+					$('#costoAlert').text("");
+					$('#costoU').css("border","solid 1px aqua");
+				}
+			});
 		});
 
 		$('#btn_pagar').click(function(e){

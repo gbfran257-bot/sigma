@@ -3,6 +3,7 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
 
  $idUsuario = sqlValue($_POST["idU"], "int");
+ $linea = sqlValue($_POST["linea"], "text");
  $temporal = sqlValue($_POST["temporal"], "text");
  $concepto = sqlValue(mb_strtoupper($_POST["nombre"]), "text");
  $area = sqlValue($_POST["area"], "int");
@@ -17,8 +18,8 @@ require("../../funciones/php/values.php");
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
 
  mysql_select_db($database_horizonte, $horizonte);
- $sql = "INSERT INTO conceptos(usuario_to, aleatorio_c, concepto_to, id_departamento_to, id_area_to, precio_to, precio_urgencia_to, precio_m, precio_mu, fecha_to, id_tipo_concepto_to, precio_h, c_costo, honorarios_c,  honorarios_cu)";
- $sql.= "VALUES ($idUsuario, $temporal, $concepto, 4, $area, $precio, $precioU, $precioM, $precioMU, $now, 1, $precioH, $precio_costoproduccion, $honorario_c, $honorario_cu)";
+ $sql = "INSERT INTO conceptos(usuario_to, aleatorio_c, concepto_to, id_departamento_to, id_area_to, precio_to, precio_urgencia_to, precio_m, precio_mu, fecha_to, id_tipo_concepto_to, precio_h, c_costo, honorarios_c,  honorarios_cu, linea_c)";
+ $sql.= "VALUES ($idUsuario, $temporal, $concepto, 4, $area, $precio, $precioU, $precioM, $precioMU, $now, 1, $precioH, $precio_costoproduccion, $honorario_c, $honorario_cu, $linea)";
   
 $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	

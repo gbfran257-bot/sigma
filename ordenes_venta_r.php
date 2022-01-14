@@ -75,7 +75,7 @@
         <th width="110px" id="clickme" style="white-space:nowrap;">REFERENCIA</th>
         <th>PACIENTE</th>
         <th width="80px">FECHA</th>
-        <th width="100px">SUCURSAL</th>
+        <th width="100px">CONVENIO</th>
         <th width="160px">USUARIO</th>
         <th width="10px">SUBTOTAL</th>
         <th width="10px" nowrap style="white-space:nowrap">CARGOS EXTRA</th>
@@ -95,7 +95,7 @@
 			<th><input type="text" placeholder="Referencia" class="form-control input-sm"/></th>
 			<th><input type="text" placeholder="Paciente" class="form-control input-sm" /></th>
             <th><input type="hidden" class=""></th>
-			<th> <input type="hidden" class=""> <input type="text" placeholder="Sucursal" class="form-control input-sm"/> </th>
+			<th> <input type="hidden" class=""> <input type="text" placeholder="Convenio" class="form-control input-sm"/> </th>
 			<th><input type="text" placeholder="Usuario" class="form-control input-sm" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
@@ -278,7 +278,7 @@ $(document).ready(function(e) {
         { /* Open this row */
 			var aData = oTable.fnGetData( nTr );
 			this.src = "imagenes/generales/details_close.png";
-			var so = aData[5], so1=aData[8],ref=aData[1], depto = aData[6], area = aData[7], total = aData[9];
+			var so = aData[5], so1=aData[8],ref=aData[17], depto = aData[6], area = aData[7], total = aData[9];
 			var datoxOV ={ ref:ref }
 			$.post('corte_caja/reportes/datatable-serverside/datosAdicionales.php',datoxOV,processDataOV);//salva la OV
 			function processDataOV(dataOV) {
@@ -305,6 +305,22 @@ $(document).ready(function(e) {
         if ( this.value == "" ) { this.className = "search_init form-control input-sm"; this.value = asInitVals[$("tfoot input").index(this)]; }
     } );
 });
+
+function ver_ov(ref){
+	$("#myModal3").load("laboratorio/htmls/ficha_ov.php",function(response,status,xhr){ if(status == "success"){
+		var dato = { ref:ref, idU:$('#id_user').val() }
+		$.post('laboratorio/archivos_save_ajax/datos_ficha_ov.php', dato).done(function(data){ var datos = data.split('*}');
+			$('#titulo_modal').text('ORDEN DE VENTA '+ref+' | '+datos[0]+' | '+datos[1]);
+			$('#fecha_o').text(datos[2]); $('#usuario_o').text(datos[3]); $('#subtotal_o').text(datos[4]); $('#extras_o').text(datos[5]);
+			$('#iva_o').text(datos[6]); $('#descuento_o').text(datos[7]); $('#total_o').text(datos[8]); $('#abonado_o').text(datos[9]);
+			$('#saldo_o').text(datos[10]); $('#estatus_o').text(datos[11]); $('#o_items').html(datos[17]);
+			
+			$('#myModal3').modal('show');
+			$('#myModal3').on('shown.bs.modal', function(e){ });
+			$('#myModal3').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModal3").empty(); });
+		}); 
+	}});
+}
 
 function pagar(ref, tot, sal, abo, pac, noTemp, indicador, tCo, tIm, tLab, tFar){
 	//alert(ref+";"+tot+";"+sal+";"+abo+";"+pac+";"+noTemp+";"+indicador+";"+tCo+";"+tIm+";"+tLab+";"+tFar);

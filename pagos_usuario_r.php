@@ -58,7 +58,7 @@
         <th>USUARIO</th>
         <th>REFERENCIA</th>
         <th>PACIENTE</th>
-        <th>SUCURSAL</th>
+        <th>CONVENIO</th>
         <th>PAGO</th>
         <th nowrap style="white-space:nowrap">FECHA DE PAGO</th>
       </tr>
@@ -70,7 +70,7 @@
 			<th><input type="text" placeholder="Usuario" class="form-control input-sm"/></th>
 			<th><input type="text" placeholder="Referencia" class="form-control input-sm" /></th>
             <th><input type="text" placeholder="Paciente" class="form-control input-sm" /></th>
-			<th><input type="text" placeholder="Sucursal" class="form-control input-sm"/></th>
+			<th><input type="text" placeholder="Convenio" class="form-control input-sm"/></th>
 			<th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden"><input type="text" placeholder="Fecha" class="form-control input-sm"/></th>
 		</tr>

@@ -1,0 +1,1 @@
+ALTER TABLE `notas_de_hospital` ADD `roll_nh` VARCHAR(180) NULL AFTER `id_sv_nh`;

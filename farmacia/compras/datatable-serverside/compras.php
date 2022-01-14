@@ -2,7 +2,7 @@
 require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
      
-    $aColumns = array('s.id', 's.id','s.referencia_compra','g.nombre_generico_med', 'c.concepto_to', 's.Lote','su.nombre_su',  's.cantidad','s.estatus', 'DATE_FORMAT(s.fecha_expiracion,"%d/%c/%Y")', 's.costo_unitario', 'u.usuario_u','DATE_FORMAT(s.fecha_update,"%d/%c/%Y")');
+    $aColumns = array('s.id', 's.id','s.referencia_compra','g.nombre_generico_med', 'c.concepto_to', 's.Lote','su.nombre_su',  's.cantidad','es.estatus_est', 's.fecha_expiracion', 's.costo_unitario', 'u.usuario_u','DATE_FORMAT(s.fecha_update,"%d/%c/%Y")','s.existencias');
     // DB tables to use 
     $aTables = array( 'stock_has_bach s');
      
@@ -10,7 +10,7 @@ require("../../../funciones/php/values.php");
     $sIndexColumn = "s.id";
      
 	 // Joins   
-	$sJoin = 'left join conceptos c on c.id_to = s.id_Producto left join stock s1 on s1.id = s.id_stock left join usuarios u on u.id_u = s.usuario_registro left join sucursales su on su.id_su = s1.id_su left join medicamentos g on g.id_med = c.id_medicamento_g';
+	$sJoin = 'left join conceptos c on c.id_to = s.id_Producto left join stock s1 on s1.id = s.id_stock left join usuarios u on u.id_u = s.usuario_registro left join sucursales su on su.id_su = s1.id_su left join medicamentos g on g.id_med = c.id_medicamento_g left join estatus es on es.id_est = s.estatus';
 
     mysql_select_db($database_horizonte, $horizonte); 
 	$resultAU = mysql_query("SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[idU]'",$horizonte) or die (mysql_error());
@@ -137,11 +137,25 @@ require("../../../funciones/php/values.php");
 
         $row[1]="<span id='$row[0]' onClick='resumenCompra(this.id, \"$row[2]\");'class='btn btn-primary' ><i class='fa fa-eye' ></i></span>";
 
-        if($row[8] == 1){
-            $row[8] ="<span >ENTREGADO</span>";
-        }else{
+        if($row[8] == "PENDIENTE"){
             $row[8] ="<span id='$row[0]' onClick='estatus(this.id)' style='cursor:pointer; text-decoration:underline;'>PENDIENTE</span>";
         }
+
+       //fecha  de caducidad que viene de BD
+        $fechaCadu = substr($row[9],0,10);
+        //le restamos una mes a la fecha de caducidad para poder compararla
+        $Alertafecha = date('Y-m-d', strtotime($fechaCadu.'-1 month'));
+         //sacar la fecha actual
+        $now = date('Y-m-d');
+
+        //verificamos si la fecha actual supera a la fecha de caducidad que tiene un mes restado
+        if($now > $Alertafecha){
+            $row[9]= "<span class='btn btn-danger disabled' >".$fechaCadu."</span>";
+        }else{
+            $row[9]= $fechaCadu;
+        }
+
+        
        $row[0]= $hh;
 		
 		$output['aaData'][] = $row;

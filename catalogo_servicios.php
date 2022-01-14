@@ -77,8 +77,9 @@
     <th style="vertical-align:middle;" nowrap>PRECIO URGENCIA</th>
     <th style="vertical-align:middle;" nowrap>TAB MAQUILA</th>
     <th style="vertical-align:middle;" nowrap>TAB MAQUILA U</th>
-    <th style="vertical-align:middle;" nowrap>TAB SUCURSAL</th>
-    <th style="vertical-align:middle;" nowrap>TAB SUCURSAL U</th>
+    <th style="vertical-align:middle;" nowrap>TAB CONVENIO</th>
+    <th style="vertical-align:middle;" nowrap>TAB CONVENIO U</th>
+	<th style="vertical-align:middle;" nowrap>LÍNEA</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -91,10 +92,11 @@
             <th></th>
             <th></th>
             <th></th>
+			<th><input type="text" class="form-control input-sm" placeholder="Línea"/></th>
         </tr>
     </tfoot>
 </table>
-<div style='border:1px solid none; text-align:left;'><table id='ocultarFP' width='' border='0' cellspacing='0' cellpadding='6'> <tr><td>SUCURSAL</td><td><select name='miSucursal' id='miSucursal' class='form-control input-sm'></select></td></tr> </table></div>
+<div style='border:1px solid none; text-align:left;'><table id='ocultarFP' width='' border='0' cellspacing='0' cellpadding='6'> <tr><td>CONVENIO</td><td><select name='miSucursal' id='miSucursal' class='form-control input-sm'></select></td></tr> </table></div>
 </div>
 <div id="auxiliar" class="hidden"></div> <div id="auxiliar1" class="hidden"></div>
 <div class="hidden" id="dpa_imprimir"></div><div class="hidden" id="dpa_imprimir1"></div>
@@ -114,7 +116,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
-			{"bVisible":true },{ "bVisible": true }, {"bVisible":true}
+			{"bVisible":true },{ "bVisible": true },{ "bVisible": true }, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
@@ -174,7 +176,7 @@ function nuevoEstudio(){
 					$.post('servicios/servicios/files-serverside/datosSucursalU.php',datosUS).done(function(data){ $("#miSucursalNS").val(data); });
 				}
 			}); $('#idUsuarioE').val($('#id_user').val());
-
+			$("#linea_se").load('consultas/consultas/genera/lineasConsulta.php');
 			tinymce.init({ 
 				selector:'#myModal #input',resize:false,height:$('#referencia').height()*0.48,theme: "modern",
 				plugins: 
@@ -224,7 +226,7 @@ function fichaEstudio(idE, nameS){
 		var datosFts ={idU:$('#id_user').val(), idSucursal:$('#miSucursal').val(), idE:idE}
 		$.post('servicios/files-serverside/check_formato_individual.php',datosFts).done(function(data1x){ tinymce.remove("#input"); //alert(data1x);
 			$('#btn_save1').text('Actualizar'); $('#titulo_modal').text('FICHA DEL SERVICIO MÉDICO: '+nameS);
-		
+			$("#linea_se").load('consultas/consultas/genera/lineasConsulta.php');
 			tinymce.init({ 
 				selector:'#myModal1 #input',resize:false,height:$('#referencia').height()*0.48,theme: "modern",
 				plugins: 
@@ -259,6 +261,7 @@ function fichaEstudio(idE, nameS){
 				$('#nombreE').val(datosI[0]); $('#precioE').val(datosI[2]); $('#precioUrgenciaE').val(datosI[3]);
 				$('#precioME').val(datosI[10]); $('#precioUrgenciaME').val(datosI[11]); $('#precioES').val(datosI[7]);
 				$('#precioUrgenciaS').val(datosI[8]); $('#precioHO').val(datosI[12]); $('#precioEM').val(datosI[13]); $('#precioUrgenciaM').val(datosI[14]);
+				$("#linea_se").val(datosI[17]);
 			});
 
 			$('#formEstudio').validator().on('submit', function (e) {

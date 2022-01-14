@@ -8,9 +8,9 @@ require("../../../Connections/horizonte.php");
 		if($existsT){ $precio_nor = $_GET['idSu'].'_precio'; $precio_ur = $_GET['idSu'].'_precio_u'; }
 		else{ $precio_nor = 'c.precio_to'; $precio_ur = 'c.precio_urgencia_to'; }
 		
-		$aColumns = array('c.id_to', 'g.nombre_generico_med', 'c.concepto_to', 'g.cantidad_med', 'g.presentacion_med', 'g.via_administracion_med', 'g.nivel_med', 'g.grupo_med','c.costo_maquila_to',$precio_nor, 'c.precio_h', 'c.precio1_to', 'c.id_to', 'c.id_to','c.id_to', 'c.id_to', 'c.id_to', 'c.id_to');
+		$aColumns = array('c.id_to', 'g.nombre_generico_med', 'c.concepto_to', 'g.cantidad_med', 'g.presentacion_med', 'g.via_administracion_med', 'g.nivel_med', 'g.grupo_med','c.costo_maquila_to',$precio_nor, 'c.precio_h', 'c.precio1_to', 'c.id_to','c.linea_c','c.id_to','c.id_to', 'c.id_to', 'c.id_to', 'c.id_to');
 	}else{
-		$aColumns = array('c.id_to', 'g.nombre_generico_med', 'c.concepto_to', 'g.cantidad_med', 'g.presentacion_med', 'g.via_administracion_med', 'g.nivel_med', 'g.grupo_med','c.costo_maquila_to','c.precio_to', 'c.precio_h', 'c.precio1_to', 'c.id_to', 'c.id_to','c.id_to', 'c.id_to', 'c.id_to', 'c.id_to');
+		$aColumns = array('c.id_to', 'g.nombre_generico_med', 'c.concepto_to', 'g.cantidad_med', 'g.presentacion_med', 'g.via_administracion_med', 'g.nivel_med', 'g.grupo_med','c.costo_maquila_to','c.precio_to', 'c.precio_h', 'c.precio1_to', 'c.id_to','c.linea_c','c.id_to','c.id_to', 'c.id_to', 'c.id_to', 'c.id_to');
 	}
      
     // DB tables to use 
@@ -118,7 +118,7 @@ require("../../../Connections/horizonte.php");
         for ( $j=0 ; $j<count($aColumns) ; $j++ ) { if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; } else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; } }
 
          /* existencias en el inevntario  */
-         $id= $row[13];
+         $id= $row[14];
          if(!empty($id_su)){
             $query = "
             SELECT SUM(existencias)
@@ -136,7 +136,7 @@ require("../../../Connections/horizonte.php");
 		
 		$nombreP = '"'.$row[2].'"';
 		
-		$row[2] = "<span id='$row[13]' onClick='verMedicamento(this.id, $nombreP);' style='cursor:pointer; text-decoration:underline;'>$row[2]</span>";
+		$row[2] = "<span id='$row[14]' onClick='verMedicamento(this.id, $nombreP);' style='cursor:pointer; text-decoration:underline;'>$row[2]</span>";
         if($existencias != ''){
             $row[12]= $existencias;
         }else{

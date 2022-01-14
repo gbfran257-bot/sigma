@@ -24,7 +24,7 @@ $id_del_user = $_SESSION['id'];
         </ul>
         <div class="tab-pane active tap-pane-primary" id="t_compra" role="tabpanel" aria-labelledby="compra-tab"><br>
             <div class="row">
-                <div class="form-group col-md-5 col-sm-5 text-primary">
+                <div class="form-group col-md-4 col-sm-4 text-primary">
                     <label for="producto" class="col-form-label">*PRODUCTO</label>
                     <div style="display:flex;">
                         <select class="form-control form-control-sm" name="producto" id="producto"></select>
@@ -32,12 +32,20 @@ $id_del_user = $_SESSION['id'];
                     </div>
                     <div class="help-block with-errors"></div>
                 </div>
+                <div class="form-group col-md-4 col-sm-4 text-primary">
+                    <!-- <label  id='productoName'  class="col-form-label"></label> <br>
+                    <label id="precioPublicoProd" class="col-form-label"></label> -->
+                </div>
+                <div class="form-group col-md-4 col-sm-4 text-primary">
+                    <label  id='productoName'  class="col-form-label"></label> <br>
+                    <label id="precioPublicoProd" class="col-form-label"></label>
+                </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-4 col-sm-4 text-primary">
                     <label for="costoU" class="col-form-label">* COSTO UNITARIO</label>
                     <input name="costoU" id="costoU" type="Number" class="form-control form-control-sm" required placeholder="Costo unitario">
-                    <div class="help-block with-errors"></div>
+                    <div id="costoAlert" class="help-block with-errors"></div>
                 </div>
                 <div class="form-group col-md-4 col-sm-4 text-primary">
                     <label for="cantidad" class="col-form-label">*CANTIDAD</label>
@@ -64,8 +72,8 @@ $id_del_user = $_SESSION['id'];
                 <div class="form-group col-md-4 col-sm-4 text-primary">
                     <label for="estatus" class="col-form-label">*ENTREGA</label>
                     <select class="form-control form-control-sm" name="estatus" id="estatus">
-                        <option value="1">Entregado</option>
-                        <option value="0">Pendiente</option>
+                        <option value="9">Entregado</option>
+                        <option value="1">Pendiente</option>
                     </select>
                     <div class="help-block with-errors"></div>
                 </div>

@@ -66,9 +66,9 @@ require("../../../funciones/php/values.php");
 
 	if($con_membresia>0){//Tiene membresía vigente
 		if($urgencia==1){//Nocturno
-			$aColumns = array('e.concepto_to', 'a.nombre_a', 'e.precio_mu', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.id_to', 'e.id_to' );
+			$aColumns = array('e.concepto_to', 'a.nombre_a', 'e.precio_mu', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.id_to', 'e.id_to','e.aleatorio_c','e.aleatorio_c');
 		}else{
-			$aColumns = array('e.concepto_to', 'a.nombre_a', 'e.precio_m', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.id_to', 'e.id_to' );
+			$aColumns = array('e.concepto_to', 'a.nombre_a', 'e.precio_m', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.id_to', 'e.id_to','e.aleatorio_c','e.aleatorio_c');
 		}
 		// DB tables to use 
 		$aTables = array( 'conceptos e');
@@ -88,9 +88,9 @@ require("../../../funciones/php/values.php");
 	}else{
 		//if($_GET['idConvenio']==0){//Sin convenios
 			if($urgencia==1){//Nocturno
-				$aColumns = array('e.concepto_to', 'a.nombre_a', $precio_ur, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.id_to', 'e.id_to', 'precio_to' );
+				$aColumns = array('e.concepto_to', 'a.nombre_a', $precio_ur, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.id_to', 'e.id_to', 'precio_to','e.aleatorio_c' );
 			}else{
-				$aColumns = array('e.concepto_to', 'a.nombre_a', $precio_nor, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.id_to', 'e.id_to', 'precio_urgencia_to' );
+				$aColumns = array('e.concepto_to', 'a.nombre_a', $precio_nor, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 'e.id_to', 'e.id_to', 'precio_urgencia_to','e.aleatorio_c' );
 			}
 			// DB tables to use 
 			$aTables = array( 'conceptos e');
@@ -265,18 +265,41 @@ require("../../../funciones/php/values.php");
 				//$row[3] = "<div lang='$row[5]'>$row[3]</div>";
 			}
 		}
-		$contX = 0; $koka = '<table class="table-condensed table-bordered" style="background-color:white; font-size:0.77em; font-weight:bold;">';
+		$contX = 0; 
+		$koka = '<table class="table-condensed table-bordered" style="background-color:white; font-size:0.77em; font-weight:bold;">';
 		
 		mysql_select_db($database_horizonte, $horizonte);
 		$result = mysql_query("SELECT b.base_b from asignar_bases a left join bases b on a.id_base_ab = b.id_b where a.id_estudio_ab = $row[7]", $horizonte) or die (mysql_error()); 
-		while ( $rowX = mysql_fetch_row($result) ){ $contX++;
-			if($contX % 2){ $koka=$koka.'<tr><td>'.$rowX[0].'</td>'; }
-			else{ $koka=$koka.'<td>'.$rowX[0].'</td></tr>'; }
+		while ( $rowX = mysql_fetch_row($result) ){ 
+			$contX++;
+			if($contX % 2){
+				$koka=$koka.'<tr><td>'.$rowX[0].'</td>'; 
+			}
+			else{ 
+				$koka=$koka.'<td>'.$rowX[0].'</td></tr>';
+			}
 		}
-		
 		$koka = $koka.'</table>';
 		
-		$row[4] = "<a tabindex='0' class='btn btn-xs btn-info' role='left' data-toggle='popover' data-trigger='focus' title='LISTA DE ESTUDIOS' data-container='body' data-html='true' data-placement='left' data-content='$koka'><i class='fa fa-info'></i></a>";
+		$contX1 = 0; 
+		$indi = '<table class="table-condensed table-bordered" style="background-color:white; font-size:0.77em; font-weight:bold;">';
+		$sql1 = "SELECT i.indicacion_in from asignar_indicacion ai left join indicaciones i on ai.id_indicacion_ai = i.id_in where ai.aleatorio_ai = '".$row[9]."'";
+		$result1 = mysql_query($sql1, $horizonte) or die (mysql_error()); 
+		while ( $rowX1 = mysql_fetch_array($result1) ){ 
+			$contX1++;
+			if($contX1 % 2){
+				$indi=$indi.'<tr><td>'.$rowX1[0].'</td>'; 
+			}
+			else{ 
+				$indi=$indi.'<td>'.$rowX1[0].'</td></tr>';
+			}
+		}
+		$indi = $indi.'</table>';
+		// echo $sql1;
+
+		$row[4] = "<a tabindex='0' class='btn btn-xs btn-info' role='left' data-toggle='popover' data-trigger='focus' title='LISTA DE ESTUDIOS' data-container='body' data-html='true' data-placement='left' data-content='$koka'><i class='fa fa-info' style='width:15px;'></i></a>";
+
+		$row[5] = "<a tabindex='0' class='btn btn-xs btn-info text-center' role='left' data-toggle='popover' data-trigger='focus' title='LISTA DE INDICACIONES' data-container='body' data-html='true' data-placement='left' data-content='$indi'><i class='fa fa-info' style='width:15px;'></i></a>";
 		
 		$output['aaData'][] = $row;	
     }     

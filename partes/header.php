@@ -157,7 +157,7 @@
                         <?php if($permisos[33]){?> <li style="white-space:nowrap;"><a href="catalogo_medicamentos.php"><i class="fa fa-medkit"></i> MEDICAMENTOS</a></li> <?php } ?>
                         <?php if($permisos[34]){?> <li><a href="#"><i class="fa fa-product-hunt"></i> PRODUCTOS</a></li> <?php } ?>
                         <?php if($permisos[35]){?> <li style="white-space:nowrap;"><a href="#"><i class="fa fa-dollar"></i> CORTE DE CAJA</a></li> <?php } ?>
-                        <?php if($permisos[36]){?> <li><a href="#"><i class="fa fa-stack-exchange"></i> STOCK</a></li> <?php } ?>
+                        <?php if($permisos[36]){?> <li><a href="stock.php"><i class="fa fa-stack-exchange"></i> STOCK</a></li> <?php } ?>
                         <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>
                         <li style="white-space:nowrap;"><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
                        
@@ -225,6 +225,8 @@
                                     <li><a href="catalogo_met_lab.php"><i class="fa fa-flask"></i> METODOS LABORATORIO</a></li>
                                     <li><a href="catalogo_medicamento_g.php"><i class="fa fa-medkit"></i> MEDICAMENTO GENERICO</a></li>
                                     <li><a href="catalogo_estatus.php"><i class="fa fa-briefcase"></i> ESTATUS</a></li>
+                                    <li><a href="catalogo_lineas_cr.php"><i class="fa fa-briefcase"></i> LINEAS CR</a></li>
+                                    <li><a href="catalogo_descuentos.php"><i class="fa fa-briefcase"></i> DESCUENTOS</a></li>
                                 </ul>
                             </li>
                         <?php }?>

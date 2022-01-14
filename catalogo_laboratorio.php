@@ -108,6 +108,7 @@
     <th style="vertical-align:middle;" nowrap><span class="tipo_tabulador">TAB</span></th>
     <th style="vertical-align:middle;" nowrap><span class="tipo_tabulador">TAB</span> UR</th>
     <th style="vertical-align:middle;" nowrap>ÚLTIMA A</th>
+	<th style="vertical-align:middle;" nowrap>LÍNEA</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -118,7 +119,7 @@
             <th></th>
             <th class="text-center" colspan="2">
 				<?php if($_SESSION['MM_UserGroup']==1){ ?>
-					<button type="button" class="btn btn-sm btn-info" onClick="aplicarA(2);">APLICAR PRECIO SUC</button>
+					<button type="button" class="btn btn-sm btn-info" onClick="aplicarA(2);">APLICAR PRECIO CON</button>
 				<?php } ?>
 			</th>
             <th class="text-center" colspan="2">
@@ -131,10 +132,11 @@
 					<button type="button" class="btn btn-sm btn-success" onClick="save_all();">GUARDAR TODO</button>
 				<?php } ?>
 			</th>
+			<th><input type="text" class="form-control input-sm filtrodataTablePrincipal" placeholder="LÍNEA" style="max-width:100px;"/></th>
         </tr>
     </tfoot>
 </table>
-<div style='border:1px solid none; text-align:left;'><table id='ocultarFP' width='' border='0' cellspacing='0' cellpadding='6'> <tr><td>SUCURSAL</td><td><select name='miSucursal' id='miSucursal' class='form-control input-sm'></select></td></tr> </table></div>
+<div style='border:1px solid none; text-align:left;'><table id='ocultarFP' width='' border='0' cellspacing='0' cellpadding='6'> <tr><td>CONVENIO</td><td><select name='miSucursal' id='miSucursal' class='form-control input-sm'></select></td></tr> </table></div>
 </div>
 <div id="auxiliar" class="hidden"></div> <div id="auxiliar1" class="hidden"></div>
 <!-- FIN Contenido -->  
@@ -154,7 +156,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true},{ "bVisible": true }, {"bVisible":true},
-			{"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
+			{"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>Blr<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		buttons: [ {
@@ -485,7 +487,7 @@ function nuevoEstudio(){
 		
 		var datosFts ={idU:$('#id_user').val(), idSucursal:$('#miSucursal').val()}
 		$.post('imagen/estudios/files-serverside/check_formato_lab.php',datosFts).done(function(data1){ $('#input').val(data1);
-																								   
+			$("#linea_lab").load('consultas/consultas/genera/lineasConsulta.php');																								   
 			tinymce.init({
 				selector:'#myModal #input',resize:false,height:$('#referencia').height()*0.48,theme: "modern",
 				plugins: 
@@ -513,6 +515,13 @@ function nuevoEstudio(){
 			$('#cancelMetodo').click(function(e){ $('.campos_met').val(''); $('#new_metodo').addClass('hidden'); });
 			$('#addMetodo').click(function(e) {
 				if($('#nombre_n_met').val()!=''){ agregar_nmet($('#nombre_n_met').val()); }
+				else{$(".alerta_altas").fadeTo(2000,500).slideUp(500,function(){ $(".alerta_altas").slideUp(600); });}
+			});
+
+			$('#btn-new_indicacion').click(function(e) { $('#new_indicacion').removeClass('hidden'); });
+			$('#cancelIndicacion').click(function(e){ $('.campos_ind').val(''); $('#new_indicacion').addClass('hidden'); });
+            $('#addIndicacion').click(function(e) {
+				if($('#nombre_n_ind').val()!=''){ agregar_nind($('#nombre_n_ind').val()); }
 				else{$(".alerta_altas").fadeTo(2000,500).slideUp(500,function(){ $(".alerta_altas").slideUp(600); });}
 			});
 
@@ -649,6 +658,7 @@ function fichaEstudio(idE, na){
 		
 		var datosFts ={idU:$('#id_user').val(), idSucursal:$('#miSucursal').val(), idE:idE}
 		$.post('laboratorio/estudios/files-serverside/check_formato_individual.php',datosFts).done(function(data1x){ 
+			$("#linea_lab").load('consultas/consultas/genera/lineasConsulta.php');	
 			tinymce.remove("#input");
 			tinymce.init({ 
 				selector:'#myModal1 #input',resize:false,height:$('#referencia').height()*0.48,theme: "modern",
@@ -720,8 +730,16 @@ function fichaEstudio(idE, na){
 					$('#content_bases').addClass('hide');
 					$('#content_formato').addClass('hide');
 				}
+				$("#linea_lab").val(datosI[18]);
 				$("#miSucursalNS").load('pacientes/genera/genera_sucursales_ov.php?idU='+$('#id_user').val(),function(response,status,xhr){
 					if (status = "success"){ $("#miSucursalNS").val($('#miSucursal').val()); }
+				});
+
+				$('#btn-new_indicacion').click(function(e) { $('#new_indicacion').removeClass('hidden'); });
+				$('#cancelIndicacion').click(function(e){ $('.campos_ind').val(''); $('#new_indicacion').addClass('hidden'); });
+				$('#addIndicacion').click(function(e) {
+					if($('#nombre_n_ind').val()!=''){ agregar_nind($('#nombre_n_ind').val()); }
+					else{$(".alerta_altas").fadeTo(2000,500).slideUp(500,function(){ $(".alerta_altas").slideUp(600); });}
 				});
 
 				$('#idUsuarioE').val($('#id_user').val()); $('#idEstudioE').val(idE);
@@ -969,6 +987,19 @@ function subirBase(base, noAleatorio, idU, idE){
 	}
 }
 
+
+function agregar_nind(nombre){
+    // var token = $('meta[name="csrf-token"]').attr('content');
+	var datos = {nombre:nombre, id_u:$('#id_user').val()}
+	$.post('laboratorio/bases/files-serverside/agregarNindicacion.php',datos).done(function(data){
+		if(data==1){
+			$('#s_add_indicacion').load('laboratorio/bases/genera/indicaciones.php',function(response,status,xhr){ $("#s_add_indicacion").trigger("chosen:updated");});
+			$('#s_add_indicacion').click();
+			$("#s_add_indicacion").trigger("chosen:updated");
+			swal({title:"INDICACIÓN AGREGADA",type:"success",text:"La indicación se dió de alta correctamente.",timer:1800,showConfirmButton:false});
+		} else{alert(data);}
+	});
+}
 function insertAtCaret(text) { tinymce.get("input").execCommand('mceInsertContent', false, text); $('#inserta_algo').val(''); }
 
 </script>

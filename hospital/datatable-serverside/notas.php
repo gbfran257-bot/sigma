@@ -16,7 +16,7 @@ require("../../funciones/php/values.php");
 	$sJoin = 'left join notas_medicas nm on nm.id_nm = n.id_nota_nh left join usuarios u on u.id_u = n.usuario_nh left join titulos t on t.id_ti = u.id_titulo_u left join hospitalizacion h on h.id_h = n.id_hospitalizacion_nh left join pacientes p on p.id_p = h.id_paciente_h left join venta_conceptos v on v.id_vc = h.id_consulta_vc_h left join orden_venta o on o.referencia_ov = v.referencia_vc';
 	 
     // CONDITIONS
-	$sWhere = "where id_hospitalizacion_nh = '$_GET[id_h]'";	
+	$sWhere = "where id_hospitalizacion_nh = '$_GET[id_h]' AND roll_nh IS NULL";	
 	
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;
@@ -138,15 +138,17 @@ require("../../funciones/php/values.php");
 		$row[0] = "<div align='center'>$hh</div>";
 		
 		$nombre_p = '"'.$row[7].'"';
+        $tUser ="MEDICAS";
+        $estatus = $_GET['estatus'];
 										
-		$row[4] = "<div align='center'><button onClick='ver_nota($row[5], $row[6], $nombre_p, $row[8], $row[4])' lang='$row[4]' class='btn btn-primary btn-xs ver_nota'><i class='fa fa-eye' aria-hidden='true'></i> </button></div>";
+		$row[4] = "<div align='center'><button onClick='ver_nota($row[5], $row[6], $nombre_p, $row[8], $row[4], \"$tUser\",\"$estatus\")' lang='$row[4]' class='btn btn-primary btn-xs ver_nota'><i class='fa fa-eye' aria-hidden='true'></i> </button></div>";
         $id_h = $row[5];
 
         if(($_GET['estatus'] == 'EGRESADO') || $_GET['idU'] != $row[9]){
-            $row[5] = "<div align='center'><button onClick='editar_nota($id_h,$row[6],$nombre_p, $row[8], $idNota)' lang='' class='btn btn-primary btn-xs ver_nota' disabled ='true'><i class='fa fa-pencil' aria-hidden='true'></i> </button></div>";
+            $row[5] = "<div align='center'><button onClick='editar_nota($id_h,$row[6],$nombre_p, $row[8], $idNota,\"$tUser\",\"$estatus\")' lang='' class='btn btn-primary btn-xs ver_nota' disabled ='true'><i class='fa fa-pencil' aria-hidden='true'></i> </button></div>";
 
         }else{
-            $row[5] = "<div align='center'><button onClick='editar_nota($id_h,$row[6],$nombre_p, $row[8], $idNota)' lang='' class='btn btn-primary btn-xs ver_nota'><i class='fa fa-pencil' aria-hidden='true'></i> </button></div>";
+            $row[5] = "<div align='center'><button onClick='editar_nota($id_h,$row[6],$nombre_p, $row[8], $idNota, \"$tUser\",\"$estatus\")' lang='' class='btn btn-primary btn-xs ver_nota'><i class='fa fa-pencil' aria-hidden='true'></i> </button></div>";
         }
 		$output['aaData'][] = $row;
 		

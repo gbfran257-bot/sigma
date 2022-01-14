@@ -3,6 +3,7 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
 
  $idC = sqlValue($_POST["id"], "int");
+ $linea = sqlValue($_POST["linea"], "text");
  $idUsuario = sqlValue($_POST["idU"], "int");
  $pm = sqlValue($_POST["pm"], "int");
  $temporal = sqlValue($_POST["temporal"], "text");
@@ -19,7 +20,7 @@ require("../../funciones/php/values.php");
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
 
  mysql_select_db($database_horizonte, $horizonte);
- $sql = "UPDATE conceptos set concepto_to = $concepto, id_area_to = $area, precio_to = $precio, precio_urgencia_to = $precioU, precio_m = $precioM, precio_mu = $precioMU, precio_h = $precioH, c_costo = $precio_costoproduccion, honorarios_c = $honorario_c, honorarios_cu = $honorario_cu where id_to = $idC limit 1";
+ $sql = "UPDATE conceptos set concepto_to = $concepto, id_area_to = $area, precio_to = $precio, precio_urgencia_to = $precioU, precio_m = $precioM, precio_mu = $precioMU, precio_h = $precioH, c_costo = $precio_costoproduccion, honorarios_c = $honorario_c, honorarios_cu = $honorario_cu, linea_c = $linea where id_to = $idC limit 1";
   
 $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	

@@ -91,7 +91,7 @@
     <th style="vertical-align:middle;">MÉDICO</th>
     <th style="vertical-align:middle;">ESPECIALIDAD</th>
     <th style="vertical-align:middle; white-space:nowrap;" nowrap>TIEMPO DE ESPERA</th>
-    <th style="vertical-align:middle;">SUCURSAL</th>
+    <th style="vertical-align:middle;">CONVENIO</th>
     <th style="vertical-align:middle;">ESTATUS</th>
 	<th style="vertical-align:middle;">NOTA</th>
 	<th style="vertical-align:middle;">RECETA</th>
@@ -105,7 +105,7 @@
             <th><input type="text" class="form-control" placeholder="-MÉDICO-" onKeyUp="conMayusculas(this);"/></th>
             <th><input type="text" class="form-control" placeholder="-ESPECIALIDAD-" onKeyUp="conMayusculas(this);"/></th>
             <th></th>
-            <th><input style="width:110px;" type="text" class="form-control" placeholder="-SUCURSAL-" onKeyUp="conMayusculas(this);"/></th>
+            <th><input style="width:110px;" type="text" class="form-control" placeholder="-CONVENIO-" onKeyUp="conMayusculas(this);"/></th>
             <th><input style="width:100px;" type="text" class="form-control" placeholder="-ESTATUS-" onKeyUp="conMayusculas(this);"/></th>
 			<th></th>
 			<th></th>

@@ -50,6 +50,11 @@ require("../../../funciones/php/values.php");
 		default: $urgencia=0; $rowHl[1] = '000000000';
 	}
 	
+	if(isset($_GET['idSucursal']) && !empty($_GET['idSucursal'])){
+		$idSucu = $_GET['idSucursal'];
+	}else{
+		$idSucu = 0;
+	}
 	//Checamos si tiene membresía el paciente y si está vigente
 	mysql_select_db($database_horizonte, $horizonte);
 	$resultMeV = mysql_query("SELECT count(id_me) from membresias where id_paciente_me = '$_GET[idP]'", $horizonte) or die (mysql_error());
@@ -75,7 +80,7 @@ require("../../../funciones/php/values.php");
 		// Indexed column (used for fast and accurate table cardinality) 
 		$sIndexColumn = "e.id_to";
 		 // Joins   
-		$sJoin = 'left join areas a on a.id_a = e.id_area_to left join convenios c on c.id_cv = e.id_convenio_to left join stock_has_bach s on s.id_Producto = e.id_to';
+		$sJoin = 'left join areas a on a.id_a = e.id_area_to left join convenios c on c.id_cv = e.id_convenio_to left join stock_has_bach s on s.id_Producto = e.id_to left join stock s1 on s.id_stock = s1.id';
 		// CONDITIONS
 		$lista = '0';
 		mysql_select_db($database_horizonte, $horizonte);
@@ -84,7 +89,7 @@ require("../../../funciones/php/values.php");
 		while ($fila = mysql_fetch_array($query)) {
 			$lista = $lista.','.$fila['id_concepto_es'];
 		};//echo $lista;
-		$sWhere = "WHERE e.id_tipo_concepto_to = 5 and s.existencias > 0 GROUP by e.concepto_to asc";
+		$sWhere = "WHERE e.id_tipo_concepto_to = 5 and s.existencias > 0 and s1.id_su = $idSucu GROUP by e.concepto_to asc";
 	}else{
 		if($_GET['idConvenio']==0){//Sin convenios
 			if($urgencia==1){//Nocturno
@@ -97,7 +102,7 @@ require("../../../funciones/php/values.php");
 			// Indexed column (used for fast and accurate table cardinality) 
 			$sIndexColumn = "e.id_to";
 			 // Joins   
-			$sJoin = 'left join areas a on a.id_a = e.id_area_to left join convenios c on c.id_cv = e.id_convenio_to left join stock_has_bach s on s.id_Producto = e.id_to';
+			$sJoin = 'left join areas a on a.id_a = e.id_area_to left join convenios c on c.id_cv = e.id_convenio_to left join stock_has_bach s on s.id_Producto = e.id_to left join stock s1 on s.id_stock = s1.id';
 			// CONDITIONS
 			$lista = '0';
 			mysql_select_db($database_horizonte, $horizonte);
@@ -106,7 +111,7 @@ require("../../../funciones/php/values.php");
 			while ($fila = mysql_fetch_array($query)) {
 				$lista = $lista.','.$fila['id_concepto_es'];
 			};//echo $lista;
-			$sWhere = "WHERE e.id_tipo_concepto_to = 5 and s.existencias > 0 ";
+			$sWhere = "WHERE e.id_tipo_concepto_to = 5 and s.existencias > 0 and s1.id_su = $idSucu";
 		}
 		else{//Con algún convenio
 			if($urgencia==1){
@@ -119,7 +124,7 @@ require("../../../funciones/php/values.php");
 			// Indexed column (used for fast and accurate table cardinality) 
 			$sIndexColumn = "cb.id_cb";
 			 // Joins   
-			$sJoin = 'left join convenios_paciente cp on cp.id_cvp = cb.id_convenio_paciente_cb left join convenios cv on cv.id_cv = cp.id_convenio_cvp left join asigna_conceptos_convenios acc on acc.id_ac = cb.id_concepto_convenio_cb left join conceptos c on c.id_to = acc.id_concepto_ac left join areas a on a.id_a = c.id_area_to left join stock_has_bach s on s.id_Producto = e.id_to';
+			$sJoin = 'left join convenios_paciente cp on cp.id_cvp = cb.id_convenio_paciente_cb left join convenios cv on cv.id_cv = cp.id_convenio_cvp left join asigna_conceptos_convenios acc on acc.id_ac = cb.id_concepto_convenio_cb left join conceptos c on c.id_to = acc.id_concepto_ac left join areas a on a.id_a = c.id_area_to left join stock_has_bach s on s.id_Producto = e.id_to left join stock s1 on s.id_stock = s1.id';
 			// CONDITIONS
 			$lista = '0';
 			mysql_select_db($database_horizonte, $horizonte);
@@ -128,7 +133,7 @@ require("../../../funciones/php/values.php");
 			while ($fila = mysql_fetch_array($query)) {
 				$lista = $lista.','.$fila['id_conceptos_beneficios'];
 			};//echo $lista;
-			$sWhere = "WHERE cb.id_cb not in ($lista) and c.id_tipo_concepto_to = 5 and cv.id_cv = '$_GET[idConvenio]' and cb.id_paciente_cb = '$_GET[idP]' and s.existencias > 0 ";
+			$sWhere = "WHERE cb.id_cb not in ($lista) and c.id_tipo_concepto_to = 5 and cv.id_cv = '$_GET[idConvenio]' and cb.id_paciente_cb = '$_GET[idP]' and s.existencias > 0 and s1.id_su = $idSucu";
 		}
 	}
 

@@ -29,10 +29,12 @@ while ($fila = mysql_fetch_assoc($compras)) {
                 $fila["cantidad"].
     "		</td>".
     "		<td>";
-if( $fila["estatus"] == 0){
+if( $fila["estatus"] == 1){
                 $salida .= "PENDIENTE";
-}else if( $fila["estatus"]== 1){
+}else if( $fila["estatus"]== 9){
                 $salida .= "ENTREGADO";
+}else if( $fila["estatus"]== 17){
+                 $salida .= "TRANSFERIDO";
 }			
 $salida .="	</td>".
     "		<td>".

@@ -11,9 +11,9 @@ require("../../../Connections/horizonte.php");
 			$precio_nor = 'c.precio_to'; $precio_ur = 'c.precio_urgencia_to';
 		}
 		
-		$aColumns = array('c.id_to','c.concepto_to', $precio_nor,$precio_ur, 'c.costo_maquila_to','c.costo_maquila_u_to', 'c.precio1_to','c.precio_urgencia1_to','c.id_to');
+		$aColumns = array('c.id_to','c.concepto_to', $precio_nor,$precio_ur, 'c.costo_maquila_to','c.costo_maquila_u_to', 'c.precio1_to','c.precio_urgencia1_to','c.linea_c','c.id_to');
 	}else{
-		$aColumns = array('c.id_to', 'c.concepto_to', 'c.precio_to','c.precio_urgencia_to', 'c.costo_maquila_to','c.costo_maquila_u_to', 'c.precio1_to','c.precio_urgencia1_to','c.id_to');
+		$aColumns = array('c.id_to', 'c.concepto_to', 'c.precio_to','c.precio_urgencia_to', 'c.costo_maquila_to','c.costo_maquila_u_to', 'c.precio1_to','c.precio_urgencia1_to','c.linea_c','c.id_to');
 	}
 	    
     // DB tables to use 
@@ -163,7 +163,7 @@ require("../../../Connections/horizonte.php");
 		$row[0]="<span>$hh</span>";
 		
 		if($_GET['accesoU']==1){
-			$row[1]= "<span class='text-info' style='cursor:pointer; text-decoration:underline;' id='$row[8]' lang='$row[1]' onClick='fichaEstudio(this.id, this.lang);'>$row[1]</span>";
+			$row[1]= "<span class='text-info' style='cursor:pointer; text-decoration:underline;' id='$row[9]' lang='$row[1]' onClick='fichaEstudio(this.id, this.lang);'>$row[1]</span>";
 		}
 		else{ $row[1]="<span id='$row[4]'>$row[1]</span>"; }
 										

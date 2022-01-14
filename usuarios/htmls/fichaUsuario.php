@@ -451,10 +451,16 @@ $id_del_user = $_SESSION['id'];
                         <label for="nombre_to" class="col-form-label">* NOMBRE DEL CONCEPTO</label>
                         <input name="nombre_to" id="nombre_to" type="text" class="form-control form-control-sm" placeholder="Nombre del concepto">
                     </div>
-                    <div class="form-group col-md-5 col-sm-5 col-lg-5 text-primary">
-                        <label for="area_to" class="col-form-label">* ÁREA</label>
-                        <select name="area_to" id="area_to" class="form-control form-control-sm"></select>
-                    </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-md-6 col-sm-6 col-lg-6 text-primary">
+                      <label for="area_to" class="col-form-label">* ÁREA</label>
+                      <select name="area_to" id="area_to" class="form-control form-control-sm"></select>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 col-lg-6 text-primary">
+                      <label for="linea_to" class="col-form-label">* LÍNEA</label>
+                      <select name="linea_to" id="linea_to" class="form-control form-control-sm"></select>
+                  </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-3 col-sm-3 col-lg-3 text-primary">

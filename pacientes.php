@@ -96,7 +96,7 @@
     <th style="vertical-align:middle;">EDAD</th>
     <th style="vertical-align:middle;">SEXO</th>
     <th style="vertical-align:middle;">TELÉFONO</th>
-    <th style="vertical-align:middle;">SUCURSAL</th>
+    <th style="vertical-align:middle;">CONVENIO</th>
     <th style="vertical-align:middle;">CONVENIOS</th>
     <th style="vertical-align:middle;">OV</th>
     <th style="vertical-align:middle;">FMTS</th>
@@ -115,7 +115,7 @@
             <th></th>
             <th><!--<input style="width:65px" type="text" class="form-control input-sm" placeholder="-SEXO-"/>--></th>
             <th></th>
-            <th><input type="text" class="form-control input-sm" placeholder="-SUCURSAL-"style="width:90px"/></th>
+            <th><input type="text" class="form-control input-sm" placeholder="-CONVENIO-"style="width:90px"/></th>
             <th></th>
             <th></th>
             <th></th>
@@ -1593,7 +1593,7 @@ function nuevaVisita(idP, nombreP){
 			"scrollX":true, "fnFooterCallback":function(nRow, aaData, iStart, iEnd, aiDisplay){
 				$('body').popover({ selector: '[data-toggle="popover"]', 'trigger': 'hover', 'placement': 'auto' }); //$('[data-toggle="popover"]').popover({ }); 
 			}, scroller:false, responsive:true,
-			"aoColumns":[{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true}],
+			"aoColumns":[{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true}],
 			"sDom": '<"">r<""t><""S><"">', 
 			deferRender: true, select: { style: 'single' }, "processing": false, "sAjaxSource": "pacientes/js/datatable-serverside/buscar_estudios_laboratorio.php",
 			"fnServerParams": function (aoData, fnCallback) {
@@ -1619,6 +1619,7 @@ function nuevaVisita(idP, nombreP){
 			} );
 		} );
 		//fin filtros individuales por campo de texto
+		 	
 		oTableEla.on( 'select', function ( e, dt, type, indexes ) {
 			$('.depende_lab').removeClass('hidden');
 			var rowData = oTableEla.rows( indexes ).data().toArray(); //alert(rowData[0][6]); //alert(rowData[0][9]);
@@ -2442,22 +2443,36 @@ function ubicacion(ubi){
 	});
 }
 function cancelar_ov(idVC,nombreP,refe){
-	$('#pacienteCancelOV').text(nombreP); $('#refCancelOV').text(refe);
-	swal({
-	  title: "CANCELAR LA ORDEN DE VENTA "+refe, text: "¿Estás seguro de cancelar la orden?", type: "warning",
-	  showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "Cancelarla", 
-	  cancelButtonText: "Cerrar", closeOnConfirm: false
-	},
-	function(){
-	  var datosCOV = {refe:refe}
-		$.post('pacientes/files-serverside/cancelarOV.php',datosCOV).done(function( data ) { 
-			if (data==1){ window.setTimeout(function(){$('#clickme_hv, #clickme').click();},300);
-				swal({
-				  title: "", type: "success", text: "La orden de venta se ha cancelado", timer: 2000, showConfirmButton: false
-				}); return;
-			} else{alert(data);} 
+	$("#myModal2").load("pacientes/htmls/cancelar_OV.php", function(response,status,xhr){ if(status == "success"){
+		$('#titulo_modal').text('CANCELACIÓN DE LA ORDEN DE VENTA ' + refe);
+
+		$('#form_cov').validator().on('submit', function (e) {
+		  if (e.isDefaultPrevented()) { // handle the invalid form...
+		  } else { // everything looks good!
+			e.preventDefault(); 
+			$('#pacienteCancelOV').text(nombreP); $('#refCancelOV').text(refe);
+			swal({
+			title: "CANCELAR LA ORDEN DE VENTA "+refe +" DEL PACIENTE "+nombreP, text: "¿Estás seguro de cancelar la orden?", type: "warning",
+			showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "Cancelarla", 
+			cancelButtonText: "Cerrar", closeOnConfirm: false
+			},
+			function(){
+			var datosCOV = {refe:refe, motivo: $("#m_cancelacion").val()}
+				$.post('pacientes/files-serverside/cancelarOV.php',datosCOV).done(function( data ) { 
+					if (data==1){ window.setTimeout(function(){$('#clickme_hv, #clickme').click(); $('#myModal2').modal('hide');},300);
+						swal({
+						title: "", type: "success", text: "La orden de venta se ha cancelado", timer: 2000, showConfirmButton: false
+						}); return;
+					} else{alert(data);} 
+				});
+			});
+		  }
 		});
-	});
+				
+		$('#myModal2').modal('show');
+		$('#myModal2').on('shown.bs.modal', function (e){ });
+		$('#myModal2').on('hidden.bs.modal', function (e) { $("#myModal2").empty(); });
+	} });
 }
 
 function initMap() { }

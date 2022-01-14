@@ -79,7 +79,8 @@
     <th style="vertical-align:middle;">INGRESO</th>
     <th style="vertical-align:middle;">UBICACIÓN</th>
     <th style="vertical-align:middle;">TRATANTE</th>
-    <th style="vertical-align:middle;">NOTAS</th>
+	<th style="vertical-align:middle;">NOTAS_E</th>
+    <th style="vertical-align:middle;">NOTAS_M</th>
     <th style="vertical-align:middle;" nowrap>ECE</th>
     <th style="vertical-align:middle;">MEDICAMENTOS</th>
 	<th style="vertical-align:middle;">SV/HC</th>
@@ -92,17 +93,18 @@
 	<tfoot>
         <tr class="bg-primary">
             <th></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Paciente" style="width: 100%;"/></th>
+            <th><input type="text" class="form-control input-sm" placeholder="Paciente"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="Fecha ingreso"/></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Ubicación"/></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Médico tratante"/></th>
+            <th><input type="text" class="form-control input-sm" placeholder="Ubicación" style="width: 90%;"/></th>
+            <th><input type="text" class="form-control input-sm" placeholder="Médico tratante" style="width: 100%;"/></th>
             <th></th>
+			<th></th>
             <th></th>
 			<th></th>
 			<th></th>
 			<th></th>
 			<th></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Estatus"/></th>
+            <th><input type="text" class="form-control input-sm" placeholder="Estatus" style="width: 90%;"/></th>
 			<th><input type="text" class="form-control input-sm" placeholder="Fecha egreso"/></th>
         </tr>
     </tfoot>
@@ -126,7 +128,7 @@ $(document).ready(function(e) {
 		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
-			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},
+			{"bVisible":true}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},
 			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
@@ -355,7 +357,53 @@ function guardar_add_medi(id_h, id_p, id_m, indicacion){
 		}else{alert(data);}
 	});
 }
-function notasMedicas(id_h, id_p, nombre_p, id_s, estatus){
+function notasMedicasEnfermeria(id_h, id_p, nombre_p, id_s, estatus,tUser){
+	$("#myModal").load('hospital/htmls/notas.php', function( response, status, xhr ){ if(status=="success"){
+		$('#titulo_modal').text('NOTAS DE HOSPITAL PARA EL PACIENTE '+nombre_p);
+		
+		window.setTimeout(function(){
+			var tam = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height() - $('#breadc').height() - 245;
+			var oTableN = $('#dataTableNotas').DataTable({
+				serverSide: true,"sScrollY": tam, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
+				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ){ }, scroller: false, responsive: true,
+				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true } ],
+				"sDom": '<"filtro1Principal"><"data_tPrincipal"t><"infoPrincipal"S><"proc">',
+				deferRender: true, select: false, "processing": false, "sAjaxSource": "hospital/datatable-serverside/notasEnf.php?id_h="+id_h,
+				"fnServerParams": function(aoData, fnCallback){
+					var idU = $('#id_user').val();
+					var estado = estatus;
+					// var tUsert = tUser;
+					aoData.push( {"name": "estatus", "value": estado } );
+					aoData.push( {"name": "idU", "value": idU } );
+					// aoData.push( {"name": "tUser", "value": tUsert } );
+				 },
+				"oLanguage": {
+					"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
+					"sInfo": "NOTAS FILTRADAS: _END_", "sInfoEmpty": "NINGUNA NOTA FILTRADA.", "sInfoFiltered": " TOTAL DE NOTAS: _MAX_", "sSearch": "",
+					"oPaginate": { "sNext": "<span class='paginacionPrincipal'>Siguiente</span>", "sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;" }
+				},"iDisplayLength": 500, paging: true, "bDestroy" : true
+			});
+
+			// $('#clickmeFmts').click(function(e) { oTable.draw(); });
+			//  window.setTimeout(function(){$('#clickmeFmts').click();},500);
+
+			//para los fintros individuales por campo de texto
+			oTableN.columns().every( function () {
+				var that = this;
+				$( 'input', this.footer() ).on( 'keyup change', function () { if ( that.search() !== this.value ) { that .search( this.value ) .draw(); } } );
+			}); //fin filtros individuales por campo de texto
+			if(estatus == 'EGRESADO' || (tUser != 4 && tUser != "ENFERMERIA")){
+				$('#btn_nueva_nota').addClass('hide');
+			}
+			var tUser1 = "ENFERMERIA";
+			$('#btn_nueva_nota').click(function(e){ nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1); });			
+		},200);
+	
+		$('#myModal').modal('show'); $('#myModal').on('shown.bs.modal', function (e){});
+		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
+	}});
+}
+function notasMedicas(id_h, id_p, nombre_p, id_s, estatus,tUser){
 	$("#myModal").load('hospital/htmls/notas.php', function( response, status, xhr ){ if(status=="success"){
 		$('#titulo_modal').text('NOTAS DE HOSPITAL PARA EL PACIENTE '+nombre_p);
 		
@@ -370,8 +418,10 @@ function notasMedicas(id_h, id_p, nombre_p, id_s, estatus){
 				"fnServerParams": function(aoData, fnCallback){
 					var idU = $('#id_user').val();
 					var estado = estatus;
+					// var tUsert = tUser;
 					aoData.push( {"name": "estatus", "value": estado } );
 					aoData.push( {"name": "idU", "value": idU } );
+					// aoData.push( {"name": "tUser", "value": tUsert } );
 				 },
 				"oLanguage": {
 					"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
@@ -380,17 +430,17 @@ function notasMedicas(id_h, id_p, nombre_p, id_s, estatus){
 				},"iDisplayLength": 500, paging: true, "bDestroy" : true
 			});
 
-			$('#clickmeFmts').click(function(e) { oTable.draw(); }); window.setTimeout(function(){$('#clickmeFmts').click();},500);
+			// $('#clickmeFmts').click(function(e) { oTable.draw(); }); window.setTimeout(function(){$('#clickmeFmts').click();},500);
 
 			//para los fintros individuales por campo de texto
 			oTable.columns().every( function () {
 				var that = this;
 				$( 'input', this.footer() ).on( 'keyup change', function () { if ( that.search() !== this.value ) { that .search( this.value ) .draw(); } } );
 			}); //fin filtros individuales por campo de texto
-			if(estatus == 'EGRESADO'){
+			if(estatus == 'EGRESADO' || (tUser == 4 || tUser == "ENFERMERIA")){
 				$('#btn_nueva_nota').addClass('hide');
 			}
-			$('#btn_nueva_nota').click(function(e){ nueva_nota(id_h, id_p, nombre_p, id_s); });			
+			$('#btn_nueva_nota').click(function(e){ nueva_nota(id_h, id_p, nombre_p, id_s, tUser); });			
 		},200);
 	
 		$('#myModal').modal('show'); $('#myModal').on('shown.bs.modal', function (e){});
@@ -398,7 +448,7 @@ function notasMedicas(id_h, id_p, nombre_p, id_s, estatus){
 	}});
 }
 	
-function ver_nota(id_h, id_p, nombre_p, id_s, id_n){ $('#myModal').modal('hide');
+function ver_nota(id_h, id_p, nombre_p, id_s, id_n, tUser, estatus){ $('#myModal').modal('hide');
 	window.setTimeout(function(){
 		$("#myModal1").load('hospital/htmls/notas.php', function( response, status, xhr ){ if(status=="success"){
 			$('#titulo_modal').text('NOTA DE HOSPITAL PACIENTE '+nombre_p); $('#contenido_tabi').html(''); $('#btn_print').removeClass('hidden');
@@ -411,12 +461,19 @@ function ver_nota(id_h, id_p, nombre_p, id_s, id_n){ $('#myModal').modal('hide')
 			
 			$('#myModal1').modal('show'); $('#myModal1').on('shown.bs.modal', function (e){});
 			$('#myModal1').on('hidden.bs.modal', function (e) {
-				$(".modal-content").remove(); $("#myModal1").empty(); window.setTimeout(function(){notasMedicas(id_h, id_p, nombre_p, id_s);},300);
+				$(".modal-content").remove(); $("#myModal1").empty(); 
+				window.setTimeout(function(){
+					if(tUser == "ENFERMERIA"){
+						notasMedicasEnfermeria(id_h, id_p, nombre_p, id_s, estatus, tUser);
+					}else{
+						notasMedicas(id_h, id_p, nombre_p, id_s, estatus, tUser);
+					}
+				},300);	
 			});
 		}});
 	},300);
 }
-function editar_nota(id_h, id_p, nombre_p, id_s, id_n){ 
+function editar_nota(id_h, id_p, nombre_p, id_s, id_n, tUser, estatus){ 
 	$('#myModal').modal('hide');
 	window.setTimeout(function(){
 		$("#myModalx").load('consultas/htmls/ficha_consulta.php', function( response, status, xhr ){ 
@@ -430,7 +487,28 @@ function editar_nota(id_h, id_p, nombre_p, id_s, id_n){
 				$('#titulo_modal').text('NOTA DE HOSPITAL PACIENTE '+nombre_p);
 				$('#contenido_tabi').html('');
 				$('#btn_print').removeClass('hidden');
-
+				tinymce.init({ 
+					selector:'#notaMedicaC',resize:false,height:$('#myModalx').height()*0.45,theme: "modern",
+					plugins: 
+						"table, charmap, emoticons, textcolor colorpicker, hr, image imagetools, image, insertdatetime, lists, noneditable, pagebreak, paste, preview, print, visualblocks, wordcount, code, importcss",
+					table_default_styles: { width: '100%' },
+					relative_urls: true, image_advtab: true, menubar: false, plugin_preview_width: $('#referencia').width()*0.8,
+					toolbar: 
+						"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP |",
+					insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
+					paste_data_images: true, paste_as_text: true, browser_spellcheck: true, 
+					setup: function (editor) {
+						editor.addButton( 'mybuttonVP', {
+							text: 'VPI', icon: false, tooltip: 'Vista previa de impresión',
+							onclick:function(){
+								var res = tinyMCE.get("notaMedicaC").getContent().replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); //alert(res);
+								$('#dpa_imprimir1').html(res).css('background-image','url(imagenes/vista_previa.png)').css('background-size','65%');
+								$('#dpa_imprimir1').html(res); $('#dpa_imprimir1').printElement();
+							}
+						});
+					}
+				});
+				tinymce.remove("#notaMedicaC");
 				tinymce.init({ 
 					selector:'#notaMedicaC',resize:false,height:$('#myModalx').height()*0.45,theme: "modern",
 					plugins: 
@@ -597,21 +675,25 @@ function editar_nota(id_h, id_p, nombre_p, id_s, id_n){
 						swal({ title:"",type:"success",text:"LOS DATOS DE LA NOTA HAN SIDO GUARDADOS.", timer:2000,showConfirmButton:false }); $('#myModalx').modal('hide');
 					}else{alert(data);} });
 				});
-				$('#salirSGconsulta').click(function(e) { 
-					$('#myModalx').on('hidden.bs.modal', function (e) {
-						tinymce.remove("#notaMedicaC");
-						$(".modal-content").remove(); 
-						$("#myModalx").empty();
-					});
-				});-
-				$('#myModalx').modal('show'); 
-				$('#myModalx').on('shown.bs.modal', function (e){});
+				// $('#salirSGconsulta').click(function(e){ 
+				// 	if(tUser == "ENFERMERIA"){
+				// 		notasMedicasEnfermeria(id_h, id_p, nombre_p, id_s, estatus, tUser);
+				// 	}else{
+				// 		notasMedicas(id_h, id_p, nombre_p, id_s, estatus, tUser);
+				// 	}
+				// });
+			$('#myModalx').modal('show'); 
+			$('#myModalx').on('shown.bs.modal', function (e){});
 			$('#myModalx').on('hidden.bs.modal', function (e) {
 				tinymce.remove("#notaMedicaC");
 				$(".modal-content").remove(); 
 				$("#myModalx").empty();
 				window.setTimeout(function(){
-					notasMedicas(id_h, id_p, nombre_p, id_s);
+					if(tUser == "ENFERMERIA"){
+						notasMedicasEnfermeria(id_h, id_p, nombre_p, id_s, estatus, tUser);
+					}else{
+						notasMedicas(id_h, id_p, nombre_p, id_s, estatus, tUser);
+					}
 				},300);
 			});
 		}});
@@ -706,7 +788,7 @@ function tomar_sv(idP,control,idC, id_s, nombre_p){ //si control es 1 al cerrar 
 	});
 }
 	
-function nueva_nota(id_h, id_p, nombre_p, id_s){ $('#myModal').modal('hide'); window.setTimeout(function(){
+function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').modal('hide'); window.setTimeout(function(){
 	$("#myModalx").load('consultas/htmls/ficha_consulta.php', function( response, status, xhr ){ if(status=="success"){ tinymce.remove("#notaMedicaC");
 		$('#titulo_modal').text('NOTA PARA EL PACIENTE '+nombre_p);
 		$('#idUsuario_hc').val($('#id_user').val()); $('#id_cons').val(id_h); $('#idPaciente_c').val(id_p);
@@ -715,7 +797,6 @@ function nueva_nota(id_h, id_p, nombre_p, id_s){ $('#myModal').modal('hide'); wi
 						
 		$('#b_agregarSignosC').click(function(e) { tomar_sv(id_p,2,id_h, id_s, nombre_p); });
 																													   
-		$('#salirSGconsulta').click(function(e){ window.setTimeout(function(){notasMedicas(id_h, id_p, nombre_p, id_s);},400); });
 																													   
 		$('#hospitalizarP, #tabs_receta, #tabs_imagenes, #finalizarConsulta').remove();
 		$('#tabRevisiones').hide(); $('#imprimirNotaE').hide(); $('#imprimirRecetaF').hide();
@@ -873,7 +954,6 @@ function nueva_nota(id_h, id_p, nombre_p, id_s){ $('#myModal').modal('hide'); wi
 				$('#notaMedicaC').val(data);
 			});
 		});
-		$('#salvarConsulta').click(function(e) { salvarConsulta(id_h, id_p, $("#tipoNotaMed").val(), nombre_p, id_s); });
 																													   
 		//Cargamos los datos de los Signos Vitales y Cargamos los datos de Historia Clínica
 		cargar_todo_signos_vitales(id_p,id_h); cargar_todo_historia_clinica(id_p,id_h,id_s,nombre_p);
@@ -922,18 +1002,33 @@ function nueva_nota(id_h, id_p, nombre_p, id_s){ $('#myModal').modal('hide'); wi
 				}
 			});
 		},400);
+		$('#salirSGconsulta').click(function(e){ window.setTimeout(function(){
+			if(tUser1 == "ENFERMERIA"){
+				notasMedicasEnfermeria(id_h, id_p, nombre_p, id_s,'HOSPITALIZADO',tUser);
+			}else{
+				notasMedicas(id_h, id_p, nombre_p, id_s,'HOSPITALIZADO',tUser);
+			}
+		},400); });
+		$('#salvarConsulta').click(function(e) { salvarConsulta(id_h, id_p, $("#tipoNotaMed").val(), nombre_p, id_s, tUser, tUser1); });
 	
 		$('#myModalx').modal('show'); $('#myModalx').on('shown.bs.modal', function (e) { });
-		$('#myModalx').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModalx").empty(); });
+		$('#myModalx').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModalx").empty(); tinymce.remove("#notaMedicaC"); });
 	}});		
 },400); }
 	
-function salvarConsulta(idC, idP, idN, nombre_p, id_s){
+function salvarConsulta(idC, idP, idN, nombre_p, id_s, tUser,tUser1){
 	var str = tinyMCE.get('notaMedicaC').getContent(); 
 	var datosGC = { idC:idC, idU:$('#id_user').val(), notaDictamen:str, idP:idP, idN:idN } 
 	$.post('hospital/files-serverside/salvarNota.php',datosGC).done(function(data){ if(data == 1){ $('#clickme, #clickmeFmts').click();
 		swal({ title:"",type:"success",text:"LOS DATOS DE LA NOTA HAN SIDO GUARDADOS.", timer:2000,showConfirmButton:false }); $('#myModalx').modal('hide');
-		window.setTimeout(function(){notasMedicas(idC, idP, nombre_p, id_s)},500);
+		window.setTimeout(function(){
+			if(tUser1 == "ENFERMERIA"){
+				notasMedicasEnfermeria(idC, idP, nombre_p, id_s,'HOSPITALIZADO',tUser);
+			}else{
+				notasMedicas(idC, idP, nombre_p, id_s,'HOSPITALIZADO',tUser);
+			}
+				
+			},500);
 	}else{alert(data);} });
 }
 	

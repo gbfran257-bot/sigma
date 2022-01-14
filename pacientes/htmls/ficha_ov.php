@@ -8,7 +8,7 @@
 				<tr>
 					<td><strong><span id="titulo_modal">NUEVA ORDEN DE VENTA</span></strong></td>
 					<td align="right">
-						<button type="submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin' aria-hidden='true'></i> Procesando..." class="btn btn-success btn-sm" id="btn_save1">Guardar</button>
+						<button type="submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin' aria-hidden='true'></i> Procesando..." class="btn btn-success btn-sm" id="btn_save1">Finalizar</button>
             			<button type="button" class="btn btn-warning btn-sm" data-dismiss="modal" id="btn_cancel1">Cancelar</button>
 					</td>
 				</tr>
@@ -401,6 +401,7 @@
                                         <th align="center">PRECIO</th>
                                         <th align="center">BENEFICIO</th>
                                         <th align="center">INFO</th>
+                                        <th align="center">INDICA</th>
                                       </tr>
                                     </thead>
                                     <tbody align="left"> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
@@ -414,6 +415,7 @@
                                             </th>
                                             <th> </th>
                                             <th><select id="beneficio_l" name="beneficio_l" class="form-control input-sm" style=""> </select></th>
+                                            <th> </th>
                                             <th> </th>
                                         </tr>
                                     </tfoot>

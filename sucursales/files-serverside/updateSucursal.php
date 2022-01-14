@@ -6,7 +6,8 @@ mysql_select_db($database_horizonte, $horizonte);
  $idSu = sqlValue($_POST["idSucursal"], "int");
  
  $temporal = sqlValue($_POST["temporal_s"], "text");
- $latitud = $_POST["p_latitud_s"]; $longitud = $_POST["p_longitud_s"];
+ if($_POST["p_latitud_s"]==''){$latitud = 0.0;}else{$latitud = $_POST["p_latitud_s"];}
+ if($_POST["p_longitud_s"]==''){$longitud = 0.0;}else{$longitud = $_POST["p_longitud_s"];}
  
  $clave = sqlValue(mb_strtoupper($_POST["claveS"]), "text");
  $nombre = sqlValue(mb_strtoupper($_POST["nombreS"]), "text");

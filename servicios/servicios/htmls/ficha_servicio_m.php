@@ -63,6 +63,12 @@
                      <select name='miSucursalNS' class="form-control input-sm" id='miSucursalNS' required></select>
                      </div>
                 </div>
+                <div class="col-sm-6 col-md-6 ">
+                    <div class="form-group">
+                     <label for="linea_se">* LÍNEA</label>
+                     <select name='linea_se' class="form-control input-sm" id='linea_se' required></select>
+                     </div>
+                </div>
             </div>
             
 			<div role="tabpanel" class="tab-pane" id="tTabulador"><br>

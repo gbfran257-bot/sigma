@@ -85,9 +85,10 @@
     <th style="vertical-align:middle;" nowrap>PRECIO URGENCIA</th>
     <th style="vertical-align:middle;" nowrap>TAB MAQUILA</th>
     <th style="vertical-align:middle;" nowrap>TAB MAQUILA U</th>
-    <th style="vertical-align:middle;" nowrap>TAB SUCURSAL</th>
-    <th style="vertical-align:middle;" nowrap>TAB SUCURSAL U</th>
+    <th style="vertical-align:middle;" nowrap>TAB CONVENIO</th>
+    <th style="vertical-align:middle;" nowrap>TAB CONVENIO U</th>
     <th style="vertical-align:middle;" nowrap>DICOM</th>
+	<th style="vertical-align:middle;" nowrap>LÍNEA</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -102,10 +103,11 @@
             <th></th>
             <th></th>
             <th></th>
+			<th><input type="text" class="form-control input-sm" placeholder="Línea" style="max-width:100px;"/></th>
         </tr>
     </tfoot>
 </table>
-<div style='border:1px solid none; text-align:left;'><table id='ocultarFP' width='' border='0' cellspacing='0' cellpadding='6'> <tr><td>SUCURSAL&nbsp;</td><td><select name='miSucursal' id='miSucursal' class='form-control input-sm'></select></td></tr> </table></div>
+<div style='border:1px solid none; text-align:left;'><table id='ocultarFP' width='' border='0' cellspacing='0' cellpadding='6'> <tr><td>CONVENIO&nbsp;</td><td><select name='miSucursal' id='miSucursal' class='form-control input-sm'></select></td></tr> </table></div>
 </div>
 <div id="auxiliar" class="hidden"></div> <div id="auxiliar1" class="hidden"></div>
 <!-- FIN Contenido -->  
@@ -124,7 +126,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
-			{"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
+			{"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
@@ -186,7 +188,7 @@ function nuevoEstudio(){
 				}
 			});
 			$('#idUsuarioE').val($('#id_user').val()); $('#areaE').load('imagen/estudios/genera/areasEstudios.php', function(response, status, xhr){ });
-
+			$("#linea_img").load('consultas/consultas/genera/lineasConsulta.php');
 			tinymce.init({
 				selector:'#myModal #input',resize:false,height:$('#referencia').height()*0.48,theme: "modern",
 				plugins: 
@@ -237,7 +239,7 @@ function fichaEstudio(idE, nameE){
 		var datosFts ={idU:$('#id_user').val(), idSucursal:$('#miSucursal').val(), idE:idE}
 		$.post('imagen/estudios/files-serverside/check_formato_individual.php',datosFts).done(function(data1x){ tinymce.remove("#input"); //$('#input').val(data1);
 			$('#btn_save1').text('Actualizar'); $('#titulo_modal').text('FICHA DEL ESTUDIO: '+nameE); 
-			
+			$("#linea_img").load('consultas/consultas/genera/lineasConsulta.php');
 			tinymce.init({ 
 				selector:'#myModal1 #input',resize:false,height:$('#referencia').height()*0.48,theme: "modern",
 				plugins: 
@@ -275,6 +277,7 @@ function fichaEstudio(idE, nameE){
 				$('#precioEM').val(datosI[13]); $('#precioUrgenciaM').val(datosI[14]); $('#precioES').val(datosI[7]);
 				$('#precioUrgenciaS').val(datosI[8]); //window.setTimeout(function(){tinymce.get('input').setContent(datosI[4]);},400);
 				$('#dicom_i').val(datosI[9]); $('#precioME').val(datosI[10]); $('#precioUrgenciaME').val(datosI[11]); $('#precioHO').val(datosI[12]);
+				$("#linea_img").val(datosI[17]);
 			});
 
 			$('#formEstudio').validator().on('submit', function (e) {

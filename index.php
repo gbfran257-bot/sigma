@@ -401,8 +401,8 @@
                 </div>
             <?php } ?>
             <?php if($permisos[35]){?>
-                <div class="col-md-2">
-                    <a href="compras.php"><img src="imagenes/ig/CorteCaja-01.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"
+                <div class="col-md-2" style="width:13%">
+                    <a href="compras.php"><img src="imagenes/ig/compras.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"
                     id="farmacia_corte_caja"
                     onmouseenter="cambiar(this.id);" 
                     onmouseleave="returner(this.id);"
@@ -411,7 +411,7 @@
             <?php } ?>
             <?php if($permisos[36]){?>
                 <div class="col-md-2">
-                    <a href="#"><img src="imagenes/menu/_stock.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"
+                    <a href="stock.php"><img src="imagenes/menu/_stock.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"
                     id="farmacia_stock"
                     onmouseenter="cambiar(this.id);" 
                     onmouseleave="returner(this.id);"
@@ -722,7 +722,7 @@
         'lab_bitacoras':'bitacoras_a.png',
 
         //farmacia
-        'farmacia_corte_caja':'corte_caja_a.png',
+        'farmacia_corte_caja':'compra_a.png',
         'farmacia_stock':'stock_a.png',
         'farmacia_productos':'productos_a.png',
         'farmacia_medicamentos':'medicamentos_a.png',
@@ -816,7 +816,7 @@
         'servicios_m':'_servicios_m.png',
 
             //farmacia
-        'farmacia_corte_caja':'CorteCaja-01.png',
+        'farmacia_corte_caja':'compras.png',
         'farmacia_stock':'_stock.png',
         'farmacia_productos':'Productos-01.png',
         'farmacia_medicamentos':'Medicamentos-01.png',

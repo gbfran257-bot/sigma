@@ -542,6 +542,7 @@ function nuevoUsuario(){
 			var idC = $("#coloniaP").find(':selected').text();var idE = $("#estadoP").find(':selected').text();var idM = $("#municipioP").find(':selected').text();
 			$("#cpP").load('usuarios/files-serverside/genera_cp.php?idC='+escape(idC)+'&idE='+escape(idE)+'&idM='+escape(idM));
 		});
+		$("#linea_to").load('consultas/consultas/genera/lineasConsulta.php');
 		$("#area_to").load('consultas/consultas/genera/areasConsulta.php'); $('#btn_cancel_add_concepto').text('Cancelar');
 		$('#btn_add_concepto').removeClass('hidden'); $('#btn_update_concepto,#btn_del_concepto').addClass('hidden');
 		
@@ -553,11 +554,11 @@ function nuevoUsuario(){
         });
 		
 		$('#panel_concepto input').keyup(function(e) {
-            if($('#nombre_to').val()!='' & $('#area_to').val()!='' & $('#precio_n').val()!='' & $('#precio_u').val()!='' & $('#precio_m').val()!='' & $('#precio_mu').val()!=''){ $('#btn_add_concepto, #btn_update_concepto').removeClass('disabled'); }
+            if($('#nombre_to').val()!='' & $('#area_to').val()!='' & $('#linea_to').val()!='' & $('#precio_n').val()!='' & $('#precio_u').val()!='' & $('#precio_m').val()!='' & $('#precio_mu').val()!=''){ $('#btn_add_concepto, #btn_update_concepto').removeClass('disabled'); }
 			else{$('#btn_add_concepto, #btn_update_concepto').addClass('disabled');}
         });
 		$('#area_to').change(function(e) {
-            if($('#nombre_to').val()!='' & $('#area_to').val()!='' & $('#precio_n').val()!='' & $('#precio_u').val()!='' & $('#precio_m').val()!='' & $('#precio_mu').val()!=''){ $('#btn_add_concepto, #btn_update_concepto').removeClass('disabled'); }
+            if($('#nombre_to').val()!='' & $('#area_to').val()!='' & $('#linea_to').val()!='' & $('#precio_n').val()!='' & $('#precio_u').val()!='' & $('#precio_m').val()!='' & $('#precio_mu').val()!=''){ $('#btn_add_concepto, #btn_update_concepto').removeClass('disabled'); }
 			else{$('#btn_add_concepto, #btn_update_concepto').addClass('disabled');}
         });
 		
@@ -590,7 +591,7 @@ function nuevoUsuario(){
             if($(this).hasClass('disabled')){
 				swal({title: "", type: "error", text: "Debe completar todos los campos.", timer: 1300, showConfirmButton: false});
 			}else{ $('#btn_add_concepto').addClass('disabled');
-				var datos = {nombre:$('#nombre_to').val(), area:$('#area_to').val(), precio:$('#precio_n').val(), precioU:$('#precio_u').val(), precioM:$('#precio_m').val(), precioMU:$('#precio_mu').val(), idU:$('#idUsuarioP').val(), temporal:tempo, precio_h:$('#precio_h').val(),precio_costoproduccion:$('#precio_costoproduccion').val(),honorario_c:$('#honorario_c').val(),honorario_cu:$('#honorario_cu').val()}
+				var datos = {nombre:$('#nombre_to').val(), area:$('#area_to').val(), linea:$('#linea_to').val(), precio:$('#precio_n').val(), precioU:$('#precio_u').val(), precioM:$('#precio_m').val(), precioMU:$('#precio_mu').val(), idU:$('#idUsuarioP').val(), temporal:tempo, precio_h:$('#precio_h').val(),precio_costoproduccion:$('#precio_costoproduccion').val(),honorario_c:$('#honorario_c').val(),honorario_cu:$('#honorario_cu').val()}
 				$.post('usuarios/files-serverside/addConcepto.php',datos).done(function( data ) {
 					if (data==1){//si el paciente se Actualizó 
 						$('#clickmeTos').click(); $('#btn_cancel_add_concepto').click();
@@ -603,7 +604,7 @@ function nuevoUsuario(){
             if($(this).hasClass('disabled')){
 				swal({title: "", type: "error", text: "Debe completar todos los campos.", timer: 1300, showConfirmButton: false});
 			}else{ $('#btn_update_concepto').addClass('disabled');
-				var datos = {id:$('#mi_id_to').val(),nombre:$('#nombre_to').val(), area:$('#area_to').val(),precio:$('#precio_n').val(),precioU:$('#precio_u').val(),precioM:$('#precio_m').val(),precioMU:$('#precio_mu').val(),idU:$('#idUsuarioP').val(),temporal:tempo,precioH:$('#precio_h').val(),precio_costoproduccion:$('#precio_costoproduccion').val(),honorario_c:$('#honorario_c').val(),honorario_cu:$('#honorario_cu').val()}
+				var datos = {id:$('#mi_id_to').val(),nombre:$('#nombre_to').val(), area:$('#area_to').val(),linea:$('#linea_to').val(),precio:$('#precio_n').val(),precioU:$('#precio_u').val(),precioM:$('#precio_m').val(),precioMU:$('#precio_mu').val(),idU:$('#idUsuarioP').val(),temporal:tempo,precioH:$('#precio_h').val(),precio_costoproduccion:$('#precio_costoproduccion').val(),honorario_c:$('#honorario_c').val(),honorario_cu:$('#honorario_cu').val()}
 				$.post('usuarios/files-serverside/updateConcepto.php',datos).done(function( data ) {
 					if (data==1){//si el paciente se Actualizó 
 						$('#clickmeTos').click(); $('#btn_cancel_add_concepto').click();
@@ -1087,6 +1088,7 @@ function verUsuario(idU, nombre_u, tempi_u){
 			$('#sabado_de1').val(dato[46]); $('#sabado_a1').val(dato[47]);
 			$('#domingo_de1').val(dato[48]); $('#domingo_a1').val(dato[49]);
 			
+			$("#linea_to").load('consultas/consultas/genera/lineasConsulta.php');
 			$("#area_to").load('consultas/consultas/genera/areasConsulta.php'); $('#btn_cancel_add_concepto').text('Cancelar');
 			$('#btn_add_concepto').removeClass('hidden'); $('#btn_update_concepto,#btn_del_concepto').addClass('hidden');
 			
@@ -1098,11 +1100,11 @@ function verUsuario(idU, nombre_u, tempi_u){
 			});
 			
 			$('#panel_concepto input').keyup(function(e) {
-				if($('#nombre_to').val()!='' & $('#area_to').val()!='' & $('#precio_n').val()!='' & $('#precio_u').val()!='' & $('#precio_m').val()!='' & $('#precio_mu').val()!=''){ $('#btn_add_concepto, #btn_update_concepto').removeClass('disabled'); }
+				if($('#nombre_to').val()!='' & $('#area_to').val()!='' & $('#linea_to').val()!=''  & $('#precio_n').val()!='' & $('#precio_u').val()!='' & $('#precio_m').val()!='' & $('#precio_mu').val()!=''){ $('#btn_add_concepto, #btn_update_concepto').removeClass('disabled'); }
 				else{$('#btn_add_concepto, #btn_update_concepto').addClass('disabled');}
 			});
 			$('#area_to').change(function(e) {
-				if($('#nombre_to').val()!='' & $('#area_to').val()!='' & $('#precio_n').val()!='' & $('#precio_u').val()!='' & $('#precio_m').val()!='' & $('#precio_mu').val()!=''){ $('#btn_add_concepto, #btn_update_concepto').removeClass('disabled'); }
+				if($('#nombre_to').val()!='' & $('#area_to').val()!='' & $('#linea_to').val()!='' & $('#precio_n').val()!='' & $('#precio_u').val()!='' & $('#precio_m').val()!='' & $('#precio_mu').val()!=''){ $('#btn_add_concepto, #btn_update_concepto').removeClass('disabled'); }
 				else{$('#btn_add_concepto, #btn_update_concepto').addClass('disabled');}
 			});
 			
@@ -1131,7 +1133,7 @@ function verUsuario(idU, nombre_u, tempi_u){
 				if($(this).hasClass('disabled')){
 					swal({title: "", type: "error", text: "Debe completar todos los campos.", timer: 1300, showConfirmButton: false});
 				}else{ $('#btn_add_concepto').addClass('disabled');
-					var datos = {nombre:$('#nombre_to').val(), area:$('#area_to').val(), precio:$('#precio_n').val(), precioU:$('#precio_u').val(), precioM:$('#precio_m').val(), precioMU:$('#precio_mu').val(), idU:$('#idUsuarioP').val(), temporal:tempo, precio_h:$('#precio_h').val(),precio_costoproduccion:$('#precio_costoproduccion').val(),honorario_c:$('#honorario_c').val(),honorario_cu:$('#honorario_cu').val()}
+					var datos = {nombre:$('#nombre_to').val(), area:$('#area_to').val(), linea:$('#linea_to').val(), precio:$('#precio_n').val(), precioU:$('#precio_u').val(), precioM:$('#precio_m').val(), precioMU:$('#precio_mu').val(), idU:$('#idUsuarioP').val(), temporal:tempo, precio_h:$('#precio_h').val(),precio_costoproduccion:$('#precio_costoproduccion').val(),honorario_c:$('#honorario_c').val(),honorario_cu:$('#honorario_cu').val()}
 					$.post('usuarios/files-serverside/addConcepto.php',datos).done(function( data ) {
 						if (data==1){//si el paciente se Actualizó 
 							$('#clickmeTos').click(); $('#btn_cancel_add_concepto').click();
@@ -1144,7 +1146,7 @@ function verUsuario(idU, nombre_u, tempi_u){
 				if($(this).hasClass('disabled')){
 					swal({title: "", type: "error", text: "Debe completar todos los campos.", timer: 1300, showConfirmButton: false});
 				}else{ $('#btn_update_concepto').addClass('disabled');
-					var datos = {id:$('#mi_id_to').val(),nombre:$('#nombre_to').val(), area:$('#area_to').val(),precio:$('#precio_n').val(),precioU:$('#precio_u').val(),precioM:$('#precio_m').val(),precioMU:$('#precio_mu').val(),idU:$('#idUsuarioP').val(),temporal:tempo,precioH:$('#precio_h').val(),precio_costoproduccion:$('#precio_costoproduccion').val(),honorario_c:$('#honorario_c').val(),honorario_cu:$('#honorario_cu').val(), pm:$('#idUsuarioN').val(), cambioGlobal: $("#cambioGlobal_cg").prop("checked")}
+					var datos = {id:$('#mi_id_to').val(),nombre:$('#nombre_to').val(), area:$('#area_to').val(), linea:$('#linea_to').val(),precio:$('#precio_n').val(),precioU:$('#precio_u').val(),precioM:$('#precio_m').val(),precioMU:$('#precio_mu').val(),idU:$('#idUsuarioP').val(),temporal:tempo,precioH:$('#precio_h').val(),precio_costoproduccion:$('#precio_costoproduccion').val(),honorario_c:$('#honorario_c').val(),honorario_cu:$('#honorario_cu').val(), pm:$('#idUsuarioN').val(), cambioGlobal: $("#cambioGlobal_cg").prop("checked")}
 					$.post('usuarios/files-serverside/updateConcepto.php',datos).done(function( data ) {
 						if (data==1){//si el paciente se Actualizó 
 							$('#clickmeTos').click(); $('#btn_cancel_add_concepto').click();
@@ -1521,7 +1523,7 @@ function editar_concepto(idC){ $('#mi_id_to').val(idC);
 		$('#panel_concepto').removeClass('hidden'); $('#btn_cancel_add_concepto').text('Cerrar');
 		var dato = data.split('{}*');
 		$('#nombre_to').val(dato[0]); $('#area_to').val(dato[1]); $('#precio_n').val(dato[2]); $('#precio_u').val(dato[3]);
-		$('#precio_m').val(dato[4]); $('#precio_mu').val(dato[5]); $('#precio_h').val(dato[7]); $('#precio_costoproduccion').val(dato[8]); $('#honorario_c').val(dato[9]); $('#honorario_cu').val(dato[10]); $('#btn_update_concepto').removeClass('disabled');
+		$('#precio_m').val(dato[4]); $('#precio_mu').val(dato[5]); $('#precio_h').val(dato[7]); $('#precio_costoproduccion').val(dato[8]); $('#honorario_c').val(dato[9]); $('#honorario_cu').val(dato[10]); $('#linea_to').val(dato[11]); $('#btn_update_concepto').removeClass('disabled');
 		if(dato[6]>1){ $('#btn_del_concepto').addClass('hidden'); $('#btn_del_concepto').addClass('disabled');}
 		else{ $('#btn_del_concepto').removeClass('hidden'); $('#btn_del_concepto').removeClass('disabled'); }
 	});

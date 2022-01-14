@@ -29,10 +29,17 @@
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="tEstudio"><br>
             	<input name="idUsuarioE" id="idUsuarioE" type="hidden" value="">
-                <div class="col-sm-12 col-xs-12 col-md-12">
+                <div class="col-sm-6 col-xs-6 col-md-6">
                     <div class="form-group">
                      <label for="nombreE">* NOMBRE DEL ESTUDIO</label>
                      <input type="text" class="form-control input-sm" id="nombreE" name="nombreE" required>
+                     </div>
+                </div>
+				<div class="col-sm-6 col-xs-6 col-md-6">
+                    <div class="form-group">
+                     <label for="linea_lab">* LÍNEA</label>
+                     <select name="linea_lab" id="linea_lab" class="form-control input-sm" required>
+                     </select>
                      </div>
                 </div>
                 <div class="col-sm-6 col-xs-6 col-md-6">

@@ -84,15 +84,16 @@
     <th style="vertical-align:middle; white-space:nowrap;" nowrap>PRECIO H</th>
     <th style="vertical-align:middle; white-space:nowrap;" nowrap>PRECIO M</th>
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>EXISTENCIAS</th>
+	<th style="vertical-align:middle; white-space:nowrap;" nowrap>LÍNEA</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
         <tr class="bg-primary">
             <th></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Nombre genérico"/></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Nombre comercial"/></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Cantidad" style="max-width:100px;"/></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Presentación"/></th>
+            <th><input type="text" class="form-control input-sm" placeholder="Nombre genérico"  style="max-width:100px;"/></th>
+            <th><input type="text" class="form-control input-sm" placeholder="Nombre comercial" /></th>
+            <th><input type="text" class="form-control input-sm" placeholder="Cantidad" style="max-width:80px;"/></th>
+            <th><input type="text" class="form-control input-sm" placeholder="Presentación" style="max-width:90px;"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="Vía" style="max-width:90px;"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="Nivel" style="max-width:90px;"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="Grupo" style="max-width:100px;"/></th>
@@ -101,10 +102,11 @@
             <th></th>
             <th></th>
 			<th></th>
+			<th><input type="text" class="form-control input-sm" placeholder="Línea" style="max-width:100px;"/></th>
         </tr>
     </tfoot>
 </table>
-<div style='border:1px solid none; text-align:left;'><table id='ocultarFP' width='' border='0' cellspacing='0' cellpadding='6'> <tr><td>SUCURSAL</td><td><select name='miSucursal' id='miSucursal' class='form-control input-sm'></select></td></tr> </table></div>
+<div style='border:1px solid none; text-align:left;'><table id='ocultarFP' width='' border='0' cellspacing='0' cellpadding='6'> <tr><td>CONVENIO</td><td><select name='miSucursal' id='miSucursal' class='form-control input-sm'></select></td></tr> </table></div>
 </div>
 <div id="auxiliar" class="hidden"></div> <div id="auxiliar1" class="hidden"></div>
 <!-- FIN Contenido -->  
@@ -123,7 +125,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
-			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
@@ -177,7 +179,7 @@ function nuevoEstudio(){
 				$.post('servicios/servicios/files-serverside/datosSucursalU.php',datosUS).done(function(data){ $("#miSucursalNS").val(data); });
 			}
 		});
-		
+		$("#linea_med").load('consultas/consultas/genera/lineasConsulta.php');
 		$('#id_user_reg_m').val($('#id_user').val());
 		var tamM = $('#referencia').height() - $('#my_footer').height() - 160;
 		var oTableM = $('#dataTableM').DataTable({
@@ -273,7 +275,7 @@ function verMedicamento(id_medi, nombre_m){
 	$("#myModalx").load("farmacia/medicamentos/htmls/ficha_medicamento_c.php",function(response,status,xhr){ if(status=="success"){
 		$('#id_user_reg_m').val($('#id_user').val()); $('#id_med_up').val(id_medi); $('#medicamento_base').removeClass('hidden');
 		$('#titulo_modal').text('FICHA DEL MEDICAMENTO '+nombre_m); $('#guardarM').text('Actualizar');
-		
+		$("#linea_med").load('consultas/consultas/genera/lineasConsulta.php');
 		var tamM = $('#referencia').height() - $('#my_footer').height() - 144;
 		var oTableM = $('#dataTableM').DataTable({
 			serverSide: true,"sScrollY": 100, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
@@ -323,7 +325,7 @@ function verMedicamento(id_medi, nombre_m){
 			$("#miSucursalNS").load('pacientes/genera/genera_sucursales_ov.php?idU='+$('#id_user').val(),function(response,status,xhr){
 				if (status = "success"){ $("#miSucursalNS").val($('#miSucursal').val()); }
 			});
-			
+			$("#linea_med").val(datos[21]);
 			$('#cat_riesgo_e, #tex_cat_re').text(datos[5]); //alert(rowData[0][4]);
 			$('#tex_presentacion').text(datos[6]); $('#tex_via').text(datos[7]); $('#tex_dosis').val(datos[8]);
 			$('#tex_generalidades').text(datos[9]); $('#tex_interacciones').text(datos[10]);

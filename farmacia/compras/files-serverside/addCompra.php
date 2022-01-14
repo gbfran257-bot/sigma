@@ -10,7 +10,7 @@ $fecha1="'".date('Y-m-d')." 00:00:00"."'";
 $fecha2="'".date('Y-m-d')." 23:59:59"."'";
 $da = date('Ymd');
     
-
+    //generamos la referencia
     mysql_select_db($database_horizonte, $horizonte);
     $resultR = mysql_query("SELECT count(id), max(contador) from stock_has_bach where fecha_registro between ".$fecha1." and ".$fecha2." ", $horizonte) or die(mysql_error());
     $rowR = mysql_fetch_row($resultR);
@@ -24,7 +24,7 @@ $da = date('Ymd');
         $noRef=$da."-".$daa;
         $noRef="'".$noRef."'";
         $contador = $daa;
-    }
+    }//fin generamos la referencia
 
     for ($i=0; $i < count($compras); $i++) { 
         $lote = sqlValue($compras[$i]['lote'],"text");

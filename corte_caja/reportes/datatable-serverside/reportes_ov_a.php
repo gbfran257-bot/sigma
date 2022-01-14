@@ -3,7 +3,7 @@
 <?php
 	// consulta para horizonte
 	$obligatorio = 0;
-	$aColumns = array('pa.referencia_pag','pa.referencia_pag', 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'ov.subtotal_ov', 'SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov)', 'ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv', 'ov.gran_total_ov', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'ov.gran_total_ov-SUM(pa.pago_pag)', 'p.amaterno_p', 'ov.no_temp_ov', 'ov.no_temp_ov', 'ov.sucursal_ov','DATE_FORMAT(ov.fecha_venta_ov,"%d/%m/%Y %H:%i")');
+	$aColumns = array('pa.referencia_pag','pa.referencia_pag', 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'ov.subtotal_ov', 'SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov)', 'ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv', 'ov.gran_total_ov', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'ov.gran_total_ov-SUM(pa.pago_pag)', 'p.amaterno_p', 'ov.no_temp_ov', 'ov.no_temp_ov', 'ov.sucursal_ov','DATE_FORMAT(ov.fecha_venta_ov,"%d/%m/%Y %H:%i")','pa.referencia_pag');
      
     // DB tables to use 
     $aTables = array( 'orden_venta ov');
@@ -36,6 +36,7 @@
 			}else{$sWhere = "WHERE 1=1 " ;}
 		}
 	}
+    mysql_select_db($database_horizonte, $horizonte);
     $resultSu = mysql_query("SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[usuario]'",$horizonte) or die (mysql_error());
 	$rowAU = mysql_fetch_row($resultSu); $id_suc = sqlValue($rowAU[1], "int");
 	
@@ -256,7 +257,7 @@
 		};
 		
 		$row[4]="<select lang='$row[16]' class='form-control input-sm cambiar_suc' style='width:100%;' onChange='cambiar_suc(this.value, this.lang)'>$sucs</select>";
-		$row[1] ="$row[1]<br><span style='font-size:12px'>$row[18]</span>";		
+		$row[1] ="<span lang='$row[1]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[1]</span><br><span style='font-size:12px'>$row[18]</span>";		
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );

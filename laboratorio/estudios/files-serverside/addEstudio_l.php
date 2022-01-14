@@ -3,6 +3,7 @@ require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
 
  $idUsuario = sqlValue($_POST["idUsuarioE"], "int");
+ $linea = sqlValue($_POST["linea_lab"], "text");
  $nombre = sqlValue(mb_strtoupper($_POST["nombreE"]), "text");
  $precio = sqlValue($_POST["precioE"], "double");
  $precioU = sqlValue($_POST["precioUrgenciaE"], "double");
@@ -26,14 +27,14 @@ require("../../../funciones/php/values.php");
 		$precio_nor = $_POST['miSucursalNS'].'_precio'; $precio_ur = $_POST['miSucursalNS'].'_precio_u';
 		
 		mysql_select_db($database_horizonte, $horizonte);
- 		$sql = "INSERT INTO conceptos (usuario_to, concepto_to, $precio_nor, $precio_ur, id_area_to, formato, fecha_to, id_departamento_to, id_tipo_concepto_to, precio_to, precio_urgencia_to, aleatorio_c, dias_entrega_to, precio_m, precio_mu, precio_h, costo_maquila_to, costo_maquila_u_to)";
- 		$sql.= "VALUES ($idUsuario, $nombre, $precioMa, $precioMaU, $idArea, $formato, $now, 1, 3, $precio, $precioU, $noTemp, $dEntrega, $precioM, $precioMU, $precioH, $precioM, $precioMU)"; 
+ 		$sql = "INSERT INTO conceptos (usuario_to, concepto_to, $precio_nor, $precio_ur, id_area_to, formato, fecha_to, id_departamento_to, id_tipo_concepto_to, precio_to, precio_urgencia_to, aleatorio_c, dias_entrega_to, precio_m, precio_mu, precio_h, costo_maquila_to, costo_maquila_u_to,linea_c)";
+ 		$sql.= "VALUES ($idUsuario, $nombre, $precioMa, $precioMaU, $idArea, $formato, $now, 1, 3, $precio, $precioU, $noTemp, $dEntrega, $precioM, $precioMU, $precioH, $precioM, $precioMU,$linea)"; 
 	}else{
 		$precio_nor = 'precio_to'; $precio_ur = 'precio_urgencia_to';
 		
 		mysql_select_db($database_horizonte, $horizonte);
- 		$sql = "INSERT INTO conceptos (usuario_to, concepto_to, precio_to, precio_urgencia_to, id_area_to, formato, fecha_to, id_departamento_to, id_tipo_concepto_to, aleatorio_c, dias_entrega_to, precio_m, precio_mu, precio_h, costo_maquila_to, costo_maquila_u_to)";
- 		$sql.= "VALUES ($idUsuario, $nombre, $precio, $precioU, $idArea, $formato, $now, 1, 3, $noTemp, $dEntrega, $precioM, $precioMU, $precioH, $precioM, $precioMU)";		
+ 		$sql = "INSERT INTO conceptos (usuario_to, concepto_to, precio_to, precio_urgencia_to, id_area_to, formato, fecha_to, id_departamento_to, id_tipo_concepto_to, aleatorio_c, dias_entrega_to, precio_m, precio_mu, precio_h, costo_maquila_to, costo_maquila_u_to,linea_c)";
+ 		$sql.= "VALUES ($idUsuario, $nombre, $precio, $precioU, $idArea, $formato, $now, 1, 3, $noTemp, $dEntrega, $precioM, $precioMU, $precioH, $precioM, $precioMU,$linea)";		
 	}
   
  $update = mysql_query($sql, $horizonte) or die (mysql_error());

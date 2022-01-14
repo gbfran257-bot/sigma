@@ -62,8 +62,12 @@
                   </div>
                   <div class="form-group">
                     <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2 text-primary" align="right">* NOMBRE COMERCIAL: </div>
-                    <div class="col-md-10 col-sm-10 col-xs-10 col-lg-10">
-                    <input type="text" class="form-control input-sm" placeholder="Ingrese el nombre comercial del medicamento" id="nombre_c_m" name="nombre_c_m" required>
+                    <div class="col-md-5 col-sm-5 col-xs-5 col-lg-5">
+                      <input type="text" class="form-control input-sm" placeholder="Ingrese el nombre comercial del medicamento" id="nombre_c_m" name="nombre_c_m" required>
+                    </div>
+                    <div class="col-md-1 col-sm-1 col-xs-1 col-lg-1 text-primary" align="right">* LÍNEA</div>
+                    <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4">
+                    <select name='linea_med' class="form-control input-sm" id='linea_med' required></select>
                     </div>
                   </div>
                   <div class="form-group">
@@ -97,7 +101,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                  	<div class="col-md-2 col-sm-2 col-xs-2 col-lg-2 text-primary" align="right">* SUCURSAL</div>
+                  	<div class="col-md-2 col-sm-2 col-xs-2 col-lg-2 text-primary" align="right">* CONVENIO</div>
                   	<div class="col-sm-10 col-xs-10 col-md-10 col-lg-10">
                          <select name='miSucursalNS' class="form-control input-sm" id='miSucursalNS' required></select>
                     </div>
