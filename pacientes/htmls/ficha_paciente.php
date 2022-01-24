@@ -16,6 +16,8 @@
             <li role="presentation" class="active"><a href="#tPersonales" aria-controls="tPersonales" role="tab" data-toggle="tab">PERSONALES</a></li>
             <li role="presentation" id="t_tDireccion"><a href="#tDireccion" aria-controls="tDireccion" role="tab" data-toggle="tab">DIRECCIÓN</a></li>
             <li role="presentation"><a href="#tAcceso" aria-controls="tAcceso" role="tab" data-toggle="tab">FISCALES</a></li>
+            <li role="presentation"><a href="#tImagen" aria-controls="tImagen" role="tab" data-toggle="tab">IMAGENES</a></li>
+
         </ul>
         
         <!-- Tab panes -->
@@ -279,6 +281,75 @@
                     </div> </div>
                 </div>
             </div>
+
+            <div role="tabpanel" class="tab-pane" id="tImagen"><br>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 text-center text-primary">
+                        PARA CARGAR UNA NUEVA IMAGEN, INGRESE EL TÍTULO Y SELECCIONE EL ARCHIVO A CARGAR.
+                    </div>
+                    <div class="col-sm-12 " id="img_block_1">
+                        <label class="col-sm-3 col-md-3 text-center" for="">Título de la imagen:</label>
+                        <input name="titulo_foto" type="text" class="form-control col-sm-6 col-md-6" id="titulo_foto" maxlength="50">
+                        <div class="row boton_img  col-sm-3 col-md-3">
+                            <div class="col-sm-6">
+                                <button type="button" class="btn btn-default btn-sm disabled" id="btn_add_doc"><i class="fa fa-file-text fa-4x cel" aria-hidden="true"></i><i class="fa fa-file-text compu fa-1x" aria-hidden="true"></i></button>
+                                <input id="fileupload_foto" type="file" name="files[]" class="hide" accept="image/jpg, image/jpeg, image/png">
+                            </div>
+                            <div class="col-sm-6">
+                                <button type="button" class="btn btn-default btn-sm disabled" id="btn_send_doc"><i class="fa fa-cloud-upload fa-4x cel" aria-hidden="true">                               
+                                </i><i class="fa fa-cloud-upload compu fa-1x" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" class="table-condensed no_document ">
+                        <tr>
+                            <td colspan="3" class="text-primary" align="">
+                                PARA CARGAR UNA NUEVA IMAGEN, INGRESE EL TÍTULO Y SELECCIONE EL ARCHIVO A CARGAR.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="1%" nowrap valign="middle">Título de la imagen</td>
+                            <td align="left">
+                                <input name="titulo_foto" type="text" class="form-control" id="titulo_foto" maxlength="50">
+                            </td>
+                            <td width="1px" nowrap>
+                            <button type="button" class="btn btn-default btn-sm disabled" id="btn_add_doc"><i class="fa fa-file-text fa-4x cel" aria-hidden="true"></i><i class="fa fa-file-text compu fa-1x" aria-hidden="true"></i></button>
+                                <button type="button" class="btn btn-default btn-sm disabled" id="btn_add_doc"><i class="fa fa-file-text" aria-hidden="true"></i></button>
+                            </td>
+                            <td>
+                            <button type="button" class="btn btn-default btn-sm disabled" id="btn_send_doc"><i class="fa fa-cloud-upload" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+                        <tr class="hidden">
+                            <td colspan="3" align="left">
+                                <input id="fileupload_foto" type="file" name="files[]" class="" accept="image/jpg, image/jpeg, image/png">
+                            </td>
+                        </tr>
+                    </table> -->
+                    <div id="progress"> <div class="bar" style="width: 0%;"></div> </div>
+                    <table width="100%" height="96%" border="0" cellpadding="0" cellspacing="0" id="dataTableDocs" class="table table-hover table-striped table-condensed no_document" role="grid"> 
+                    <thead>
+                    <tr role="row" class="bg-info">
+                        <th id="clickmeDocs" class='text-center' nowrap data-priority="1">#</th>
+                        <th class='text-center' data-priority="2" nowrap style="white-space:nowrap;">NOMBRE ARCHIVO</th>
+                        <th class='text-center' data-priority="3" style="white-space:nowrap;">USUARIO CARGÓ</th>
+                        <th class='text-center' nowrap data-priority="4" style="white-space:nowrap;">FECHA</th>
+                        <th class='text-center'nowrap data-priority="4" style="white-space:nowrap;">VER</th>
+                        <!-- <th class='text-center'nowrap data-priority="4" style="white-space:nowrap;">IMAGEN MEMBRESÍA</th> -->
+                        <th class='text-center' nowrap data-priority="5" style="white-space:nowrap;">ELIMINAR</th>
+                    </tr>
+                    </thead> 
+                    <tbody id="tableImg"> 
+                        <tr> 
+                            <td class="dataTables_empty">Cargando datos del servidor</td> 
+                        </tr> 
+                    </tbody> 
+                    </table>
+                    <table id="tablaMiPDF" width="100%" border="0" cellspacing="0" cellpadding="0" class="table-condensed si_document"> <tr> 
+                    <td id="mi_documento" style="vertical-align:middle;"> <a class="media" href=""> </a> </td>
+                    </tr></table>
+                </div>
+            </div>
             
         </div>
 
@@ -291,6 +362,7 @@
       	<div class="form-group">
         <div class="col-sm-offset-0 col-sm-12">
           <div class="checkbox">
+            <button type="button" class="btn btn-info privacidad_hide si_document hidden" onClick="cerrar_ver_doc();" id="btn_salir_document">Regresar</button>
             <button type="submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin' aria-hidden='true'></i> Procesando..." class="btn btn-success" id="btn_new_u"><i class="fa fa-cloud" aria-hidden="true"></i> Guardar</button>
             <button type="button" class="btn btn-warning" data-dismiss="modal" id="btn_cancel_new_u"><i class="fa fa-ban" aria-hidden="true"></i> Cancelar</button>
           </div>

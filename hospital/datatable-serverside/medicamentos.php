@@ -4,7 +4,7 @@ require("../../funciones/php/values.php");
 
 	$idP = sqlValue($_GET["id_p"], "int");
 
-	$aColumns = array('m.id_mh', 'DATE_FORMAT(m.fecha_mh,"%d/%m/%Y")', 'mc.concepto_to', 'concat(t.abreviacion_ti," ",u.nombre_u," ",apaterno_u)', 'm.indicacion_mh', 'm.id_hospitalizacion_mh', 'p.id_p', 'p.nombre_completo_p', 'o.sucursal_ov', 'm.id_mh', 'DATE_FORMAT(m.fecha_mh,"%H:%i:%s")','mc.precio_to','h.estatus_h');
+	$aColumns = array('m.id_mh', 'DATE_FORMAT(m.fecha_mh,"%d/%m/%Y")', 'mc.concepto_to', 'concat(t.abreviacion_ti," ",u.nombre_u," ",apaterno_u)', 'm.indicacion_mh','m.id_mh', 'm.id_hospitalizacion_mh', 'p.id_p', 'p.nombre_completo_p', 'o.sucursal_ov', 'm.id_mh', 'DATE_FORMAT(m.fecha_mh,"%H:%i:%s")','mc.precio_to','h.estatus_h','m.estatus_mh');
      
     // DB tables to use 
     $aTables = array( 'medicamentos_hospital m');
@@ -132,16 +132,22 @@ require("../../funciones/php/values.php");
         }
 		$row[0] = "<div align='center'>$hh</div>";
 		
-		$row[1] = "<div align='center'>$row[1]<br>$row[10]</div>";
-		
-		$nombre_p = '"'.$row[7].'"';
-		
-        if($row[12] == 16){
-            $row[5] = "<div align='center'><button onClick='poner_medi(this.lang, $nombre_p)' id='$row[2]' lang='$row[9]' class='btn btn-primary btn-xs ver_nota' disabled='true'><i class='fa fa-check' aria-hidden='true'></i> </button></div>";
+		$row[1] = "<div align='center'>$row[1]<br>$row[11]</div>";
+
+        $nombre_p = '"'.$row[8].'"';
+
+        if($row[14] == 19){
+            $row[5]= "<div align='center'><button onClick='suspender_medi($row[5],\"$row[2]\", $nombre_p)'  class='btn btn-danger btn-xs ver_nota'><i class='fa fa-ban' aria-hidden='true'></i> </button></div>";
         }else{
-		    $row[5] = "<div align='center'><button onClick='poner_medi(this.lang, \"$row[2]\", $nombre_p)' lang='$row[9]' class='btn btn-primary btn-xs ver_nota'><i class='fa fa-check' aria-hidden='true'></i> </button></div>";
+            $row[5]= "<div align='center'><button onClick='suspender_medi($row[5],\"$row[2]\", $nombre_p)'  class='btn btn-primary btn-xs ver_nota'><i class='fa fa-ban' aria-hidden='true'></i> </button></div>";
         }
-        $row[6] = $row[11];
+		
+        if($row[13] == 16 || $row[14] == 19){
+            $row[6] = "<div align='center'><button onClick='poner_medi(this.lang, $nombre_p)' id='$row[2]' lang='0]' class='btn btn-primary btn-xs ver_nota' disabled='true'><i class='fa fa-check' aria-hidden='true'></i> </button></div>";
+        }else{
+		    $row[6] = "<div align='center'><button onClick='poner_medi(this.lang, \"$row[2]\", $nombre_p)' lang='$row[10]' class='btn btn-primary btn-xs ver_nota'><i class='fa fa-check' aria-hidden='true'></i> </button></div>";
+        }
+        $row[7] = $row[12];
 		
 		$output['aaData'][] = $row;
 		

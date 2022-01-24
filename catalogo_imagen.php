@@ -209,6 +209,47 @@ function nuevoEstudio(){
 					});
 				}
 			});
+			
+			var d = new Date();
+			$('#aleatorioB').val(d.format('Y-m-d-H-i-s-u').substring(0,22));
+			$('#alerta_indicacion, .alerta_altas').hide();
+
+			$('#btn-new_indicacion').click(function(e) { $('#new_indicacion').removeClass('hidden'); });
+			$('#cancelIndicacion').click(function(e){ $('.campos_ind').val(''); $('#new_indicacion').addClass('hidden'); });
+
+			//carga las indicaciones en el select 
+			$("#s_add_indicacion").load('laboratorio/bases/genera/indicaciones.php',function(response,status,xhr){ if(status=="success"){
+				window.setTimeout(function(){ $('#s_add_indicacion').chosen();
+				window.setTimeout(function(){$('#s_add_indicacion_chosen').width(100+'%'); },100); },500);
+			} });
+			var heB = $('#myModal').height();
+			var oTableIeB;
+			oTableIeB = $('#dataTableIndicaciones').DataTable({
+				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { },
+				"bJQueryUI": false,  "bRetrieve": true, "sScrollY": heB*0.4, "bAutoWidth": true, "bStateSave": false, 
+				"bInfo": true, "bFilter": false, "aaSorting": [[0, "asc"]], ordering: false,
+				"aoColumns": [{ "bSortable": false }, { "bSortable": false }, { "bSortable": false }],
+				"iDisplayLength": 50, "bLengthChange": false, "bProcessing": true, "bServerSide": true, 
+				"sAjaxSource": "imagen/estudios/datatable-serverside/indicaciones_seleccionadas.php",
+				"fnServerParams": function (aoData, fnCallback) { var aleatorio = $('#aleatorioB').val(); aoData.push(  {"name": "aleatorio", "value": aleatorio } ); },
+				"sDom": '<"filtroC">l<"infoC">r<"data_tC"t>', "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
+				"oLanguage": { 
+					"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "EL ESTUDIO NO CUENTA CON INDICACIONES", 
+					"sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": "<br/>CONVENIOS: _MAX_", "sSearch": "BUSCAR" 
+				}
+			});
+			
+			$('#btn-add_indicacion').click(function(e){
+				if($('#s_add_indicacion').val()!==''){ subirIndicacion($('#s_add_indicacion').val(),$('#idEstudioE').val(),$('#id_user').val(),$('#aleatorioB').val()); }
+				else{$("#alerta_indicacion").fadeTo(2000,500).slideUp(500,function(){ $("#alerta_indicacion").slideUp(600); });}
+			});
+
+			$('#addIndicacion').click(function(e) {
+				if($('#nombre_n_ind').val()!=''){ agregar_nind($('#nombre_n_ind').val()); }
+				else{$(".alerta_altas").fadeTo(2000,500).slideUp(500,function(){ $(".alerta_altas").slideUp(600); });}
+			});
+
+			$('#clickmeIn').click(function(e){oTableIeB.draw();}); $('#t_tIndicaciones').click(function(e) { oTableIeB.draw(); });
 
 			$('#formEstudio').validator().on('submit', function (e) {
 			  if (e.isDefaultPrevented()) { // handle the invalid form...
@@ -232,7 +273,7 @@ function nuevoEstudio(){
 		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
 	} });
 }
-function fichaEstudio(idE, nameE){
+function fichaEstudio(idE, nameE, aleatorioC){
 	$("#myModal1").load("imagen/estudios/htmls/ficha_estudio.php",function(response,status,xhr){ if(status=="success"){
 		$(".insers").load('genera/inserciones.php', function( response, status, xhr ) { if ( status == "success" ) { } });
 		//Checamos si hay formato de imagen en la sucursal del usuario logueado, sino entonces checamos si hay formato desde configuración, y sino dejar en blanco.
@@ -279,6 +320,51 @@ function fichaEstudio(idE, nameE){
 				$('#dicom_i').val(datosI[9]); $('#precioME').val(datosI[10]); $('#precioUrgenciaME').val(datosI[11]); $('#precioHO').val(datosI[12]);
 				$("#linea_img").val(datosI[17]);
 			});
+			$('#alerta_indicacion, .alerta_altas').hide();
+			$('#aleatorioB').val(aleatorioC);
+
+			$('#btn-new_indicacion').click(function(e) { $('#new_indicacion').removeClass('hidden'); });
+			$('#cancelIndicacion').click(function(e){ $('.campos_ind').val(''); $('#new_indicacion').addClass('hidden'); });
+
+			//carga las indicaciones en el select 
+			$("#s_add_indicacion").load('laboratorio/bases/genera/indicaciones.php',function(response,status,xhr){ if(status=="success"){
+				window.setTimeout(function(){ $('#s_add_indicacion').chosen(); window.setTimeout(function(){$('#s_add_indicacion_chosen').width(100+'%'); },100); },500);
+			} });
+			var heB = $('#myModal').height();
+			var oTableIeB;
+			oTableIeB = $('#dataTableIndicaciones').DataTable({
+				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { },
+				"bJQueryUI": false,  "bRetrieve": true, "sScrollY": heB*0.4, "bAutoWidth": true, "bStateSave": false, 
+				"bInfo": true, "bFilter": false, "aaSorting": [[0, "asc"]], ordering: false,
+				"aoColumns": [{ "bSortable": false }, { "bSortable": false }, { "bSortable": false }],
+				"iDisplayLength": 50, "bLengthChange": false, "bProcessing": true, "bServerSide": true, 
+				"sAjaxSource": "imagen/estudios/datatable-serverside/indicaciones_seleccionadas.php",
+				"fnServerParams": function (aoData, fnCallback) {
+					 var aleatorio = $('#aleatorioB').val(); 
+					//  var idE = $('#idEstudioE').val(); 
+					 
+					 aoData.push(  {"name": "aleatorio", "value": aleatorio } ); 
+					 aoData.push(  {"name": "idE", "value": idE } ); 
+					},
+				"sDom": '<"filtroC">l<"infoC">r<"data_tC"t>', "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
+				"oLanguage": { 
+					"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "EL ESTUDIO NO CUENTA CON INDICACIONES", 
+					"sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": "<br/>CONVENIOS: _MAX_", "sSearch": "BUSCAR" 
+				}
+			});
+
+			$('#btn-add_indicacion').click(function(e){
+				if($('#s_add_indicacion').val()!==''){ subirIndicacion($('#s_add_indicacion').val(),$('#idEstudioE').val(),$('#id_user').val(),''); }
+				else{$("#alerta_indicacion").fadeTo(2000,500).slideUp(500,function(){ $("#alerta_indicacion").slideUp(600); });}
+			});
+
+			$('#addIndicacion').click(function(e) {
+				if($('#nombre_n_ind').val()!=''){ agregar_nind($('#nombre_n_ind').val()); }
+				else{$(".alerta_altas").fadeTo(2000,500).slideUp(500,function(){ $(".alerta_altas").slideUp(600); });}
+			});
+
+			$('#clickmeIn').click(function(e){oTableIeB.draw();}); $('#t_tIndicaciones').click(function(e) { oTableIeB.draw(); });
+
 
 			$('#formEstudio').validator().on('submit', function (e) {
 			  if(e.isDefaultPrevented()){ // handle the invalid form...
@@ -300,6 +386,41 @@ function fichaEstudio(idE, nameE){
 		$('#myModal1').on('shown.bs.modal', function (e) { $('#formEstudio').validator(); });
 		$('#myModal1').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal1").empty(); });
 	} });
+}
+
+function agregar_nind(nombre){
+    // var token = $('meta[name="csrf-token"]').attr('content');
+	var datos = {nombre:nombre, id_u:$('#id_user').val()}
+	$.post('laboratorio/bases/files-serverside/agregarNindicacion.php',datos).done(function(data){
+		if(data==1){
+			$('#s_add_indicacion').load('laboratorio/bases/genera/indicaciones.php',function(response,status,xhr){ $("#s_add_indicacion").trigger("chosen:updated");});
+			$('#s_add_indicacion').click();
+			$("#s_add_indicacion").trigger("chosen:updated");
+			swal({title:"INDICACIÓN AGREGADA",type:"success",text:"La indicación se dió de alta correctamente.",timer:1800,showConfirmButton:false});
+		} else{alert(data);}
+	});
+}
+
+function borrarIndicacionNB(idIndicacion){
+	swal({
+	  title: "ELIMINAR LA INDICACIÓN", text: "¿Estás seguro de eliminar la indicación de la base?", type: "",
+	  showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "Eliminar", cancelButtonText: "Cancelar", closeOnConfirm: false
+	},
+	function(){
+		var datosIndicacionNB = {idIndicacion:idIndicacion}
+		$.post('laboratorio/bases/files-serverside/eliminarIndicacionNB.php',datosIndicacionNB).done(function(data){
+			if (data==1){ $('#clickmeIn').click(); } else{alert(data);}
+		});
+		swal({ title:"INDICACIÓN ELIMINADA",type: "",text:"La indicación se ha eliminado de la base.",timer:1800,showConfirmButton:false });
+	});
+}
+
+
+function subirIndicacion(indicacion, idE, idU,ale){ 
+	var datosSINB = {indicacion:indicacion, idE:idE, idU:idU, ale:ale}
+	$.post('imagen/estudios/files-serverside/guardarIndicacionNB.php',datosSINB).done(function(data){ 
+		if (data==1){ $('#clickmeIn').click();$('#s_add_indicacion').val('');$("#s_add_indicacion").trigger("chosen:updated");} else{alert(data);}
+	});
 }
 
 function insertAtCaret(text) { tinymce.get("input").execCommand('mceInsertContent', false, text); $('#inserta_algo').val(''); }

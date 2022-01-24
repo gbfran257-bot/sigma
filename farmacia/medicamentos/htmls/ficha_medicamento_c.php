@@ -126,58 +126,56 @@
         <div role="tabpanel" class="tab-pane" id="tMedicamento"><br>
         <form action=""id="med_generico">
           <div class="col-md-12">
-            <div class="col-md-3">
-              <div class="form-group col-md-8">
-                <label class="control-label" for="inputSuccess1" >Clave del medicamento</label>
-                <input type="text" class="form-control" style="margin-top:10px;" name="clv_m">
+              <div class="form-group col-md-3">
+                <label class="control-label" for="inputWarning1">*Nombre generico </label>
+                <input type="text" class="form-control" style="margin-top:10px;" name="nombre_generico_m" required>
               </div>
-              <div class="form-group col-md-4">
-                <label class="control-label" for="inputSuccess1" >Cantidad</label>
-                <input type="text" class="form-control" style="margin-top:10px;" name="cant_m">
+              <div class="form-group col-md-3">
+                <label class="control-label" for="inputError1" >*Descripción </label>
+                <input type="text" class="form-control" style="margin-top:10px;" name="desc_m" required>
               </div>
-            </div>
-            <div class="col-md-9">
-              <div class="form-group col-md-4">
-                <label class="control-label" for="inputWarning1">Nombre generico </label>
-                <input type="text" class="form-control" style="margin-top:10px;" name="nombre_generico_m">
+              <div class="form-group col-md-3">
+                <label class="control-label" for="inputWarning1">*Presentación </label>
+                <input type="text" class="form-control" style="margin-top:10px;" name="present_m" required>
               </div>
-              <div class="form-group col-md-4">
-                <label class="control-label" for="inputError1" >Descripción </label>
-                <input type="text" class="form-control" style="margin-top:10px;" name="desc_m">
+              <div class="form-group col-md-3">
+                <label class="control-label" for="inputSuccess1">*Via administración</label>
+                <input type="text" class="form-control" style="margin-top:10px;" name="via_administracion_m" required>
               </div>
-              <div class="form-group col-md-4">
-                <label class="control-label" for="inputError1" >Nivel del medicamento</label>
-                <input type="text" class="form-control" style="margin-top:10px;" name="nivel_m">
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-group col-md-8">
-                <label class="control-label" for="inputWarning1">Presentación </label>
-                <input type="text" class="form-control" style="margin-top:10px;" name="present_m">
-              </div>
-              <div class="form-group col-md-4">
-                <label class="control-label" for="inputError1" >R.Embarazo </label>
-                <select name="Rembarazo_m" id="" class="form-control" style="margin-top:10px;">
-                  <option value="A">A</option>
-                  <option value="B">B</option>
-                  <option value="C">C</option>
-                  <option value="D">D</option>
-                  <option value="X">X</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-9">
-              <div class="form-group col-md-4">
-                <label class="control-label" for="inputSuccess1">Grupo médico</label>
-                <input type="text" class="form-control" style="margin-top:10px;" name=grupoMedico_m>
-              </div>
-              <div class="form-group col-md-4">
-                <label class="control-label" for="inputSuccess1">Via administración</label>
-                <input type="text" class="form-control" style="margin-top:10px;" name="via_administracion_m">
-              </div>
-              <div class="form-group col-md-4">
-                <label class="control-label" for="inputWarning1">Contenido </label>
-                <input type="text" class="form-control" style="margin-top:10px;" name="contenido_m">
+            
+            <div class="col-md-12">
+              <div class="col-md-12">
+                <div class="form-group col-md-2">
+                  <label class="control-label" for="inputSuccess1" >Clave del medicamento</label>
+                  <input type="text" class="form-control" style="margin-top:10px;" name="clv_m">
+                </div>
+                <div class="form-group col-md-2">
+                  <label class="control-label" for="inputSuccess1" >Cantidad</label>
+                  <input type="text" class="form-control" style="margin-top:10px;" name="cant_m">
+                </div>
+                <div class="form-group col-md-2">
+                  <label class="control-label" for="inputError1" >Nivel del medicamento</label>
+                  <input type="text" class="form-control" style="margin-top:10px;" name="nivel_m">
+                </div>
+                <div class="form-group col-md-2">
+                  <label class="control-label" for="inputError1" >R.Embarazo </label>
+                  <select name="Rembarazo_m" id="" class="form-control" style="margin-top:10px;">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="X">X</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-2">
+                  <label class="control-label" for="inputSuccess1">Grupo médico</label>
+                  <input type="text" class="form-control" style="margin-top:10px;" name=grupoMedico_m>
+                </div>
+                
+                <div class="form-group col-md-2">
+                  <label class="control-label" for="inputWarning1">Contenido </label>
+                  <input type="text" class="form-control" style="margin-top:10px;" name="contenido_m">
+                </div>
               </div>
             </div>
           </div>

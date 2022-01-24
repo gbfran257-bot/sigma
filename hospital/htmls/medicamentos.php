@@ -28,6 +28,7 @@
 							</th>
 							<th class="titulosTabs" align="center" width="" nowrap>PERSONAL MÉDICO</th>
 							<th class="titulosTabs" align="center" width="" nowrap>INDICACIÓN</th>
+							<th class="titulosTabs" align="center" width="" nowrap>SUSPENDER</th>
 							<th class="titulosTabs" align="center" width="" nowrap>APLICAR</th>
 							<th class="titulosTabs" align="center" width="" nowrap>PRECIO</th>
 						  </tr>

@@ -213,7 +213,7 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 			var oTable = $('#dataTableMedicamentos').DataTable({
 				serverSide: true,"sScrollY": tam, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ){ }, scroller: false, responsive: true,
-				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{"bVisible": true } ],
+				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{"bVisible": true } ],
 				"sDom": '<"filtro1Principal"><"data_tPrincipal"t><"infoPrincipal"S><"proc">',
 				deferRender: true, select: false, "processing": false, "sAjaxSource": "hospital/datatable-serverside/medicamentos.php?id_h="+id_h,
 				"fnServerParams": function(aoData, fnCallback){ },
@@ -297,7 +297,80 @@ function poner_medi(id_mh,med,paciente){
 		});
 	});
 }
-	
+function suspender_medi(id_mh, medicamento, paciente){
+	var dat = {id_mh:id_mh}
+		$.post('hospital/files-serverside/verificar_medi.php',dat).done(function( data ) {
+			if (data==1){  //el estatus es aplicar 
+				$("#myModal1").load("hospital/htmls/suspender_medi.php", function(response,status,xhr){ 
+					if(status == "success"){
+						var str = 'SUSPENSIÓN DEL MEDICAMENTO ' + medicamento + 'AL PACIENTE '+ paciente ;
+					$('#titulo_modal1').text(str);
+
+					$('#form_cov').validator().on('submit', function (e) {
+					if (e.isDefaultPrevented()) { // handle the invalid form...
+					} else { // everything looks good!
+						e.preventDefault(); 
+						// $('#pacienteCancelOV').text(nombreP); $('#refCancelOV').text(refe);
+						swal({
+						title: "SUSPENDER "+ medicamento +" DEL PACIENTE "+paciente, text: "¿Estás seguro de SUSPENDER el medicamento?", type: "warning",
+						showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "Suspender", 
+						cancelButtonText: "Cerrar", closeOnConfirm: false
+						},
+						function(){
+						var datosCOV = {id_mh:id_mh, notaS: $("#m_cancelacion").val(), id_u:$('#id_user').val()}
+							$.post('hospital/files-serverside/suspender_medi.php',datosCOV).done(function( data ) { 
+								if (data==1){ window.setTimeout(function(){$('#clickmeMdtos').click(); $('#myModal1').modal('hide');},300);
+									swal({
+									title: "", type: "success", text: "El medicamento se ha suspendido", timer: 2000, showConfirmButton: false
+									}); return;
+								} else{alert(data);} 
+							});
+						});
+					}
+					});
+							
+					$('#myModal1').modal('show');
+					$('#myModal1').on('shown.bs.modal', function (e){ });
+					$('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
+				} });
+			}else if(data==2){ //el estatus es suspender 
+				$("#myModal1").load("hospital/htmls/medicamentos_suspendidos.php", function(response,status,xhr){ 
+					if(status == "success"){
+						var daTabla = {id_mh:id_mh, id_u:$('#id_user').val() }
+						$.post('hospital/datatable-serverside/medicamentos_suspendidos.php',daTabla).done(function( data ) { 
+							$('#tbodyContentMS').html(data);
+							$('#titulo_modal2').text('Registro de suspensión del medicamento');
+						});
+
+						$('#btn_aplicar').click(function(e){
+							swal({
+							title: "REANUDAR APLICACION DEL MEDICAMENTO "+ medicamento +" AL PACIENTE "+paciente, text: "¿Estás seguro de esta acción?", type: "warning",
+							showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "REANUDAR", 
+							cancelButtonText: "Cerrar", closeOnConfirm: false
+							},
+							function(){
+							var datReanu = {id_mh:id_mh}
+								$.post('hospital/files-serverside/reanudar_medi.php',datReanu).done(function( data ) { 
+									if (data==1){ window.setTimeout(function(){$('#clickmeMdtos').click(); $('#myModal1').modal('hide');},300);
+										swal({
+										title: "", type: "success", text: "El medicamento se ha reanudado correctamente", timer: 2000, showConfirmButton: false
+										}); return;
+									} else{alert(data);} 
+								});
+							});
+						});
+						
+							
+						$('#myModal1').modal('show');
+						$('#myModal1').on('shown.bs.modal', function (e){ });
+						$('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
+					} 
+				});
+			}else{
+				alert(data);
+			} 
+		});
+}
 function nuevo_medicamento(id_h, id_p, nombre_p, id_s){ $('#myModal2').modal('hide');
 	window.setTimeout(function(){
 		$("#myModal3").load('hospital/htmls/add_medicamento.php', function( response, status, xhr ){ if(status=="success"){

@@ -221,6 +221,7 @@
                                         <th align="center">PRECIO</th>
                                         <th align="center">BENEFICIO</th>
 										<th align="center">DICOM</th>
+                    <th>INDICA</th>
                                       </tr>
                                     </thead>
                                     <tbody align="left"> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
@@ -231,6 +232,7 @@
                                             <th> </th>
                                             <th> <select id="beneficio_i" name="beneficio_i" class="form-control input-sm" style=""> </select> </th>
 											<th> </th>
+                      <th></th>
                                         </tr>
                                     </tfoot>
                                   </table>

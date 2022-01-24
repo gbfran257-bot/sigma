@@ -556,6 +556,61 @@ function nuevo_paciente(){ //Para poder crear un usuario nuevo, el usuario actua
 				$("#municipio_df").load('pacientes/files-serverside/genera_municipios.php?id='+escape(id),function(response,status,xhr){if(status=="success"){}});
 			});
 		}});
+
+		//IMAGENES EN MODAL PACIENTES
+		$('#tImagen').click(function(e) { window.setTimeout(function(){$('#tableImg').click()},200); });
+			$("#tableImg").load('pacientes/datatable-serverside/imagenes_paciente.php',function(response,status,xhr){if(status=="success"){ 
+				$("#tableImg").html(response);
+			}});
+		
+		$('#titulo_foto').keyup(function(e) {
+            if($(this).val()!=''){ 
+				$('#btn_add_doc').removeClass('disabled'); 
+				$('#btn_send_doc').removeClass('disabled'); 
+			}else{ 
+				$('#btn_add_doc').addClass('disabled'); 
+				$('#btn_send_doc').addClass('disabled'); 
+			}
+        });
+	
+		$('#btn_add_doc').click(function(e) { if($('#titulo_foto').val()!=''){ $('#fileupload_foto').click(); }else{ } });
+
+		const btnEnviar = document.querySelector("#btn_send_doc");
+		const inputFile = document.querySelector("#fileupload_foto");
+
+		btnEnviar.addEventListener("click", () => {
+			if (inputFile.files.length > 0) {
+				let formData = new FormData();
+				// formData.append("idP", );
+				formData.append("idU", $('#id_user').val());
+				// formData.append("fecha", inputFile.files[0]);
+				formData.append("NombreArchivo", $('#titulo_foto').val());
+				formData.append("archivo", inputFile.files[0]); // En la posición 0; es decir, el primer elemento
+				fetch("pacientes/documentos/fotos/guardar.php", {
+					method: 'POST',
+					body: formData,
+				})
+					.then(respuesta => respuesta.text())
+					.then(decodificado => {
+						if(decodificado == 'Subido con éxito'){
+							swal({
+								title: "¡Bien!",
+								text: decodificado,
+								type: "success"
+								}, function() {
+									$("#tableImg").load('pacientes/datatable-serverside/imagenes_paciente.php',function(response,status,xhr){if(status=="success"){ 
+										$("#tableImg").html(response);
+									}});
+								});							
+						}else{
+							swal("¡Uppss!", decodificado, "error");
+						}
+					});
+			} else {
+				// El usuario no ha seleccionado archivos
+				alert("Selecciona un archivo");
+			}		
+		});	
 		
 		$('#estado_df').change(function(e) { $('#municipio_df').val(''); });
 				
@@ -585,6 +640,58 @@ function nuevo_paciente(){ //Para poder crear un usuario nuevo, el usuario actua
 		});
 		$('#myModal').on('hidden.bs.modal', function (e) { $("#myModal .modal-content").remove(); $("#myModal").empty(); });
 	} });
+}
+
+function eliminarImg(id,nombre,idP){
+	swal({
+	  title: "Eliminar Imagen", text:"¿ESTÁ SEGURO QUE DESEA ELIMINAR LA IMAGEN "+nombre+" ?", type: "warning",
+	  showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "ELIMINAR", cancelButtonText: "Cancelar",
+	  closeOnConfirm: false
+	},
+	function(){
+		var datos = {id:id}
+		$.post('pacientes/files-serverside/eliminarImagen.php',datos).done(function(data){
+			if (data==1){ $('#clickmeCo').click();
+				swal({title:"",type:"",text:"La imagen se elimino correctamente!",timer:1800,showConfirmButton:true},
+				function(){
+					if(idP != 'NO'){
+						$("#tableImg").load('pacientes/datatable-serverside/imagenes_paciente.php?idP='+idP,function(response,status,xhr){if(status=="success"){ 
+							$("#tableImg").html(response);
+						}});
+					}else{
+						$("#tableImg").load('pacientes/datatable-serverside/imagenes_paciente.php',function(response,status,xhr){if(status=="success"){ 
+							$("#tableImg").html(response);
+						}});
+					}
+				});
+			}else{alert(data);}
+		});
+	});
+}
+
+function ver_docu(id_doc,exte){
+	$('.no_document').addClass('hidden'); 
+	$('.si_document').removeClass('hidden');
+	if(!$('#btn_new_u').hasClass('hidden') && !$('#btn_cancel_new_u').hasClass('hidden')){
+		$('#btn_new_u').addClass('hidden');
+		$('#btn_cancel_new_u').addClass('hidden');
+	}
+	var widi = $('#myModal').width()*0.6;
+	if(exte != 'pdf' & exte != 'PDF'){
+		x='pacientes/documentos/fotos/'+id_doc+'.'+exte;
+		$('#mi_documento').html('<img src='+x+' style="max-width:100%; border:3px solid white; border-radius:4px; background-color:rgba(255, 255, 255, 1);">');
+	}else{
+		x='pacientes/documentos/files/'+id_doc+'.pdf'; 
+		var h=$('#referencia').height()-$('#nav-header').height()-$('#my_footer').height();
+		$('#mi_documento').html('<a class="media" href=""> </a>'); $('a.media').media({width:790, height:h-136, src:x});	
+	}
+}
+
+function cerrar_ver_doc(){
+	$('.no_document').removeClass('hidden'); 
+	$('.si_document').addClass('hidden');
+	$('#btn_new_u').removeClass('hidden');
+	$('#btn_cancel_new_u').removeClass('hidden');
 }
 
 function verPaciente(idP){
@@ -712,7 +819,63 @@ function verPaciente(idP){
 			$('#ciudad_us').val(datosI[60]);$('#colonia_us').val(datosI[30]);$('#calle_us').val(datosI[25]);
 			$('#cp_us').val(datosI[31]);
 		});
-				
+
+
+
+		$('#tImagen').click(function(e) { window.setTimeout(function(){$('#tableImg').click()},200); });
+			$("#tableImg").load('pacientes/datatable-serverside/imagenes_paciente.php?idP='+idP,function(response,status,xhr){if(status=="success"){ 
+				$("#tableImg").html(response);
+			}});
+		
+		$('#titulo_foto').keyup(function(e) {
+            if($(this).val()!=''){ 
+				$('#btn_add_doc').removeClass('disabled'); 
+				$('#btn_send_doc').removeClass('disabled'); 
+			}else{ 
+				$('#btn_add_doc').addClass('disabled'); 
+				$('#btn_send_doc').addClass('disabled'); 
+			}
+        });
+	
+		$('#btn_add_doc').click(function(e) { if($('#titulo_foto').val()!=''){ $('#fileupload_foto').click(); }else{ } });
+
+		const btnEnviar = document.querySelector("#btn_send_doc");
+		const inputFile = document.querySelector("#fileupload_foto");
+
+		btnEnviar.addEventListener("click", () => {
+			if (inputFile.files.length > 0) {
+				let formData = new FormData();
+				formData.append("idP", idP);
+				formData.append("idU", $('#id_user').val());
+				// formData.append("fecha", inputFile.files[0]);
+				formData.append("NombreArchivo", $('#titulo_foto').val());
+				formData.append("archivo", inputFile.files[0]); // En la posición 0; es decir, el primer elemento
+				fetch("pacientes/documentos/fotos/guardar.php", {
+					method: 'POST',
+					body: formData,
+				})
+					.then(respuesta => respuesta.text())
+					.then(decodificado => {
+						if(decodificado == 'Subido con éxito'){
+							swal({
+								title: "¡Bien!",
+								text: decodificado,
+								type: "success"
+								}, function() {
+									$("#tableImg").load('pacientes/datatable-serverside/imagenes_paciente.php?idP='+idP,function(response,status,xhr){if(status=="success"){ 
+										$("#tableImg").html(response);
+									}});
+								});							
+						}else{
+							swal("¡Uppss!", decodificado, "error");
+						}
+					});
+			} else {
+				// El usuario no ha seleccionado archivos
+				alert("Selecciona un archivo");
+			}		
+		});	
+		
 		$('#form-ficha_us').validator().on('submit', function (e) {
 		  if (e.isDefaultPrevented()) { // handle the invalid form...
 			$("#alerta_new_user").fadeTo(2000,500).slideUp(500,function(){ $("#alerta_new_user").slideUp(600); });
@@ -1530,7 +1693,7 @@ function nuevaVisita(idP, nombreP){
 		var oTableEim = $('#dataTableBestudiosI').DataTable({
 			serverSide: true,"sScrollY": 100, ordering: false, searching: true, scrollCollapse: false,
 			"scrollX":true, "fnFooterCallback":function(nRow, aaData, iStart, iEnd, aiDisplay){}, scroller:false, responsive:true,
-			"aoColumns":[{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true}],
+			"aoColumns":[{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true}],
 			"sDom": '<"">r<""t><""S><"">', 
 			deferRender: true, select: { style: 'single' }, "processing": false, "sAjaxSource": "pacientes/js/datatable-serverside/buscar_estudios_imagen.php",
 			"fnServerParams": function (aoData, fnCallback) {
@@ -1569,7 +1732,9 @@ function nuevaVisita(idP, nombreP){
 		var oTableEimS = $('#dataTableEiS').DataTable({
 			serverSide: true,"sScrollY": 120, ordering: false, searching: true, scrollCollapse: false,
 			"scrollX":true, "fnFooterCallback":function(nRow, aaData, iStart, iEnd, aiDisplay){}, scroller:false, responsive:true,
-			"aoColumns":[{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true}],
+			"aoColumns":[
+				{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true}
+			],
 			"sDom": '<"">r<""t><""S><"">', 
 			deferRender: true, select: false, "processing": false, "sAjaxSource": "pacientes/js/datatable-serverside/estudios_seleccionados_imagen.php",
 			"fnServerParams": function (aoData, fnCallback) {

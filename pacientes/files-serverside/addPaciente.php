@@ -62,6 +62,12 @@ require("../../funciones/php/values.php");
 	mysql_select_db($database_horizonte, $horizonte);
  	$resultF = mysql_query("SELECT MAX(id_p) from pacientes limit 1 ", $horizonte) or die (mysql_error());
  	$rowF = mysql_fetch_row($resultF); $idPac = sqlValue($rowF[0], "int");
+
+	$alea1 = sqlValue('imagen_'.$idU, "text");
+
+	mysql_select_db($database_horizonte, $horizonte);
+	$rep ="UPDATE documentos set aleatorio_do = $idPac, id_quien_do  = $idPac where aleatorio_do = $alea1";
+	$re = mysql_query($rep, $horizonte) or die (mysql_error());
 		
 	mysql_select_db($database_horizonte, $horizonte);
  	$sqlH = "INSERT INTO historia_clinica (id_paciente_hc, id_usuario_hc, fecha_registro_hc) VALUES ($rowF[0], $idU, $now)";

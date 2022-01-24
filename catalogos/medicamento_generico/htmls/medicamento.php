@@ -11,16 +11,34 @@
             <div class="col-md-12">
               <div class="col-md-12">
                 <div class="form-group col-md-3">
+                  <label class="control-label" for="inputWarning1">*Nombre generico </label>
+                  <input type="text" class="form-control" style="margin-top:10px;" name="nombre_generico_m" id="nombre_generico_m" required>
+                </div>
+                <div class="form-group col-md-3">
+                  <label class="control-label" for="via_administracion_m">*Via administración</label>
+                  <input type="text" class="form-control" style="margin-top:10px;" name="via_administracion_m" id="via_administracion_m" required>
+                </div>
+                <div class="form-group col-md-3">
+                  <label class="control-label" for="desc_m" >*Descripción </label>
+                  <input type="text" class="form-control" style="margin-top:10px;" name="desc_m" id="desc_m" required>
+                </div>
+                <div class="form-group col-md-3">
+                  <label class="control-label" for="inputWarning1">*Presentación </label>
+                  <input type="text" class="form-control" style="margin-top:10px;" name="present_m" id="present_m" required>
+                </div>
+                
+                
+                
+                
+              </div>
+              <div class="col-md-12">
+                <div class="form-group col-md-3">
                   <label class="control-label" for="inputSuccess1" >Clave del medicamento</label>
                   <input type="text" class="form-control" style="margin-top:10px;" name="clv_m" id="clv_m">
                 </div>
                 <div class="form-group col-md-3">
                   <label class="control-label" for="inputSuccess1" >Cantidad</label>
                   <input type="text" class="form-control" style="margin-top:10px;" name="cant_m" id="cant_m">
-                </div>
-                <div class="form-group col-md-3">
-                  <label class="control-label" for="inputWarning1">Presentación </label>
-                  <input type="text" class="form-control" style="margin-top:10px;" name="present_m" id="present_m">
                 </div>
                 <div class="form-group col-md-3">
                   <label class="control-label" for="Rembarazo_m" >R.Embarazo </label>
@@ -32,17 +50,7 @@
                     <option value="X">X</option>
                   </select>
                 </div>
-              </div>
-              <div class="col-md-12">
-                <div class="form-group col-md-4">
-                  <label class="control-label" for="inputWarning1">Nombre generico </label>
-                  <input type="text" class="form-control" style="margin-top:10px;" name="nombre_generico_m" id="nombre_generico_m">
-                </div>
-                <div class="form-group col-md-4">
-                  <label class="control-label" for="desc_m" >Descripción </label>
-                  <input type="text" class="form-control" style="margin-top:10px;" name="desc_m" id="desc_m">
-                </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                   <label class="control-label" for="nivel_m" >Nivel del medicamento</label>
                   <input type="text" class="form-control" style="margin-top:10px;" name="nivel_m" id="nivel_m">
                 </div>
@@ -51,15 +59,11 @@
                 
               </div>
               <div class="col-md-12">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                   <label class="control-label" for="grupoMedico_m">Grupo médico</label>
                   <input type="text" class="form-control" style="margin-top:10px;" name="grupoMedico_m" id="grupoMedico_m">
                 </div>
-                <div class="form-group col-md-4">
-                  <label class="control-label" for="via_administracion_m">Via administración</label>
-                  <input type="text" class="form-control" style="margin-top:10px;" name="via_administracion_m" id="via_administracion_m">
-                </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                   <label class="control-label" for="contenido_m">Contenido </label>
                   <input type="text" class="form-control" style="margin-top:10px;" name="contenido_m" id="contenido_m">
                 </div>

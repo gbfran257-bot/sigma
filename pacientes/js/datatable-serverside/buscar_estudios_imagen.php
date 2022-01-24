@@ -122,9 +122,9 @@ require("../../../funciones/php/values.php");
 		}*/
 		else{//Con algún convenio
 			if($urgencia==1){
-				$aColumns = array('c.concepto_to', 'a.nombre_a', 'acc.precio_urgencia_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb');
+				$aColumns = array('c.concepto_to', 'a.nombre_a', 'acc.precio_urgencia_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb','c.id_to');
 			}else{
-				$aColumns = array('c.concepto_to', 'a.nombre_a', 'acc.precio_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb');
+				$aColumns = array('c.concepto_to', 'a.nombre_a', 'acc.precio_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb','c.id_to');
 			}
 			// DB tables to use 
 			$aTables = array( 'conceptos_beneficios cb');
@@ -284,7 +284,28 @@ require("../../../funciones/php/values.php");
 		$rowH1 = mysql_fetch_row($resultH1);
 		
 		if($rowH1[0]==1){$row[4] = "<div align='center'>SI</div>";}else{$row[4] = "<div align='center'>NO</div>";}
+		$row[5] = "hola";
+
+
+		$contX1 = 0; 
+		$indi = '<table class="table-condensed table-bordered" style="background-color:white; font-size:0.77em; font-weight:bold;">';
+		$sql1 = "SELECT i.indicacion_in from asignar_indicacion ai left join indicaciones i on ai.id_indicacion_ai = i.id_in where ai.id_estudio_img = '".$row[6]."'";
+		$result1 = mysql_query($sql1, $horizonte) or die (mysql_error()); 
+		while ( $rowX1 = mysql_fetch_array($result1) ){ 
+			$contX1++;
+			if($contX1 % 2){
+				$indi=$indi.'<tr><td>'.$rowX1[0].'</td>'; 
+			}
+			else{ 
+				$indi=$indi.'<td>'.$rowX1[0].'</td></tr>';
+			}
+		}
+		$indi = $indi.'</table>';
+
+
+		$row[5] = "<a tabindex='0' class='btn btn-xs btn-info text-center' role='left' data-toggle='popover' data-trigger='focus' title='LISTA DE INDICACIONES' data-container='body' data-html='true' data-placement='left' data-content='$indi'><i class='fa fa-info' style='width:15px;'></i></a>";
 		
+
 		$output['aaData'][] = $row;	
     }     
     echo json_encode( $output );

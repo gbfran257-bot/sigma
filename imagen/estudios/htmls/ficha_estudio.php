@@ -23,6 +23,9 @@
             <li role="presentation"><a href="#tTabulador" aria-controls="tTabulador" role="tab" data-toggle="tab" id="tab_tabulador">TABULADOR</a></li>
 			<li role="presentation"><a href="#tFormato" aria-controls="tFormato" role="tab" data-toggle="tab" id="tab_formato">FORMATO</a></li>
       <li role="presentation" class="no_base"><a href="#tProductividad" aria-controls="tProductividad" role="tab" data-toggle="tab" id="tab_productividad">PRODUCTIVIDAD</a></li>
+          <li role="presentation" class="no_base">
+            <a href="#tIndicaciones" aria-controls="tIndicaciones" role="tab" data-toggle="tab" id="tab_indicaciones">INDICACIONES</a>
+          </li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
@@ -137,7 +140,7 @@
                 </table>
             </div>
             <div role="tabpanel" class="tab-pane" id="tProductividad"><br>
-            	<!-- <input name="aleatorioB" type="hidden" id="aleatorioB"> -->
+            	<input name="aleatorioB" type="hidden" id="aleatorioB">
               	<div class="row">
               		<div class="col-md-6">
               			<label class="control-label">Costo de producción </label>
@@ -150,6 +153,76 @@
               	</div>
               	<hr>
             </div>
+            <div role="tabpanel" class="tab-pane" id="tIndicaciones"><br>
+            <div class="panel panel-primary hidden" id="new_indicacion">
+              <!-- Default panel contents -->
+              <div class="panel-heading">AGREGAR UNA NUEVA INDICACIÓN PARA LOS ESTUDIOS</div>
+              <div class="panel-body">
+              <p class="text-primary">Para agregar una indicación, indique los campos:</p>
+              <div class="row">
+                <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                  <div class="form-group">
+                  <label for="nombre_n_ind">* Descripción</label>
+                  <textarea class="form-control input-sm campos_ind" id="nombre_n_ind" name="nombre_n_ind" cols="" rows="3" placeholder="Descripción de la indicación" style="resize:none;"></textarea>
+                  </div>
+                </div>
+              </div>
+              </div>
+              <div id="" class="alert alert-danger alerta_altas">
+                <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Favor de completar los campos con * son obligatorios.
+              </div>
+              <div class="panel-footer">
+                <div class="row">
+                  <div class="col-sm-8 col-xs-8 col-md-8 col-lg-8" align="right"></div>
+                  <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2" align="right">
+                    <button type="button" class="btn btn-success btn-sm" id="addIndicacion">Guardar Indicación</button>
+                  </div>
+                  <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2" align="left">
+                    <button type="button" class="btn btn-warning btn-sm" id="cancelIndicacion">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel panel-default">
+              <!-- Default panel contents -->
+                <div class="panel-heading">Indicaciones para el estudio</div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                        <label for="s_add_base">INDICACIONES PARA EL ESTUDIO</label>
+                        <button type="button" class="btn btn-xs btn-success" id="btn-add_indicacion">
+                         <i class="fa fa-check"></i> Aceptar
+                        </button> 
+                        <button type="button" class="btn btn-xs btn-primary" id="btn-new_indicacion">
+                          <i class="fa fa-plus-circle"></i> Nueva indicación
+                        </button>
+                      </div>
+                      <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                        <select name="s_add_indicacion" id="s_add_indicacion" class="form-control input-sm"></select>
+                      </div>
+                    </div>
+                  <div id="alerta_indicacion" class="alert alert-danger">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Favor de seleccionar una indicación.
+                  </div>
+                </div>
+              <!-- Table -->
+              <table class="table-condensed table-bordered" id="dataTableIndicaciones">
+                <thead id="cabecera_tBusquedaIndicaciones">
+                  <tr class="bg-primary">
+                  <th id="clickmeIn" align="center" width="20px">#</th>
+                  <th align="center">INDICACIÓN</th>
+                  <th align="center">ELIMINAR</th>
+                  </tr>
+                </thead>
+                <tbody> 
+                  <tr> 
+                    <td class="dataTables_empty">Cargando datos...</td> 
+                  </tr> 
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>       
 	</div>
       <div class="modal-footer">

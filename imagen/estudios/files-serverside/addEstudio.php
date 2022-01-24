@@ -19,6 +19,7 @@ require("../../../funciones/php/values.php");
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
  $noTemp = sqlValue(date('Y-m-d-H-i-s'), "date");
  $dicom = sqlValue($_POST["dicom_i"], "int");
+ $aleatorio = sqlValue($_POST["aleatorioB"], "text");
 
  $costoProduccion = sqlValue($_POST["costoproduccion"], "int");
  $MotivoCostoProduccion = sqlValue(mb_strtoupper($_POST["motivocostoproduccion"]), "text");
@@ -44,7 +45,23 @@ require("../../../funciones/php/values.php");
   
  $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	
- if (!$update) { echo $sql; }else{ echo 1; }
+ if (!$update) { echo $sql; }else{ 
+	 
+		mysql_select_db($database_horizonte, $horizonte);
+		 $concep = mysql_query("SELECT id_to from conceptos order by  id_to desc limit 1 ", $horizonte) or die (mysql_error());
+		 $rowR1 = mysql_fetch_row($concep);
+		 
+			$sql1 = "UPDATE asignar_indicacion SET id_estudio_img = $rowR1[0] WHERE aleatorio_ai = $aleatorio";
+			mysql_select_db($database_horizonte, $horizonte);
+			$indicaciones = mysql_query($sql1, $horizonte) or die (mysql_error());
+
+			if(!$indicaciones){
+				echo $sql1;
+			}else{
+				echo 1; 
+			}
+
+}
 
  //Cerrar conexión a la Base de Datos
  mysql_close($horizonte);

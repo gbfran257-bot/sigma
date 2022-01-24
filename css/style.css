@@ -8563,3 +8563,96 @@ body.md-skin {
   justify-content: center;
   align-items: center;
 }
+
+#img_block_1{
+  text-align: left;
+  margin:10px;
+  display: inline-flex;
+}
+.boton_img div {
+  display:table-cell;
+ 
+}
+
+.boton_img button {
+  height: 34px;
+ 
+}
+.compu{
+  display: block;
+}
+.cel{
+  display:none;
+}
+
+
+@media (max-width: 450px) {
+  #contentMembresiaFront{
+    background-image:url('../imagenes/Salud/TJFV.jpg');
+    background-repeat:no-repeat;
+    background-size:100%;
+  }
+  .card2 {
+    position: relative;
+    margin: auto;
+    height: 500px;
+    width: 274px;
+    text-align: center;
+    border-radius: 2px;
+    box-shadow: 0 6px 12px -3px rgba(0,0,0,.3);
+    color: #fff;
+    padding: 30px;
+  }
+  .fotoM{
+    top:50px;
+    right:56px;
+    position:absolute;
+    text-align:center;
+  }
+  .fotoM img{
+    border-radius:10px;
+    height: 129px;
+    margin-bottom: 8px;
+  }
+  .card2 .header {
+    position: absolute;
+    top: 320px;
+    right: 0px;
+    width: 100%;
+    padding: 0 10%;
+    transform: translateY(-50%);
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: right;
+    color:#1e639a;
+  }
+  #nombre_p_m{
+    top:206px;
+    right:15px;
+    position:absolute;
+    text-align:right;
+    color:#1e639a;
+  }
+
+  #img_block_1{
+    text-align: center;
+    margin:10px;
+    display: block;
+  }
+  .boton_img div {
+    display:inline-flex;
+    margin:15px;
+  }
+
+  .boton_img button {
+    height: 74px;
+   
+  }
+  .compu{
+    display: none;
+  }
+  .cel{
+    display:block;
+  }
+}
+

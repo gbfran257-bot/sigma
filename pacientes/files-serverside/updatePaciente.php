@@ -57,6 +57,10 @@ require("../../funciones/php/values.php");
   
  $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	
+ mysql_select_db($database_horizonte, $horizonte);
+$rep ="UPDATE documentos set aleatorio_do = $idP, id_quien_do  = $idP where aleatorio_do = $idP";
+$re = mysql_query($rep, $horizonte) or die (mysql_error());
+
  if(!$update){echo $sql;} else{ echo 1; }
 
  //Cerrar conexión a la Base de Datos
