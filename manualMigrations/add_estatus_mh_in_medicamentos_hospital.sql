@@ -1,0 +1,1 @@
+ALTER TABLE `medicamentos_hospital` ADD `estatus_mh` INT(3) NULL DEFAULT NULL AFTER `aleatorio_mh`;

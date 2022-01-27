@@ -1,0 +1,1 @@
+ALTER TABLE `orden_venta_del` ADD `motivo_del` TEXT NULL AFTER `tiempo`;

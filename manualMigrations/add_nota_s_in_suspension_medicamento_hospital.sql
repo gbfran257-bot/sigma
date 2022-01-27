@@ -1,0 +1,1 @@
+ALTER TABLE `suspension_medicamento_hospital` ADD `nota_s` TEXT NULL DEFAULT NULL AFTER `id_mh_s`;

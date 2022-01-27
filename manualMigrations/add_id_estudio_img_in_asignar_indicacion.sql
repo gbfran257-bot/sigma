@@ -1,0 +1,1 @@
+ALTER TABLE `asignar_indicacion` ADD `id_estudio_img` BIGINT(20) NULL DEFAULT NULL AFTER `temporal_ai`;
