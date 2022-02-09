@@ -19,6 +19,7 @@ switch (pnuCveEntidad){
 			case "COAHUILA DE ZARAGOZA": pnuCveEntidad = "CL"; break;
 			case "COLIMA": pnuCveEntidad = "CM"; break;
 			case "DISTRITO FEDERAL": pnuCveEntidad = "DF"; break;
+			case "CIUDAD DE MEXICO": pnuCveEntidad = "DF"; break;
 			case "DURANGO": pnuCveEntidad = "DG"; break;
 			case "GUANAJUATO": pnuCveEntidad = "GT"; break;
 			case "GUERRERO": pnuCveEntidad = "GR"; break;
