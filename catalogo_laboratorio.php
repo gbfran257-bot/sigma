@@ -51,6 +51,7 @@
     <script src="funciones/js/calcula_edad.js"></script>
     <script src="funciones/js/stdlib.js"></script>
     <script src="funciones/js/bs-modal-fullscreen.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
@@ -67,6 +68,7 @@
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
     <link href="c3/c3.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
 		.nav-tabs > li > a{
 			padding: 10px 10px 10px 10px;
@@ -86,6 +88,9 @@
 		.dt-buttons{
 			float:right;
 			padding-right: 15px;
+		}
+		.select2-dropdown{
+			z-index: 9999;
 		}
     </style>
 </head>
@@ -109,6 +114,7 @@
     <th style="vertical-align:middle;" nowrap><span class="tipo_tabulador">TAB</span> UR</th>
     <th style="vertical-align:middle;" nowrap>ÚLTIMA A</th>
 	<th style="vertical-align:middle;" nowrap>LÍNEA</th>
+	<th style="vertical-align:middle;" nowrap>CLAVE SAT</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -133,6 +139,7 @@
 				<?php } ?>
 			</th>
 			<th><input type="text" class="form-control input-sm filtrodataTablePrincipal" placeholder="LÍNEA" style="max-width:100px;"/></th>
+			<th><input type="text" class="form-control input-sm filtrodataTablePrincipal" placeholder="CLAVE SAT" style="max-width:100px;"/></th>
         </tr>
     </tfoot>
 </table>
@@ -156,7 +163,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true},{ "bVisible": true }, {"bVisible":true},
-			{"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true}
+			{"bVisible":true },{ "bVisible": true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>Blr<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		buttons: [ {
@@ -508,6 +515,8 @@ function nuevoEstudio(){
 					});
 				}
 			});
+
+			select2ini("#sat", "sat.php", "INGRESA LA CLAVE DE LA CUENTA DEL SAT O BUSCALA POR SU DESCRIPCIÓN O CLAVE MISMA");
 																								   
 			$('#alerta_muestra, #alerta_metodo, .alerta_altas, .alerta_altas1, #alerta_indicacion').hide(); $('.tabulacion, #tabi_3, #tabi_2').remove();
 			$('#condicion_n_mue').load('laboratorio/bases/files-serverside/generaCondicionesMuestras.php',function(response,status,xhr){});
@@ -937,6 +946,15 @@ function fichaEstudio(idE, na){
 					oTableProd.draw();
 					recalculaProd();
 				});
+
+				select2ini("#sat", "sat.php", "INGRESA LA CLAVE DE LA CUENTA DEL SAT O BUSCALA POR SU DESCRIPCIÓN O CLAVE MISMA");
+				$("#sat").html("<option value='"+datosI[19]+"' selected>"+datosI[20]+"</option>");
+				$("#sat").select2("data", {
+					id: datosI[19],
+					text: datosI[20]
+				});
+				$("#sat").trigger("change");
+
 			});
 
 			$('#formEstudio').validator().on('submit', function (e) {
@@ -999,6 +1017,27 @@ function agregar_nind(nombre){
 			swal({title:"INDICACIÓN AGREGADA",type:"success",text:"La indicación se dió de alta correctamente.",timer:1800,showConfirmButton:false});
 		} else{alert(data);}
 	});
+}
+
+
+function select2ini(donde, url, ph){
+    $(donde).select2({
+        language: "es",
+        width: "off",
+        allowClear: true,
+        ajax: {
+            url: 'select/'+url,
+            type: "post",
+            data: function (params) {
+                var query = {
+                    search: params.term,
+                    page: params.page || 1
+                };
+                return query;
+            }
+        },
+        placeholder: ph
+    });
 }
 function insertAtCaret(text) { tinymce.get("input").execCommand('mceInsertContent', false, text); $('#inserta_algo').val(''); }
 

@@ -1943,7 +1943,7 @@ function nuevaVisita(idP, nombreP){
 		var oTablePro = $('#dataTableBproductos').DataTable({
 			serverSide: true,"sScrollY": 100, ordering: false, searching: true, scrollCollapse: false,
 			"scrollX":true, "fnFooterCallback":function(nRow, aaData, iStart, iEnd, aiDisplay){}, scroller:false, responsive:true,
-			"aoColumns":[{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true}],
+			"aoColumns":[{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true}],
 			"sDom": '<"">r<""t><""S><"">', 
 			deferRender: true, select: { style: 'single' }, "processing": false, "sAjaxSource": "pacientes/js/datatable-serverside/buscar_productos.php",
 			"fnServerParams": function (aoData, fnCallback) {
@@ -1969,9 +1969,9 @@ function nuevaVisita(idP, nombreP){
 		oTablePro.on( 'select', function ( e, dt, type, indexes ) {
 			$('.depende_pro').removeClass('hidden');
 			var rowData = oTablePro.rows(indexes).data().toArray(); //alert(rowData[0][6]); //alert(rowData[0][9]);
-			if(rowData[0][8]==undefined){var coveni = 0, ocu = 0;}else{var coveni = rowData[0][8], ocu = rowData[0][9];}
-			subirProductoS(rowData[0][4], $('#aleatorio_ov').val(), idP, $('#id_usr_reg').val(),
-				$('#mi_id_convenioP').val(),$('#sucursal_fi_p').val(),$('#observacionesS_NV').val(),3,rowData[0][2], 5, coveni, ocu
+			if(rowData[0][9]==undefined){var coveni = 0, ocu = 0;}else{var coveni = rowData[0][9], ocu = rowData[0][10];}
+			subirProductoS(rowData[0][5], $('#aleatorio_ov').val(), idP, $('#id_usr_reg').val(),
+				$('#mi_id_convenioP').val(),$('#sucursal_fi_p').val(),$('#observacionesS_NV').val(),3,rowData[0][3], 5, coveni, ocu
 			); 
 			$('.desc_cargo_p').change(function(e){nota_desc_cargo_p();}); $('.desc_cargo_p').keyup(function(e){nota_desc_cargo_p();});
 		} );
@@ -1993,7 +1993,12 @@ function nuevaVisita(idP, nombreP){
 				"oPaginate": { "sNext": "<span class='paginacionPrincipal'>Siguiente</span>", "sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;" }
 			},"iDisplayLength": 5000, paging: false,
 		});
-		$('#clickmePS').click(function(e){ oTableProS.draw(); }); $('#t_farm').click(function(e){ $('#clickmePS,#clickmePr').click(); });
+		$('#clickmePS').click(function(e){ 
+			oTableProS.draw();
+		}); 
+		$('#t_farm').click(function(e){ 
+			$('#clickmePS,#clickmePr').click();
+		});
 		
 		$("#beneficio_p").change(function(e){ $('#clickmePr').click();});
 		$("#sucursal_fi_p").change(function(e){ $('#clickmePr').click();});

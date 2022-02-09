@@ -264,6 +264,46 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 	}});
 }
 
+function cambiarExistencias(idS, exis){
+	$("#myModal").load('farmacia/stock/htmls/existencias.php', function(response, status, xhr){ if(status=="success"){
+            $('#tituloModal').text('CAMBIAR EXISTENCIAS'); 
+			$('#existActual').text('EXISTENCIA ACTUAL: '+ exis);
+			$('#idStock').val(idS);
+			
+			$('#cant').change(function(e){
+			if($('#cant').val() > 0){
+				$('#cantAlerta').text("");
+				$('#cant').css("border","solid 1px aqua");
+			}else{
+				$('#cantAlerta').text("no se pueden colocar numeros negativos");
+				$('#cant').css("border","solid 2px red");
+				$('#cant').val(0);
+			}
+		});
+
+		$('#btn_guardar').click(function(e){
+			//validamos que los campos tengan un valor
+			
+			var datosP = {idS:idS, cant: $('#cant').val()};
+			//registramos y realizamos  la tranferencia 
+			$.post('farmacia/stock/files-serverside/guardarExistencias.php',datosP).done(function( data ) {
+				if (data==1){//si se registro y realizo la tranferencia correctamente 
+					$('#clickme').click(); $('#myModal').modal('hide'); 
+					swal({
+					title: "¡CONFIRMACIÓN!", type: "success", text: "El cambio se ha realizado satisfactoriamente", timer: 1800, showConfirmButton: false
+					}); return;
+				} else{alert(data);}
+			});
+			
+		});
+			
+
+            $('#myModal').modal('show');
+            $('#myModal').on('shown.bs.modal', function(e){ $('#form-colonia').validator(); });
+            $('#myModal').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModal").empty(); });
+        }});
+}
+
 
 function select2ini(donde, url, ph, id_su){
     $(donde).select2({

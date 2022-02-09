@@ -71,9 +71,9 @@ require("../../../funciones/php/values.php");
 
 	if($con_membresia>0){//Tiene membresía vigente
 		if($urgencia==1){//Nocturno
-			$aColumns = array('e.concepto_to', 'a.nombre_a', 'e.precio_mu', 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
+			$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', 'e.precio_mu', 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
 		}else{
-			$aColumns = array('e.concepto_to', 'a.nombre_a', 'e.precio_m', 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
+			$aColumns = array('e.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'e.precio_m', 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
 		}
 		// DB tables to use 
 		$aTables = array( 'conceptos e');
@@ -93,9 +93,9 @@ require("../../../funciones/php/values.php");
 	}else{
 		if($_GET['idConvenio']==0){//Sin convenios
 			if($urgencia==1){//Nocturno
-				$aColumns = array('e.concepto_to', 'a.nombre_a', $precio_ur, 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
+				$aColumns = array('e.concepto_to','e.codigo_barras_to', 'a.nombre_a', $precio_ur, 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
 			}else{
-				$aColumns = array('e.concepto_to', 'a.nombre_a', $precio_nor, 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
+				$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', $precio_nor, 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
 			}
 			// DB tables to use 
 			$aTables = array( 'conceptos e');
@@ -115,9 +115,9 @@ require("../../../funciones/php/values.php");
 		}
 		else{//Con algún convenio
 			if($urgencia==1){
-				$aColumns = array('c.concepto_to', 'a.nombre_a', 'acc.precio_urgencia_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb');
+				$aColumns = array('c.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'acc.precio_urgencia_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb');
 			}else{
-				$aColumns = array('c.concepto_to', 'a.nombre_a', 'acc.precio_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb');
+				$aColumns = array('c.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'acc.precio_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb');
 			}
 			// DB tables to use 
 			$aTables = array( 'conceptos_beneficios cb');
@@ -263,22 +263,22 @@ require("../../../funciones/php/values.php");
 		}
 		
 		if($_GET['idConvenio']==0 or $_GET['idConvenio']==1){
-			$row[1]="<span lang='$row[2]'>$row[1]</span>";
+			// $row[1]="<span lang='$row[3]'>$row[2]</span>";
 			//$row[2]="<span lang='0'>$row[2]</span>";
-			$row[0]="<span lang='$row[4]'>$row[0]</span>";
+			$row[0]="<span lang='$row[5]'>$row[0]</span>";
 
-			if($_GET['idConvenio']==0){ $row[3]="PARTICULAR"; }//else{ $row[3] = "<div lang='1'>$row[3]</div>"; }
+			if($_GET['idConvenio']==0){ $row[4]="PARTICULAR"; }//else{ $row[3] = "<div lang='1'>$row[3]</div>"; }
 		}
 		else{
-			if($row[9]==1){
-				$row[1] = "<div lang='$row[2]' style='text-decoration:line-through; color:red;'>$row[1]</div>";
+			if($row[10]==1){
+				$row[1] = "<div lang='$row[3]' style='text-decoration:line-through; color:red;'>$row[2]</div>";
 				//$row[2] = "<div lang='$row[8]' style='text-decoration:line-through; color:red;'>$row[2]</div>";
-				$row[0] = "<div lang='$row[4]' class='1' style='text-decoration:line-through; color:red;'>$row[0]</div>";
+				$row[0] = "<div lang='$row[5]' class='1' style='text-decoration:line-through; color:red;'>$row[0]</div>";
 				//$row[3] = "<div lang='$row[5]' style='text-decoration:line-through; color:red;'>$row[3]</div>";
 			}else{
-				$row[1] = "<div lang='$row[2]'>$row[1]</div>";
+				$row[1] = "<div lang='$row[3]'>$row[2]</div>";
 				//$row[2] = "<div lang='$row[8]'>$row[2]</div>";
-				$row[0] = "<div lang='$row[4]'>$row[0]</div>";
+				$row[0] = "<div lang='$row[5]'>$row[0]</div>";
 				//$row[3] = "<div lang='$row[5]'>$row[3]</div>";
 			}
 		}

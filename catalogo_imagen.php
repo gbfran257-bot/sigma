@@ -48,7 +48,8 @@
     <script src="funciones/js/calcula_edad.js"></script>
     <script src="funciones/js/stdlib.js"></script>
     <script src="funciones/js/bs-modal-fullscreen.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -64,6 +65,12 @@
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
     <link href="c3/c3.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<style>
+		.select2-dropdown{
+			z-index: 9999;
+		}
+	</style>
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
@@ -89,6 +96,7 @@
     <th style="vertical-align:middle;" nowrap>TAB CONVENIO U</th>
     <th style="vertical-align:middle;" nowrap>DICOM</th>
 	<th style="vertical-align:middle;" nowrap>LÍNEA</th>
+	<th style="vertical-align:middle;" nowrap> CLAVE SAT</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -104,6 +112,7 @@
             <th></th>
             <th></th>
 			<th><input type="text" class="form-control input-sm" placeholder="Línea" style="max-width:100px;"/></th>
+			<th><input type="text" class="form-control input-sm" placeholder="CLAVE SAT" style="max-width:100px;"/></th>
         </tr>
     </tfoot>
 </table>
@@ -126,7 +135,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
-			{"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
+			{"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true}, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
@@ -249,6 +258,8 @@ function nuevoEstudio(){
 				else{$(".alerta_altas").fadeTo(2000,500).slideUp(500,function(){ $(".alerta_altas").slideUp(600); });}
 			});
 
+			select2ini("#sat", "sat.php", "INGRESA LA CLAVE DE LA CUENTA DEL SAT O BUSCALA POR SU DESCRIPCIÓN O CLAVE MISMA");
+
 			$('#clickmeIn').click(function(e){oTableIeB.draw();}); $('#t_tIndicaciones').click(function(e) { oTableIeB.draw(); });
 
 			$('#formEstudio').validator().on('submit', function (e) {
@@ -319,6 +330,15 @@ function fichaEstudio(idE, nameE, aleatorioC){
 				$('#precioUrgenciaS').val(datosI[8]); //window.setTimeout(function(){tinymce.get('input').setContent(datosI[4]);},400);
 				$('#dicom_i').val(datosI[9]); $('#precioME').val(datosI[10]); $('#precioUrgenciaME').val(datosI[11]); $('#precioHO').val(datosI[12]);
 				$("#linea_img").val(datosI[17]);
+
+				select2ini("#sat", "sat.php", "INGRESA LA CLAVE DE LA CUENTA DEL SAT O BUSCALA POR SU DESCRIPCIÓN O CLAVE MISMA");
+				$("#sat").html("<option value='"+datosI[18]+"' selected>"+datosI[19]+"</option>");
+				$("#sat").select2("data", {
+					id: datosI[18],
+					text: datosI[19]
+				});
+				$("#sat").trigger("change");
+
 			});
 			$('#alerta_indicacion, .alerta_altas').hide();
 			$('#aleatorioB').val(aleatorioC);
@@ -421,6 +441,26 @@ function subirIndicacion(indicacion, idE, idU,ale){
 	$.post('imagen/estudios/files-serverside/guardarIndicacionNB.php',datosSINB).done(function(data){ 
 		if (data==1){ $('#clickmeIn').click();$('#s_add_indicacion').val('');$("#s_add_indicacion").trigger("chosen:updated");} else{alert(data);}
 	});
+}
+
+function select2ini(donde, url, ph){
+    $(donde).select2({
+        language: "es",
+        width: "off",
+        allowClear: true,
+        ajax: {
+            url: 'select/'+url,
+            type: "post",
+            data: function (params) {
+                var query = {
+                    search: params.term,
+                    page: params.page || 1
+                };
+                return query;
+            }
+        },
+        placeholder: ph
+    });
 }
 
 function insertAtCaret(text) { tinymce.get("input").execCommand('mceInsertContent', false, text); $('#inserta_algo').val(''); }

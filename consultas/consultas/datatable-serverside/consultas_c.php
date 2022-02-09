@@ -11,9 +11,9 @@ require("../../../Connections/horizonte.php");
 			$precio_nor = 'c.precio_to'; $precio_ur = 'c.precio_urgencia_to';
 		}
 		
-		$aColumns = array('c.id_to','c.concepto_to', 'concat(m.nombre_u, " ", m.apaterno_u)', 'c.precio_to','precio_urgencia_to', 'c.precio_m','c.precio_mu', 'c.precio_h','c.precio_hu','c.linea_c');
+		$aColumns = array('c.id_to','c.concepto_to', 'concat(m.nombre_u, " ", m.apaterno_u)', 'c.precio_to','precio_urgencia_to', 'c.precio_m','c.precio_mu', 'c.precio_h','c.precio_hu','c.linea_c','c.sat_c');
 	}else{
-		$aColumns = array('c.id_to', 'c.concepto_to', 'concat(m.nombre_u, " ", m.apaterno_u)', 'c.precio_to','c.precio_urgencia_to', 'c.precio_m','c.precio_mu', 'c.precio_h','c.precio_hu','c.linea_c');
+		$aColumns = array('c.id_to', 'c.concepto_to', 'concat(m.nombre_u, " ", m.apaterno_u)', 'c.precio_to','c.precio_urgencia_to', 'c.precio_m','c.precio_mu', 'c.precio_h','c.precio_hu','c.linea_c','c.sat_c');
 	}
 	    
     // DB tables to use 

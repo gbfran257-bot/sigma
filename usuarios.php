@@ -53,6 +53,7 @@
     <script src="funciones/js/bs-modal-fullscreen.js"></script>
     <!-- iCheck -->
     <script src="js/plugins/iCheck/icheck.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
@@ -71,6 +72,12 @@
     <link href="c3/c3.css" rel="stylesheet">
     <link href="css/plugins/clockpicker/bootstrap-clockpicker.css" rel="stylesheet">
     <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<style>
+		.select2-dropdown{
+			z-index: 9999;
+		}
+    </style>
 </head>
 <?php include_once 'partes/header.php';?>
 <?php
@@ -347,6 +354,8 @@ function nuevoUsuario(){
 				tinymce.get("input").execCommand('mceSetContent', false, data1);
 			});
         });
+
+		select2ini("#sat", "sat.php", "INGRESA LA CLAVE DE LA CUENTA DEL SAT ");
 		
 		tinymce.init({ 
 			selector:'#myModal #input',resize:false,height:$('#referencia').height()*0.48,theme: "modern",
@@ -591,7 +600,7 @@ function nuevoUsuario(){
             if($(this).hasClass('disabled')){
 				swal({title: "", type: "error", text: "Debe completar todos los campos.", timer: 1300, showConfirmButton: false});
 			}else{ $('#btn_add_concepto').addClass('disabled');
-				var datos = {nombre:$('#nombre_to').val(), area:$('#area_to').val(), linea:$('#linea_to').val(), precio:$('#precio_n').val(), precioU:$('#precio_u').val(), precioM:$('#precio_m').val(), precioMU:$('#precio_mu').val(), idU:$('#idUsuarioP').val(), temporal:tempo, precio_h:$('#precio_h').val(),precio_costoproduccion:$('#precio_costoproduccion').val(),honorario_c:$('#honorario_c').val(),honorario_cu:$('#honorario_cu').val()}
+				var datos = {nombre:$('#nombre_to').val(), area:$('#area_to').val(), linea:$('#linea_to').val(), precio:$('#precio_n').val(), precioU:$('#precio_u').val(), precioM:$('#precio_m').val(), precioMU:$('#precio_mu').val(), idU:$('#idUsuarioP').val(), temporal:tempo, precio_h:$('#precio_h').val(),precio_costoproduccion:$('#precio_costoproduccion').val(),honorario_c:$('#honorario_c').val(),honorario_cu:$('#honorario_cu').val(),sat:$('#sat').val()}
 				$.post('usuarios/files-serverside/addConcepto.php',datos).done(function( data ) {
 					if (data==1){//si el paciente se Actualizó 
 						$('#clickmeTos').click(); $('#btn_cancel_add_concepto').click();
@@ -604,7 +613,7 @@ function nuevoUsuario(){
             if($(this).hasClass('disabled')){
 				swal({title: "", type: "error", text: "Debe completar todos los campos.", timer: 1300, showConfirmButton: false});
 			}else{ $('#btn_update_concepto').addClass('disabled');
-				var datos = {id:$('#mi_id_to').val(),nombre:$('#nombre_to').val(), area:$('#area_to').val(),linea:$('#linea_to').val(),precio:$('#precio_n').val(),precioU:$('#precio_u').val(),precioM:$('#precio_m').val(),precioMU:$('#precio_mu').val(),idU:$('#idUsuarioP').val(),temporal:tempo,precioH:$('#precio_h').val(),precio_costoproduccion:$('#precio_costoproduccion').val(),honorario_c:$('#honorario_c').val(),honorario_cu:$('#honorario_cu').val()}
+				var datos = {id:$('#mi_id_to').val(),nombre:$('#nombre_to').val(), area:$('#area_to').val(),linea:$('#linea_to').val(),precio:$('#precio_n').val(),precioU:$('#precio_u').val(),precioM:$('#precio_m').val(),precioMU:$('#precio_mu').val(),idU:$('#idUsuarioP').val(),temporal:tempo,precioH:$('#precio_h').val(),precio_costoproduccion:$('#precio_costoproduccion').val(),honorario_c:$('#honorario_c').val(),honorario_cu:$('#honorario_cu').val(),sat:$('#sat').val()}
 				$.post('usuarios/files-serverside/updateConcepto.php',datos).done(function( data ) {
 					if (data==1){//si el paciente se Actualizó 
 						$('#clickmeTos').click(); $('#btn_cancel_add_concepto').click();
@@ -1133,7 +1142,7 @@ function verUsuario(idU, nombre_u, tempi_u){
 				if($(this).hasClass('disabled')){
 					swal({title: "", type: "error", text: "Debe completar todos los campos.", timer: 1300, showConfirmButton: false});
 				}else{ $('#btn_add_concepto').addClass('disabled');
-					var datos = {nombre:$('#nombre_to').val(), area:$('#area_to').val(), linea:$('#linea_to').val(), precio:$('#precio_n').val(), precioU:$('#precio_u').val(), precioM:$('#precio_m').val(), precioMU:$('#precio_mu').val(), idU:$('#idUsuarioP').val(), temporal:tempo, precio_h:$('#precio_h').val(),precio_costoproduccion:$('#precio_costoproduccion').val(),honorario_c:$('#honorario_c').val(),honorario_cu:$('#honorario_cu').val()}
+					var datos = {nombre:$('#nombre_to').val(), area:$('#area_to').val(), linea:$('#linea_to').val(), precio:$('#precio_n').val(), precioU:$('#precio_u').val(), precioM:$('#precio_m').val(), precioMU:$('#precio_mu').val(), idU:$('#idUsuarioP').val(), temporal:tempo, precio_h:$('#precio_h').val(),precio_costoproduccion:$('#precio_costoproduccion').val(),honorario_c:$('#honorario_c').val(),honorario_cu:$('#honorario_cu').val(),sat:$('#sat').val()}
 					$.post('usuarios/files-serverside/addConcepto.php',datos).done(function( data ) {
 						if (data==1){//si el paciente se Actualizó 
 							$('#clickmeTos').click(); $('#btn_cancel_add_concepto').click();
@@ -1146,7 +1155,7 @@ function verUsuario(idU, nombre_u, tempi_u){
 				if($(this).hasClass('disabled')){
 					swal({title: "", type: "error", text: "Debe completar todos los campos.", timer: 1300, showConfirmButton: false});
 				}else{ $('#btn_update_concepto').addClass('disabled');
-					var datos = {id:$('#mi_id_to').val(),nombre:$('#nombre_to').val(), area:$('#area_to').val(), linea:$('#linea_to').val(),precio:$('#precio_n').val(),precioU:$('#precio_u').val(),precioM:$('#precio_m').val(),precioMU:$('#precio_mu').val(),idU:$('#idUsuarioP').val(),temporal:tempo,precioH:$('#precio_h').val(),precio_costoproduccion:$('#precio_costoproduccion').val(),honorario_c:$('#honorario_c').val(),honorario_cu:$('#honorario_cu').val(), pm:$('#idUsuarioN').val(), cambioGlobal: $("#cambioGlobal_cg").prop("checked")}
+					var datos = {id:$('#mi_id_to').val(),nombre:$('#nombre_to').val(), area:$('#area_to').val(), linea:$('#linea_to').val(),precio:$('#precio_n').val(),precioU:$('#precio_u').val(),precioM:$('#precio_m').val(),precioMU:$('#precio_mu').val(),idU:$('#idUsuarioP').val(),temporal:tempo,precioH:$('#precio_h').val(),precio_costoproduccion:$('#precio_costoproduccion').val(),honorario_c:$('#honorario_c').val(),honorario_cu:$('#honorario_cu').val(), pm:$('#idUsuarioN').val(), cambioGlobal: $("#cambioGlobal_cg").prop("checked"), sat:$('#sat').val()}
 					$.post('usuarios/files-serverside/updateConcepto.php',datos).done(function( data ) {
 						if (data==1){//si el paciente se Actualizó 
 							$('#clickmeTos').click(); $('#btn_cancel_add_concepto').click();
@@ -1526,6 +1535,15 @@ function editar_concepto(idC){ $('#mi_id_to').val(idC);
 		$('#precio_m').val(dato[4]); $('#precio_mu').val(dato[5]); $('#precio_h').val(dato[7]); $('#precio_costoproduccion').val(dato[8]); $('#honorario_c').val(dato[9]); $('#honorario_cu').val(dato[10]); $('#linea_to').val(dato[11]); $('#btn_update_concepto').removeClass('disabled');
 		if(dato[6]>1){ $('#btn_del_concepto').addClass('hidden'); $('#btn_del_concepto').addClass('disabled');}
 		else{ $('#btn_del_concepto').removeClass('hidden'); $('#btn_del_concepto').removeClass('disabled'); }
+
+		select2ini("#sat", "sat.php", "INGRESA LA CLAVE DE LA CUENTA DEL SAT ");
+			$("#sat").html("<option value='"+dato[12]+"' selected>"+dato[13]+"</option>");
+			$("#sat").select2("data", {
+				id: dato[12],
+				text: dato[13]
+			});
+			$("#sat").trigger("change");
+
 	});
 }
 
@@ -1609,6 +1627,28 @@ function firma(idD,aleat){
 		});
 	});
 }
+
+
+function select2ini(donde, url, ph){
+    $(donde).select2({
+        language: "es",
+        width: "off",
+        allowClear: true,
+        ajax: {
+            url: 'select/'+url,
+            type: "post",
+            data: function (params) {
+                var query = {
+                    search: params.term,
+                    page: params.page || 1
+                };
+                return query;
+            }
+        },
+        placeholder: ph
+    });
+}
+
 
 function initMap() { }
 function insertAtCaret(text) { tinymce.get("input").execCommand('mceInsertContent', false, text); $('#inserta_algo').val(''); }

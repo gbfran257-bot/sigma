@@ -48,6 +48,7 @@
     <script src="funciones/js/calcula_edad.js"></script>
     <script src="funciones/js/stdlib.js"></script>
     <script src="funciones/js/bs-modal-fullscreen.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
@@ -64,6 +65,12 @@
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
     <link href="c3/c3.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<style>
+		.select2-dropdown{
+			z-index: 9999;
+		}
+	</style>
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
@@ -80,6 +87,7 @@
     <th style="vertical-align:middle;" nowrap>TAB CONVENIO</th>
     <th style="vertical-align:middle;" nowrap>TAB CONVENIO U</th>
 	<th style="vertical-align:middle;" nowrap>LÍNEA</th>
+	<th style="vertical-align:middle;" nowrap>CLAVE SAT</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -93,6 +101,7 @@
             <th></th>
             <th></th>
 			<th><input type="text" class="form-control input-sm" placeholder="Línea"/></th>
+			<th><input type="text" class="form-control input-sm" placeholder="Clave"/></th>
         </tr>
     </tfoot>
 </table>
@@ -116,7 +125,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
-			{"bVisible":true },{ "bVisible": true },{ "bVisible": true }, {"bVisible":true}
+			{"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true }, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
@@ -198,6 +207,8 @@ function nuevoEstudio(){
 				}
 			});
 
+			select2ini("#sat", "sat.php", "INGRESA LA CLAVE DE LA CUENTA DEL SAT ");
+
 			$('#formEstudio').validator().on('submit', function (e) {
 			  if (e.isDefaultPrevented()) { // handle the invalid form...
 			  } else { // everything looks good!
@@ -262,6 +273,14 @@ function fichaEstudio(idE, nameS){
 				$('#precioME').val(datosI[10]); $('#precioUrgenciaME').val(datosI[11]); $('#precioES').val(datosI[7]);
 				$('#precioUrgenciaS').val(datosI[8]); $('#precioHO').val(datosI[12]); $('#precioEM').val(datosI[13]); $('#precioUrgenciaM').val(datosI[14]);
 				$("#linea_se").val(datosI[17]);
+
+				select2ini("#sat", "sat.php", "INGRESA LA CLAVE DE LA CUENTA DEL SAT ");
+				$("#sat").html("<option value='"+datosI[18]+"' selected>"+datosI[19]+"</option>");
+				$("#sat").select2("data", {
+					id: datosI[18],
+					text: datosI[19]
+				});
+				$("#sat").trigger("change");
 			});
 
 			$('#formEstudio').validator().on('submit', function (e) {
@@ -284,6 +303,27 @@ function fichaEstudio(idE, nameS){
 		$('#myModal1').on('shown.bs.modal', function (e) { $('#formEstudio').validator(); });
 		$('#myModal1').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal1").empty(); });
 	} });
+}
+
+
+function select2ini(donde, url, ph){
+    $(donde).select2({
+        language: "es",
+        width: "off",
+        allowClear: true,
+        ajax: {
+            url: 'select/'+url,
+            type: "post",
+            data: function (params) {
+                var query = {
+                    search: params.term,
+                    page: params.page || 1
+                };
+                return query;
+            }
+        },
+        placeholder: ph
+    });
 }
 
 function insertAtCaret(text) { tinymce.get("input").execCommand('mceInsertContent', false, text); $('#inserta_algo').val(''); }

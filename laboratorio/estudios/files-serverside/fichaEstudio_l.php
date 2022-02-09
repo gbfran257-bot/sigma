@@ -14,10 +14,16 @@ require("../../../funciones/php/values.php");
 	} 
  
  	mysql_select_db($database_horizonte, $horizonte);
- 	$result = mysql_query("SELECT concepto_to, id_area_to, $precio_nor, $precio_ur, formato, precio_to, precio_urgencia_to, precio_to, precio_urgencia_to, dias_entrega_to, precio_m, precio_mu, precio_h, costo_maquila_to, costo_maquila_u_to, c_costo, motivo_costo,formatoLibre,linea_c from conceptos where id_to = $idE ", $horizonte) or die (mysql_error());
+ 	$result = mysql_query("SELECT concepto_to, id_area_to, $precio_nor, $precio_ur, formato, precio_to, precio_urgencia_to, precio_to, precio_urgencia_to, dias_entrega_to, precio_m, precio_mu, precio_h, costo_maquila_to, costo_maquila_u_to, c_costo, motivo_costo,formatoLibre,linea_c, sat_c from conceptos where id_to = $idE ", $horizonte) or die (mysql_error());
  	$row = mysql_fetch_row($result);
 
- 	$datos = $row[0]."*}".$row[1]."*}".$row[2]."*}".$row[3]."*}".$row[4]."*}".$row[5]."*}".$row[6]."*}".$row[7]."*}".$row[8]."*}".$row[9]."*}".$row[10]."*}".$row[11]."*}".$row[12]."*}".$row[13]."*}".$row[14]."*}".$row[15]."*}".$row[16]."*}".$row[17]."*}".$row[18];
+	 if($row[19] != ''){
+		mysql_select_db($database_horizonte, $horizonte);
+		$result1 = mysql_query("SELECT descripcion_sat from catalogo_sat where clave_sat = $row[19]", $horizonte) or die (mysql_error());
+		$row1 = mysql_fetch_row($result1);
+	}
+
+ 	$datos = $row[0]."*}".$row[1]."*}".$row[2]."*}".$row[3]."*}".$row[4]."*}".$row[5]."*}".$row[6]."*}".$row[7]."*}".$row[8]."*}".$row[9]."*}".$row[10]."*}".$row[11]."*}".$row[12]."*}".$row[13]."*}".$row[14]."*}".$row[15]."*}".$row[16]."*}".$row[17]."*}".$row[18]."*}".$row[19]."*}".$row1[0];
 
 echo $datos;
  

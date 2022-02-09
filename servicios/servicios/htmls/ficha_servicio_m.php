@@ -21,12 +21,13 @@
         	
             <div role="tabpanel" class="tab-pane active" id="tEstudio" aria-labelledby="estudio-tab"><br>
             	<input name="idUsuarioE" id="idUsuarioE" type="hidden" value="">
-                <div class="col-sm-12 col-md-12">
+                <div class="col-sm-6 col-md-6">
                     <div class="form-group">
                      <label for="nombreE">* NOMBRE DEL ESTUDIO</label>
                      <input type="text" class="form-control input-sm" id="nombreE" name="nombreE" required>
                      </div>
                 </div>
+                
                 <div class="col-sm-6 col-md-6">
                     <div class="form-group">
                      <label for="precioE">* PRECIO PÚBLICO($)</label>
@@ -51,7 +52,7 @@
                      <input type="text" class="form-control input-sm" id="precioUrgenciaME" name="precioUrgenciaME" required onKeyUp="numeros_decimales(this.value, this.name);">
                      </div>
                 </div>
-				<div class="col-sm-6 col-md-6">
+			        	<div class="col-sm-6 col-md-6">
                     <div class="form-group">
                      <label for="precioHO">* PRECIO DE HOSPITAL($)</label>
                      <input type="text" class="form-control input-sm" id="precioHO" name="precioHO" required onKeyUp="numeros_decimales(this.value, this.name);">
@@ -67,6 +68,13 @@
                     <div class="form-group">
                      <label for="linea_se">* LÍNEA</label>
                      <select name='linea_se' class="form-control input-sm" id='linea_se' required></select>
+                     </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                      <br>
+                     <!-- <label for="sat">* CLAVE SAT</label> -->
+                     <select name="sat" id="sat" class="form-control form-control-sm" required></select>
                      </div>
                 </div>
             </div>

@@ -15,6 +15,8 @@ require("../../../funciones/php/values.php");
  
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
  $noTemp = sqlValue(date('Y-m-d-H-i-s'), "date");
+
+ $sat = sqlValue($_POST["sat"], "text");
   
   //primero tenemos que saber si existe su tabulador, sino entnces escogemos el tabulador base
 	$tabu = $_POST['miSucursalNS'].'_precio'; $resultT = mysql_query("SHOW COLUMNS FROM conceptos LIKE '$tabu' ");
@@ -23,11 +25,11 @@ require("../../../funciones/php/values.php");
 		$precio_nor = $_POST['miSucursalNS'].'_precio'; $precio_ur = $_POST['miSucursalNS'].'_precio_u';
 		
 		mysql_select_db($database_horizonte, $horizonte);
- 		$sql = "INSERT INTO conceptos (usuario_to, concepto_to, $precio_nor, $precio_ur, id_area_to, id_medicamento_g, fecha_to, id_departamento_to, id_tipo_concepto_to, precio_to, precio_urgencia_to, precio1_to, precio_urgencia1_to, aleatorio_c, precio_h, precio_hu, costo_maquila_to, codigo_barras_to, descripcion_to, precio_m, precio_mu, costo_maquila_u_to,linea_c) VALUES ($idU, $nombre_c, $precio_p, $precio_p, 61, $id_mg, $now, 3, 5, $precio_p, $precio_p, $precio_m, $precio_m, $noTemp, $precio_h, $precio_h, $costo, $codigo_b, $dosis, $precio_m, $precio_m, $costo,$linea)";
+ 		$sql = "INSERT INTO conceptos (usuario_to, concepto_to, $precio_nor, $precio_ur, id_area_to, id_medicamento_g, fecha_to, id_departamento_to, id_tipo_concepto_to, precio_to, precio_urgencia_to, precio1_to, precio_urgencia1_to, aleatorio_c, precio_h, precio_hu, costo_maquila_to, codigo_barras_to, descripcion_to, precio_m, precio_mu, costo_maquila_u_to,linea_c,sat_c) VALUES ($idU, $nombre_c, $precio_p, $precio_p, 61, $id_mg, $now, 3, 5, $precio_p, $precio_p, $precio_m, $precio_m, $noTemp, $precio_h, $precio_h, $costo, $codigo_b, $dosis, $precio_m, $precio_m, $costo,$linea,$sat)";
  
 	}else{
 		mysql_select_db($database_horizonte, $horizonte);
- 		$sql = "INSERT INTO conceptos (usuario_to, concepto_to, precio_to, precio_urgencia_to, id_area_to, id_medicamento_g, fecha_to, id_departamento_to, id_tipo_concepto_to, precio1_to, precio_urgencia1_to, aleatorio_c, precio_h, precio_hu, costo_maquila_to, codigo_barras_to, descripcion_to, precio_m, precio_mu, costo_maquila_u_to,linea_c) VALUES ($idU, $nombre_c, $precio_p, $precio_p, 61, $id_mg, $now, 3, 5, $precio_m, $precio_m, $noTemp, $precio_h, $precio_h, $costo, $codigo_b, $dosis, $precio_m, $precio_m, $costo,$linea)";
+ 		$sql = "INSERT INTO conceptos (usuario_to, concepto_to, precio_to, precio_urgencia_to, id_area_to, id_medicamento_g, fecha_to, id_departamento_to, id_tipo_concepto_to, precio1_to, precio_urgencia1_to, aleatorio_c, precio_h, precio_hu, costo_maquila_to, codigo_barras_to, descripcion_to, precio_m, precio_mu, costo_maquila_u_to,linea_c,sat_c) VALUES ($idU, $nombre_c, $precio_p, $precio_p, 61, $id_mg, $now, 3, 5, $precio_m, $precio_m, $noTemp, $precio_h, $precio_h, $costo, $codigo_b, $dosis, $precio_m, $precio_m, $costo,$linea,$sat)";
 	}
 	  
  $update = mysql_query($sql, $horizonte) or die (mysql_error());

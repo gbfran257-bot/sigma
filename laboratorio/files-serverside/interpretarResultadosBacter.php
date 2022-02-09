@@ -4,7 +4,7 @@ require("../../funciones/php/values.php");
 
 $idEvc = sqlValue($_GET["idE"], "int");
   
-$tabla = '<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:left;" class="table-condensed table-bordered">
+$tabla = '<table id="p_contenido" width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:left;" class="table-condensed table-bordered">
 		<tr align="" class="">
 			<td colspan="5">MICROORGANISMO AISLADO:</td>
 		</tr>

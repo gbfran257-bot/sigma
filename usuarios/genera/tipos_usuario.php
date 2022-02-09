@@ -21,7 +21,9 @@ if($tipo_user==14){
 $query = mysql_query($consulta) or die (mysql_error());
 echo '<option value="">'.'-SELECCIONAR-'.'</option>';
 while ($fila = mysql_fetch_array($query)) {
-	echo '<option value="'.$fila['id_tu'].'">'.$fila['nombre_tu'].'</option>';
+	if($fila['id_tu'] != 15){
+		echo '<option value="'.$fila['id_tu'].'">'.$fila['nombre_tu'].'</option>';	
+	}
 };
 
 ?>

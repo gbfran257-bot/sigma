@@ -220,8 +220,8 @@
                                         <th align="center">ÁREA&nbsp;</th>
                                         <th align="center">PRECIO</th>
                                         <th align="center">BENEFICIO</th>
-										<th align="center">DICOM</th>
-                    <th>INDICA</th>
+                                        <th align="center">DICOM</th>
+                                        <th>INDICA</th>
                                       </tr>
                                     </thead>
                                     <tbody align="left"> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
@@ -231,8 +231,8 @@
                                             <th> <input type="text" name="text2" class="form-control input-sm" style="width:99%;" placeholder="Buscar"> </th>
                                             <th> </th>
                                             <th> <select id="beneficio_i" name="beneficio_i" class="form-control input-sm" style=""> </select> </th>
-											<th> </th>
-                      <th></th>
+                                            <th> </th>
+                                            <th></th>
                                         </tr>
                                     </tfoot>
                                   </table>
@@ -638,7 +638,10 @@
                                   <table width="100%" cellspacing="0" id="dataTableBproductos" height="100%" border="0" cellpadding="0" class="table table-striped table-hover table-bordered table-responsive">
                                     <thead id="my_head">
                                       <tr class="bg-info">
-                                        <th align="center" id="clickmePr">PRODUCTOS DISPONIBLES. <span class="small">Seleecione con un click</span>.</th>
+                                        <th align="center" id="clickmePr">
+                                          PRODUCTOS DISPONIBLES. <span class="small">Seleecione con un click</span>.
+                                        </th>
+                                        <th align="center">CÓDIGO DE BARRAS</th>
                                         <th align="center">
                                             ÁREA&nbsp;
                                         </th>
@@ -646,18 +649,26 @@
                                         <th align="center">BENEFICIO</th>
                                       </tr>
                                     </thead>
-                                    <tbody align="left"> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
+                                    <tbody align="left"> 
+                                      <tr> 
+                                        <td class="dataTables_empty">Cargando datos del servidor</td>
+                                      </tr> 
+                                    </tbody>
                                     <tfoot align="center">
                                         <tr>
-                                            <th>
-                                                <input type="text" name="te1" class="form-control input-sm" style="width:99%;" placeholder="Buscar">
-                                            </th>
-                                            <th>
-                                                <input type="text" name="te2" class="form-control input-sm" style="width:99%;" placeholder="Buscar">
-                                            </th>
-                                            <th>
-                                            </th>
-                                            <th><select id="beneficio_p" name="beneficio_p" class="form-control input-sm" style=""></select></th>
+                                          <th>
+                                              <input type="text" name="te1" class="form-control input-sm" style="width:99%;" placeholder="Buscar">
+                                          </th>
+                                          <th>
+                                            <input type="text" name="te2" class="form-control input-sm" style="width:99%;" placeholder="Buscar">
+                                          </th>
+                                          <th>
+                                              <input type="text" name="te3" class="form-control input-sm" style="width:99%;" placeholder="Buscar">
+                                          </th>
+                                          <th></th>
+                                          <th>
+                                            <select id="beneficio_p" name="beneficio_p" class="form-control input-sm" style=""></select>
+                                          </th>
                                         </tr>
                                     </tfoot>
                                   </table>

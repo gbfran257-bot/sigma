@@ -1,6 +1,14 @@
 <?php
 require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
+
+include_once '../../../recursos/session.php';
+include_once '../../../Connections/database.php';
+include_once '../../../recursos/utilities.php';
+
+
+$tipo_user = $_SESSION['MM_UserGroup'];
+$sucu_user = $_SESSION['MM_Usersucu'];
      
     $aColumns = array('s.id', 's.referencia_compra','c.concepto_to', 's.Lote','su.nombre_su', 's.fecha_expiracion', 'u.usuario_u','DATE_FORMAT(s.fecha_update,"%d/%c/%Y")','s.cantidad', 's.costo_unitario','s.existencias', 'c.precio_to', 's.id', 's.id', 's.id', 's.id','su.id_su');
     // DB tables to use 
@@ -289,7 +297,11 @@ require("../../../funciones/php/values.php");
         }else{
             $row[14] ="<span class='btn btn-primary disabled'><i class='fa fa-exchange'></i></span>"; 
         }
+
         
+        if($tipo_user == 15){
+            $row[10] = "<span class='btn btn-primary' onclick='cambiarExistencias($row[15],$row[10])'>$row[10]</span>"; 
+        }
 
         
        $row[0]= $hh;

@@ -48,6 +48,7 @@
     <script src="funciones/js/calcula_edad.js"></script>
     <script src="funciones/js/stdlib.js"></script>
     <script src="funciones/js/bs-modal-fullscreen.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
@@ -64,6 +65,12 @@
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
     <link href="c3/c3.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<style>
+		.select2-dropdown{
+			z-index: 9999;
+		}
+    </style>
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
@@ -230,6 +237,8 @@ function nuevoEstudio(){
 			// $('#tGenerales').removeClass('active');
 		});
 
+		select2ini("#sat", "sat.php", "INGRESA LA CLAVE DE LA CUENTA DEL SAT ");
+
 		$('#med_generico').validator().on('submit', function (e) {
 		  if (e.isDefaultPrevented()) { // handle the invalid form...
 			//$("#alerta_new_user").fadeTo(2000,500).slideUp(500,function(){ $("#alerta_new_user").slideUp(600); });
@@ -325,6 +334,14 @@ function verMedicamento(id_medi, nombre_m){
 			$("#miSucursalNS").load('pacientes/genera/genera_sucursales_ov.php?idU='+$('#id_user').val(),function(response,status,xhr){
 				if (status = "success"){ $("#miSucursalNS").val($('#miSucursal').val()); }
 			});
+
+			select2ini("#sat", "sat.php", "INGRESA LA CLAVE DE LA CUENTA DEL SAT ");
+			$("#sat").html("<option value='"+datos[22]+"' selected>"+datos[23]+"</option>");
+			$("#sat").select2("data", {
+				id: datos[22],
+				text: datos[32]
+			});
+			$("#sat").trigger("change");
 			$("#linea_med").val(datos[21]);
 			$('#cat_riesgo_e, #tex_cat_re').text(datos[5]); //alert(rowData[0][4]);
 			$('#tex_presentacion').text(datos[6]); $('#tex_via').text(datos[7]); $('#tex_dosis').val(datos[8]);
@@ -358,5 +375,26 @@ function verMedicamento(id_medi, nombre_m){
 		$('#myModalx').on('shown.bs.modal', function (e) { $('#formEstudio').validator(); });
 		$('#myModalx').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModalx").empty(); });
 	} });
+}
+
+
+function select2ini(donde, url, ph){
+    $(donde).select2({
+        language: "es",
+        width: "off",
+        allowClear: true,
+        ajax: {
+            url: 'select/'+url,
+            type: "post",
+            data: function (params) {
+                var query = {
+                    search: params.term,
+                    page: params.page || 1
+                };
+                return query;
+            }
+        },
+        placeholder: ph
+    });
 }
 </script>

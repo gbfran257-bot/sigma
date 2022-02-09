@@ -81,6 +81,7 @@
     <th style="vertical-align:middle;" nowrap>PRECIO HOSPITAL</th>
     <th style="vertical-align:middle;" nowrap>PHOSPITAL URGENCIA</th>
 	<th style="vertical-align:middle;" nowrap>LÍNEA</th>
+	<th style="vertical-align:middle;" nowrap>CLAVE SAT</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -94,7 +95,8 @@
             <th></th>
             <th></th>
             <th></th>
-			<th><input type="text" class="form-control input-sm" placeholder="línea" style="max-width:100px;"/></th>
+			<th><input type="text" class="form-control input-sm" placeholder="Línea" style="max-width:100px;"/></th>
+			<th><input type="text" class="form-control input-sm" placeholder="Clave sat" style="max-width:100px;"/></th>
         </tr>
     </tfoot>
 </table>
@@ -117,7 +119,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
-			{"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
+			{"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', deferRender: true, select: false, "processing": false, 
 		"sAjaxSource": "consultas/consultas/datatable-serverside/consultas_c.php",

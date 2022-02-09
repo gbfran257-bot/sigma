@@ -227,6 +227,7 @@
                                     <li><a href="catalogo_estatus.php"><i class="fa fa-briefcase"></i> ESTATUS</a></li>
                                     <li><a href="catalogo_lineas_cr.php"><i class="fa fa-briefcase"></i> LINEAS CR</a></li>
                                     <li><a href="catalogo_descuentos.php"><i class="fa fa-briefcase"></i> DESCUENTOS</a></li>
+                                    <li><a href="catalogo_sat.php"><i class="fa fa-briefcase"></i> SAT</a></li>
                                 </ul>
                             </li>
                         <?php }?>

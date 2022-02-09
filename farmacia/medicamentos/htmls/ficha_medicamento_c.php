@@ -102,8 +102,11 @@
                   </div>
                   <div class="form-group">
                   	<div class="col-md-2 col-sm-2 col-xs-2 col-lg-2 text-primary" align="right">* CONVENIO</div>
-                  	<div class="col-sm-10 col-xs-10 col-md-10 col-lg-10">
+                  	<div class="col-sm-5 col-xs-5 col-md-5 col-lg-5">
                          <select name='miSucursalNS' class="form-control input-sm" id='miSucursalNS' required></select>
+                    </div>
+                  	<div class="col-sm-5 col-xs-5 col-md-5 col-lg-5">
+                    <select name="sat" id="sat" class="form-control form-control-sm" required></select>
                     </div>
                   </div>
                 <br> 

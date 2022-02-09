@@ -4,7 +4,7 @@ require("../../funciones/php/values.php");
 
 $idEvc = sqlValue($_GET["idE"], "int");
   
-$tabla = '<table width="100%" height="90%" border="0" cellspacing="1" cellpadding="4" style="text-align:left;" class="table table-condensed table-bordered"> <tr align="center" class="bg-primary">
+$tabla = '<table id="p_contenido" width="100%" height="90%" border="0" cellspacing="1" cellpadding="4" style="text-align:left;" class="table table-condensed table-bordered"> <tr align="center" class="bg-primary">
 		<td>DETERMINACION</td> <td width="200px">RESULTADO</td> <td>VALORES DE REFERENCIA</td> <td>UNIDADES</td> </tr>';
 
 mysql_select_db($database_horizonte, $horizonte);

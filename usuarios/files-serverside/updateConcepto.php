@@ -18,9 +18,10 @@ require("../../funciones/php/values.php");
  $honorario_c = sqlValue($_POST["honorario_c"], "double");
  $honorario_cu = sqlValue($_POST["honorario_cu"], "double");
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
+ $sat = sqlValue($_POST["sat"], "text");
 
  mysql_select_db($database_horizonte, $horizonte);
- $sql = "UPDATE conceptos set concepto_to = $concepto, id_area_to = $area, precio_to = $precio, precio_urgencia_to = $precioU, precio_m = $precioM, precio_mu = $precioMU, precio_h = $precioH, c_costo = $precio_costoproduccion, honorarios_c = $honorario_c, honorarios_cu = $honorario_cu, linea_c = $linea where id_to = $idC limit 1";
+ $sql = "UPDATE conceptos set concepto_to = $concepto, id_area_to = $area, precio_to = $precio, precio_urgencia_to = $precioU, precio_m = $precioM, precio_mu = $precioMU, precio_h = $precioH, c_costo = $precio_costoproduccion, honorarios_c = $honorario_c, honorarios_cu = $honorario_cu, linea_c = $linea, sat_c = $sat where id_to = $idC limit 1";
   
 $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	

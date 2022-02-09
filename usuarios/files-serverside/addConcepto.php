@@ -16,10 +16,11 @@ require("../../funciones/php/values.php");
  $honorario_c = sqlValue($_POST["honorario_c"], "double");
  $honorario_cu = sqlValue($_POST["honorario_cu"], "double");
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
+ $sat = sqlValue($_POST["sat"], "text");
 
  mysql_select_db($database_horizonte, $horizonte);
- $sql = "INSERT INTO conceptos(usuario_to, aleatorio_c, concepto_to, id_departamento_to, id_area_to, precio_to, precio_urgencia_to, precio_m, precio_mu, fecha_to, id_tipo_concepto_to, precio_h, c_costo, honorarios_c,  honorarios_cu, linea_c)";
- $sql.= "VALUES ($idUsuario, $temporal, $concepto, 4, $area, $precio, $precioU, $precioM, $precioMU, $now, 1, $precioH, $precio_costoproduccion, $honorario_c, $honorario_cu, $linea)";
+ $sql = "INSERT INTO conceptos(usuario_to, aleatorio_c, concepto_to, id_departamento_to, id_area_to, precio_to, precio_urgencia_to, precio_m, precio_mu, fecha_to, id_tipo_concepto_to, precio_h, c_costo, honorarios_c,  honorarios_cu, linea_c,sat_c)";
+ $sql.= "VALUES ($idUsuario, $temporal, $concepto, 4, $area, $precio, $precioU, $precioM, $precioMU, $now, 1, $precioH, $precio_costoproduccion, $honorario_c, $honorario_cu, $linea, $sat)";
   
 $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	

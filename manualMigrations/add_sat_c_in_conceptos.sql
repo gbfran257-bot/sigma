@@ -1,0 +1,1 @@
+ALTER TABLE `conceptos` ADD `sat_c` VARCHAR(202) NULL DEFAULT NULL AFTER `linea_c`;

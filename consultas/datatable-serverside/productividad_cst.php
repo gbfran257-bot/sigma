@@ -12,7 +12,7 @@ require("../../funciones/php/values.php");
     $sIndexColumn = "v.id_vc";
      
 	 // Joins   
-	$sJoin = 'left join orden_venta o on o.referencia_ov = v.referencia_vc left join conceptos e on e.id_to = v.id_concepto_es left JOIN pacientes p ON p.id_p = v.id_paciente_vc left join usuarios m on m.temporal_u = e.aleatorio_c left join sucursales s on s.id_su = o.sucursal_ov left join titulos t on t.id_ti = m.id_titulo_u';
+	$sJoin = 'left join orden_venta o on o.referencia_ov = v.referencia_vc left join conceptos e on e.id_to = v.id_concepto_es left JOIN pacientes p ON p.id_p = v.id_paciente_vc left join usuarios m on m.id_u = v.usuarioEdo3_e left join sucursales s on s.id_su = o.sucursal_ov left join titulos t on t.id_ti = m.id_titulo_u';
 		
     $sWhere="";
 
@@ -26,7 +26,7 @@ require("../../funciones/php/values.php");
             }
         }
         if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " AND "; }
-	$sWhere.=" v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and  e.id_tipo_concepto_to = 1 and v.temporal_vc=0 group by e.concepto_to order by suma desc ";
+	$sWhere.=" v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and  e.id_tipo_concepto_to = 1 and v.temporal_vc=0  and estatus_vc = 6 group by e.concepto_to order by suma desc ";
 	
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;

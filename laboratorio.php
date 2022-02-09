@@ -887,28 +887,28 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
 					//aquí hacer que cuando sea la bh cambie de archivo para imprimir los resultados
 					switch(n){
 						case 'BIOMETRIA HEMATICA':
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosBH.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosBH.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
 						break;
 						case 'EXAMEN GENERAL DE ORINA':
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosEGO.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosEGO.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
 						break;
 						case 'COPROLOGICO':
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoprologico.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoprologico.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
 						break;
 						case 'COPROPARASITOSCOPICO UNICO':
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio1.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio1.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
 						break;
 						case 'COPROPARASITOSCOPICO (2M)':
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio2.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio2.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
 						break;
 						case 'COPROPARASITOSCOPICO SERIADO':
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio3.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio3.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
 						break;
 						case 'COPROPARASITOSCOPIO (3)':
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio3.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio3.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
 						break;
 						default:
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultados.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultados.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
 					}
 				}else{
 					$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosBacter.php?idE='+b,function(response,status,xhr){if(status == "success") {

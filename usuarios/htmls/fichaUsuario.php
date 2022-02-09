@@ -446,10 +446,15 @@ $id_del_user = $_SESSION['id'];
               </div>
               <div class="panel-body">
                 <div class="row">
-                    <div class="form-group col-md-7 col-sm-7 col-lg-7 text-primary">
+                    <div class="form-group col-md-6 col-sm-6 col-lg-6 text-primary">
                     	<input name="mi_id_to" id="mi_id_to" type="hidden">
                         <label for="nombre_to" class="col-form-label">* NOMBRE DEL CONCEPTO</label>
                         <input name="nombre_to" id="nombre_to" type="text" class="form-control form-control-sm" placeholder="Nombre del concepto">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-6 col-lg-6 text-primary">
+                    	<input name="mi_id_to" id="mi_id_to" type="hidden">
+                        <label for="sat" class="col-form-label">* CLAVE SAT </label> <br>
+                        <select name="sat" id="sat" class="form-control form-control-sm" ></select>
                     </div>
                 </div>
                 <div class="row">

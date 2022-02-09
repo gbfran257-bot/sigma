@@ -16,10 +16,10 @@ include_once '../../../recursos/utilities.php';
 		/// 'c.precio_to','c.precio_urgencia_to' deberia ser costo_maquila y costomaquilau
         /// 'c.precio1_to','c.precio_urgencia1_to' deberia ser precio_to y precio_urgen_to
 		$aColumns = array('c.id_to','c.concepto_to', 'a.nombre_a', 'c.dias_entrega_to', $precio_nor,$precio_ur,
-            'c.costo_maquila_to','c.costo_maquila_u_to', 'c.precio_to','c.precio_urgencia_to', 'u.usuario_u','c.linea_c','c.id_to', 'c.aleatorio_c', 'DATE_FORMAT(c.fecha_to,"%d/%m/%Y %H:%i")');
+            'c.costo_maquila_to','c.costo_maquila_u_to', 'c.precio_to','c.precio_urgencia_to', 'u.usuario_u','c.linea_c','c.sat_c','c.id_to', 'c.aleatorio_c', 'DATE_FORMAT(c.fecha_to,"%d/%m/%Y %H:%i")');
 	}else{
 		$aColumns = array('c.id_to', 'c.concepto_to', 'a.nombre_a', 'c.dias_entrega_to', 'c.precio_to','c.precio_urgencia_to',
-            'c.costo_maquila_to','c.costo_maquila_u_to', 'c.precio_to','c.precio_urgencia_to', 'u.usuario_u','c.linea_c','c.id_to', 'c.aleatorio_c', 'DATE_FORMAT(c.fecha_to,"%d/%m/%Y %H:%i")');
+            'c.costo_maquila_to','c.costo_maquila_u_to', 'c.precio_to','c.precio_urgencia_to', 'u.usuario_u','c.linea_c','c.sat_c','c.id_to', 'c.aleatorio_c', 'DATE_FORMAT(c.fecha_to,"%d/%m/%Y %H:%i")');
 	}
 	    
     // DB tables to use 
@@ -159,17 +159,17 @@ include_once '../../../recursos/utilities.php';
 		$row[0]="<span>$hh</span>";
 		
 		if($_GET['accesoU']==1 && $_GET['enExcel'] == 0){//globalisima
-			$row[1]= "<span class='text-info' style='cursor:pointer; text-decoration:underline;' lang='$row[13]' id='$row[12]' onClick='fichaEstudio(this.id, this.lang);'>$row[1]</span>";
+			$row[1]= "<span class='text-info' style='cursor:pointer; text-decoration:underline;' lang='$row[15]' id='$row[13]' onClick='fichaEstudio(this.id, this.lang);'>$row[1]</span>";
 			
-            $row[6]="<input type='text' class='form-control input-sm precio_m_i' value='$row[6]' style='width:75px; text-align:right;' lang='$row[12]'>";
-            $row[7]="<input type='text' class='form-control input-sm precio_m_u_i' value='$row[7]' style='width:75px; text-align:right;' lang='$row[12]'>";
+            $row[6]="<input type='text' class='form-control input-sm precio_m_i' value='$row[6]' style='width:75px; text-align:right;' lang='$row[13]'>";
+            $row[7]="<input type='text' class='form-control input-sm precio_m_u_i' value='$row[7]' style='width:75px; text-align:right;' lang='$row[13]'>";
             $r8 = $row[8];
-            $row[8]="<input type='text' class='form-control input-sm tabu_m_i' value='$row[4]' style='width:75px; text-align:right;' lang='$row[12]'>";
+            $row[8]="<input type='text' class='form-control input-sm tabu_m_i' value='$row[4]' style='width:75px; text-align:right;' lang='$row[13]'>";
             $r9 = $row[9];
-            $row[9]="<input type='text' class='form-control input-sm tabu_m_u_i' value='$row[5]' style='width:75px; text-align:right;' lang='$row[12]'>";
-			$row[3]="<input type='text' class='form-control input-sm dias_i' value='$row[3]' style='width:40px; text-align:right;' lang='$row[12]'>";
-			$row[4]="<input type='text' class='form-control input-sm precio_p_i' value='$r8' style='width:75px; text-align:right;' lang='$row[12]'>";
-			$row[5]="<input type='text' class='form-control input-sm precio_p_u_i' value='$r9' style='width:75px; text-align:right;' lang='$row[12]'>";
+            $row[9]="<input type='text' class='form-control input-sm tabu_m_u_i' value='$row[5]' style='width:75px; text-align:right;' lang='$row[13]'>";
+			$row[3]="<input type='text' class='form-control input-sm dias_i' value='$row[3]' style='width:40px; text-align:right;' lang='$row[13]'>";
+			$row[4]="<input type='text' class='form-control input-sm precio_p_i' value='$r8' style='width:75px; text-align:right;' lang='$row[13]'>";
+			$row[5]="<input type='text' class='form-control input-sm precio_p_u_i' value='$r9' style='width:75px; text-align:right;' lang='$row[13]'>";
 			
 		}else{ 
             $row[1]="<span id='$row[6]'>$row[1]</span>"; 
@@ -181,7 +181,7 @@ include_once '../../../recursos/utilities.php';
             $row[5]=$r9;
         }
 		
-		$row[10]="<div align='center'>$row[10]<br>$row[14]</div>";
+		$row[10]="<div align='center'>$row[10]<br>$row[15]</div>";
 										
 		$output['aaData'][] = $row;
     }

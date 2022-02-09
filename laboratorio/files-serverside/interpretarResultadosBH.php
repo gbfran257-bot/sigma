@@ -25,7 +25,7 @@ $htc  = round(($row1[0]*$row2[0])/10,2);
 $mch  = round(($row3[0]/$row4[0])*10,2);
 $mchc = round(($row3[0]/$htc)*100,2);
   
-$tabla = '<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table-condensed table-bordered"> <tr align="center" class="bg-primary">
+$tabla = '<table id="p_contenido" width="100%" border="0" cellspacing="0" cellpadding="0" class="table-condensed table-bordered"> <tr align="center" class="bg-primary">
 		<td>FÓRMULA ROJA</td> <td width="" align="right">RESULTADO</td> <td align="center" nowrap>VALORES DE REFERENCIA</td> <td align="right">UNIDADES</td> </tr>';
 $var = 0;
 mysql_select_db($database_horizonte, $horizonte);
