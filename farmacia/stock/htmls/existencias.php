@@ -15,15 +15,23 @@ $id_del_user = $_SESSION['id'];
   <div class="modal-body" id="body_modal_compra">
     <form action="">
         
-            <div class="row" style="display:flex; justify-content:center">
-                <div class="form-group col-md-4 col-sm-6 text-primary">
-                    <label id="existActual" class="col-form-label"></label>
-                </div>
+            <div class="row" style="display:flex;">
                 <input type="text" id="idStock" class="hide">
                 <div class="form-group col-md-4 col-sm-6 text-primary">
+                    <label id="existActual" class="col-form-label"></label>
                     <label  class="col-form-label">*NUEVO VALOR DE EXISTENCIAS</label> <br>
                     <input class="form-control form-control-sm" name="cant" id="cant" type="number" min="1">
                     <div class="help-block with-errors" id="cantAlerta"></div>
+                </div>
+                <div class="form-group col-md-4 col-sm-6 text-primary"> <br>
+                    <label  class="col-form-label">FECHA DE CADUCIDAD</label> <br>
+                    <input class="form-control form-control-sm" name="feCad" id="feCad" type="date" value="">
+                    <div class="help-block with-errors" id="calendarAlerta"></div>
+                </div>
+                <div class="form-group col-md-4 col-sm-6 text-primary"> <br>
+                    <label  class="col-form-label">LOTE</label> <br>
+                    <input class="form-control form-control-sm" name="lote" id="lote" type="text" min="1">
+                    <div class="help-block with-errors" id="loteAlerta"></div>
                 </div>
             </div>
         

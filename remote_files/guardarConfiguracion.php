@@ -20,8 +20,21 @@ $link_externo_s = sqlValue($_POST["link_externo_s"], "text");
 $link_externo_p = sqlValue($_POST["link_externo_p"], "text");
 $sitio_web = sqlValue($_POST["sitio_web"], "text");
 
+
+ //FISCALES 
+ $razon_social_cf = sqlValue($_POST["rSocial"], "text");
+ $rfc_cf = sqlValue($_POST["rfc_cf"], "text");           
+ $email_cf = sqlValue($_POST["email_cf"], "text");         
+ $telefono_cf = sqlValue($_POST["telefono_cf"], "text");      
+ $entidadFederativa_cf = sqlValue($_POST["entidadFederativa_cf"], "int");  
+ $municipio_cf = sqlValue($_POST["municipio_cf"], "int");     
+ $ciudad_cf = sqlValue($_POST["ciudad_cf"], "text");          
+ $colonia_cf = sqlValue($_POST["colonia_cf"], "text");         
+ $calle_cf = sqlValue($_POST["calle_cf"], "text");         
+ $cp_cf =sqlValue($_POST["cp_cf"], "text");
+
 mysql_select_db($database_horizonte, $horizonte);
- $sql = "INSERT INTO configuracion(nombre_sistema_cf, nombre_db_cf, nombre_membresia_cf, precio_membresia_cf, periodo_membresia_cf, dias_avisar_membresia_cf, usuario_cf, fecha_cf, tecla_cf, formato_co_cf, formato_nm_cf, formato_la_cf, formato_im_cf, formato_en_cf, formato_ul_cf, formato_cp_cf, formato_sm_cf, link_sistema_local, link_pacs_local, link_sistema_externo, link_pacs_externo, sitio_web) VALUES ($nombreS, $nombreDB, $nombreM, $precioM, $periodoM, $diasMV, $usuario, $now, $tecla, $formato, $formato1, $formato2, $formato3, $formato4, $formato5, $formato6, $formato7, $link_local_s, $link_local_p, $link_externo_s, $link_externo_p, $sitio_web)";
+ $sql = "INSERT INTO configuracion(nombre_sistema_cf, nombre_db_cf, nombre_membresia_cf, precio_membresia_cf, periodo_membresia_cf, dias_avisar_membresia_cf, usuario_cf, fecha_cf, tecla_cf, formato_co_cf, formato_nm_cf, formato_la_cf, formato_im_cf, formato_en_cf, formato_ul_cf, formato_cp_cf, formato_sm_cf, link_sistema_local, link_pacs_local, link_sistema_externo, link_pacs_externo, sitio_web,razon_social_cf, rfc_cf, email_cf, telefono_cf, entidadFederativa_cf, municipio_cf, ciudad_cf, colonia_cf, calle_cf, cp_cf) VALUES ($nombreS, $nombreDB, $nombreM, $precioM, $periodoM, $diasMV, $usuario, $now, $tecla, $formato, $formato1, $formato2, $formato3, $formato4, $formato5, $formato6, $formato7, $link_local_s, $link_local_p, $link_externo_s, $link_externo_p, $sitio_web, $razon_social_cf, $rfc_cf, $email_cf, $telefono_cf, $entidadFederativa_cf, $municipio_cf, $ciudad_cf, $colonia_cf, $calle_cf, $cp_cf)";
    
  $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	

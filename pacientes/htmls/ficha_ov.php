@@ -67,6 +67,7 @@
 								  <option value="">-SELECCIONE UNA FORMA DE PAGO-</option>
 								  <option value="1" selected>FORMA PAGO: EFECTIVO</option>
 								  <option value="2">FORMA PAGO: TARJETA CRÉDITO</option>
+                  <option value="2">FORMA PAGO: TARJETA DE DÉBITO</option>
 								  <option value="3">FORMA PAGO: TRANSFERENCIA ELECTRÓNICA</option>
 								  <option value="4">FORMA PAGO: CHEQUE</option>
 								</select>

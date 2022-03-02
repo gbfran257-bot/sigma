@@ -2,7 +2,7 @@
     <div class="modal-content animated flipInY">
       <div class="modal-header">
         <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><strong><span id="titulo_modal">CREAR UN NUEVO PACIENTE</span></strong></h4>
+        <h2 class="modal-title"><strong><span id="titulo_modal">CREAR UN NUEVO PACIENTE</span></strong></h2>
         <button type="button" data-loading-text="<i class='fa fa-circle-o-notch fa-spin' aria-hidden='true'></i> Procesando..." style="position: absolute;right: 15px;top: 10px;" class="btn btn-success btn-sm btns-consulta" id="finalizarConsulta"><i class="fa fa-check" aria-hidden="true"></i> Finalizar</button>
       </div>
       <div class="modal-body">
@@ -92,100 +92,101 @@
                                     <span id="fechaSignosC" name="fechaSignosC"></span> POR <span id="usuario_svi1"></span>
                                 </h3>
                             </div>
-                            <div class="panel-body"> <div class="row">
-                        	<div class="col-sm-2 col-md-2">
-                             <div class="form-group">
-                                 <label for="pesoSV">Peso</label>
-                                 <div class="input-group">
-                                 <input type="number" class="form-control sv_ro no-spin" id="pesoSV" name="pesoSV" required step="0.01">
-                                 	<div class="input-group-addon">kg</div>
-                                 </div>
-                             </div>
-                            </div>
-                            <div class="col-sm-2 col-md-2">
-                             <div class="form-group">
-                                 <label for="tallaSV">Talla</label>
-                                 <div class="input-group">
-                                 <input type="number" class="form-control sv_ro no-spin" id="tallaSV" name="tallaSV" required min="0" step="0.01">
-                                    <div class="input-group-addon">mts</div>
-                                 </div>
-                             </div>
-                            </div>
-                            <div class="col-sm-2 col-md-2">
-                             <div class="form-group">
-                                 <label for="imcSV">IMC</label>
-                                 <div class="input-group">
-                                 	<input type="number" class="form-control no-spin" id="imcSV" name="imcSV" readonly>
-                                    <div class="input-group-addon" style="font-size:0.8em;">kg/m<sup>2</sup></div>
-                                 </div>
-                             </div>
-                            </div>
-                            <div class="col-sm-3 col-md-3">
-                             <div class="form-group">
-                                 <label for="tSV">Presión arterial sistólica (T)</label>
-                                 <div class="input-group">
-                                 	<input type="number" class="form-control sv_ro no-spin" id="tSV" name="tSV">
-                                    <div class="input-group-addon">mmHg</div>
-                                 </div>
-                             </div>
-                            </div>
-                            <div class="col-sm-3 col-md-3">
-                             <div class="form-group">
-                                 <label for="aSV">Presión arterial diastólica (A)</label>
-                                 <div class="input-group">
-                                 	<input type="number" class="form-control sv_ro no-spin" id="aSV" name="aSV">
-                                    <div class="input-group-addon">mmHg</div>
-                                 </div>
-                             </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                        	<div class="col-sm-3 col-md-3">
-                             <div class="form-group">
-                                 <label for="frSV">Frecuencia respiratoria</label>
-                                 <div class="input-group">
-                                 	<input type="number" class="form-control sv_ro no-spin" id="frSV" name="frSV" required step="1">
-                                 	<div class="input-group-addon">x min</div>
-                                 </div>
-                             </div>
-                            </div>
-                            <div class="col-sm-3 col-md-3">
-                             <div class="form-group">
-                                 <label for="fcSV">Frecuencia cardiaca</label>
-                                 <div class="input-group">
-                                 	<input type="number" class="form-control sv_ro no-spin" id="fcSV" name="fcSV" required>
-                                    <div class="input-group-addon">x min</div>
-                                 </div>
-                             </div>
-                            </div>
-                            <div class="col-sm-2 col-md-2">
-                             <div class="form-group">
-                                 <label for="oxiSV">Oximetría</label>
-                                 <div class="input-group">
-                                 	<input type="number" class="form-control sv_ro no-spin" id="oxiSV" name="oxiSV">
+                          <div class="panel-body" style="font-size:15px"> 
+                            <div class="row">
+                              <div class="col-sm-3 col-md-3">
+                                <div class="form-group">
+                                    <label for="fcSV">Frecuencia cardiaca</label>
+                                    <div class="input-group">
+                                      <input type="number" class="form-control sv_ro no-spin" id="fcSV" name="fcSV" required>
+                                      <div class="input-group-addon">x min</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-3 col-md-3">
+                                <div class="form-group">
+                                  <label for="oxiSV">Oximetría</label>
+                                  <div class="input-group">
+                                    <input type="number" class="form-control sv_ro no-spin" id="oxiSV" name="oxiSV">
                                     <div class="input-group-addon" style="font-size:0.8em;">% SaO<sub>2</sub></div>
-                                 </div>
-                             </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-3 col-md-3">
+                                <div class="form-group">
+                                    <label for="tSV">Presión arterial sistólica (T)</label>
+                                    <div class="input-group">
+                                      <input type="number" class="form-control sv_ro no-spin" id="tSV" name="tSV">
+                                      <div class="input-group-addon">mmHg</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-3 col-md-3">
+                                <div class="form-group">
+                                    <label for="aSV">Presión arterial diastólica (A)</label>
+                                    <div class="input-group">
+                                      <input type="number" class="form-control sv_ro no-spin" id="aSV" name="aSV">
+                                      <div class="input-group-addon">mmHg</div>
+                                    </div>
+                                </div>
+                              </div>                            
                             </div>
-                            <div class="col-sm-2 col-md-2">
-                             <div class="form-group">
-                                 <label for="cinturaSV">Cintura</label>
-                                 <div class="input-group">
-                                 	<input type="number" class="form-control sv_ro no-spin" id="cinturaSV" name="cinturaSV" step="0.1">
-                                    <div class="input-group-addon">cm</div>
-                                 </div>
-                             </div>
+                            <div class="row">
+                              <div class="col-sm-2 col-md-2">
+                                <div class="form-group">
+                                    <label for="frSV">Frecuencia respiratoria</label>
+                                    <div class="input-group">
+                                      <input type="number" class="form-control sv_ro no-spin" id="frSV" name="frSV" required step="1">
+                                      <div class="input-group-addon">x min</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-2 col-md-2">
+                                <div class="form-group">
+                                    <label for="tempSV">Temperatura</label>
+                                    <div class="input-group">
+                                      <input type="number" class="form-control sv_ro no-spin" id="tempSV" name="tempSV" required step="0.1">
+                                      <div class="input-group-addon">ºC</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-2 col-md-2">
+                                <div class="form-group">
+                                  <label for="pesoSV">Peso</label>
+                                  <div class="input-group">
+                                    <input type="number" class="form-control sv_ro no-spin" id="pesoSV" name="pesoSV" required step="0.01">
+                                    <div class="input-group-addon">kg</div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-2 col-md-2">
+                                <div class="form-group">
+                                    <label for="tallaSV">Talla</label>
+                                    <div class="input-group">
+                                      <input type="number" class="form-control sv_ro no-spin" id="tallaSV" name="tallaSV" required min="0" step="0.01">
+                                      <div class="input-group-addon">mts</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-2 col-md-2">
+                                <div class="form-group">
+                                    <label for="cinturaSV">Cintura</label>
+                                    <div class="input-group">
+                                      <input type="number" class="form-control sv_ro no-spin" id="cinturaSV" name="cinturaSV" step="0.1">
+                                      <div class="input-group-addon">cm</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-2 col-md-2">
+                                <div class="form-group">
+                                    <label for="imcSV">IMC</label>
+                                    <div class="input-group">
+                                      <input type="number" class="form-control no-spin" id="imcSV" name="imcSV" readonly>
+                                      <div class="input-group-addon" style="font-size:0.8em;">kg/m<sup>2</sup></div>
+                                    </div>
+                                </div>
+                              </div>
                             </div>
-                            <div class="col-sm-2 col-md-2">
-                             <div class="form-group">
-                                 <label for="tempSV">Temperatura</label>
-                                 <div class="input-group">
-                                 	<input type="number" class="form-control sv_ro no-spin" id="tempSV" name="tempSV" required step="0.1">
-                                    <div class="input-group-addon">ºC</div>
-                                 </div>
-                             </div>
-                            </div>
-                        </div> 
                         <div class="row">
                         	<div class="col-sm-12 col-md-12">
                              <div class="form-group">

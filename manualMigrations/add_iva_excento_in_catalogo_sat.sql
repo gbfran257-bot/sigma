@@ -1,0 +1,1 @@
+ALTER TABLE `catalogo_sat` ADD `iva` INT(2) NULL DEFAULT NULL AFTER `descripcion_sat`, ADD `excento` INT(1) NULL DEFAULT NULL AFTER `iva`;

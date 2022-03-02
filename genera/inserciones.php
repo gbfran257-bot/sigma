@@ -8,7 +8,7 @@
 	echo '<option value="{et_historia_clinica}">HISTORIA CLINICA</option>';
 	echo '<option value="{et_historia_clinica_AHF}">H.C. ANTECEDENTES HEREDO FAMILIARES</option>';
 	echo '<option value="{et_historia_clinica_APNP}">H.C. ANTECEDENTES PATOLÓGICOS NO PERSONALES</option>';
-	echo '<option value="{et_historia_clinica_APP}">H.C. ANTECEDENTES PATOLÓGICOS NO PERSONALES</option>';
+	echo '<option value="{et_historia_clinica_APP}">H.C. ANTECEDENTES PATOLÓGICOS PERSONALES</option>';
 	echo '<option value="{et_historia_clinica_AGO}">H.C. ANTECEDENTES GINECO-OBSTÉTRICOS</option>';
 	echo '<option value="{et_fecha_mes_numero}">MES DE ELEBORACIÓN(número)</option>';
 	echo '<option value="{et_fecha_mes_letra}">MES DE ELEBORACIÓN(letra)</option>';
@@ -24,6 +24,7 @@
 	echo '<option value="{et_nombre_medico_refiere}">NOMBRE DEL MÉDICO QUE REFIERE</option>';
 	echo '<option value="{et_nombre_universidad}">NOMBRE DE LA UNIVERSIDAD DEL PERSONAL MÉDICO</option>';
 	echo '<option value="{et_nombre_paciente}">NOMBRE DEL PACIENTE</option>';
+	echo '<option value="{et_fecha_nacimiento_paciente}">FECHA DE NACIMIENTO DEL PACIENTE</option>';
 	echo '<option value="{et_referencia}">NÚMERO DE REFERENCIA</option>';
 	echo '<option value="{et_muestra}">MUESTRA(S) DEL ESTUDIO</option>';
 	echo '<option value="{et_metodo}">MÉTODO(S) DEL ESTUDIO</option>';

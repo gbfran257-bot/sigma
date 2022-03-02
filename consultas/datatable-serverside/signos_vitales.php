@@ -1,7 +1,7 @@
 <?php
 require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
-	$aColumns = array('s.id_sv', 'DATE_FORMAT(s.fecha_sv,"%d/%c/%Y - %H:%i")', 's.peso_sv', 's.talla_sv', 's.imc_sv', 's.cintura_sv', 'concat(s.t_sv,"/", s.a_sv)', 's.fr_sv', 's.fc_sv', 's.temperatura_sv', 's.oximetria_sv', 's.id_usuario_sv', 's.id_sv');
+	$aColumns = array('s.id_sv', 'DATE_FORMAT(s.fecha_sv,"%d/%c/%Y - %H:%i")', 's.peso_sv', 's.talla_sv', 's.imc_sv', 's.cintura_sv', 'concat(s.t_sv,"/", s.a_sv)', 's.fr_sv', 's.fc_sv', 's.temperatura_sv', 's.oximetria_sv', 's.id_usuario_sv', 's.id_sv','u.usuario_u');
      
     // DB tables to use 
     $aTables = array( 'signos_vitales s');
@@ -10,7 +10,7 @@ require("../../funciones/php/values.php");
     $sIndexColumn = "s.id_sv";
      
 	 // Joins   
-	$sJoin = '';
+	$sJoin = 'left join usuarios u on u.id_u = s.id_usuario_sv';
 	   
     // CONDITIONS 
 		$sWhere = "WHERE s.id_paciente_sv = $_GET[idP] order by s.id_sv desc ";
@@ -126,6 +126,7 @@ require("../../funciones/php/values.php");
         }
 		
 		$row[0]=$hh;
+        $row[1] = "<span class='text-center'>$row[1] <br> $row[13] </span>";
 		
 		$output['aaData'][] = $row;
     }

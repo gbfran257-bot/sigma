@@ -84,14 +84,27 @@ require("../../funciones/php/values.php");
  $formato = sqlValue($_POST["input_a"], "text"); $formato1 = sqlValue($_POST["input_b"], "text"); $formato2 = sqlValue($_POST["input_c"], "text");
  $formato3 = sqlValue($_POST["input_d"], "text"); $formato4 = sqlValue($_POST["input_e"], "text"); $formato5 = sqlValue($_POST["input_f"], "text");
  $formato6 = sqlValue($_POST["input_g"], "text"); $formato7 = sqlValue($_POST["input_h"], "text");
- 
+
+
+ //FISCALES 
+ $razon_social_sf = sqlValue($_POST["rSocial"], "text");
+ $rfc_sf = sqlValue($_POST["rfcSu"], "text");           
+ $email_sf = sqlValue($_POST["emailFSu"], "text");         
+ $telefono_sf = sqlValue($_POST["telFSu"], "text");     
+//  $regimen_sf = sqlValue($_POST["input_a"], "text");     
+ $entidadFederativa_sf = sqlValue($_POST["estadoSu"], "int");  
+ $municipio_sf = sqlValue($_POST["municipioSu"], "int");     
+ $ciudad_sf = sqlValue($_POST["ciudadFSu"], "text");          
+ $colonia_sf = sqlValue($_POST["coloniaFSu"], "text");         
+ $calle_sf = sqlValue($_POST["calleFSu"], "text");         
+ $cp_sf =sqlValue($_POST["cpFSu"], "text");
  /*$p_m_c = sqlValue($_POST["p_m_c"], "int");$p_m_i = sqlValue($_POST["p_m_i"], "int");$p_m_l = sqlValue($_POST["p_m_l"], "int");
  $p_m_s = sqlValue($_POST["p_m_s"], "int");$p_m_f = sqlValue($_POST["p_m_f"], "int");*/
  //,p_boni_monedero_c, p_boni_monedero_i, p_boni_monedero_l, p_boni_monedero_s, p_boni_monedero_f,$p_m_c,$p_m_i,$p_m_l,$p_m_s,$p_m_f
 
  mysql_select_db($database_horizonte, $horizonte);
- $sql = "INSERT INTO sucursales (usuario_su, clave_su, nombre_su, no_temp_su, fecha_su, estado_su, municipio_su, ciudad_su, colonia_su, calle_su, cp_su, telefono_su, email_su, p_tabulador_i_su, p_tabulador_l_su, p_tabulador_s_su, coordenadas_su, horario_e_lu, horario_s_lu, horario_e_ma, horario_s_ma, horario_e_mi, horario_s_mi, horario_e_ju, horario_s_ju, horario_e_vi, horario_s_vi, horario_e_sa, horario_s_sa, horario_e_do, horario_s_do, tipo_tabulador_su, tipo_tabulador_i_su, clues_su, margen_e_cm, tamano_h_cm, margen_p_cm, margen_e_rm, tamano_h_rm, margen_p_rm, margen_e_la, tamano_h_la, margen_p_la, margen_e_im, tamano_h_im, margen_p_im, margen_e_en, tamano_h_en, margen_p_en, margen_e_ul, tamano_h_ul, margen_p_ul, margen_e_co, tamano_h_co, margen_p_co, margen_e_sm, tamano_h_sm, margen_p_sm, formato_co_su, formato_nm_su, formato_la_su, formato_im_su, formato_en_su, formato_ul_su, formato_cp_su, formato_sm_su)";
- $sql.= "VALUES ($idUsuario, $clave, $nombre, $temporal, $now, $estado, $municipio, $ciudad, $colonia, $calle, $cp, $telefono, $email, $porcentaje_t_i, $porcentaje_t_l, $porcentaje_t_s, GeomFromText('POINT($latitud $longitud)'), $horario_lu_e, $horario_lu_s, $horario_ma_e, $horario_ma_s, $horario_mi_e, $horario_mi_s, $horario_ju_e, $horario_ju_s, $horario_vi_e, $horario_vi_s, $horario_sa_e, $horario_sa_s, $horario_do_e, $horario_do_s, $tab_lab, $tab_img,$clues, $margen_e_cm, $tamano_h_cm, $margen_p_cm, $margen_e_rm, $tamano_h_rm, $margen_p_rm, $margen_e_la, $tamano_h_la, $margen_p_la, $margen_e_im, $tamano_h_im, $margen_p_im, $margen_e_en, $tamano_h_en, $margen_p_en, $margen_e_ul, $tamano_h_ul, $margen_p_ul, $margen_e_co, $tamano_h_co, $margen_p_co, $margen_e_sm, $tamano_h_sm, $margen_p_sm, $formato, $formato1, $formato2, $formato3, $formato4, $formato5, $formato6, $formato7)";
+ $sql = "INSERT INTO sucursales (usuario_su, clave_su, nombre_su, no_temp_su, fecha_su, estado_su, municipio_su, ciudad_su, colonia_su, calle_su, cp_su, telefono_su, email_su, p_tabulador_i_su, p_tabulador_l_su, p_tabulador_s_su, coordenadas_su, horario_e_lu, horario_s_lu, horario_e_ma, horario_s_ma, horario_e_mi, horario_s_mi, horario_e_ju, horario_s_ju, horario_e_vi, horario_s_vi, horario_e_sa, horario_s_sa, horario_e_do, horario_s_do, tipo_tabulador_su, tipo_tabulador_i_su, clues_su, margen_e_cm, tamano_h_cm, margen_p_cm, margen_e_rm, tamano_h_rm, margen_p_rm, margen_e_la, tamano_h_la, margen_p_la, margen_e_im, tamano_h_im, margen_p_im, margen_e_en, tamano_h_en, margen_p_en, margen_e_ul, tamano_h_ul, margen_p_ul, margen_e_co, tamano_h_co, margen_p_co, margen_e_sm, tamano_h_sm, margen_p_sm, formato_co_su, formato_nm_su, formato_la_su, formato_im_su, formato_en_su, formato_ul_su, formato_cp_su, formato_sm_su,razon_social_sf,rfc_sf,email_sf,telefono_sf,entidadFederativa_sf,municipio_sf,ciudad_sf,colonia_sf,calle_sf,cp_sf)";
+ $sql.= "VALUES ($idUsuario, $clave, $nombre, $temporal, $now, $estado, $municipio, $ciudad, $colonia, $calle, $cp, $telefono, $email, $porcentaje_t_i, $porcentaje_t_l, $porcentaje_t_s, GeomFromText('POINT($latitud $longitud)'), $horario_lu_e, $horario_lu_s, $horario_ma_e, $horario_ma_s, $horario_mi_e, $horario_mi_s, $horario_ju_e, $horario_ju_s, $horario_vi_e, $horario_vi_s, $horario_sa_e, $horario_sa_s, $horario_do_e, $horario_do_s, $tab_lab, $tab_img,$clues, $margen_e_cm, $tamano_h_cm, $margen_p_cm, $margen_e_rm, $tamano_h_rm, $margen_p_rm, $margen_e_la, $tamano_h_la, $margen_p_la, $margen_e_im, $tamano_h_im, $margen_p_im, $margen_e_en, $tamano_h_en, $margen_p_en, $margen_e_ul, $tamano_h_ul, $margen_p_ul, $margen_e_co, $tamano_h_co, $margen_p_co, $margen_e_sm, $tamano_h_sm, $margen_p_sm, $formato, $formato1, $formato2, $formato3, $formato4, $formato5, $formato6, $formato7, $razon_social_sf, $rfc_sf, $email_sf, $telefono_sf, $entidadFederativa_sf, $municipio_sf, $ciudad_sf, $colonia_sf, $calle_sf, $cp_sf)";
   
 $update = mysql_query($sql, $horizonte) or die (mysql_error());
 

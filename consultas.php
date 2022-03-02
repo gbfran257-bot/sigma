@@ -1056,6 +1056,7 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 																$('#clickme').click(); $('#hospitalizarP').remove();
 																swal({title:"",type:"success",text:"El paciente ha sido hospitalizado.", timer: 2000, showConfirmButton: false });
 																$('#myModal1').modal('hide');
+																$('#titulo_modal').text('CONSULTA DEL PACIENTE: '+datos[22]+' - EDAD: '+datos[1]+' - SEXO: '+datos[2]+' | FECHA: '+datos1[1]);
 															}else{alert(data);}
 														});
 													});
@@ -1064,6 +1065,7 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 													$('#hospitalizarP').remove();
 												}
 											});
+											$('#titulo_modal').text('CONSULTA DEL PACIENTE: '+datos[22]+' - EDAD: '+datos[1]+' - SEXO: '+datos[2]+' | FECHA: '+datos1[1]);
 										}
 									});
 											
@@ -1088,7 +1090,7 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 									var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
 									var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
 									var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
-									var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56];
+									var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56], et_Fnac = datosTe[57];
 									
 									$("#tipoNotaMed").change(function(e) {//alert('Cambia');
 										var datos = {idNM:$("#tipoNotaMed").val(),idC:idC}
@@ -1119,6 +1121,7 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 											data = data.replace(/{et_nombre_medico_atiende}/gi, nombre_medico_a);
 											data = data.replace(/{et_nombre_universidad}/gi, nombre_universidad_x);
 											data = data.replace(/{et_nombre_paciente}/gi, nombre_pacientex);
+											data = data.replace(/{et_fecha_nacimiento_paciente}/gi, et_Fnac);
 											data = data.replace(/{et_peso_g}/gi, peso_x);
 											data = data.replace(/{et_talla_g}/gi, et_talla_g);
 											data = data.replace(/{et_sex}/gi, sex_x);
@@ -1165,7 +1168,7 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 									var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
 									var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
 									var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
-									var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56];
+									var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56], et_Fnac = datosTe[57];
 									
 									$("#tipoRecetaMed").change(function(e) {
 										var datos = {idNM:$("#tipoRecetaMed").val(),idC:idC}
@@ -1196,6 +1199,7 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 											data = data.replace(/{et_nombre_medico_atiende}/gi, nombre_medico_a);
 											data = data.replace(/{et_nombre_universidad}/gi, nombre_universidad_x);
 											data = data.replace(/{et_nombre_paciente}/gi, nombre_pacientex);
+											data = data.replace(/{et_fecha_nacimiento_paciente}/gi, et_Fnac);
 											data = data.replace(/{et_peso_g}/gi, peso_x);
 											data = data.replace(/{et_talla_g}/gi, et_talla_g);
 											data = data.replace(/{et_sex}/gi, sex_x);

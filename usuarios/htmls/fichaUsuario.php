@@ -904,8 +904,8 @@ $id_del_user = $_SESSION['id'];
                     <td width="1%" nowrap class="text-primary">TÍTULO</td>
                     <td><input name="nombreNM"type="text"id="nombreNM"placeholder="Título de la nota médica" class="form-control input-sm"></td>
                     <td width="150px">
-						<select name="inserta_algo" id="inserta_algo" onChange="insertAtCaret(this.value);return false;" class="form-control input-sm insers"></select>
-					</td>
+                      <select name="inserta_algo" id="inserta_algo" onChange="insertAtCaret(this.value);return false;" class="form-control input-sm insers"></select>
+                    </td>
                     <td align="right" width="1%" nowrap class="text-primary">FORMATO DE LA NOTA:</td>
                   </tr>
                 </table>

@@ -264,11 +264,13 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 	}});
 }
 
-function cambiarExistencias(idS, exis){
+function cambiarExistencias(idS, exis, lote, feCad){
 	$("#myModal").load('farmacia/stock/htmls/existencias.php', function(response, status, xhr){ if(status=="success"){
             $('#tituloModal').text('CAMBIAR EXISTENCIAS'); 
 			$('#existActual').text('EXISTENCIA ACTUAL: '+ exis);
 			$('#idStock').val(idS);
+			$('#feCad').val(feCad.substring(0,10));
+			$('#lote').val(lote);
 			
 			$('#cant').change(function(e){
 			if($('#cant').val() > 0){
@@ -284,7 +286,7 @@ function cambiarExistencias(idS, exis){
 		$('#btn_guardar').click(function(e){
 			//validamos que los campos tengan un valor
 			
-			var datosP = {idS:idS, cant: $('#cant').val()};
+			var datosP = {idS:idS, cant: $('#cant').val(), feCad: $('#feCad').val(), lote: $('#lote').val() };
 			//registramos y realizamos  la tranferencia 
 			$.post('farmacia/stock/files-serverside/guardarExistencias.php',datosP).done(function( data ) {
 				if (data==1){//si se registro y realizo la tranferencia correctamente 

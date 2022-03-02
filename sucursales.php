@@ -725,6 +725,30 @@ function verSucursal(id_s, nombre_s){
 				$('#btn_imprimir_mem8').click(function(e) {
 					$('#table_membre8').prop('border',0); $('#table_membre8').printElement(); $('#table_membre8').prop('border',1);
 				});
+
+				$('#rSocial').val(dato[73]);
+				$('#rfcSu').val(dato[74]);
+				$('#emailFSu').val(dato[75]);
+				$('#telFSu').val(dato[76]);
+				$('#ciudadFSu').val(dato[79]);
+				$('#coloniaFSu').val(dato[80]);
+				$('#calleFSu').val(dato[81]);
+				$('#cpFSu').val(dato[82]);
+				// DATOS FISCALES 
+				$("#estadoSu").load('pacientes/files-serverside/genera_estados.php',function(response,status,xhr){if(status=="success"){
+					$('#estadoSu').val(dato[77]);
+					var id = $("#estadoSu").find(':selected').text();
+					$("#municipioSu").load('pacientes/files-serverside/genera_municipios.php?id='+escape(id),function(response,status,xhr){if(status=="success"){
+							$('#municipioSu').val(dato[78]);
+						}});
+
+					$("#estadoSu").change(function(event){
+						$('#municipioSu').val(''); var id = $("#estadoSu").find(':selected').text();
+						$("#municipioSu").load('pacientes/files-serverside/genera_municipios.php?id='+escape(id),function(response,status,xhr){if(status=="success"){
+							$('#municipioSu').val(dato[78]);
+						}});
+					});
+				}});
 			});
 			
 			$('#form-registro').validator().on('submit', function (e) {
@@ -1172,6 +1196,17 @@ function nuevaSucursal(){
 				});
 			  }
 			});
+
+			// DATOS FISCALES 
+			$("#estadoSu").load('pacientes/files-serverside/genera_estados.php',function(response,status,xhr){if(status=="success"){
+				$("#estadoSu").change(function(event){
+					$('#municipioSu').val(''); var id = $("#estadoSu").find(':selected').text();
+					$("#municipioSu").load('pacientes/files-serverside/genera_municipios.php?id='+escape(id),function(response,status,xhr){if(status=="success"){
+					}});
+				});
+			}});
+
+
 			
 			$('#myModal').modal('show');
 			$('#myModal').on('shown.bs.modal',function(e){ $('#form-registro').validator(); });

@@ -78,6 +78,7 @@
         </button>
 	</th>
 	<th style="vertical-align:middle;" class="text-center">DESCRIPCIÓN</th>
+	<th style="vertical-align:middle;" class="text-center">IVA</th>
 	<th style="vertical-align:middle;" class="text-center">ELIMINAR</th>
 	</tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
@@ -86,6 +87,7 @@
 		<th></th>
 		<th><input type="text" class="form-control input-sm" placeholder="LÍNEA"/></th>
 		<th><input type="text" class="form-control input-sm" placeholder="DESCRIPCIÓN"/></th>
+		<th><input type="text" class="form-control input-sm" placeholder="IVA"/></th>
 		<th></th>
 	</tr>
 </tfoot>
@@ -106,7 +108,7 @@ $(document).ready(function(e) {
 	var oTableP = $('#dataTablePrincipal').DataTable({
 		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
-		"aoColumns":[ {"bVisible":true}, {"bVisible":true }, {"bVisible":true }, { "bVisible": true }],
+		"aoColumns":[ {"bVisible":true}, {"bVisible":true }, {"bVisible":true }, { "bVisible": true }, { "bVisible": true }],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
 		"sAjaxSource": "catalogos/sat/datatable-serverside/sat.php",
@@ -158,6 +160,12 @@ function editar(id_um, unidad){0
 			var datosI = data1.split('*}');
 			 $('#clave').val(datosI[0]);
 			 $('#descripcion').val(datosI[1]);
+			 if(datosI[2] != null || datosI[2] != '' ){
+				$('#iva').val(datosI[2]);
+			 }else{
+				$('#iva').val('excento');
+			 }
+			 
 
 			$('#form-sat').validator().on('submit', function (e) {
 			  if (e.isDefaultPrevented()) { // handle the invalid form...

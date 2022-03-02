@@ -120,6 +120,9 @@ $id_del_user = $_SESSION['id'];
               </li>
             </ul>
         </li>
+        <li class="nav-item no_document" id="tab_mi_dir">
+            <a class="nav-link" id="fiscales-tab" data-toggle="tab" href="#t_fiscales" role="tab" aria-controls="direccion">FISCALES</a>
+        </li>
     </ul>
     <div class="tab-content" id="myTabContent">
     	<div class="tab-pane active tap-pane-primary" id="t_generales" role="tabpanel" aria-labelledby="generales-tab"><br>
@@ -247,6 +250,73 @@ $id_del_user = $_SESSION['id'];
               </tr>
             </table>
         </div>
+        <div class="tab-pane tap-pane-primary" id="t_fiscales" role="tabpanel" aria-labelledby="fiscales-tab"><br>
+          <div class="row">
+            <div class="form-group col-md-6 col-sm-6 text-primary">
+              <label for="rSocial" class="col-form-label"> NOMBNRE O RAZÓN SOCIAL</label>
+              <input name="rSocial" id="rSocial" class="form-control form-control-sm mi_dir" placeholder="Nombre o Razón social" >
+              <div class="help-block with-errors"></div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6 text-primary">
+              <label for="rfcSu" class="col-form-label"> RFC</label>
+                <input name="rfcSu" id="rfcSu" class="form-control form-control-sm mi_dir" placeholder="RFC con homoclave" >
+                <div class="help-block with-errors"></div>
+            </div>
+          </div>	
+          <div class="row">
+            <div class="form-group col-md-6 col-sm-6 text-primary">
+              <label for="emailFSu" class="col-form-label"> EMAIL</label>
+              <input  type="email" name="emailFSu" id="emailFSu" class="form-control form-control-sm mi_dir" placeholder="Email" >
+              <div class="help-block with-errors"></div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6 text-primary">
+              <label for="telFSu" class="col-form-label"> TELEFONO</label>
+                <input name="telFSu" id="telFSu" class="form-control form-control-sm mi_dir" placeholder="Teléfono" >
+                <div class="help-block with-errors"></div>
+            </div>
+          </div>	
+          <div class="row">
+            <div class="form-group col-md-6 col-sm-6 text-primary">
+              <label for="estadoSu" class="col-form-label"> ESTADO</label>
+                  <select name="estadoSu" id="estadoSu" class="form-control form-control-sm mi_dir"></select>
+              <div class="help-block with-errors"></div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6 text-primary">
+              <label for="municipioSu" class="col-form-label">MUNICIPIO</label>
+                <select name="municipioSu" id="municipioSu" class="form-control form-control-sm mi_dir"></select>
+                <div class="help-block with-errors"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6 col-sm-6 text-primary">
+              <label for="ciudadFSu" class="col-form-label"> CIUDAD</label>
+                <!--<select name="coloniaP" id="coloniaP" class="form-control form-control-sm mi_dir"></select> -->
+              <input name="ciudadFSu" id="ciudadFSu" class="form-control form-control-sm mi_dir" placeholder="Ciudad" >
+              <div class="help-block with-errors"></div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6 text-primary">
+              <label for="coloniaFSu" class="col-form-label"> COLONIA</label>
+                <!--<select name="coloniaP" id="coloniaP" class="form-control form-control-sm mi_dir"></select> -->
+                <input name="coloniaFSu" id="coloniaFSu" class="form-control form-control-sm mi_dir" placeholder="Colonia" >
+              <div class="help-block with-errors"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-9 col-sm-9 text-primary">
+              <label for="calleFSu" class="col-form-label"> CALLE Y NÚMERO</label>
+                <input name="calleFSu" id="calleFSu" type="text" class="form-control form-control-sm mi_dir" placeholder="Calle y número" >
+                <div class="help-block with-errors"></div>
+            </div>
+            <div class="form-group col-md-3 col-sm-3 text-primary">
+              <label for="cpFSu" class="col-form-label">C.P.</label>
+                <!--<select name="cpP" id="cpP" class="form-control form-control-sm"></select> -->
+                <input name="cpFSu" id="cpFSu" type="text" class="form-control form-control-sm" placeholder="Código postal"  maxlength="5">
+                <div class="help-block with-errors"></div>
+            </div>
+          </div>
+      </div>
+
+
         <div class="tab-pane tap-pane-primary" id="t_horario" role="tabpanel" aria-labelledby="horario-tab"><br>
         	<div class="panel panel-primary">
               <!-- Default panel contents -->

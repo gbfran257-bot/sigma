@@ -13,9 +13,19 @@
             <input name="id_sat" id="id_sat" type="hidden" value="">        	
             <input name="idU" id="idU" type="hidden" value="">      
             <div class="row">
-                <div class="form-group col-md-4 col-sm-4 text-primary col-md-offset-2">
+                <div class="form-group col-md-4 col-sm-4 text-primary col-md-offset-1">
                     <label for="clave" class="col-form-label rec-requeridos">* CLAVE</label>
                     <input name="clave" id="clave" type="text" class="form-control form-control-sm" placeholder="CLAVE DE CUENTA" required>
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group col-md-3 col-sm-3 text-primary ">
+                    <label for="clave" class="col-form-label rec-requeridos">* IVA</label>
+                    <select name="iva" id="iva" class="form-control form-control-sm" required>
+                      <option value="16">16%</option>
+                      <option value="10">10%</option>
+                      <option value="0">0%</option>
+                      <option value="excento">EXCENTO</option>
+                    </select>
                     <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group col-md-4 col-sm-4 text-primary ">

@@ -3,7 +3,7 @@ require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('id_sat','clave_sat','descripcion_sat','id_sat');
+	$aColumns = array('id_sat','clave_sat','descripcion_sat','iva','excento','id_sat');
      
     // DB tables to use 
     $aTables = array( 'catalogo_sat');
@@ -104,8 +104,14 @@ require("../../../funciones/php/values.php");
         for ( $j=0 ; $j<count($aColumns) ; $j++ ) { if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; } else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; } }
 		// $row [0] = $hh++;
 		$nombre = $row[1];
-        $row[1] = "<button type='button' class='btn btn-link btn-xs' id='".$row[3]."' onClick='editar(this.id,\"$nombre\");'>".mb_strtoupper($row[1])."</button>";        
-        $row[3] = "<div align='center'><button type='button' lang='".$row[3]."' class='btn btn-danger btn-xs' onClick='delete_l(this.lang,\"$nombre\");'><i class='fa fa-trash' aria-hidden='true'></i></button></div>";
+        $row[1] = "<button type='button' class='btn btn-link btn-xs' id='".$row[5]."' onClick='editar(this.id,\"$nombre\");'>".mb_strtoupper($row[1])."</button>";  
+        
+        if($row[4] == 1){
+            $row[3] ="EXCENTO";
+        }else{
+            $row[3]= $row[3] ."%";
+        }
+        $row[4] = "<div align='center'><button type='button' lang='".$row[5]."' class='btn btn-danger btn-xs' onClick='delete_l(this.lang,\"$nombre\");'><i class='fa fa-trash' aria-hidden='true'></i></button></div>";
         
 		
 		$output['aaData'][] = $row;

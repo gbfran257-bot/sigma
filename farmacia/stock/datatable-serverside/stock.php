@@ -97,13 +97,17 @@ $sucu_user = $_SESSION['MM_Usersucu'];
                     }
                     $cont++;
                 }
+                // print_r($listaID);
                 $sWhere = "";
                 if(count($listaID) > 0){
                     //RECORRE EL ARREGLO PARA FORMAR EL WHERE 
-                    for ($i=0; $i < count($listaID); $i++) { 
-                        if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " OR "; }
-                        $sWhere .= "(s.id = ".$listaID[$i]['id']." AND (s1.id_su = $id_suc or s.usuario_registro = ".$_GET[idU]."))";
-                    }   
+                    while ($i < count($listaID)) {
+                        if(isset($listaID[$i])){
+                            if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " OR "; }
+                            $sWhere .= "(s.id = ".$listaID[$i]['id']." AND (s1.id_su = $id_suc or s.usuario_registro = ".$_GET[idU]."))";
+                        }
+                       $i++;
+                    }
                 }else{
                     $sWhere="WHERE s.id = 0 ";
                 }
@@ -281,7 +285,7 @@ $sucu_user = $_SESSION['MM_Usersucu'];
         $Alertafecha = date('Y-m-d', strtotime($fechaCadu.'-1 month'));
          //sacar la fecha actual
         $now = date('Y-m-d');
-
+        $feCad = $row[5];
         //verificamos si la fecha actual supera a la fecha de caducidad que tiene un mes restado
         if($now > $Alertafecha){
             $row[5]= "<span class='btn btn-danger disabled' >".$fechaCadu."</span>";
@@ -298,9 +302,8 @@ $sucu_user = $_SESSION['MM_Usersucu'];
             $row[14] ="<span class='btn btn-primary disabled'><i class='fa fa-exchange'></i></span>"; 
         }
 
-        
         if($tipo_user == 15){
-            $row[10] = "<span class='btn btn-primary' onclick='cambiarExistencias($row[15],$row[10])'>$row[10]</span>"; 
+            $row[10] = "<span class='btn btn-primary' onclick='cambiarExistencias($row[15],$row[10],\"$row[3]\",\"$feCad\")'>$row[10]</span>"; 
         }
 
         

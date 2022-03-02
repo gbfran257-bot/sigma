@@ -8,9 +8,16 @@ require("../../../funciones/php/values.php");
  $idU = sqlValue($_POST["idU"], "int");
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
 
+ if($_POST["iva"] =='excento'){
+    $excento = 1;
+    $iva = 0;
+ }else{
+    $excento = 0;
+    $iva = sqlValue($_POST["iva"], "int");
+ }
   
  mysql_select_db($database_horizonte, $horizonte);
- $sql = "UPDATE catalogo_sat set clave_sat = $clave, descripcion_sat = $descripcion, id_usuario_sat = $idU, fecha_sat = $now where id_sat = $id limit 1";
+ $sql = "UPDATE catalogo_sat set clave_sat = $clave, descripcion_sat = $descripcion, iva= $iva, excento = $excento, id_usuario_sat = $idU, fecha_sat = $now where id_sat = $id limit 1";
   
  $update = mysql_query($sql, $horizonte) or die (mysql_error());    
 	

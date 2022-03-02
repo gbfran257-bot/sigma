@@ -1463,7 +1463,7 @@ function forzarImpresion(id){
 			//para el ticket
 			$('#fechaT').text(datosT[0]);$('#referenciaT').text(datosT[1]);$('#pacienteT').text(datosT[2]);
 			$('#adicionalesT').text(datosT[10]);$('#totalT').text(datosT[4]);$('#pagoT').text(datosT[5]);
-			$('#saldoT').text(datosT[6]);$('#usuarioIT').text(datosT[7]);$('#fechaIT').text(datosT[8]);
+			$('#saldoT').text(datosT[6]);$('#usuarioIT').text(datosT[33]);$('#fechaIT').text(datosT[8]);
 			$('#medicoAtendioIT').text(datosT[32]);
 			$('#horaIT').text(datosT[9]); $('#formaPagoT').text(datosT[11]);
 			$('#cantidadLetraT').text(nn(datosT[4])); $('#municipioS').text(datosT[16]);
@@ -1624,7 +1624,7 @@ function nuevaVisita(idP, nombreP){
 								//para el ticket
 								$('#fechaT').text(datosT[0]);$('#referenciaT').text(datosT[1]);$('#pacienteT').text(datosT[2]);
 								$('#adicionalesT').text(datosT[10]);$('#totalT').text(datosT[4]);$('#pagoT').text(datosT[5]);
-								$('#saldoT').text(datosT[6]);$('#usuarioIT').text(datosT[7]);$('#fechaIT').text(datosT[8]);
+								$('#saldoT').text(datosT[6]);$('#usuarioIT').text(datosT[33]);$('#fechaIT').text(datosT[8]);
 								$('#horaIT').text(datosT[9]); $('#formaPagoT').text(datosT[11]);
 								$('#cantidadLetraT').text(nn(datosT[4])); $('#municipioS').text(datosT[16]);
 								$('#calleSucursal').text(datosT[19]); $('#coloniaSucursal').text(datosT[18]);

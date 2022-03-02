@@ -59,7 +59,7 @@ if($anos<1){
  $direccionP = 'CALLE '.$rowP[4].' #'.$rowP[5].' COLONIA '.$rowCP[0].', '.$rowMP[0].', '.$rowEP[0];
  
  mysql_select_db($database_horizonte, $horizonte); 
- $resultU = mysql_query("SELECT nombre_u, apaterno_u, amaterno_u from usuarios where id_u = $rowR[8] limit 1", $horizonte) or die (mysql_error());
+ $resultU = mysql_query("SELECT nombre_u, apaterno_u, amaterno_u, usuario_u from usuarios where id_u = $rowR[8] limit 1", $horizonte) or die (mysql_error());
  $rowU = mysql_fetch_row($resultU);
  $resultU2 = mysql_query("SELECT nombre_u, apaterno_u, amaterno_u from venta_conceptos inner join usuarios on id_personal_medico_vc=id_u where referencia_vc='$rowR[0]' limit 1", $horizonte) or die (mysql_error()."99");
  $rowU2 = mysql_fetch_row($resultU2);
@@ -68,7 +68,7 @@ if($anos<1){
 
 //$rowR[7] = $rowR[5] - $rowR[6];
 		
-echo $fecha.";}".$rowR[0].";}".$paciente.";}".$adicionales.";}".$rowR[5].";}".$rowR[6].";}".$rowR[7].";}".$rowU[0]." ".$rowU[1]." ".$rowU[2].";}".$fecha.";}".$hora.";}".$adicionales.";}".$rowFP[0].";}".$rowR[11].";}".$rowP[3].";}".$direccionP.";}".$rowSu[0].";}".$rowSu[1].";}".$rowSu[2].";}".$rowSu[3].";}".$rowSu[4].";}".$rowSu[5].";}".$rowSu[6].";}".$rowSu[7].";}".$rowCof[0].";}".$rowR[17].";}".$rowLo[0].";}".$rowLo[1].";}".$rowLo[2].";}".$rowR[19].";}".$rowR[20].";}".$rowR[21].";}".$rowR[22].";}".$rowU2[0]." ".$rowU2[1]." ".$rowU2[2];
+echo $fecha.";}".$rowR[0].";}".$paciente.";}".$adicionales.";}".$rowR[5].";}".$rowR[6].";}".$rowR[7].";}".$rowU[0]." ".$rowU[1]." ".$rowU[2].";}".$fecha.";}".$hora.";}".$adicionales.";}".$rowFP[0].";}".$rowR[11].";}".$rowP[3].";}".$direccionP.";}".$rowSu[0].";}".$rowSu[1].";}".$rowSu[2].";}".$rowSu[3].";}".$rowSu[4].";}".$rowSu[5].";}".$rowSu[6].";}".$rowSu[7].";}".$rowCof[0].";}".$rowR[17].";}".$rowLo[0].";}".$rowLo[1].";}".$rowLo[2].";}".$rowR[19].";}".$rowR[20].";}".$rowR[21].";}".$rowR[22].";}".$rowU2[0]." ".$rowU2[1]." ".$rowU2[2].";}".$rowU[3];
 
  //Cerrar conexión a la Base de Datos
  mysql_close($horizonte);

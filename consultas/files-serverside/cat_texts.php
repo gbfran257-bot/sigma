@@ -81,7 +81,7 @@ require("../../funciones/php/values.php");
 	mysql_select_db($database_horizonte, $horizonte);
  	$result = mysql_query("SELECT concat(p.nombre_p, ' ', p.apaterno_p), p.amaterno_p, sx.cat_sexo, p.fNac_p, s.tipo_sangre from pacientes p left join catalogo_sexos sx on sx.id_sexo = p.sexo_p left join catalogo_tipo_sangre s on s.id_tipo_sangre = p.tSanguineo_p where p.id_p = $idP ", $horizonte) or die (mysql_error());
  	$row = mysql_fetch_row($result);
-	
+	$feNac = date("d-m-Y",strtotime($row[3]));
 	$fecha1 = new DateTime($row[3]); $fecha2 = new DateTime(date("Y-m-d H:i:s")); $fecha = $fecha1->diff($fecha2);
 	//printf('%d AÑOS %d MESES %d DÍAS %d HORAS %d MINUTOS', $fecha->y, $fecha->m, $fecha->d, $fecha->h, $fecha->i);
 	$anos=$fecha->y; $meses=$fecha->m; $dias=$fecha->d; $horas=$fecha->h; $minutos=$fecha->i; $segundos=$fecha->s;
@@ -427,7 +427,7 @@ require("../../funciones/php/values.php");
 		$row[4].'-{]'.$rowM[7].'-{]'.$rowVC[1].'-{]'.$rowVC[2].' '.$rowVC[3].'-{]'.$mes.'-{]'.$myFirma.'-{]'.$rowFrts[0].'-{]'.$rowVC[4].'-{]'.$row1s[0].
 		'-{]'.$row1s[1].'-{]'.$row1s[3].'-{]'.$row1s[2].'-{]'.$row1s[4].' ºC'.'-{]'.$rowVC[5].'-{]'.$rowVC[6].'-{]'.$rowVC[7].' '.$rowVC[8].'-{]'.$encaNM.
 		'-{]'.$encaNM1.'-{]'.$encaNM2.'-{]'.$encaNM3.'-{]'.$logoMedicina.'-{]'.$rowVC[10].'-{]'.$rowVC[11].'-{]'.$rowVC_1[0].'-{]'.$lista.'-{]'.$lista1.
-		'-{]'.$historia.'-{]'.$ahf.'-{]'.$apnp.'-{]'.$app.'-{]'.$ago;
+		'-{]'.$historia.'-{]'.$ahf.'-{]'.$apnp.'-{]'.$app.'-{]'.$ago.'-{]'.$feNac;
 	
 	echo $datos;
  	//Cerrar conexión a la Base de Datos

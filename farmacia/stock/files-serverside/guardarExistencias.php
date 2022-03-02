@@ -4,11 +4,13 @@ require("../../../funciones/php/values.php");
 
 $idS = sqlValue($_POST['idS'],"int");
 $cant = sqlValue($_POST['cant'],"int");
+$lote = sqlValue($_POST['lote'],"text");
+$FeCad = sqlValue($_POST['feCad'],"date");
 
 
     //si se guarda correctamente  restamos la cantidad transferida del registro anterior 
     mysql_select_db($database_horizonte, $horizonte);
-    $sql1 = "UPDATE stock_has_bach SET existencias = $cant WHERE id = $idS ";
+    $sql1 = "UPDATE stock_has_bach SET existencias = $cant, Lote = $lote, fecha_expiracion = $FeCad WHERE id = $idS ";
     $update1 = mysql_query($sql1, $horizonte) or die (mysql_error());
 
     if (!$update1) {

@@ -13,7 +13,7 @@ require("../../funciones/php/values.php");
  if(!isset($_POST["a"]) or $_POST["a"]==''){//Estan creando al nuevo usuario
  	$sql = "INSERT INTO notas_medicas(nombre_nm, nota_nm, temporal_nm, fecha_nm, tipo_nm, user_reg_nm) VALUES($nombre, $nota, $temporal, $now, 4, $idUsuario)";	 
  }else{//Usuario que ya existe
-	 $sql= "INSERT INTO notas_medicas(nombre_nm, nota_nm, temporal_nm, fecha_nm, tipo_nm, user_reg_nm) VALUES($nombre, $nota, $temporal, $now, 4, $idUsuario)";
+	 $sql= "INSERT INTO notas_medicas(nombre_nm, nota_nm, usuario_nm, temporal_nm, fecha_nm, tipo_nm, user_reg_nm) VALUES($nombre, $nota, $a,$temporal, $now, 4, $idUsuario)";
  }  
  $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	

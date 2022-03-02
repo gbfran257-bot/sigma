@@ -70,10 +70,10 @@
         	<td align="right">SUBTOTAL</td>
             <td align="right">$&nbsp;<span id="subTotalT"></span></td>
         </tr>
-    	<tr>
+        <!-- <tr>
         	<td align="right">CARGOS ADICIONALES</td>
-            <td align="right">$&nbsp;<span id="adicionalesT"></span></td>
-        </tr>
+          <td align="right">$&nbsp;<span id="adicionalesT"></span></td>
+        </tr> -->
     	<tr>
         	<td align="right">DESCUENTO</td>
             <td align="right">$&nbsp;<span id="descuentoT"></span></td>

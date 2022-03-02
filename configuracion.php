@@ -108,6 +108,9 @@
                           </li>
                         </ul>
                     </li>
+					<li class="nav-item" id="tab_mi_mem">
+                        <a class="nav-link" id="fiscales-tab" data-toggle="tab" href="#t_fiscales" role="tab" aria-controls="fiscales">FISCALES</a>
+                    </li>
                 </ul>
             </td>
             <td>
@@ -364,6 +367,71 @@
               </div>
             </div>
         </div>
+		<div class="tab-pane tap-pane-primary" id="t_fiscales" role="tabpanel" aria-labelledby="fiscales-tab"><br>
+          <div class="row">
+            <div class="form-group col-md-6 col-sm-6 text-primary">
+              <label for="rSocial" class="col-form-label"> NOMBNRE O RAZÓN SOCIAL</label>
+              <input name="rSocial" id="rSocial" class="form-control form-control-sm mi_dir" placeholder="Nombre o Razón social" >
+              <div class="help-block with-errors"></div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6 text-primary">
+              <label for="rfc_cf" class="col-form-label"> RFC</label>
+                <input name="rfc_cf" id="rfc_cf" class="form-control form-control-sm mi_dir" placeholder="RFC con homoclave" >
+                <div class="help-block with-errors"></div>
+            </div>
+          </div>	
+          <div class="row">
+            <div class="form-group col-md-6 col-sm-6 text-primary">
+              <label for="email_cf" class="col-form-label"> EMAIL</label>
+              <input  type="email" name="email_cf" id="email_cf" class="form-control form-control-sm mi_dir" placeholder="Email" >
+              <div class="help-block with-errors"></div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6 text-primary">
+              <label for="telefono_cf" class="col-form-label"> TELEFONO</label>
+                <input name="telefono_cf" id="telefono_cf" class="form-control form-control-sm mi_dir" placeholder="Teléfono" >
+                <div class="help-block with-errors"></div>
+            </div>
+          </div>	
+          <div class="row">
+            <div class="form-group col-md-6 col-sm-6 text-primary">
+              <label for="entidadFederativa_cf" class="col-form-label"> ESTADO</label>
+                  <select name="entidadFederativa_cf" id="entidadFederativa_cf" class="form-control form-control-sm mi_dir"></select>
+              <div class="help-block with-errors"></div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6 text-primary">
+              <label for="municipio_cf" class="col-form-label">MUNICIPIO</label>
+                <select name="municipio_cf" id="municipio_cf" class="form-control form-control-sm mi_dir"></select>
+                <div class="help-block with-errors"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6 col-sm-6 text-primary">
+              <label for="ciudad_cf" class="col-form-label"> CIUDAD</label>
+                <!--<select name="coloniaP" id="coloniaP" class="form-control form-control-sm mi_dir"></select> -->
+              <input name="ciudad_cf" id="ciudad_cf" class="form-control form-control-sm mi_dir" placeholder="Ciudad" >
+              <div class="help-block with-errors"></div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6 text-primary">
+              <label for="colonia_cf" class="col-form-label"> COLONIA</label>
+                <!--<select name="coloniaP" id="coloniaP" class="form-control form-control-sm mi_dir"></select> -->
+                <input name="colonia_cf" id="colonia_cf" class="form-control form-control-sm mi_dir" placeholder="Colonia" >
+              <div class="help-block with-errors"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-9 col-sm-9 text-primary">
+              <label for="calle_cf" class="col-form-label"> CALLE Y NÚMERO</label>
+                <input name="calle_cf" id="calle_cf" type="text" class="form-control form-control-sm mi_dir" placeholder="Calle y número" >
+                <div class="help-block with-errors"></div>
+            </div>
+            <div class="form-group col-md-3 col-sm-3 text-primary">
+              <label for="cp_cf" class="col-form-label">C.P.</label>
+                <!--<select name="cpP" id="cpP" class="form-control form-control-sm"></select> -->
+                <input name="cp_cf" id="cp_cf" type="text" class="form-control form-control-sm" placeholder="Código postal"  maxlength="5">
+                <div class="help-block with-errors"></div>
+            </div>
+          </div>
+        </div>
     </div>
     
     <input name="input_a" id="input_a" type="hidden" value=""> <input name="input_b" id="input_b" type="hidden" value="">
@@ -458,6 +526,31 @@ $(document).ready(function(e) {
 		//Fin Formato Servicios Médicos
 
 		cargar_editores();
+
+		$('#rSocial').val(datos[20]);
+		$('#rfc_cf').val(datos[21]);
+		$('#email_cf').val(datos[22]);
+		$('#telefono_cf').val(datos[23]);
+
+		$('#ciudad_cf').val(datos[27]);
+		$('#colonia_cf').val(datos[28]);
+		$('#calle_cf').val(datos[29]);
+		$('#cp_cf').val(datos[30]);
+		// DATOS FISCALES 
+		$("#entidadFederativa_cf").load('pacientes/files-serverside/genera_estados.php',function(response,status,xhr){if(status=="success"){
+			$('#entidadFederativa_cf').val(datos[25]);
+			var id = $("#entidadFederativa_cf").find(':selected').text();
+			$("#municipio_cf").load('pacientes/files-serverside/genera_municipios.php?id='+escape(id),function(response,status,xhr){
+				if(status=="success"){
+					$('#municipio_cf').val(datos[26]);
+				}});
+			$("#entidadFederativa_cf").change(function(event){
+				$('#municipio_cf').val(''); var id = $("#entidadFederativa_cf").find(':selected').text();
+				$("#municipio_cf").load('pacientes/files-serverside/genera_municipios.php?id='+escape(id),function(response,status,xhr){if(status=="success"){
+					
+				}});
+			});
+		}});
 		
 		$('#form-registro').validator().on('submit', function (e) {
 			$('#input_a').val(tinyMCE.get("input").getContent()); $('#input_b').val(tinyMCE.get("input1").getContent());
