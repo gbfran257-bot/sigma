@@ -75,7 +75,8 @@
                     <li role="presentation" class="tab_sv hide_nsv"><a href="#tRE_sv" aria-controls="tRE_sv" role="tab" data-toggle="tab">RECOMENDACIONES</a></li>
                     <li role="presentation" class="tab_sv hide_nsv" id="mi_tab_h_sv"><a href="#tHi_sv" aria-controls="tHi_sv" role="tab" data-toggle="tab">HISTORIAL</a></li>
                     <li role="presentation" class="tab_sv hide_nsv"><a href="#tEs_sv" aria-controls="tEs_sv" role="tab" data-toggle="tab">ESTADISTICAS</a></li>
-                    <button type="button" class="btn btn-warning btn-sm" id="b_agregarSignosC" style="float:right;"><i class="fa fa-plus" aria-hidden="true"></i> Tomar signos vitales</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="print_SignosV" style="float:right; margin-left: 5px;"> Imprimir signos vitales</button>
+                    <button type="button" class="btn btn-warning btn-sm" id="b_agregarSignosC" style="float:right; "><i class="fa fa-plus" aria-hidden="true"></i> Tomar signos vitales</button>
                 </ul>
                 
                 <!-- Tab panes -->

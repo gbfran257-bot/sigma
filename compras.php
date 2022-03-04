@@ -233,8 +233,8 @@ function nuevaCompra(){
 			var sucursal = $('#sucursal').val();
 			var caducidad = $('#caducidad').val();
 			var estatus = $('#estatus').val();
-			var costoT = parseInt(costo,10) * parseInt(cantidad,10);
-
+			var costoT =  Number.parseFloat(costo) * Number.parseFloat(cantidad);
+				costoT = costoT.toFixed(2);
 			COMPRA[cont] = {
 				"producto":producto,
 				"producto_letra":productoletra,
@@ -250,7 +250,7 @@ function nuevaCompra(){
 			var salida= "";
 			var costoTotal = 0;
 			for (let index = 0; index < COMPRA.length; index++) {
-				costoTotal = parseInt(COMPRA[index]['total'],10) +  costoTotal;
+				costoTotal =    Number.parseFloat(COMPRA[index]['total']) +  costoTotal;
 
 				salida +="	<tr> "+
 						"		<td>"+

@@ -1504,6 +1504,10 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 								}
 							});	
 						},400);
+
+						$('#print_SignosV').click(function(e) { 
+							imprimirSV(idP,idC);
+						});
 						
 						$('#myModalx').modal('show');
 						$('#myModalx').on('shown.bs.modal', function (e) { $('#form-ficha_us').validator(); 
@@ -1942,6 +1946,14 @@ function rhLab(idC,idP,n,idE){//alert(idC+' '+idP+' '+n+' '+idE);
 	$('#idControl').val(idE);
 	$('.histol').each(function(index, element) {
 		if($(this).hasClass(idE)){ $(this).parent().addClass('bg-success');}else{$(this).parent().removeClass('bg-success'); }
+	});
+}
+
+function imprimirSV(idP,idC){
+	var datosCon = {idP:idP, idC:idC}
+	$.post('enfermeria/files-serverside/datosSV.php',datosCon).done(function(data){
+		var datos=data.split(';*-');
+		window.open("hospital/genera/signos_vitales_reporte.php?idP="+idP+"&edad="+datos[1]+"&sexo="+datos[2]+"&id_u="+ $('#id_user').val(), '_blank');
 	});
 }
 </script>

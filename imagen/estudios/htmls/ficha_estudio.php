@@ -92,7 +92,7 @@
                     <div class="form-group">
                       <br>
                      <!-- <label for="sat">* CLAVE SAT</label> -->
-                     <select name="sat" id="sat" class="form-control form-control-sm" required></select>
+                     <select name="sat" id="sat" class="form-control form-control-sm" ></select>
                      </div>
                 </div>
                 <div class="col-sm-12 col-md-12 hidden">
