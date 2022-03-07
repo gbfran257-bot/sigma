@@ -178,6 +178,10 @@ function verSignosV(idP,idC,opc,concept,id_s,estat){
 			$('#tablaSVT input, #tablaNotaSV textarea, .sv_ro').prop('readonly','readonly');
 			$('.escala_g').prop('disabled','disabled');
 			
+			$('#print_SignosV').click(function(e) { 
+				imprimirSV(idP,idC);
+			});
+
 			$('#b_agregarSignosC').click(function(e) { tomar_sv(idP,2,idC, id_s); });
 			
 			//Cargamos los datos de los Signos Vitales y Cargamos los datos de Historia Clínica
@@ -556,7 +560,8 @@ function tomar_sv(idP,control,idC, id_s){//si control es 1 al cerrar la ventana 
 	$('#tabs_consulta .hide_nsv, #tabs_sv .hide_nsv').hide(); $('#titulo_toma_sv').html('TOMAR SIGNOS VITALES');
 	$('#b_agregarSignosC, #salirSGconsulta').addClass('hidden'); $('#btn_cancelar_sv, #btn_guardar_sv').removeClass('hidden');
 	$('#tablaSVT input, #tablaNotaSV textarea, .sv_ro, #notasSV').prop('readonly',''); $('.escala_g').prop('disabled','');
-	$('#tablaSVT input, #tablaNotaSV textarea, .sv_ro, #notasSV, #imcSV').val(''); $('.escala_g').val(0);
+	// $('#tablaSVT input, #tablaNotaSV textarea, .sv_ro, #notasSV, #imcSV').val('');
+	$('.escala_g').val(0);
 	$('#ocular_val, #verbal_val, #motriz_val').text(0); $('#row_texto_puntuacion_g').addClass('hidden');
 	
 	var datosIDP = {idP:idP,idC:1}
@@ -668,5 +673,12 @@ function checarEscala(id){//if($('#'+id).val()>0){ }else{}
 	var x = 0; $('.escala_g').each(function(index, element) { x = parseInt(x) + parseInt($(this).val()); });
 	$('#total_escala_g').text(x); $('.'+id).text($('#'+id).val());
 	if(x<1){$('#row_texto_puntuacion_g').addClass('hidden');}else{$('#row_texto_puntuacion_g').removeClass('hidden');}
+}
+function imprimirSV(idP,idC){
+	var datosCon = {idP:idP, idC:idC}
+	$.post('enfermeria/files-serverside/datosSV.php',datosCon).done(function(data){
+		var datos=data.split(';*-');
+		window.open("hospital/genera/signos_vitales_reporte.php?idP="+idP+"&edad="+datos[1]+"&sexo="+datos[2]+"&id_u="+ $('#id_user').val(), '_blank');
+	});
 }
 </script>

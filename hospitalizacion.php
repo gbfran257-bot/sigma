@@ -788,8 +788,10 @@ function tomar_sv(idP,control,idC, id_s, nombre_p){ //si control es 1 al cerrar 
 	$('#idUsuario_sv').val($('#id_user').val()); $('#idUsuario_c').val($('#id_user').val()); $('#formSignosVitales').validator();
 	$('#tabs_consulta .hide_nsv, #tabs_sv .hide_nsv').hide(); $('#titulo_toma_sv').html('TOMAR SIGNOS VITALES');
 	$('#b_agregarSignosC, #salirSGconsulta, #salvarConsulta, #finalizarConsulta').addClass('hidden'); $('#btn_cancelar_sv, #btn_guardar_sv').removeClass('hidden');
-	$('#tablaSVT input, #tablaNotaSV textarea, .sv_ro, #notasSV').prop('readonly',''); $('.escala_g').prop('disabled','');
-	$('#tablaSVT input, #tablaNotaSV textarea, .sv_ro, #notasSV, #imcSV').val(''); $('.escala_g').val(0);
+	$('#tablaSVT input, #tablaNotaSV textarea, .sv_ro, #notasSV').prop('readonly',''); 
+	$('.escala_g').prop('disabled','');
+	// $('#tablaSVT input, #tablaNotaSV textarea, .sv_ro, #notasSV, #imcSV').val('');
+	$('.escala_g').val(0);
 	$('#ocular_val, #verbal_val, #motriz_val').text(0); $('#row_texto_puntuacion_g').addClass('hidden');
 	
 	var datosIDP = {idP:idP,idC:1}
