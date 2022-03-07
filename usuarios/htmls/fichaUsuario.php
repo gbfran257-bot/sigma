@@ -453,7 +453,7 @@ $id_del_user = $_SESSION['id'];
                     </div>
                     <div class="form-group col-md-6 col-sm-6 col-lg-6 text-primary">
                     	<input name="mi_id_to" id="mi_id_to" type="hidden">
-                        <label for="sat" class="col-form-label">* CLAVE SAT </label> <br>
+                        <label for="sat" class="col-form-label"> CLAVE SAT </label> <br>
                         <select name="sat" id="sat" class="form-control form-control-sm" ></select>
                     </div>
                 </div>
@@ -511,7 +511,7 @@ $id_del_user = $_SESSION['id'];
                         </div>
                     </div>
 					<div class="form-group col-md-3 col-sm-3 col-lg-3 text-primary">
-                        <label for="precio_h" class="col-form-label">PRECIO HOSPITAL</label>
+                        <label for="precio_h" class="col-form-label">* PRECIO HOSPITAL</label>
                         <div class="input-group">
                           <span class="input-group-addon">$</span>
                           <input name="precio_h" id="precio_h" type="number" class="form-control form-control-sm" placeholder="Precio hospital" step="0.01">

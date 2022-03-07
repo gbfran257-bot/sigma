@@ -859,6 +859,7 @@ function verUsuario(idU, nombre_u, tempi_u){
 			}
 		}); $('#idusuarioNM').val($('#id_user').val());
 		
+		select2ini("#sat", "sat.php", "INGRESA LA CLAVE DE LA CUENTA DEL SAT ");
 		$('#formato_si').change(function(){
 			var datosFts ={idU:$('#id_user').val(), idE:this.value}
 			$.post('imagen/estudios/files-serverside/check_formato_individual_m.php',datosFts).done(function(data1){
