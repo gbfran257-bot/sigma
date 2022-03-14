@@ -129,6 +129,7 @@ require("../../../Connections/horizonte.php");
             else if ( $aColumns[$i] != ' ' ) { $row[] = $aRow[$i]; }
         }
 		$row[0]="<span lang='$row[7]'>$hh</span>";
+        $row[3] = "<a onclick='modifica_precio_servicios($row[6])'>".$row[3]."</a>";
 		if($row[4]==''){$row[4]='PARTICULAR';}
 		
 		$row[5] = "<div align='center'><button type='button' class='btn btn-xs btn-danger' onClick='borrarItemNVS(this.id);' id='$row[6]'><i class='fa fa-trash' aria-hidden='true'></i></button></div>";

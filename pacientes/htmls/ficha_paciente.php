@@ -99,7 +99,7 @@
                     <div class="col-sm-4 col-xs-4">
                     	<div class="form-group">
                         <label for="curp_p">CURP</label>
-                        <input name="curp_p" type="text" class="form-control" id="curp_p" size="18" maxlength="18" placeholder="CLAVE ÚNICA DE REGISTRO DE POBLACIÓN" data-mask="aaaa999999wwwwwwww">
+                        <input name="curp_p" type="text" class="form-control" id="curp_p" size="18" maxlength="18" placeholder="CLAVE ÚNICA DE REGISTRO DE POBLACIÓN" >
                         <div class="help-block with-errors"></div>
                     	</div> 
                     </div>

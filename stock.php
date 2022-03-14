@@ -125,7 +125,7 @@
 <script>
 $(document).ready(function(e) {
 	//breadcrumb
-	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>FARMACIA</li><li class="active"><strong>COMPRA DE INSUMOS</strong></li>');
+	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>FARMACIA</li><li class="active"><strong>STOCK</strong></li>');
 	
 	$('#my_search').removeClass('hidden'); $.fn.datepicker.defaults.autoclose = true; 
 	

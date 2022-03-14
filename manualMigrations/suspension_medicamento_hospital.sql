@@ -8,3 +8,5 @@ CREATE TABLE `suspension_medicamento_hospital` (
 
 ALTER TABLE `suspension_medicamento_hospital`
   ADD PRIMARY KEY (`id_s`);
+
+ALTER TABLE `suspension_medicamento_hospital` CHANGE `id_s` `id_s` INT(20) NOT NULL AUTO_INCREMENT;

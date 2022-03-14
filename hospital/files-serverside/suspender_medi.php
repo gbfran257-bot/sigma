@@ -14,7 +14,7 @@ require("../../funciones/php/values.php");
 
 	if($result){
 		mysql_select_db($database_horizonte, $horizonte);
-		$sql = "INSERT INTO suspension_medicamento_hospital(id_user_s, fecha_s, id_mh_s, nota_s) values($id_u, $now, $id_mh,$notaS)";
+		$sql = "INSERT INTO suspension_medicamento_hospital(id_s,id_user_s, fecha_s, id_mh_s, nota_s) values(null, $id_u, $now, $id_mh,$notaS)";
 		$update = mysql_query($sql, $horizonte) or die (mysql_error());
 
 		if(!$update){echo $sql;} else{ echo 1; }

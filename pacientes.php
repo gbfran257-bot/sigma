@@ -171,6 +171,38 @@
 		</div>
 	</div>
 </div>
+
+<div class="modal fade" id="modal-precios-servicios" style="z-index: 2951!important">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Modificación de precio de la consulta</h4>
+			</div>
+			<form action="" method="POST" role="form">
+				<input type="hidden" name="id_vc" id="inputId_vc" class="form-control" value="">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<span class="label">Precio de la consulta</span>
+								<input type="number" name="precio_original" id="inputPrecio_original_s" class="form-control" value="" step="0.01" required="required">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<span class="label">Motivo de esta modificación*</span>
+							<input type="text" name="motivo_alteracion" id="inputMotivo_alteracion_s" class="form-control" value="" required="required">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+					<button type="submit" class="btn btn-primary">Guardar cambios</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 <!-- FIN Contenido -->  
 <?php include_once 'partes/footer.php'; ?>
 
@@ -390,6 +422,14 @@ function modifica_precio(id){
 		$("#modal-precios-descuentos-consulta").modal("show");
 	}, "json");
 }
+function modifica_precio_servicios(id){
+	$("#modal-precios-servicios #inputId_vc").val(id);
+	$.post("pacientes/files-serverside/dameVC.php", {id_vc: id}, function(res){
+		$("#modal-precios-servicios #inputPrecio_original_s").val(res[2]);
+		$("#modal-precios-servicios #inputPrecio_original").attr("min", res[0]);
+		$("#modal-precios-servicios").modal("show");
+	}, "json");
+}
 $(document).ready(function(e) {
 	//breadcrumb
 	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>RECEPCIÓN</li><li class="active"><strong>PACIENTES</strong></li>');
@@ -399,7 +439,7 @@ $(document).ready(function(e) {
 	$(document).on('focus', ':not(.popover)', function(){ $('.popover').popover('hide'); }); //$('[data-toggle="popover"]').popover({ });
 	$("#modal-precios-descuentos-consulta form").submit(function(e){
 		e.preventDefault();
-		$.post("pacientes/files-serverside/modificaPrecioConsulta.php",
+		$.post("pacientes/files-serverside/modificaPrecioServicios.php",
 			$("#modal-precios-descuentos-consulta form").serialize(),
 			function(res){
 				if(res == "1"){
@@ -407,6 +447,23 @@ $(document).ready(function(e) {
 					$("#modal-precios-descuentos-consulta").modal("hide");
 					$('#clickmeCoS1').click();
 					totales_consultas();
+				}else{
+					alert("Error: "+res);
+				}
+			}
+		);
+	});
+
+	$("#modal-precios-servicios form").submit(function(e){
+		e.preventDefault();
+		$.post("pacientes/files-serverside/modificaPrecioConsulta.php",
+			$("#modal-precios-servicios form").serialize(),
+			function(res){
+				if(res == "1"){
+					$("#modal-precios-servicios form")[0].reset();
+					$("#modal-precios-servicios").modal("hide");
+					$('#clickmeSmS').click();
+					totales_servicios();
 				}else{
 					alert("Error: "+res);
 				}

@@ -55,7 +55,7 @@ require("../../funciones/php/values.php");
 
 			//OBTENER EXISTENCIA TOTAL DEL PRODUCTO 
 			mysql_select_db($database_horizonte, $horizonte);
-			$totalExistencias = mysql_query("SELECT SUM(existencias) FROM stock_has_bach WHERE id_Producto = $idE ", $horizonte) or die (mysql_error());
+			$totalExistencias = mysql_query("SELECT SUM(s.existencias) FROM stock_has_bach s left join stock s1 on s1.id = s.id_stock WHERE id_Producto = $idE and s1.id_su = $idSucursal ", $horizonte) or die (mysql_error());
 			$cantExiste = mysql_fetch_row($totalExistencias);
 			
 			//verificamos si tiene existencias 

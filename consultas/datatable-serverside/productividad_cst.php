@@ -3,7 +3,7 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('v.id_vc', 'e.concepto_to', 'count(v.id_vc) as suma', 'v.id_vc', 'concat(t.abreviacion_ti," ",m.nombre_u, " ", m.apaterno_u)', 'm.amaterno_u', 'sum(v.precio_vc)', 'sum(v.honorarios)', 'e.c_costo');
+	$aColumns = array('v.id_vc', 'e.concepto_to', 'count(v.id_vc) as suma', 'v.id_vc', 'concat(t.abreviacion_ti," ",m.nombre_u, " ", m.apaterno_u)', 'm.amaterno_u', 'sum(v.precio_vc)', 'sum(v.honorarios)', 'e.c_costo','v.id_concepto_es');
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -26,7 +26,7 @@ require("../../funciones/php/values.php");
             }
         }
         if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " AND "; }
-	$sWhere.=" v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and  e.id_tipo_concepto_to = 1 and v.temporal_vc=0  and estatus_vc = 6 group by e.concepto_to order by suma desc ";
+	$sWhere.=" v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and  e.id_tipo_concepto_to = 1 and v.temporal_vc=0  and estatus_vc = 6 group by v.usuarioEdo3_e,e.concepto_to order by suma desc ";
 	
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;
@@ -108,14 +108,14 @@ require("../../funciones/php/values.php");
         { if ( $aColumns[$i] == "version" ) { /* Special output formatting for 'version' column */ $row[] = ($aRow[ $aColumns[$i] ]=="0") ? '-' : $aRow[ $aColumns[$i] ]; } else if ( $aColumns[$i] != ' ' ) { /* General output */ $row[] = $aRow[$i]; } }
 		$row1 = array();
         for ( $j=0 ; $j<count($aColumns) ; $j++ ) { if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; } else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; } }
-		
 		$row[0] = "<span>$hh</span>";
 		
 		mysql_select_db($database_horizonte, $horizonte);
-		
+        
+		$suma = $row[2];
+        // $row[2]= "<span class='btn btn-primary' onclick='detalles($row[9],\"$_GET[min]\",\"$_GET[max]\")'>$suma</span>";
 
-		
-		$porce = round(($row[2]*100)/$rowT[0],4);
+		$porce = round(($suma*100)/$rowT[0],4);
 		
 		$row[3] = "<span>$porce %</span>";
 		

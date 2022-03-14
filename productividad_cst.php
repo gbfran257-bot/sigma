@@ -193,4 +193,21 @@ $(document).ready(function(e) {
 	$('#fechaDe').on('changeDate', function(e) { oTableP.draw(); });
 	$("#fechaA").on('changeDate', function(e) { oTableP.draw(); });
 });
+
+function detalles(idC, min, max){
+	$("#myModal").load('consultas/htmls/productividad_cst_med.php', function(response, status, xhr){ if(status=="success"){
+	$('#titulo_modal').text('MÉDICOS QUE FINALIZARON LAS CONSULTAS'); 
+	
+	var datosCon = {idC:idC, min:min, max:max }
+	$.post('consultas/files-serverside/productividad_cst.php',datosCon).done(function(data){
+		$('#contenidoPcts').html(data);
+		// var datos=data.split(';*-');
+		// window.open("hospital/genera/signos_vitales_reporte.php?idP="+idP+"&edad="+datos[1]+"&sexo="+datos[2]+"&id_u="+ $('#id_user').val(), '_blank');
+	});
+
+		$('#myModal').modal('show');
+		$('#myModal').on('shown.bs.modal', function(e){ $('#form-colonia').validator(); });
+		$('#myModal').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModal").empty(); });
+	}});
+}
 </script>
