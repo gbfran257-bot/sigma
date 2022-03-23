@@ -1,0 +1,1 @@
+ALTER TABLE `catalogo_forma_pago` ADD `id_usuario_fp` INT(20) NULL AFTER `forma_pago_fp`, ADD `fecha_fp` TIMESTAMP NULL AFTER `id_usuario_fp`;

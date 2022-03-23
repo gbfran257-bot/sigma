@@ -3,7 +3,7 @@
 <?php
 	// consulta para horizonte
 	$obligatorio = 0;
-	$aColumns = array('pa.referencia_pag','pa.referencia_pag', 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'ov.subtotal_ov', 'SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov)', 'ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv', 'ov.gran_total_ov', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'ov.gran_total_ov-SUM(pa.pago_pag)', 'p.amaterno_p', 'ov.no_temp_ov', 'ov.no_temp_ov', 'ov.sucursal_ov','DATE_FORMAT(ov.fecha_venta_ov,"%d/%m/%Y %H:%i")','pa.referencia_pag');
+	$aColumns = array('pa.referencia_pag','pa.referencia_pag', 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'fp.forma_pago_fp','ov.subtotal_ov', 'SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov)', 'ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv', 'ov.gran_total_ov', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'ov.gran_total_ov-SUM(pa.pago_pag)', 'p.amaterno_p', 'ov.no_temp_ov', 'ov.no_temp_ov', 'ov.sucursal_ov','DATE_FORMAT(ov.fecha_venta_ov,"%d/%m/%Y %H:%i")','pa.referencia_pag');
      
     // DB tables to use 
     $aTables = array( 'orden_venta ov');
@@ -12,7 +12,7 @@
     $sIndexColumn = "ov.referencia_ov";
      
 	 // Joins   hasta aqui
-	$sJoin = 'left join pacientes p ON ov.id_paciente_ov = p.id_p left join pagos_ov pa on ov.referencia_ov = pa.referencia_pag left join usuarios u on u.id_u = ov.usuario_ov left join sucursales s on s.id_su = ov.sucursal_ov';
+	$sJoin = 'left join pacientes p ON ov.id_paciente_ov = p.id_p left join pagos_ov pa on ov.referencia_ov = pa.referencia_pag left join usuarios u on u.id_u = ov.usuario_ov left join sucursales s on s.id_su = ov.sucursal_ov left join catalogo_forma_pago fp on fp.id_fp = pa.forma_pago_pag';
 	// left join conceptos to on to. =  left join departamentos d on d.id_d = pa.id_departamento_pag
     // CONDITIONS 
 	if(isset($_GET['depto']) && $_GET['depto'] != 'x' && $_GET['depto'] != ''){//para las solicitudes con departamento
@@ -182,7 +182,7 @@
 			$resultTC = mysql_query("SELECT ov.gran_total_ov, ov.gran_total_ov - pa.pago_pag, sum(pa.pago_pag) from orden_venta ov left join pagos_ov pa on ov.referencia_ov = pa.referencia_pag WHERE ov.referencia_ov = $refi ", $horizonte) or die (mysql_error());
 			$rowTC = mysql_fetch_row($resultTC);
 			
-			$aleatory = '"'.$row[16].'"';
+			$aleatory = '"'.$row[17].'"';
 			
 			//checamos si la OV tiene por lo menos un pago o no
 			
@@ -219,14 +219,14 @@
 						$result2fa = mysql_query("SELECT sum(pago_pag) from pagos_ov WHERE referencia_pag = $refi and departamento_pa = 3", $horizonte) or die (mysql_error());
 						$row2fa = mysql_fetch_row($result2fa); $t_far = $row2[3]-$row2fa[0];
 
-						$row[14] = "<div style='color:red; text-align:center;' onClick='pagar(this.id, $rowS[0], $saldo, $rowS[1], $nombreP, $aleatory,1,$t_con,$t_ima,$t_lab,$t_far);' id='$row[1]' class='hacerPago' href='#' title1='Realizar Pago a la Orden de Venta' target='_self'><span style='cursor:pointer; text-decoration:underline;font-style:italic;'>PAGAR</span></div>";
+						$row[15] = "<div style='color:red; text-align:center;' onClick='pagar(this.id, $rowS[0], $saldo, $rowS[1], $nombreP, $aleatory,1,$t_con,$t_ima,$t_lab,$t_far);' id='$row[1]' class='hacerPago' href='#' title1='Realizar Pago a la Orden de Venta' target='_self'><span style='cursor:pointer; text-decoration:underline;font-style:italic;'>PAGAR</span></div>";
 					}else{
 						//Si los pagos no fueron por departamento, entonces con una alerta poner que por favor redistribuya el total de los pagos anteriores y entonces los totales serían recalculados como si no hubiera pago pero la suma de los pagos por departamentos debe ser por lo menos igual a la suma de los pagos anteriores
 						mysql_select_db($database_horizonte, $horizonte);
 						$result1 = mysql_query("SELECT ov.total_c + ov.total_s, ov.total_ei, ov.total_el, ov.total_p from orden_venta ov WHERE ov.referencia_ov = $refi ", $horizonte) or die (mysql_error());
 						$row1 = mysql_fetch_row($result1);
 
-						$row[14] = "<div style='color:red; text-align:center;' onClick='pagar(this.id, $rowS[0], $saldo, $rowS[1], $nombreP, $aleatory,2,$row1[0],$row1[1],$row1[2],$row1[3]);' id='$row[1]' class='hacerPago' href='#' title1='Realizar Pago a la Orden de Venta' target='_self'><span style='cursor:pointer; text-decoration:underline;font-style:italic;'>PAGAR</span></div>";
+						$row[15] = "<div style='color:red; text-align:center;' onClick='pagar(this.id, $rowS[0], $saldo, $rowS[1], $nombreP, $aleatory,2,$row1[0],$row1[1],$row1[2],$row1[3]);' id='$row[1]' class='hacerPago' href='#' title1='Realizar Pago a la Orden de Venta' target='_self'><span style='cursor:pointer; text-decoration:underline;font-style:italic;'>PAGAR</span></div>";
 					}
 				}else{
 					//Si no tiene algún pago, entonces sacamos los pagos por departamento
@@ -234,7 +234,7 @@
 					$result1 = mysql_query("SELECT ov.total_c + ov.total_s, ov.total_ei, ov.total_el, ov.total_p from orden_venta ov WHERE ov.referencia_ov = $refi ", $horizonte) or die (mysql_error());
 					$row1 = mysql_fetch_row($result1);
 					
-					$row[14] = "<div style='color:red; text-align:center;' onClick='pagar(this.id, $rowS[0], $saldo, $rowS[1], $nombreP, $aleatory,0,$row1[0],$row1[1],$row1[2],$row1[3]);' id='$row[1]' class='hacerPago' href='#' title1='Realizar Pago a la Orden de Venta' target='_self'><span style='cursor:pointer; text-decoration:underline;font-style:italic;'>PAGAR</span></div>";
+					$row[15] = "<div style='color:red; text-align:center;' onClick='pagar(this.id, $rowS[0], $saldo, $rowS[1], $nombreP, $aleatory,0,$row1[0],$row1[1],$row1[2],$row1[3]);' id='$row[1]' class='hacerPago' href='#' title1='Realizar Pago a la Orden de Venta' target='_self'><span style='cursor:pointer; text-decoration:underline;font-style:italic;'>PAGAR</span></div>";
 				}
 			/*mysql_select_db($database_horizonte, $horizonte);
 			$resultTC = mysql_query("SELECT ov.gran_total_ov, ov.gran_total_ov - pa.pago_pag, sum(pa.pago_pag) from orden_venta ov left join pagos_ov pa on ov.referencia_ov = pa.referencia_pag WHERE ov.referencia_ov = $refi ", $horizonte) or die (mysql_error());
@@ -242,22 +242,22 @@
 			
 			$aleatory = '"'.$row[16].'"';
 			$row[14] = "<div style='color:red; text-align:center;' onClick='pagar(this.id, $rowS[0], $rowS[0]-$rowS[1], $rowS[1], $nombreP, $aleatory);' id='$row[1]' class='hacerPago' href='#' title1='Realizar Pago a la Orden de Venta' target='_self'><span style='cursor:pointer; text-decoration:underline;font-style:italic;'>PAGAR</span></div>";*/
-		}else{$row[14]="<div style='text-align:center;'>SI</div>";} //if($row[6] == 0){$row[1]="<span class='erase1'>$row[1]</span>";}
+		}else{$row[15]="<div style='text-align:center;'>SI</div>";} //if($row[6] == 0){$row[1]="<span class='erase1'>$row[1]</span>";}
 		
-		if(isset($_GET['saldos']) && $_GET['saldos'] == 'SI'){ if($row[13] == 0){ $row[1]="<span class='erase1'>$row[1]</span>"; } }
+		if(isset($_GET['saldos']) && $_GET['saldos'] == 'SI'){ if($row[14] == 0){ $row[1]="<span class='erase1'>$row[1]</span>"; } }
 		
 		mysql_select_db($database_horizonte, $horizonte);
 		$consultaS = "SELECT id_su as id, nombre_su as nombre from sucursales order by nombre asc ";
 		$queryS = mysql_query($consultaS) or die (mysql_error()); //echo '<option value="">'.'-SELECCIONAR-'.'</option>';
 		$sucs = '';
 		while ($fila = mysql_fetch_array($queryS)){
-			if($row[17]==$fila['id']){
+			if($row[18]==$fila['id']){
 				$sucs = $sucs.'<option selected value="'.$fila['id'].'">'.$fila['nombre'].'</option>';
 			}else{$sucs = $sucs.'<option value="'.$fila['id'].'">'.$fila['nombre'].'</option>';}
 		};
 		
-		$row[4]="<select lang='$row[16]' class='form-control input-sm cambiar_suc' style='width:100%;' onChange='cambiar_suc(this.value, this.lang)'>$sucs</select>";
-		$row[1] ="<span lang='$row[1]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[1]</span><br><span style='font-size:12px'>$row[18]</span>";		
+		$row[4]="<select lang='$row[17]' class='form-control input-sm cambiar_suc' style='width:100%;' onChange='cambiar_suc(this.value, this.lang)'>$sucs</select>";
+		$row[1] ="<span lang='$row[1]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[1]</span><br><span style='font-size:12px'>$row[19]</span>";		
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );

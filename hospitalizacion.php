@@ -1973,6 +1973,54 @@ function verSignosV(idP,idC,opc,concept,id_s,estat){
 	});
 }
 
+function verHC(id_h, id_p, nombre_p, id_s, tUser, tUser1){
+		$("#myModalx").load('hospital/htmls/historial.php', function( response, status, xhr ){ 
+			if(status=="success"){
+				// tinymce.remove("#notaMedicaC");
+				$('#titulo_modal').text('HISTORIAL CLÍNICO DEL PACIENTE:  '+nombre_p);
+				$('#idUsuario_hc').val($('#id_user').val()); 
+				$('#id_cons').val(id_h); 
+				$('#idPaciente_c').val(id_p);
+				//bloqueamos los campos que no son necesarios mantener abiertos para edición
+				$('#tablaSVT input, #tablaNotaSV textarea, .sv_ro').prop('readonly','readonly'); 
+				$('.escala_g').prop('disabled','disabled');
+						
+				$('#b_agregarSignosC').click(function(e) { tomar_sv(id_p,2,id_h, id_s, nombre_p); });
+
+				historiales(1);
+				//Cargamos los datos de los Signos Vitales y Cargamos los datos de Historia Clínica
+				cargar_todo_signos_vitales(id_p,id_h); cargar_todo_historia_clinica(id_p,id_h,id_s,nombre_p);
+																													   
+			//Para que nos ponga el número de cosas que hay en los historiales en los botones
+			var idPx = {idP:id_p}
+			$.post('consultas/files-serverside/datosBotonesHistoriales.php',idPx).done(function(data){
+				var datosBP = data.split(';*-'); //alert(data); HC <span class="badge">4</span>
+				$('#verHistorialLabC').html('LAB <span class="badge">'+datosBP[0]+'</span>');
+				if(datosBP[0]<1){$('#verHistorialLabC').addClass('disabled');}
+				$('#verHistorialUsgC').html('USG <span class="badge">'+datosBP[1]+'</span>');
+				if(datosBP[1]<1){$('#verHistorialUsgC').addClass('disabled');}
+				$('#verHistorialImgC').html('IMG <span class="badge">'+datosBP[2]+'</span>');
+				if(datosBP[2]<1){$('#verHistorialImgC').addClass('disabled');}
+				$('#verHistorialEndC').html('END <span class="badge">'+datosBP[3]+'</span>');
+				if(datosBP[3]<1){$('#verHistorialEndC').addClass('disabled');}
+				$('#verHistorialColC').html('COL <span class="badge">'+datosBP[4]+'</span>');
+				if(datosBP[4]<1){$('#verHistorialColC').addClass('disabled');}
+				$('#verHistorialOtrosC').html('OTROS <span class="badge">'+datosBP[5]+'</span>');
+				if(datosBP[5]<1){$('#verHistorialOtrosC').addClass('disabled');}
+				$('#verHistorialNotasC').html('CNTS <span class="badge">'+datosBP[6]+'</span>');
+				if(datosBP[6]<1){$('#verHistorialNotasC').addClass('disabled');}
+				cargar_historiales(id_p,id_h);
+			});																					   
+									
+			$('#salirSGconsulta').removeClass('hidden');
+		
+		$('#myModalx').modal('show'); 
+		$('#myModalx').on('shown.bs.modal', function (e) { });
+		$('#myModalx').on('hidden.bs.modal', function (e) { 
+			
+		});
+	}});		
+}
 function imprimirSV(idP,idC){
 	var datosCon = {idP:idP, idC:idC}
 	$.post('enfermeria/files-serverside/datosSV.php',datosCon).done(function(data){

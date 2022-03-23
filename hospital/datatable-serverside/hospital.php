@@ -182,7 +182,7 @@ require("../../Connections/horizonte.php");
 		$result3 = mysql_query("SELECT count(DISTINCT h.id_medicamento_mh) from medicamentos_hospital h where h.id_hospitalizacion_mh = $row[7]", $horizonte) or die (mysql_error());
 		$row3 = mysql_fetch_row($result3);
 		
-		$row[7] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick=''><i class='fa fa-book' aria-hidden='true'></i></button></div>";
+		$row[7] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='verHC($row[20],$row[21],$nombreP,$row[22],\"$estatus\",$idU_t)'><i class='fa fa-book' aria-hidden='true'></i></button></div>";
 		
 		$row[8] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='medicamentos($row[20],$row[21],$nombreP,$row[22],\"$estatus\");'><i class='fa fa-medkit' aria-hidden='true'></i></button></div>";
 		

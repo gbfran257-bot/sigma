@@ -77,6 +77,7 @@
         <th width="80px">FECHA</th>
         <th width="100px">CONVENIO</th>
         <th width="160px">USUARIO</th>
+		<th width="160px">F. PAGO</th>
         <th width="10px">SUBTOTAL</th>
         <th width="10px" nowrap style="white-space:nowrap">CARGOS EXTRA</th>
         <th width="10px">DESCUENTO</th>
@@ -97,6 +98,7 @@
             <th><input type="hidden" class=""></th>
 			<th> <input type="hidden" class=""> <input type="text" placeholder="Convenio" class="form-control input-sm"/> </th>
 			<th><input type="text" placeholder="Usuario" class="form-control input-sm" /></th>
+			<th><input type="text" placeholder="Tipo Pago" class="form-control input-sm" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
@@ -179,22 +181,22 @@ $(document).ready(function(e) {
             var iTotal = 0, iDescuento=0, iIngreso = 0, iAbonado = 0, iSaldo = 0, iSubT = 0, iCargosE = 0;
             for ( var i=iStart ; i<iEnd ; i++ )
             {
-				iDescuento += aaData[ aiDisplay[i] ][8]*1;
-                iTotal += aaData[ aiDisplay[i] ][9]*1;
-				iAbonado += aaData[ aiDisplay[i] ][12]*1;
-				iSaldo += aaData[ aiDisplay[i] ][13]*1;
-				iSubT += aaData[ aiDisplay[i] ][6]*1;
-				iCargosE += aaData[ aiDisplay[i] ][7]*1;
+				iDescuento += aaData[ aiDisplay[i] ][9]*1;
+                iTotal += aaData[ aiDisplay[i] ][10]*1;
+				iAbonado += aaData[ aiDisplay[i] ][13]*1;
+				iSaldo += aaData[ aiDisplay[i] ][14]*1;
+				iSubT += aaData[ aiDisplay[i] ][7]*1;
+				iCargosE += aaData[ aiDisplay[i] ][8]*1;
             }
              
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
-			nCells[7].innerHTML = '$'+redondear(parseFloat(iDescuento * 100)/100,2);
-            nCells[8].innerHTML = '$'+redondear(parseFloat(iTotal * 100)/100,2);
-			nCells[9].innerHTML = '$'+redondear(parseFloat(iAbonado * 100)/100,2);
-			nCells[10].innerHTML = '$'+redondear(parseFloat(iSaldo * 100)/100,2);
-			nCells[5].innerHTML = '$'+redondear(parseFloat(iSubT * 100)/100,2);
-			nCells[6].innerHTML = '$'+redondear(parseFloat(iCargosE * 100)/100,2);
+			nCells[8].innerHTML = '$'+redondear(parseFloat(iDescuento * 100)/100,2);
+            nCells[9].innerHTML = '$'+redondear(parseFloat(iTotal * 100)/100,2);
+			nCells[10].innerHTML = '$'+redondear(parseFloat(iAbonado * 100)/100,2);
+			nCells[11].innerHTML = '$'+redondear(parseFloat(iSaldo * 100)/100,2);
+			nCells[6].innerHTML = '$'+redondear(parseFloat(iSubT * 100)/100,2);
+			nCells[7].innerHTML = '$'+redondear(parseFloat(iCargosE * 100)/100,2);
 			
 			window.setTimeout(function(){$('.erase1').each(function(index, element){ $(this).parent().parent().remove(); });},200);
         },

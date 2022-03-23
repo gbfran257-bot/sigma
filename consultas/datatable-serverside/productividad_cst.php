@@ -115,7 +115,7 @@ require("../../funciones/php/values.php");
 		$suma = $row[2];
         // $row[2]= "<span class='btn btn-primary' onclick='detalles($row[9],\"$_GET[min]\",\"$_GET[max]\")'>$suma</span>";
 
-		$porce = round(($suma*100)/$rowT[0],4);
+		$porce = round(($suma*100)/$rowT[0],1);
 		
 		$row[3] = "<span>$porce %</span>";
 		
