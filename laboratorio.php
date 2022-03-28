@@ -1018,7 +1018,7 @@ function preImprimir(a,b,n,id_s){//alert('id del paciente: '+a+'id vc: '+b+'nomb
 
 function imprimir(a,b,n,x,id_s){//a =id paciente, b id estudio en vc, x es si se imprimen los encabe
 	$('#idPacientePro').val(a); $('#idEstudioPro').val(b);
-	var datoP = {idP:a, idE:b, idU:$('#id_user').val()}
+	var datoP = {idP:a, idE:b, idU:$('#id_user').val(), _:$.now()}
 	$.post('laboratorio/archivos_save_ajax/datosCapturar.php', datoP).done(function(data){
 		var datosP = data.split('*}'); $('#name_area').val(datosP[36]); //alert(datosP[36]);
 		
@@ -1058,8 +1058,8 @@ function imprimir(a,b,n,x,id_s){//a =id paciente, b id estudio en vc, x es si se
 				//aquí hacer que cuando sea la bh cambie de archivo para imprimir los resultados
 				switch(n){
 					case "BIOMETRIA HEMATICA":
-						$.post('laboratorio/files-serverside/imprimirResultadosBH.php?idE='+b+'&idU='+$('#id_user').val()+'&firmaU='+t).done(function(data){ 
-							var pus = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s}
+						$.post('laboratorio/files-serverside/imprimirResultadosBH.php?idE='+b+'&idU='+$('#id_user').val()+'&firmaU='+t, {_:$.now()} ).done(function(data){ 
+							var pus = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s, _:$.now()}
 							
 							$("#myModalx").html('<div class="modal-dialog modal-lg" role="document"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4"></div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
 						   window.setTimeout(function(){

@@ -243,7 +243,7 @@ function nuevoEstudio(){
 				"fnServerParams": function (aoData, fnCallback) { var aleatorio = $('#aleatorioB').val(); aoData.push(  {"name": "aleatorio", "value": aleatorio } ); },
 				"sDom": '<"filtroC">l<"infoC">r<"data_tC"t>', "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
 				"oLanguage": { 
-					"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "EL ESTUDIO NO CUENTA CON INDICACIONES", 
+					"sLengthMenu": "MOSTRANDO _MENU_ records per page", "sZeroRecords": "EL ESTUDIO NO CUENTA CON INDICACIONES", 
 					"sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": "<br/>CONVENIOS: _MAX_", "sSearch": "BUSCAR" 
 				}
 			});
@@ -368,7 +368,7 @@ function fichaEstudio(idE, nameE, aleatorioC){
 					},
 				"sDom": '<"filtroC">l<"infoC">r<"data_tC"t>', "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
 				"oLanguage": { 
-					"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "EL ESTUDIO NO CUENTA CON INDICACIONES", 
+					"sLengthMenu": "MOSTRANDO _MENU_ records per page", "sZeroRecords": "EL ESTUDIO NO CUENTA CON INDICACIONES", 
 					"sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": "<br/>CONVENIOS: _MAX_", "sSearch": "BUSCAR" 
 				}
 			});

@@ -253,7 +253,7 @@ $id_del_user = $_SESSION['id'];
         <div class="tab-pane tap-pane-primary" id="t_fiscales" role="tabpanel" aria-labelledby="fiscales-tab"><br>
           <div class="row">
             <div class="form-group col-md-6 col-sm-6 text-primary">
-              <label for="rSocial" class="col-form-label"> NOMBNRE O RAZÓN SOCIAL</label>
+              <label for="rSocial" class="col-form-label"> NOMBRE O RAZÓN SOCIAL</label>
               <input name="rSocial" id="rSocial" class="form-control form-control-sm mi_dir" placeholder="Nombre o Razón social" >
               <div class="help-block with-errors"></div>
             </div>
