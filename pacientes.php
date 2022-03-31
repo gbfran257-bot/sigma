@@ -439,7 +439,7 @@ $(document).ready(function(e) {
 	$(document).on('focus', ':not(.popover)', function(){ $('.popover').popover('hide'); }); //$('[data-toggle="popover"]').popover({ });
 	$("#modal-precios-descuentos-consulta form").submit(function(e){
 		e.preventDefault();
-		$.post("pacientes/files-serverside/modificaPrecioServicios.php",
+		$.post("pacientes/files-serverside/modificaPrecioConsulta.php",
 			$("#modal-precios-descuentos-consulta form").serialize(),
 			function(res){
 				if(res == "1"){
@@ -456,7 +456,7 @@ $(document).ready(function(e) {
 
 	$("#modal-precios-servicios form").submit(function(e){
 		e.preventDefault();
-		$.post("pacientes/files-serverside/modificaPrecioConsulta.php",
+		$.post("pacientes/files-serverside/modificaPrecioServicios.php",
 			$("#modal-precios-servicios form").serialize(),
 			function(res){
 				if(res == "1"){
@@ -1851,6 +1851,12 @@ function nuevaVisita(idP, nombreP){
 			); 
 			$('.desc_cargo_l').change(function(e){nota_desc_cargo_l();}); $('.desc_cargo_l').keyup(function(e){nota_desc_cargo_l();});
 		} );
+
+		$('#forma_pago_ov').load('pacientes/files-serverside/formas_pago.php',function(response,status,xhr){
+            if(status=="success"){
+                
+            }
+        });
 			
 		var oTableElaS = $('#dataTableElS').DataTable({
 			serverSide: true,"sScrollY": 120, ordering: false, searching: true, scrollCollapse: false,

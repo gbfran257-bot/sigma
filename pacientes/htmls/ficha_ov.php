@@ -64,12 +64,12 @@
 						  <div class="" id="" style="font-size: 1em;">
 							<div class="col-sm-12 col-xs-12" align="left">
 								<select id="forma_pago_ov" name="forma_pago_ov" class="form-control input-sm" required>
-								  <option value="">-SELECCIONE UNA FORMA DE PAGO-</option>
+								  <!-- <option value="">-SELECCIONE UNA FORMA DE PAGO-</option>
 								  <option value="1" selected>FORMA PAGO: EFECTIVO</option>
 								  <option value="2">FORMA PAGO: TARJETA CRÉDITO</option>
                   <option value="2">FORMA PAGO: TARJETA DE DÉBITO</option>
 								  <option value="3">FORMA PAGO: TRANSFERENCIA ELECTRÓNICA</option>
-								  <option value="4">FORMA PAGO: CHEQUE</option>
+								  <option value="4">FORMA PAGO: CHEQUE</option> -->
 								</select>
 							</div>
 							<div class="col-sm-12 col-xs-12" align="left">
