@@ -34,12 +34,11 @@ require("../../Connections/ipacs.php");
     $sLimit = "";
     if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' )
     {
-        $sLimit = "LIMIT ".mysql_real_escape_string( $_GET['iDisplayStart'] ).", ".
-            mysql_real_escape_string( $_GET['iDisplayLength'] );
+        $sLimit = "LIMIT 30";
     }
      
     /* * Ordering */
-    $sOrder = "GROUP BY p.pk, s.pk, sq.pk, pe.pk";
+    $sOrder = "GROUP BY p.pk, s.pk, sq.pk, pe.pk order by p.created_time desc";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
         $sOrder = "ORDER BY  ";
