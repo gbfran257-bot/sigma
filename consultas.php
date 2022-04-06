@@ -1094,11 +1094,13 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 									var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
 									var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
 									var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
-									var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56], et_Fnac = datosTe[57];
+									var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56], et_Fnac = datosTe[57], et_dx = datosTe[58], et_Med = datosTe[59];
 									
 									$("#tipoNotaMed").change(function(e) {//alert('Cambia');
 										var datos = {idNM:$("#tipoNotaMed").val(),idC:idC}
 										$.post('consultas/files-serverside/textoNotaM.php',datos).done(function(data){ //alert(data);
+											data = data.replace(/{ET_DIAGNOSTICO_PACIENTE}/gi, et_dx);
+											data = data.replace(/{ET_MEDICAMENTOS_PACIENTE}/gi, et_Med);
 											data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
 											data = data.replace(/{ET_EDAD}/gi, edadx1);
 											data = data.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
@@ -1126,6 +1128,7 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 											data = data.replace(/{et_nombre_universidad}/gi, nombre_universidad_x);
 											data = data.replace(/{et_nombre_paciente}/gi, nombre_pacientex);
 											data = data.replace(/{et_fecha_nacimiento_paciente}/gi, et_Fnac);
+											
 											data = data.replace(/{et_peso_g}/gi, peso_x);
 											data = data.replace(/{et_talla_g}/gi, et_talla_g);
 											data = data.replace(/{et_sex}/gi, sex_x);
@@ -1172,7 +1175,7 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 									var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
 									var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
 									var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
-									var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56], et_Fnac = datosTe[57];
+									var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56], et_Fnac = datosTe[57], et_dx= datosTe[58], et_Med = datosTe[59];
 									
 									$("#tipoRecetaMed").change(function(e) {
 										var datos = {idNM:$("#tipoRecetaMed").val(),idC:idC}
@@ -1204,6 +1207,8 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 											data = data.replace(/{et_nombre_universidad}/gi, nombre_universidad_x);
 											data = data.replace(/{et_nombre_paciente}/gi, nombre_pacientex);
 											data = data.replace(/{et_fecha_nacimiento_paciente}/gi, et_Fnac);
+											data = data.replace(/{ET_DIAGNOSTICO_PACIENTE}/gi, et_dx);
+											data = data.replace(/{ET_MEDICAMENTOS_PACIENTE}/gi, et_Med);
 											data = data.replace(/{et_peso_g}/gi, peso_x);
 											data = data.replace(/{et_talla_g}/gi, et_talla_g);
 											data = data.replace(/{et_sex}/gi, sex_x);
@@ -1256,12 +1261,14 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 										var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
 										var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
 										var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46];
-										var data = datosNI[1], data1 = datosNI[2]; 
+										var data = datosNI[1], data1 = datosNI[2], et_dx = datosTe[58], et_Med = datosTe[59];
 																												   
 										data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
 										data = data.replace(/{ET_EDAD}/gi, edadx1);
 										data = data.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
-										data = data.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);														
+										data = data.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);	
+										data = data.replace(/{ET_DIAGNOSTICO_PACIENTE}/gi, et_dx);	
+										data = data.replace(/{ET_MEDICAMENTOS_PACIENTE}/gi, et_Med);												
 										data = data.replace(/{ET_NOMBRE_PACIENTE}/gi, nombre_pacientex);
 										data = data.replace(/{ET_SEX}/gi, sexox);
 										data = data.replace(/{ET_SV}/gi, svx);
@@ -1308,7 +1315,9 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 										data1 = data1.replace(/{ET_ALERGIAS}/gi, alergiasx);
 										data1 = data1.replace(/{ET_EDAD}/gi, edadx1);
 										data1 = data1.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
-										data1 = data1.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);														
+										data1 = data1.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);	
+										data1 = data1.replace(/{ET_DIAGNOSTICO_PACIENTE}/gi, et_dx);
+										data1 = data1.replace(/{ET_MEDICAMENTOS_PACIENTE}/gi, et_Med);														
 										data1 = data1.replace(/{ET_NOMBRE_PACIENTE}/gi, nombre_pacientex);
 										data1 = data1.replace(/{ET_SEX}/gi, sexox);
 										data1 = data1.replace(/{ET_SV}/gi, svx);
@@ -1352,10 +1361,13 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 										data1 = data1.replace(/{et_logoee}/gi, et_logoee_x);
 										data1 = data1.replace(/{et_logogm}/gi, et_logogm_x);
 										
-										$('#notaMedicaC').val(data); $('#indiF').val(data1);
+										$('#notaMedicaC').val(data); 
+										$('#indiF').val(data1);
 										//tinymce.get('indiF').setContent(data);
 									});
-								}else{ $('#notaMedicaC').val(datos[15]); $('#indiF').val(datos[16]); }
+								}else{ 
+									$('#notaMedicaC').val(datos[15]); 
+									$('#indiF').val(datos[16]); }
 							});
 							//$('#my_tb_nm').click(function(e) { insertarMED();});
 							$('#salvarConsulta').click(function(e) { salvarConsulta(idC, idP); });
@@ -1478,7 +1490,6 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 									});
 								}
 							});
-							
 							tinymce.init({
 								selector:'#indiF',resize:false,height:$('#myModalx').height()*0.45,theme: "modern",
 								plugins: 
@@ -1496,7 +1507,8 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 									editor.addButton( 'mybuttonVP', {
 										text: 'VPI', icon: false, tooltip: 'Vista previa de impresión',
 										onclick:function(){
-											var res = tinyMCE.get("indiF").getContent().replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); //alert(res);
+											var res = tinyMCE.get("indiF").getContent().replace(/<p/g, "<div");
+												 res = res.replace(/<\/p>/g, "</div>"); //alert(res);
 											$('#dpa_imprimir1').html(res).css('background-image','url(imagenes/vista_previa.png)').css('background-size','65%');
 											$('#dpa_imprimir1').html(res); $('#dpa_imprimir1').printElement();
 										}

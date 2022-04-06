@@ -197,6 +197,8 @@ require("../../Connections/horizonte.php");
 		if($row[13]==''){ $row[13] = '<div align="center"><button type="button" class="btn btn-primary btn-sm" onClick="egresar('.$aRow[0].', '.$aRow[22].');">Egresar</button></div>'; }else{
             $row[13] = '<div align="center">'.$row[13].'<br>'.$row[25].'</div>';
         }
+        $nombrePget = utf8_encode($row[1]);
+        $row[14]= "<div align='center'><a href='pacientes.php?to_h=true&p=$row[21]&n=$nombrePget' target='_blank' class='btn btn-primary btn-sm'><i class='fa fa-cart-plus' aria-hidden='true'></i></a></div>";
 
         // $row[13] = $aRow;
 							

@@ -74,7 +74,7 @@ require("../../../funciones/php/values.php");
 		while ($fila = mysql_fetch_array($query)) {
 			$lista = $lista.','.$fila['id_concepto_es'];
 		};//echo $lista;
-		$sWhere = "WHERE e.id_to not in ($lista) and e.id_tipo_concepto_to = 2 ";
+		$sWhere = "WHERE e.id_tipo_concepto_to = 2 ";
 	}else{
 		if($_GET['idConvenio']==0){//Sin convenios
 			if($urgencia==1){//Nocturno
@@ -96,7 +96,7 @@ require("../../../funciones/php/values.php");
 			while ($fila = mysql_fetch_array($query)) {
 				$lista = $lista.','.$fila['id_concepto_es'];
 			};//echo $lista;
-			$sWhere = "WHERE e.id_to not in ($lista) and e.id_tipo_concepto_to = 2 ";
+			$sWhere = "WHERE e.id_tipo_concepto_to = 2 ";
 		}/*else if($_GET['idConvenio']==1){//Con Membresía
 			if($urgencia==1){
 				$aColumns = array('e.concepto_to', 'a.nombre_a', $precio_ur_me, 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
@@ -139,7 +139,7 @@ require("../../../funciones/php/values.php");
 			while ($fila = mysql_fetch_array($query)) {
 				$lista = $lista.','.$fila['id_conceptos_beneficios'];
 			};//echo $lista;
-			$sWhere = "WHERE cb.id_cb not in ($lista) and c.id_tipo_concepto_to = 2 and cv.id_cv = '$_GET[idConvenio]' and cb.id_paciente_cb = '$_GET[idP]' ";
+			$sWhere = "WHERE c.id_tipo_concepto_to = 2 and cv.id_cv = '$_GET[idConvenio]' and cb.id_paciente_cb = '$_GET[idP]' ";
 		}
 	}
 

@@ -81,7 +81,10 @@
 		}
     </style>
 </head>
-<?php include_once 'partes/header.php'; ?>
+<?php include_once 'partes/header.php'; 
+
+?>
+
 <!-- Contenido -->
 	<div class="hidden" id="dpa_imprimir"></div><div class="hidden" id="dpa_imprimir1"></div>
 <input name="aleatorio_ov_a" type="hidden" value="" id="aleatorio_ov_a" required>
@@ -203,12 +206,67 @@
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="modal-etiquetas" style="z-index: 2951!important">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Impresión de etiquetas</h4>
+			</div>
+			<!-- <form action="" method="POST" role="form"> -->
+				<input type="hidden" name="id_vc" id="inputId_vc" class="form-control" value="">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<span class="label">Paciente</span>
+								<input type="text" name="datPaciente" id="datPaciente" class="form-control" value="" step="0.01"  required="required">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<span class="label">Medicamento</span>
+								<input type="text" name="medicamento" id="medicamento_name" class="form-control" value="" step="0.01" disabled = "true" required="required">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<span class="label">Indicaciones</span>
+							<input type="text" name="indicaciones" id="indicaciones_m" class="form-control" value="" required="required">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+					<button id="imprimirEtiqueta" class="btn btn-primary">Imprimir</button>
+				</div>
+				<div id="divEtiqueta" style="display:none">
+					<table>
+						<tr>
+							<td  style="font-size:8px" id="dataPaciente"></td>
+						</tr>
+						<tr>
+							<td style="font-size:8px"><span  id="name_med"></span> <?php  echo date('d/m/y H:m:i'); ?></td>
+						</tr>
+						<tr>
+							<td style="font-size:8px" id="indicaciones_med"></td>
+						</tr>
+					</table>
+				</div>
+			<!-- </form> -->
+		</div>
+	</div>
+</div>
 <!-- FIN Contenido -->  
 <?php include_once 'partes/footer.php'; ?>
 
 <script>
 function regresar(){
 	$('.si_impre').addClass('hidden'); $('.no_impre').removeClass('hidden'); $('#mi_formato').html('');
+}
+function alertF(txt){
+	alert(txt);
 }
 function crear_formato(nombre_f, id_f, id_p){
 	tinymce.init({
@@ -430,6 +488,30 @@ function modifica_precio_servicios(id){
 		$("#modal-precios-servicios").modal("show");
 	}, "json");
 }
+
+function imprimirEtiquetas(id){
+	$("#modal-etiquetas #inputId_vc").val(id);
+	var  datosP = $('#titulo_modal').text();
+	datosP = datosP.substring(15,datosP.length);
+	$.post("pacientes/files-serverside/dameMD.php", {id_to: id}, function(res){
+		$("#modal-etiquetas #medicamento_name").val(res[0]);  
+		$("#modal-etiquetas #datPaciente").val(datosP);
+		$("#modal-etiquetas #indicaciones_m").val(res[1]);
+
+		
+		$("#name_med").text(res[0]);
+		$("#modal-etiquetas").modal("show");
+	}, "json");
+
+	$('#imprimirEtiqueta').click(function(e){
+		$('#divEtiqueta').css('display', 'block');
+		$("#dataPaciente").text($('#datPaciente').val().toUpperCase());
+		$("#indicaciones_med").text($('#indicaciones_m').val().toUpperCase());
+		$('#divEtiqueta').printElement();
+		$("#modal-etiquetas").modal("hide");
+	});
+}
+
 $(document).ready(function(e) {
 	//breadcrumb
 	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>RECEPCIÓN</li><li class="active"><strong>PACIENTES</strong></li>');
@@ -2042,7 +2124,7 @@ function nuevaVisita(idP, nombreP){
 		var oTableProS = $('#dataTablePS').DataTable({
 			serverSide: true,"sScrollY": 120, ordering: false, searching: true, scrollCollapse: false,
 			"scrollX":true, "fnFooterCallback":function(nRow, aaData, iStart, iEnd, aiDisplay){}, scroller:false, responsive:true,
-			"aoColumns":[{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true}],
+			"aoColumns":[{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true}],
 			"sDom": '<"">r<""t><""S><"">', 
 			deferRender: true, select: false, "processing": false, "sAjaxSource": "pacientes/js/datatable-serverside/productos_seleccionados.php",
 			"fnServerParams": function (aoData, fnCallback) {
@@ -2714,3 +2796,17 @@ function initMap() { }
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4cHSkoaQwTQjx31Y3xFf3kkSkD28X_Rs&callback=initMap"
 	async defer>
 </script>
+
+<?php include_once 'partes/header.php'; 
+
+if(isset($_GET['to_h'])){
+	echo 	'<script type="text/JavaScript"> 
+				$("#myModal4").addClass("modal-fullscreen");
+				setTimeout(function(e){
+					nuevaVisita('.htmlspecialchars($_GET['p']).',"'.htmlspecialchars_decode($_GET['n']).'");
+				},300);
+			</script>';
+}
+?>
+
+

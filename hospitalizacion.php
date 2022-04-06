@@ -88,6 +88,7 @@
 	<th style="vertical-align:middle;">IMGs</th>
 	<th style="vertical-align:middle;">ESTATUS</th>
 	<th style="vertical-align:middle;">EGRESO</th>
+	<th style="vertical-align:middle;">OV</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -106,6 +107,7 @@
 			<th></th>
             <th><input type="text" class="form-control input-sm" placeholder="Estatus" style="width: 90%;"/></th>
 			<th><input type="text" class="form-control input-sm" placeholder="Fecha egreso"/></th>
+			<th></th>
         </tr>
     </tfoot>
 </table>
@@ -129,7 +131,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},
-			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 

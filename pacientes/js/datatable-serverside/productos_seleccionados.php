@@ -144,7 +144,8 @@ require("../../../funciones/php/values.php");
 		if($row[4]==''){$row[4]='PARTICULAR';}
 		
 		$row[5] = "<div align='center'><button type='button' class='btn btn-xs btn-danger' onClick='borrarItemNVP(this.id);' id='$row[6]'><i class='fa fa-trash' aria-hidden='true'></i></button></div>";
-		
+
+        $row[6] = "<a class='btn btn-xs btn-primary' onclick='imprimirEtiquetas($row[7])'><i class='fa fa-print' aria-hidden='true'></i></a>";
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );

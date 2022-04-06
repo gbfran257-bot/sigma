@@ -26,7 +26,9 @@ require("../../../funciones/php/values.php");
  $MotivoCostoProduccion = sqlValue(mb_strtoupper($_POST["motivocostoproduccion"]), "text");
 
  //primero tenemos que saber si existe su tabulador, sino entnces escogemos el tabulador base
-	$tabu = $_POST['miSucursalNS'].'_precio'; $resultT = mysql_query("SHOW COLUMNS FROM conceptos LIKE '$tabu' ");
+	$tabu = $_POST['miSucursalNS'].'_precio'; 
+	mysql_select_db($database_horizonte, $horizonte);
+	$resultT = mysql_query("SHOW COLUMNS FROM conceptos LIKE '$tabu' ");
 	$existsT = (mysql_num_rows($resultT))?TRUE:FALSE;
 	if($existsT) {
 		$precio_nor = $_POST['miSucursalNS'].'_precio'; $precio_ur = $_POST['miSucursalNS'].'_precio_u';

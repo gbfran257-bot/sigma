@@ -685,6 +685,7 @@
                                         <th align="center">PRECIO</th>
                                         <th align="center">BENEFICIO</th>
                                         <th align="center" width="1%">ELIMINAR</th>
+                                        <th align="center" width="1%">PRINT</th>
                                       </tr>
                                     </thead>
                                     <tbody align="left"> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>

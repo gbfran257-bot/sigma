@@ -1,4 +1,4 @@
-CREATE TABLE `cruzroja_sigma`.`catalogo_sat` ( `id_sat` BIGINT(20) NOT NULL AUTO_INCREMENT , `clave_sat` VARCHAR(200) NOT NULL , `descripcion_sat` TEXT NOT NULL , `id_usuario_sat` BIGINT(20) NULL DEFAULT NULL , `fecha_sat` TIMESTAMP NULL DEFAULT NULL , PRIMARY KEY (`id_sat`)) ENGINE = InnoDB;
+CREATE TABLE `catalogo_sat` ( `id_sat` BIGINT(20) NOT NULL AUTO_INCREMENT , `clave_sat` VARCHAR(200) NOT NULL , `descripcion_sat` TEXT NOT NULL , `id_usuario_sat` BIGINT(20) NULL DEFAULT NULL , `fecha_sat` TIMESTAMP NULL DEFAULT NULL , PRIMARY KEY (`id_sat`)) ENGINE = InnoDB;
 
 
 

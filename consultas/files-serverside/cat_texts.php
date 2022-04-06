@@ -14,6 +14,38 @@ require("../../funciones/php/values.php");
 	$resultR = mysql_query("SELECT temporal_u, universidad_u, universidad_e_u from usuarios where id_u = $idU", $horizonte) or die (mysql_error());
 	$rowR = mysql_fetch_row($resultR); $idSuc = sqlValue($rowR[0], "text"); $idUniversidadU = sqlValue($rowR[1], "int"); $idUniversidadUE = sqlValue($rowR[2], "int");
 
+	//diagnosticos 
+	$resultDiagnosticos = mysql_query("SELECT dx.nombre_di  from diagnosticos as dx left join dx_consultas dxc on  dxc.id_dx_dxc = dx.id_di  where id_c_dxc = $id_vc", $horizonte) or die (mysql_error());
+	$dx_cont = '<table>';
+	while ($diagnosticos = mysql_fetch_assoc($resultDiagnosticos)) {
+		$dx_cont.=	"<tr> ".
+						"<td style='font-size:10px;'>".$diagnosticos['nombre_di']."</td>". 
+					"</tr>";
+	}
+	$dx_cont .= '</table>';
+
+	// medicamentos
+	$resultMedic = mysql_query("SELECT c.concepto_to, m.nombre_generico_med, m.cantidad_med, m.descripcion_med, c.descripcion_to  from medicamentos_receta as md left join conceptos c on  c.id_to = md.id_med_mr left join medicamentos m on c.id_medicamento_g = m.id_med where md.id_co_mr = $id_vc", $horizonte) or die (mysql_error());
+	$md_cont = '<table>';
+	$med_cont = 0;
+	while ($medicamentos = mysql_fetch_assoc($resultMedic)) {
+		$med_cont++;
+		$md_cont.=	"<tr> ".
+						"<td align='left' style='font-size:18px;'>".$med_cont."</td>". 
+						"<td align='left' style='font-size:18px; text-decoration:underline;'> 
+							<span >
+								".strtolower($medicamentos['concepto_to']).
+							"</span>
+							(".strtolower($medicamentos['nombre_generico_med']).") ".strtolower($medicamentos['cantidad_med'])." ".strtolower($medicamentos['descripcion_med'])."
+						</td>". 
+					"</tr>
+					<tr>".
+						"<td align='left' style='font-size:18px;'></td>". 
+						"<td align='left' style='font-size:15px;'>".strtolower($medicamentos['descripcion_to'])."</td>". 
+					"</tr>";
+	}
+	$md_cont .= '</table>';
+
 	mysql_select_db($database_horizonte, $horizonte); //Firma del médico que atiende
 	$resultMNE = mysql_query("SELECT id_do, ext_do from documentos where aleatorio_do = $idSuc and que_es_do = 'DOCUMENTO' and tipo_quien_do = 3 and firma_do = 1 order by id_do desc limit 1", $horizonte) or die (mysql_error());
 	$rowMNE = mysql_fetch_row($resultMNE); $nombreF1 = '../../usuarios/documentos/files/'.$rowMNE[0].'.'.$rowMNE[1];
@@ -427,7 +459,7 @@ require("../../funciones/php/values.php");
 		$row[4].'-{]'.$rowM[7].'-{]'.$rowVC[1].'-{]'.$rowVC[2].' '.$rowVC[3].'-{]'.$mes.'-{]'.$myFirma.'-{]'.$rowFrts[0].'-{]'.$rowVC[4].'-{]'.$row1s[0].
 		'-{]'.$row1s[1].'-{]'.$row1s[3].'-{]'.$row1s[2].'-{]'.$row1s[4].' ºC'.'-{]'.$rowVC[5].'-{]'.$rowVC[6].'-{]'.$rowVC[7].' '.$rowVC[8].'-{]'.$encaNM.
 		'-{]'.$encaNM1.'-{]'.$encaNM2.'-{]'.$encaNM3.'-{]'.$logoMedicina.'-{]'.$rowVC[10].'-{]'.$rowVC[11].'-{]'.$rowVC_1[0].'-{]'.$lista.'-{]'.$lista1.
-		'-{]'.$historia.'-{]'.$ahf.'-{]'.$apnp.'-{]'.$app.'-{]'.$ago.'-{]'.$feNac;
+		'-{]'.$historia.'-{]'.$ahf.'-{]'.$apnp.'-{]'.$app.'-{]'.$ago.'-{]'.$feNac .'-{]'. $dx_cont .'-{]'.$md_cont;
 	
 	echo $datos;
  	//Cerrar conexión a la Base de Datos
