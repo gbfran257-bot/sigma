@@ -8,7 +8,7 @@ $now = sqlValue(date('Y-m-d H:i:s'), "date");
 
 //buscamos el id del estatus de egresado en caso de desconocerse
 mysql_select_db($database_horizonte, $horizonte);
-$sql1 = "SELECT id_est FROM estatus WHERE estatus_est = 'EGRESADO' ";
+$sql1 = "SELECT id_est FROM estatus WHERE estatus_est = 'EGRESO' ";
 $estatus1 = mysql_query($sql1, $horizonte) or die (mysql_error());
 $estus = mysql_fetch_row($estatus1);
 $egresado =  $estus[0];
