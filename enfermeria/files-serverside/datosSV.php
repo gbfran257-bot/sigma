@@ -32,7 +32,7 @@ require("../../funciones/php/values.php");
 	}
 	
 	mysql_select_db($database_horizonte, $horizonte);
-	$result1 = mysql_query("SELECT s.peso_sv, s.talla_sv, s.imc_sv, s.cintura_sv, s.t_sv, s.a_sv, s.fr_sv, s.fc_sv, s.temperatura_sv, s.notas_sv, DATE_FORMAT(s.fecha_sv,'%d/%c/%Y %H:%i:%s'), s.oximetria_sv, s.a_ocular_sv, s.r_verbal, s.r_motriz, u.usuario_u from signos_vitales s left join usuarios u on u.id_u = s.id_usuario_sv where s.id_paciente_sv = $idP order by s.id_sv desc limit 1", $horizonte) or die (mysql_error());
+	$result1 = mysql_query("SELECT s.peso_sv, s.talla_sv, s.imc_sv, s.cintura_sv, s.t_sv, s.a_sv, s.fr_sv, s.fc_sv, s.temperatura_sv, s.notas_sv, DATE_FORMAT(s.fecha_sv,'%d/%c/%Y %H:%i:%s'), s.oximetria_sv, s.a_ocular_sv, s.r_verbal, s.r_motriz, u.usuario_u, s.destroxtis from signos_vitales s left join usuarios u on u.id_u = s.id_usuario_sv where s.id_paciente_sv = $idP order by s.id_sv desc limit 1", $horizonte) or die (mysql_error());
  	$row1 = mysql_fetch_row($result1);
 	
 	mysql_select_db($database_horizonte, $horizonte);
@@ -44,7 +44,7 @@ require("../../funciones/php/values.php");
 	if($row1[4]==''){$ttt = '-';}else{$ttt = $row1[4];}
 	if($row1[5]==''){$aaa = '-';}else{$aaa = $row1[5];}
 	
-	$datos = $nombre.';*-'.$fx.';*-'.$row[4].';*-'.$row1[0].';*-'.$row1[1].';*-'.$row1[2].';*-'.$row1[3].';*-'.$ttt.';*-'.$aaa.';*-'.$row1[6].';*-'.$row1[7].';*-'.$row1[8].';*-'.$row1[9].';*-'.$row1[10].';*-'.$rowC1[0].';*-'.$rowC1[1].';*-'.$rowC1[2].';*-'.$row1[11].';*-'.$row1[12].';*-'.$row1[13].';*-'.$row1[14].';*-'.$rowC1[3].';*-'.$nombreM.';*-'.$row1[15].';*-'.$rowC1[4];
+	$datos = $nombre.';*-'.$fx.';*-'.$row[4].';*-'.$row1[0].';*-'.$row1[1].';*-'.$row1[2].';*-'.$row1[3].';*-'.$ttt.';*-'.$aaa.';*-'.$row1[6].';*-'.$row1[7].';*-'.$row1[8].';*-'.$row1[9].';*-'.$row1[10].';*-'.$rowC1[0].';*-'.$rowC1[1].';*-'.$rowC1[2].';*-'.$row1[11].';*-'.$row1[12].';*-'.$row1[13].';*-'.$row1[14].';*-'.$rowC1[3].';*-'.$nombreM.';*-'.$row1[15].';*-'.$rowC1[4].';*-'.$row1[16];
 	
 	echo $datos;
  	//Cerrar conexión a la Base de Datos

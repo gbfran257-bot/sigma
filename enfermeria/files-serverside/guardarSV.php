@@ -20,10 +20,11 @@ require("../../funciones/php/values.php");
  $aocular = sqlValue($_POST["aocular"], "int");
  $rverbal = sqlValue($_POST["rverbal"], "int");
  $rmotriz = sqlValue($_POST["rmotriz"], "int");
+ $dtxis = sqlValue($_POST["dtxis"], "double");
 
  mysql_select_db($database_horizonte, $horizonte);
- $sql = "INSERT INTO signos_vitales (id_paciente_sv, id_usuario_sv, fecha_sv, peso_sv, talla_sv, imc_sv, cintura_sv, t_sv, a_sv, fr_sv, fc_sv, temperatura_sv, notas_sv, oximetria_sv, a_ocular_sv, r_verbal, r_motriz)";
- $sql.= "VALUES ($idP, $idU, $now, $peso, $talla, $imc, $cintura, $t, $a, $fr, $fc, $temp, $notas, $oximetria, $aocular, $rverbal, $rmotriz )";
+ $sql = "INSERT INTO signos_vitales (id_paciente_sv, id_usuario_sv, fecha_sv, peso_sv, talla_sv, imc_sv, cintura_sv, t_sv, a_sv, fr_sv, fc_sv, temperatura_sv, notas_sv, oximetria_sv, a_ocular_sv, r_verbal, r_motriz,destroxtis)";
+ $sql.= "VALUES ($idP, $idU, $now, $peso, $talla, $imc, $cintura, $t, $a, $fr, $fc, $temp, $notas, $oximetria, $aocular, $rverbal, $rmotriz, $dtxis )";
   
 $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	

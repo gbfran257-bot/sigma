@@ -13,7 +13,7 @@
     <td>
     	<table width="100%" border="0" cellspacing="3" cellpadding="2" style="text-align:center;">
           <tr> <td align="center" id="myLogoS"> </td> </tr>
-          <tr> <td align="center"><span id="municipioS" style="font-weight:bold;"> </span></td> </tr>
+          <tr> <td align="center">DELEGACIÓN <span id="municipioS" style="font-weight:bold;"> </span></td> </tr>
           <tr> <td><span id="calleSucursal"> </span></td> </tr>
           <tr> <td>COLONIA <span id="coloniaSucursal"> </span> <span id="cpSucursal"> </span></td> </tr>
           <tr> <td>TEL: <span id="telefonoSucursal"> </span></td> </tr>
@@ -31,7 +31,7 @@
                 <td id="fechaT" align="left"></td>
             </tr>
             <tr>
-            	<td width="100%" nowrap align="center" style="font-size:1.3em; font-weight:bold;" colspan="2">VENTA</td>
+            	<td width="100%" nowrap align="center" style="font-size:1.3em; font-weight:bold;" colspan="2">RECIBO DE DONATIVO</td>
             </tr>
             <tr style="display:">
             	<td width="" nowrap id="" align="left" valign="top"> CLIENTE: </td>

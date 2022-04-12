@@ -623,14 +623,16 @@ function editar_nota(id_h, id_p, nombre_p, id_s, id_n, tUser, estatus){
 						var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
 						var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
 						var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
-						var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56];
+						var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56],et_destroxtis = datosTe[60];
 
 						var datosN = {id_n:id_n}
 						$.post('hospital/files-serverside/datosNotaH.php',datosN).done(function(data){
 							data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
 								data = data.replace(/{ET_EDAD}/gi, edadx1);
 								data = data.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
-								data = data.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);														
+								data = data.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);	
+								data = data.replace(/{et_destroxtis}/gi, et_destroxtis);
+
 								data = data.replace(/{ET_NOMBRE_PACIENTE}/gi, nombre_pacientex);
 								data = data.replace(/{ET_SEX}/gi, sexox);
 								data = data.replace(/{ET_SV}/gi, svx);
@@ -687,7 +689,9 @@ function editar_nota(id_h, id_p, nombre_p, id_s, id_n, tUser, estatus){
 								data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
 								data = data.replace(/{ET_EDAD}/gi, edadx1);
 								data = data.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
-								data = data.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);														
+								data = data.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);	
+								data = data.replace(/{et_destroxtis}/gi, et_destroxtis);
+
 								data = data.replace(/{ET_NOMBRE_PACIENTE}/gi, nombre_pacientex);
 								data = data.replace(/{ET_SEX}/gi, sexox);
 								data = data.replace(/{ET_SV}/gi, svx);
@@ -846,7 +850,7 @@ function tomar_sv(idP,control,idC, id_s, nombre_p){ //si control es 1 al cerrar 
 				idPx1:idP,idU:$('#idUsuario_sv').val(),peso:$('#pesoSV').val(),talla:$('#tallaSV').val(), idC:idC,
 				cintura:$('#cinturaSV').val(), imc:$('#imcSV').val(), t:$('#tSV').val(),a:$('#aSV').val(),fr:$('#frSV').val(),
 				fc:$('#fcSV').val(), temp:$('#tempSV').val(), notas:$('#notasSV').val(), oximetria:$('#oxiSV').val(),
-				aocular:$('#abertura_ocular').val(), rverbal:$('#respuesta_verbal').val(), rmotriz:$('#respuesta_motriz').val()
+				aocular:$('#abertura_ocular').val(), rverbal:$('#respuesta_verbal').val(), rmotriz:$('#respuesta_motriz').val(),  dtxis:$('#dtxis').val()
 			}
 			$.post('enfermeria/files-serverside/guardarSV.php',datos).done(function(data){ 
 				if(data==1){ $('#btn_cancelar_sv').click();
@@ -893,12 +897,13 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 				var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
 				var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
 				var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
-				var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56];
+				var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56],et_destroxtis = datosTe[60];
 
 				$("#tipoNotaMed").change(function(e) {//alert('Cambia');
 					var datos = {idNM:$("#tipoNotaMed").val(),idC:id_h}
 					$.post('consultas/files-serverside/textoNotaM.php',datos).done(function(data){ //alert(data);
 						data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
+						data = data.replace(/{et_destroxtis}/gi, et_destroxtis);
 						data = data.replace(/{ET_EDAD}/gi, edadx1);
 						data = data.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
 						data = data.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);														
@@ -974,9 +979,10 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 				var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
 				var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
 				var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56];
-				var data = datosNI[1]; 
+				var data = datosNI[1], et_destroxtis = datosTe[60]; 
 
 				data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
+				data = data.replace(/{et_destroxtis}/gi, et_destroxtis);
 				data = data.replace(/{ET_EDAD}/gi, edadx1);
 				data = data.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
 				data = data.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);														
@@ -1130,10 +1136,10 @@ function cargar_todo_signos_vitales(idP,idC){
 		$('#pesoSV').val(datos[3]);$('#tallaSV').val(datos[4]);$('#imcSV').val(datos[5]);
 		$('#cinturaSV').val(datos[6]); $('#tSV').val(datos[7]);$('#aSV').val(datos[8]);
 		$('#frSV').val(datos[9]);$('#fcSV').val(datos[10]);$('#tempSV').val(datos[11]);$('#notasSV').val(datos[12]);
-		$('#miIMC').text(datos[5]); $('#miMedidaCintura').text(datos[6]);
+		$('#miIMC').text(datos[5]); $('#miMedidaCintura').text(datos[6]); $('#dtxis').val(datos[25]);
 		
 		$('#fc0').text(datos[10]); $('#fr0').text(datos[9]); $('#t0').text(datos[7]); $('#ta0').text(datos[8]);
-		$('#temp0').text(datos[11]); $('#peso0').text(datos[3]); $('#talla0').text(datos[4]); $('#imc0').text(datos[5]);
+		$('#temp0').text(datos[11]); $('#peso0').text(datos[3]); $('#talla0').text(datos[4]); $('#imc0').text(datos[5]);$('#dex0').text(datos[25]);
 		
 		//checamos los valores normales de los SV para poner u ocultar su *
 		var datosFC = {idP:idP, idC:idC}

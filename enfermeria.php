@@ -214,7 +214,7 @@ function cargar_todo_signos_vitales(idP,idC){
 		$('#pesoSV').val(datos[3]);$('#tallaSV').val(datos[4]);$('#imcSV').val(datos[5]);
 		$('#cinturaSV').val(datos[6]); $('#tSV').val(datos[7]);$('#aSV').val(datos[8]);
 		$('#frSV').val(datos[9]);$('#fcSV').val(datos[10]);$('#tempSV').val(datos[11]);$('#notasSV').val(datos[12]);
-		$('#miIMC').text(datos[5]); $('#miMedidaCintura').text(datos[6]);
+		$('#miIMC').text(datos[5]); $('#miMedidaCintura').text(datos[6]); $('#dtxis').val(datos[25]);
 		
 		$('#fc0').text(datos[10]); $('#fr0').text(datos[9]); $('#t0').text(datos[7]); $('#ta0').text(datos[8]);
 		$('#temp0').text(datos[11]); $('#peso0').text(datos[3]); $('#talla0').text(datos[4]); $('#imc0').text(datos[5]);
@@ -614,7 +614,7 @@ function tomar_sv(idP,control,idC, id_s){//si control es 1 al cerrar la ventana 
 				idPx1:idP,idU:$('#idUsuario_sv').val(),peso:$('#pesoSV').val(),talla:$('#tallaSV').val(), idC:idC,
 				cintura:$('#cinturaSV').val(), imc:$('#imcSV').val(), t:$('#tSV').val(),a:$('#aSV').val(),fr:$('#frSV').val(),
 				fc:$('#fcSV').val(), temp:$('#tempSV').val(), notas:$('#notasSV').val(), oximetria:$('#oxiSV').val(), 
-				aocular:$('#abertura_ocular').val(), rverbal:$('#respuesta_verbal').val(), rmotriz:$('#respuesta_motriz').val()
+				aocular:$('#abertura_ocular').val(), rverbal:$('#respuesta_verbal').val(), rmotriz:$('#respuesta_motriz').val(),  dtxis:$('#dtxis').val()
 			}
 			$.post('enfermeria/files-serverside/guardarSV.php',datos).done(function(data){ 
 				if(data==1){ $('#btn_cancelar_sv, #clickme').click();

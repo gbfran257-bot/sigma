@@ -194,7 +194,7 @@ require("../../Connections/horizonte.php");
 		$row[11] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick=''><i class='fa fa-camera' aria-hidden='true'></i></button></div>";
 		
         // Se envia el id de la hospitalización y el id de la cama
-		if($row[13]==''){ $row[13] = '<div align="center"><button type="button" class="btn btn-primary btn-sm" onClick="egresar('.$aRow[0].', '.$aRow[22].');">Egresar</button></div>'; }else{
+		if($row[13]==''){ $row[13] = '<div align="center"><button type="button" class="btn btn-primary btn-sm" onClick="egresar('.$aRow[0].', '.$aRow[23].');">Egresar</button></div>'; }else{
             $row[13] = '<div align="center">'.$row[13].'<br>'.$row[25].'</div>';
         }
         $nombrePget = utf8_encode($row[1]);

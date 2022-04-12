@@ -113,7 +113,7 @@
                                   </div>
                                 </div>
                               </div>
-                              <div class="col-sm-3 col-md-3">
+                              <div class="col-sm-2 col-md-2">
                                 <div class="form-group">
                                     <label for="tSV">Presión arterial sistólica (T)</label>
                                     <div class="input-group">
@@ -122,12 +122,21 @@
                                     </div>
                                 </div>
                               </div>
-                              <div class="col-sm-3 col-md-3">
+                              <div class="col-sm-2 col-md-2">
                                 <div class="form-group">
                                     <label for="aSV">Presión arterial diastólica (A)</label>
                                     <div class="input-group">
                                       <input type="number" class="form-control sv_ro no-spin" id="aSV" name="aSV">
                                       <div class="input-group-addon">mmHg</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-2 col-md-2">
+                                <div class="form-group">
+                                    <label for="aSV">Destroxtis</label>
+                                    <div class="input-group">
+                                      <input type="number" class="form-control sv_ro no-spin" id="dtxis" name="dtxis" step="0.01">
+                                      <div class="input-group-addon"></div>
                                     </div>
                                 </div>
                               </div>                            
@@ -155,7 +164,7 @@
                                 <div class="form-group">
                                   <label for="pesoSV">Peso</label>
                                   <div class="input-group">
-                                    <input type="number" class="form-control sv_ro no-spin" id="pesoSV" name="pesoSV" required step="0.01">
+                                    <input type="number" class="form-control sv_ro no-spin" id="pesoSV" name="pesoSV"  step="0.01">
                                     <div class="input-group-addon">kg</div>
                                   </div>
                                 </div>
@@ -164,7 +173,7 @@
                                 <div class="form-group">
                                     <label for="tallaSV">Talla</label>
                                     <div class="input-group">
-                                      <input type="number" class="form-control sv_ro no-spin" id="tallaSV" name="tallaSV" required min="0" step="0.01">
+                                      <input type="number" class="form-control sv_ro no-spin" id="tallaSV" name="tallaSV"  min="0" step="0.01">
                                       <div class="input-group-addon">mts</div>
                                     </div>
                                 </div>
@@ -880,6 +889,17 @@ Sin embargo, en sentido estricto se suele denominar cardiopatía a las enfermeda
                         <td align="right"><span id="imc0"></span></td>
                         <td class="small">
                         <span id="graficaIMC" style="cursor:pointer;" onClick="graficas(8)"></span>
+                        </td>
+                      </tr>
+                      <tr height="1">
+                        <td align="left">
+                        	DEX
+                        </td>
+                        <td align="right">
+                          <span id="dex0"></span>
+                        </td>
+                        <td class="small">
+                          <span id="graficaDex" style="cursor:pointer;"></span>
                         </td>
                       </tr>
                       <tr height="1">
