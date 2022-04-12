@@ -2,7 +2,7 @@
 require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
 
-	$aColumns = array('distinct c.linea_c', 'c.id_to');
+	$aColumns = array('c.linea_c', 'c.id_to');
      
     // DB tables to use 
     $aTables = array('conceptos c');
@@ -13,7 +13,7 @@ require("../../funciones/php/values.php");
 	// Joins   
 	$sJoin = ' ';
 
-	$sWhere =" order by c.linea_c asc ";
+	$sWhere =" group by c.linea_c order by c.linea_c asc ";
     /* Database connection information */
     $gaSql['user'] = $username_horizonte; $gaSql['password'] = $password_horizonte; 
 	$gaSql['db']   = $database_horizonte; $gaSql['server']   = $hostname_horizonte;
