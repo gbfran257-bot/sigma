@@ -15,7 +15,7 @@ $egresado =  $estus[0];
 
 mysql_select_db($database_horizonte, $horizonte);
 $sql = "UPDATE hospitalizacion SET fecha_fin_h = $now, id_usuario_egreso_h = $idU, estatus_h = $egresado where id_h = $id_h";
-$update = mysql_query($sql, $horizonte) or die (mysql_error());
+$update = mysql_query($sql, $horizonte) or die ($sql.mysql_error());
 	
 if (!$update) {
  	echo $sql;
