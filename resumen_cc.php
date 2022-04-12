@@ -128,6 +128,31 @@
     </td>
   </tr>
   <tr>
+    <td valign="top" id="tabla1A">
+    	<table width="100%" id="dataTableA" class="table" height="100%">
+            <thead id="cabecera_tBusquedaPA">
+              <tr id="mymyA" class="bg-primary">
+                <th>AREA</th>
+                <th nowrap>#VISITAS</th>
+                <th nowrap>#PACIENTES</th>
+                <th nowrap>#CONCEPTOS</th>
+                <th nowrap>TOTAL($)</th>
+              </tr>
+            </thead>
+            <tbody align=""> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
+            <tfoot>
+                <tr class="bg-primary">
+                    <th><input type="hidden" value=""></th>
+                    <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none;" value="0"/></th>
+                    <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none;" value="0"/></th>
+                    <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none;" value="0"/></th>
+                    <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none;" value="0.00"/></th>
+                </tr>
+            </tfoot>
+          </table>
+    </td>
+  </tr>
+  <tr>
     <td height="" valign="top">
     	<table width="100%" id="dataTable1" class="table">
             <thead id="cabecera_tBusquedaP1">
@@ -231,8 +256,40 @@ $(document).ready(function(e) {
 		"aLengthMenu": [[9, 25, 50, 100, -1], [9, 25, 50, 100, "Todos"]],
 		"oLanguage": { "sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN MOVIMIENTOS REGISTRADOS", "sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": " TOTAL DE ESTUDIOS: _MAX_", "sSearch": "BUSCAR" }
 	});//fin data table
+  oTableA = $('#dataTableA').dataTable({
+		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+			var iTotal = 0, iComision=0, iIngreso = 0, iVisitas = 0;
+            for ( var i=iStart ; i<iEnd ; i++ )
+            {
+				iVisitas  += aaData[ aiDisplay[i] ][1]*1;
+                iTotal    += aaData[ aiDisplay[i] ][2]*1;
+				iComision += aaData[ aiDisplay[i] ][3]*1;
+				iIngreso  += aaData[ aiDisplay[i] ][4]*1;
+            }
+            var nCells = nRow.getElementsByTagName('th');
+			nCells[1].innerHTML = parseInt(iVisitas  * 100)/100;
+            nCells[2].innerHTML = parseInt(iTotal    * 100)/100;
+			nCells[3].innerHTML = parseInt(iComision * 100)/100;
+			nCells[4].innerHTML = '$'+parseInt(iIngreso  * 100)/100;
+			
+			window.setTimeout(function(){$('.erase1').each(function(index, element) { $(this).parent().parent().remove(); });},200);
+		},
+		"bJQueryUI":false, "bScrollCollapse":true, "sScrollY":tam1, "bAutoWidth":false, "bStateSave":false, "bInfo": true, "bFilter": false, "aaSorting": [[0, "asc"]],
+		"aoColumns":[
+			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},
+			{ "bSortable": false, "sClass": "centrado"}
+		],
+		"iDisplayLength": 50, "bLengthChange": false, "bProcessing": false, "bServerSide": true, "sDom": '<"data_t"t><"info">',
+		"sAjaxSource": "caja/datatable-serverside/reporte.php",
+		"fnServerParams": function (aoData, fnCallback){
+			var de = document.getElementById('fechaDe').value+' 00:00:00'; var a = $('#fechaA').val()+' 23:59:59';
+			aoData.push(  {"name": "min", "value": de } ); aoData.push(  {"name": "max", "value": a } );
+		},
+		"aLengthMenu": [[9, 25, 50, 100, -1], [9, 25, 50, 100, "Todos"]],
+		"oLanguage": { "sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN MOVIMIENTOS REGISTRADOS", "sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": " TOTAL DE ESTUDIOS: _MAX_", "sSearch": "BUSCAR" }
+	});
 	
-	$('#clickme').click(function(e) { oTable.fnDraw();});
+	$('#clickme').click(function(e) { oTable.fnDraw(); oTableA.fnDraw(); });
 	
 	//para los fintros individuales por campo de texto
 	$("tfoot input").keyup( function () { /* Filter on the column (the index) of this element */ oTable.fnFilter( this.value, $("tfoot input").index(this) ); });
@@ -256,17 +313,17 @@ $(document).ready(function(e) {
 	$('#s_estatus').change( function () {  oTable.fnFilter( $(this).val(), 5 ); });
 	//fin para filtros individuales por select
 	
-	$('#radio1').click(function(e) { $('#fechaDe').val('<?php echo date("Y-m-d"); ?>'); $('#fechaA').val('<?php echo date("Y-m-d"); ?>'); oTable.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
-	$('#radio2').click(function(e) { $('#fechaDe').val('2000-01-01'); $('#fechaA').val('<?php echo date("Y-m-d"); ?>'); oTable.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
+	$('#radio1').click(function(e) { $('#fechaDe').val('<?php echo date("Y-m-d"); ?>'); $('#fechaA').val('<?php echo date("Y-m-d"); ?>'); oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
+	$('#radio2').click(function(e) { $('#fechaDe').val('2000-01-01'); $('#fechaA').val('<?php echo date("Y-m-d"); ?>'); oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
 	$( "#fechaDe" ).datepicker({
 	  	defaultDate: "-1", maxDate: +0,
 		onClose: function( selectedDate ) { $( "#fechaA" ).datepicker( "option", "minDate", selectedDate ); },
-		"onSelect": function(date) { min = date+' 00:00:00'; oTable.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); }
+		"onSelect": function(date) { min = date+' 00:00:00'; oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); }
 	}).css('max-width','100px');
 	$( "#fechaA" ).datepicker({
 		defaultDate: "+0", maxDate: +0,
 		onClose: function( selectedDate ) { $( "#fechaDe" ).datepicker( "option", "maxDate", selectedDate ); },
-		"onSelect": function(date) { max = date+' 23:59:59'; oTable.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); }
+		"onSelect": function(date) { max = date+' 23:59:59'; oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); }
 	}).css('max-width','100px');
 	
 	oTable1 = $('#dataTable1').dataTable({
@@ -341,15 +398,15 @@ $(document).ready(function(e) {
 	
 	$('#radio1').click(function(e){
 		$('#fechaDe').val('<?php echo date("Y-m-d"); ?>');$('#fechaA').val('<?php echo date("Y-m-d"); ?>'); 
-		oTable.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw();
+		oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw();
 	});
 	
 	$('#radio2').click(function(e){
 		$('#fechaDe').val('2000-01-01'); $('#fechaA').val('<?php echo date("Y-m-d"); ?>'); 
-		oTable.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw();
+		oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw();
 	});
 	
-	$('#fechaDe').on('changeDate', function(e) { oTable.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
-	$("#fechaA").on('changeDate', function(e) { oTable.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
+	$('#fechaDe').on('changeDate', function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
+	$("#fechaA").on('changeDate', function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
 });
 </script>
