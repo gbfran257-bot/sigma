@@ -154,8 +154,8 @@ require("../../funciones/php/values.php");
 		$resultTam = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 4 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 		$rowTam = mysql_fetch_row($resultTam);
 		
-		$resultTim = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 2 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
-		$rowTim = mysql_fetch_row($resultTim);
+		/*$resultTim = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 2 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
+		$rowTim = mysql_fetch_row($resultTim);*/
 		
 		/*$resultTlb = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 1 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 		$rowTlb = mysql_fetch_row($resultTlb);
@@ -164,7 +164,8 @@ require("../../funciones/php/values.php");
 		$rowTfa = mysql_fetch_row($resultTfa);*/
 
 
-						
+        $row[4] = $rowT[0];
+		/*				
 		//Asociación médica
 		if($row[6]==4){$row[4] = $rowTam[0];}
 		//Imagen
@@ -174,6 +175,7 @@ require("../../funciones/php/values.php");
 		//Farmacia si es que hay conceptos de farmacia
 		else if($row[6]==3){$row[4] = $rowTfa[0];}
 		//Enfermería si es que hay conceptos de Enfermería
+        */
 				
 		$output['aaData'][] = $row;
     }
