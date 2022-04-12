@@ -3,7 +3,7 @@ require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
 
  $idUsuario = sqlValue($_POST["idusuarioNM"], "int");
- $numero = sqlValue($_POST["numeroCama"], "int");
+ $numero = sqlValue($_POST["numeroCama"], "text");
  $ubicacion = sqlValue($_POST["ubicacionCama"], "text");
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
  $area = sqlValue($_POST["area_cama"], "int");
