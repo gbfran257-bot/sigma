@@ -280,7 +280,7 @@ $(document).ready(function(e) {
 			{ "bSortable": false, "sClass": "centrado"}
 		],
 		"iDisplayLength": 50, "bLengthChange": false, "bProcessing": false, "bServerSide": true, "sDom": '<"data_t"t><"info">',
-		"sAjaxSource": "caja/datatable-serverside/reporte.php",
+		"sAjaxSource": "caja/datatable-serverside/reporte_a.php",
 		"fnServerParams": function (aoData, fnCallback){
 			var de = document.getElementById('fechaDe').value+' 00:00:00'; var a = $('#fechaA').val()+' 23:59:59';
 			aoData.push(  {"name": "min", "value": de } ); aoData.push(  {"name": "max", "value": a } );
