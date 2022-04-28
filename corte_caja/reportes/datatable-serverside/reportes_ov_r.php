@@ -6,11 +6,11 @@
 	include_once '../../../recursos/utilities.php';
 	include_once '../../../recursos/datauser.php';
 
-	$id_user = $_SESSION['id']; $acceso_user = $_SESSION['MM_UserGroup'];
+	$id_user = $_SESSION['id']; $acceso_user = $_SESSION['MM_UserGroup']; $sucursal_user = $_SESSION['MM_Usersucu'];
 
 	// consulta para horizonte
 	$obligatorio = 0;
-	$aColumns = array('pa.referencia_pag','pa.referencia_pag' , 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'fp.forma_pago_fp', 'ov.subtotal_ov', 'SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov)', 'ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv', 'ov.gran_total_ov', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'ov.gran_total_ov-SUM(pa.pago_pag)', 'p.amaterno_p', 'ov.no_temp_ov', 'ov.no_temp_ov','pa.referencia_pag');
+	$aColumns = array('pa.referencia_pag','pa.referencia_pag' , 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'fp.forma_pago_fp', 'ov.subtotal_ov', 'SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov)', 'ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv', 'ov.gran_total_ov', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'ov.gran_total_ov-SUM(pa.pago_pag)', 'p.amaterno_p', 'ov.no_temp_ov', 'ov.no_temp_ov','pa.referencia_pag','DATE_FORMAT(ov.fecha_venta_ov,"%d/%c/%Y %H:%m")');
      
     // DB tables to use 
     $aTables = array( 'orden_venta ov');
@@ -26,7 +26,7 @@
 	if(isset($_GET['depto']) && $_GET['depto'] != 'x' && $_GET['depto'] != ''){//para las solicitudes con departamento
 		if(isset($_GET['saldos']) && $_GET['saldos'] == 'SI'){//para las solicitudes con saldos
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-				$sWhere = "WHERE ov.usuario_ov = $id_user and ov.gran_total_ov > pa.pago_pag and ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]' and pa.id_departamento_pag = '$_GET[depto]'";
+				$sWhere = "WHERE ov.usuario_ov = $id_user and  ov.gran_total_ov > pa.pago_pag and ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]' and pa.id_departamento_pag = '$_GET[depto]'";
 			}else{$sWhere = "WHERE ov.usuario_ov = $id_user and ov.gran_total_ov > pa.pago_pag" ;}
 		}else{//si no se solicitan los registros con saldo (que deben dinero)
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
@@ -37,11 +37,11 @@
 		if(isset($_GET['saldos']) && $_GET['saldos'] == 'SI'){//para las solicitudes con saldos
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
 				$sWhere = "WHERE ov.usuario_ov = $id_user and ov.gran_total_ov > pa.pago_pag and ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'";
-			}else{$sWhere = "WHERE ov.usuario_ov = $id_user and ov.gran_total_ov > pa.pago_pag" ;}
+			}else{$sWhere = "WHERE ov.usuario_ov = $id_user and  ov.gran_total_ov > pa.pago_pag" ;}
 		}else{//si no se solicitan los registros con saldo (que deben dinero)
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
 				$sWhere = "WHERE ov.usuario_ov = $id_user and ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'";
-			}else{$sWhere = "WHERE ov.usuario_ov = $id_user " ;}
+			}else{$sWhere = "WHERE ov.usuario_ov = $id_user  " ;}
 		}
 	}
 	 
@@ -245,7 +245,7 @@
 		
 		if(isset($_GET['saldos']) && $_GET['saldos'] == 'SI'){ if($row[14] == 0){ $row[1]="<span class='erase1'>$row[1]</span>"; } }
 
-        $row[1] ="<span lang='$row[1]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[1]</span>";	
+        $row[1] ="<span lang='$row[1]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[1]</span><br><span style='font-size:12px;'>$row[19]</span>";	
 				
 		$output['aaData'][] = $row;
     }

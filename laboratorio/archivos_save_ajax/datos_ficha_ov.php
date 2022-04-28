@@ -58,18 +58,37 @@ require("../../funciones/php/values.php");
  mysql_select_db($database_horizonte, $horizonte);
  $result = mysql_query("
 	SELECT vc.contador_vc, tc.tipo_concepto_tc, c.concepto_to, tc.tipo_concepto_tc, concat(vc.referencia_vc,'/',contador_vc), 
-		vc.estatus_vc, vc.precio_vc,id_personal_medico_vc, e.estatus_est, vc.id_vc, c.id_departamento_to, vc.id_vc, vc.referencia_vc from venta_conceptos vc
+		vc.estatus_vc, vc.precio_vc,id_personal_medico_vc, e.estatus_est, vc.id_vc, c.id_departamento_to, vc.id_vc, vc.referencia_vc,
+		motivo_c_ov, observaciones_i_ov, observaciones_l_ov, observaciones_s_ov, motivo_desc_c_ov, motivo_desc_i_ov, motivo_desc_l_ov, motivo_desc_s_ov, motivo_desc_f_ov
+		from venta_conceptos vc
+		left join orden_venta ov on ov.referencia_ov = vc.referencia_vc
 		left join estatus e on e.id_est = vc.estatus_vc 
 		left join conceptos c on c.id_to = vc.id_concepto_es 
 		left join catalogo_tipo_conceptos tc on tc.id_tc = c.id_tipo_concepto_to 
 		where vc.referencia_vc = $ref 
 	", $horizonte) or die (mysql_error()); 
  $tableC = "<table class='table-condensed table-bordered' width='100%' height='100%'> \n"; 
- $tableC = $tableC."<tr class='bg-info'> <td>#</td> <td>CONCEPTO</td> <td>DESCRIPCI&Oacute;N</td> <td>ESTATUS</td> <td>PRECIO</td> </tr> \n";
+ $tableC = $tableC."<tr class='bg-info'> <td>#</td> <td>CONCEPTO</td> <td>DESCRIPCI&Oacute;N</td> <td>MOTIVO</td><td>DESCUENTO</td> <td>ESTATUS</td> <td>PRECIO</td> </tr> \n";
  $cont = 0;
  while ( $row = mysql_fetch_row($result) ){ $cont++;
+	if($row[1] == 'CONSULTA'){ 
+		$motivo = $row[13];
+		$desc = $row[17];
+	}elseif($row[1] == 'ESTUDIO IMAGEN'){
+		$motivo = $row[14];
+		$desc = $row[18];
+	}elseif($row[1] == 'ESTUDIO LABORATORIO'){
+		$motivo = $row[15];
+		$desc = $row[19];
+	}elseif($row[1] == 'SERVICIO'){
+		$motivo = $row[16];
+		$desc = $row[20];
+	}else{
+		$motivo = '';
+		$desc = $row[21];
+	}
 	$tableC = $tableC."<tr style='color:black;' class='$row[11]'>
-			<td>$cont</td> <td>$row[1]</td> <td>$row[2]</td> <td>$row[8]</td> <td style='text-align:right'>$$row[6]</td>
+			<td>$cont</td> <td>$row[1]</td> <td>$row[2]</td> <td>$motivo</td><td>$desc</td> <td>$row[8]</td> <td style='text-align:right'>$$row[6]</td>
 		</tr> \n"; 
  } 
  $tableC = $tableC."</table> \n"; 

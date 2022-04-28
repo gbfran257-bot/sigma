@@ -186,6 +186,22 @@ $(document).ready(function(e) {
 	$("#fechaA").on('changeDate', function(e) { oTableP.draw(); });
 
 });
+
+function ver_ov(ref){
+	$("#myModal3").load("laboratorio/htmls/ficha_ov.php",function(response,status,xhr){ if(status == "success"){
+		var dato = { ref:ref, idU:$('#id_user').val() }
+		$.post('laboratorio/archivos_save_ajax/datos_ficha_ov.php', dato).done(function(data){ var datos = data.split('*}');
+			$('#titulo_modal').text('ORDEN DE VENTA '+ref+' | '+datos[0]+' | '+datos[1]);
+			$('#fecha_o').text(datos[2]); $('#usuario_o').text(datos[3]); $('#subtotal_o').text(datos[4]); $('#extras_o').text(datos[5]);
+			$('#iva_o').text(datos[6]); $('#descuento_o').text(datos[7]); $('#total_o').text(datos[8]); $('#abonado_o').text(datos[9]);
+			$('#saldo_o').text(datos[10]); $('#estatus_o').text(datos[11]); $('#o_items').html(datos[17]);
+			
+			$('#myModal3').modal('show');
+			$('#myModal3').on('shown.bs.modal', function(e){ });
+			$('#myModal3').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModal3").empty(); });
+		}); 
+	}});
+}
 function miConta(){ $(document).ready(function(e) { //window.setTimeout(function(){
 	$('.miConta').each(function(index, element) { var idX = '#'+$(this).prop('id'); var miTime = {time : $(this).prop('lang')}
 		$.post('consultas/files-serverside/contador.php',miTime).done(function(data){/*$(idX).text(data); $('#clickme').click();*/ });

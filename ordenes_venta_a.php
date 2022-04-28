@@ -282,7 +282,7 @@ $(document).ready(function(e) {
         { /* Open this row */
 			var aData = oTable.fnGetData( nTr );
 			this.src = "imagenes/generales/details_close.png";
-			var so = aData[5], so1=aData[8],ref=aData[19], depto = aData[6], area = aData[7], total = aData[9];
+			var so = aData[5], so1=aData[8],ref=aData[20], depto = aData[6], area = aData[7], total = aData[9];
 			var datoxOV ={ ref:ref }
 			$.post('corte_caja/reportes/datatable-serverside/datosAdicionales.php',datoxOV,processDataOV);//salva la OV
 			function processDataOV(dataOV) {

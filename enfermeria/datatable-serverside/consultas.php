@@ -142,9 +142,13 @@ require("../../funciones/php/values.php");
 		//Si el paciente no tiene signos vitales enconces el ícono de SV sera un ? en caso de que si tenga el ícono será un info o alerta si tiene signos anormales
 		mysql_select_db($database_horizonte, $horizonte); $resultS = mysql_query("SELECT count(id_sv) from signos_vitales where id_paciente_sv = $row[12] ", $horizonte) or die (mysql_error()); $rowS = mysql_fetch_row($resultS);
 		mysql_select_db($database_horizonte, $horizonte); $resultS1 = mysql_query("SELECT DATE_FORMAT(fecha_sv,'%d/%c/%Y') from signos_vitales where id_paciente_sv = $row[12] order by id_sv desc", $horizonte) or die (mysql_error()); $rowS1 = mysql_fetch_row($resultS1);
-		if($rowS[0]>0){
-			$row[6] = "<div align='center'><button type='button' class='btn btn-link btn-sm' id='$row[17]' lang='$row[12]' onClick='verSignosV(this.lang, this.id,0,$row[21],$row[21],1)'>$rowS1[0]</button></div>";
-		}
+    
+      if($rowS[0]>0){
+        $row[6] = "<div align='center'><button type='button' class='btn btn-link btn-sm' id='$row[17]' lang='$row[12]' onClick='verSignosV(this.lang, this.id,0,$row[21],$row[21],1)'>$rowS1[0]</button></div>";
+      }
+
+
+		
 		
 		mysql_select_db($database_horizonte, $horizonte); $resultH1 = mysql_query("SELECT count(id_hc) from historia_clinica where id_paciente_hc = $row[12] ", $horizonte) or die (mysql_error()); $rowH1 = mysql_fetch_row($resultH1);
 		mysql_select_db($database_horizonte, $horizonte); $resultH2 = mysql_query("SELECT DATE_FORMAT(fecha_registro_hc,'%d/%c/%Y') from historia_clinica where id_paciente_hc = $row[12] order by id_hc desc", $horizonte) or die (mysql_error()); $rowH2 = mysql_fetch_row($resultH2);

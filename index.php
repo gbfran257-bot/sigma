@@ -547,7 +547,7 @@
             <h1 class="text-primary">Admin -> Corte de caja</h1> <br> <br>
         </div>
         <div class="row animated alin">
-            <?php if($permisos[1]){?>
+            <?php if($permisos[41]){?>
                 <div class="col-md-2">
                     <a href="ordenes_venta_a.php"><img src="imagenes/ig/OrdenVenta-01.png" class="img-responsive fadeInDown wow menu" data-wow-delay="0.2s"
                     id="orden_venta_admin"
@@ -556,7 +556,7 @@
                     ></a>
                 </div>
             <?php } ?>
-            <?php if($permisos[3]){?>
+            <?php if($permisos[42]){?>
                 <div class="col-md-2">
                     <a href="pagos_usuario_a.php"><img src="imagenes/ig/PagosPendientes-01.png" class="img-responsive fadeInRight wow menu" data-wow-delay="0.1s"
                     id="pagos_admin"
@@ -565,7 +565,7 @@
                     ></a>
                 </div>
             <?php } ?>
-            <?php if($permisos[4]){?>
+            <?php if($permisos[43]){?>
                 <div class="col-md-2">
                     <a href="resumen_cc.php"><img src="imagenes/menu/_resumen_ventas.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"
                     id="resumen_admin"

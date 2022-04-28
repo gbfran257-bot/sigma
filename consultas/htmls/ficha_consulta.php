@@ -136,7 +136,7 @@
                                     <label for="aSV">Destroxtis</label>
                                     <div class="input-group">
                                       <input type="number" class="form-control sv_ro no-spin" id="dtxis" name="dtxis" step="0.01">
-                                      <div class="input-group-addon"></div>
+                                      <div class="input-group-addon">mg/dl</div>
                                     </div>
                                 </div>
                               </div>                            

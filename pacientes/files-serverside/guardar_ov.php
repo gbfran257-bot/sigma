@@ -42,6 +42,10 @@ require("../../funciones/php/values.php");
  if($_POST["cargo_extra_p"]==''){$cargo_extra_productos = 0;}else{$cargo_extra_productos = sqlValue($_POST["cargo_extra_p"], "double");}
  
  $motivo_extras_consulta = sqlValue(mb_strtoupper($_POST["motivo_descuento_c1"]), "text"); //No se guarda en ningún lado
+ $motivo_extras_imagen = sqlValue(mb_strtoupper($_POST["motivo_descuento_i"]), "text"); //No se guarda en ningún lado
+ $motivo_extras_lab = sqlValue(mb_strtoupper($_POST["motivo_descuento_l"]), "text"); //No se guarda en ningún lado
+ $motivo_extras_servicios = sqlValue(mb_strtoupper($_POST["motivo_descuento_s"]), "text"); //No se guarda en ningún lado
+ $motivo_extras_farmacia = sqlValue(mb_strtoupper($_POST["motivo_descuento_p"]), "text"); //No se guarda en ningún lado
  $precio_consulta = sqlValue($_POST["precio_c1"], "double");
  $precio_imagen = sqlValue($_POST["precio_i"], "double");
  $precio_laboratorio = sqlValue($_POST["precio_l"], "double");
@@ -88,7 +92,7 @@ require("../../funciones/php/values.php");
  }
   
  mysql_select_db($database_horizonte, $horizonte);
- $sql = "INSERT INTO orden_venta(total_c, subtotal_ov, gran_total_ov, sub_total_c, usuario_ov, id_paciente_ov, fecha_venta_ov, adicionales_c_ov, p_desc_cta, desc_d_cta, t_desc_cta, motivo_c_ov, medico_c_ov, referencia_ov, contador_ov, sucursal_ov, no_temp_ov, total_ei, total_el, total_s, sub_total_i, sub_total_l, sub_total_s, adicionales_ei_ov, adicionales_el_ov, adicionales_s_ov, medico_ei_ov, medico_el_ov, personal_s_ov, observaciones_i_ov, observaciones_l_ov, observaciones_s_ov, p_desc_img, desc_d_img, t_desc_img, p_desc_lab, desc_d_lab, t_desc_lab, p_desc_serv, desc_d_serv, t_desc_serv, iva_ov, total_p, sub_total_p, adicionales_p_ov, p_desc_pro, desc_d_pro, t_desc_pro, motivo_desc_c_ov) VALUES ($total_consulta, $subtotal, $total_ov, $precio_consulta, $idU, $id_paciente, $now, $cargo_extra_consulta, $porcentaje_descuento_consulta, $descuento_directo_consulta, $total_descuento_consulta, $motivo_consulta, $id_medico_consulta, ".$noRef.", $contador, $id_sucu, $aleatorio, $total_imagen, $total_laboratorio, $total_servicios, $precio_imagen, $precio_laboratorio, $precio_servicios, $cargo_extra_imagen, $cargo_extra_laboratorio, $cargo_extra_servicios, $id_medico_imagen, $id_medico_laboratorio, $id_medico_servicios, $motivo_imagen, $motivo_laboratorio, $motivo_servicios, $porcentaje_descuento_imagen, $descuento_directo_imagen, $total_descuento_imagen, $porcentaje_descuento_laboratorio, $descuento_directo_laboratorio, $total_descuento_laboratorio, $porcentaje_descuento_servicios, $descuento_directo_servicios, $total_descuento_servicios, $iva_ov, $total_productos, $precio_productos, $cargo_extra_productos, $porcentaje_descuento_productos, $descuento_directo_productos, $total_descuento_productos, $motivo_extras_consulta)";
+ $sql = "INSERT INTO orden_venta(total_c, subtotal_ov, gran_total_ov, sub_total_c, usuario_ov, id_paciente_ov, fecha_venta_ov, adicionales_c_ov, p_desc_cta, desc_d_cta, t_desc_cta, motivo_c_ov, medico_c_ov, referencia_ov, contador_ov, sucursal_ov, no_temp_ov, total_ei, total_el, total_s, sub_total_i, sub_total_l, sub_total_s, adicionales_ei_ov, adicionales_el_ov, adicionales_s_ov, medico_ei_ov, medico_el_ov, personal_s_ov, observaciones_i_ov, observaciones_l_ov, observaciones_s_ov, p_desc_img, desc_d_img, t_desc_img, p_desc_lab, desc_d_lab, t_desc_lab, p_desc_serv, desc_d_serv, t_desc_serv, iva_ov, total_p, sub_total_p, adicionales_p_ov, p_desc_pro, desc_d_pro, t_desc_pro, motivo_desc_c_ov, motivo_desc_i_ov, motivo_desc_l_ov, motivo_desc_s_ov, motivo_desc_f_ov) VALUES ($total_consulta, $subtotal, $total_ov, $precio_consulta, $idU, $id_paciente, $now, $cargo_extra_consulta, $porcentaje_descuento_consulta, $descuento_directo_consulta, $total_descuento_consulta, $motivo_consulta, $id_medico_consulta, ".$noRef.", $contador, $id_sucu, $aleatorio, $total_imagen, $total_laboratorio, $total_servicios, $precio_imagen, $precio_laboratorio, $precio_servicios, $cargo_extra_imagen, $cargo_extra_laboratorio, $cargo_extra_servicios, $id_medico_imagen, $id_medico_laboratorio, $id_medico_servicios, $motivo_imagen, $motivo_laboratorio, $motivo_servicios, $porcentaje_descuento_imagen, $descuento_directo_imagen, $total_descuento_imagen, $porcentaje_descuento_laboratorio, $descuento_directo_laboratorio, $total_descuento_laboratorio, $porcentaje_descuento_servicios, $descuento_directo_servicios, $total_descuento_servicios, $iva_ov, $total_productos, $precio_productos, $cargo_extra_productos, $porcentaje_descuento_productos, $descuento_directo_productos, $total_descuento_productos, $motivo_extras_consulta,$motivo_extras_imagen,$motivo_extras_lab,$motivo_extras_servicios,$motivo_extras_farmacia)";
    
  $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	
@@ -131,7 +135,7 @@ require("../../funciones/php/values.php");
 		if($esProd[0] != ''){
 			//verificamos si tiene existencias 
 			mysql_select_db($database_horizonte, $horizonte);
-			$ext = "SELECT s.id, s.existencias from stock_has_bach s left join conceptos c  on c.id_to = s.id_Producto where s.id_Producto = $idConcepto order by s.id DESC";
+			$ext = "SELECT s.id, s.existencias from stock_has_bach s left join conceptos c  on c.id_to = s.id_Producto left join stock  s1 on s1.id = s.id_stock where s.id_Producto = $idConcepto AND s1.id_su = $id_sucu order by s.id DESC";
 			$existen = mysql_query($ext, $horizonte) or die (mysql_error());
 			while ($stock = mysql_fetch_assoc($existen)){
 				if($stock['existencias'] >= 1 ){

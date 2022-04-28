@@ -3,7 +3,7 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('v.id_vc', 'p.nombre_completo_p', 'v.referencia_vc', 'concat(m.nombre_u," ", m.apaterno_u)', 'e.concepto_to', 'v.id_vc', 'v.id_vc', 'es.estatus_est', 'v.fecha_venta_vc', 'v.id_vc','s.clave_su','v.urgente_vc', 'p.id_p', 'm.id_u', 'v.fecha_venta_vc','p.amaterno_p', 'm.amaterno_u', 'v.id_vc', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%c/%Y")', 'v.fechaEdo3_e', 'v.fecha_venta_vc', 'v.nota_interpretacion', 'es.estatus_est', 's.nombre_su' );
+	$aColumns = array('v.id_vc', 'p.nombre_completo_p', 'v.referencia_vc', 'concat(m.nombre_u," ", m.apaterno_u)', 'e.concepto_to', 'v.id_vc', 'v.id_vc', 'es.estatus_est', 'v.fecha_venta_vc', 'v.id_vc','s.clave_su','v.urgente_vc', 'p.id_p', 'm.id_u', 'v.fecha_venta_vc','p.amaterno_p', 'm.amaterno_u', 'v.id_vc', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%c/%Y %H:%m")', 'v.fechaEdo3_e', 'v.fecha_venta_vc', 'v.nota_interpretacion', 'es.estatus_est', 's.nombre_su' );
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -165,7 +165,8 @@ require("../../funciones/php/values.php");
 		$row[7] = "<span title='$row[23]'>$row[10]</span>";
 		
 		if($_GET['acceso']<2 and $row[22] == "INTERPRETADO"){$row[8] = "<span id='$row[17]' lang='$row[1]' onClick='editarS(this.lang, this.id, $concep)' style='cursor:pointer; text-decoration:underline;'>EDITAR</span>";}else{$row[8] = "-";}
-		
+
+    $row[2] = "<span lang='$row[2]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[2]</span><br>$row[18]";
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );

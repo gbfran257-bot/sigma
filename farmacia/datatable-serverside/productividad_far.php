@@ -3,7 +3,7 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('v.id_vc', 'e.concepto_to', 'count(v.id_vc) as suma', 'v.id_vc', 'sum(v.precio_vc)', 'e.c_costo', 'v.id_vc'  );
+	$aColumns = array('v.id_vc', 'e.concepto_to', 'count(v.id_vc) as suma', 'v.id_vc', 'sum(v.precio_vc)', 'e.c_costo', 'v.id_vc', 's.nombre_su'  );
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -27,7 +27,7 @@ require("../../funciones/php/values.php");
      }
 
      if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " AND "; }
-	$sWhere.=" v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and e.id_tipo_concepto_to = 5 and v.temporal_vc=0 group by e.concepto_to order by suma desc ";
+	$sWhere.=" v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and e.id_tipo_concepto_to = 5 and v.temporal_vc=0 group by e.concepto_to, s.nombre_su order by suma desc";
 	
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;
@@ -47,7 +47,7 @@ require("../../funciones/php/values.php");
     $sOrder = "";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
-        $sOrder = "ORDER BY v.id_vc desc group by e.concepto_to ";
+        $sOrder = "";
         for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ ) { if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" ) { $sOrder .= $aColumns[ intval( $_GET['iSortCol_'.$i] ) ]." ".mysql_real_escape_string( $_GET['sSortDir_'.$i] ) .", "; } }
          
         $sOrder = substr_replace( $sOrder, "", -2 );

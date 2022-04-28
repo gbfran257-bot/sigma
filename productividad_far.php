@@ -81,6 +81,7 @@
 		<th style="vertical-align:middle;" nowrap>TOTAL</th>
 		<th style="vertical-align:middle;" nowrap>COSTO</th>
 		<th style="vertical-align:middle;" nowrap>UTILIDAD</th>
+		<th style="vertical-align:middle;" nowrap>SUCURSAL</th>
 	  </tr>
 	</thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
 	<tfoot>
@@ -92,6 +93,7 @@
 			<th><input type="hidden" class="sCalculo" /></th>
 			<th><input type="hidden" class="sCalculo" /></th>
 			<th><input type="hidden" class="sCalculo" /></th>
+			<th><input type="text" class="form-control input-sm" placeholder ="Sucursal"></th>
 		</tr>
 	</tfoot>
 </table>
@@ -126,7 +128,7 @@ $(document).ready(function(e) {
             nCells[5].innerHTML = redondear((parseFloat(iTotalCosto) * 100)/100,2);
             nCells[6].innerHTML = redondear((parseFloat(iTotalUtilidad) * 100)/100,2);
 		},
-		"aoColumns":[ {"bVisible":true}, {"bVisible":true }, {"bVisible":true }, {"bVisible":true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true } ],
+		"aoColumns":[ {"bVisible":true}, {"bVisible":true }, {"bVisible":true }, {"bVisible":true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
 		"sDom": '<"filtro1Principal"f>rT<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false,
 		"oTableTools": {
