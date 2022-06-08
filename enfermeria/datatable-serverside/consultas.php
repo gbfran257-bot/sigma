@@ -21,23 +21,23 @@ require("../../funciones/php/values.php");
 	switch($rowAU[0]){
 		case 0://Solo vé lo suyo
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-			  $sWhere="WHERE v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and  c.id_tipo_concepto_to in (1,2,3,4) and v.temporal_vc = 0 and o.sucursal_ov = $id_suc ";
+			  $sWhere="WHERE v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and  c.id_tipo_concepto_to in (1,2) and v.temporal_vc = 0 and o.sucursal_ov = $id_suc ";
 			}else{
-			  $sWhere = "WHERE c.id_tipo_concepto_to in (1,2,3,4) and v.temporal_vc = 0 and o.sucursal_ov = $id_suc ";
+			  $sWhere = "WHERE c.id_tipo_concepto_to in (1,2) and v.temporal_vc = 0 and o.sucursal_ov = $id_suc ";
 			}
 		break;
 		case 2://Ve todo lo de su sucursal y lo suyo
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-			  $sWhere="WHERE v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and  c.id_tipo_concepto_to in (1,2,3,4) and v.temporal_vc = 0 and o.sucursal_ov = $id_suc ";
+			  $sWhere="WHERE v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and  c.id_tipo_concepto_to in (1,2) and v.temporal_vc = 0 and o.sucursal_ov = $id_suc ";
 			}else{
-			  $sWhere = "WHERE c.id_tipo_concepto_to in (1,2,3,4) and v.temporal_vc = 0 and o.sucursal_ov = $id_suc ";
+			  $sWhere = "WHERE c.id_tipo_concepto_to in (1,2) and v.temporal_vc = 0 and o.sucursal_ov = $id_suc ";
 			}
 		break;
 		case 1://Ve todo de todas las sucursales
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-			  $sWhere="WHERE v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and  c.id_tipo_concepto_to in (1,2,3,4) ";
+			  $sWhere="WHERE v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and  c.id_tipo_concepto_to in (1,2) ";
 			}else{
-			  $sWhere = "WHERE c.id_tipo_concepto_to in (1,2,3,4) ";
+			  $sWhere = "WHERE c.id_tipo_concepto_to in (1,2) ";
 			}
 		break;
 		default:
@@ -59,7 +59,7 @@ require("../../funciones/php/values.php");
     if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' ) { $sLimit = "LIMIT ".mysql_real_escape_string( $_GET['iDisplayStart'] ).", ". mysql_real_escape_string( $_GET['iDisplayLength'] ); }
      
     /* * Ordering */
-    $sOrder = "GROUP BY v.referencia_vc";
+    $sOrder = "GROUP BY v.referencia_vc ORDER BY v.fecha_venta_vc DESC";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
         $sOrder = "ORDER BY  ";

@@ -1,0 +1,1 @@
+ALTER TABLE `documentos` ADD `num_suc_do` INT(5) NULL DEFAULT NULL AFTER `firma_do`;

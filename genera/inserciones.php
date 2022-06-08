@@ -47,4 +47,9 @@
 	echo '<option value="{et_logoe}">LOGO ESCUELA DEL MÉDICO</option>';
 	echo '<option value="{et_logoee}">LOGO ESCUELA ESPECIALIDAD DEL MÉDICO</option>';
 	echo '<option value="{et_logogm}">LOGO GENERAL MEDICINA</option>';
+	echo '<option value="{et_logo1}">LOGO SUCURSAL 1</option>';
+	echo '<option value="{et_logo2}">LOGO SUCURSAL 2</option>';
+	echo '<option value="{et_logo3}">LOGO SUCURSAL 3</option>';
+	echo '<option value="{et_logo4}">LOGO SUCURSAL 4</option>';
+	echo '<option value="{et_logo5}">LOGO SUCURSAL 5</option>';
 ?>

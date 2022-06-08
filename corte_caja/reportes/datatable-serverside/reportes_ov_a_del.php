@@ -18,21 +18,21 @@
 	if(isset($_GET['depto']) && $_GET['depto'] != 'x' && $_GET['depto'] != ''){//para las solicitudes con departamento
 		if(isset($_GET['saldos']) && $_GET['saldos'] == 'SI'){//para las solicitudes con saldos
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-				$sWhere = "WHERE ov.gran_total_ov > pa.pago_pag and ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]' and pa.id_departamento_pag = '$_GET[depto]'";
+				$sWhere = "WHERE ov.gran_total_ov > pa.pago_pag and ov.tiempo BETWEEN '$_GET[min]' AND '$_GET[max]' and pa.id_departamento_pag = '$_GET[depto]'";
 			}else{$sWhere = "WHERE ov.gran_total_ov > pa.pago_pag" ;}
 		}else{//si no se solicitan los registros con saldo (que deben dinero)
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-				$sWhere = "WHERE ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]' and pa.id_departamento_pag = '$_GET[depto]'";
+				$sWhere = "WHERE ov.tiempo BETWEEN '$_GET[min]' AND '$_GET[max]' and pa.id_departamento_pag = '$_GET[depto]'";
 			}else{$sWhere = "WHERE 1=1" ;}
 		}
 	}else{
 		if(isset($_GET['saldos']) && $_GET['saldos'] == 'SI'){//para las solicitudes con saldos
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-				$sWhere = "WHERE ov.gran_total_ov > pa.pago_pag and ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'";
+				$sWhere = "WHERE ov.gran_total_ov > pa.pago_pag and ov.tiempo BETWEEN '$_GET[min]' AND '$_GET[max]'";
 			}else{$sWhere = "WHERE ov.gran_total_ov > pa.pago_pag" ;}
 		}else{//si no se solicitan los registros con saldo (que deben dinero)
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-				$sWhere = "WHERE ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'";
+				$sWhere = "WHERE ov.tiempo BETWEEN '$_GET[min]' AND '$_GET[max]'";
 			}else{$sWhere = "WHERE 1=1 " ;}
 		}
 	}
@@ -70,7 +70,7 @@
     $sOrder = "";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
-        $sOrder = "GROUP BY pa.referencia_pag ORDER BY ";
+        $sOrder = "GROUP BY ov.referencia_ov, p.nombre_completo_p, ov.tiempo ORDER BY ";
         for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ )
         {
             if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" )
@@ -82,7 +82,7 @@
          
         $sOrder = substr_replace( $sOrder, "", -2 );
         if ( $sOrder == "ORDER BY" ) { $sOrder = ""; }
-		$sOrder = "GROUP BY pa.referencia_pag ORDER BY pa.fecha_pag desc";
+		$sOrder = "GROUP BY ov.referencia_ov, p.nombre_completo_p, ov.tiempo ORDER BY pa.fecha_pag desc";
     }
      
     /* 

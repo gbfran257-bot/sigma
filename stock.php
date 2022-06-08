@@ -207,6 +207,7 @@ $(document).ready(function(e) {
 	$('#radio2').click(function(e){
 		$('#fechaDe').val('2000-01-01'); $('#fechaA').val('<?php echo date("Y-m-d"); ?>'); oTableP.draw();
 	});
+	$('#radio2').click();
 
 	$('#caducidad').click(function(e) {
         if($(this).prop('checked')==true){ $(this).val('SI'); }else{$(this).val('NO');}

@@ -511,6 +511,7 @@ $id_del_user = $_SESSION['id'];
                 <th align="center" nowrap data-priority="4" style="white-space:nowrap;">VER</th>
                 <th align="center" nowrap data-priority="4" style="white-space:nowrap;">LOGOTIPO</th>
                 <th align="center" nowrap data-priority="4" style="white-space:nowrap;">FIRMA</th>
+                <th align="center" nowrap data-priority="5" style="white-space:nowrap;">LOG_NUM</th>
                 <th align="center" nowrap data-priority="5" style="white-space:nowrap;">ELIMINAR</th>
               </tr>
             </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 

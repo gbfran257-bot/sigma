@@ -3,7 +3,7 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('v.id_vc', 'e.concepto_to', 'count(v.id_vc) as suma', 'v.id_vc', 'concat(t.abreviacion_ti," ",m.nombre_u, " ", m.apaterno_u)', 'm.amaterno_u', 'sum(v.precio_vc)', 'sum(v.honorarios)', 'e.c_costo','v.id_concepto_es');
+	$aColumns = array('v.id_vc', 'e.concepto_to', 'count(v.id_vc) as suma', 'v.id_vc', 'concat(t.abreviacion_ti," ",m.nombre_u, " ", m.apaterno_u)', 'm.amaterno_u', 'sum(v.precio_vc)', 'sum(v.honorarios)', 'e.c_costo','e.linea_c','v.id_concepto_es');
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');

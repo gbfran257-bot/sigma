@@ -170,6 +170,68 @@ $(document).ready(function(e) {
 	$('.filtro1Principal').addClass('hidden');
 	
 });
+function sucu_logo(idDoc){
+	$("#myModal2").load('sucursales/htmls/num_sucu.php',function(response,status,xhr){
+		if(status=="success"){
+			var dat_doc = {idD:idDoc}
+			$.post('sucursales/files-serverside/comprobar_num_sucu.php',dat_doc).done(function( data ){
+				
+				var dato = data.split(';-}{');
+				var cont_d = 0;
+				while (cont_d < dato.length) {
+					switch (dato[cont_d]) {
+						case '1':
+							$('#val_1').addClass('hidden');
+							console.log(dato[cont_d]);
+							break;
+						case '2':
+							$('#val_2').addClass('hidden');
+							console.log(dato[cont_d]);
+							break;
+						case '3':
+							$('#val_3').addClass('hidden');
+							console.log(dato[cont_d]);
+							break;
+						case '4':
+							$('#val_4').addClass('hidden');
+							console.log(dato[cont_d]);
+							break;
+						case '5':
+							$('#val_5').addClass('hidden');
+							console.log(dato[cont_d]);
+							break;
+						
+						default:
+							break;
+					}
+					cont_d++;
+					
+				}				
+			});
+
+			$('#bt_guardar_num').click(function(e){
+				var asig_num = {idD:idDoc, num:$('#val_num').val() }
+				$.post('sucursales/files-serverside/asignar_num_sucu.php',asig_num).done(function( data ){
+					if(data == 1 ){
+						swal({title:"Asignación Correcta",type:"",text:"El logo se ha asignado correctamente",timer:1800,showConfirmButton:false});
+						$('#myModal2').modal('hide');
+			 			$("#myModal2").empty();
+						$('#clickmeDocs').click();
+					}
+				});
+			});
+
+			$('#bt_cerrar_2').click(function(e){
+				$('#myModal2').modal('hide');
+			 	$("#myModal2").empty();
+			});
+
+			$('#myModal2').modal('show');
+			$('#myModal2').on('shown.bs.modal',function(e){});
+			$('#myModal2').on('hidden.bs.modal',function(e){ $("#myModal2").empty(); });
+		}
+	});
+}
 function verSucursal(id_s, nombre_s){
 	$("#myModal").load('sucursales/htmls/fichaSucursal.php',function(response,status,xhr){if(status=="success"){
 		$(".insers").load('genera/inserciones.php', function( response, status, xhr ) { if ( status == "success" ) { } }); var datosF = {id:1}
@@ -370,8 +432,8 @@ function verSucursal(id_s, nombre_s){
 					serverSide: true,ordering: false, searching: false, scrollCollapse: false, "scrollX": true,
 					"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 					"aoColumns":[
-						{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},
-						{"bVisible":false},{"bVisible":true}
+						{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":false},
+						{"bVisible":true},{"bVisible":true}
 					],
 					"sDom": '<""f>r<""t><""S><""p>',  deferRender: true, select: false, "processing": false, 
 					"sAjaxSource": "sucursales/datatable-serverside/documentos.php",
@@ -823,8 +885,8 @@ function nuevaSucursal(){
 				serverSide: true,ordering: false, searching: false, scrollCollapse: false, "scrollX": true,
 				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 				"aoColumns":[
-					{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},
-					{"bVisible":false},{"bVisible":true}
+					{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":false},
+					{"bVisible":true},{"bVisible":true}
 				],
 				"sDom": '<""f>r<""t><""S><""p>',  deferRender: true, select: false, "processing": false, 
 				"sAjaxSource": "sucursales/datatable-serverside/documentos.php",

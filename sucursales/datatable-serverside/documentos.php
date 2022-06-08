@@ -1,7 +1,7 @@
 <?php
 require("../../Connections/horizonte.php"); 
 
-	$aColumns = array('d.id_do', 'd.nombre_do', 'concat(u.nombre_u," ",u.apaterno_u)', 'DATE_FORMAT(d.fecha_do,"%d/%m/%Y %h:%i:%s")', 'd.id_do', 'd.perfil_do', 'd.firma_do', 'd.id_do', 'd.aleatorio_do', 'd.ext_do');
+	$aColumns = array('d.id_do', 'd.nombre_do', 'concat(u.nombre_u," ",u.apaterno_u)', 'DATE_FORMAT(d.fecha_do,"%d/%m/%Y %h:%i:%s")', 'd.id_do', 'd.perfil_do', 'd.firma_do','d.num_suc_do', 'd.id_do', 'd.aleatorio_do', 'd.ext_do');
      
     // DB tables to use 
     $aTables = array('documentos d');
@@ -137,26 +137,31 @@ require("../../Connections/horizonte.php");
 		$x = md5(time()); $x = '"'.$x.'"';
 		$titulo = '"'.$row[1].'"';
 		
-		if($row[9]!='pdf' and $row[9]!='PDF'){
+		if($row[10]!='pdf' and $row[10]!='PDF'){
 			if($row[5]==1){
 				$row[5]="<div align='center'><button type='button' class='btn btn-success btn-xs' onClick=''><i class='fa fa-check' aria-hidden='true'></i></button></div>";
 			}else{
-				$row[5]="<div align='center'><button type='button' class='btn btn-default btn-xs' lang='$row[8]' onClick='foto_perfil($row[7], this.lang);'><i class='fa fa-refresh' aria-hidden='true'></i></button></div>";
+				$row[5]="<div align='center'><button type='button' class='btn btn-default btn-xs' lang='$row[9]' onClick='foto_perfil($row[7], this.lang);'><i class='fa fa-refresh' aria-hidden='true'></i></button></div>";
 			}
 			if($row[6]==1){
 				$row[6]="<div align='center'><button type='button' class='btn btn-success btn-xs' onClick=''><i class='fa fa-check' aria-hidden='true'></i></button></div>";
 			}else{
-				$row[6]="<div align='center'><button type='button' class='btn btn-default btn-xs' lang='$row[8]' onClick='firma($row[7], this.lang);'><i class='fa fa-refresh' aria-hidden='true'></i></button></div>";
+				$row[6]="<div align='center'><button type='button' class='btn btn-default btn-xs' lang='$row[9]' onClick='firma($row[8], this.lang);'><i class='fa fa-refresh' aria-hidden='true'></i></button></div>";
 			}
 		}else{
 			$row[6]='<div align="center">-</div>';$row[5]='<div align="center">-</div>';
 		}
 		
 		$row[0]="<span>$hh</span>";
-		$row[4]="<div align='center'><button type='button' lang='$row[9]' class='btn btn-success btn-xs' onClick='ver_docu($row[7], this.lang, $x);'><i class='fa fa-eye' aria-hidden='true'></i></button></div>";
+		$row[4]="<div align='center'><button type='button' lang='$row[10]' class='btn btn-success btn-xs' onClick='ver_docu($row[8], this.lang, $x);'><i class='fa fa-eye' aria-hidden='true'></i></button></div>";
+        if($row[7] == null){
+            $row[7]= "<div align='center'><button type='button' class='btn btn-default btn-xs' lang='$row[9]' onClick='sucu_logo($row[8]);'><i class='fa fa-refresh' aria-hidden='true'></i></button></div>";
+        }else{
+            $row[7]= "<div align='center'><button type='button' class='btn btn-default btn-xs' lang='$row[9]' disabled='true'>$row[7]</button></div>";
+        }
 		if($_GET['acc_user']<2){//Si es administrador
-			$row[7]="<div align='center'><button type='button' lang='$row[8]' class='btn btn-danger btn-xs' onClick='eliminar_docu($row[7], this.lang, $titulo);'><i class='fa fa-trash' aria-hidden='true'></i></button></div>";
-		}else{ $row[7]="<div align='center'>-</div>"; }
+			$row[8]="<div align='center'><button type='button' lang='$row[9]' class='btn btn-danger btn-xs' onClick='eliminar_docu($row[8], this.lang, $titulo);'><i class='fa fa-trash' aria-hidden='true'></i></button></div>";
+		}else{ $row[8]="<div align='center'>-</div>"; }
 								
 		$output['aaData'][] = $row;
 		

@@ -331,7 +331,7 @@ $(document).ready(function(e) {
 		},
 		"bJQueryUI": false, "bScrollInfinite": true, "bScrollCollapse": true, "bAutoWidth": false, "bStateSave": false, "bInfo": true, "bFilter": true, "aaSorting": [[0, "asc"]],
 		"aoColumns":[{ "bSortable": false },{ "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}],
-		"iDisplayLength": 50, "bLengthChange": false, "bProcessing": false, "bServerSide": true, "sDom": '<"data_t"t><"info">', "sAjaxSource": "caja/datatable-serverside/reporte1.php",
+		"iDisplayLength": 50, "bLengthChange": false, "bProcessing": false, "bServerSide": true, "sDom": '<"data_t"t><"info">', "sAjaxSource": "caja/datatable-serverside/reporte1_r.php",
 		"fnServerParams": function (aoData, fnCallback) { var de = document.getElementById('fechaDe').value+' 00:00:00'; var a = $('#fechaA').val()+' 23:59:59'; aoData.push(  {"name": "min", "value": de } ); aoData.push(  {"name": "max", "value": a } ); },
 		"aLengthMenu": [[9, 25, 50, 100, -1], [9, 25, 50, 100, "Todos"]],
 		"oLanguage": { "sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", "sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": " TOTAL DE ESTUDIOS: _MAX_", "sSearch": "BUSCAR" }
