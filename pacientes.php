@@ -1721,82 +1721,84 @@ function nuevaVisita(idP, nombreP){
         });
 		
 		$('#form-2').validator().on('submit', function (e) {
-		  if (e.isDefaultPrevented()) { // handle the invalid form...
-			$("#alerta1").fadeTo(2000,500).slideUp(500,function(){ $("#alerta1").slideUp(600); });
-		  } else { // everything looks good!
-			e.preventDefault(); 
-			var datosP = $('#myModal4 #form-2').serialize();
-			if($('#pago_ov_c').val() == 0 && $('#pago_ov_i').val() == 0 && $('#pago_ov_l').val() == 0 && $('#pago_ov_f').val() == 0){
-				swal({
-				title: "ERROR", text: "LA ORDEN DE VENTA ESTA VACÍA", type: "error", showCancelButton: false, cancelButtonText: "Salir", closeOnConfirm: false
-				});
-			}else{
-				var $btn = $('#btn_save1').button('loading'); $('#btn_cancel1').hide();
-				$.post('pacientes/files-serverside/guardar_ov.php',datosP).done(function( data ) { var datil = data.split(';]');
-					if (datil[0]==1){//si el paciente se Actualizó 
-						$('#clickme').click(); $btn.button('reset'); $('#btn_cancel1').show(); $('#myModal4').modal('hide');
+			if (e.isDefaultPrevented()) { // handle the invalid form...
+				$("#alerta1").fadeTo(2000,500).slideUp(500,function(){ $("#alerta1").slideUp(600); });
+			} else { // everything looks good!
+				e.preventDefault(); 
+				var datosP = $('#myModal4 #form-2').serialize();
+				var con_ov = {noTemp: $('#aleatorio_ov').val()}
+				$.post('pacientes/files-serverside/conceptos_ov.php',con_ov).done(function( data ) {
+					if(data != 1){
 						swal({
-						title: "VENTA REALIZADA", text: "¿Deseas imprimir el ticket de venta "+datil[1]+"?", type: "success", showCancelButton: true,
-						confirmButtonText: "Imprimir", cancelButtonText: "Salir", closeOnConfirm: false
-						},
-						function(){
-							swal.close();
-							$("#myModal1").load('pacientes/htmls/ticket.php', function( response, status, xhr ){ if(status=="success"){
-								//var tamP = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-144;
-								$('#contenedorAnteriores, #myAbonadoA').hide();
-								var oTableT = $('#dataTableResumenT').DataTable({
-									serverSide:true,"sScrollY":'100%',ordering:false,searching:false,scrollCollapse:false,"scrollX": true,
-									"fnFooterCallback":function(nRow, aaData, iStart, iEnd, aiDisplay){ },scroller:false,responsive:false,
-									"aoColumns": [
-										{"bVisible": true}, {"bVisible": false}, {"bVisible": false}, {"bVisible": true}, {"bVisible": false}, {"bVisible": true}
-									],
-									"sDom": '<"filtroCt"><"infoCt"><"data_tCt"t>', 
-									deferRender: true, select: false, "processing": false, 
-									"sAjaxSource": "pacientes/js/datatable-serverside/totales_nvTi.php",
-									"fnServerParams": function (aoData, fnCallback) { 
-										var aleatorio = $('#aleatorio_ov_a').val(); aoData.push(  {"name": "aleatorio", "value": aleatorio } );
-									},
-									"oLanguage": {
-										"sLengthMenu":"MONSTRANDO _MENU_ records per page", "sZeroRecords":"LA ORDEN DE VENTA ESTA VACIA",
-										"sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": " CONCEPTOS: _MAX_", "sSearch": "BUSCAR"
-									},"iDisplayLength": 50000, paging: false
-								});
-		
-								var datosTi = {noAleatorio:$('#aleatorio_ov_a').val()}
-								$.post('pacientes/files-serverside/datosTicketNV.php',datosTi).done(function(data){
-									var datosT = data.split(';}'); if(datosT[5]==''){datosT[5]=0;} //alert(data);
-									//para el ticket
-									$('#fechaT').text(datosT[0]);$('#referenciaT').text(datosT[1]);$('#pacienteT').text(datosT[2]);
-									$('#adicionalesT').text(datosT[10]);$('#totalT').text(datosT[4]);$('#pagoT').text(datosT[5]);
-									$('#saldoT').text(datosT[6]);$('#usuarioIT').text(datosT[33]);$('#fechaIT').text(datosT[8]);
-									$('#horaIT').text(datosT[9]); $('#formaPagoT').text(datosT[11]);
-									$('#cantidadLetraT').text(nn(datosT[4])); $('#municipioS').text(datosT[16]);
-									$('#calleSucursal').text(datosT[19]); $('#coloniaSucursal').text(datosT[18]);
-									$('#cpSucursal').text(datosT[20]);$('#telefonoSucursal').text(datosT[21]);
-									$('#municipioSucursal').text(datosT[17]);$('#estadoSucursal').text(datosT[15]);
-									$('#sitioS').text(datosT[22]);$('#emailSucursal').text(datosT[23]);$('#descuentoT').text(datosT[24]);
-									$('#subTotalT').text(datosT[29]);
-									if(datosT[25]>0){
-										x='sucursales/documentos/files/'+datosT[26]+'.'+datosT[27]+'?'+Math.round(Math.random()*1000);
-										$('#myLogoS').html('<img src='+x+' width="150" style="border:5px none white; background-color:rgba(255, 255, 255, 1);">');
-									}
-									if(datosT[28]>0){ $('#myIva').removeClass('hidden'); }else{$('#myIva').addClass('hidden');}
-									$('#ivaT').text(datosT[28]); $('#abonosT').val(datosT[29]); $('#saldosT').val(datosT[30]);
-									
-									$('#imprimirTic').click(function(e){ $('#tablaTicket').css('font-size','8px').printElement();});
-								});
-								
-								$('#myModal1').modal('show');
-								$('#myModal1').on('shown.bs.modal',function(e){ });
-								$('#myModal1').on('hidden.bs.modal',function(e){ $("#myModal1 .modal-content").remove(); $("#myModal1").empty(); });
-							}});					
+						title: "ERROR", text: "LA ORDEN DE VENTA ESTA VACÍA", type: "error", showCancelButton: false, cancelButtonText: "Salir", closeOnConfirm: false
 						});
-						return;
-					} else{alert(datil[0]);}
+					}else{
+						var $btn = $('#btn_save1').button('loading'); $('#btn_cancel1').hide();
+						$.post('pacientes/files-serverside/guardar_ov.php',datosP).done(function( data ) { var datil = data.split(';]');
+							if (datil[0]==1){//si el paciente se Actualizó 
+								$('#clickme').click(); $btn.button('reset'); $('#btn_cancel1').show(); $('#myModal4').modal('hide');
+								swal({
+								title: "VENTA REALIZADA", text: "¿Deseas imprimir el ticket de venta "+datil[1]+"?", type: "success", showCancelButton: true,
+								confirmButtonText: "Imprimir", cancelButtonText: "Salir", closeOnConfirm: false
+								},
+								function(){
+									swal.close();
+									$("#myModal1").load('pacientes/htmls/ticket.php', function( response, status, xhr ){ if(status=="success"){
+										//var tamP = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-144;
+										$('#contenedorAnteriores, #myAbonadoA').hide();
+										var oTableT = $('#dataTableResumenT').DataTable({
+											serverSide:true,"sScrollY":'100%',ordering:false,searching:false,scrollCollapse:false,"scrollX": true,
+											"fnFooterCallback":function(nRow, aaData, iStart, iEnd, aiDisplay){ },scroller:false,responsive:false,
+											"aoColumns": [
+												{"bVisible": true}, {"bVisible": false}, {"bVisible": false}, {"bVisible": true}, {"bVisible": false}, {"bVisible": true}
+											],
+											"sDom": '<"filtroCt"><"infoCt"><"data_tCt"t>', 
+											deferRender: true, select: false, "processing": false, 
+											"sAjaxSource": "pacientes/js/datatable-serverside/totales_nvTi.php",
+											"fnServerParams": function (aoData, fnCallback) { 
+												var aleatorio = $('#aleatorio_ov_a').val(); aoData.push(  {"name": "aleatorio", "value": aleatorio } );
+											},
+											"oLanguage": {
+												"sLengthMenu":"MONSTRANDO _MENU_ records per page", "sZeroRecords":"LA ORDEN DE VENTA ESTA VACIA",
+												"sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": " CONCEPTOS: _MAX_", "sSearch": "BUSCAR"
+											},"iDisplayLength": 50000, paging: false
+										});
+				
+										var datosTi = {noAleatorio:$('#aleatorio_ov_a').val()}
+										$.post('pacientes/files-serverside/datosTicketNV.php',datosTi).done(function(data){
+											var datosT = data.split(';}'); if(datosT[5]==''){datosT[5]=0;} //alert(data);
+											//para el ticket
+											$('#fechaT').text(datosT[0]);$('#referenciaT').text(datosT[1]);$('#pacienteT').text(datosT[2]);
+											$('#adicionalesT').text(datosT[10]);$('#totalT').text(datosT[4]);$('#pagoT').text(datosT[5]);
+											$('#saldoT').text(datosT[6]);$('#usuarioIT').text(datosT[33]);$('#fechaIT').text(datosT[8]);
+											$('#horaIT').text(datosT[9]); $('#formaPagoT').text(datosT[11]);
+											$('#cantidadLetraT').text(nn(datosT[4])); $('#municipioS').text(datosT[16]);
+											$('#calleSucursal').text(datosT[19]); $('#coloniaSucursal').text(datosT[18]);
+											$('#cpSucursal').text(datosT[20]);$('#telefonoSucursal').text(datosT[21]);
+											$('#municipioSucursal').text(datosT[17]);$('#estadoSucursal').text(datosT[15]);
+											$('#sitioS').text(datosT[22]);$('#emailSucursal').text(datosT[23]);$('#descuentoT').text(datosT[24]);
+											$('#subTotalT').text(datosT[29]);
+											if(datosT[25]>0){
+												x='sucursales/documentos/files/'+datosT[26]+'.'+datosT[27]+'?'+Math.round(Math.random()*1000);
+												$('#myLogoS').html('<img src='+x+' width="150" style="border:5px none white; background-color:rgba(255, 255, 255, 1);">');
+											}
+											if(datosT[28]>0){ $('#myIva').removeClass('hidden'); }else{$('#myIva').addClass('hidden');}
+											$('#ivaT').text(datosT[28]); $('#abonosT').val(datosT[29]); $('#saldosT').val(datosT[30]);
+											
+											$('#imprimirTic').click(function(e){ $('#tablaTicket').css('font-size','8px').printElement();});
+										});
+										
+										$('#myModal1').modal('show');
+										$('#myModal1').on('shown.bs.modal',function(e){ });
+										$('#myModal1').on('hidden.bs.modal',function(e){ $("#myModal1 .modal-content").remove(); $("#myModal1").empty(); });
+									}});					
+								});
+								return;
+							} else{alert(datil[0]);}
+						});
+					}
 				});
 			}
-			
-		  }
 		});
 		
 		$('#medico_i').load('pacientes/genera/medicos_estudios.php',function(response,status,xhr){if(status=="success"){
@@ -2473,28 +2475,28 @@ function calcular_totales(){
 	$('#total_ov').text('$'+redondear(parseFloat($('#precio_c1').val())+parseFloat($('#precio_i').val())+parseFloat($('#precio_l').val())+parseFloat($('#precio_s').val())+parseFloat($('#precio_p').val())+parseFloat(cargo_extra_c)+parseFloat(cargo_extra_i)+parseFloat(cargo_extra_l)+parseFloat(cargo_extra_s)+parseFloat(cargo_extra_p)-parseFloat($('#to_descuento_c1').val())-parseFloat($('#to_descuento_i').val())-parseFloat($('#to_descuento_l').val())-parseFloat($('#to_descuento_s').val())-parseFloat($('#to_descuento_p').val())+parseFloat($('#iva_ov_h').val()),2));
 	$('#total_ov_h').val(redondear(parseFloat($('#precio_c1').val())+parseFloat($('#precio_i').val())+parseFloat($('#precio_l').val())+parseFloat($('#precio_s').val())+parseFloat($('#precio_p').val())+parseFloat(cargo_extra_c)+parseFloat(cargo_extra_i)+parseFloat(cargo_extra_l)+parseFloat(cargo_extra_s)+parseFloat(cargo_extra_p)-parseFloat($('#to_descuento_c1').val())-parseFloat($('#to_descuento_i').val())-parseFloat($('#to_descuento_l').val())-parseFloat($('#to_descuento_s').val())-parseFloat($('#to_descuento_p').val())+parseFloat($('#iva_ov_h').val()),2));
 	window.setTimeout(function(){
-		if($('#precio_c1').val()>0){
+		if($('#precio_c1').val()>=0){
 			var datos={aleatorio:$('#aleatorio_ov').val()}
 			$.post('pacientes/files-serverside/detalle_consulta.php',datos).done(function(data){
 				var dato = data.split('{:;]}');
 				$('#aqui_consulta').html(data);
 			});
 		}else{ $('#aqui_consulta').html(''); }
-		if($('#precio_i').val()>0){
+		if($('#precio_i').val()>=0){
 			var datos={aleatorio:$('#aleatorio_ov').val()}
 			$.post('pacientes/files-serverside/detalle_imagen.php',datos).done(function(data){ $('#aqui_imagen').html(data); });
 		}else{ $('#aqui_imagen').html(''); }
-		if($('#precio_l').val()>0){
+		if($('#precio_l').val()>=0){
 			var datos={aleatorio:$('#aleatorio_ov').val()}
 			$.post('pacientes/files-serverside/detalle_laboratorio.php',datos).done(function(data){
 				$('#aqui_laboratorio').html(data);
 			});
 		}else{ $('#aqui_laboratorio').html(''); }
-		if($('#precio_s').val()>0){
+		if($('#precio_s').val()>=0){
 			var datos={aleatorio:$('#aleatorio_ov').val()}
 			$.post('pacientes/files-serverside/detalle_servicios.php',datos).done(function(data){ $('#aqui_servicios').html(data); });
 		}else{ $('#aqui_servicios').html(''); }
-		if($('#precio_p').val()>0){
+		if($('#precio_p').val()>=0){
 			var datos={aleatorio:$('#aleatorio_ov').val()}
 			$.post('pacientes/files-serverside/detalle_productos.php',datos).done(function(data){ $('#aqui_productos').html(data); });
 		}else{ $('#aqui_productos').html(''); }
