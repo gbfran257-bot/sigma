@@ -111,7 +111,7 @@ require("../../../funciones/php/values.php");
 			while ($fila = mysql_fetch_array($query)) {
 				$lista = $lista.','.$fila['id_concepto_es'];
 			};//echo $lista;
-			$sWhere = "WHERE e.id_tipo_concepto_to = 5 and s.existencias > 0 and s1.id_su = $idSucu";
+			$sWhere = "WHERE e.id_tipo_concepto_to = 5 and s.existencias >= 0 and s1.id_su = $idSucu";
 		}
 		else{//Con algún convenio
 			if($urgencia==1){
@@ -133,7 +133,7 @@ require("../../../funciones/php/values.php");
 			while ($fila = mysql_fetch_array($query)) {
 				$lista = $lista.','.$fila['id_conceptos_beneficios'];
 			};//echo $lista;
-			$sWhere = "WHERE cb.id_cb not in ($lista) and c.id_tipo_concepto_to = 5 and cv.id_cv = '$_GET[idConvenio]' and cb.id_paciente_cb = '$_GET[idP]' and s.existencias > 0 and s1.id_su = $idSucu";
+			$sWhere = "WHERE cb.id_cb not in ($lista) and c.id_tipo_concepto_to = 5 and cv.id_cv = '$_GET[idConvenio]' and cb.id_paciente_cb = '$_GET[idP]' and s.existencias >= 0 and s1.id_su = $idSucu";
 		}
 	}
 
