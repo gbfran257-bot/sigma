@@ -89,7 +89,7 @@ require("../../../funciones/php/values.php");
 		while ($fila = mysql_fetch_array($query)) {
 			$lista = $lista.','.$fila['id_concepto_es'];
 		};//echo $lista;
-		$sWhere = "WHERE e.id_tipo_concepto_to = 5 and s.existencias > 0 and s1.id_su = $idSucu GROUP by e.concepto_to asc";
+		$sWhere = "WHERE e.id_tipo_concepto_to = 5 and s.existencias >= 0 and s1.id_su = $idSucu GROUP by e.concepto_to asc";
 	}else{
 		if($_GET['idConvenio']==0){//Sin convenios
 			if($urgencia==1){//Nocturno
