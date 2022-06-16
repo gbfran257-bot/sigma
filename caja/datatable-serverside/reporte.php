@@ -139,7 +139,8 @@ require("../../funciones/php/values.php");
 			$totalRows_Recordset1a = mysql_num_rows($Recordset1a);
 			$row[1] = $totalRows_Recordset1a;
 			
-			$resultTC = mysql_query("SELECT count(vc.id_vc) from pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE temporal_vc != 1 and e.id_departamento_to = $ali and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
+			// $resultTC = mysql_query("SELECT count(vc.id_vc) from pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE temporal_vc != 1 and e.id_departamento_to = $ali and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
+            $resultTC = mysql_query("SELECT count(v.id_vc) FROM venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es WHERE temporal_vc = 0 and e.id_departamento_to = $ali and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 			
 			$resultT = mysql_query("SELECT SUM(p.pago_pag) from pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE e.id_departamento_to = $row[3] and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' and vc.temporal_vc != 1", $horizonte) or die (mysql_error()); //Sacamos cuanto es el total por departamento de las ventas de conceptos, pero no es la de los pagos
 			
@@ -173,6 +174,46 @@ require("../../funciones/php/values.php");
 		else if($row[6]==1){$row[4] = $rowTlb[0]; }
 		//Farmacia si es que hay conceptos de farmacia
 		else if($row[6]==3){$row[4] = $rowTfa[0];}
+		//Enfermería si es que hay conceptos de Enfermería
+
+
+
+        $resultTamS= mysql_query("SELECT p.pago_pag, ov.gran_total_ov, ov.gran_total_ov - p.pago_pag as saldos FROM orden_venta ov left join pagos_ov p on p.referencia_pag = ov.referencia_ov left join venta_conceptos vc on vc.referencia_vc = ov.referencia_ov WHERE departamento_pa = 4 AND ov.gran_total_ov > p.pago_pag AND vc.temporal_vc = 0  and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' GROUP by p.referencia_pag", $horizonte) or die (mysql_error());
+        $totalSaldo1 = 0;
+        $totalSaldo2 = 0;
+        $totalSaldo4 = 0;
+        $totalSaldo3 = 0;
+        while ($filasTamS = mysql_fetch_assoc($resultTamS)) {
+            $totalSaldo4 = $totalSaldo4 + $filasTamS['saldos'];
+        }
+
+        $resultTfaS = mysql_query("SELECT p.pago_pag, ov.gran_total_ov, ov.gran_total_ov - p.pago_pag as saldos FROM orden_venta ov left join pagos_ov p on p.referencia_pag = ov.referencia_ov left join venta_conceptos vc on vc.referencia_vc = ov.referencia_ov WHERE departamento_pa = 3 AND ov.gran_total_ov > p.pago_pag AND vc.temporal_vc = 0  and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' GROUP by p.referencia_pag", $horizonte) or die (mysql_error());
+		// $rowTfaS = mysql_fetch_row($resultTfaS);
+        while ($filasFaS = mysql_fetch_assoc($resultTfaS)) {
+            $totalSaldo3 = $totalSaldo3 + $filasFaS['saldos'];
+        }
+    		
+		$resultTimS = mysql_query("SELECT p.pago_pag, ov.gran_total_ov, ov.gran_total_ov - p.pago_pag as saldos FROM orden_venta ov left join pagos_ov p on p.referencia_pag = ov.referencia_ov left join venta_conceptos vc on vc.referencia_vc = ov.referencia_ov WHERE departamento_pa = 2 AND ov.gran_total_ov > p.pago_pag AND vc.temporal_vc = 0  and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' GROUP by p.referencia_pag", $horizonte) or die (mysql_error());
+		// $rowTimS = mysql_fetch_row($resultTimS);
+        while ($filasTimS = mysql_fetch_assoc($resultTimS)) {
+            $totalSaldo2 = $totalSaldo2 + $filasTimS['saldos'];
+        }
+		
+		$resultTlbS = mysql_query("SELECT p.pago_pag, ov.gran_total_ov, ov.gran_total_ov - p.pago_pag as saldos FROM orden_venta ov left join pagos_ov p on p.referencia_pag = ov.referencia_ov left join venta_conceptos vc on vc.referencia_vc = ov.referencia_ov WHERE departamento_pa = 2 AND ov.gran_total_ov > p.pago_pag AND vc.temporal_vc = 0  and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' GROUP by p.referencia_pag", $horizonte) or die (mysql_error());
+		// $rowTlbS = mysql_fetch_row($resultTlbS);
+        while ($filasTlbS = mysql_fetch_assoc($resultTlbS)) {
+            $totalSaldo1 = $totalSaldo1 + $filasTlbS['saldos'];
+        }
+				
+
+        //Asociación médica
+		if($row[6]==4){$row[5] = $totalSaldo4;}
+		//Imagen
+		else if($row[6]==2){$row[5] = $totalSaldo2;}
+		//Laboratorio
+		else if($row[6]==1){$row[5] = $totalSaldo1; }
+		//Farmacia si es que hay conceptos de farmacia
+		else if($row[6]==3){$row[5] = $totalSaldo3;}
 		//Enfermería si es que hay conceptos de Enfermería
 				
 		$output['aaData'][] = $row;

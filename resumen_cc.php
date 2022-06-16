@@ -27,9 +27,20 @@
     <!-- Custom and plugin javascript -->
     <script src="js/inspinia.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
-    <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
+
+
+    <script src="DataTables-1.12/DataTables-1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="DataTables-1.12/DataTables-1.12.1/js/dataTables.bootstrap.min.js"></script>
+    <script src="DataTables-1.12/Select-1.4.0/js/dataTables.select.min.js"></script> 
+    <script src="DataTables-1.12/Buttons-2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="DataTables-1.12/JSZip-2.5.0/jszip.min.js"></script>
+    <script src="DataTables-1.12/Buttons-2.2.3/js/buttons.html5.min.js"></script> 
+	  <script src="DataTables-1.12/Buttons-2.2.3/js/buttons.print.min.js"></script> 
+    <script src="DataTables-1.12/pdfmake-0.1.36/pdfmake.min.js"></script> 
+	  <script src="DataTables-1.12/pdfmake-0.1.36/vfs_fonts.js"></script> 
+    <!-- <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
     <script src="DataTables-1.10.13/media/js/dataTables.bootstrap.min.js"></script>
-    <script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script>
+    <script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script> -->
     <script src="sweetalert/dist/sweetalert.min.js"></script>
     <script src="funciones/js/jquery.media.js" type="text/javascript"></script>
     <script src="funciones/js/jquery.printElement.min.js" type="text/javascript"></script>
@@ -43,9 +54,15 @@
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <link href="DataTables-1.10.13/media/css/dataTables.bootstrap.min.css" rel="stylesheet">
+
+
+    <link href="DataTables-1.12/DataTables-1.12.1/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="DataTables-1.12/Scroller-2.0.6/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <link href="DataTables-1.12/Select-1.4.0/css/select.bootstrap.min.css" rel="stylesheet"> 
+
+<!--<link href="DataTables-1.10.13/media/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.10.13/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet">
-    <link href="DataTables-1.10.13/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet">
+    <link href="DataTables-1.10.13/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet"> -->
     <link href="bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">
     <link href="sweetalert/dist/sweetalert.css" rel="stylesheet">
 </head>
@@ -110,8 +127,9 @@
                 <th id="clickme">DEPARTAMENTO</th>
                 <th nowrap>#VISITAS</th>
                 <th nowrap>#PACIENTES</th>
-                <th nowrap>#CONCEPTOS</th>
-                <th nowrap>TOTAL($)</th>
+                <th nowrap>#PRODUCTOS</th>
+                <th nowrap>ABONADO($)</th>
+                <th nowrap>SALDOS($)</th>
               </tr>
             </thead>
             <tbody align=""> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
@@ -122,7 +140,8 @@
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none;" value="0"/></th>
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none;" value="0"/></th>
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none;" value="0.00"/></th>
-                </tr>
+                    <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none;" value="0.00"/></th>
+                  </tr>
             </tfoot>
           </table>
     </td>
@@ -226,64 +245,105 @@ $(document).ready(function(e) {
 	
 	oTable = $('#dataTable').dataTable({
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
-			var iTotal = 0, iComision=0, iIngreso = 0, iVisitas = 0;
+            var iTotal = 0, iComision=0, iAbonado = 0, iVisitas = 0, iSaldo = 0;
             for ( var i=iStart ; i<iEnd ; i++ )
             {
-				iVisitas  += aaData[ aiDisplay[i] ][1]*1;
+				        iVisitas  += aaData[ aiDisplay[i] ][1]*1;
                 iTotal    += aaData[ aiDisplay[i] ][2]*1;
-				iComision += aaData[ aiDisplay[i] ][3]*1;
-				iIngreso  += aaData[ aiDisplay[i] ][4]*1;
+                iComision += aaData[ aiDisplay[i] ][3]*1;
+                iAbonado  += aaData[ aiDisplay[i] ][4]*1;
+                iSaldo  += aaData[ aiDisplay[i] ][5]*1;
             }
             var nCells = nRow.getElementsByTagName('th');
-			nCells[1].innerHTML = parseInt(iVisitas  * 100)/100;
+			      nCells[1].innerHTML = parseInt(iVisitas  * 100)/100;
             nCells[2].innerHTML = parseInt(iTotal    * 100)/100;
-			nCells[3].innerHTML = parseInt(iComision * 100)/100;
-			nCells[4].innerHTML = '$'+parseInt(iIngreso  * 100)/100;
+            nCells[3].innerHTML = parseInt(iComision * 100)/100;
+            nCells[4].innerHTML = '$'+parseInt(iAbonado  * 100)/100;
+            nCells[5].innerHTML = '$'+parseInt(iSaldo  * 100)/100;
 			
 			window.setTimeout(function(){$('.erase1').each(function(index, element) { $(this).parent().parent().remove(); });},200);
 		},
-		"bJQueryUI":false, "bScrollCollapse":true, "sScrollY":tam1, "bAutoWidth":false, "bStateSave":false, "bInfo": true, "bFilter": false, "aaSorting": [[0, "asc"]],
+		"bJQueryUI":false, 
+    "bScrollCollapse":true, 
+    "sScrollY":tam1, 
+    "bAutoWidth":false, 
+    "bStateSave":false, 
+    "bInfo": true, 
+    "bFilter": false, 
+    "aaSorting": [[0, "asc"]],
 		"aoColumns":[
-			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},
-			{ "bSortable": false, "sClass": "centrado"}
+			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"},	{ "bSortable": false, "sClass": "centrado"}
 		],
-		"iDisplayLength": 50, "bLengthChange": false, "bProcessing": false, "bServerSide": true, "sDom": '<"data_t"t><"info">',
+		"iDisplayLength": 50, 
+    "bLengthChange": false, 
+    "bProcessing": false, 
+    "bServerSide": true, 
 		"sAjaxSource": "caja/datatable-serverside/reporte.php",
 		"fnServerParams": function (aoData, fnCallback){
-			var de = document.getElementById('fechaDe').value+' 00:00:00'; var a = $('#fechaA').val()+' 23:59:59';
-			aoData.push(  {"name": "min", "value": de } ); aoData.push(  {"name": "max", "value": a } );
+			var de = document.getElementById('fechaDe').value+' 00:00:00'; 
+      var a = $('#fechaA').val()+' 23:59:59';
+			aoData.push(  {"name": "min", "value": de } ); 
+      aoData.push(  {"name": "max", "value": a } );
 		},
+    "sDom": '<"filtro1Principal"f>Bl<"data_tPrincipal"t>',
+    buttons: [ 
+      { extend: 'copyHtml5', footer: true },
+      { extend: 'excelHtml5', footer: true },
+      // { extend: 'csvHtml5', footer: true },
+      { extend: 'pdfHtml5', footer: true }
+	 	],
+    deferRender: true, 
+    // lengthMenu: [[25, 100, -1], [25, 100, "Todo"]],
 		"aLengthMenu": [[9, 25, 50, 100, -1], [9, 25, 50, 100, "Todos"]],
 		"oLanguage": { "sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN MOVIMIENTOS REGISTRADOS", "sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": " TOTAL DE ESTUDIOS: _MAX_", "sSearch": "BUSCAR" }
 	});//fin data table
+
   oTableA = $('#dataTableA').dataTable({
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
-			var iTotal = 0, iComision=0, iIngreso = 0, iVisitas = 0;
-            for ( var i=iStart ; i<iEnd ; i++ )
-            {
-				iVisitas  += aaData[ aiDisplay[i] ][1]*1;
-                iTotal    += aaData[ aiDisplay[i] ][2]*1;
-				iComision += aaData[ aiDisplay[i] ][3]*1;
-				iIngreso  += aaData[ aiDisplay[i] ][4]*1;
-            }
-            var nCells = nRow.getElementsByTagName('th');
-			nCells[1].innerHTML = parseInt(iVisitas  * 100)/100;
-            nCells[2].innerHTML = parseInt(iTotal    * 100)/100;
-			nCells[3].innerHTML = parseInt(iComision * 100)/100;
-			nCells[4].innerHTML = '$'+parseInt(iIngreso  * 100)/100;
+      var iTotal = 0, iComision=0, iIngreso = 0, iVisitas = 0;
+        for ( var i=iStart ; i<iEnd ; i++ ){
+            iVisitas  += aaData[ aiDisplay[i] ][1]*1;
+            iTotal    += aaData[ aiDisplay[i] ][2]*1;
+            iComision += aaData[ aiDisplay[i] ][3]*1;
+            iIngreso  += aaData[ aiDisplay[i] ][4]*1;
+        }
+        var nCells = nRow.getElementsByTagName('th');
+        nCells[1].innerHTML = parseInt(iVisitas  * 100)/100;
+        nCells[2].innerHTML = parseInt(iTotal    * 100)/100;
+        nCells[3].innerHTML = parseInt(iComision * 100)/100;
+        nCells[4].innerHTML = '$'+parseInt(iIngreso  * 100)/100;
 			
 			window.setTimeout(function(){$('.erase1').each(function(index, element) { $(this).parent().parent().remove(); });},200);
 		},
-		"bJQueryUI":false, "bScrollCollapse":true, "sScrollY":tam1, "bAutoWidth":false, "bStateSave":false, "bInfo": true, "bFilter": false, "aaSorting": [[0, "asc"]],
+		"bJQueryUI":false, 
+    "bScrollCollapse":true, 
+    "sScrollY":tam1, 
+    "bAutoWidth":false, 
+    "bStateSave":false, 
+    "bInfo": true, 
+    "bFilter": false, 
+    "aaSorting": [[0, "asc"]],
 		"aoColumns":[
-			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},
-			{ "bSortable": false, "sClass": "centrado"}
+			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}
 		],
-		"iDisplayLength": 50, "bLengthChange": false, "bProcessing": false, "bServerSide": true, "sDom": '<"data_t"t><"info">',
+		"iDisplayLength": 50, 
+    "bLengthChange": false, 
+    "bProcessing": false, 
+    "bServerSide": true, 
+    // "sDom": '<"data_t"t><"info">',
+    "sDom": '<"filtro1Principal"f>Bl<"data_tPrincipal"t>',
+    buttons: [ 
+      { extend: 'copyHtml5', footer: true },
+      { extend: 'excelHtml5', footer: true },
+      // { extend: 'csvHtml5', footer: true },
+      { extend: 'pdfHtml5', footer: true }
+	 	],
 		"sAjaxSource": "caja/datatable-serverside/reporte_a.php",
 		"fnServerParams": function (aoData, fnCallback){
-			var de = document.getElementById('fechaDe').value+' 00:00:00'; var a = $('#fechaA').val()+' 23:59:59';
-			aoData.push(  {"name": "min", "value": de } ); aoData.push(  {"name": "max", "value": a } );
+			var de = document.getElementById('fechaDe').value+' 00:00:00'; 
+      var a = $('#fechaA').val()+' 23:59:59';
+			aoData.push(  {"name": "min", "value": de } ); 
+      aoData.push(  {"name": "max", "value": a } );
 		},
 		"aLengthMenu": [[9, 25, 50, 100, -1], [9, 25, 50, 100, "Todos"]],
 		"oLanguage": { "sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN MOVIMIENTOS REGISTRADOS", "sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": " TOTAL DE ESTUDIOS: _MAX_", "sSearch": "BUSCAR" }
@@ -329,18 +389,36 @@ $(document).ready(function(e) {
 	oTable1 = $('#dataTable1').dataTable({
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
 			var iComision=0, iIngreso = 0;
-            for ( var i=iStart ; i<iEnd ; i++ )
-            {
-				iComision += aaData[ aiDisplay[i] ][1]*1;
-				iIngreso  += aaData[ aiDisplay[i] ][2]*1;
-            }
-            var nCells = nRow.getElementsByTagName('th');
-			nCells[1].innerHTML = parseInt(iComision * 100)/100;
-			nCells[2].innerHTML = '$'+parseInt(iIngreso  * 100)/100;
+        for ( var i=iStart ; i<iEnd ; i++ ){
+          iComision += aaData[ aiDisplay[i] ][1]*1;
+          iIngreso  += aaData[ aiDisplay[i] ][2]*1;
+        }
+      var nCells = nRow.getElementsByTagName('th');
+      nCells[1].innerHTML = parseInt(iComision * 100)/100;
+      nCells[2].innerHTML = '$'+parseInt(iIngreso  * 100)/100;
 		},
-		"bJQueryUI": false, "bScrollInfinite": true, "bScrollCollapse": true, "sScrollY": tam, "bAutoWidth": false, "bStateSave": false, "bInfo": true, "bFilter": true, "aaSorting": [[0, "asc"]],
+		"bJQueryUI": false, 
+    "bScrollInfinite": true,
+    "bScrollCollapse": true, 
+    "sScrollY": tam, 
+    "bAutoWidth": false, 
+    "bStateSave": false, 
+    "bInfo": true, 
+    "bFilter": true, 
+    "aaSorting": [[0, "asc"]],
 		"aoColumns":[{ "bSortable": false },{ "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}],
-		"iDisplayLength": 50, "bLengthChange": false, "bProcessing": false, "bServerSide": true, "sDom": '<"data_t"t><"info">', "sAjaxSource": "caja/datatable-serverside/reporte1.php",
+		"iDisplayLength": 50, 
+    "bLengthChange": false, 
+    "bProcessing": false, 
+    "bServerSide": true, 
+    "sDom": 'Bl<"data_tPrincipal"t>',
+    buttons: [ 
+      { extend: 'copyHtml5', footer: true },
+      { extend: 'excelHtml5', footer: true },
+      // { extend: 'csvHtml5', footer: true },
+      { extend: 'pdfHtml5', footer: true }
+	 	],
+    "sAjaxSource": "caja/datatable-serverside/reporte1.php",
 		"fnServerParams": function (aoData, fnCallback) { var de = document.getElementById('fechaDe').value+' 00:00:00'; var a = $('#fechaA').val()+' 23:59:59'; aoData.push(  {"name": "min", "value": de } ); aoData.push(  {"name": "max", "value": a } ); },
 		"aLengthMenu": [[9, 25, 50, 100, -1], [9, 25, 50, 100, "Todos"]],
 		"oLanguage": { "sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "NO HAY MOVIMIENTOS REGISTRADOS", "sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": " TOTAL DE ESTUDIOS: _MAX_", "sSearch": "BUSCAR" }
@@ -353,16 +431,16 @@ $(document).ready(function(e) {
 			var iTotal = 0, iComision=0, iIngreso = 0, iVisitas = 0;
             for ( var i=iStart ; i<iEnd ; i++ )
             {
-				iVisitas  += aaData[ aiDisplay[i] ][1]*1;
+				        iVisitas  += aaData[ aiDisplay[i] ][1]*1;
                 iTotal    += aaData[ aiDisplay[i] ][2]*1;
-				iComision += aaData[ aiDisplay[i] ][3]*1;
-				iIngreso  += aaData[ aiDisplay[i] ][4]*1;
+                iComision += aaData[ aiDisplay[i] ][3]*1;
+                iIngreso  += aaData[ aiDisplay[i] ][4]*1;
             }
             var nCells = nRow.getElementsByTagName('th');
-			nCells[1].innerHTML = parseInt(iVisitas    * 100)/100;
+            nCells[1].innerHTML = parseInt(iVisitas    * 100)/100;
             nCells[2].innerHTML = parseInt(iTotal    * 100)/100;
-			nCells[3].innerHTML = parseInt(iComision * 100)/100;
-			nCells[4].innerHTML = '$'+parseInt(iIngreso  * 100)/100;
+            nCells[3].innerHTML = parseInt(iComision * 100)/100;
+            nCells[4].innerHTML = '$'+parseInt(iIngreso  * 100)/100;
 		},
 		"bJQueryUI": false, "bScrollInfinite": true, "bScrollCollapse": true, "bAutoWidth": false, "bStateSave": false, "bInfo": true, "bFilter": true, "aaSorting": [[0, "asc"]],
 		"aoColumns": [{ "bSortable": false }, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"}],
@@ -379,12 +457,12 @@ $(document).ready(function(e) {
 			var iComision=0, iIngreso = 0;
             for ( var i=iStart ; i<iEnd ; i++ )
             {
-				iComision += aaData[ aiDisplay[i] ][1]*1;
-				iIngreso  += aaData[ aiDisplay[i] ][2]*1;
+              iComision += aaData[ aiDisplay[i] ][1]*1;
+              iIngreso  += aaData[ aiDisplay[i] ][2]*1;
             }
             var nCells = nRow.getElementsByTagName('th');
-			nCells[1].innerHTML = parseInt(iComision * 100)/100;
-			nCells[2].innerHTML = '$'+parseInt(iIngreso  * 100)/100;
+            nCells[1].innerHTML = parseInt(iComision * 100)/100;
+            nCells[2].innerHTML = '$'+parseInt(iIngreso  * 100)/100;
 		},
 		"bJQueryUI": false, "bScrollInfinite": true, "bScrollCollapse": true, "bAutoWidth": false, "bStateSave": false, "bInfo": true, "bFilter": true, "aaSorting": [[0, "asc"]],
 		"aoColumns":[{ "bSortable": false },{ "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}],

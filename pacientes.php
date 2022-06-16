@@ -28,12 +28,23 @@
     <!-- Custom and plugin javascript -->
     <script src="js/inspinia.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
-    <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
+
+	<script src="DataTables-1.12/DataTables-1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="DataTables-1.12/DataTables-1.12.1/js/dataTables.bootstrap.min.js"></script>
+    <script src="DataTables-1.12/Select-1.4.0/js/dataTables.select.min.js"></script> 
+	
+    <script src="DataTables-1.12/Buttons-2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="DataTables-1.12/JSZip-2.5.0/jszip.min.js"></script>
+    <script src="DataTables-1.12/Buttons-2.2.3/js/buttons.html5.min.js"></script> 
+	<script src="DataTables-1.12/Buttons-2.2.3/js/buttons.print.min.js"></script> 
+
+    <!-- <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
     <script src="DataTables-1.10.13/media/js/dataTables.bootstrap.min.js"></script>
-    <script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
+    <script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script> -->
+    <!-- <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script> -->
+
 	<script src="TableTools-2.1.5/media/js/TableTools.js"></script>
     <script src="TableTools-2.1.5/media/js/ZeroClipboard.js"></script>
     <script src="bootstrap-validator/js/validator.js"></script>
@@ -59,9 +70,15 @@
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <link href="DataTables-1.10.13/media/css/dataTables.bootstrap.min.css" rel="stylesheet">
+
+	<link href="DataTables-1.12/DataTables-1.12.1/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="DataTables-1.12/Scroller-2.0.6/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <link href="DataTables-1.12/Select-1.4.0/css/select.bootstrap.min.css" rel="stylesheet"> 
+<!-- <link href="DataTables-1.10.13/media/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.10.13/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet">
-    <link href="DataTables-1.10.13/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet">
+    <link href="DataTables-1.10.13/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet"> -->
+
+
 	<link href="TableTools-2.1.5/media/css/TableTools.css" rel="stylesheet">
     <link href="bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">
     <link href="sweetalert/dist/sweetalert.css" rel="stylesheet">
@@ -556,29 +573,31 @@ $(document).ready(function(e) {
 	
 	var tamP = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-$('#breadc').height()-204;
 	var oTableP = $('#dataTablePrincipal').DataTable({
-		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
-		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
+		serverSide: true,
+		"sScrollY": tamP,
+		ordering: false, 
+		searching: true, 
+		scrollCollapse: false, 
+		"scrollX": true,
+		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+
+		 }, 
+		croller: false, 
+		responsive: true,
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, { "bVisible": true }, { "bVisible": true },
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": false }, { "bVisible": true }, { "bVisible": true },
 			{"bVisible":false}, {"bVisible":false },{ "bVisible": false }, { "bVisible": false }, { "bVisible": true }
 		],
 		"sDom": '<"filtro1Principal"f>Bl<"data_tPrincipal"t><"infoPrincipal"iS><"proc"p>',
-        buttons: [ {
-            extend: 'excelHtml5',
-            autoFilter: true,
-            sheetName: 'Pacientes'
-        } ],
+        buttons: [ 
+			// 'excel','pdf','print'
+	 ],
         lengthMenu: [[25, 100, -1], [25, 100, "Todo"]],
-		"oTableTools": {
-			"sSwfPath": "TableTools-2.1.5/media/swf/copy_csv_xls_pdf.swf",
-			"aButtons": [ 
-				{ "sExtends": "pdf", "sButtonText": "PDF", "sPdfOrientation": "landscape", "sPdfSize": "letter", "sPdfMessage": "Reporte de Ingresos." },
-				{ "sExtends": "xls", "sButtonText": "EXCEL" }, { "sExtends": "copy", "sButtonText": "COPIAR" },
-				{ "sExtends": "print", "sButtonText": "IMPRIMIR", "sInfo": "</br>VISTA DE IMPRESIÓN </br></br></br> Presione SCAPE al terminar." }
-			]
-		},
-		deferRender: true, select: false, "processing": false, "sAjaxSource": "datatable-serverside/pacientes.php",
+		deferRender: true, 
+		select: false, 
+		"processing": false, 
+		"sAjaxSource": "datatable-serverside/pacientes.php",
 		"fnServerParams": function (aoData, fnCallback) { 
 			var de = $('#top-search').val(), cv = $('#convenioP1').val(); 
 			aoData.push( {"name": "nombre", "value": de } );
@@ -588,7 +607,9 @@ $(document).ready(function(e) {
 			"sLengthMenu": "MOSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
 			"sInfo": "PACIENTES FILTRADOS: _END_", "sInfoEmpty": "NINGÚN PACIENTE FILTRADO.", "sInfoFiltered": " TOTAL DE PACIENTES: _MAX_", "sSearch": "",
 			"oPaginate": { "sNext": "<span class='paginacionPrincipal'>Siguiente</span>", "sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;" }
-		},"iDisplayLength": 25, paging: true,
+		},
+		"iDisplayLength": 25, 
+		paging: true,
 	});
 	
 	$('#clickme').click(function(e) { oTableP.draw(); }); window.setTimeout(function(){$('#clickme').click();},500);

@@ -27,11 +27,23 @@
     <!-- Custom and plugin javascript -->
     <script src="js/inspinia.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
-    <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
+
+	<script src="DataTables-1.12/DataTables-1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="DataTables-1.12/DataTables-1.12.1/js/dataTables.bootstrap.min.js"></script>
+    <script src="DataTables-1.12/Select-1.4.0/js/dataTables.select.min.js"></script> 
+    <script src="DataTables-1.12/Buttons-2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="DataTables-1.12/JSZip-2.5.0/jszip.min.js"></script>
+    <script src="DataTables-1.12/Buttons-2.2.3/js/buttons.html5.min.js"></script> 
+	<script src="DataTables-1.12/Buttons-2.2.3/js/buttons.print.min.js"></script> 
+	<script src="DataTables-1.12/pdfmake-0.1.36/pdfmake.min.js"></script> 
+	<script src="DataTables-1.12/pdfmake-0.1.36/vfs_fonts.js"></script> 
+    <!-- <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
     <script src="DataTables-1.10.13/media/js/dataTables.bootstrap.min.js"></script>
     <script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script>
 	<script src="TableTools-2.1.5/media/js/TableTools.js"></script>
-    <script src="TableTools-2.1.5/media/js/ZeroClipboard.js"></script>
+    <script src="TableTools-2.1.5/media/js/ZeroClipboard.js"></script> -->
+
+
     <script src="bootstrap-validator/js/validator.js"></script>
     <script src="sweetalert/dist/sweetalert.min.js"></script>
     <script src="chosen/chosen.jquery.js" type="text/javascript"></script>
@@ -56,10 +68,16 @@
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <link href="DataTables-1.10.13/media/css/dataTables.bootstrap.min.css" rel="stylesheet">
+
+	<link href="DataTables-1.12/DataTables-1.12.1/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="DataTables-1.12/Scroller-2.0.6/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <link href="DataTables-1.12/Select-1.4.0/css/select.bootstrap.min.css" rel="stylesheet"> 
+    <!-- <link href="DataTables-1.10.13/media/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.10.13/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.10.13/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet">
-	<link href="TableTools-2.1.5/media/css/TableTools.css" rel="stylesheet">
+	<link href="TableTools-2.1.5/media/css/TableTools.css" rel="stylesheet"> -->
+
+
     <link href="bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">
     <link href="sweetalert/dist/sweetalert.css" rel="stylesheet">
     <link rel="stylesheet" href="chosen/chosen.css">
@@ -113,7 +131,14 @@ $(document).ready(function(e) {
 	
 	var tamP = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-210;
 	var oTableP = $('#dataTablePrincipal').DataTable({
-		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true, scroller: false, responsive: true,
+		serverSide: true,
+		"sScrollY": tamP,
+		ordering: false, 
+		searching: true, 
+		scrollCollapse: false, 
+		"scrollX": true, 
+		scroller: false, 
+		responsive: true,
 		"fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay){
 			var iTotal = 0, iTotalTotal=0, iTotalCosto=0, iTotalUtilidad=0;
             for(var i=iStart ; i<iEnd ; i++){ 
@@ -131,17 +156,26 @@ $(document).ready(function(e) {
             nCells[6].innerHTML = redondear((parseFloat(iTotalUtilidad) * 100)/100,2);
 		},
 		"aoColumns":[ {"bVisible":true}, {"bVisible":true }, {"bVisible":true },{"bVisible":true }, {"bVisible":true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
-		"sDom": '<"filtro1Principal"f>rT<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
-		deferRender: true, select: false, "processing": false,
-		"oTableTools": {
-			"sSwfPath": "TableTools-2.1.5/media/swf/copy_csv_xls_pdf.swf",
-			"aButtons": [ 
-				{ "sExtends": "pdf", "sButtonText": "PDF", "sPdfOrientation": "landscape", "sPdfSize": "letter", "sPdfMessage": "Reporte de Ingresos." },
-				{ "sExtends": "xls", "sButtonText": "EXCEL" },
-				{ "sExtends": "copy", "sButtonText": "COPIAR" },
-				{ "sExtends": "print", "sButtonText": "IMPRIMIR", "sInfo": "</br>VISTA DE IMPRESIÓN </br></br></br> Presione SCAPE al terminar." }
-			]
-		},
+		"sDom": '<"filtro1Principal"f>Bl<"data_tPrincipal"t><"infoPrincipal"S>',
+		buttons: [ 
+			{ extend: 'copyHtml5', footer: true },
+            { extend: 'excelHtml5', footer: true },
+            // { extend: 'csvHtml5', footer: true },
+            { extend: 'pdfHtml5', footer: true }
+			],
+		// "sDom": '<"filtro1Principal"f>rT<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
+		deferRender: true, 
+		select: false, 
+		"processing": false,
+		// "oTableTools": {
+		// 	"sSwfPath": "TableTools-2.1.5/media/swf/copy_csv_xls_pdf.swf",
+		// 	"aButtons": [ 
+		// 		{ "sExtends": "pdf", "sButtonText": "PDF", "sPdfOrientation": "landscape", "sPdfSize": "letter", "sPdfMessage": "Reporte de Ingresos." },
+		// 		{ "sExtends": "xls", "sButtonText": "EXCEL" },
+		// 		{ "sExtends": "copy", "sButtonText": "COPIAR" },
+		// 		{ "sExtends": "print", "sButtonText": "IMPRIMIR", "sInfo": "</br>VISTA DE IMPRESIÓN </br></br></br> Presione SCAPE al terminar." }
+		// 	]
+		// },
 		"sAjaxSource": "farmacia/datatable-serverside/productividad_far.php",
 		"fnServerParams": function (aoData, fnCallback) { 
 			var nombre = $('#top-search').val();

@@ -140,7 +140,7 @@ require("../../funciones/php/values.php");
 		$rowLSN5 = mysql_fetch_row($resul_LogoS5); 
 		$rutaLogoS5 = '../../sucursales/documentos/files/'.$rowLSN5[0].'.'.$rowLSN5[1];
 		if($rowLSN5){
-			$logo5 = '<img src="sucursales/documentos/files/'.$rowLSN5[0].'.'.$rowLSN5[1].'" width="320">';
+			$logo5 = '<img src="sucursales/documentos/files/'.$rowLSN5[0].'.'.$rowLSN5[1].'" width="420">';
 		}else{
 			$logo5 = "";
 		}

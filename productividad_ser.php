@@ -27,11 +27,23 @@
     <!-- Custom and plugin javascript -->
     <script src="js/inspinia.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
-    <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
+	
+	<script src="DataTables-1.12/DataTables-1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="DataTables-1.12/DataTables-1.12.1/js/dataTables.bootstrap.min.js"></script>
+    <script src="DataTables-1.12/Select-1.4.0/js/dataTables.select.min.js"></script> 
+    <script src="DataTables-1.12/Buttons-2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="DataTables-1.12/JSZip-2.5.0/jszip.min.js"></script>
+    <script src="DataTables-1.12/Buttons-2.2.3/js/buttons.html5.min.js"></script> 
+	<script src="DataTables-1.12/Buttons-2.2.3/js/buttons.print.min.js"></script> 
+	<script src="DataTables-1.12/pdfmake-0.1.36/pdfmake.min.js"></script> 
+	<script src="DataTables-1.12/pdfmake-0.1.36/vfs_fonts.js"></script> 
+    <!-- <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
     <script src="DataTables-1.10.13/media/js/dataTables.bootstrap.min.js"></script>
     <script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script>
 	<script src="TableTools-2.1.5/media/js/TableTools.js"></script>
-    <script src="TableTools-2.1.5/media/js/ZeroClipboard.js"></script>
+    <script src="TableTools-2.1.5/media/js/ZeroClipboard.js"></script> -->
+
+
     <script src="bootstrap-validator/js/validator.js"></script>
     <script src="sweetalert/dist/sweetalert.min.js"></script>
     <script src="chosen/chosen.jquery.js" type="text/javascript"></script>
@@ -56,10 +68,16 @@
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <link href="DataTables-1.10.13/media/css/dataTables.bootstrap.min.css" rel="stylesheet">
+
+	<link href="DataTables-1.12/DataTables-1.12.1/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="DataTables-1.12/Scroller-2.0.6/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <link href="DataTables-1.12/Select-1.4.0/css/select.bootstrap.min.css" rel="stylesheet"> 
+    <!-- <link href="DataTables-1.10.13/media/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.10.13/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.10.13/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet">
-	<link href="TableTools-2.1.5/media/css/TableTools.css" rel="stylesheet">
+	<link href="TableTools-2.1.5/media/css/TableTools.css" rel="stylesheet"> -->
+
+
     <link href="bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">
     <link href="sweetalert/dist/sweetalert.css" rel="stylesheet">
     <link rel="stylesheet" href="chosen/chosen.css">
@@ -129,7 +147,14 @@ $(document).ready(function(e) {
 			}
 		},
 		"aoColumns":[ {"bVisible":true}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true } ],
-		"sDom": '<"filtro1Principal"f>rT<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
+		"sDom": '<"filtro1Principal"f>Bl<"data_tPrincipal"t><"infoPrincipal"S>',
+		buttons: [ 
+			{ extend: 'copyHtml5', footer: true },
+            { extend: 'excelHtml5', footer: true },
+            // { extend: 'csvHtml5', footer: true },
+            { extend: 'pdfHtml5', footer: true }
+		],
+		// "sDom": '<"filtro1Principal"f>rT<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false,
 		"oTableTools": {
 			"sSwfPath": "TableTools-2.1.5/media/swf/copy_csv_xls_pdf.swf",

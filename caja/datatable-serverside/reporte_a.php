@@ -147,35 +147,17 @@ require("../../funciones/php/values.php");
 		
 		$rowTC = mysql_fetch_row($resultTC); $rowT = mysql_fetch_row($resultT);
 		
-		$row[2] = $row[2]; $row[3] = $rowTC[0];
+		$row[2] = $row[2]; 
+        $row[3] = $rowTC[0];
 		
-		//if($rowT[0]==0){$row[0]="<span class='erase1'>$row[0]</span>";} 
+		$resultTam = mysql_query("SELECT vc.precio_vc FROM venta_conceptos vc left join conceptos c on c.id_to = vc.id_concepto_es left join pagos_ov p on p.referencia_pag = vc.referencia_vc WHERE c.linea_c = '$row[0]' AND vc.temporal_vc = 0 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
+		$totalAbonado =  0;
+        $totalSaldo = 0;
+        while ($filaAbonado = mysql_fetch_assoc($resultTam)) {
+            $totalAbonado = $totalAbonado +$filaAbonado['precio_vc'];
+        }
+        $row[4] = $totalAbonado;
 		
-		$resultTam = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 4 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
-		$rowTam = mysql_fetch_row($resultTam);
-		
-		/*$resultTim = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 2 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
-		$rowTim = mysql_fetch_row($resultTim);*/
-		
-		/*$resultTlb = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 1 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
-		$rowTlb = mysql_fetch_row($resultTlb);
-		
-		$resultTfa = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 3 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
-		$rowTfa = mysql_fetch_row($resultTfa);*/
-
-
-        $row[4] = $rowT[0];
-		/*				
-		//Asociación médica
-		if($row[6]==4){$row[4] = $rowTam[0];}
-		//Imagen
-		else if($row[6]==2){$row[4] = $rowTim[0];}
-		//Laboratorio
-		else if($row[6]==1){$row[4] = $rowTlb[0]; }
-		//Farmacia si es que hay conceptos de farmacia
-		else if($row[6]==3){$row[4] = $rowTfa[0];}
-		//Enfermería si es que hay conceptos de Enfermería
-        */
 				
 		$output['aaData'][] = $row;
     }
