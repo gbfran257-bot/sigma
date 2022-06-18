@@ -38,9 +38,6 @@
 	  <script src="DataTables-1.12/Buttons-2.2.3/js/buttons.print.min.js"></script> 
     <script src="DataTables-1.12/pdfmake-0.1.36/pdfmake.min.js"></script> 
 	  <script src="DataTables-1.12/pdfmake-0.1.36/vfs_fonts.js"></script> 
-    <!-- <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
-    <script src="DataTables-1.10.13/media/js/dataTables.bootstrap.min.js"></script>
-    <script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script> -->
     <script src="sweetalert/dist/sweetalert.min.js"></script>
     <script src="funciones/js/jquery.media.js" type="text/javascript"></script>
     <script src="funciones/js/jquery.printElement.min.js" type="text/javascript"></script>
@@ -48,21 +45,14 @@
     <script src="funciones/js/inicio.js"></script>
     <script src="funciones/js/caracteres.js"></script>
     <script src="funciones/js/stdlib.js"></script>
-    
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
-
     <link href="DataTables-1.12/DataTables-1.12.1/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.12/Scroller-2.0.6/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.12/Select-1.4.0/css/select.bootstrap.min.css" rel="stylesheet"> 
-
-<!--<link href="DataTables-1.10.13/media/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="DataTables-1.10.13/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet">
-    <link href="DataTables-1.10.13/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet"> -->
     <link href="bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">
     <link href="sweetalert/dist/sweetalert.css" rel="stylesheet">
 </head>
@@ -117,8 +107,39 @@
 
 <!-- Contenido -->
 <div id="div_tabla_pacientes" class="table-responsive" style="border:1px none red; vertical-align:top; margin-top:0px; font-size: 1.2em;">
-<h3 align="center">REPORTE DE CAJA GENERAL <button type="button" class="btn btn-primary btn-sm" id="imprimirReporte">IMPRIMIR</button></h3>
+<h3 align="center">REPORTE DE CAJA GENERAL 
+  <!-- <button type="button" class="btn btn-primary btn-sm" id="imprimirReporte">IMPRIMIR</button> -->
+</h3>
 <table width="100%" height="94.5%" class="" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td>
+      <table width="100%" id="dataTableOv" class="table">
+            <thead id="cabecera_tBusquedaP1">
+              <tr id="mymy1" class="bg-primary">
+                <th id="clickme1">#ORDENES DE VENTA</th>
+                <th nowrap>TOTAL</th>
+                <th nowrap>DESCUENTOS</th>
+                <th nowrap>ABONADO($)</th>
+                <th nowrap>SALDOS($)</th>
+              </tr>
+            </thead>
+            <tbody> 
+              <tr> 
+                <td class="dataTables_empty">Cargando datos del servidor</td> 
+              </tr> 
+            </tbody>
+            <tfoot>
+                <tr class="bg-primary">
+                  <th><input type="hidden" value=""></th>
+                  <th><input type="hidden" value=""></th>
+                  <th><input type="hidden" value=""></th>
+                  <th><input type="hidden" value=""></th>
+                  <th><input type="hidden" value=""></th>
+                </tr>
+            </tfoot>
+      </table>
+    </td>
+  </tr>
   <tr>
     <td valign="top" id="tabla1">
     	<table width="100%" id="dataTable" class="table" height="100%">
@@ -189,7 +210,7 @@
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none;" value="0.00"></th>
                 </tr>
             </tfoot>
-          </table>
+      </table>
     </td>
   </tr>
   <tr>
@@ -242,6 +263,42 @@ $(document).ready(function(e) {
 	$('#my_search').removeClass('hidden'); $.fn.datepicker.defaults.autoclose = true; $('#top-search').addClass('hidden');
 
 	var tam = ($('#referencia').height())*0.42, tam1 = ($('#referencia').height())*0.35;
+
+  oTableOV = $('#dataTableOv').dataTable({
+		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {},
+		"bJQueryUI":false, 
+    "bScrollCollapse":true, 
+    "sScrollY":tam1, 
+    "bAutoWidth":false, 
+    "bStateSave":false, 
+    "bInfo": true, 
+    "bFilter": false, 
+    "aaSorting": [[0, "asc"]],
+		"aoColumns":[
+			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}
+		],
+		"iDisplayLength": 50, 
+    "bLengthChange": false, 
+    "bProcessing": false, 
+    "bServerSide": true, 
+    // "sDom": '<"data_t"t><"info">',
+    "sDom": '<"filtro1Principal"f>Bl<"data_tPrincipal"t>',
+    buttons: [ 
+      { extend: 'copyHtml5', footer: true },
+      { extend: 'excelHtml5', footer: true },
+      // { extend: 'csvHtml5', footer: true },
+      { extend: 'pdfHtml5', footer: true }
+	 	],
+		"sAjaxSource": "caja/datatable-serverside/reporte_ov.php",
+		"fnServerParams": function (aoData, fnCallback){
+			var de = document.getElementById('fechaDe').value+' 00:00:00'; 
+      var a = $('#fechaA').val()+' 23:59:59';
+			aoData.push(  {"name": "min", "value": de } ); 
+      aoData.push(  {"name": "max", "value": a } );
+		},
+		"aLengthMenu": [[9, 25, 50, 100, -1], [9, 25, 50, 100, "Todos"]],
+		"oLanguage": { "sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN MOVIMIENTOS REGISTRADOS", "sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": " TOTAL DE ESTUDIOS: _MAX_", "sSearch": "BUSCAR" }
+	});
 	
 	oTable = $('#dataTable').dataTable({
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
@@ -481,10 +538,10 @@ $(document).ready(function(e) {
 	
 	$('#radio2').click(function(e){
 		$('#fechaDe').val('2000-01-01'); $('#fechaA').val('<?php echo date("Y-m-d"); ?>'); 
-		oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw();
+		oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTableOV.fnDraw();  oTable1X.fnDraw();
 	});
 	
-	$('#fechaDe').on('changeDate', function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
+	$('#fechaDe').on('changeDate', function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableOV.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
 	$("#fechaA").on('changeDate', function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
 });
 </script>
