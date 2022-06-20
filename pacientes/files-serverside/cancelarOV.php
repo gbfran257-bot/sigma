@@ -18,7 +18,11 @@ while($r = mysql_fetch_assoc($f)){
 		$values .= sqlValue($v, "text").", ";
 	}
 	$bk .= "borron, tiempo) values (".$values.sqlValue($_SESSION['id'], "int").", now())";
-	mysql_query($bk, $horizonte);
+	$res = mysql_query($bk, $horizonte);
+	if (!$res) {
+		die('Invalid: ' . mysql_error());
+	}
+	
 }
 //	ELIMINA DE LA TABLA DE VENTA_CONCEPTOS
  $sql = "delete from venta_conceptos where referencia_vc = $refe";
@@ -36,7 +40,10 @@ while($r = mysql_fetch_assoc($f)){
 			$values .= sqlValue($v, "text").", ";
 		}
 		$bk .= "borron, tiempo) values (".$values.sqlValue($_SESSION['id'], "int").", now())";
-		mysql_query($bk, $horizonte);
+		$res = mysql_query($bk, $horizonte);
+		if (!$res) {
+			die('Invalid query: ' . mysql_error());
+		}
 	}
 
 //	ELIMINA DE LA TABLA DE PAGOS_OV
@@ -55,7 +62,10 @@ while($r = mysql_fetch_assoc($f)){
 			$values .= sqlValue($v, "text").", ";
 		}
 		$bk .= "borron, tiempo, motivo_del) values (".$values.sqlValue($_SESSION['id'], "int").", now(), $motivo)";
-		mysql_query($bk, $horizonte);
+		$res = mysql_query($bk, $horizonte);
+		if (!$res) {
+			die('Invalid query: ' . mysql_error());
+		}
 
 //	ELIMINA DE LA TABLA DE ORDEN_VENTA
 		 $sql2 = "delete from orden_venta where referencia_ov = $refe limit 1";
