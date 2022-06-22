@@ -309,14 +309,14 @@ $(document).ready(function(e) {
                 iTotal    += aaData[ aiDisplay[i] ][2]*1;
                 iComision += aaData[ aiDisplay[i] ][3]*1;
                 iAbonado  += aaData[ aiDisplay[i] ][4]*1;
-                iSaldo  += aaData[ aiDisplay[i] ][5]*1;
+                // iSaldo  += aaData[ aiDisplay[i] ][5]*1;
             }
             var nCells = nRow.getElementsByTagName('th');
 			      nCells[1].innerHTML = parseInt(iVisitas  * 100)/100;
             nCells[2].innerHTML = parseInt(iTotal    * 100)/100;
             nCells[3].innerHTML = parseInt(iComision * 100)/100;
             nCells[4].innerHTML = '$'+parseInt(iAbonado  * 100)/100;
-            nCells[5].innerHTML = '$'+parseInt(iSaldo  * 100)/100;
+            // nCells[5].innerHTML = '$'+parseInt(iSaldo  * 100)/100;
 			
 			window.setTimeout(function(){$('.erase1').each(function(index, element) { $(this).parent().parent().remove(); });},200);
 		},
@@ -329,7 +329,7 @@ $(document).ready(function(e) {
     "bFilter": false, 
     "aaSorting": [[0, "asc"]],
 		"aoColumns":[
-			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"},	{ "bSortable": false, "sClass": "centrado"}
+			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"},	{ "bVisible": false}
 		],
 		"iDisplayLength": 50, 
     "bLengthChange": false, 
