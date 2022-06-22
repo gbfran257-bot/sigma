@@ -280,23 +280,29 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 		$('#myModal2').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal2").empty(); });
 	}});
 }
+var unaSolaVez = 0;
 function poner_medi(id_mh,med,paciente){
+	unaSolaVez = 0;
 	swal({
 	  title: "¿APLICAR " + med + " AL PACIENTE "+ paciente +"?", text: "", type: "warning", showCancelButton: true, confirmButtonColor: "#DD6B55",
 	  confirmButtonText: "Aplicar", cancelButtonText: "Cancelar", closeOnConfirm: false
 	},
 	function(){
+		$(".sa-confirm-button-container > button").html("Cargando...").attr("disabled", "disabled"); 
+		unaSolaVez++;
 		var datos = {id_mh:id_mh, id_u:$('#id_user').val()}
-		$.post('hospital/files-serverside/aplicar_medi.php',datos).done(function( data ) {
-			 if (data==1){
-				  	$('#clickmeMdtos').click();
-					swal({ title: "", type: "success", text: "El medicamento ha sido aplicado al paciente.", timer: 1800, showConfirmButton: false });
-			}else if(data==2){
-				swal({ title: "", type: "error", text: "El medicamento no cuenta con existencias.", timer: 1800, showConfirmButton: false });
-			}else{
-				alert(data);
-			} 
-		});
+		if(unaSolaVez == 1){
+			$.post('hospital/files-serverside/aplicar_medi.php',datos).done(function( data ) {
+				if (data==1){
+						$('#clickmeMdtos').click();
+						swal({ title: "", type: "success", text: "El medicamento ha sido aplicado al paciente.", timer: 1800, showConfirmButton: false });
+				}else if(data==2){
+					swal({ title: "", type: "error", text: "El medicamento no cuenta con existencias.", timer: 1800, showConfirmButton: false });
+				}else{
+					alert(data);
+				} 
+			});
+		}
 	});
 }
 function suspender_medi(id_mh, medicamento, paciente){
