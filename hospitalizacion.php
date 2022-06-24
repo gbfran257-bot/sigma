@@ -418,6 +418,7 @@ function nuevo_medicamento(id_h, id_p, nombre_p, id_s){ $('#myModal2').modal('hi
 				});
 				
 				$('#btn_save_medi').click(function(e){
+					$('#btn_save_medi').addClass('disabled');
 					if($('#id_medi').val()!=''){ guardar_add_medi(id_h, id_p, $('#id_medi').val(), $('#indicacion_m').val()); }
 				});
 			},300);
