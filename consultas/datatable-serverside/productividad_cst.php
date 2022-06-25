@@ -3,7 +3,7 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('v.id_vc', 'e.concepto_to', 'count(v.id_vc) as suma', 'v.id_vc', 'concat(t.abreviacion_ti," ",m.nombre_u, " ", m.apaterno_u)', 'm.amaterno_u', 'sum(v.precio_vc)', 'sum(v.honorarios)', 'e.c_costo','e.linea_c','v.id_concepto_es');
+	$aColumns = array('v.id_vc', 'e.concepto_to','v.id_vc','v.id_vc', 'count(v.id_vc) as suma', 'v.id_vc', 'concat(t.abreviacion_ti," ",m.nombre_u, " ", m.apaterno_u)', 'm.amaterno_u', 'sum(v.precio_vc)', 'sum(v.honorarios)', 'e.c_costo','e.linea_c','v.id_concepto_es');
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -72,6 +72,7 @@ require("../../funciones/php/values.php");
         $sWhere
         $sOrder
         $sLimit";
+        // echo $sQuery;
 
     $rResult = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
      
@@ -97,9 +98,24 @@ require("../../funciones/php/values.php");
         "iTotalDisplayRecords" => $iFilteredTotal,
         "aaData" => array()
     );
+
+    $ventas= mysql_query("SELECT SQL_CALC_FOUND_ROWS count(v.id_vc) as sumaV, sum(v.honorarios) as hono
+    FROM venta_conceptos v left join orden_venta o on o.referencia_ov = v.referencia_vc left join conceptos e on e.id_to = v.id_concepto_es left JOIN pacientes p ON p.id_p = v.id_paciente_vc left join usuarios m on m.id_u = v.usuarioEdo3_e left join sucursales s on s.id_su = o.sucursal_ov left join titulos t on t.id_ti = m.id_titulo_u WHERE v.fecha_venta_vc  BETWEEN '$_GET[min]' AND '$_GET[max]' and e.id_tipo_concepto_to = 1  and v.temporal_vc=0 group by v.usuarioEdo3_e,e.concepto_to order by sumaV desc", $horizonte) or die(mysql_error());
+    $contV = 0;
+    $ventasA = array();
+    $honorariosA = array();
+    while($filaVenta = mysql_fetch_assoc($ventas)){
+        $ventasA[$contV] = $filaVenta['sumaV'];
+        $honorariosA[$contV] = $filaVenta['hono'];
+        $contV++;
+    }
+
 	$hh=0;
     $resultT = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es where e.id_tipo_concepto_to = 1 and v.temporal_vc=0 and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die(mysql_error());
     $rowT = mysql_fetch_row($resultT);
+    $resultT1 = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es where e.id_tipo_concepto_to = 1 and v.temporal_vc=0 and estatus_vc = 6 and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die(mysql_error());
+    $rowT1 = mysql_fetch_row($resultT1);
+    $contV1 =0;
     while ( $aRow = mysql_fetch_array( $rResult ) )
     {
 		$hh++;
@@ -112,18 +128,20 @@ require("../../funciones/php/values.php");
 		
 		mysql_select_db($database_horizonte, $horizonte);
         
-		$suma = $row[2];
+		$suma = $row[4];
         // $row[2]= "<span class='btn btn-primary' onclick='detalles($row[9],\"$_GET[min]\",\"$_GET[max]\")'>$suma</span>";
-
-		$porce = round(($suma*100)/$rowT[0],1);
+        $porceV =round(($ventasA[$contV1]*100)/$rowT[0],1);
+		$porce = round(($suma*100)/$rowT1[0],1);
+        $row[2] = $ventasA[$contV1];
+		$row[3] ="<span>$porceV %</span>";
+		$row[5] = "<span>$porce %</span>";
 		
-		$row[3] = "<span>$porce %</span>";
-		
-		$row[4] = "<span>$row[4] $row[5]</span>";
-	    $row[5] = $row[6];
-        $row[6] = $row[7];
-        $row[7] = $row[8]*$row[2];
-        $row[8] = $row[5] - $row[6] - $row[7];
+		$row[6] = "<span>$row[6] $row[7]</span>";
+	    $row[7] = $row[8];
+        $row[8] = $honorariosA[$contV1];
+        $row[9] = $row[10]*$row[4];
+        $row[10] = $row[7] - $row[8] - $row[9];
+        $contV1++;
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );
