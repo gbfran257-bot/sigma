@@ -231,6 +231,7 @@
                                     <li><a href="catalogo_sat.php"><i class="fa fa-briefcase"></i> SAT</a></li>
                                     <li><a href="catalogo_regimen.php"><i class="fa fa-briefcase"></i> REGIMEN</a></li>
                                     <li><a href="catalogo_t_pago.php"><i class="fa fa-dollar"></i> T. PAGO</a></li>
+                                    <li><a href="catalogo_diagnosticos.php"><i class="fa fa-dollar"></i> DIAGNOSTICOS</a></li>
                                 </ul>
                             </li>
                         <?php }?>
