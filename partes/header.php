@@ -205,7 +205,8 @@
                             <a href="#"><i class="fa fa-dollar"></i> PRODUCTIVIDAD <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level collapse">
                                 <?php if($permisos[7]){?><li style="white-space:nowrap;"><a href="productividad_rec.php"><i class="fa fa-line-chart"></i> P. RECEPCIÓN</a></li> <?php }?>
-                                <?php if($permisos[11]){?> <li><a href="productividad_cst.php"><i class="fa fa-list-alt"></i> P. CONSULTAS</a></li> <?php }?>
+                                <?php if($permisos[11]){?> <li><a href="productividad_cst.php"><i class="fa fa-list-alt"></i> P. CONSULTAS FINALIZADAS</a></li> <?php }?>
+                                <?php if($permisos[11]){?> <li><a href="productividad_cst_vts.php"><i class="fa fa-list-alt"></i> P. CONSULTAS VENTAS</a></li> <?php }?>
                                 <?php if($permisos[21]){?> <li><a href="productividad_img.php"><i class="fa fa-list-alt"></i> P. IMAGEN</a></li> <?php }?>
                                 <?php if($permisos[27]){?> <li><a href="productividad_lab.php"><i class="fa fa-list-alt"></i> P. LABORATORIO</a></li> <?php } ?>
                                 <?php if($permisos[31]){?> <li><a href="productividad_ser.php"><i class="fa fa-list-alt"></i> P. SERVICIOS</a></li> <?php } ?>
