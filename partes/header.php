@@ -81,6 +81,7 @@
                         <?php if($permisos[9]){?> <li><a href="agenda_consultas.php"><i class="fa fa-calendar"></i> AGENDA CONSULTAS</a></li><?php }?>
                         <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>-->
                         <?php if($permisos[10]){?> <li><a href="catalogo_consultas.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li> <?php }?>
+                        <li><a href="consulta_diagosticos.php"><i class="fa fa-list-alt"></i>REPORTE DIAGOSTICOS</a></li>
                         
                         <!--<li><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
                     </ul>
