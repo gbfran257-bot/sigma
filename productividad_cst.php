@@ -127,7 +127,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay){
 			var iTotal = 0, iTotalV = 0, iTotalTotal=0, iTotalCosto=0, iTotalUtilidad=0, honorarios=0;
             for(var i=iStart ; i<iEnd ; i++){ 
-				iTotalV += aaData[ aiDisplay[i] ][2]*1; 
+				// iTotalV += aaData[ aiDisplay[i] ][2]*1; 
 				iTotal += aaData[ aiDisplay[i] ][4]*1; 
 				iTotalTotal += aaData[ aiDisplay[i] ][7]*1;
 				honorarios += aaData[ aiDisplay[i] ][8]*1;
@@ -137,14 +137,14 @@ $(document).ready(function(e) {
 
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
-			nCells[2].innerHTML = redondear(parseFloat(iTotalV * 100)/100,2);
-            nCells[4].innerHTML = redondear(parseFloat(iTotal * 100)/100,2);
-			nCells[7].innerHTML = redondear((parseFloat(iTotalTotal) * 100)/100,2);
-			nCells[8].innerHTML = redondear((parseFloat(honorarios) * 100)/100,2);
-            nCells[9].innerHTML = redondear((parseFloat(iTotalCosto) * 100)/100,2);
-            nCells[10].innerHTML = redondear((parseFloat(iTotalUtilidad) * 100)/100,2);
+			// nCells[2].innerHTML = redondear(parseFloat(iTotalV * 100)/100,2);
+            nCells[2].innerHTML = redondear(parseFloat(iTotal * 100)/100,2);
+			nCells[5].innerHTML = redondear((parseFloat(iTotalTotal) * 100)/100,2);
+			nCells[6].innerHTML = redondear((parseFloat(honorarios) * 100)/100,2);
+            nCells[7].innerHTML = redondear((parseFloat(iTotalCosto) * 100)/100,2);
+            nCells[8].innerHTML = redondear((parseFloat(iTotalUtilidad) * 100)/100,2);
 		},
-		"aoColumns":[ {"bVisible":true}, {"bVisible":true },{ "bVisible": true },{"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
+		"aoColumns":[ {"bVisible":true}, {"bVisible":true },{ "bVisible": false },{"bVisible":false },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
 		// "sDom": '<"filtro1Principal"f>rT<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		"sDom": '<"filtro1Principal"f>Bl<"data_tPrincipal"t><"infoPrincipal"S>',
 		buttons: [ 

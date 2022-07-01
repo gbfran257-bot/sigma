@@ -45,7 +45,11 @@
             	<td width="1%" nowrap id="" align="left">REF:</td>
                 <td id="referenciaT" align="left">&nbsp;</td>
             </tr>
-        </table> 
+            <tr style="display:">
+            	<td width="1%" nowrap id="" align="left">F. ORDEN VENTA:</td>
+                <td id="fechaOv" align="left">&nbsp;</td>
+            </tr>
+        </table>
     </td>
   </tr>
   <tr>

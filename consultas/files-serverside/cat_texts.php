@@ -100,7 +100,7 @@ require("../../funciones/php/values.php");
 		$rowLSN1 = mysql_fetch_row($resul_LogoS1); 
 		$rutaLogoS1 = '../../sucursales/documentos/files/'.$rowLSN1[0].'.'.$rowLSN1[1];
 		if($rowLSN1){
-			$logo1 = '<img src="sucursales/documentos/files/'.$rowLSN1[0].'.'.$rowLSN1[1].'" width="190">';
+			$logo1 = '<img src="sucursales/documentos/files/'.$rowLSN1[0].'.'.$rowLSN1[1].'" width="150">';
 		}else{
 			$logo1 = "";
 		}
@@ -110,7 +110,7 @@ require("../../funciones/php/values.php");
 		$rowLSN2 = mysql_fetch_row($resul_LogoS2); 
 		$rutaLogoS2 = '../../sucursales/documentos/files/'.$rowLSN2[0].'.'.$rowLSN2[1];
 		if($rowLSN2){
-			$logo2 = '<img src="sucursales/documentos/files/'.$rowLSN2[0].'.'.$rowLSN2[1].'" width="190">';
+			$logo2 = '<img src="sucursales/documentos/files/'.$rowLSN2[0].'.'.$rowLSN2[1].'" width="150">';
 		}else{
 			$logo2 = "";
 		}
@@ -120,7 +120,7 @@ require("../../funciones/php/values.php");
 		$rowLSN3 = mysql_fetch_row($resul_LogoS3); 
 		$rutaLogoS3 = '../../sucursales/documentos/files/'.$rowLSN3[0].'.'.$rowLSN3[1];
 		if($rowLSN3){
-			$logo3 = '<img src="sucursales/documentos/files/'.$rowLSN3[0].'.'.$rowLSN3[1].'" width="190">';
+			$logo3 = '<img src="sucursales/documentos/files/'.$rowLSN3[0].'.'.$rowLSN3[1].'" width="150">';
 		}else{
 			$logo3 = "";
 		}
@@ -130,7 +130,7 @@ require("../../funciones/php/values.php");
 		$rowLSN4 = mysql_fetch_row($resul_LogoS4); 
 		$rutaLogoS4 = '../../sucursales/documentos/files/'.$rowLSN4[0].'.'.$rowLSN4[1];
 		if($rowLSN4){
-			$logo4 = '<img src="sucursales/documentos/files/'.$rowLSN4[0].'.'.$rowLSN4[1].'" width="190">';
+			$logo4 = '<img src="sucursales/documentos/files/'.$rowLSN4[0].'.'.$rowLSN4[1].'" width="150">';
 		}else{
 			$logo4 = "";
 		}
@@ -140,7 +140,7 @@ require("../../funciones/php/values.php");
 		$rowLSN5 = mysql_fetch_row($resul_LogoS5); 
 		$rutaLogoS5 = '../../sucursales/documentos/files/'.$rowLSN5[0].'.'.$rowLSN5[1];
 		if($rowLSN5){
-			$logo5 = '<img src="sucursales/documentos/files/'.$rowLSN5[0].'.'.$rowLSN5[1].'" width="420">';
+			$logo5 = '<img src="sucursales/documentos/files/'.$rowLSN5[0].'.'.$rowLSN5[1].'" width="400">';
 		}else{
 			$logo5 = "";
 		}

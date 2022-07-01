@@ -80,6 +80,7 @@
                         <?php if($permisos[9]){?> <li><a href="agenda_consultas.php"><i class="fa fa-calendar"></i> AGENDA CONSULTAS</a></li><?php }?>
                         <li><a href="consulta_edades.php"><i class="fa fa-list-alt"></i> REPORTE EDADES</a></li>
                         <?php if($permisos[10]){?> <li><a href="catalogo_consultas.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li> <?php }?>
+                        <li><a href="consulta_diagosticos.php"><i class="fa fa-list-alt"></i>REPORTE DIAGOSTICOS</a></li>
                         
                         <!--<li><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
                     </ul>
@@ -203,7 +204,8 @@
                             <a href="#"><i class="fa fa-dollar"></i> PRODUCTIVIDAD <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level collapse">
                                 <?php if($permisos[7]){?><li style="white-space:nowrap;"><a href="productividad_rec.php"><i class="fa fa-line-chart"></i> P. RECEPCIÓN</a></li> <?php }?>
-                                <?php if($permisos[11]){?> <li><a href="productividad_cst.php"><i class="fa fa-list-alt"></i> P. CONSULTAS</a></li> <?php }?>
+                                <?php if($permisos[11]){?> <li><a href="productividad_cst.php"><i class="fa fa-list-alt"></i> P. CONSULTAS FINALIZADAS</a></li> <?php }?>
+                                <?php if($permisos[11]){?> <li><a href="productividad_cst_vts.php"><i class="fa fa-list-alt"></i> P. CONSULTAS VENTAS</a></li> <?php }?>
                                 <?php if($permisos[21]){?> <li><a href="productividad_img.php"><i class="fa fa-list-alt"></i> P. IMAGEN</a></li> <?php }?>
                                 <?php if($permisos[27]){?> <li><a href="productividad_lab.php"><i class="fa fa-list-alt"></i> P. LABORATORIO</a></li> <?php } ?>
                                 <?php if($permisos[31]){?> <li><a href="productividad_ser.php"><i class="fa fa-list-alt"></i> P. SERVICIOS</a></li> <?php } ?>
@@ -230,6 +232,7 @@
                                     <li><a href="catalogo_sat.php"><i class="fa fa-briefcase"></i> SAT</a></li>
                                     <li><a href="catalogo_regimen.php"><i class="fa fa-briefcase"></i> REGIMEN</a></li>
                                     <li><a href="catalogo_t_pago.php"><i class="fa fa-dollar"></i> T. PAGO</a></li>
+                                    <li><a href="catalogo_diagnosticos.php"><i class="fa fa-dollar"></i> DIAGNOSTICOS</a></li>
                                 </ul>
                             </li>
                         <?php }?>
