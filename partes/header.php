@@ -67,7 +67,6 @@
                         <?php }?>
                         <?php if($permisos[5]){?> <li><a href="agenda.php"><i class="fa fa-calendar"></i> AGENDA</a></li> <?php }?>
                         <?php if($permisos[6]){?> <li style="white-space:nowrap;"><a href="membresias.php"><i class="fa fa-address-card"></i> MEMBRESÍAS</a></li> <?php }?>
-                        
                     </ul>
                 </li>
             <?php }?>
@@ -79,7 +78,7 @@
                     <ul class="nav nav-second-level collapse">
                         <?php if($permisos[8]){?> <li style="white-space:nowrap;"><a href="consultas.php"><i class="fa fa-user-md"></i> CONSULTAS MÉDICAS</a></li> <?php }?>
                         <?php if($permisos[9]){?> <li><a href="agenda_consultas.php"><i class="fa fa-calendar"></i> AGENDA CONSULTAS</a></li><?php }?>
-                        <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>-->
+                        <li><a href="consulta_edades.php"><i class="fa fa-list-alt"></i> REPORTE EDADES</a></li>
                         <?php if($permisos[10]){?> <li><a href="catalogo_consultas.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li> <?php }?>
                         
                         <!--<li><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
