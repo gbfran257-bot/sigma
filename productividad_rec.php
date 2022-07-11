@@ -71,6 +71,10 @@
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
     <link href="c3/c3.css" rel="stylesheet">
+	<script type="text/javascript" src="js/moment.min.js"></script>
+	<script src="js/bootstrap-datetimepicker.min.js" crossorigin="anonymous"></script>
+	<script src="js/locale.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css" crossorigin="anonymous" />
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
@@ -142,7 +146,7 @@ $(document).ready(function(e) {
 		"sAjaxSource": "pacientes/datatable-serverside/productividad_rec.php",
 		"fnServerParams": function (aoData, fnCallback) { 
 			var nombre = $('#top-search').val();
-			var de = $('#fechaDe').val()+' 00:00:00'; var a = $('#fechaA').val()+' 23:59:59';
+			var de = $('#fechaDe').val(); var a = $('#fechaA').val();
 			var acceso = $('#acc_user').val(); var idU = $('#id_user').val();
 			
 			aoData.push( {"name": "nombre", "value": nombre } );
@@ -178,7 +182,7 @@ $(document).ready(function(e) {
     }).focus();
 	$('.filtro1Principal').addClass('hidden');
 	
-	$('.infoPrincipal').append('<div id="divRangoFechas" style="text-align:left;"> <table width="100%" border="0" cellpadding="4" cellspacing="2" style="color:black; float:left;"> <tr> <td width="10px">De &nbsp;</td> <td width="1%"> <input name="fechaDe" class="fechas form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd" style="width:100px;" type="text" id="fechaDe" value="<?php echo date("Y-m-d"); ?>" readonly > </td> <td width="10px">&nbsp; A &nbsp;</td> <td width="1%"> <input style="width:100px;" name="fechaA" type="text" class="fechas form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd" id="fechaA" value="<?php echo date("Y-m-d"); ?>" readonly> </td> <td id="rangosFechas">&nbsp; <input type="radio" class="rad" id="radio1" name="radio" /><label for="radio1">&nbsp; Hoy &nbsp;</label> <input type="radio" class="rad" id="radio2" name="radio" /><label for="radio2">&nbsp; Todos &nbsp;</label> </td> </tr> </table> </div>');
+	$('.infoPrincipal').append('<div id="divRangoFechas" style="text-align:left;"> <table width="100%" border="0" cellpadding="4" cellspacing="2" style="color:black; float:left;"> <tr> <td width="10px">De &nbsp;</td> <td width="1%"><input name="fechaDe" class="fechas form-control datetimepicker-input" style="width:140px;" type="text" id="fechaDe" data-toggle="datetimepicker" data-target="#fechaDe" value="<?php echo date("Y-m-d ")."00:00"; ?>"/></td> <td width="10px">&nbsp; A &nbsp;</td> <td width="1%"> <input style="width:140px;" name="fechaA" type="text" class="fechas form-control" data-toggle="datetimepicker" id="fechaA" value="<?php echo date("Y-m-d ")."23:59"; ?>"/> </td> <td id="rangosFechas">&nbsp; <input type="radio" class="rad" id="radio1" name="radio" /><label for="radio1">&nbsp; Hoy &nbsp;</label> <input type="radio" class="rad" id="radio2" name="radio" /><label for="radio2">&nbsp; Todos &nbsp;</label> </td> </tr> </table> </div>');
 	
 	$('#radio1').click(function(e){
 		$('#fechaDe').val('<?php echo date("Y-m-d"); ?>');$('#fechaA').val('<?php echo date("Y-m-d"); ?>'); oTableP.draw();
@@ -187,8 +191,20 @@ $(document).ready(function(e) {
 	$('#radio2').click(function(e){
 		$('#fechaDe').val('2000-01-01'); $('#fechaA').val('<?php echo date("Y-m-d"); ?>'); oTableP.draw();
 	});
-	
-	$('#fechaDe').on('changeDate', function(e) { oTableP.draw(); });
-	$("#fechaA").on('changeDate', function(e) { oTableP.draw(); });
+	$("#fechaDe, #fechaA").datetimepicker({
+		locale: 'es-MX',
+		format: 'YYYY-MM-DD HH:mm',
+		useCurrent: false
+	});
+	$('#fechaA').data("DateTimePicker").minDate($('#fechaDe').val());
+	$('#fechaDe').data("DateTimePicker").maxDate($('#fechaA').val());
+	$('#fechaDe').on('dp.change', function(e) { 
+        $('#fechaA').data("DateTimePicker").minDate(e.date);
+		oTableP.draw();
+	});
+	$('#fechaA').on('dp.change', function(e) { 
+        $('#fechaDe').data("DateTimePicker").maxDate(e.date);
+		oTableP.draw();
+	});
 });
 </script>
