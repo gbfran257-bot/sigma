@@ -189,10 +189,13 @@ require_once("../../funciones/php/values.php");
 		mysql_select_db($database_horizonte, $horizonte); 
 		$resultCOV = mysql_query("SELECT count(id_vc) from venta_conceptos where referencia_vc = '$row[2]' and estatus_vc > 1 ", $horizonte) or die(mysql_error()); 
 		$rowCOV = mysql_fetch_row($resultCOV);
-		
-		// if($rowCOV[0]==0){
+
+		mysql_select_db($database_horizonte, $horizonte); 
+		$ovPre = mysql_query("SELECT count(id_ov) from orden_venta_del where referencia_ov = '$row[2]' AND  estatus = 0", $horizonte) or die(mysql_error()); 
+		$rOv = mysql_fetch_row($ovPre);
+		if(!$rOv[0]){
 			$row[10] = "<span lang='$refe' style='cursor:pointer; text-decoration:underline;' onClick='cancelar_ov($row[12], $nombreP,this.lang)'>Cancelar</span>";
-		// }else{$row[10] = "<span'>-</span>";}
+		}else{$row[10] = "<span'>-</span>";}
 		
 		$no_temp = '"'.$row[19].'"'; $no_refe = '"'.$row[2].'"';
 		
