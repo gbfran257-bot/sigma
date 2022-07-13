@@ -68,7 +68,7 @@
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
-<a href="ordenes_venta_a.php" class="btn btn-primary">APROBADAS</a>
+<a href="ordenes_venta_a.php" class="btn btn-primary" style="position: absolute;left: 250px;z-index:9;">APROBADAS</a>
 <div id="div_tabla_pacientes" class="" style="border:1px none red; vertical-align:top; margin-top:0px; margin-botom:5px font-size: 1.2em;">
 <table id="dataTable" width="90%" height="100%" class="table table-striped table-hover">
     <thead>

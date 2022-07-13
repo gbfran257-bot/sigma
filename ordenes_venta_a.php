@@ -65,11 +65,14 @@
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
     <link href="c3/c3.css" rel="stylesheet">
+	<script type="text/javascript" src="js/moment.min.js"></script>
+	<script src="js/bootstrap-datetimepicker.min.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css" crossorigin="anonymous" />
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
 <?php if($_SESSION['MM_UserGroup'] == 1){ ?>
-<a href="ordenes_venta_a_del.php" id="btnCanceladas" class="btn btn-danger">CANCELADAS</a>
+<a href="ordenes_venta_a_del.php" id="btnCanceladas" class="btn btn-danger" style="position: absolute;left: 250px;z-index:9;">CANCELADAS</a>
 <?php  }  ?>
 <div id="div_tabla_pacientes" class="" style="border:1px none red; vertical-align:top; margin-top:5px; margin-botom:10px font-size: 1.2em;">
 <table id="dataTable" width="90%" height="100%" class="table table-striped table-hover">
@@ -114,17 +117,17 @@
 		</tr>
 	</tfoot>
   </table>
-  
+
   <div id="divRangoFechas" style="border:2px none red; display:block; width:100%; float:left;">
   <table width="100%" border="0" class="table-condensed">
   <tr>
     <td width="10px">De </td>
     <td width="1%">
-        <input name="fechaDe" class="fechas form-control input-sm" data-provide="datepicker" data-date-format="yyyy-mm-dd" style="width:100px;" type="text" id="fechaDe" value="<?php echo date("Y-m-d"); ?>" readonly >
+	<input name="fechaDe" class="fechass form-control datetimepicker-input" style="width:140px;" type="text" id="fechaDe" data-toggle="datetimepicker" data-target="#fechaDe" value="<?php echo date("Y-m-d ")."00:00"; ?>"/>
     </td>
     <td width="10px">A </td>
     <td width="1%">
-    	<input style="width:100px;" name="fechaA" type="text" class="fechas form-control input-sm" data-provide="datepicker" data-date-format="yyyy-mm-dd" id="fechaA" value="<?php echo date("Y-m-d"); ?>" readonly>
+	<input style="width:140px;" name="fechaA" type="text" class="fechass form-control" data-toggle="datetimepicker" id="fechaA" value="<?php echo date("Y-m-d ")."23:59"; ?>"/>
     </td>
     <td id="rangosFechas">
     	<input type="radio" class="rad" id="radio1" name="radio" /><label for="radio1">Hoy</label>
@@ -140,6 +143,7 @@
 <?php include_once 'partes/footer.php'; ?>
 
 <script>
+	var oTable;
 $(document).ready(function(e) {
 	//breadcrumb
 	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>ADMINISTRACIÓN</li><li>CORTE DE CAJA</li><li class="active"><strong>ÓRDENES DE VENTA</strong></li>');
@@ -169,7 +173,7 @@ $(document).ready(function(e) {
 	var tam = $('#referencia').height() - 242-$('#breadc').height();
 	var wT = $('#referencia').width()*0.9;
 	//$('#dataTable').css('width',100);
-	var oTable = $('#dataTable').dataTable({
+	oTable = $('#dataTable').dataTable({
 		//funciones para calcular los totales en los campos del pie de página
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
 			//$('.cambiar_suc').change(function() { alert( "Handler for .change() called." ); });
@@ -228,8 +232,8 @@ $(document).ready(function(e) {
 		},
 		"sAjaxSource": "corte_caja/reportes/datatable-serverside/reportes_ov_a.php",
  		"fnServerParams": function (aoData, fnCallback) {
-			   var de = document.getElementById('fechaDe').value+' 00:00:00';
-			   var a = $('#fechaA').val()+' 23:59:59';
+			   var de = $('#fechaDe').val();
+			   var a = $('#fechaA').val();
 			   var saldos = $('#saldos').val();
 			   var filtroDepto = $('#miFiltroDeptos').val();
 			   var usuario = $('#id_user').val();
@@ -253,12 +257,17 @@ $(document).ready(function(e) {
 	$('#nuevoVale').click(function(event) { event.preventDefault(); });
 	
 	$('#radio1').click(function(e) { 
-		$('#fechaDe').val('<?php echo date("Y-m-d"); ?>'); $('#fechaA').val('<?php echo date("Y-m-d"); ?>'); oTable.fnDraw(); 
+		$('#fechaDe').val('<?php echo date("Y-m-d"); ?> 00:00'); $('#fechaA').val('<?php echo date("Y-m-d"); ?> 23:59'); oTable.fnDraw(); 
 	});
 	$('#radio2').click(function(e) { 
-		$('#fechaDe').val('2000-01-01'); $('#fechaA').val('<?php echo date("Y-m-d"); ?>'); oTable.fnDraw(); 
+		$('#fechaDe').val('2000-01-01 00:00'); $('#fechaA').val('<?php echo date("Y-m-d "); ?> 23:59'); oTable.fnDraw(); 
 	});
-	$( "#fechaDe" ).datepicker({ 
+	$("#fechaDe, #fechaA").datetimepicker({
+		locale: 'es-MX',
+		format: 'YYYY-MM-DD HH:mm',
+		useCurrent: false
+	});
+	/*$( "#fechaDe" ).datepicker({ 
 		defaultDate: "-1", maxDate: +0, 
 		onClose: function( selectedDate ) { $( "#fechaA" ).datepicker( "option", "minDate", selectedDate ); }, 
 		"onSelect": function(date) { min = date+' 00:00:00'; oTable.fnDraw(); } 
@@ -268,7 +277,17 @@ $(document).ready(function(e) {
 		defaultDate: "+0", maxDate: +0, 
 		onClose: function(selectedDate){ $( "#fechaDe" ).datepicker( "option", "maxDate", selectedDate ); }, 
 		"onSelect": function(date) { max = date+' 23:59:59'; oTable.fnDraw(); } 
-	}).css('max-width','100px');
+	}).css('max-width','100px');]*/
+	$('#fechaA').data("DateTimePicker").minDate($('#fechaDe').val());
+	$('#fechaDe').data("DateTimePicker").maxDate($('#fechaA').val());
+	$('#fechaDe').on('dp.change', function(e) { 
+        $('#fechaA').data("DateTimePicker").minDate(e.date);
+		oTable.fnDraw();
+	});
+	$('#fechaA').on('dp.change', function(e) { 
+        $('#fechaDe').data("DateTimePicker").maxDate(e.date);
+		oTable.fnDraw();
+	});
 	
 	$('#saldos').click(function(e) {
         if($(this).prop('checked')==true){ $(this).val('SI'); }else{$(this).val('NO');}
