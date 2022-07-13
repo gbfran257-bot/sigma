@@ -2804,7 +2804,7 @@ function cancelar_ov(idVC,nombreP,refe){
 			},
 			function(){
 			var datosCOV = {refe:refe, motivo: $("#m_cancelacion").val()}
-				$.post('pacientes/files-serverside/cancelarOV.php',datosCOV).done(function( data ) { 
+				$.post('pacientes/files-serverside/pre_cancelarOV.php',datosCOV).done(function( data ) { 
 					if (data==1){ window.setTimeout(function(){$('#clickme_hv, #clickme').click(); $('#myModal2').modal('hide');},300);
 						swal({
 						title: "", type: "success", text: "La orden de venta se ha cancelado", timer: 2000, showConfirmButton: false

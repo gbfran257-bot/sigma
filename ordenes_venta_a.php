@@ -68,7 +68,9 @@
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
+<?php if($_SESSION['MM_UserGroup'] == 1){ ?>
 <a href="ordenes_venta_a_del.php" id="btnCanceladas" class="btn btn-danger">CANCELADAS</a>
+<?php  }  ?>
 <div id="div_tabla_pacientes" class="" style="border:1px none red; vertical-align:top; margin-top:5px; margin-botom:10px font-size: 1.2em;">
 <table id="dataTable" width="90%" height="100%" class="table table-striped table-hover">
     <thead>

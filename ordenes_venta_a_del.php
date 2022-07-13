@@ -88,6 +88,7 @@
         <th width="10px">ABONADO</th>
         <th width="10px">SALDO</th>
         <th width="10px">PAGADO</th>
+		<th width="10px">ESTATUS</th>
       </tr>
     </thead>
     <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
@@ -323,6 +324,47 @@ function ver_ov(ref){
 			$('#myModal3').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModal3").empty(); });
 		}); 
 	}});
+}
+
+function autorizar(id, ref){
+	swal({
+	  title: "AUTORIZAR CANCELACIÓN",
+	  text: "¿Estás seguro que desea autorizar la cancelacion orden de venta?", 
+	  type: "",
+	  showCancelButton: true, 
+	  confirmButtonColor: "#DD6B55", 
+	  confirmButtonText: "Autorizar", 
+	  closeOnConfirm: false,
+	  closeOnCancel: false,
+	  cancelButtonText: "Negar"
+	},
+	function(isConfirm){
+		if (isConfirm) {
+			var datos = {id_ov:id, id_u: $('#id_user').val(), autorizado:10, ref: ref}
+			$.post('caja/files-serverside/autorizar.php',datos).done(function(data){
+				if(data==1){ $('#clickme').click();
+					swal({ title: "¡CONFIRMACIÓN!", type: "success", text: "La sucursal de la orden ha sido actualizada.", timer: 1800, showConfirmButton: false }); return;
+				}else{alert(data);}
+			});
+		} else {
+			swal({ title: "", type: "", text: "¿Negar cancelación o postergar?", 
+				showConfirmButton: true, 
+				showCancelButton: true,
+				closeOnConfirm: false,
+				confirmButtonText: "Negar Cancelación", 
+				cancelButtonText: "Postergar"
+			},
+			function(){
+				var datos1 = {id_ov:id, id_u: $('#id_user').val(), autorizado:"NO", ref: ref}
+				$.post('caja/files-serverside/autorizar.php',datos1).done(function(data){
+					if(data==1){ $('#clickme').click();
+						swal({ title: "¡CONFIRMACIÓN!", type: "success", text: "Se nego la cancelación de la orden de venta.", timer: 1800, showConfirmButton: false }); return;
+					}else{alert(data);}
+				});
+			});
+		}
+	});
+
 }
 	
 function cambiar_suc(val, temp){
