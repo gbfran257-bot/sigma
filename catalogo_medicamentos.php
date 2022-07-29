@@ -280,7 +280,7 @@ function nuevoEstudio(){
 		$('#myModalx').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModalx").empty(); });
 	} });
 }
-function verMedicamento(id_medi, nombre_m){
+function verMedicamento(id_medi, nombre_m, id_su){
 	$("#myModalx").load("farmacia/medicamentos/htmls/ficha_medicamento_c.php",function(response,status,xhr){ if(status=="success"){
 		$('#id_user_reg_m').val($('#id_user').val()); $('#id_med_up').val(id_medi); $('#medicamento_base').removeClass('hidden');
 		$('#titulo_modal').text('FICHA DEL MEDICAMENTO '+nombre_m); $('#guardarM').text('Actualizar');
@@ -327,7 +327,7 @@ function verMedicamento(id_medi, nombre_m){
 			$('.ocul').addClass('hidden'); $('#tex_dosis,#precio_p_m').val(''); $('#form-medicamento').validator('update')
 		});$('.ocul').removeClass('hidden');
 		
-		var datosM = {id_medi:id_medi}
+		var datosM = {id_medi:id_medi, id_su:id_su}
 		$.post('farmacia/medicamentos/files-serverside/infoMedicamentos.php',datosM).done(function(data){
 			var datos = data.split('}{[_}');
 			
@@ -339,8 +339,10 @@ function verMedicamento(id_medi, nombre_m){
 			$("#sat").html("<option value='"+datos[22]+"' selected>"+datos[23]+"</option>");
 			$("#sat").select2("data", {
 				id: datos[22],
-				text: datos[32]
+				text: datos[23]
 			});
+			$('#max_p').val(datos[24]);
+			$('#min_p').val(datos[25]);
 			$("#sat").trigger("change");
 			$("#linea_med").val(datos[21]);
 			$('#cat_riesgo_e, #tex_cat_re').text(datos[5]); //alert(rowData[0][4]);
@@ -350,6 +352,7 @@ function verMedicamento(id_medi, nombre_m){
 			$('#id_mg').val(datos[14]); $('#nombre_c_m').val(datos[15]); $('#precio_p_m').val(datos[16]);
 			$('#precio_h_m').val(datos[17]); $('#precio_m_m').val(datos[18]); $('#costo_m').val(datos[19]);
 			$('#codigo_b_m').val(datos[20]); $('#form-medicamento').validator('update'); $('#tex_base').text(datos[0]);
+
 		});
 		
 		$('#form-medicamento').validator().on('submit', function (e) {

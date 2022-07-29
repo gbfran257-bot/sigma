@@ -102,10 +102,18 @@
                   </div>
                   <div class="form-group">
                   	<div class="col-md-2 col-sm-2 col-xs-2 col-lg-2 text-primary" align="right">* CONVENIO</div>
-                  	<div class="col-sm-5 col-xs-5 col-md-5 col-lg-5">
+                  	<div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
                          <select name='miSucursalNS' class="form-control input-sm" id='miSucursalNS' required></select>
                     </div>
-                  	<div class="col-sm-5 col-xs-5 col-md-5 col-lg-5">
+                    <div class="col-md-1 col-sm-1 col-xs-1 col-lg-1 text-primary" align="right">* MAX</div>
+                  	<div class="col-sm-1 col-xs-1 col-md-1 col-lg-1">
+                         <input type="number" class="form-control input-sm"  min="2" name="max_p" id="max_p" >
+                    </div>
+                    <div class="col-md-1 col-sm-1 col-xs-1 col-lg-1 text-primary" align="right">* MIN</div>
+                  	<div class="col-sm-1 col-xs-1 col-md-1 col-lg-1">
+                    <input type="number" class="form-control input-sm"  min="1" name="min_p" id="min_p" >
+                    </div>
+                  	<div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">
                     <select name="sat" id="sat" class="form-control form-control-sm" ></select>
                     </div>
                   </div>
