@@ -6,7 +6,49 @@ require("../../funciones/php/values.php");
 		
 	$now = date('d/m/Y H:i:s');
 
-	$dia = date('d'); $mes = strtoupper(date('M')); $anio = date('Y'); $hora = date('H:i:s'); $mes1 = date('m');
+	$dia = date('d'); $mes = strtoupper(date('F')); $anio = date('Y'); $hora = date('H:i:s'); $mes1 = date('m');
+
+	switch ($mes) {
+		case 'JANUARY':
+			$mes = "ENERO";
+			break;
+		case 'FEBRUARY':
+			$mes = "FEBRERO";
+			break;
+		case 'MARCH':
+			$mes = "MARZO";
+			break;
+		case 'APRIL':
+			$mes = "ABRIL";
+			break;
+		case 'MAY':
+			$mes = "MAYO";
+			break;
+		case 'JUNE':
+			$mes = "JUNIO";
+			break;
+		case 'JULY':
+			$mes = "JULIO";
+			break;
+		case 'AUGUST':
+			$mes = "AGOSTO";
+			break;
+		case 'SEPTEMBER':
+			$mes = "SEPTIEMBRE";
+			break;
+		case 'OCTOBER':
+			$mes = "OCTUBRE";
+			break;
+		case 'NOVEMBER':
+			$mes = "NOVIEMBRE";
+			break;
+		case 'DECEMBER':
+			$mes = "DICIEMBRE";
+			break;
+		default:
+			# code...
+			break;
+	}
 	
 	$fecha_hora = 'FECHA Y HORA DE ELABORACIÓN: '.$now;
 
