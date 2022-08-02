@@ -295,11 +295,12 @@ function nuevaCompra(){
 			console.log(COMPRA);
 		});
 
-		$('#producto').change(function(e){
-			var datoPro = { prod : $('#producto').val() }
+		$('#producto, #sucursal').change(function(e){
+			var datoPro = { prod : $('#producto').val(), id_su : $('#sucursal').val()}
 			$.post('farmacia/compras/files-serverside/precioProd.php', datoPro).done(function( data ) {
 				var datos = data.split('}{[_}');
-
+				$('#cantMax').text("Cantidad maxima de producto: "+datos[2]);
+				$('#cantMin').text("Cantidad minima de producto: "+datos[3]);
 				$('#productoName').text(datos[0]);
 				$('#precioPublicoProd').text("Precio público: $" + datos[1]);
 			});
