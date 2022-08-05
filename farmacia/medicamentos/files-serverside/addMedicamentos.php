@@ -12,6 +12,8 @@ require("../../../funciones/php/values.php");
  $precio_h = sqlValue($_POST["precio_h_m"], "double");
  $precio_m = sqlValue($_POST["precio_m_m"], "double");
  $codigo_b = sqlValue($_POST["codigo_b_m"], "text");
+ $max = sqlValue($_POST["max_p"], "int");
+ $min = sqlValue($_POST["min_p"], "int");
  
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
  $noTemp = sqlValue(date('Y-m-d-H-i-s'), "date");
@@ -34,7 +36,28 @@ require("../../../funciones/php/values.php");
 	  
  $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	
- if (!$update) {echo $sql;} else{ echo 1; }
+ if (!$update) {
+	echo $sql;
+}else{
+	mysql_select_db($database_horizonte, $horizonte);
+	$id_con = "SELECT id_to from conceptos where concepto_to = $nombre_c limit 1";
+	$id_concepto = mysql_query($id_con, $horizonte) or die (mysql_error());
+	$id_c = mysql_fetch_row($id_concepto);
+	if($id_c[0] != ''){
+		$id_suc = $_POST['miSucursalNS'];
+		mysql_select_db($database_horizonte, $horizonte);
+		$insertar = "INSERT INTO max_min_stock (id_suc, id_producto, max_mm, min_mm, fecha_reg, id_u) VALUES ($id_suc, $id_c[0], $max, $min, $now, $idU)";
+		$new_max_min = mysql_query($insertar, $horizonte) or die (mysql_error());
+		if($new_max_min){
+			echo 1;
+		}else{ 
+			echo $insertar;
+		}
+	}else{
+		// echo "no etro al if";
+		echo $id_c[0];
+	}
+}
 
  //Cerrar conexión a la Base de Datos
  mysql_close($horizonte);

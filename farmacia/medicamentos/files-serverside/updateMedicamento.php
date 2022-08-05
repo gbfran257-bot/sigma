@@ -13,6 +13,8 @@ require("../../../funciones/php/values.php");
  $precio_m = sqlValue($_POST["precio_m_m"], "double");
  $codigo_b = sqlValue($_POST["codigo_b_m"], "text");
  $id_medi = sqlValue($_POST["id_med_up"], "int");
+ $max = sqlValue($_POST["max_p"], "int");
+ $min = sqlValue($_POST["min_p"], "int");
  
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
  $sat = sqlValue($_POST["sat"], "text");
@@ -33,7 +35,26 @@ require("../../../funciones/php/values.php");
 	  
  $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	
- if (!$update) {echo $sql;} else{ echo 1; }
+if (!$update) {
+	echo $sql;
+}else{
+	mysql_select_db($database_horizonte, $horizonte);
+	$id_su = $_POST['miSucursalNS'];
+	$result3 = mysql_query("SELECT id from max_min_stock m where m.id_producto = $id_medi and m.id_suc = $id_su", $horizonte) or die(mysql_error());
+	$row3 = mysql_fetch_row($result3); 
+	if($row3[0] != ''){
+		$sql1 ="UPDATE max_min_stock SET max_mm = $max, min_mm = $min, fecha_reg = $now, id_u = $idU where id = $row3[0] limit 1";
+		
+	}else{
+		$sql1 = "INSERT INTO max_min_stock (id_suc, id_producto, max_mm, min_mm, fecha_reg, id_u) VALUES ($id_su, $id_medi, $max, $min, $now, $idU)";
+	}
+	$new_max_min = mysql_query($sql1, $horizonte) or die (mysql_error());
+	if(!$new_max_min){
+		echo $sql1 ;
+	}else{
+		echo 1;
+	}
+}
 
  //Cerrar conexión a la Base de Datos
  mysql_close($horizonte);

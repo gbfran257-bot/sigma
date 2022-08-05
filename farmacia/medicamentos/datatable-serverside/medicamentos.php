@@ -136,7 +136,7 @@ require("../../../Connections/horizonte.php");
 		
 		$nombreP = '"'.$row[2].'"';
 		
-		$row[2] = "<span id='$row[14]' onClick='verMedicamento(this.id, $nombreP);' style='cursor:pointer; text-decoration:underline;'>$row[2]</span>";
+		$row[2] = "<span id='$row[14]' onClick='verMedicamento(this.id, $nombreP, $id_su);' style='cursor:pointer; text-decoration:underline;'>$row[2]</span>";
         if($existencias != ''){
             $row[12]= $existencias;
         }else{

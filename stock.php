@@ -80,16 +80,16 @@
 <thead id="cabecera_tBusquedaPrincipal">
   <tr role="row" class="bg-primary">
     <th id="clickme" style="vertical-align:middle;">#</th>
-	<th id="clickme" style="vertical-align:middle;">REFERENCIA</th>
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>PRODUCTO</th>
     <th style="vertical-align:middle; white-space:nowrap;" nowrap>LOTE</th>
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>SUCURSAL</th>
     <th style="vertical-align:middle;"><input type="checkbox" id="caducidad" value="" /> FECHA CADUCIDAD </th>
 	<th style="vertical-align:middle;">USUARIO REGISTRO</th>
     <th style="vertical-align:middle;">FECHA ENTRADA</th>
-	<th style="vertical-align:middle; white-space:nowrap;" nowrap>CANTIDAD</th>
-    <th style="vertical-align:middle;">COSTO UNITARIO</th>
+    <th style="vertical-align:middle;">MAX</th>
+	<th style="vertical-align:middle;">MIN</th>
     <th style="vertical-align:middle;"><input type="checkbox" id="existencias" value="" /> EXIST LOTE  </th>
+	<th style="vertical-align:middle;" nowrap>COSTO UNITARIO</th>
     <th style="vertical-align:middle;" nowrap>PRECIO PÚBLICO</th>
     <th style="vertical-align:middle;" nowrap>TOTAL COSTO</th>
 	<th style="vertical-align:middle;" nowrap>TOTAL PRECIO</th>
@@ -99,15 +99,14 @@
 	<tfoot>
         <tr class="bg-primary">
             <th></th>
-			<th><input type="text" class="form-control input-sm" placeholder="Referencia" style="max-width:90px;"/></th>
 			<th><input type="text" class="form-control input-sm" placeholder="Producto" /></th>
             <th><input type="text" class="form-control input-sm" placeholder="Lote" style="max-width:90px;"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="Sucursal" style="max-width:100px;"/></th>
 			<th></th>
 			<th><input type="text" class="form-control input-sm" placeholder="Usuario" style="max-width:100px;"/></th>
 			<th></th>
-            <th></th>
-
+			<th></th>
+			<th></th>
 			<th></th>
             <th></th>
             <th></th>
@@ -138,21 +137,24 @@ $(document).ready(function(e) {
 
 			var insumosT = 0, iCostoTotal=0, iPrecioTotal=0;
             for(var i=iStart ; i<iEnd ; i++){ 
-				insumosT += aaData[ aiDisplay[i] ][10]*1; 
-				iCostoTotal += aaData[ aiDisplay[i] ][12]*1;
-				iPrecioTotal += aaData[ aiDisplay[i] ][13]*1;
+				// insumosT += aaData[ aiDisplay[i] ][8]*1; 
+				iCostoTotal += aaData[ aiDisplay[i] ][11]*1;
+				iPrecioTotal += aaData[ aiDisplay[i] ][12]*1;
 				}
 
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
-            nCells[10].innerHTML = redondear(parseFloat(insumosT * 100)/100,2);
-			nCells[12].innerHTML = redondear((parseFloat(iCostoTotal) * 100)/100,2);
-            nCells[13].innerHTML = redondear((parseFloat(iPrecioTotal) * 100)/100,2);
+            // nCells[8].innerHTML = redondear(parseFloat(insumosT * 100)/100,2);
+			nCells[11].innerHTML = redondear((parseFloat(iCostoTotal) * 100)/100,2);
+            nCells[12].innerHTML = redondear((parseFloat(iPrecioTotal) * 100)/100,2);
             // nCells[6].innerHTML = redondear((parseFloat(iTotalUtilidad) * 100)/100,2);
 		 }, scroller: false, responsive: true,
 		"aoColumns": [
-			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
-			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true},
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, 
+			{"bVisible":false}, {"bVisible":true}, {"bVisible":true},
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, 
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 

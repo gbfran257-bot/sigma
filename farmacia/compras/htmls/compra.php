@@ -38,7 +38,9 @@ $id_del_user = $_SESSION['id'];
                 </div>
                 <div class="form-group col-md-4 col-sm-4 text-primary">
                     <label  id='productoName'  class="col-form-label"></label> <br>
-                    <label id="precioPublicoProd" class="col-form-label"></label>
+                    <label id="precioPublicoProd" class="col-form-label"></label> <br>
+                    <label id="cantMax" class="col-form-label"></label> 
+                    <label id="cantMin" class="col-form-label"></label>
                 </div>
             </div>
             <div class="row">
