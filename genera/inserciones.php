@@ -52,4 +52,14 @@
 	echo '<option value="{et_logo3}">LOGO SUCURSAL 3</option>';
 	echo '<option value="{et_logo4}">LOGO SUCURSAL 4</option>';
 	echo '<option value="{et_logo5}">LOGO SUCURSAL 5</option>';
+	echo '<option value="{et_logo6}">LOGO SUCURSAL 6</option>';
+	echo '<option value="{et_logo7}">LOGO SUCURSAL 7</option>';
+	echo '<option value="{et_logo8}">LOGO SUCURSAL 8</option>';
+	echo '<option value="{et_logo9}">LOGO SUCURSAL 9</option>';
+	echo '<option value="{et_logo10}">LOGO SUCURSAL 10</option>';
+	echo '<option value="{et_logo11}">LOGO SUCURSAL 11</option>';
+	echo '<option value="{et_logo12}">LOGO SUCURSAL 12</option>';
+	echo '<option value="{et_logo13}">LOGO SUCURSAL 13</option>';
+	echo '<option value="{et_logo14}">LOGO SUCURSAL 14</option>';
+	echo '<option value="{et_logo15}">LOGO SUCURSAL 15</option>';	
 ?>

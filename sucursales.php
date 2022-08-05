@@ -200,6 +200,46 @@ function sucu_logo(idDoc){
 							$('#val_5').addClass('hidden');
 							console.log(dato[cont_d]);
 							break;
+						case '6':
+							$('#val_6').addClass('hidden');
+							console.log(dato[cont_d]);
+							break;
+						case '7':
+							$('#val_7').addClass('hidden');
+							console.log(dato[cont_d]);
+							break;
+						case '8':
+							$('#val_8').addClass('hidden');
+							console.log(dato[cont_d]);
+							break;
+						case '9':
+							$('#val_9').addClass('hidden');
+							console.log(dato[cont_d]);
+							break;
+						case '10':
+							$('#val_10').addClass('hidden');
+							console.log(dato[cont_d]);
+							break;
+						case '11':
+							$('#val_11').addClass('hidden');
+							console.log(dato[cont_d]);
+							break;
+						case '12':
+							$('#val_12').addClass('hidden');
+							console.log(dato[cont_d]);
+							break;
+						case '13':
+							$('#val_13').addClass('hidden');
+							console.log(dato[cont_d]);
+							break;
+						case '14':
+							$('#val_14').addClass('hidden');
+							console.log(dato[cont_d]);
+							break;
+						case '15':
+							$('#val_15').addClass('hidden');
+							console.log(dato[cont_d]);
+							break;
 						
 						default:
 							break;

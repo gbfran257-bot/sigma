@@ -6,7 +6,49 @@ require("../../funciones/php/values.php");
 		
 	$now = date('d/m/Y H:i:s');
 
-	$dia = date('d'); $mes = strtoupper(date('M')); $anio = date('Y'); $hora = date('H:i:s'); $mes1 = date('m');
+	$dia = date('d'); $mes = strtoupper(date('F')); $anio = date('Y'); $hora = date('H:i:s'); $mes1 = date('m');
+
+	switch ($mes) {
+		case 'JANUARY':
+			$mes = "ENERO";
+			break;
+		case 'FEBRUARY':
+			$mes = "FEBRERO";
+			break;
+		case 'MARCH':
+			$mes = "MARZO";
+			break;
+		case 'APRIL':
+			$mes = "ABRIL";
+			break;
+		case 'MAY':
+			$mes = "MAYO";
+			break;
+		case 'JUNE':
+			$mes = "JUNIO";
+			break;
+		case 'JULY':
+			$mes = "JULIO";
+			break;
+		case 'AUGUST':
+			$mes = "AGOSTO";
+			break;
+		case 'SEPTEMBER':
+			$mes = "SEPTIEMBRE";
+			break;
+		case 'OCTOBER':
+			$mes = "OCTUBRE";
+			break;
+		case 'NOVEMBER':
+			$mes = "NOVIEMBRE";
+			break;
+		case 'DECEMBER':
+			$mes = "DICIEMBRE";
+			break;
+		default:
+			# code...
+			break;
+	}
 	
 	$fecha_hora = 'FECHA Y HORA DE ELABORACIÓN: '.$now;
 
@@ -94,57 +136,40 @@ require("../../funciones/php/values.php");
 	}else{$encaNM1 = "";}
 
 	//LOGOS SUCURSALES NUMERADOS 
-		//LOGO 1
+	$px1 = "80";
+	$px2 = "80";
+	$px3 = "80";
+	$px4 = "80";
+	$px5 = "200";
+	$px6 = "200";
+	$px7 = "200";
+	$px8 = "200";
+	$px9 = "200";
+	$px10 = "200";
+	$px11 = "200";
+	$px12 = "200";
+	$px13 = "200";
+	$px14 = "400";
+	$px15 = "400";
+
+	$logosA = array($px1,$px2,$px3,$px4,$px5,$px6,$px7,$px8,$px9,$px10,$px11,$px12,$px13,$px14,$px15);
+	$logosA1 =array();
+	$l =0;
+	for ($i=1; $i < 16; $i++) { 
 		mysql_select_db($database_horizonte, $horizonte); //Logo de la sucursal
-		$resul_LogoS1 = mysql_query("SELECT id_do, ext_do from documentos where aleatorio_do = $idSucu and que_es_do = 'DOCUMENTO' and tipo_quien_do = 2 and num_suc_do = 1 ", $horizonte) or die (mysql_error());
-		$rowLSN1 = mysql_fetch_row($resul_LogoS1); 
-		$rutaLogoS1 = '../../sucursales/documentos/files/'.$rowLSN1[0].'.'.$rowLSN1[1];
-		if($rowLSN1){
-			$logo1 = '<img src="sucursales/documentos/files/'.$rowLSN1[0].'.'.$rowLSN1[1].'" width="150">';
+		$resul_LogoS1 = mysql_query("SELECT id_do, ext_do from documentos where aleatorio_do = $idSucu and que_es_do = 'DOCUMENTO' and tipo_quien_do = 2 and num_suc_do = $i ", $horizonte) or die (mysql_error());
+		$rowLogo = mysql_fetch_row($resul_LogoS1); 
+		if($rowLogo){
+			$conPx = $l + 1;
+			$logo= '<img src="sucursales/documentos/files/'.$rowLogo[0].'.'.$rowLogo[1].'" width="'.$logosA[$l].'">';
 		}else{
-			$logo1 = "";
+			$logo = "";
 		}
-		//LOGO 2
-		mysql_select_db($database_horizonte, $horizonte); //Logo de la sucursal
-		$resul_LogoS2 = mysql_query("SELECT id_do, ext_do from documentos where aleatorio_do = $idSucu and que_es_do = 'DOCUMENTO' and tipo_quien_do = 2 and num_suc_do = 2 order by id_do desc limit 1", $horizonte) or die (mysql_error());
-		$rowLSN2 = mysql_fetch_row($resul_LogoS2); 
-		$rutaLogoS2 = '../../sucursales/documentos/files/'.$rowLSN2[0].'.'.$rowLSN2[1];
-		if($rowLSN2){
-			$logo2 = '<img src="sucursales/documentos/files/'.$rowLSN2[0].'.'.$rowLSN2[1].'" width="150">';
-		}else{
-			$logo2 = "";
-		}
-		//LOGO 3
-		mysql_select_db($database_horizonte, $horizonte); //Logo de la sucursal
-		$resul_LogoS3 = mysql_query("SELECT id_do, ext_do from documentos where aleatorio_do = $idSucu and que_es_do = 'DOCUMENTO' and tipo_quien_do = 2 and num_suc_do = 3 order by id_do desc limit 1", $horizonte) or die (mysql_error());
-		$rowLSN3 = mysql_fetch_row($resul_LogoS3); 
-		$rutaLogoS3 = '../../sucursales/documentos/files/'.$rowLSN3[0].'.'.$rowLSN3[1];
-		if($rowLSN3){
-			$logo3 = '<img src="sucursales/documentos/files/'.$rowLSN3[0].'.'.$rowLSN3[1].'" width="150">';
-		}else{
-			$logo3 = "";
-		}
-		//LOGO 4
-		mysql_select_db($database_horizonte, $horizonte); //Logo de la sucursal
-		$resul_LogoS4 = mysql_query("SELECT id_do, ext_do from documentos where aleatorio_do = $idSucu and que_es_do = 'DOCUMENTO' and tipo_quien_do = 2 and num_suc_do = 4 order by id_do desc limit 1", $horizonte) or die (mysql_error());
-		$rowLSN4 = mysql_fetch_row($resul_LogoS4); 
-		$rutaLogoS4 = '../../sucursales/documentos/files/'.$rowLSN4[0].'.'.$rowLSN4[1];
-		if($rowLSN4){
-			$logo4 = '<img src="sucursales/documentos/files/'.$rowLSN4[0].'.'.$rowLSN4[1].'" width="150">';
-		}else{
-			$logo4 = "";
-		}
-		//LOGO 5
-		mysql_select_db($database_horizonte, $horizonte); //Logo de la sucursal
-		$resul_LogoS5 = mysql_query("SELECT id_do, ext_do from documentos where aleatorio_do = $idSucu and que_es_do = 'DOCUMENTO' and tipo_quien_do = 2 and num_suc_do = 5 order by id_do desc limit 1", $horizonte) or die (mysql_error());
-		$rowLSN5 = mysql_fetch_row($resul_LogoS5); 
-		$rutaLogoS5 = '../../sucursales/documentos/files/'.$rowLSN5[0].'.'.$rowLSN5[1];
-		if($rowLSN5){
-			$logo5 = '<img src="sucursales/documentos/files/'.$rowLSN5[0].'.'.$rowLSN5[1].'" width="400">';
-		}else{
-			$logo5 = "";
-		}
-	
+		$logosA1[$l]= $logo;	
+		$l++;
+	} //fin LOGOS SUCURSALES NUMERADOS 
+
+
 	$nombreF5 = '../../imagenes/generales/logo_medicina.png';
 	if(file_exists($nombreF5)){
 		$logoMedicina = '<img src="imagenes/generales/logo_medicina.png" width="100" style="border:transparent;">';
@@ -511,7 +536,7 @@ require("../../funciones/php/values.php");
 		$row[4].'-{]'.$rowM[7].'-{]'.$rowVC[1].'-{]'.$rowVC[2].' '.$rowVC[3].'-{]'.$mes.'-{]'.$myFirma.'-{]'.$rowFrts[0].'-{]'.$rowVC[4].'-{]'.$row1s[0].
 		'-{]'.$row1s[1].'-{]'.$row1s[3].'-{]'.$row1s[2].'-{]'.$row1s[4].' ºC'.'-{]'.$rowVC[5].'-{]'.$rowVC[6].'-{]'.$rowVC[7].' '.$rowVC[8].'-{]'.$encaNM.
 		'-{]'.$encaNM1.'-{]'.$encaNM2.'-{]'.$encaNM3.'-{]'.$logoMedicina.'-{]'.$rowVC[10].'-{]'.$rowVC[11].'-{]'.$rowVC_1[0].'-{]'.$lista.'-{]'.$lista1.
-		'-{]'.$historia.'-{]'.$ahf.'-{]'.$apnp.'-{]'.$app.'-{]'.$ago.'-{]'.$feNac .'-{]'. $dx_cont .'-{]'.$md_cont .'-{]'.$row1s[15].'-{]'.$logo1.'-{]'.$logo2 .'-{]'. $logo3 .'-{]'.$logo4 .'-{]'.$logo5;
+		'-{]'.$historia.'-{]'.$ahf.'-{]'.$apnp.'-{]'.$app.'-{]'.$ago.'-{]'.$feNac .'-{]'. $dx_cont .'-{]'.$md_cont .'-{]'.$row1s[15].'-{]'.$logosA1[0].'-{]'.$logosA1[1] .'-{]'. $logosA1[2] .'-{]'.$logosA1[3] .'-{]'.$logosA1[4].'-{]'.$logosA1[5].'-{]'.$logosA1[6] .'-{]'. $logosA1[7] .'-{]'.$logosA1[8] .'-{]'.$logosA1[9].'-{]'.$logosA1[10].'-{]'.$logosA1[11] .'-{]'. $logosA1[12] .'-{]'.$logosA1[13] .'-{]'.$logosA1[14];
 	
 	echo $datos;
  	//Cerrar conexión a la Base de Datos
