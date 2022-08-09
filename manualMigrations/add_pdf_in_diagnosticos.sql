@@ -1,0 +1,1 @@
+ALTER TABLE `diagnosticos` ADD `pdf` TEXT NULL DEFAULT NULL AFTER `fecha_di`;

@@ -78,6 +78,7 @@
         </button>
 	</th>
 	<th style="vertical-align:middle;" class="text-center">DIAGNOSTICO</th>
+	<th style="vertical-align:middle;" class="text-center">GPI</th>
 	<th style="vertical-align:middle;" class="text-center">ELIMINAR</th>
 	</tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
@@ -86,6 +87,7 @@
 		<th></th>
 		<th><input type="text" class="form-control input-sm" placeholder="CLAVE"/></th>
 		<th><input type="text" class="form-control input-sm" placeholder="DIAGNOSTICO"/></th>
+		<th></th>
 		<th></th>
 	</tr>
 </tfoot>
@@ -106,7 +108,7 @@ $(document).ready(function(e) {
 	var oTableP = $('#dataTablePrincipal').DataTable({
 		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
-		"aoColumns":[ {"bVisible":true}, {"bVisible":true }, {"bVisible":true }, { "bVisible": true }],
+		"aoColumns":[ {"bVisible":true}, {"bVisible":true }, {"bVisible":true },{"bVisible":true },{ "bVisible": true }],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
 		"sAjaxSource": "catalogos/diagnosticos/datatable-serverside/diagnosticos.php",
@@ -155,23 +157,57 @@ function editar(id_um, unidad){0
 			var datosI = data1.split('*}');
 			 $('#clave').val(datosI[0]);
 			 $('#diagno').val(datosI[1]);
-
+			 if(datosI[2] != ''){
+				$('#deleteGpi').removeClass("hidden");
+				$('#gpi').addClass('hidden');
+				$('#lblgpi').addClass('hidden');
+			 }else{
+				$('#gpi').removeClass("hidden");
+				$('#lblgpi').removeClass("hidden");
+				$('#deleteGpi').addClass('hidden');
+				
+			 }
+			 
+			 $('#deleteGpi').click(function(){
+				gpiChange($('#idest').val(),2);
+			 });
 			$('#form-est').validator().on('submit', function (e) {
 			  if (e.isDefaultPrevented()) { // handle the invalid form...
 				$("#alerta_new_user").fadeTo(2000,500).slideUp(500,function(){ $("#alerta_new_user").slideUp(600); });
 			  } else { // everything looks good!
 				e.preventDefault(); 
-				
-				var datosP = $('#myModal #form-est').serialize();
-				$.post('catalogos/diagnosticos/files-serverside/update_diag.php',datosP).done(function( data ) {
-					if (data==1){//si el paciente se Actualizó 
+				const inputFile = document.querySelector("#gpi");
+
+				var formData = new FormData();
+				formData.append("idest", $('#idest').val());
+				formData.append("idU", $('#id_user').val());
+                formData.append("clave", $('#clave').val());
+				formData.append("diagno", $('#diagno').val());
+				formData.append("gpi", inputFile.files[0]);
+				fetch("catalogos/diagnosticos/files-serverside/update_diag.php", {
+					method: 'POST',
+					body: formData,
+				})
+				.then(respuesta => respuesta.text())
+				.then(decodificado => {
+					if(decodificado == 1){
 						$('#clickme').click(); $('#myModal').modal('hide'); 
-						swal({
-						  title: "¡CONFIRMACIÓN!", type: "success", text: "La línea se ha actualizado.",
-						  timer: 1900, showConfirmButton: false
-						}); return;
-					} else{alert(data);}
+						swal({ title: "", type: "success", text: "El diagóstico ha sido actualizado.", timer: 1800, showConfirmButton: false }); return;					
+					}else{
+						swal("¡Uppss!", decodificado, "error");
+					}
 				});
+				
+				// var datosP = $('#myModal #form-est').serialize();
+				// $.post('catalogos/diagnosticos/files-serverside/update_diag.php',datosP).done(function( data ) {
+				// 	if (data==1){//si el paciente se Actualizó 
+				// 		$('#clickme').click(); $('#myModal').modal('hide'); 
+				// 		swal({
+				// 		  title: "¡CONFIRMACIÓN!", type: "success", text: "La línea se ha actualizado.",
+				// 		  timer: 1900, showConfirmButton: false
+				// 		}); return;
+				// 	} else{alert(data);}
+				// });
 			  }
 			});
 		});
@@ -181,6 +217,22 @@ function editar(id_um, unidad){0
 		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
 	}});
 }
+
+function gpiChange(id){
+	var datos = {id:id}
+	$.post('catalogos/diagnosticos/files-serverside/eliminarPDF.php',datos).done(function( data ) {
+			if (data==1){
+			$('#gpi').removeClass("hidden");
+			$('#lblgpi').removeClass("hidden");
+			$('#deleteGpi').addClass('hidden');
+			$('#myModalx').modal('hide'); $('#clickme,#clickmeMem,#clickmeFo,#clickmeDo').click();
+			swal({ title: "", type: "success", text: "El PDF se ha eliminado.", timer: 1800, showConfirmButton: false }); 
+			return;
+		}else{
+			alert(data);
+		} 
+		});
+}
 function nuevo(){
         $("#myModal").load('catalogos/diagnosticos/htmls/diagnostico.php', function(response, status, xhr){ if(status=="success"){
             $('#titulo_modal').text('CREAR UN NUEVO DIAGNÓSTICO'); 
@@ -188,22 +240,40 @@ function nuevo(){
 			$('#idU').val($('#id_user').val());
 			$('#btn_save_colonia').removeClass('hidden'); 
 			$('#btn_update_colonia ').addClass('hidden');
-
-            
+			const inputFile = document.querySelector("#gpi");
 
             $('#form-est').validator().on('submit', function (e) {
               if (e.isDefaultPrevented()) { // handle the invalid form...
               } else { // everything looks good!
                 e.preventDefault();
-                
-                var datosP = $('#myModal #form-est').serialize();
+
+				var formData = new FormData();
+				formData.append("idU", $('#id_user').val());
+                formData.append("clave", $('#clave').val());
+				formData.append("diagno", $('#diagno').val());
+				formData.append("gpi", inputFile.files[0]);
+				fetch("catalogos/diagnosticos/files-serverside/addDiagnostico.php", {
+					method: 'POST',
+					body: formData,
+				})
+				.then(respuesta => respuesta.text())
+				.then(decodificado => {
+					if(decodificado == 1){
+						$('#clickme').click(); $('#myModal').modal('hide'); 
+						swal({ title: "", type: "success", text: "El diagóstico ha sido creado.", timer: 1800, showConfirmButton: false }); return;					
+					}else{
+						swal("¡Uppss!", decodificado, "error");
+					}
+				});
+                // var datosP = $('#myModal #form-est').serialize();
+				// datosP += "&gpi="+inputFile.files[0];
                 // var token = $('meta[name="csrf-token"]').attr('content');
-                $.post('catalogos/diagnosticos/files-serverside/addDiagnostico.php',datosP).done(function( data ) {
-                    if (data==1){//si el paciente se Actualizó
-                        $('#clickme').click(); $('#myModal').modal('hide'); //$('#btn_cancel_registro').show(); //$btn.button('reset');
-                        swal({ title: "", type: "success", text: "El diagóstico ha sido creado.", timer: 1800, showConfirmButton: false }); return;
-                    } else{alert(data);}
-                });
+                // $.post('catalogos/diagnosticos/files-serverside/addDiagnostico.php',formData).done(function( data ) {
+                //     if (data==1){//si el paciente se Actualizó
+                //         $('#clickme').click(); $('#myModal').modal('hide'); //$('#btn_cancel_registro').show(); //$btn.button('reset');
+                        // swal({ title: "", type: "success", text: "El diagóstico ha sido creado.", timer: 1800, showConfirmButton: false }); return;
+                //     } else{alert(data);}
+                // });
               }
             });
 

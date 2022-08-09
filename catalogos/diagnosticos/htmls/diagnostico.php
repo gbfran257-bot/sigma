@@ -8,19 +8,25 @@
       </div>
       <div class="modal-body">
 
-        <form action="" method="post" name="form-est" id="form-est" target="_self" style="height:100%;">
+        <form action="" method="post" name="form-est" id="form-est" target="_self" style="height:100%;" enctype="multipart/form-data">
         <!-- <div class="tab-pane tap-pane-primary" id="t_new_colonia" role="tabpanel" aria-labelledby="new_colonia-tab"><br> -->
             <input name="idest" id="idest" type="hidden" value="">        	
             <input name="idU" id="idU" type="hidden" value="">      
             <div class="row">
-                <div class="form-group col-md-4 col-sm-4 text-primary col-md-offset-2">
+                <div class="form-group col-md-2 col-sm-4 text-primary ">
                     <label for="clave" class="col-form-label rec-requeridos">* CLAVE</label>
                     <input name="clave" id="clave" type="text" class="form-control form-control-sm" placeholder="Clave d el Diagnóstico" required>
                     <div class="help-block with-errors"></div>
                 </div>
-                <div class="form-group col-md-4 col-sm-4 text-primary ">
+                <div class="form-group col-md-5 col-sm-4 text-primary ">
                     <label for="diagno" class="col-form-label rec-requeridos">* DIAGNÓSTICO</label>
-                    <textarea class="form-control form-control-sm" id="diagno" name="diagno" rows="2" cols="50" required placeholder="Nombre del diagnóstico a ingresar" ></textarea>
+                    <textarea class="form-control form-control-sm" id="diagno" name="diagno" rows="1" cols="50" required placeholder="Nombre del diagnóstico a ingresar" ></textarea>
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group col-md-5 col-sm-4 text-primary ">
+                    <label for="diagno" class="col-form-label rec-requeridos" id="lblgpi">GPI</label>
+                    <input type="file" name="gpi" id="gpi" class="form-control form-control-sm">
+                    <span class="btn btn-danger hidden" id="deleteGpi">Eliminar GPI</span>
                     <div class="help-block with-errors"></div>
                 </div>
             </div>
