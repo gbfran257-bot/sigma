@@ -883,7 +883,7 @@ function buscarDX(idC, idP){
 		ordering: false, scrollCollapse: false, "scrollX": true, "bRetrieve": true, "sScrollY": ($('#myModalx').height()-515)/2,
 		"bStateSave": false, "bInfo": true, "bFilter": true, "aaSorting": [[1, "asc"]], deferRender: true, select:false,
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {  },
-		"aoColumns": [ {"bSortable":false},{"bSortable":false},{"bSortable":false},{"bSortable":false},{"bSortable":false} ], 
+		"aoColumns": [ {"bSortable":false},{"bSortable":false},{"bSortable":false},{"bSortable":false},{"bSortable":false},{"bSortable":false} ], 
 		"iDisplayLength": 30, "bLengthChange": false, "bProcessing": false, "bServerSide": true, "sDom": 'lrtS', 
 		"sAjaxSource": "consultas/datatable-serverside/diagnosticos_seleccionados.php", 
 		"fnServerParams": function (aoData, fnCallback) { aoData.push(  {"name": "idC", "value": idC } ); },

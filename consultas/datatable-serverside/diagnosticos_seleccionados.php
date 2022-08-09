@@ -1,6 +1,6 @@
 <?php
 require("../../Connections/horizonte.php");
-	$aColumns = array('dx.id_dxc', 'd.clave_di', 'd.nombre_di','dx.id_dxc', 'dx.id_dxc', 'dx.id_dxc', 'dx.id_dxc', 'dx.primario_dxc', 'dx.id_c_dxc' );
+	$aColumns = array('dx.id_dxc', 'd.clave_di', 'd.nombre_di','dx.id_dxc', 'dx.id_dxc', 'dx.id_dxc', 'dx.id_dxc', 'dx.primario_dxc', 'dx.id_c_dxc','d.pdf');
      
     // DB tables to use 
     $aTables = array( 'dx_consultas dx');
@@ -129,13 +129,20 @@ require("../../Connections/horizonte.php");
             else if ( $aColumns[$i] != ' ' ) { $row[] = $aRow[$i]; }
         }
 		$row[0]=$hh;
-		$row[4] = "<div align='center'><button onClick='borrarDX(this.id,this.lang);' id='$row[6]' lang='$row[8]' type='button' class='btn btn-danger btn-xs'><i class='fa fa-trash' aria-hidden='true' alt='Borrar diagnóstico'></i></button></div>";
+		$row[5] = "<div align='center'><button onClick='borrarDX(this.id,this.lang);' id='$row[6]' lang='$row[8]' type='button' class='btn btn-danger btn-xs'><i class='fa fa-trash' aria-hidden='true' alt='Borrar diagnóstico'></i></button></div>";
 		
 		if($row[7]==1){
 			$row[3] = "<div align='center'><button type='button' class='btn btn-success btn-xs dx_prim'><i class='fa fa-check' aria-hidden='true' alt='Diagnóstico primario'></i></button></div>";
 		}else{
 			$row[3] = "<div align='center'><button onClick='dxPrimario(this.id,this.lang);' id='$row[6]' lang='$row[8]' type='button' class='btn btn-warning btn-xs dx_prim'><i class='fa fa-refresh' aria-hidden='true' alt='Diagnóstico secundario'></i></button></div>";
 		}
+
+        if($row[9] != ''){
+            $url = "catalogos/diagnosticos/documentos/".$row[9];
+            $row[4] = "<div align='center'><a href='$url' target='_blank' class='btn btn-primary btn-xs dx_prim'><i class='fa fa-file-text' aria-hidden='true' alt=''></i></button></div>";
+        }else{
+            $row[4] = "<div align='center'><button type='button' class='btn btn-primary btn-xs dx_prim' disabled='true'><i class='fa fa-file-text' aria-hidden='true' alt=''></i></button></div>";
+        }
 		
 		$output['aaData'][] = $row;
     }
