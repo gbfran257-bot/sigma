@@ -883,6 +883,7 @@ function verPaciente(idP){
 			$('#email_p').val(datosI[18]); $('#contacto_emergencia_p').val(datosI[15]); $('#tel_emergencia_p').val(datosI[16]);
 			$('#email_pf').val(datosI[61]); $('#ciudad_df').val(datosI[62]); $('#colonia_df').val(datosI[49]);
 			$('#calle_df').val(datosI[44]); $('#cp_df').val(datosI[45]);
+			$('#facebook_p').val(datosI[63]); $('#instagram_p').val(datosI[64]);
 			//$('#centroSaludP').val(datosI[54]); $('#derechohabienciaP').val(datosI[55]);
 			
 			$('#fecha_nacimiento_p1').on('changeDate', function(e) { $('#edad_p').text(calcular_edad(e.format())); });

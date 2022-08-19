@@ -1,0 +1,1 @@
+ALTER TABLE `pacientes` ADD `facebook` TEXT NULL AFTER `email_pf`, ADD `instagram` TEXT NULL AFTER `facebook`;
