@@ -3,7 +3,7 @@ require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('id_di','clave_di','nombre_di','id_di');
+	$aColumns = array('id_di','clave_di','nombre_di','id_di','id_di');
      
     // DB tables to use 
     $aTables = array( 'diagnosticos ');
@@ -102,11 +102,26 @@ require("../../../funciones/php/values.php");
         { if ( $aColumns[$i] == "version" ) { /* Special output formatting for 'version' column */ $row[] = ($aRow[ $aColumns[$i] ]=="0") ? '-' : $aRow[ $aColumns[$i] ]; } else if ( $aColumns[$i] != ' ' ) { /* General output */ $row[] = $aRow[$i]; } }
 		$row1 = array();
         for ( $j=0 ; $j<count($aColumns) ; $j++ ) { if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; } else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; } }
-		// $row [0] = $hh++;
+
+        mysql_select_db($database_horizonte, $horizonte);
+        $id = $row[0];
+        $sql1 = "SELECT pdf from  diagnosticos WHERE id_di = $id";
+        $update1 = mysql_query($sql1, $horizonte) or die (mysql_error());
+        $row1 = mysql_fetch_row($update1);
+
 		$nombre = $row[1];
-        $row[1] = "<button type='button' class='btn btn-link btn-xs' id='".$row[3]."' onClick='editar(this.id,\"$nombre\");'>".mb_strtoupper($row[1])."</button>";        
-        $row[3] = "<div align='center'><button type='button' lang='".$row[3]."' class='btn btn-danger btn-xs' onClick='delete_l(this.lang,\"$nombre\");'><i class='fa fa-trash' aria-hidden='true'></i></button></div>";
+        $row[1] = "<button type='button' class='btn btn-link btn-xs' id='".$row[3]."' onClick='editar(this.id,\"$nombre\");'>".mb_strtoupper($row[1])."</button>";    
+
+        if($row1[0] != ''){
+            $url = "catalogos/diagnosticos/documentos/". $row1[0];
+            $row[3] = "<div align='center'><a href='$url' target='_blank' lang='".$row[4]."' class='btn btn-primary btn-xs'><i class='fa fa-file-text' aria-hidden='true'></i></a></div>";  
+        }else{
+            $row[3] = "<div align='center'><a target='_blank' lang='".$row[4]."' class='btn btn-primary btn-xs 'disabled='true'><i class='fa fa-file-text' aria-hidden='true'></i></a></div>";  
+        }
+
         
+        $row[4] = "<div align='center'><button type='button' lang='".$row[4]."' class='btn btn-danger btn-xs' onClick='delete_l(this.lang,\"$nombre\");'><i class='fa fa-trash' aria-hidden='true'></i></button></div>";
+        // $row[0] = $hh++;
 		
 		$output['aaData'][] = $row;
     }

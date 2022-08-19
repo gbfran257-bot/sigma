@@ -1005,6 +1005,7 @@ Sin embargo, en sentido estricto se suele denominar cardiopatía a las enfermeda
                         <th align="center" width="1%">CLAVE</th>
                         <th align="center">DIAGNÓSTICO</th>
                         <th align="center" width="1%">PRIMARIO</th>
+                        <th align="center" width="1%">GPI</th>
                         <th align="center" width="1%">ELIMINAR</th>
                       </tr>
                     </thead>
