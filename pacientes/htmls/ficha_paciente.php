@@ -134,6 +134,22 @@
                     <div class="help-block with-errors"></div>
                     </div> </div>
                 </div> 
+                <div class="row">
+                    <div class="col-sm-6 col-xs-6"> 
+                        <div class="form-group">
+                            <label for="facebook_p">Facebook</label>
+                            <input type="text" class="form-control" id="facebook_p" name="facebook_p" placeholder="Facebook" >
+                            <div class="help-block with-errors"></div>
+                        </div> 
+                    </div>
+                    <div class="col-sm-6 col-xs-6">
+                        <div class="form-group">
+                            <label for="instagram_p">Instagram</label>
+                            <input type="text" class="form-control" id="instagram_p" name="instagram_p" placeholder="Instagram" >
+                            <div class="help-block with-errors"></div>
+                        </div>
+                     </div>
+                </div>
                 
                 <div class="row">
                     <div class="col-sm-8 col-xs-8"> <div class="form-group">

@@ -25,6 +25,8 @@ require("../../funciones/php/values.php");
  $temergencia = sqlValue(mb_strtoupper($_POST["tel_emergencia_p"]), "text");
  $nombre_completo = trim($_POST["nombre_p"]).' '.trim($_POST["apaterno_p"]).' '.trim($_POST["amaterno_p"]);
  $nombre_completo = sqlValue(mb_strtoupper($nombre_completo), "text");
+ $facebook = sqlValue($_POST["facebook_p"], "text");
+ $instagram = sqlValue($_POST["instagram_p"], "text");
  
  //Datos de dirección
  if(isset($_POST["estado_dir_p"])){$estado = sqlValue($_POST["estado_dir_p"], "int");}else{$estado = 'NULL';}
@@ -52,8 +54,8 @@ require("../../funciones/php/values.php");
  //$idBanco = sqlValue($_POST["bancoPF"], "int"); $digitos4 = sqlValue($_POST["digitos4B"], "text");
   
  mysql_select_db($database_horizonte, $horizonte);
- $sql = "INSERT INTO pacientes (idUsuarioR_p, nombre_p, apaterno_p, amaterno_p, sexo_p, nacionalidad_p, fNac_p, tCelular_p, tParticular_p, curp_p, rfc_p, idSucursal_p, entidadFederativa_p, municipio_p, ciudad_p, colonia_p, cp_p, calle_p, tTrabajo_p, extensionTt_p, email_p, fechaR_p, entidad_nacimiento_p, razon_social_p, calle_pf, entidadFederativa_pf, municipio_pf, ciudad_pf, colonia_pf, cp_pf, rfc_f_p, tSanguineo_p, nombre_completo_p, coordenadas_p, email_pf, contactoEmergencia_p, tEmergencia_p )";
- $sql.= "VALUES ($idU, $nombre, $apaterno, $amaterno, $idSexo, $id_pais, $fechaNacimiento, $tCelular, $tParticular, $curp, $rfc, $id_sucu, $estado, $municipio, $ciudad, $colonia, $cp, $calle, $telefonoTrabajo, $extensionTT, $email, $now, $entidadNacimiento, $razon, $calleF, $estadoF, $municipioF, $ciudadF, $coloniaF, $cpF, $rfcF, $tSangreP, $nombre_completo, GeomFromText('POINT($latitud $longitud)'), $email_pf, $avisara, $temergencia )";
+ $sql = "INSERT INTO pacientes (idUsuarioR_p, nombre_p, apaterno_p, amaterno_p, sexo_p, nacionalidad_p, fNac_p, tCelular_p, tParticular_p, curp_p, rfc_p, idSucursal_p, entidadFederativa_p, municipio_p, ciudad_p, colonia_p, cp_p, calle_p, tTrabajo_p, extensionTt_p, email_p, fechaR_p, entidad_nacimiento_p, razon_social_p, calle_pf, entidadFederativa_pf, municipio_pf, ciudad_pf, colonia_pf, cp_pf, rfc_f_p, tSanguineo_p, nombre_completo_p, coordenadas_p, email_pf, contactoEmergencia_p, tEmergencia_p, facebook, instagram )";
+ $sql.= "VALUES ($idU, $nombre, $apaterno, $amaterno, $idSexo, $id_pais, $fechaNacimiento, $tCelular, $tParticular, $curp, $rfc, $id_sucu, $estado, $municipio, $ciudad, $colonia, $cp, $calle, $telefonoTrabajo, $extensionTT, $email, $now, $entidadNacimiento, $razon, $calleF, $estadoF, $municipioF, $ciudadF, $coloniaF, $cpF, $rfcF, $tSangreP, $nombre_completo, GeomFromText('POINT($latitud $longitud)'), $email_pf, $avisara, $temergencia, $facebook, $instagram )";
   
  $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	
