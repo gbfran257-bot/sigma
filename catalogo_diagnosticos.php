@@ -197,17 +197,6 @@ function editar(id_um, unidad){0
 						swal("¡Uppss!", decodificado, "error");
 					}
 				});
-				
-				// var datosP = $('#myModal #form-est').serialize();
-				// $.post('catalogos/diagnosticos/files-serverside/update_diag.php',datosP).done(function( data ) {
-				// 	if (data==1){//si el paciente se Actualizó 
-				// 		$('#clickme').click(); $('#myModal').modal('hide'); 
-				// 		swal({
-				// 		  title: "¡CONFIRMACIÓN!", type: "success", text: "La línea se ha actualizado.",
-				// 		  timer: 1900, showConfirmButton: false
-				// 		}); return;
-				// 	} else{alert(data);}
-				// });
 			  }
 			});
 		});
@@ -265,15 +254,7 @@ function nuevo(){
 						swal("¡Uppss!", decodificado, "error");
 					}
 				});
-                // var datosP = $('#myModal #form-est').serialize();
-				// datosP += "&gpi="+inputFile.files[0];
-                // var token = $('meta[name="csrf-token"]').attr('content');
-                // $.post('catalogos/diagnosticos/files-serverside/addDiagnostico.php',formData).done(function( data ) {
-                //     if (data==1){//si el paciente se Actualizó
-                //         $('#clickme').click(); $('#myModal').modal('hide'); //$('#btn_cancel_registro').show(); //$btn.button('reset');
-                        // swal({ title: "", type: "success", text: "El diagóstico ha sido creado.", timer: 1800, showConfirmButton: false }); return;
-                //     } else{alert(data);}
-                // });
+
               }
             });
 

@@ -56,27 +56,11 @@ $(document).ready(function() {
 		background-color: red;
 	}
 </style>
-	<style>
-		#bloqueador{
-			width: 100%;
-			height: 100%;
-			position: absolute;
-			top: 0;
-			background: #0000006e;
-			z-index: 999;
-		}
-	</style>
 </head>
 <?php
 	if((isset($_SESSION['MM_Username']) || isCookieValid($db))){ echo "<script> window.location.href = 'index.php'; </script>"; }
 ?>
 <body style="overflow:hidden;">
-	<!--video width="100%" height="100%" id="videointro" autoplay controls>
-	  <source src="imagenes/intro/intro.min.mp4" type="video/mp4">
-	  <source src="imagenes/intro/intro.webm" type="video/webm">
-	  <source src="imagenes/intro/intro.mp4" type="video/mp4">
-	</video> 
-	<div id="bloqueador"></div-->
 <div id="referencia" style="display:none; position:fixed; width:100%; height:100%; z-index:1000000000000000000000;"></div>
 
 <div class="container-fluid" id="container" align="center" style="border:1px none red;">
@@ -184,14 +168,6 @@ $(document).ready(function() {
 
 <script>
 $(document).ready(function(e) {
-	var aud = document.getElementById("videointro");
-	aud.onended = function() {
-	    $("#videointro").fadeOut("slow");
-	    $("#bloqueador").fadeOut();
-	}; 
-	aud.onloadstart = function(){
-		$("#bloqueador").css({"background": "none"});
-	};
 	if($('#my_alert').val()==1){ 
 		$('#texto_ucnv').text('<?php echo $vmy_alert; ?>');
 		$('#alerta_ucnv').removeClass('hidden');
