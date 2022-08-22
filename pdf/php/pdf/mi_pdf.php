@@ -14,7 +14,9 @@
         $html2pdf = new HTML2PDF('P', 'A4', 'es', true, 'UTF-8', 3); //Configura la hoja
         $html2pdf->pdf->SetDisplayMode('fullwidth'); //Ver otros parámetros para SetDisplaMode
         $html2pdf->writeHTML($content); //Se escribe el contenido 
-        $html2pdf->Output('mipdf.pdf'); //Nombre default del PDF
+        $html2pdf->Output('estudio '.date('H:i:s').'.pdf'); //Nombre default del PDF
+        ob_end_clean();
+
     }
     catch(HTML2PDF_exception $e) { echo $e; exit; }
 ?>
