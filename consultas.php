@@ -1451,7 +1451,11 @@ function atenderC(idP,idC,opc,concept,id_s){/*si control es 1 al cerrar la venta
 							});
 							//$('#my_tb_nm').click(function(e) { insertarMED();});
 							$('#salvarConsulta').click(function(e) { salvarConsulta(idC, idP); });
-							$('#finalizarConsulta').click(function(e) { finalizarConsulta(idP, idC, id_s); });
+							$('#finalizarConsulta').click(function(e) {
+								if(confirm("Está a punto de finalizar la consulta, ¿desea continuar?")){
+									finalizarConsulta(idP, idC, id_s);
+								}
+							});
 							
 							var datoG = { idE:idC }
 							$.post('consultas/files-serverside/datosDXcslta.php', datoG).done(function(dataDX){
