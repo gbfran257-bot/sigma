@@ -99,17 +99,6 @@ require("../../funciones/php/values.php");
         "aaData" => array()
     );
 
-    // $ventas= mysql_query("SELECT SQL_CALC_FOUND_ROWS count(v.id_vc) as sumaV, sum(v.honorarios) as hono
-    // FROM venta_conceptos v left join orden_venta o on o.referencia_ov = v.referencia_vc left join conceptos e on e.id_to = v.id_concepto_es left JOIN pacientes p ON p.id_p = v.id_paciente_vc left join usuarios m on m.id_u = v.usuarioEdo3_e left join sucursales s on s.id_su = o.sucursal_ov left join titulos t on t.id_ti = m.id_titulo_u WHERE v.fecha_venta_vc  BETWEEN '$_GET[min]' AND '$_GET[max]' and e.id_tipo_concepto_to = 1  and v.temporal_vc=0 group by v.usuarioEdo3_e,e.concepto_to order by sumaV desc", $horizonte) or die(mysql_error());
-    // $contV = 0;
-    // $ventasA = array();
-    // $honorariosA = array();
-    // while($filaVenta = mysql_fetch_assoc($ventas)){
-    //     $ventasA[$contV] = $filaVenta['sumaV'];
-    //     $honorariosA[$contV] = $filaVenta['hono'];
-    //     $contV++;
-    // }
-
 	$hh=0;
     $resultT = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es where e.id_tipo_concepto_to = 1 and v.temporal_vc=0 and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die(mysql_error());
     $rowT = mysql_fetch_row($resultT);

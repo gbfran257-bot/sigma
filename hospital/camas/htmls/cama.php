@@ -13,7 +13,7 @@
         	<div class="row">
                 <div class="form-group col-md-6 col-sm-6 text-primary">
                     <label for="no_ca" class="col-form-label">* IDENTIFICADOR DE LA CAMA</label>
-                    <input name="no_ca" id="no_ca" type="number" class="form-control form-control-sm" placeholder="Identificador de la cama" required>
+                    <input name="no_ca" id="no_ca" type="text" class="form-control form-control-sm" placeholder="Identificador de la cama" required>
                     <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group col-md-6 col-sm-6 text-primary">

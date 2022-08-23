@@ -32,10 +32,7 @@ require("../../Connections/ipacs.php");
      
     /*  * Paging */
     $sLimit = "";
-    //if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' )
-    //{
         $sLimit = "LIMIT 30";
-    //}
      
     /* * Ordering */
     $sOrder = "GROUP BY p.pk, s.pk, sq.pk, pe.pk order by p.created_time desc";
