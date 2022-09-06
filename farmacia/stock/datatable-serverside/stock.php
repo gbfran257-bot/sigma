@@ -310,21 +310,19 @@ $sucu_user = $_SESSION['MM_Usersucu'];
 
         $row[12] = $row[8] * $row[9];
         $row[13] = $row[9] * $row[10];
-        
-        if($row[9] > 1){
-            $row[14] ="<span class='btn btn-primary' onclick='transferencias($row[11], $row[9],$row[15],\"$row[16]\");' ><i class='fa fa-exchange'></i></span>"; 
+        $existencias =$row[9];
+        if($row[9] > 0){
+            $row[14] ="<span class='btn btn-primary' onclick='transferencias($row[15], $existencias,$row[16],\"$row[1]\");' ><i class='fa fa-exchange'></i></span>"; 
         }else{
             $row[14] ="<span class='btn btn-primary disabled'><i class='fa fa-exchange'></i></span>"; 
         }
-
-        if($tipo_user == 15){
-            $row[9] = "<span class='btn btn-primary' onclick='cambiarExistencias($row[14],$row[9],\"$row[3]\",\"$feCad\")'>$row[9]</span>"; 
-        }
        
-        if($row[9] <= $rowMM[1] && $rowMM[1] != ''){
+        if($row[9] <= $rowMM[1] && $rowMM[1] != '' && $tipo_user != 15){
             $row[9] ="<span class='btn btn-danger' disabled='true'>$row[9]</span>";
-        }else if($row[9] >= $rowMM[0] && $rowMM[0] != ''){
+        }else if($row[9] >= $rowMM[0] && $rowMM[0] != '' && $tipo_user != 15){
             $row[9] ="<span class='btn btn-success' disabled='true'>$row[9]</span>";
+        }else if($tipo_user == 15){
+            $row[9] = "<span class='btn btn-primary' onclick='cambiarExistencias($row[15],$row[9],\"$row[3]\",\"$feCad\")'>$row[9]</span>"; 
         }
        
 
