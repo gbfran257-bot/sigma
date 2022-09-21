@@ -35,9 +35,9 @@ require("../../funciones/php/values.php");
 		break;
 		case 1://Ve todo de todas las sucursales
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-			  $sWhere="WHERE v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and  c.id_tipo_concepto_to in (1,2) ";
+			  $sWhere="WHERE v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and  c.id_tipo_concepto_to in (1,2) and v.temporal_vc = 0";
 			}else{
-			  $sWhere = "WHERE c.id_tipo_concepto_to in (1,2) ";
+			  $sWhere = "WHERE c.id_tipo_concepto_to in (1,2) and v.temporal_vc = 0";
 			}
 		break;
 		default:
