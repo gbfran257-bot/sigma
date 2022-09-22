@@ -123,7 +123,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay){
 			var iTotal = 0, iTotalV = 0, iTotalTotal=0, iTotalCosto=0, iTotalUtilidad=0, honorarios=0;
             for(var i=iStart ; i<iEnd ; i++){ 
-				iTotalV += aaData[ aiDisplay[i] ][2]*1; 
+				// iTotalV += aaData[ aiDisplay[i] ][2]*1; 
 				iTotalTotal += aaData[ aiDisplay[i] ][4]*1; 
 				iTotalCosto += aaData[ aiDisplay[i] ][5]*1;
 				iTotalUtilidad += aaData[ aiDisplay[i] ][6]*1;
@@ -132,7 +132,7 @@ $(document).ready(function(e) {
 
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
-			nCells[2].innerHTML = redondear(parseFloat(iTotalV * 100)/100,2);
+			// nCells[2].innerHTML = redondear(parseFloat(iTotalV * 100)/100,2);
 			nCells[4].innerHTML = redondear((parseFloat(iTotalTotal) * 100)/100,2);
             nCells[5].innerHTML = redondear((parseFloat(iTotalCosto) * 100)/100,2);
             nCells[6].innerHTML = redondear((parseFloat(iTotalUtilidad) * 100)/100,2);
@@ -221,5 +221,19 @@ function detalles(idC, min, max){
 		$('#myModal').on('shown.bs.modal', function(e){ $('#form-colonia').validator(); });
 		$('#myModal').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModal").empty(); });
 	}});
+}
+function verOV(idP,fechaMin,fechaMax,concepto){
+    $("#myModal").load('consultas/htmls/vinculacionOV.php', function( response, status, xhr ){ if(status=="success"){
+        var dato_p = {idP:idP, fechaMin:fechaMin, fechaMax:fechaMax}
+        $.post('consultas/files-serverside/prodCts.php',dato_p).done(function(data){ 
+            $('#bodyT').html(data);
+            $('#titulo_modal').html('Ordenes de venta donde se vendio el servicio '+ concepto);
+        });
+        
+        $('#myModal').modal('show');
+        $('#myModal').on('shown.bs.modal', function (e) { });
+        $('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
+    }});
+    
 }
 </script>
