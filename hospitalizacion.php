@@ -904,11 +904,12 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 				var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
 				var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
 				var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
-				var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56],et_destroxtis = datosTe[60];
-
+				var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56], et_Fnac = datosTe[57], et_dx = datosTe[58], et_Med = datosTe[59],et_destroxtis = datosTe[60], et_logo1 = datosTe[61],et_logo2 = datosTe[62],et_logo3 = datosTe[63],et_logo4 = datosTe[64],et_logo5 = datosTe[65],et_logo6 = datosTe[66],et_logo7 = datosTe[67],et_logo8 = datosTe[68],et_logo9 = datosTe[69],et_logo10 = datosTe[70],et_logo11 = datosTe[71],et_logo12 = datosTe[72],et_logo13 = datosTe[73],et_logo14 = datosTe[74],et_logo15 = datosTe[75];
 				$("#tipoNotaMed").change(function(e) {//alert('Cambia');
 					var datos = {idNM:$("#tipoNotaMed").val(),idC:id_h}
 					$.post('consultas/files-serverside/textoNotaM.php',datos).done(function(data){ //alert(data);
+						data = data.replace(/{ET_DIAGNOSTICO_PACIENTE}/gi, et_dx);
+						data = data.replace(/{ET_MEDICAMENTOS_PACIENTE}/gi, et_Med);
 						data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
 						data = data.replace(/{et_destroxtis}/gi, et_destroxtis);
 						data = data.replace(/{ET_EDAD}/gi, edadx1);
@@ -961,6 +962,21 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 						data = data.replace(/{et_historia_clinica_APNP}/gi, et_historia_clinica_APNP_x);
 						data = data.replace(/{et_historia_clinica_APP}/gi, et_historia_clinica_APP_x);
 						data = data.replace(/{et_historia_clinica_AGO}/gi, et_historia_clinica_AGO_x);
+						data = data.replace(/{et_logo1}/gi, et_logo1);
+						data = data.replace(/{et_logo2}/gi, et_logo2);
+						data = data.replace(/{et_logo3}/gi, et_logo3);
+						data = data.replace(/{et_logo4}/gi, et_logo4);
+						data = data.replace(/{et_logo5}/gi, et_logo5);
+						data = data.replace(/{et_logo6}/gi, et_logo6);
+						data = data.replace(/{et_logo7}/gi, et_logo7);
+						data = data.replace(/{et_logo8}/gi, et_logo8);
+						data = data.replace(/{et_logo9}/gi, et_logo9);
+						data = data.replace(/{et_logo10}/gi, et_logo10);
+						data = data.replace(/{et_logo11}/gi, et_logo11);
+						data = data.replace(/{et_logo12}/gi, et_logo12);
+						data = data.replace(/{et_logo13}/gi, et_logo13);
+						data = data.replace(/{et_logo14}/gi, et_logo14);
+						data = data.replace(/{et_logo15}/gi, et_logo15);
 						tinymce.get('notaMedicaC').setContent(data);
 						//$('#tabs_nnm #tabs-1n .jqte_editor').html(data);
 					});
@@ -970,7 +986,7 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 		var idCons = {idC:id_h} //Generamos la nota de evolución si nunca ha sido guardada la consulta
 		$.post('consultas/files-serverside/notaInicial.php',idCons).done(function(data){ //alert(data);
 			var datosNI=data.split(';*-');
-			
+
 			var datosT = {idP:id_p, idU:$('#id_user').val(), id_vc:id_h}
 			$.post('consultas/files-serverside/cat_texts.php',datosT).done(function(dataT){var datosTe = dataT.split('-{]');
 				var alergiasx = datosTe[0], edadx = datosTe[1], sexox = datosTe[2], nombre_pacientex = datosTe[3];
@@ -986,8 +1002,10 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 				var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
 				var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
 				var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56];
-				var data = datosNI[1], et_destroxtis = datosTe[60]; 
+				var data = datosNI[1],et_Fnac = datosTe[57], et_dx = datosTe[58], et_Med = datosTe[59], et_destroxtis = datosTe[60], et_logo1 = datosTe[61],et_logo2 = datosTe[62],et_logo3 = datosTe[63],et_logo4 = datosTe[64],et_logo5 = datosTe[65],et_logo6 = datosTe[66],et_logo7 = datosTe[67],et_logo8 = datosTe[68],et_logo9 = datosTe[69],et_logo10 = datosTe[70],et_logo11 = datosTe[71],et_logo12 = datosTe[72],et_logo13 = datosTe[73],et_logo14 = datosTe[74],et_logo15 = datosTe[75]; 
 
+				data = data.replace(/{ET_DIAGNOSTICO_PACIENTE}/gi, et_dx);
+				data = data.replace(/{ET_MEDICAMENTOS_PACIENTE}/gi, et_Med);
 				data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
 				data = data.replace(/{et_destroxtis}/gi, et_destroxtis);
 				data = data.replace(/{ET_EDAD}/gi, edadx1);
@@ -1040,6 +1058,21 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 				data = data.replace(/{et_historia_clinica_APNP}/gi, et_historia_clinica_APNP_x);
 				data = data.replace(/{et_historia_clinica_APP}/gi, et_historia_clinica_APP_x);
 				data = data.replace(/{et_historia_clinica_AGO}/gi, et_historia_clinica_AGO_x);
+				data = data.replace(/{et_logo1}/gi, et_logo1);
+				data = data.replace(/{et_logo2}/gi, et_logo2);
+				data = data.replace(/{et_logo3}/gi, et_logo3);
+				data = data.replace(/{et_logo4}/gi, et_logo4);
+				data = data.replace(/{et_logo5}/gi, et_logo5);
+				data = data.replace(/{et_logo6}/gi, et_logo6);
+				data = data.replace(/{et_logo7}/gi, et_logo7);
+				data = data.replace(/{et_logo8}/gi, et_logo8);
+				data = data.replace(/{et_logo9}/gi, et_logo9);
+				data = data.replace(/{et_logo10}/gi, et_logo10);
+				data = data.replace(/{et_logo11}/gi, et_logo11);
+				data = data.replace(/{et_logo12}/gi, et_logo12);
+				data = data.replace(/{et_logo13}/gi, et_logo13);
+				data = data.replace(/{et_logo14}/gi, et_logo14);
+				data = data.replace(/{et_logo15}/gi, et_logo15);
 
 				$('#notaMedicaC').val(data);
 			});

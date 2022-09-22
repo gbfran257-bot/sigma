@@ -24,6 +24,7 @@ require("../../funciones/php/values.php");
 			echo $sql;
 		} 
 		else{ 
+			echo 1;
 		}
 		
 
