@@ -37,12 +37,6 @@
 	<script src="DataTables-1.12/Buttons-2.2.3/js/buttons.print.min.js"></script> 
 	<script src="DataTables-1.12/pdfmake-0.1.36/pdfmake.min.js"></script> 
 	<script src="DataTables-1.12/pdfmake-0.1.36/vfs_fonts.js"></script> 
-    <!-- <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
-    <script src="DataTables-1.10.13/media/js/dataTables.bootstrap.min.js"></script>
-    <script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script>
-	<script src="TableTools-2.1.5/media/js/TableTools.js"></script>
-    <script src="TableTools-2.1.5/media/js/ZeroClipboard.js"></script> -->
-
 
     <script src="bootstrap-validator/js/validator.js"></script>
     <script src="sweetalert/dist/sweetalert.min.js"></script>
@@ -72,12 +66,7 @@
 	<link href="DataTables-1.12/DataTables-1.12.1/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.12/Scroller-2.0.6/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.12/Select-1.4.0/css/select.bootstrap.min.css" rel="stylesheet"> 
-    <!-- <link href="DataTables-1.10.13/media/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="DataTables-1.10.13/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet">
-    <link href="DataTables-1.10.13/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet">
-	<link href="TableTools-2.1.5/media/css/TableTools.css" rel="stylesheet"> -->
-
-
+    
     <link href="bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">
     <link href="sweetalert/dist/sweetalert.css" rel="stylesheet">
     <link rel="stylesheet" href="chosen/chosen.css">
@@ -146,7 +135,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay){
 			var iTotal = 0, iTotalTotal=0, iTotalCosto=0, iTotalUtilidad=0;
             for(var i=iStart ; i<iEnd ; i++){ 
-				iTotal += aaData[ aiDisplay[i] ][2]*1; 
+				// iTotal += aaData[ aiDisplay[i] ][2]*1; 
 				iTotalTotal += aaData[ aiDisplay[i] ][4]*1;
 				iTotalCosto += aaData[ aiDisplay[i] ][5]*1;
 				iTotalUtilidad += aaData[ aiDisplay[i] ][6]*1;
@@ -154,7 +143,7 @@ $(document).ready(function(e) {
 
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
-            nCells[2].innerHTML = redondear(parseFloat(iTotal * 100)/100,2);
+            // nCells[2].innerHTML = redondear(parseFloat(iTotal * 100)/100,2);
 			nCells[4].innerHTML = redondear((parseFloat(iTotalTotal) * 100)/100,2);
             nCells[5].innerHTML = redondear((parseFloat(iTotalCosto) * 100)/100,2);
             nCells[6].innerHTML = redondear((parseFloat(iTotalUtilidad) * 100)/100,2);
@@ -242,4 +231,18 @@ $(document).ready(function(e) {
 		oTableP.draw();
 	});
 });
+function verOV(idP,fechaMin,fechaMax,concepto){
+    $("#myModal").load('farmacia/html/vinculacionOV.php', function( response, status, xhr ){ if(status=="success"){
+        var dato_p = {idP:idP, fechaMin:fechaMin, fechaMax:fechaMax}
+        $.post('farmacia/files-serverside/prodFarmacia.php',dato_p).done(function(data){ 
+            $('#bodyT').html(data);
+            $('#titulo_modal').html('Ordenes de venta donde se vendio el servicio '+ concepto);
+        });
+        
+        $('#myModal').modal('show');
+        $('#myModal').on('shown.bs.modal', function (e) { });
+        $('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
+    }});
+    
+}
 </script>
