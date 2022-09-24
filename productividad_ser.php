@@ -37,12 +37,6 @@
 	<script src="DataTables-1.12/Buttons-2.2.3/js/buttons.print.min.js"></script> 
 	<script src="DataTables-1.12/pdfmake-0.1.36/pdfmake.min.js"></script> 
 	<script src="DataTables-1.12/pdfmake-0.1.36/vfs_fonts.js"></script> 
-    <!-- <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
-    <script src="DataTables-1.10.13/media/js/dataTables.bootstrap.min.js"></script>
-    <script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script>
-	<script src="TableTools-2.1.5/media/js/TableTools.js"></script>
-    <script src="TableTools-2.1.5/media/js/ZeroClipboard.js"></script> -->
-
 
     <script src="bootstrap-validator/js/validator.js"></script>
     <script src="sweetalert/dist/sweetalert.min.js"></script>
@@ -62,6 +56,7 @@
     <script src="funciones/js/calcula_edad.js"></script>
     <script src="funciones/js/stdlib.js"></script>
     <script src="funciones/js/bs-modal-fullscreen.js"></script>
+	<script src="funciones/js/ver_OV_prod.js"></script>
     
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
@@ -72,11 +67,6 @@
 	<link href="DataTables-1.12/DataTables-1.12.1/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.12/Scroller-2.0.6/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.12/Select-1.4.0/css/select.bootstrap.min.css" rel="stylesheet"> 
-    <!-- <link href="DataTables-1.10.13/media/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="DataTables-1.10.13/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet">
-    <link href="DataTables-1.10.13/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet">
-	<link href="TableTools-2.1.5/media/css/TableTools.css" rel="stylesheet"> -->
-
 
     <link href="bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">
     <link href="sweetalert/dist/sweetalert.css" rel="stylesheet">
@@ -229,19 +219,7 @@ $(document).ready(function(e) {
 		oTableP.draw();
 	});
 });
-
 function verOV(idP,fechaMin,fechaMax,concepto){
-	$("#myModal").load('servicios/htmls/vinculacionOV.php', function( response, status, xhr ){ if(status=="success"){
-		var dato_p = {idP:idP, fechaMin:fechaMin, fechaMax:fechaMax}
-		$.post('servicios/files-serverside/prodServicios.php',dato_p).done(function(data){ 
-			$('#bodyT').html(data);
-			$('#titulo_modal').html('Ordenes de venta donde se vendio el servicio '+ concepto);
-		});
-		
-		$('#myModal').modal('show');
-		$('#myModal').on('shown.bs.modal', function (e) { });
-		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
-	}});
-	
+	verOV_p(idP,fechaMin,fechaMax,concepto);
 }
 </script>

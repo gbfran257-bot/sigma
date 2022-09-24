@@ -54,6 +54,7 @@
     <script src="funciones/js/calcula_edad.js"></script>
     <script src="funciones/js/stdlib.js"></script>
     <script src="funciones/js/bs-modal-fullscreen.js"></script>
+	<script src="funciones/js/ver_OV_prod.js"></script>
     
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
@@ -223,17 +224,6 @@ function detalles(idC, min, max){
 	}});
 }
 function verOV(idP,fechaMin,fechaMax,concepto){
-    $("#myModal").load('consultas/htmls/vinculacionOV.php', function( response, status, xhr ){ if(status=="success"){
-        var dato_p = {idP:idP, fechaMin:fechaMin, fechaMax:fechaMax}
-        $.post('consultas/files-serverside/prodCts.php',dato_p).done(function(data){ 
-            $('#bodyT').html(data);
-            $('#titulo_modal').html('Ordenes de venta donde se vendio el servicio '+ concepto);
-        });
-        
-        $('#myModal').modal('show');
-        $('#myModal').on('shown.bs.modal', function (e) { });
-        $('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
-    }});
-    
+	verOV_p(idP,fechaMin,fechaMax,concepto);
 }
 </script>
