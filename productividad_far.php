@@ -232,7 +232,7 @@ $(document).ready(function(e) {
 		oTableP.draw();
 	});
 });
-function verOV(idP,fechaMin,fechaMax,concepto){
-	verOV_p(idP,fechaMin,fechaMax,concepto);
+function verOV(idP,fechaMin,fechaMax,concepto,sucursal){
+	verOV_f(idP,fechaMin,fechaMax,concepto,sucursal);
 }
 </script>
