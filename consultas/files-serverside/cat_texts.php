@@ -136,6 +136,14 @@ require("../../funciones/php/values.php");
 	}else{$encaNM1 = "";}
 
 	//LOGOS SUCURSALES NUMERADOS 
+	mysql_select_db($database_horizonte, $horizonte);
+	$su="SELECT s.no_temp_su from sucursales s left join usuarios u on u.idSucursal_u = s.id_su where u.id_u = $idU limit 1";
+	$sucur = mysql_query($su, $horizonte) or die (mysql_error());
+ 	$sucur1 = mysql_fetch_row($sucur);
+	$idSucuf = $sucur1[0];
+	// echo $su;
+	// echo $idSucuf;
+
 	$px1 = "80";
 	$px2 = "80";
 	$px3 = "80";
@@ -157,7 +165,7 @@ require("../../funciones/php/values.php");
 	$l =0;
 	for ($i=1; $i < 16; $i++) { 
 		mysql_select_db($database_horizonte, $horizonte); //Logo de la sucursal
-		$resul_LogoS1 = mysql_query("SELECT id_do, ext_do from documentos where aleatorio_do = $idSucu and que_es_do = 'DOCUMENTO' and tipo_quien_do = 2 and num_suc_do = $i ", $horizonte) or die (mysql_error());
+		$resul_LogoS1 = mysql_query("SELECT id_do, ext_do from documentos where aleatorio_do = '$idSucuf' and que_es_do = 'DOCUMENTO' and tipo_quien_do = 2 and num_suc_do = $i ", $horizonte) or die (mysql_error());
 		$rowLogo = mysql_fetch_row($resul_LogoS1); 
 		if($rowLogo){
 			$conPx = $l + 1;
