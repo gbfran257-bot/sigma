@@ -37,12 +37,6 @@
 	<script src="DataTables-1.12/Buttons-2.2.3/js/buttons.print.min.js"></script> 
 	<script src="DataTables-1.12/pdfmake-0.1.36/pdfmake.min.js"></script> 
 	<script src="DataTables-1.12/pdfmake-0.1.36/vfs_fonts.js"></script> 
-    <!-- <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
-    <script src="DataTables-1.10.13/media/js/dataTables.bootstrap.min.js"></script>
-    <script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script>
-	<script src="TableTools-2.1.5/media/js/TableTools.js"></script>
-    <script src="TableTools-2.1.5/media/js/ZeroClipboard.js"></script> -->
-
 
     <script src="bootstrap-validator/js/validator.js"></script>
     <script src="sweetalert/dist/sweetalert.min.js"></script>
@@ -62,6 +56,7 @@
     <script src="funciones/js/calcula_edad.js"></script>
     <script src="funciones/js/stdlib.js"></script>
     <script src="funciones/js/bs-modal-fullscreen.js"></script>
+	<script src="funciones/js/ver_OV_prod.js"></script>
     
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
@@ -137,7 +132,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay){
 			var iTotal = 0, iTotalTotal=0, iTotalCosto=0, iTotalUtilidad=0;
             for(var i=iStart ; i<iEnd ; i++){ 
-				iTotal += aaData[ aiDisplay[i] ][2]*1; 
+				// iTotal += aaData[ aiDisplay[i] ][2]*1; 
 				iTotalTotal += aaData[ aiDisplay[i] ][4]*1;
 				iTotalCosto += aaData[ aiDisplay[i] ][5]*1;
 				iTotalUtilidad += aaData[ aiDisplay[i] ][6]*1;
@@ -145,7 +140,7 @@ $(document).ready(function(e) {
 
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
-            nCells[2].innerHTML = redondear(parseFloat(iTotal * 100)/100,2);
+            // nCells[2].innerHTML = redondear(parseFloat(iTotal * 100)/100,2);
 			nCells[4].innerHTML = redondear((parseFloat(iTotalTotal) * 100)/100,2);
             nCells[5].innerHTML = redondear((parseFloat(iTotalCosto) * 100)/100,2);
             nCells[6].innerHTML = redondear((parseFloat(iTotalUtilidad) * 100)/100,2);
@@ -231,4 +226,7 @@ $(document).ready(function(e) {
 		oTableP.draw();
 	});
 });
+function verOV(idP,fechaMin,fechaMax,concepto){
+	verOV_p(idP,fechaMin,fechaMax,concepto);
+}
 </script>

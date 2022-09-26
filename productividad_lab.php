@@ -54,6 +54,7 @@
     <script src="funciones/js/calcula_edad.js"></script>
     <script src="funciones/js/stdlib.js"></script>
     <script src="funciones/js/bs-modal-fullscreen.js"></script>
+	<script src="funciones/js/ver_OV_prod.js"></script>
     
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
@@ -127,7 +128,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay){
 			var iTotal = 0, iTotalTotal=0, iTotalCosto=0, iTotalUtilidad=0;
             for(var i=iStart ; i<iEnd ; i++){
-            	iTotal += aaData[ aiDisplay[i] ][2]*1;
+            	// iTotal += aaData[ aiDisplay[i] ][2]*1;
             	iTotalTotal += aaData[ aiDisplay[i] ][4]*1;
 				iTotalCosto += aaData[ aiDisplay[i] ][5]*1;
 				iTotalUtilidad += aaData[ aiDisplay[i] ][6]*1;
@@ -135,7 +136,7 @@ $(document).ready(function(e) {
 
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
-            nCells[2].innerHTML = new Intl.NumberFormat().format(redondear(parseFloat(iTotal * 100)/100,2));
+            // nCells[2].innerHTML = new Intl.NumberFormat().format(redondear(parseFloat(iTotal * 100)/100,2));
             nCells[4].innerHTML = new Intl.NumberFormat().format(redondear((parseFloat(iTotalTotal) * 100)/100,2));
             nCells[5].innerHTML = new Intl.NumberFormat().format(redondear((parseFloat(iTotalCosto) * 100)/100,2));
             nCells[6].innerHTML = new Intl.NumberFormat().format(redondear((parseFloat(iTotalUtilidad) * 100)/100,2));
@@ -222,4 +223,7 @@ $(document).ready(function(e) {
 		oTableP.draw();
 	});
 });
+function verOV(idP,fechaMin,fechaMax,concepto){
+	verOV_p(idP,fechaMin,fechaMax,concepto);
+}
 </script>

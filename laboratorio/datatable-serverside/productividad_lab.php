@@ -3,7 +3,7 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('v.id_vc', 'e.concepto_to', 'count(v.id_vc) as suma', 'v.id_vc', 'e.aleatorio_c', 'e.c_costo', 'sum(v.precio_vc)','e.linea_c' );
+	$aColumns = array('v.id_vc', 'e.concepto_to', 'count(v.id_vc) as suma', 'v.id_vc', 'e.aleatorio_c', 'e.c_costo', 'sum(v.precio_vc)','e.linea_c','v.id_concepto_es' );
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -153,6 +153,7 @@ require("../../funciones/php/values.php");
         $utilidad = $total - $costo;
         $row[5] = $costo;
         $row[6] = $utilidad;
+        $row[2] = "<span class='btn btn-primary' onclick='verOV($row[8],\"$_GET[min]\",\"$_GET[max]\",\"$row[1]\")'>$row[2]</span>";
 				
 		$output['aaData'][] = $row;
     }
