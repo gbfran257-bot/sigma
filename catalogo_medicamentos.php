@@ -354,6 +354,15 @@ function verMedicamento(id_medi, nombre_m, id_su){
 			$('#codigo_b_m').val(datos[20]); $('#form-medicamento').validator('update'); $('#tex_base').text(datos[0]);
 
 		});
+
+		$("#miSucursalNS").change(function(){
+			var datosS = {id_medi:id_medi, id_su:$("#miSucursalNS").val()}
+			$.post('farmacia/medicamentos/files-serverside/min_max.php',datosS).done(function(data){
+				let datos = data.split('}{[_}');
+				$('#max_p').val(datos[0]);
+				$('#min_p').val(datos[1]);
+			});
+		});
 		
 		$('#form-medicamento').validator().on('submit', function (e) {
 		  if (e.isDefaultPrevented()) { // handle the invalid form...

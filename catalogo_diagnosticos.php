@@ -78,7 +78,7 @@
         </button>
 	</th>
 	<th style="vertical-align:middle;" class="text-center">DIAGNOSTICO</th>
-	<th style="vertical-align:middle;" class="text-center">GPI</th>
+	<th style="vertical-align:middle;" class="text-center">GPC</th>
 	<th style="vertical-align:middle;" class="text-center">ELIMINAR</th>
 	</tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 

@@ -24,9 +24,9 @@
                     <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group col-md-5 col-sm-4 text-primary ">
-                    <label for="diagno" class="col-form-label rec-requeridos" id="lblgpi">GPI</label>
+                    <label for="diagno" class="col-form-label rec-requeridos" id="lblgpi">GPC</label>
                     <input type="file" name="gpi" id="gpi" class="form-control form-control-sm">
-                    <span class="btn btn-danger hidden" id="deleteGpi">Eliminar GPI</span>
+                    <span class="btn btn-danger hidden" id="deleteGpi">Eliminar GPC</span>
                     <div class="help-block with-errors"></div>
                 </div>
             </div>
