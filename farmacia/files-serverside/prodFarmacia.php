@@ -9,14 +9,14 @@ require("../../funciones/php/values.php");
 
  
  mysql_select_db($database_horizonte, $horizonte);
- $sql = "SELECT v.precio_vc, v.referencia_vc, p.nombre_completo_p, v.fecha_venta_vc FROM venta_conceptos v left join pacientes p on p.id_p = v.id_paciente_vc left join orden_venta ov on ov.referencia_ov = v.referencia_vc left join sucursales s on s.id_su = ov.sucursal_ov where s.nombre_su = $sucu AND v.id_concepto_es = $idP AND v.temporal_vc = 0 AND v.fecha_venta_vc BETWEEN $fechaMin AND $fechaMax";
+ $sql = "SELECT v.precio_vc, v.referencia_vc, p.nombre_completo_p, v.fecha_venta_vc, u.usuario_u FROM venta_conceptos v left join pacientes p on p.id_p = v.id_paciente_vc left join orden_venta ov on ov.referencia_ov = v.referencia_vc left join sucursales s on s.id_su = ov.sucursal_ov  left join usuarios u on u.id_u = v.id_usuario_vc where s.nombre_su = $sucu AND v.id_concepto_es = $idP AND v.temporal_vc = 0 AND v.fecha_venta_vc BETWEEN $fechaMin AND $fechaMax";
  $resultC = mysql_query($sql, $horizonte) or die (mysql_error());
 $salida =" <thead><th>REFERENCIAS</th><th>PRECIO</th><th>PACIENTE</th><th>FECHA VENTA</th></thead><tbody>";
 while($fila = mysql_fetch_assoc($resultC)){
     $salida.=   "<tr><td>".$fila['referencia_vc']."</td>".
                 "<td>".$fila['precio_vc']."</td>".
                 "<td>".$fila['nombre_completo_p']."</td>".
-                "<td>".$fila['fecha_venta_vc']."</td></tr>";
+                "<td>".$fila['usuario_u']. "<br>" .$fila['fecha_venta_vc']."</td></tr>";
 }
 $salida.="</tbody>";
 
