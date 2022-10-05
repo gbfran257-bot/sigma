@@ -308,8 +308,8 @@ $sucu_user = $_SESSION['MM_Usersucu'];
         }
         
 
-        $row[12] = $row[8] * $row[9];
-        $row[13] = $row[9] * $row[10];
+        $row[12] = $row[9] * $row[10];
+        $row[13] = $row[9] * $row[11];
         $existencias =$row[9];
         if($row[9] > 0){
             $row[14] ="<span class='btn btn-primary' onclick='transferencias($row[15], $existencias,$row[16],\"$row[1]\");' ><i class='fa fa-exchange'></i></span>"; 
@@ -324,7 +324,7 @@ $sucu_user = $_SESSION['MM_Usersucu'];
         }else if($tipo_user == 15){
             $row[9] = "<span class='btn btn-primary' onclick='cambiarExistencias($row[15],$row[9],\"$row[3]\",\"$feCad\")'>$row[9]</span>"; 
         }
-       
+       $row[15] =  $existencias;
 
         
        $row[0]= $hh;

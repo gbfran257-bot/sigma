@@ -94,6 +94,7 @@
     <th style="vertical-align:middle;" nowrap>TOTAL COSTO</th>
 	<th style="vertical-align:middle;" nowrap>TOTAL PRECIO</th>
 	<th style="vertical-align:middle;" nowrap>TRANS</th>
+	<th></th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -111,6 +112,7 @@
             <th></th>
             <th></th>
             <th></th>
+			<th></th>
 			<th></th>
 			<th></th>
         </tr>
@@ -137,14 +139,14 @@ $(document).ready(function(e) {
 
 			var insumosT = 0, iCostoTotal=0, iPrecioTotal=0;
             for(var i=iStart ; i<iEnd ; i++){ 
-				// insumosT += aaData[ aiDisplay[i] ][8]*1; 
-				iCostoTotal += aaData[ aiDisplay[i] ][11]*1;
-				iPrecioTotal += aaData[ aiDisplay[i] ][12]*1;
+				insumosT += aaData[ aiDisplay[i] ][15]*1; 
+				iCostoTotal += aaData[ aiDisplay[i] ][12]*1;
+				iPrecioTotal += aaData[ aiDisplay[i] ][13]*1;
 				}
 
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
-            // nCells[8].innerHTML = redondear(parseFloat(insumosT * 100)/100,2);
+            nCells[8].innerHTML = redondear(parseFloat(insumosT * 100)/100,2);
 			nCells[11].innerHTML = redondear((parseFloat(iCostoTotal) * 100)/100,2);
             nCells[12].innerHTML = redondear((parseFloat(iPrecioTotal) * 100)/100,2);
             // nCells[6].innerHTML = redondear((parseFloat(iTotalUtilidad) * 100)/100,2);
@@ -154,7 +156,8 @@ $(document).ready(function(e) {
 			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, 
 			{"bVisible":false}, {"bVisible":true}, {"bVisible":true},
 			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, 
-			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, 
+			{"bVisible":false}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
