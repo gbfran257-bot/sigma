@@ -124,7 +124,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay){
 			var iTotal = 0, iTotalV = 0, iTotalTotal=0, iTotalCosto=0, iTotalUtilidad=0, honorarios=0;
             for(var i=iStart ; i<iEnd ; i++){ 
-				// iTotalV += aaData[ aiDisplay[i] ][2]*1; 
+				iTotalV += aaData[ aiDisplay[i] ][9]*1; 
 				iTotalTotal += aaData[ aiDisplay[i] ][4]*1; 
 				iTotalCosto += aaData[ aiDisplay[i] ][5]*1;
 				iTotalUtilidad += aaData[ aiDisplay[i] ][6]*1;
@@ -133,7 +133,7 @@ $(document).ready(function(e) {
 
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
-			// nCells[2].innerHTML = redondear(parseFloat(iTotalV * 100)/100,2);
+			nCells[2].innerHTML = redondear(parseFloat(iTotalV * 100)/100,2);
 			nCells[4].innerHTML = redondear((parseFloat(iTotalTotal) * 100)/100,2);
             nCells[5].innerHTML = redondear((parseFloat(iTotalCosto) * 100)/100,2);
             nCells[6].innerHTML = redondear((parseFloat(iTotalUtilidad) * 100)/100,2);

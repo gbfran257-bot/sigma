@@ -128,7 +128,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay){
 			var iTotal = 0, iTotalTotal=0, iTotalCosto=0, iTotalUtilidad=0;
             for(var i=iStart ; i<iEnd ; i++){
-            	// iTotal += aaData[ aiDisplay[i] ][2]*1;
+            	iTotal += aaData[ aiDisplay[i] ][9]*1;
             	iTotalTotal += aaData[ aiDisplay[i] ][4]*1;
 				iTotalCosto += aaData[ aiDisplay[i] ][5]*1;
 				iTotalUtilidad += aaData[ aiDisplay[i] ][6]*1;
@@ -136,12 +136,12 @@ $(document).ready(function(e) {
 
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
-            // nCells[2].innerHTML = new Intl.NumberFormat().format(redondear(parseFloat(iTotal * 100)/100,2));
+            nCells[2].innerHTML = new Intl.NumberFormat().format(redondear(parseFloat(iTotal * 100)/100,2));
             nCells[4].innerHTML = new Intl.NumberFormat().format(redondear((parseFloat(iTotalTotal) * 100)/100,2));
             nCells[5].innerHTML = new Intl.NumberFormat().format(redondear((parseFloat(iTotalCosto) * 100)/100,2));
             nCells[6].innerHTML = new Intl.NumberFormat().format(redondear((parseFloat(iTotalUtilidad) * 100)/100,2));
 		},
-		"aoColumns":[ {"bVisible":true}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
+		"aoColumns":[ {"bVisible":true}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true }],
 		// "sDom": '<"filtro1Principal"f>rT<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		"sDom": '<"filtro1Principal"f>Bl<"data_tPrincipal"t><"infoPrincipal"S>',
 		buttons: [ 

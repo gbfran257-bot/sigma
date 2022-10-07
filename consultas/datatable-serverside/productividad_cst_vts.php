@@ -133,6 +133,7 @@ require("../../funciones/php/values.php");
 		$row[3] = "<span>$porce %</span>";
 	    $row[5] = $row[6];
         $row[6] = $row[4] - $row[5];
+        $row[9] = $row[2];
         $row[2] = "<span class='btn btn-primary' onclick='verOV($row[8],\"$_GET[min]\",\"$_GET[max]\",\"$row[1]\")'>$row[2]</span>";
         $contV1++;
 		$output['aaData'][] = $row;
