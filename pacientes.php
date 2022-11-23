@@ -787,7 +787,10 @@ function nuevo_paciente(){ //Para poder crear un usuario nuevo, el usuario actua
 					swal({
 					  title: "¡CONFIRMACIÓN!", text: "El paciente se ha creado satisfactoriamente.", type: "success", showCancelButton: true,
 					  confirmButtonColor: "#DD6B55", confirmButtonText: "Orden de venta", cancelButtonText: "Cerrar", closeOnConfirm: false
-					}, function(){ swal.close(); nuevaVisita(data2[1], data2[2]); }); return;
+					}, function(){
+						nuevaVisita(data2[1], data2[2]);
+						swal.close();
+					});
 				} else{alert(data);}
 			});
 		  }
@@ -1765,7 +1768,6 @@ function nuevaVisita(idP, nombreP){
 								confirmButtonText: "Imprimir", cancelButtonText: "Salir", closeOnConfirm: false
 								},
 								function(){
-									swal.close();
 									$("#myModal1").load('pacientes/htmls/ticket.php', function( response, status, xhr ){ if(status=="success"){
 										//var tamP = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-144;
 										$('#contenedorAnteriores, #myAbonadoA').hide();
@@ -1814,9 +1816,9 @@ function nuevaVisita(idP, nombreP){
 										$('#myModal1').modal('show');
 										$('#myModal1').on('shown.bs.modal',function(e){ });
 										$('#myModal1').on('hidden.bs.modal',function(e){ $("#myModal1 .modal-content").remove(); $("#myModal1").empty(); });
-									}});					
+									}});
+									swal.close();
 								});
-								return;
 							} else{alert(datil[0]);}
 						});
 					}
