@@ -828,7 +828,7 @@ function est(a,b,idPacs){/*a es id del estudio, b es el id del estudio ambos en 
 				
 				$('#btn_v_html').click(function(e) {
 					var mi_refer = $('#referencia_est').attr("refe");//val().replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
-					window.open('http://'+koby[0]+':8888/viewer.html?patientID='+mi_refer);
+					window.open('http://'+koby[0]+':88/viewer.html?patientID='+mi_refer);
                 });
 				$('#btn_v_avanzado').click(function(e) {
 					var mi_refer = $('#referencia_est').val().replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
