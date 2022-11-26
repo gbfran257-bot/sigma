@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="SISTEMA DE EXPEDIENTE CLÍNICO ELECTRÓNICO">
-    <meta name="author" content="ING EMMANUEL ANZURES BAUTISTA">
+    <meta name="author" content="ING JESUS DIAZ CONTRERAS">
     
     <title>SISTEMA - SEGUROS</title>
     
