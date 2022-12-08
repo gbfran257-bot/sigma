@@ -114,7 +114,6 @@ require("../../funciones/php/values.php");
 		mysql_select_db($database_horizonte, $horizonte);
 		$resultT = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es where e.id_tipo_concepto_to = 2 and v.temporal_vc=0 and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die(mysql_error());
 		$rowT = mysql_fetch_row($resultT);
-		
 		$porce = round(($row[2]*100)/$rowT[0],4);
 		$total = $row[4];
         $costo = $row[5]*$row[2];
@@ -122,8 +121,9 @@ require("../../funciones/php/values.php");
 		$row[3] = "<span>$porce %</span>";
         $row[5] = $costo;
         $row[6] = $utilidad;
+        $row[9] = $row[2];
         $row[2] = "<span class='btn btn-primary' onclick='verOV($row[8],\"$_GET[min]\",\"$_GET[max]\",\"$row[1]\")'>$row[2]</span>";
-		// $row[3] = "<span>$porce %</span>";
+		
 				
 		$output['aaData'][] = $row;
     }
