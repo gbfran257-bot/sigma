@@ -152,6 +152,21 @@
                 </div>
                 
                 <div class="row">
+                    <div class="col-sm-8 col-xs-8"> 
+                        <div class="form-group">
+                            <label for="puesto_p">Puesto</label>
+                            <input type="text" class="form-control" id="puesto_p" name="puesto_p" placeholder="Puesto" >
+                        </div> 
+                    </div>
+                    <div class="col-sm-4 col-xs-4">
+                        <div class="form-group">
+                            <label for="clave_p">Clave</label>
+                            <input type="text" class="form-control" id="clave_p" name="clave_p" placeholder="Clave" >
+                            <div class="help-block with-errors"></div>
+                        </div>
+                     </div>
+                </div>
+                <div class="row">
                     <div class="col-sm-8 col-xs-8"> <div class="form-group">
                     <label for="email_p">Correo electrónico</label>
                     <input type="email" class="form-control" id="email_p" name="email_p" placeholder="Correo electrónico">

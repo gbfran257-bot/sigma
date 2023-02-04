@@ -28,6 +28,8 @@ require("../../funciones/php/values.php");
  $nombre_completo = sqlValue(mb_strtoupper($nombre_completo), "text");
  $facebook = sqlValue($_POST["facebook_p"], "text");
  $instagram = sqlValue($_POST["instagram_p"], "text");
+ $puesto_p = sqlValue($_POST["puesto_p"], "text");
+ $clave_p = sqlValue($_POST["clave_p"], "text");
  
  //Datos de dirección
  if(isset($_POST["estado_dir_p"])){$estado = sqlValue($_POST["estado_dir_p"], "int");}else{$estado = 'NULL';}
@@ -55,7 +57,15 @@ require("../../funciones/php/values.php");
  //$idBanco = sqlValue($_POST["bancoPF"], "int"); $digitos4 = sqlValue($_POST["digitos4B"], "text");
   
  mysql_select_db($database_horizonte, $horizonte);
- $sql = "UPDATE pacientes set nombre_p = $nombre, apaterno_p = $apaterno, amaterno_p = $amaterno, sexo_p = $idSexo, nacionalidad_p = $id_pais, fNac_p = $fechaNacimiento, tCelular_p = $tCelular, tParticular_p = $tParticular, curp_p = $curp, rfc_p = $rfc, entidadFederativa_p = $estado, municipio_p = $municipio, ciudad_p = $ciudad, colonia_p = $colonia, cp_p = $cp, calle_p = $calle, tTrabajo_p = $telefonoTrabajo, extensionTt_p = $extensionTT, email_p = $email, entidad_nacimiento_p = $entidadNacimiento, razon_social_p = $razon, calle_pf = $calleF, entidadFederativa_pf = $estadoF, municipio_pf = $municipioF, ciudad_pf = $ciudadF, colonia_pf = $coloniaF, cp_pf = $cpF, rfc_f_p = $rfcF, tSanguineo_p = $tSangreP, nombre_completo_p = $nombre_completo, coordenadas_p = GeomFromText('POINT($latitud $longitud)'), email_pf = $email_pf, contactoEmergencia_p = $avisara, tEmergencia_p = $temergencia, facebook = $facebook, instagram = $instagram where id_p = $idP limit 1 ";
+ $sql = "UPDATE pacientes set nombre_p = $nombre, apaterno_p = $apaterno, amaterno_p = $amaterno, sexo_p = $idSexo, ".
+ "nacionalidad_p = $id_pais, fNac_p = $fechaNacimiento, tCelular_p = $tCelular, tParticular_p = $tParticular, ".
+ "curp_p = $curp, rfc_p = $rfc, entidadFederativa_p = $estado, municipio_p = $municipio, ciudad_p = $ciudad, ".
+ "colonia_p = $colonia, cp_p = $cp, calle_p = $calle, tTrabajo_p = $telefonoTrabajo, extensionTt_p = $extensionTT, ".
+ "email_p = $email, entidad_nacimiento_p = $entidadNacimiento, razon_social_p = $razon, calle_pf = $calleF, ".
+ "entidadFederativa_pf = $estadoF, municipio_pf = $municipioF, ciudad_pf = $ciudadF, colonia_pf = $coloniaF, ".
+ "cp_pf = $cpF, rfc_f_p = $rfcF, tSanguineo_p = $tSangreP, nombre_completo_p = $nombre_completo, ".
+ "coordenadas_p = GeomFromText('POINT($latitud $longitud)'), email_pf = $email_pf, contactoEmergencia_p = $avisara, ".
+ "tEmergencia_p = $temergencia, facebook = $facebook, instagram = $instagram, puesto_p=$puesto_p, clave_p=$clave_p where id_p = $idP limit 1 ";
   
  $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	
