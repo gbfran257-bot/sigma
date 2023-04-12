@@ -13,22 +13,48 @@ if (!$conn) {
     die("Error de conexión: " . mysqli_connect_error());
 }
 // Verifica si se recibieron los datos necesarios
-if (isset($_POST['usuario']) && isset($_POST['password']) && isset($_POST['curp'])) {
+if (isset($_POST['usuario']) && isset($_POST['password'])) {
     // Escapa los valores recibidos para evitar inyecciones SQL
     $usuario = mysqli_real_escape_string($conn, $_POST['usuario']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $curp = mysqli_real_escape_string($conn, $_POST['curp']);
-    // Crea la consulta SQL para insertar un nuevo registro
-    $sql = "INSERT INTO app_pacientes (usuario, password, curp) VALUES ('$usuario', '$password', '$curp')";
-    // Ejecuta la consulta SQL y verifica si hubo errores
-    if (mysqli_query($conn, $sql)) {
-        // Obtiene el ID del nuevo registro insertado
-        $id = mysqli_insert_id($conn);
-        // Devuelve un JSON con el ID del nuevo registro
-        echo json_encode(array('id' => $id));
-    } else {
-        // Devuelve un JSON con los detalles del error
-        echo json_encode(array('error' => mysqli_error($conn)));
+    // Encripta la contraseña utilizando la función password_hash()
+    $hash = password_hash($password, PASSWORD_DEFAULT);
+    // Inserta el nuevo registro en la tabla app_pacientes
+    try {
+        // Crea la consulta SQL para insertar un nuevo registro
+        $sql = "SELECT id, password FROM app_pacientes WHERE usuario = '$usuario';";
+        // Ejecuta la consulta SQL y verifica si hubo errores
+        if ($result = mysqli_query($conn, $sql)) {
+            // Verifica si se encontró un registro para el usuario
+            if (mysqli_num_rows($result) == 1) {
+                $row = mysqli_fetch_assoc($result);
+                $hash = $row['password'];
+                // Verifica si la contraseña coincide con el hash almacenado
+                if (password_verify($password, $hash)) {
+                    // Autenticación exitosa, devuelve el ID del paciente
+                    $response = ["id" => $row['id']];
+                    echo json_encode($response);
+                } else {
+                    // Contraseña incorrecta
+                    $response = ["error" => "Contraseña incorrecta"];
+                    echo json_encode($response);
+                }
+            } else {
+                // Usuario no encontrado
+                $response = ["error" => "El usuario no existe"];
+                echo json_encode($response);
+            }
+            // Libera el resultado de la consulta
+            mysqli_free_result($result);
+        } else {
+            // Error en la consulta SQL
+            $response = ["error" => "Error en la consulta SQL: " . mysqli_error($conn)];
+            echo json_encode($response);
+        }
+    } catch(mysqli_sql_exception $e) {
+        // Captura la excepción y devuelve un mensaje de error
+        $response = ["error" => "El usuario no existe en la base de datos"];
+        echo json_encode($response);
     }
 } else {
     // Devuelve un JSON con un mensaje de error si no se recibieron los datos necesarios
