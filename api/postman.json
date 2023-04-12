@@ -1,0 +1,36 @@
+{
+    "info": {
+        "_postman_id": "71d5361a-22c1-4ee7-951e-8a5377dcf28a",
+        "name": "Ejemplo de Colección POSTMAN para Sigma",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Login de Paciente",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"usuario\": \"nombre_de_usuario\",\n    \"password\": \"contraseña_de_usuario\"\n}"
+                },
+                "url": {
+                    "raw": "http://sigmacadit.ddns.net/sigma22/api/paciente/login",
+                    "protocol": "http",
+                    "host": [
+                        "sigmacadit",
+                        "ddns",
+                        "net"
+                    ],
+                    "path": [
+                        "sigma22",
+                        "api",
+                        "paciente",
+                        "login"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+}
