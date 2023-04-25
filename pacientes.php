@@ -96,7 +96,15 @@
 			float:right;
 			padding-right: 15px;
 		}
-    </style>
+		/* Estilo necesario para que se muestre el select2 en el modal */
+		.select2-container {
+			z-index: 9999;
+		}
+	</style>
+
+	<!--Select2-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 <?php include_once 'partes/header.php'; 
 
@@ -1974,6 +1982,13 @@ function nuevaVisita(idP, nombreP){
                 
             }
         });
+
+		$('#caja_ov').load('pacientes/files-serverside/caja.php',function(response,status,xhr){
+			$('#caja_ov').select2({
+				tags: true
+			});
+		});
+		
 			
 		var oTableElaS = $('#dataTableElS').DataTable({
 			serverSide: true,"sScrollY": 120, ordering: false, searching: true, scrollCollapse: false,
