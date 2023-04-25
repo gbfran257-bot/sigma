@@ -65,6 +65,16 @@
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
     <link href="c3/c3.css" rel="stylesheet">
+	<style>
+		/* Estilo necesario para que se muestre el select2 en el modal */
+		.select2-container {
+			z-index: 9999;
+		}
+	</style>
+
+	<!--Select2-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
@@ -371,6 +381,11 @@ function pagar(ref, tot, sal, abo, pac, noTemp, indicador, tCo, tIm, tLab, tFar)
 				if($(this).val()==1){ $('#pagaConP').prop('readonly',false); }else{$('#pagaConP').prop('readonly',true);}
 			});
 		} }); var permite = 1;
+		$('#caja_ov').load('pacientes/files-serverside/caja.php',function(response,status,xhr){
+			$('#caja_ov').select2({
+				tags: true
+			});
+		});
 		
 		$('#form-pagar').validator().on('submit', function (e) {
 		  if (e.isDefaultPrevented()) { // handle the invalid form...
@@ -384,7 +399,8 @@ function pagar(ref, tot, sal, abo, pac, noTemp, indicador, tCo, tIm, tLab, tFar)
 
 				var datosP={
 					ref:ref,user:$('#id_user').val(),pago_ov_c:$('#pago_ov_c').val(),noTemp:noTemp,formaPagoP:$('#formaPagoP').val(),
-					pago_ov_i:$('#pago_ov_i').val(), pago_ov_l:$('#pago_ov_l').val(), pago_ov_f:$('#pago_ov_f').val(), opcion_pa:$('#opcion_pa').val()
+					pago_ov_i:$('#pago_ov_i').val(), pago_ov_l:$('#pago_ov_l').val(), pago_ov_f:$('#pago_ov_f').val(), opcion_pa:$('#opcion_pa').val(),
+					caja_ov: $('#caja_ov').val()
 				}
 				$.post('corte_caja/reportes/files-serverside/savePago.php',datosP).done(function(data){
 					if(data==1){
