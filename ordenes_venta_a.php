@@ -422,7 +422,10 @@ function pagar(ref, tot, sal, abo, pac, noTemp, indicador, tCo, tIm, tLab, tFar)
 		} }); var permite = 1;
 		$('#caja_ov').load('pacientes/files-serverside/caja.php',function(response,status,xhr){
 			$('#caja_ov').select2({
-				tags: true
+				tags: true,
+				language: "es",
+				allowClear: true,
+				width: '100%'
 			});
 		});
 		
