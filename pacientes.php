@@ -1652,7 +1652,7 @@ function forzarImpresion(id){
 			if(datosT[28]>0){ $('#myIva').removeClass('hidden'); }else{$('#myIva').addClass('hidden');}
 			$('#ivaT').text(datosT[28]); $('#abonosT').val(datosT[29]); $('#saldosT').val(datosT[30]);
 			$('#fechaOv').text(datosT[34]);
-			if(datosT[35] != undefined && datosT[35] != null && datos[35].length){
+			if(datosT[35] != undefined && datosT[35] != null && datosT[35].length){
 				$('#cajaT').text(datosT[35]);
 			}else{
 				$('#cajaT').parent().hide();
@@ -1824,7 +1824,7 @@ function nuevaVisita(idP, nombreP){
 											if(datosT[28]>0){ $('#myIva').removeClass('hidden'); }else{$('#myIva').addClass('hidden');}
 											$('#ivaT').text(datosT[28]); $('#abonosT').val(datosT[29]); $('#saldosT').val(datosT[30]);
 											$('#fechaOv').text(datosT[34]);
-											if(datosT[35] != undefined && datosT[35] != null && datos[35].length){
+											if(datosT[35] != undefined && datosT[35] != null && datosT[35].length){
 												$('#cajaT').text(datosT[35]);
 											}else{
 												$('#cajaT').parent().hide();
