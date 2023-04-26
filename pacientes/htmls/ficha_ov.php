@@ -73,7 +73,7 @@
 								</select>
 							</div>
               <div class="col-sm-6 col-xs-12">
-                <select id="caja_ov" name="caja_ov" class="form-control input-sm" required></select>
+                <select id="caja_ov" name="caja_ov" class="form-control form-control-sm input-sm" required></select>
               </div>
 							<div class="col-sm-12 col-xs-12" align="left">
 								<div class="checkbox"> <label> <input type="checkbox" id="cb_facturada_ov" name="cb_facturada_ov"> Facturada </label> </div>
