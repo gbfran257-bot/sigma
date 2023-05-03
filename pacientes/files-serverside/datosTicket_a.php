@@ -5,7 +5,7 @@ require("../../funciones/php/values.php");
  $noTemp = sqlValue($_POST["noAleatorio"], "text"); $fecha = date('d/m/Y'); $hora = date('H:i:s');
  
  mysql_select_db($database_horizonte, $horizonte); 
- $resultR = mysql_query("SELECT o.referencia_ov, o.id_paciente_ov, o.adicionales_ei_ov, o.adicionales_el_ov, o.adicionales_s_ov, o.gran_total_ov, sum(p.pago_pag), p.pago_pag-o.gran_total_ov, o.usuario_ov, o.adicionales_c_ov, p.forma_pago_pag, p.no_cheque_pag, o.id_ov, o.adicionales_ei_ov, o.adicionales_el_ov, o.adicionales_s_ov, o.sucursal_ov, o.t_desc_cta + o.t_desc_img + o.t_desc_lab + o.t_desc_serv + o.t_desc_pro, su.no_temp_su, o.iva_ov, o.subtotal_ov, sum(p.pago_pag), o.gran_total_ov-sum(p.pago_pag), o.adicionales_p_ov from orden_venta o left join pagos_ov p on p.referencia_pag = o.referencia_ov left join sucursales su on su.id_su = o.sucursal_ov where o.referencia_ov = $noTemp order by p.id_pag desc", $horizonte) or die (mysql_error());
+ $resultR = mysql_query("SELECT o.referencia_ov, o.id_paciente_ov, o.adicionales_ei_ov, o.adicionales_el_ov, o.adicionales_s_ov, o.gran_total_ov, sum(p.pago_pag), p.pago_pag-o.gran_total_ov, o.usuario_ov, o.adicionales_c_ov, p.forma_pago_pag, p.no_cheque_pag, o.id_ov, o.adicionales_ei_ov, o.adicionales_el_ov, o.adicionales_s_ov, o.sucursal_ov, o.t_desc_cta + o.t_desc_img + o.t_desc_lab + o.t_desc_serv + o.t_desc_pro, su.no_temp_su, o.iva_ov, o.subtotal_ov, sum(p.pago_pag), o.gran_total_ov-sum(p.pago_pag), o.adicionales_p_ov, DATE_FORMAT(o.fecha_venta_ov,'%d/%m/%Y %H:%i'), p.caja from orden_venta o left join pagos_ov p on p.referencia_pag = o.referencia_ov left join sucursales su on su.id_su = o.sucursal_ov where o.referencia_ov = $noTemp order by p.id_pag desc", $horizonte) or die (mysql_error());
  $rowR = mysql_fetch_row($resultR); $idFormaPago = sqlValue($rowR[10], "int"); $idSucursal = sqlValue($rowR[16], "int");
  $tempSucursal = sqlValue($rowR[18], "text");
  
@@ -43,6 +43,12 @@ require("../../funciones/php/values.php");
  $rowCP = mysql_fetch_row($resultCP);
  
  $direccionP = 'CALLE '.$rowP[4].' #'.$rowP[5].' COLONIA '.$rowCP[0].', '.$rowMP[0].', '.$rowEP[0];
+
+ mysql_select_db($database_horizonte, $horizonte); 
+ $resultU = mysql_query("SELECT nombre_u, apaterno_u, amaterno_u, usuario_u from usuarios where id_u = $rowR[8] limit 1", $horizonte) or die (mysql_error());
+ $rowU = mysql_fetch_row($resultU);
+ $resultU2 = mysql_query("SELECT nombre_u, apaterno_u, amaterno_u from venta_conceptos inner join usuarios on id_personal_medico_vc=id_u where referencia_vc='$rowR[0]' limit 1", $horizonte) or die (mysql_error()."99");
+ $rowU2 = mysql_fetch_row($resultU2);
  
  mysql_select_db($database_horizonte, $horizonte); 
  $resultU = mysql_query("SELECT nombre_u, apaterno_u, amaterno_u from usuarios where id_u = $rowR[8] limit 1", $horizonte) or die (mysql_error());
@@ -50,7 +56,7 @@ require("../../funciones/php/values.php");
  
  $paciente = $rowP[0]." ".$rowP[1]." ".$rowP[2]; $adicionales = $rowR[9]+$rowR[13]+$rowR[14]+$rowR[15]+$rowR[23];
 		
-echo $fecha.";}".$rowR[0].";}".$paciente.";}".$adicionales.";}".$rowR[5].";}".$rowR[6].";}".$rowR[7].";}".$rowU[0]." ".$rowU[1]." ".$rowU[2].";}".$fecha.";}".$hora.";}".$adicionales.";}".$rowFP[0].";}".$rowR[11].";}".$rowP[3].";}".$direccionP.";}".$rowSu[0].";}".$rowSu[1].";}".$rowSu[2].";}".$rowSu[3].";}".$rowSu[4].";}".$rowSu[5].";}".$rowSu[6].";}".$rowSu[7].";}".$rowCof[0].";}".$rowR[17].";}".$rowLo[0].";}".$rowLo[1].";}".$rowLo[2].";}".$rowR[19].";}".$rowR[20].";}".$rowR[21].";}".$rowR[22];
+echo $fecha.";}".$rowR[0].";}".$paciente.";}".$adicionales.";}".$rowR[5].";}".$rowR[6].";}".$rowR[7].";}".$rowU[0]." ".$rowU[1]." ".$rowU[2].";}".$fecha.";}".$hora.";}".$adicionales.";}".$rowFP[0].";}".$rowR[11].";}".$rowP[3].";}".$direccionP.";}".$rowSu[0].";}".$rowSu[1].";}".$rowSu[2].";}".$rowSu[3].";}".$rowSu[4].";}".$rowSu[5].";}".$rowSu[6].";}".$rowSu[7].";}".$rowCof[0].";}".$rowR[17].";}".$rowLo[0].";}".$rowLo[1].";}".$rowLo[2].";}".$rowR[19].";}".$rowR[20].";}".$rowR[21].";}".$rowR[22].";}".$rowU2[0]." ".$rowU2[1]." ".$rowU2[2].";}".$rowU[3].";}".$rowR[24].";}".$rowR[25];
 
  //Cerrar conexión a la Base de Datos
  mysql_close($horizonte);

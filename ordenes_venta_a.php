@@ -482,6 +482,7 @@ function pagar(ref, tot, sal, abo, pac, noTemp, indicador, tCo, tIm, tLab, tFar)
 									$('#fechaT').text(datosT[0]);$('#referenciaT').text(datosT[1]);$('#pacienteT').text(datosT[2]);
 									$('#adicionalesT').text(datosT[10]);$('#totalT').text(datosT[4]);$('#pagoT').text(montoPagar);
 									$('#saldoT').text(redondear(-1*(parseFloat(datosT[31])),2));
+									$('#medicoAtendioIT').text(datosT[32]);
 									$('#usuarioIT').text(datosT[7]);$('#fechaIT').text(datosT[8]);
 									$('#horaIT').text(datosT[9]); $('#formaPagoT').text(datosT[11]);
 									$('#cantidadLetraT').text(nn(datosT[4])); $('#municipioS').text(datosT[16]);
@@ -498,7 +499,11 @@ function pagar(ref, tot, sal, abo, pac, noTemp, indicador, tCo, tIm, tLab, tFar)
 									$('#ivaT').text(redondear(datosT[28],2)); $('#abonadoAT').text(redondear(parseFloat(datosT[30]),2));
 									$('#abonosT').text(redondear(parseFloat(datosT[30]),2)); $('#saldosT').text(redondear(-1*(parseFloat(datosT[31])),2));
 									$('#myAbonadoA').removeClass('hidden'); //$('#contenedorAnteriores, #myAbonadoA').removeClass('hidden');
-
+									if(datosT[35] != undefined && datosT[35] != null && datosT[35].length){
+										$('#cajaT').text(datosT[35]);
+									}else{
+										$('#cajaT').parent().hide();
+									}
 									$('#imprimirTic').click(function(e) { $('#tablaTicket').printElement(); });
 								});
 
