@@ -58,7 +58,8 @@
         <th>USUARIO</th>
         <th>REFERENCIA</th>
         <th>PACIENTE</th>
-        <th>SUCURSAL</th>
+        <th>CONVENIO</th>
+		<th>CAJA</th>
         <th>PAGO</th>
         <th nowrap style="white-space:nowrap">FECHA DE PAGO</th>
       </tr>
@@ -70,7 +71,8 @@
 			<th><input type="text" placeholder="Usuario" class="form-control input-sm"/></th>
 			<th><input type="text" placeholder="Referencia" class="form-control input-sm" /></th>
             <th><input type="text" placeholder="Paciente" class="form-control input-sm" /></th>
-			<th><input type="text" placeholder="Sucursal" class="form-control input-sm"/></th>
+			<th><input type="text" placeholder="Convenio" class="form-control input-sm"/></th>
+			<th><input type="text" placeholder="Caja" class="form-control input-sm"/></th>
 			<th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden"><input type="text" placeholder="Fecha" class="form-control input-sm"/></th>
 		</tr>
@@ -125,11 +127,11 @@ $(document).ready(function(e) {
 			
             /* Calculate the market share for browsers on this page */
             var iAbonado = 0;
-            for ( var i=iStart ; i<iEnd ; i++ ) { iAbonado += aaData[ aiDisplay[i] ][5]*1; }
+            for ( var i=iStart ; i<iEnd ; i++ ) { iAbonado += aaData[ aiDisplay[i] ][6]*1; }
              
             /* Modify the footer row to match what we want */
             var nCells = nRow.getElementsByTagName('th');
-			nCells[5].innerHTML = '$'+redondear(parseFloat(iAbonado * 100)/100,2);
+			nCells[6].innerHTML = '$'+redondear(parseFloat(iAbonado * 100)/100,2);
 			
 			window.setTimeout(function(){$('.erase1').each(function(index, element){ $(this).parent().parent().remove(); });},200);
         },
@@ -138,7 +140,7 @@ $(document).ready(function(e) {
 		"bStateSave": false, "bInfo": false, "bFilter": true, ordering: false,
 		"aoColumnDefs": [ 
 			{"bSortable":false, "aTargets":[0]}, {"bVisible": true,"aTargets": [ 1 ] }, {"bVisible": true,"aTargets": [ 2 ] },
-			{"bVisible": true,"aTargets": [ 3 ] }, {"bVisible": true,"aTargets": [ 4 ] }, {"sClass":"right1","aTargets":[ 5 ] }
+			{"bVisible": true,"aTargets": [ 3 ] }, {"bVisible": true,"aTargets": [ 4 ] }, {"bVisible": true,"aTargets": [ 10 ] }, {"sClass":"right1","aTargets":[ 5 ] }
 		],
 		"aaSorting": [[1, "desc"]], "iDisplayLength": 500000000000000, "bLengthChange": false,
 		"bProcessing": false, "bServerSide": true,
