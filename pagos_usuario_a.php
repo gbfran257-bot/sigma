@@ -72,7 +72,7 @@
 			<th><input type="text" placeholder="Referencia" class="form-control input-sm" /></th>
             <th><input type="text" placeholder="Paciente" class="form-control input-sm" /></th>
 			<th><input type="text" placeholder="Convenio" class="form-control input-sm"/></th>
-			<th><input type="text" placeholder="Caja" class="form-control input-sm"/></th>
+			<th></th>
 			<th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden"><input type="text" placeholder="Fecha" class="form-control input-sm"/></th>
 		</tr>
