@@ -140,7 +140,7 @@ $(document).ready(function(e) {
 		"bStateSave": false, "bInfo": false, "bFilter": true, ordering: false,
 		"aoColumnDefs": [ 
 			{"bSortable":false, "aTargets":[0]}, {"bVisible": true,"aTargets": [ 1 ] }, {"bVisible": true,"aTargets": [ 2 ] },
-			{"bVisible": true,"aTargets": [ 3 ] }, {"bVisible": true,"aTargets": [ 4 ] }, {"bVisible": true,"aTargets": [ 6 ] }, {"sClass":"right1","aTargets":[ 5 ] }
+			{"bVisible": true,"aTargets": [ 3 ] }, {"bVisible": true,"aTargets": [ 4 ] }, {"bVisible": true,"aTargets": [ 5 ] }, {"sClass":"right1","aTargets":[ 6 ] }
 		],
 		"aaSorting": [[1, "desc"]], "iDisplayLength": 500000000000000, "bLengthChange": false,
 		"bProcessing": false, "bServerSide": true,
