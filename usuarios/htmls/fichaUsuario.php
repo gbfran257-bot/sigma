@@ -801,7 +801,7 @@ $id_del_user = $_SESSION['id'];
                       <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_33" class="chekito"> MEDICAMENTOS</label>
+                      <label><input type="checkbox" name="p_33" class="chekito"> MEDIC  AMENTOS</label>
                       <input name="h_permisos[]" type="hidden" value="0">
                     </td>
                     <td>
@@ -869,27 +869,27 @@ $id_del_user = $_SESSION['id'];
                 <tr>
                   <td>
                     <label><input type="checkbox" name="p_7" class="chekito"> P. RECEPCIÓN</label>
-                    <!-- <input name="h_permisos[]" type="hidden" value="0"> -->
+                    <input name="h_permisos[]" type="hidden" value="0">
                   </td>
                   <td>
                     <label><input type="checkbox" name="p_11" class="chekito"> P. CONSULTAS</label>
-                    <!-- <input name="h_permisos[]" type="hidden" value="0"> -->
+                    <input name="h_permisos[]" type="hidden" value="0">
                   </td>
                   <td>
                     <label><input type="checkbox" name="p_21" class="chekito"> P. IMAGEN</label>
-                    <!-- <input name="h_permisos[]" type="hidden" value="0"> -->
+                    <input name="h_permisos[]" type="hidden" value="0">
                   </td>
                   <td>
                     <label><input type="checkbox" name="p_27" class="chekito"> P. LABORATORIO</label>
-                    <!-- <input name="h_permisos[]" type="hidden" value="0"> -->
+                    <input name="h_permisos[]" type="hidden" value="0">
                   </td>
                   <td>
                     <label><input type="checkbox" name="p_31" class="chekito"> P. SERVICIOS</label>
-                    <!-- <input name="h_permisos[]" type="hidden" value="0"> -->
+                    <input name="h_permisos[]" type="hidden" value="0">
                   </td>
                   <td>
                     <label><input type="checkbox" name="p_37" class="chekito"> P. FARMACIA</label>
-                    <!-- <input name="h_permisos[]" type="hidden" value="0"> -->
+                    <input name="h_permisos[]" type="hidden" value="0">
                   </td>
                 </tr>
               </table>
