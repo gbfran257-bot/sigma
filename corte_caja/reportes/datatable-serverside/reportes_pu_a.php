@@ -135,7 +135,9 @@
 		$row[0]=$hh;
 		
 		$row[1]="$row[1] $row[8]";
-        $row[7] = $row[10];
+        $row[7] = $row[6];
+        $row[6] = $row[5];
+        $row[5] = $row[10];
 
 		$output['aaData'][] = $row;
     }
