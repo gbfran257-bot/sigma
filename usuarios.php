@@ -1310,9 +1310,9 @@ function verUsuario(idU, nombre_u, tempi_u){
 			
 			$('.chekito').click(function(e) { //alert($(this).attr('lang'));
 				if($(this).is(':checked')){
-					$(this).parent().parent().children("input[name='h_permisos[]']").val(1);
+					$(this).parent().parent().children("input[type='hidden']").val(1);
 				}else{
-					$(this).parent().parent().children("input[name='h_permisos[]']").val(0);
+					$(this).parent().parent().children("input[type='hidden']").val(0);
 				}
 			});
 			
