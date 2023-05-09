@@ -1261,10 +1261,10 @@ function verUsuario(idU, nombre_u, tempi_u){
 			});
 			for(var it=0; it<48; it++){
 				if(dato[55][it]==1){
-					$("input[name='p_"+it+"']").parent().parent().children("input[name='h_permisos[]']").val(1);
+					$("input[name='h_permisos["+it+"]']").val(1);
 					$("input[name='p_"+it+"']").prop('checked', true);
 				}else{
-					$("input[name='p_"+it+"']").parent().parent().children("input[name='h_permisos[]']").val(0);
+					$("input[name='h_permisos["+it+"]']").val(0);
 				}
 			}
 			
