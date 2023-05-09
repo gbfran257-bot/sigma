@@ -15,7 +15,7 @@
     <div id="myModal" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"> </div>
 	<div id="myModal2" class="modal fade" tabindex="-1" role="dialog" data-backdrop="false" data-keyboard="false"> </div>
 	<div id="myModal3" class="modal fade" tabindex="-1" role="dialog" data-backdrop="false" data-keyboard="false"> </div>
-    <div id="myModal4" class="modal fade" tabindex="-1" role="dialog" data-backdrop="false" data-keyboard="false"> </div>
+    <div id="myModal4" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"> </div>
     <div id="myModalx" class="modal fade modal-fullscreen" tabindex="-1" role="dialog" data-backdrop="false" data-keyboard="false"> </div>
     <div id="myModal1" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"> </div>
 </body>

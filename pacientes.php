@@ -96,7 +96,15 @@
 			float:right;
 			padding-right: 15px;
 		}
-    </style>
+		/* Estilo necesario para que se muestre el select2 en el modal */
+		.select2-container {
+			z-index: 9999;
+		}
+	</style>
+
+	<!--Select2-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 <?php include_once 'partes/header.php'; 
 
@@ -1644,6 +1652,11 @@ function forzarImpresion(id){
 			if(datosT[28]>0){ $('#myIva').removeClass('hidden'); }else{$('#myIva').addClass('hidden');}
 			$('#ivaT').text(datosT[28]); $('#abonosT').val(datosT[29]); $('#saldosT').val(datosT[30]);
 			$('#fechaOv').text(datosT[34]);
+			if(datosT[35] != undefined && datosT[35] != null && datosT[35].length){
+				$('#cajaT').text(datosT[35]);
+			}else{
+				$('#cajaT').parent().hide();
+			}
 			
 			$('#imprimirTic').click(function(e){ $('#tablaTicket').css('font-size','8px').printElement();});
 		});
@@ -1811,6 +1824,11 @@ function nuevaVisita(idP, nombreP){
 											if(datosT[28]>0){ $('#myIva').removeClass('hidden'); }else{$('#myIva').addClass('hidden');}
 											$('#ivaT').text(datosT[28]); $('#abonosT').val(datosT[29]); $('#saldosT').val(datosT[30]);
 											$('#fechaOv').text(datosT[34]);
+											if(datosT[35] != undefined && datosT[35] != null && datosT[35].length){
+												$('#cajaT').text(datosT[35]);
+											}else{
+												$('#cajaT').parent().hide();
+											}
 											$('#imprimirTic').click(function(e){ $('#tablaTicket').css('font-size','8px').printElement();});
 										});
 										
@@ -1974,6 +1992,16 @@ function nuevaVisita(idP, nombreP){
                 
             }
         });
+
+		$('#caja_ov').load('pacientes/files-serverside/caja.php',function(response,status,xhr){
+			$('#caja_ov').select2({
+				tags: true,
+				language: "es",
+				allowClear: true,
+				width: '100%'
+			});
+		});
+		
 			
 		var oTableElaS = $('#dataTableElS').DataTable({
 			serverSide: true,"sScrollY": 120, ordering: false, searching: true, scrollCollapse: false,

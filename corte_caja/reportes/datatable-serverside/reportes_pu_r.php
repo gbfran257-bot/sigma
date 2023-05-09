@@ -10,7 +10,7 @@
 
 	// consulta para horizonte
 	$obligatorio = 0;
-	$aColumns = array('pa.id_pag', 'concat(u.nombre_u," ",u.apaterno_u)', 'pa.referencia_pag' , 'p.nombre_completo_p', 's.clave_su', 'pa.pago_pag', 'DATE_FORMAT(pa.fecha_pag, "%m/%d/%Y %H:%i:%S")', 'pa.id_pag', 'u.amaterno_u', 'u.usuario_u');
+	$aColumns = array('pa.id_pag', 'concat(u.nombre_u," ",u.apaterno_u)', 'pa.referencia_pag' , 'p.nombre_completo_p', 's.clave_su', 'pa.pago_pag', 'DATE_FORMAT(pa.fecha_pag, "%m/%d/%Y %H:%i:%S")', 'pa.id_pag', 'u.amaterno_u', 'u.usuario_u', 'caja');
      
     // DB tables to use 
     $aTables = array( 'pagos_ov pa');
@@ -142,7 +142,9 @@
 		$row[0]=$hh;
 		
 		$row[1]="$row[1] $row[8]";
-
+        $row[7] = $row[6];
+        $row[6] = $row[5];
+        $row[5] = $row[10];
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );
