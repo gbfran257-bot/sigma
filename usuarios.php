@@ -1260,7 +1260,12 @@ function verUsuario(idU, nombre_u, tempi_u){
 				else{$('#domingo_de1').val('00:00');$('#domingo_a1').val('00:00');$('#t_domingo').val(0); } 
 			});
 			for(var it=0; it<48; it++){
-				if(dato[55][it]==1){$("input[name='h_permisos[]']").eq(it).val(1); $("input[name='p_"+it+"']").prop('checked', true);}else{ $("input[name='h_permisos[]']").eq(it).val(0); }
+				if(dato[55][it]==1){
+					$("input[name='h_permisos["+it+"]']").val(1);
+					$("input[name='p_"+it+"']").prop('checked', true);
+				}else{
+					$("input[name='h_permisos["+it+"]']").val(0);
+				}
 			}
 			
 			$('#sucursal_as').load('usuarios/genera/sucursales.php?tempo='+tempo,function(response,status,xhr){if(status=="success"){
@@ -1304,7 +1309,11 @@ function verUsuario(idU, nombre_u, tempi_u){
 			$('#tab_mi_suc').click(function(e) { window.setTimeout(function(){oTableSuc.draw();},200); });
 			
 			$('.chekito').click(function(e) { //alert($(this).attr('lang'));
-				if($(this).is(':checked')){ $(this).parent().parent().children("input[name='h_permisos[]']").val(1);}else{ $(this).parent().parent().children("input[name='h_permisos[]']").val(0); }
+				if($(this).is(':checked')){
+					$(this).parent().parent().children("input[type='hidden']").val(1);
+				}else{
+					$(this).parent().parent().children("input[type='hidden']").val(0);
+				}
 			});
 			
 			$('#form-registro').validator().on('submit', function (e) {
