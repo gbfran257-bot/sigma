@@ -65,16 +65,6 @@
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
     <link href="c3/c3.css" rel="stylesheet">
-	<style>
-		/* Estilo necesario para que se muestre el select2 en el modal */
-		.select2-container {
-			z-index: 9999;
-		}
-	</style>
-
-	<!--Select2-->
-	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
@@ -381,14 +371,6 @@ function pagar(ref, tot, sal, abo, pac, noTemp, indicador, tCo, tIm, tLab, tFar)
 				if($(this).val()==1){ $('#pagaConP').prop('readonly',false); }else{$('#pagaConP').prop('readonly',true);}
 			});
 		} }); var permite = 1;
-		$('#caja_ov').load('pacientes/files-serverside/caja.php',function(response,status,xhr){
-			$('#caja_ov').select2({
-				tags: true,
-				language: "es",
-				allowClear: true,
-				width: '100%'
-			});
-		});
 		
 		$('#form-pagar').validator().on('submit', function (e) {
 		  if (e.isDefaultPrevented()) { // handle the invalid form...
@@ -402,8 +384,7 @@ function pagar(ref, tot, sal, abo, pac, noTemp, indicador, tCo, tIm, tLab, tFar)
 
 				var datosP={
 					ref:ref,user:$('#id_user').val(),pago_ov_c:$('#pago_ov_c').val(),noTemp:noTemp,formaPagoP:$('#formaPagoP').val(),
-					pago_ov_i:$('#pago_ov_i').val(), pago_ov_l:$('#pago_ov_l').val(), pago_ov_f:$('#pago_ov_f').val(), opcion_pa:$('#opcion_pa').val(),
-					caja_ov: $('#caja_ov').val()
+					pago_ov_i:$('#pago_ov_i').val(), pago_ov_l:$('#pago_ov_l').val(), pago_ov_f:$('#pago_ov_f').val(), opcion_pa:$('#opcion_pa').val()
 				}
 				$.post('corte_caja/reportes/files-serverside/savePago.php',datosP).done(function(data){
 					if(data==1){
@@ -443,7 +424,6 @@ function pagar(ref, tot, sal, abo, pac, noTemp, indicador, tCo, tIm, tLab, tFar)
 									$('#fechaT').text(datosT[0]);$('#referenciaT').text(datosT[1]);$('#pacienteT').text(datosT[2]);
 									$('#adicionalesT').text(datosT[10]);$('#totalT').text(datosT[4]);$('#pagoT').text(montoPagar);
 									$('#saldoT').text(redondear(-1*(parseFloat(datosT[31])),2));
-									$('#medicoAtendioIT').text(datosT[32]);
 									$('#usuarioIT').text(datosT[7]);$('#fechaIT').text(datosT[8]);
 									$('#horaIT').text(datosT[9]); $('#formaPagoT').text(datosT[11]);
 									$('#cantidadLetraT').text(nn(datosT[4])); $('#municipioS').text(datosT[16]);
@@ -460,11 +440,7 @@ function pagar(ref, tot, sal, abo, pac, noTemp, indicador, tCo, tIm, tLab, tFar)
 									$('#ivaT').text(redondear(datosT[28],2)); $('#abonadoAT').text(redondear(parseFloat(datosT[30]),2));
 									$('#abonosT').text(redondear(parseFloat(datosT[30]),2)); $('#saldosT').text(redondear(-1*(parseFloat(datosT[31])),2));
 									$('#myAbonadoA').removeClass('hidden'); //$('#contenedorAnteriores, #myAbonadoA').removeClass('hidden');
-									if(datosT[35] != undefined && datosT[35] != null && datosT[35].length){
-										$('#cajaT').text(datosT[35]);
-									}else{
-										$('#cajaT').parent().hide();
-									}
+
 									$('#imprimirTic').click(function(e) { $('#tablaTicket').printElement(); });
 								});
 
