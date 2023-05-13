@@ -42,10 +42,6 @@
                 <td id="usuarioIT" align="left"></td>
             </tr>
             <tr style="display:">
-            	<td width="" nowrap align="left" valign="top">CAJA:</td>
-                <td id="cajaT" align="left"></td>
-            </tr>
-            <tr style="display:">
             	<td width="1%" nowrap id="" align="left">REF:</td>
                 <td id="referenciaT" align="left">&nbsp;</td>
             </tr>

@@ -15,12 +15,6 @@
     <td align="right">Forma de pago</td>
     <td width="50%" align="left"><select name="formaPagoP" id="formaPagoP" class="form-control" required></select></td>
   </tr>
-  <tr>
-    <td align="right">Caja</td>
-    <td width="50%" align="left">
-      <select id="caja_ov" name="caja_ov" class="form-control input-sm" required></select>
-    </td>
-  </tr>
   <!--<tr id="numeroCheque" style="display:none;">
     <td align="right">número de cheque</td>
     <td align="left">

@@ -62,7 +62,7 @@
                     <div role="tabpanel" class="tab-pane" id="tResumen"><br>
                         <div class="row">
 						  <div class="" id="" style="font-size: 1em;">
-							<div class="col-sm-6 col-xs-12" align="left">
+							<div class="col-sm-12 col-xs-12" align="left">
 								<select id="forma_pago_ov" name="forma_pago_ov" class="form-control input-sm" required>
 								  <!-- <option value="">-SELECCIONE UNA FORMA DE PAGO-</option>
 								  <option value="1" selected>FORMA PAGO: EFECTIVO</option>
@@ -72,9 +72,6 @@
 								  <option value="4">FORMA PAGO: CHEQUE</option> -->
 								</select>
 							</div>
-              <div class="col-sm-6 col-xs-12">
-                <select id="caja_ov" name="caja_ov" class="form-control form-control-sm input-sm" required></select>
-              </div>
 							<div class="col-sm-12 col-xs-12" align="left">
 								<div class="checkbox"> <label> <input type="checkbox" id="cb_facturada_ov" name="cb_facturada_ov"> Facturada </label> </div>
 							</div>
