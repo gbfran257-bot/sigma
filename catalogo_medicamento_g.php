@@ -40,6 +40,7 @@
     <script src='tinymce/tinymce.min.js'></script>
     <script src='c3/c3.min.js'></script>
     <script src='c3/d3/d3.min.js'></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- Input Mask-->
     <script src="jasny-bootstrap/js/jasny-bootstrap.min.js"></script> 
     <!-- Mis funciones -->
@@ -64,6 +65,12 @@
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
     <link href="c3/c3.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<style>
+		.select2-dropdown{
+			z-index: 9999;
+		}
+	</style>
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
@@ -106,7 +113,7 @@
 <script>
 $(document).ready(function(e) {
 	//breadcrumb
-	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>ADMINISTRACIÓN</li><li>CATÁLOGOS</li><li class="active"><strong>PROFESIONES</strong></li>');
+	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>ADMINISTRACIÓN</li><li>CATÁLOGOS</li><li class="active"><strong>MEDICAMENTO GENERICO</strong></li>');
 	
 	$('#my_search').removeClass('hidden'); $.fn.datepicker.defaults.autoclose = true; 
 	
@@ -157,6 +164,7 @@ function nuevo_medicamento(){
 	$("#myModal").load('catalogos/medicamento_generico/htmls/medicamento.php', function( response, status, xhr ){ if(status=="success"){
 		$('#id_usr_reg').val($('#id_user').val()); $('#alerta_new_user').hide();
 		$('#titulo_modal').text('CREAR UN NUEVO MEDICAMENTO');
+		select2ini("#via_administracion_m", "via_administracion.php", "SELECCIONE VIA ADMINISTRACIÓN");
 		
 		$('#med_generico').validator().on('submit', function (e) {
 		  if (e.isDefaultPrevented()) { // handle the invalid form...
@@ -214,6 +222,8 @@ function editar(id_um, unidad){0
 			 $('#via_admin_dosis_m').val(datosI[14]);
 			 $('#presentaciones_m').val(datosI[17]);
 
+			 select2ini("#via_administracion_m", "via_administracion.php", "SELECCIONE VIA ADMINISTRACIÓN");
+		     $("#via_administracion_m").html("<option value='"+datosI[15]+"' selected>"+datosI[15]+"</option>");
 
 			$('#med_generico').validator().on('submit', function (e) {
 			  if (e.isDefaultPrevented()) { // handle the invalid form...
@@ -255,4 +265,26 @@ function delete_medicamento(id_p, nombre_p){
             } else{alert(data);} });
         });
     }
+
+	function select2ini(donde, url, ph){
+    $(donde).select2({
+        language: "es",
+        width: "180px",
+        allowClear: true,
+        ajax: {
+            url: 'select/'+url,
+            type: "post",
+            data: function (params) {
+                var query = {
+                    search: params.term,
+                    page: params.page || 1
+                };
+                return query;
+            }
+        },
+        placeholder: ph
+    });
+}
+
+
 </script>

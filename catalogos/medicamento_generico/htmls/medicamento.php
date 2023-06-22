@@ -16,7 +16,9 @@
                 </div>
                 <div class="form-group col-md-3">
                   <label class="control-label" for="via_administracion_m">*Via administración</label>
-                  <input type="text" class="form-control" style="margin-top:10px;" name="via_administracion_m" id="via_administracion_m" required>
+                  <!-- <input type="text" class="form-control" style="margin-top:10px;" name="via_administracion_m" id="via_administracion_m" required> -->
+                  <p style="height:3px;"></p>
+                  <select name="via_administracion_m" id="via_administracion_m" class="form-control" style="margin-top:10px;" required></select>
                 </div>
                 <div class="form-group col-md-3">
                   <label class="control-label" for="desc_m" >*Descripción </label>

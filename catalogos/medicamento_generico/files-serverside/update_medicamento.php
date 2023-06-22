@@ -27,7 +27,7 @@ if(empty($_POST['presentaciones_m'])){$presentaciones =  "NULL";}else{$presentac
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
 
  mysql_select_db($database_horizonte, $horizonte);
- $sql = "UPDATE medicamentos set clave_med = $clave_m, nombre_generico_med = $nombre, descripcion_med = $descripcion, cantidad_med = $cantidad, presentacion_med = $presentacion, nivel_med = $nivel, grupo_med = $gMedico, generalidades_med = $generalidades, riesgo_embarazo_med = $rEmbarazo, efectos_adversos_med = $efectos, contraindicaciones_precauciones_med = $contradicciones, interacciones_med = $interacciones, indicaciones_med = $indicaciones, via_administracion_dosis_med = $via_admin_dosis, contenido_med = $contenido, presentaciones_med = $presentaciones,fecha_med =$now where id_med = $idP limit 1";
+ $sql = "UPDATE medicamentos set clave_med = $clave_m, nombre_generico_med = $nombre, descripcion_med = $descripcion, cantidad_med = $cantidad, presentacion_med = $presentacion, nivel_med = $nivel, grupo_med = $gMedico, generalidades_med = $generalidades, riesgo_embarazo_med = $rEmbarazo, efectos_adversos_med = $efectos, contraindicaciones_precauciones_med = $contradicciones, interacciones_med = $interacciones, indicaciones_med = $indicaciones, via_administracion_dosis_med = $via_admin_dosis, via_administracion_med = $via_admin, contenido_med = $contenido, presentaciones_med = $presentaciones,fecha_med =$now where id_med = $idP limit 1";
 // echo($sql);
  $update = mysql_query($sql, $horizonte) or die (mysql_error());    
 	
