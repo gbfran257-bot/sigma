@@ -14,16 +14,16 @@ $tamPag = 10;
 
 /// Consulta por todos los pacientes
 // $consulta = "select c.aleatorio_c as id, c.concepto_to as text from conceptos c where c.id_tipo_concepto_to = 3";
-$consulta = "select distinct via_administracion_med as id, via_administracion_med as text from medicamentos where 1=1";
+$consulta = "SELECT concepto as id, concepto as text FROM catalogo_via_administracion where 1=1";
 /// Conteo de todos los pacientes
 // $consultaTotal = "select count(*) as cuantos from conceptos c where 1=1";
-$consultaTotal = "select count(*) as cuantos from medicamentos where 1=1";
+$consultaTotal = "select count(*) as cuantos from catalogo_via_administracion where 1=1";
 
 /// Se modifica la consulta para traer la búsqueda de search
 if(!empty($search)){
     $search = "%".$search."%"; /// se agrega comodín al inicio y al final
     // $filtro = sprintf(" and (c.concepto_to like '%s')",
-    $filtro = sprintf(" and (via_administracion_med like '%s')",
+    $filtro = sprintf(" and (concepto like '%s')",
         $search); /// un $search por cada %s
     $consultaTotal .= $filtro;
     $consulta .= $filtro;

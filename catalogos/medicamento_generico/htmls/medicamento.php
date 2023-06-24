@@ -15,9 +15,8 @@
                   <input type="text" class="form-control" style="margin-top:10px;" name="nombre_generico_m" id="nombre_generico_m" required>
                 </div>
                 <div class="form-group col-md-3">
-                  <label class="control-label" for="via_administracion_m">*Via administración</label>
-                  <!-- <input type="text" class="form-control" style="margin-top:10px;" name="via_administracion_m" id="via_administracion_m" required> -->
-                  <p style="height:3px;"></p>
+                  <label class="control-label" for="via_administracion_m">*Via administración <button type='button' class='btn btn-sm btn-primary' onClick='new_via()'><i class='fa fa-plus'></i></button> </label>
+                  <!-- <p style="height:0.5px;"></p> -->
                   <select name="via_administracion_m" id="via_administracion_m" class="form-control" style="margin-top:10px;" required></select>
                 </div>
                 <div class="form-group col-md-3">

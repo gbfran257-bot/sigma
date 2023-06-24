@@ -266,6 +266,38 @@ function delete_medicamento(id_p, nombre_p){
         });
     }
 
+	function new_via(){
+	$("#myModal1").load('catalogos/medicamento_generico/htmls/ficha_via_administracion.php', function( response, status, xhr ){ if(status=="success"){
+		$('#id_usr_reg').val($('#id_user').val()); $('#alerta_new_user').hide();
+		$('#titulo_modal').text('NUEVA UNIDAD DE MEDIDA');
+		
+		$('#form-ficha_via').validator().on('submit', function (e) {
+		  if (e.isDefaultPrevented()) { // handle the invalid form...
+			$("#alerta_new_user").fadeTo(2000,500).slideUp(500,function(){ $("#alerta_new_user").slideUp(600); });
+		  } else { // everything looks good!
+			e.preventDefault(); 
+			var $btn = $('#btn_new_u').button('loading'); $('#btn_cancel_new_u').hide();
+			var datosP = $('#myModal1 #form-ficha_via').serialize();
+			$.post('remote_files/addViaAdministracion.php',datosP).done(function( data ) {
+				if (data==1){//si el paciente se Actualizó 
+					$('#clickme').click(); $btn.button('reset'); $('#btn_cancel_new_u').show(); $('#myModal1').modal('hide'); 
+					swal({
+					  title: "¡CONFIRMACIÓN!", type: "success", text: "La Via de Administración se ha dado de alta.",
+					  timer: 1900, showConfirmButton: false
+					}); return;
+				} else{alert(data);}
+			});
+		  }
+		});
+		
+		$('#myModal1').modal('show');
+		$('#myModal1').on('shown.bs.modal', function (e) {
+			$('#form-ficha_via').validator(); $('#form-ficha_via input').keyup(function(e) { $('#alerta_new_user').hide(); });
+		});
+		$('#myModal1').on('hidden.bs.modal', function (e) { $(".modal1-content").remove(); $("#myModal1").empty(); });
+	}});
+}
+
 	function select2ini(donde, url, ph){
     $(donde).select2({
         language: "es",
