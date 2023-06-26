@@ -99,6 +99,7 @@
 							<div class="col-sm-6 col-xs-6" align="right" style="float:right;"><span id="iva_ov">+ $0.00</span></div>
 							<div class="col-sm-6 col-xs-6" align="left">DESCUENTO </div>
 							<div class="col-sm-6 col-xs-6" align="right" style="float:right;"><span id="descuento_ov">- $0.00</span></div>
+              <div class="col-sm-6 col-xs-6" align="left"><span id="descuento_concepto"></span> </div>
 							
 							<div class="col-sm-12 col-xs-12 text-danger" align="right" style="font-size:1.7em;">
 								<strong>TOTAL</strong> <strong><span id="total_ov">$0.00</span></strong>

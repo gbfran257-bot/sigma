@@ -494,6 +494,7 @@ function modifica_precio(id){
 		$("#modal-precios-descuentos-consulta #inputDescuento").val(res[3]);
 		$("#modal-precios-descuentos-consulta #inputPrecio_original").attr("min", res[0]);
 		$("#modal-precios-descuentos-consulta #inputHonorarios").val(res[1]);
+		$("#modal-precios-descuentos-consulta #inputMotivo_alteracion").val(res[4]);
 		$("#modal-precios-descuentos-consulta").modal("show");
 	}, "json");
 }
@@ -2500,6 +2501,21 @@ function calcular_totales(){
 	$('#iva_ov').text('+ $'+redondear($('#iva_ov_h').val(),2));
 	$('#total_ov').text('$'+redondear(parseFloat($('#precio_c1').val())+parseFloat($('#precio_i').val())+parseFloat($('#precio_l').val())+parseFloat($('#precio_s').val())+parseFloat($('#precio_p').val())+parseFloat(cargo_extra_c)+parseFloat(cargo_extra_i)+parseFloat(cargo_extra_l)+parseFloat(cargo_extra_s)+parseFloat(cargo_extra_p)-parseFloat($('#to_descuento_c1').val())-parseFloat($('#to_descuento_i').val())-parseFloat($('#to_descuento_l').val())-parseFloat($('#to_descuento_s').val())-parseFloat($('#to_descuento_p').val())+parseFloat($('#iva_ov_h').val()),2));
 	$('#total_ov_h').val(redondear(parseFloat($('#precio_c1').val())+parseFloat($('#precio_i').val())+parseFloat($('#precio_l').val())+parseFloat($('#precio_s').val())+parseFloat($('#precio_p').val())+parseFloat(cargo_extra_c)+parseFloat(cargo_extra_i)+parseFloat(cargo_extra_l)+parseFloat(cargo_extra_s)+parseFloat(cargo_extra_p)-parseFloat($('#to_descuento_c1').val())-parseFloat($('#to_descuento_i').val())-parseFloat($('#to_descuento_l').val())-parseFloat($('#to_descuento_s').val())-parseFloat($('#to_descuento_p').val())+parseFloat($('#iva_ov_h').val()),2));
+	
+		var datos = { no_temp_vc:$('#aleatorio_ov').val() }
+		$.post('pacientes/files-serverside/getConceptoDescuento.php',datos).done(function(data1){ //alert(data1);
+			var datosI = data1.split(',');
+			var cadena = "";
+			for (var i = 0; i < datosI.length; i++) {
+				var concepto = datosI[i];
+				concepto = concepto.replace(/[\[\]"]/g, '');
+				if(concepto !== 'null' ){
+					cadena = cadena + concepto + "<br/>";
+				}
+			}
+			$('#descuento_concepto').html(cadena);
+		});
+	
 	window.setTimeout(function(){
 		if($('#precio_c1').val()>=0){
 			var datos={aleatorio:$('#aleatorio_ov').val()}
