@@ -130,7 +130,7 @@ require("../../../Connections/horizonte.php");
         }
 		$row[0]="<span lang='$row[7]'>$hh</span>";
 		if($row[4]==''){$row[4]='PARTICULAR';}
-		
+		$row[3] = "<a onclick='modifica_precio_e_imagen($row[5])'>".$row[3]."</a>";
 		$row[5] = "<div align='center'><button type='button' class='btn btn-xs btn-danger' onClick='borrarItemNV(this.id);' id='$row[6]'><i class='fa fa-trash' aria-hidden='true'></i></button></div>";
 		
 		$output['aaData'][] = $row;

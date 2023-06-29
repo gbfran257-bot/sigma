@@ -269,7 +269,7 @@
                             	<div class="form-group" align="center">
                                      <label for="po_descuento_i">% Descuento</label>
                                      <div class="input-group">
-                                     	<input type="text" class="form-control desc_cargo_i" id="po_descuento_i" name="po_descuento_i" placeholder="0" style="text-align:right;" min="0" max="100" value="0" data-minlength="0" data-maxlength="100" onKeyUp="cargos_descuentos_i(this.value,this.id);">
+                                     	<input type="text" class="form-control desc_cargo_i" id="po_descuento_i" name="po_descuento_i" placeholder="0" style="text-align:right;" min="0" max="100" value="0" data-minlength="0" data-maxlength="100" onKeyUp="cargos_descuentos_i(this.value,this.id);" onclick="alertaEliminarDescuentoI(1)" tabindex="-1">
                                         <span class="input-group-addon bootstrap-touchspin-postfix">%</span>
                                      </div>
                                  </div>
@@ -280,6 +280,7 @@
                                      <div class="input-group">
                                      	<span class="input-group-addon bootstrap-touchspin-postfix">$</span>
                                      	<input type="text" class="form-control desc_cargo_i" id="da_descuento_i" name="da_descuento_i" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0" onKeyUp="cargos_descuentos_i(this.value,this.id);">
+                                     	<input type="hidden" class="form-control" id="da_descuento_i_secreto" name="da_descuento_i_secreto" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0">
                                      </div>
                                  </div>
                             </div>
