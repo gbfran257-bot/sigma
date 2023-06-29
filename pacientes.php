@@ -561,19 +561,28 @@ function alertaEliminarDescuentoI(opc_elegida){
 		}, function(isConfirm) {
 		if (!isConfirm) {
 			if(opc_elegida==1){ $("#po_descuento_i").prop("readonly", true); }
-			// if(opc_elegida==2){ $("#cargo_extra_i").prop("readonly", true); }
 		} else {
 			// Código a ejecutar cuando se hace clic en "Aceptar"
-			if(opc_elegida==1){ $("#po_descuento_i").prop("readonly", false); $('#da_descuento_i_secreto').val(0); }
-
-			// if(opc_elegida==2){ $("#cargo_extra_i").prop("readonly", false); $('#to_descuento_i').val(0); $('#da_descuento_i_secreto').val(0); }
+			if(opc_elegida==1){ 
+				$("#po_descuento_i").prop("readonly", false); 
+				$('#da_descuento_i_secreto').val(0); 
+				$('#da_descuento_i').val(0); 
+			}
 			//se llama el archivo que elimina todos los descuentos de la bd asociados a la ov
 			$.post("pacientes/files-serverside/modificarDescuentoCero.php", {
 				id_vc: $('#aleatorio_ov').val()
 			}, function(res){
 				
 			}, "json");
+			//--inicio-- Refrescamos el input de total descuento con la nueva suma de descuentos 
+			var datosi={aleatorio:$('#aleatorio_ov').val()}
+			$.post('pacientes/files-serverside/sumar_descuentos_imagen.php',datosi).done(function(data){
+				$('#da_descuento_i_secreto').val(parseFloat(data));
+				$('#to_descuento_i').val(parseFloat(0+$('#da_descuento_i').val()) + parseFloat($('#da_descuento_i_secreto').val()));
+			});
+			//--fin--
 			calcular_totales();
+			totales_imagen();
 		}
 	});
 	
@@ -2315,6 +2324,8 @@ function borrarItemNV(idConcepto){//Imagen
 			}
 			if(parseFloat($('#precio_i').val())<=0){
 				$('#da_descuento_i').val(0);
+				$('#cargo_extra_i').val(0);
+				$('#po_descuento_i').val(0);
 				$('#to_descuento_i').val(0);
 			}
 			if( parseFloat($('#precio_i').val()) < parseFloat($('#da_descuento_i').val()) ){
