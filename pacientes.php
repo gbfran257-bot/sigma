@@ -2513,9 +2513,21 @@ function cargos_descuentos_c1(v,id){
     });
 }
 function cargos_descuentos_i(v,id){
-	$('.desc_cargo_i').each(function(index, element) {//se le agrega condicional extra para que no resetee los campos de descuento directo y cargo extra
+	$('.desc_cargo_i').each(function(index, element) {
 		// if(this.id==id){} else{ if(parseFloat(v)){$('#'+this.id).val(0);} }
+		//se le agrega condicional extra para que no resetee los campos de descuento directo y cargo extra
 		if(this.id==id){} else{ if(parseFloat(v)&&id=='po_descuento_i'){$('#da_descuento_i').val(0);}else if(id=='da_descuento_i'){$('#po_descuento_i').val(0);} }
+		//guardamos en tabla conceptos_carg_desc
+		if(parseFloat($('#po_descuento_i').val())>=0||$('#po_descuento_i').val()==''){
+			guardar_cargo_desc($('#id_usr_reg').val(),1,$('#aleatorio_ov').val(),$('#po_descuento_i').val(),$('#motivo_descuento_i').val(),'imagen');
+		}
+		if(parseFloat($('#da_descuento_i').val())>=0||$('#da_descuento_i').val()==''){
+			guardar_cargo_desc($('#id_usr_reg').val(),0,$('#aleatorio_ov').val(),$('#da_descuento_i').val(),$('#motivo_descuento_i').val(),'imagen');
+		}
+		if(parseFloat($('#cargo_extra_i').val())>=0||$('#cargo_extra_i').val()==''){
+			guardar_cargo_desc($('#id_usr_reg').val(),2,$('#aleatorio_ov').val(),$('#cargo_extra_i').val(),$('#motivo_cargo_i').val(),'imagen');
+		}
+
 		if(id=='po_descuento_i'){
 			if(v<0){$('#po_descuento_i').val(0);}else if(v>100){$('#po_descuento_i').val(100);}
 			if(!parseFloat(v)){$('#po_descuento_i').val('');}
@@ -2767,7 +2779,17 @@ function nota_desc_cargo_c1(){ var i = 0;
 }
 function nota_desc_cargo_i(){ var i = 0;
 	$('.desc_cargo_i').each(function(index, element) { if($(this).val()>0){i++;} });
-	if(i>0){$('.depende_descuento_i').removeClass('hidden');}else{$('.depende_descuento_i').addClass('hidden');}
+	// if(i>0){$('.depende_descuento_i').removeClass('hidden');}else{$('.depende_descuento_i').addClass('hidden');}
+	if(parseFloat($('#da_descuento_i').val())>0 || parseFloat($('#po_descuento_i').val())>0){
+		$('.depende_descuento_i').removeClass('hidden');
+	}else{
+		$('.depende_descuento_i').addClass('hidden');
+	}
+	if(parseFloat($('#cargo_extra_i').val())>0){
+		$('.depende_descuento_i2').removeClass('hidden');
+	}else{
+		$('.depende_descuento_i2').addClass('hidden');
+	}
 }
 function nota_desc_cargo_l(){ var i = 0;
 	$('.desc_cargo_l').each(function(index, element) { if($(this).val()>0){i++;} });
@@ -2966,6 +2988,17 @@ function cancelar_ov(idVC,nombreP,refe){
 		$('#myModal2').on('shown.bs.modal', function (e){ });
 		$('#myModal2').on('hidden.bs.modal', function (e) { $("#myModal2").empty(); });
 	} });
+}
+
+function guardar_cargo_desc(personal,tipo,temp,monto,motivo,area){
+	var datos = {personal:personal,tipo:tipo,temp:temp,monto:monto,motivo:motivo,area:area}
+	$.post('pacientes/files-serverside/guardar_Cargo_descuento.php',datos).done(function( data ) { 
+		/* if (data==1){ window.setTimeout(function(){$('#clickme_hv, #clickme').click(); $('#myModal2').modal('hide');},300);
+			swal({
+			title: "", type: "success", text: "La orden de venta se ha cancelado", timer: 2000, showConfirmButton: false
+			}); return;
+		} else{alert(data);}  */
+	});
 }
 
 function initMap() { }

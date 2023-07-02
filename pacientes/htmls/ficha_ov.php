@@ -218,7 +218,7 @@
                                   <table width="100%" cellspacing="0" id="dataTableBestudiosI" height="100%" border="0" cellpadding="0" class="table-striped table-hover table-responsive table table-bordered">
                                     <thead id="my_head">
                                       <tr class="bg-info">
-                                        <th align="center" id="clickmeIm">ESTUDIOS DISPONIBLES. <span class="small">Seleecione con un click</span>.</th>
+                                        <th align="center" id="clickmeIm">ESTUDIOS DISPONIBLES. <span class="small">Seleccione con un click</span>.</th>
                                         <th align="center">ÁREA&nbsp;</th>
                                         <th align="center">PRECIO</th>
                                         <th align="center">BENEFICIO</th>
@@ -295,8 +295,14 @@
                             </div>
                             <div class="col-sm-12 col-xs-12 depende_descuento_i hidden">
                             	<div class="form-group">
-                                 <label for="motivo_descuento_i">Motivo del descuento o del cargo extra</label>
-                                 <input type="text" class="form-control" id="motivo_descuento_i" name="motivo_descuento_i" placeholder="Motivo del descuento o del cargo extra">
+                                 <label for="motivo_descuento_i">Motivo del descuento</label>
+                                 <input type="text" class="form-control desc_cargo_i" id="motivo_descuento_i" name="motivo_descuento_i" placeholder="Motivo del descuento" onKeyUp="cargos_descuentos_i(0,this.id);">
+                                 </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 depende_descuento_i2 hidden">
+                            	<div class="form-group">
+                                 <label for="motivo_cargo_i">Motivo del cargo extra</label>
+                                 <input type="text" class="form-control desc_cargo_i" id="motivo_cargo_i" name="motivo_cargo_i" placeholder="Motivo del cargo extra" onKeyUp="cargos_descuentos_i(0,this.id);">
                                  </div>
                             </div>
                             <div class="col-sm-4 col-xs-4 depende_img hidden">
