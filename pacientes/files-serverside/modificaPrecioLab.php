@@ -1,0 +1,23 @@
+<?php
+require("../../Connections/horizonte.php");
+require("../../funciones/php/values.php");
+
+$motivo_alteracion = sqlValue($_POST["motivo_alteracion"], "text");
+$id_vc = sqlValue($_POST["id_vc"], "int");
+$pvc = $_POST['precio_original']-$_POST['descuento'];
+$precio_original = sqlValue($_POST["precio_original"], "double");
+$descuento = sqlValue($_POST["descuento"], "double");
+mysql_select_db($database_horizonte, $horizonte); 
+// $sql="update venta_conceptos set motivo_alteracion=$motivo_alteracion, precio_vc=$pvc, precio_original=$precio_original, descuento=$descuento where id_vc=$id_vc";
+// $sql="update venta_conceptos set motivo_alteracion=$motivo_alteracion, precio_original=$precio_original, descuento=$descuento where id_vc=$id_vc";
+$sql="update venta_conceptos set motivo_alteracion=$motivo_alteracion, precio_original=$precio_original, precio_vc =$precio_original, descuento=$descuento where id_vc=$id_vc";
+$sql_1="update venta_conceptos_1 set precio_vc = $precio_original where id_vc=$id_vc";
+$update = mysql_query($sql, $horizonte) or die (mysql_error());
+if (!$update) { echo $sql; }else{ 
+	echo 1;
+	$update = mysql_query($sql_1, $horizonte) or die (mysql_error());
+}
+
+//Cerrar conexión a la Base de Datos
+mysql_close($horizonte);
+?>

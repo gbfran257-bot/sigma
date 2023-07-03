@@ -461,7 +461,7 @@
                             	<div class="form-group" align="center">
                                      <label for="po_descuento_l">% Descuento</label>
                                      <div class="input-group">
-                                     	<input type="text" class="form-control desc_cargo_l" id="po_descuento_l" name="po_descuento_l" placeholder="0" style="text-align:right;" min="0" max="100" value="0" data-minlength="0" data-maxlength="100" onKeyUp="cargos_descuentos_l(this.value,this.id);">
+                                     	<input type="text" class="form-control desc_cargo_l" id="po_descuento_l" name="po_descuento_l" placeholder="0" style="text-align:right;" min="0" max="100" value="0" data-minlength="0" data-maxlength="100" onKeyUp="cargos_descuentos_l(this.value,this.id);" onclick="alertaEliminarDescuentoI(2)" tabindex="-1">
                                         <span class="input-group-addon bootstrap-touchspin-postfix">%</span>
                                      </div>
                                  </div>
@@ -472,6 +472,7 @@
                                      <div class="input-group">
                                      	<span class="input-group-addon bootstrap-touchspin-postfix">$</span>
                                      	<input type="text" class="form-control desc_cargo_l" id="da_descuento_l" name="da_descuento_l" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0" onKeyUp="cargos_descuentos_l(this.value,this.id);">
+                                       <input type="hidden" class="form-control" id="da_descuento_l_secreto" name="da_descuento_l_secreto" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0">
                                      </div>
                                  </div>
                             </div>
@@ -486,8 +487,14 @@
                             </div>
                             <div class="col-sm-12 col-xs-12 depende_descuento_l hidden">
                             	<div class="form-group">
-                                 <label for="motivo_descuento_l">Motivo del descuento o del cargo extra</label>
-                                 <input type="text" class="form-control" id="motivo_descuento_l" name="motivo_descuento_l" placeholder="Motivo del descuento o del cargo extra">
+                                 <label for="motivo_descuento_l">Motivo del descuento</label>
+                                 <input type="text" class="form-control" id="motivo_descuento_l" name="motivo_descuento_l" placeholder="Motivo del descuento" onKeyUp="cargos_descuentos_l(0,this.id);">
+                                 </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 depende_descuento_l2 hidden">
+                            	<div class="form-group">
+                                 <label for="motivo_cargo_l">Motivo del cargo extra</label>
+                                 <input type="text" class="form-control" id="motivo_cargo_l" name="motivo_cargo_l" placeholder="Motivo del cargo extra" onKeyUp="cargos_descuentos_l(0,this.id);">
                                  </div>
                             </div>
                             <div class="col-sm-4 col-xs-4 depende_lab hidden">

@@ -191,8 +191,9 @@
 		</div>
 	</div>
 </div>
-<!-- incluimos el modal de modificacion precio  estudio->imagen -->
+<!-- incluimos el modal de modificacion precio  estudio->imagen->lab -->
 <?php include_once 'pacientes/htmls/ficha_modificacion_precios_d.php'; ?>
+<?php include_once 'pacientes/htmls/ficha_modificacion_precios_lab.php'; ?>
 
 <div class="modal fade" id="modal-precios-servicios" style="z-index: 2951!important">
 	<div class="modal-dialog">
@@ -547,6 +548,20 @@ function modifica_precio_e_imagen(id){
 
 }
 
+function modifica_precio_e_lab(id){
+	$("#modal-precios-descuentos-lab #inputId_vc").val(id);
+	$.post("pacientes/files-serverside/dameVC.php", {id_vc: id}, function(res){
+		$("#modal-precios-descuentos-lab #inputPrecio_original").val(res[0]);
+		$("#modal-precios-descuentos-lab #inputDescuento").val(res[3]);
+		$("#modal-precios-descuentos-lab #inputPrecio_original").attr("min", res[0]);
+		$("#modal-precios-descuentos-lab #inputHonorarios").val(res[1]);
+		$("#modal-precios-descuentos-lab #inputMotivo_alteracion").val(res[4]);
+		$("#modal-precios-descuentos-lab").modal("show");
+
+	}, "json");
+
+}
+
 function alertaEliminarDescuentoI(opc_elegida){
 
 	swal({
@@ -560,29 +575,49 @@ function alertaEliminarDescuentoI(opc_elegida){
 		closeOnConfirm: true
 		}, function(isConfirm) {
 		if (!isConfirm) {
-			if(opc_elegida==1){ $("#po_descuento_i").prop("readonly", true); }
+			if(opc_elegida==1){ //imagen
+				$("#po_descuento_i").prop("readonly", true);
+			}else if(opc_elegida==2){//laboratorio
+				$("#po_descuento_l").prop("readonly", true);
+			}
 		} else {
 			// Código a ejecutar cuando se hace clic en "Aceptar"
-			if(opc_elegida==1){ 
+			if(opc_elegida==1){//imagen
 				$("#po_descuento_i").prop("readonly", false); 
-				$('#da_descuento_i_secreto').val(0); 
+				$('#da_descuento_i_secreto').val(0);
 				$('#da_descuento_i').val(0); 
+				//se llama el archivo que elimina todos los descuentos de la bd asociados a la ov imagen
+				$.post("pacientes/files-serverside/modificarDescuentoCero.php", {
+					id_vc: $('#aleatorio_ov').val()
+				}, function(res){
+					
+				}, "json");
+				//--inicio-- Refrescamos el input de total descuento con la nueva suma de descuentos 
+				var datosi={aleatorio:$('#aleatorio_ov').val()}
+				$.post('pacientes/files-serverside/sumar_descuentos_imagen.php',datosi).done(function(data){
+					$('#da_descuento_i_secreto').val(parseFloat(data));
+					$('#to_descuento_i').val(parseFloat(0+$('#da_descuento_i').val()) + parseFloat($('#da_descuento_i_secreto').val()));
+				});
+				totales_imagen();
+			}else if(opc_elegida==2){//laboratorio
+				$("#po_descuento_l").prop("readonly", false); 
+				$('#da_descuento_l_secreto').val(0); 
+				$('#da_descuento_l').val(0); 
+				$.post("pacientes/files-serverside/modificarDescuentoCeroLab.php", {
+					id_vc: $('#aleatorio_ov').val()
+				}, function(res){
+					
+				}, "json");
+				var datosi={aleatorio:$('#aleatorio_ov').val()}
+				$.post('pacientes/files-serverside/sumar_descuentos_lab.php',datosi).done(function(data){
+					$('#da_descuento_l_secreto').val(parseFloat(data));
+					$('#to_descuento_l').val(parseFloat(0+$('#da_descuento_l').val()) + parseFloat($('#da_descuento_l_secreto').val()));
+				});
+				totales_laboratorio();
 			}
-			//se llama el archivo que elimina todos los descuentos de la bd asociados a la ov
-			$.post("pacientes/files-serverside/modificarDescuentoCero.php", {
-				id_vc: $('#aleatorio_ov').val()
-			}, function(res){
-				
-			}, "json");
-			//--inicio-- Refrescamos el input de total descuento con la nueva suma de descuentos 
-			var datosi={aleatorio:$('#aleatorio_ov').val()}
-			$.post('pacientes/files-serverside/sumar_descuentos_imagen.php',datosi).done(function(data){
-				$('#da_descuento_i_secreto').val(parseFloat(data));
-				$('#to_descuento_i').val(parseFloat(0+$('#da_descuento_i').val()) + parseFloat($('#da_descuento_i_secreto').val()));
-			});
 			//--fin--
 			calcular_totales();
-			totales_imagen();
+			
 		}
 	});
 	
@@ -619,11 +654,15 @@ $(document).ready(function(e) {
 			function(res){
 				if(res == "1"){
 					$('#clickmeEiS,#clickmeIm').click();
-					
-					//En caso de guardar un descuento, poner cargo extra y porcentaje en ceros
+					$('#po_descuento_i').val(0);
+					//En caso de guardar un descuento, poner porcentaje en ceros
 					if(parseFloat(0+$("#modal-precios-descuentos-imagen #inputDescuento").val())>0){
-						$('#po_descuento_i').val(0);
-						// $('#cargo_extra_i').val(0);
+						
+						//--inicio-- borramos de la tabla conceptos_carg_desc
+						var datoscg={temp:$('#aleatorio_ov').val(), area:'imagen'}
+						$.post('pacientes/files-serverside/borrar_cargo_descuento.php',datoscg).done(function(data){
+							calcular_totales();
+						});
 					}
 					//--inicio-- cada vez que se guardan cambios hace nuevamente la suma de descuentos y los guarda en un campo oculto.
 					var datosi={aleatorio:$('#aleatorio_ov').val()}
@@ -642,6 +681,48 @@ $(document).ready(function(e) {
 					//--fin--
 					$("#modal-precios-descuentos-imagen form")[0].reset();
 					$("#modal-precios-descuentos-imagen").modal("hide");
+					totales_consultas();
+				}else{
+					alert("Error: "+res);
+				}
+			}
+		);
+	});
+	//Modal de modificacion precio estudio->laboratorio
+	$("#modal-precios-descuentos-lab form").submit(function(e){
+		e.preventDefault();
+		$.post("pacientes/files-serverside/modificaPrecioLab.php",
+			$("#modal-precios-descuentos-lab form").serialize(),
+			function(res){
+				if(res == "1"){
+					$('#clickmeElS,#clickmeLa').click();
+					$('#po_descuento_l').val(0);
+					//En caso de guardar un descuento, poner porcentaje en ceros
+					if(parseFloat(0+$("#modal-precios-descuentos-lab #inputDescuento").val())>0){
+						
+						//--inicio-- borramos de la tabla conceptos_carg_desc
+						var datoscg={temp:$('#aleatorio_ov').val(), area:'laboratorio'}
+						$.post('pacientes/files-serverside/borrar_cargo_descuento.php',datoscg).done(function(data){
+							calcular_totales();
+						});
+					}
+					//--inicio-- cada vez que se guardan cambios hace nuevamente la suma de descuentos y los guarda en un campo oculto.
+					var datosi={aleatorio:$('#aleatorio_ov').val()}
+					$.post('pacientes/files-serverside/sumar_descuentos_lab.php',datosi).done(function(data){
+						$('#da_descuento_l_secreto').val(parseFloat(data));
+						$('#to_descuento_l').val(parseFloat(0+$('#da_descuento_l').val()) + parseFloat($('#da_descuento_l_secreto').val()));
+						calcular_totales();
+					});
+					//--inicio--una vez modificado un precio, sumamos los precios totales de laboratorio y mostramos en Precio estudios
+					var datospi={aleatorio:$('#aleatorio_ov').val()}
+					$.post('pacientes/files-serverside/sumar_precios_laboratorio.php',datospi).done(function(data){
+						if(!parseFloat(data)){data=0;}else{data=data;}
+						$('#precio_l').val(data);
+						calcular_totales();
+					});
+					//--fin--
+					$("#modal-precios-descuentos-lab form")[0].reset();
+					$("#modal-precios-descuentos-lab").modal("hide");
 					totales_consultas();
 				}else{
 					alert("Error: "+res);
@@ -2340,6 +2421,14 @@ function borrarItemNVL(idConcepto){
 	var datosBINV = {idConcepto:idConcepto}
 	$.post('pacientes/files-serverside/eliminarItem.php',datosBINV).done(function( data ) { 
 	if (data==1){ $('#clickmeElS,#clickmeLa').click();
+		//--inicio-- Despues de eliminar un item, procedemos a sumar el descuento y mostrarlo en el input
+		var datosi={aleatorio:$('#aleatorio_ov').val()}
+		$.post('pacientes/files-serverside/sumar_descuentos_lab.php',datosi).done(function(data2){
+			$('#da_descuento_l_secreto').val(parseFloat(data2));
+			$('#to_descuento_l').val(parseFloat(0+$('#da_descuento_l').val()) + parseFloat(0+$('#da_descuento_l_secreto').val()));
+			calcular_totales();
+		});
+		//--fin--
 		var datos={aleatorio:$('#aleatorio_ov').val()}
 		$.post('pacientes/files-serverside/sumar_precios_laboratorio.php',datos).done(function(data){
 			if(!parseFloat(data)){data=0;}else{data=data;}
@@ -2350,7 +2439,23 @@ function borrarItemNVL(idConcepto){
 	
 			$('#precio_l').val(data);
 			if(parseFloat(pd)){ $('#to_descuento_l').val( (parseFloat(data)*parseFloat(pd))/100 ); }
-			else if(parseFloat(dd)){$('#to_descuento_l').val(dd);}else{$('#to_descuento_l').val(0);}
+			else if(parseFloat(dd)){
+				// $('#to_descuento_l').val(dd);
+				$('#to_descuento_l').val(parseFloat(0+$('#da_descuento_l').val()) + parseFloat(0+$('#da_descuento_l_secreto').val()));
+			}else{
+				// $('#to_descuento_l').val(0);
+				$('#to_descuento_l').val(parseFloat(0+$('#da_descuento_l').val()) + parseFloat(0+$('#da_descuento_l_secreto').val()));
+			}
+			if(parseFloat($('#precio_l').val())<=0){
+				$('#da_descuento_l').val(0);
+				$('#cargo_extra_l').val(0);
+				$('#po_descuento_l').val(0);
+				$('#to_descuento_l').val(0);
+			}
+			if( parseFloat($('#precio_l').val()) < parseFloat($('#da_descuento_l').val()) ){
+				$('#da_descuento_l').val($('#precio_l').val());
+				$('#to_descuento_l').val($('#precio_l').val());
+			}
 			calcular_totales();
 		});
 	} else{alert(data);} });
@@ -2545,7 +2650,19 @@ function cargos_descuentos_i(v,id){
 }
 function cargos_descuentos_l(v,id){
 	$('.desc_cargo_l').each(function(index, element) {
-		if(this.id==id){} else{ if(parseFloat(v)){$('#'+this.id).val(0);} }
+		// if(this.id==id){} else{ if(parseFloat(v)){$('#'+this.id).val(0);} }
+		if(this.id==id){} else{ if(parseFloat(v)&&id=='po_descuento_l'){$('#da_descuento_l').val(0);}else if(id=='da_descuento_l'){$('#po_descuento_l').val(0);} }
+		//guardamos en tabla conceptos_carg_desc
+		if(parseFloat($('#po_descuento_l').val())>=0||$('#po_descuento_l').val()==''){
+		guardar_cargo_desc($('#id_usr_reg').val(),1,$('#aleatorio_ov').val(),$('#po_descuento_l').val(),$('#motivo_descuento_l').val(),'laboratorio');
+		}
+		if(parseFloat($('#da_descuento_l').val())>=0||$('#da_descuento_l').val()==''){
+			guardar_cargo_desc($('#id_usr_reg').val(),0,$('#aleatorio_ov').val(),$('#da_descuento_l').val(),$('#motivo_descuento_l').val(),'laboratorio');
+		}
+		if(parseFloat($('#cargo_extra_l').val())>=0||$('#cargo_extra_l').val()==''){
+			guardar_cargo_desc($('#id_usr_reg').val(),2,$('#aleatorio_ov').val(),$('#cargo_extra_l').val(),$('#motivo_cargo_l').val(),'laboratorio');
+		}
+
 		if(id=='po_descuento_l'){
 			if(v<0){$('#po_descuento_l').val(0);}else if(v>100){$('#po_descuento_l').val(100);}
 			if(!parseFloat(v)){$('#po_descuento_l').val('');}
@@ -2752,7 +2869,13 @@ function totales_laboratorio(precio, pd, dd, ce){ //alert(precio+';'+pd+';'+dd+'
 		if(!parseFloat(data)){data=0;}else{data=data;}
 		$('#precio_l').val(data);
 		if(parseFloat(pd)){ $('#to_descuento_l').val( (parseFloat(data)*parseFloat(pd))/100 ); }
-		else if(parseFloat(dd)){$('#to_descuento_l').val(dd);}else{$('#to_descuento_l').val(0);}
+		else if(parseFloat(dd)){
+			// $('#to_descuento_l').val(dd);
+			$('#to_descuento_l').val(parseFloat(0+$('#da_descuento_l').val()) + parseFloat(0+$('#da_descuento_l_secreto').val()));
+		}else{
+			// $('#to_descuento_l').val(0);
+			$('#to_descuento_l').val(parseFloat(0+$('#da_descuento_l').val()) + parseFloat(0+$('#da_descuento_l_secreto').val()));
+		}
 		calcular_totales();
 	});
 }
@@ -2793,7 +2916,17 @@ function nota_desc_cargo_i(){ var i = 0;
 }
 function nota_desc_cargo_l(){ var i = 0;
 	$('.desc_cargo_l').each(function(index, element) { if($(this).val()>0){i++;} });
-	if(i>0){$('.depende_descuento_l').removeClass('hidden');}else{$('.depende_descuento_l').addClass('hidden');}
+	// if(i>0){$('.depende_descuento_l').removeClass('hidden');}else{$('.depende_descuento_l').addClass('hidden');}
+	if(parseFloat($('#da_descuento_l').val())>0 || parseFloat($('#po_descuento_l').val())>0){
+		$('.depende_descuento_l').removeClass('hidden');
+	}else{
+		$('.depende_descuento_l').addClass('hidden');
+	}
+	if(parseFloat($('#cargo_extra_l').val())>0){
+		$('.depende_descuento_l2').removeClass('hidden');
+	}else{
+		$('.depende_descuento_l2').addClass('hidden');
+	}
 }
 function nota_desc_cargo_s(){ var i = 0;
 	$('.desc_cargo_s').each(function(index, element) { if($(this).val()>0){i++;} });
@@ -2992,7 +3125,7 @@ function cancelar_ov(idVC,nombreP,refe){
 
 function guardar_cargo_desc(personal,tipo,temp,monto,motivo,area){
 	var datos = {personal:personal,tipo:tipo,temp:temp,monto:monto,motivo:motivo,area:area}
-	$.post('pacientes/files-serverside/guardar_Cargo_descuento.php',datos).done(function( data ) { 
+	$.post('pacientes/files-serverside/guardar_cargo_descuento.php',datos).done(function( data ) { 
 		/* if (data==1){ window.setTimeout(function(){$('#clickme_hv, #clickme').click(); $('#myModal2').modal('hide');},300);
 			swal({
 			title: "", type: "success", text: "La orden de venta se ha cancelado", timer: 2000, showConfirmButton: false
