@@ -782,7 +782,7 @@
                                   <table width="100%" cellspacing="0" id="dataTableBconsultasM" height="100%" border="0" cellpadding="0" class="table table-striped table-hover table-bordered table-responsive">
                                     <thead id="my_head">
                                       <tr class="bg-info">
-                                        <th align="center" id="clickmeCo1">CONSULTAS DISPONIBLES. <span class="small">Seleecione con un click</span>.</th>
+                                        <th align="center" id="clickmeCo1">CONSULTAS DISPONIBLES. <span class="small">Seleccione con un click</span>.</th>
                                         <th align="center">MÉDICO</th>
                                         <th align="center">PRECIO</th>
                                         <th align="center">BENEFICIO</th>
@@ -887,6 +887,28 @@
                                      </div>
                                  </div>
                             </div>
+
+                            <!-- Inicio resumen de consultas -->
+                            <div class="col-sm-12 col-xs-12" id="resumen_individual">
+                              <span id="resumen_individual_titulo" class="resumen_consultas_titulo" estado='hidden' onclick="showTablaDescuentos('consultas');">Resumen de los descuentos <strong id="resumen_flecha_icono" class="flecha_icono_consultas">↓</strong></span>
+                              <table width="100%" cellspacing="0" id="resumen_consultas" height="100%" border="0" cellpadding="0" class="table table-bordered table-hover table-responsive" style="display: none; margin: 1rem 0px 0px">
+                                <thead>
+                                  <tr class="bg-success">
+                                    <th width='5%' style="text-align: center;">#</th>
+                                    <th width='40%'>Consulta</th>
+                                    <th width='40%'>Concepto</th>
+                                    <th width='15%'>Monto</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="resumen_consultas_body">
+                                  <tr id="sin_descuentos_consultas">
+                                    <td colspan="4" style="text-align: center;" class="dataTables_empty">Aún no se han aplicados descuentos</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <!-- Fin resumen de consultas -->
+
                         </div>
                     </div>
                 </div>

@@ -86,6 +86,41 @@
     <link rel="stylesheet" href="chosen/chosen-bootstrap.css">
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <style>
+
+		/* Inicio estilos generales del texto */
+		.font-size-14 {
+			font-size: 14px !important;
+		}
+
+		#detalles_conceptos_adquiridos {
+			font-size: 12px !important;
+		}
+
+		.total_a_pagar {
+			color: #000;
+		}
+		/* Fin estilos generales del texto */
+
+		/* Inicio estilos de los resúmenes individuales */
+		#resumen_individual {
+			margin: 10px auto;
+		}
+
+		#resumen_individual_titulo {
+			font-size: 16px;
+			font-weight: 600;
+		}
+
+		#resumen_individual_titulo:hover {
+			cursor: pointer;
+		}
+
+		#resumen_flecha_icono {
+			font-size: 18px;
+			font-weight: bold;
+		}
+		/* Fin estilos de los resúmenes individuales */
+
     td.details-control { background: url('DataTables-1.10.5/examples/resources/details_open.png') no-repeat center center; cursor: pointer; }
 	tr.details td.details-control { background: url('DataTables-1.10.5/examples/resources/details_close.png') no-repeat center center; }
 	.modal {
@@ -640,6 +675,7 @@ $(document).ready(function(e) {
 					$("#modal-precios-descuentos-consulta").modal("hide");
 					$('#clickmeCoS1').click();
 					totales_consultas();
+					actualizarTablaDescuentos('consultas');
 				}else{
 					alert("Error: "+res);
 				}
@@ -2498,6 +2534,7 @@ function borrarItemNVC1(idConcepto){
 			else if(parseFloat(dd)){$('#to_descuento_c1').val(dd);}else{$('#to_descuento_c1').val(0);}
 			calcular_totales();
 		}, "json");
+		actualizarTablaDescuentos('consultas');
 	} else{alert(data);} });
 }
 function borrarItemNVP(idConcepto){
@@ -3135,6 +3172,146 @@ function guardar_cargo_desc(personal,tipo,temp,monto,motivo,area){
 }
 
 function initMap() { }
+
+// Inicio tablas individuales de descuentos
+
+// Inicio definición de variables y funciones que permiten actualizar la información de las tablas de resumen de los descuentos
+const urlConsultas = 'pacientes/js/datatable-serverside/getDescConsultasSeleccionadas.php';
+const urlImagen = 'pacientes/js/datatable-serverside/getDescImagenSeleccionadas.php';
+let resumenDescuentos = {
+	descuentos: [],
+	body: '',
+	rowDescuento: '',
+	rowTotal: '',
+	rowSinDescuentos: '',
+	total: 0.00,
+
+};
+let resumenTitulo = '';
+let resumenFlecha = '';
+let resumenTabla = '';
+
+/**
+ * Función que define los campos del resumen que se va a actualizar.
+ * @param { any[] } descuentos arreglo en el que se guardan los descuentos obtenidos
+ * @param { String } body id del <tbody> de la <table> en el que se pintarán los descuentos
+ * @param { String } rowDesc clase del <tr> en el que se pintarán cada uno de los descuentos
+ * @param { String } rowTotal id del <tr> en el que se pintará el total de los descuentos
+ * @param { String } rowSinDesc id del <tr> que se pinta cuando no hay ningún descuento aplicado
+ * @param { String } total suma de todos los montos de los descuentos
+ */
+const setResumenData = (descuentos, body, rowDesc, rowTotal, rowSinDesc, total) => {
+	resumenDescuentos.descuentos = descuentos;
+	resumenDescuentos.body = body;
+	resumenDescuentos.rowDescuento = rowDesc;
+	resumenDescuentos.rowTotal = rowTotal;
+	resumenDescuentos.rowSinDescuentos = rowSinDesc;
+	resumenDescuentos.total = total;
+};
+
+const setShowTablaCategoria = (titulo, flecha, tabla) => {
+	resumenTitulo = titulo;
+	resumenFlecha =flecha;
+	resumenTabla = tabla;
+};
+
+const definirCategoria = async (categoria) => {
+	if (categoria === 'imagen') {
+		return setResumenData(await getDescuentos(urlImagen).then(data => data), '#resumen_imagen_body', 'row_descuento_imagen', 'row_total_imagen', '#sin_descuentos_imagen', 0.00);
+	}
+	if(categoria === 'laboratorio') {
+		return ;
+	}
+	if(categoria === 'servicios') {
+		return ;
+	}
+	if (categoria === 'farmacia') {
+		return ;
+	}
+	if (categoria === 'consultas') {
+		return setResumenData(await getDescuentos(urlConsultas).then(data => data), '#resumen_consultas_body', 'row_descuento_consultas', 'row_total_consultas', '#sin_descuentos_consultas', 0.00);
+	}
+};
+
+const definirTabla = async (tabla) => {
+	if (tabla === 'imagen') {
+		return setShowTablaCategoria('.resumen_imagen_titulo', '.flecha_icono_imagen', '#resumen_imagen');
+	}
+	if(tabla === 'laboratorio') {
+		return ;
+	}
+	if(tabla === 'servicios') {
+		return ;
+	}
+	if (tabla === 'farmacia') {
+		return ;
+	}
+	if (tabla === 'consultas') {
+		return setShowTablaCategoria('.resumen_consultas_titulo', '.flecha_icono_consultas', '#resumen_consultas');
+	}
+};
+// Fin definición de variables y funciones que permiten actualizar la información de las tablas de resumen de los descuentos
+
+// Inicio de la función que consulta los descuentos de una categoría
+const getDescuentos = (url) => {
+	return fetch(`${url}?aleatorio=${$('#aleatorio_ov').val()}`,{method: 'get'})
+	.then(response => response.json())
+	.catch(error => alert(error));
+}
+// Fin de la función que consulta los descuentos de una categoría
+
+// Inicio de la función que actualiza y pinta las tablas de descuentos
+const actualizarTablaDescuentos = async (categoria) => {
+	await definirCategoria(categoria);
+	console.log(resumenDescuentos);
+
+	$(`.${resumenDescuentos.rowDescuento}`).remove();
+	$(`#${resumenDescuentos.rowTotal}`).remove();
+	resumenDescuentos.total = 0.00;
+
+	if (resumenDescuentos.descuentos.length === 0) {
+		return $(resumenDescuentos.rowSinDescuentos).show();
+	}
+
+	$(resumenDescuentos.rowSinDescuentos).hide();
+	for (let i = 0; i < resumenDescuentos.descuentos.length; i++) {
+		resumenDescuentos.total += parseFloat(resumenDescuentos.descuentos[i].monto);
+		$(resumenDescuentos.body).append(`
+			<tr class='${resumenDescuentos.rowDescuento}'>
+				<td style='text-align: center;'><strong>${resumenDescuentos.descuentos[i].num}</strong></td>
+				<td>${resumenDescuentos.descuentos[i].nombre}</td>
+				<td>${resumenDescuentos.descuentos[i].concepto}</td>
+				<td>$${resumenDescuentos.descuentos[i].monto}</td>
+			</tr>
+		`);
+	}
+	$(resumenDescuentos.body).append(`
+		<tr id='${resumenDescuentos.rowTotal}'>
+			<th colspan='3'>Total</th>
+			<td><strong>$${resumenDescuentos.total}</strong></td>
+		</tr>
+	`);
+};
+// Fin de la función que actualiza y pinta las tablas de descuentos
+
+// Inicio de la función que muestra u oculta la tablas de descuentos
+const showTablaDescuentos = (categoria) => {
+	definirTabla(categoria);
+
+	if ($(resumenTitulo).attr('estado') === 'hidden') {
+		$(resumenTitulo).attr('estado', 'shown');
+		$(resumenFlecha).text('↑');
+		$(resumenTabla).show();
+	} else {
+		$(resumenTitulo).attr('estado', 'hidden');
+		$(resumenFlecha).text('↓');
+		$(resumenTabla).hide();
+	}
+};
+// Fin de la función que muestra u oculta la tablas de descuentos
+
+// Fin tablas individuales de descuentos
+
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4cHSkoaQwTQjx31Y3xFf3kkSkD28X_Rs&callback=initMap"
