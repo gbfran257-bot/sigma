@@ -612,6 +612,30 @@ function alertaEliminarDescuentoI(opc_elegida){
 		if (!isConfirm) {
 			if(opc_elegida==1){ //imagen
 				$("#po_descuento_i").prop("readonly", true);
+
+				$('#sin_descuentos_imagen').hide();
+
+				let totalAcumulado = 0.00;
+
+				if ($('#monto_imagen_porcentaje').length > 0) {
+					totalAcumulado += parseFloat($('#monto_imagen_porcentaje').text().slice(1, $('#monto_imagen_porcentaje').text().length));
+				}
+
+				if ($('.monto_desc_acum_img').length > 0) {
+					$('.monto_desc_acum_img').each((index, element) => {
+						totalAcumulado += parseFloat(element.textContent.slice(1, element.textContent.length));
+					});
+				}
+
+				if ($('#monto_imagen_directo').length > 0) {
+					totalAcumulado += parseFloat($('#monto_imagen_directo').text().slice(1, $('#monto_imagen_directo').text().length));	
+				}
+
+				if (totalAcumulado > 0.00) {
+					$('#montoTotalDescuentosImg').text(`$${totalAcumulado}`);
+				} else {
+					$('#sin_descuentos_imagen').show();
+				}
 			}else if(opc_elegida==2){//laboratorio
 				$("#po_descuento_l").prop("readonly", true);
 			}
@@ -634,6 +658,9 @@ function alertaEliminarDescuentoI(opc_elegida){
 					$('#to_descuento_i').val(parseFloat(0+$('#da_descuento_i').val()) + parseFloat($('#da_descuento_i_secreto').val()));
 				});
 				totales_imagen();
+				$('#row_descuento_imagen_directo').remove();
+				$('#row_descuento_imagen_porcentaje').remove();
+				actualizarTablaDescuentos('imagen');
 			}else if(opc_elegida==2){//laboratorio
 				$("#po_descuento_l").prop("readonly", false); 
 				$('#da_descuento_l_secreto').val(0); 
@@ -675,6 +702,8 @@ $(document).ready(function(e) {
 					$("#modal-precios-descuentos-consulta").modal("hide");
 					$('#clickmeCoS1').click();
 					totales_consultas();
+
+					// Actualizamos la tabla resumen del apartado de consultas
 					actualizarTablaDescuentos('consultas');
 				}else{
 					alert("Error: "+res);
@@ -718,6 +747,10 @@ $(document).ready(function(e) {
 					$("#modal-precios-descuentos-imagen form")[0].reset();
 					$("#modal-precios-descuentos-imagen").modal("hide");
 					totales_consultas();
+
+					// Actualizamos la tabla resumen del apartado de imagen
+					$('#row_descuento_imagen_porcentaje').remove();
+					actualizarTablaDescuentos('imagen');
 				}else{
 					alert("Error: "+res);
 				}
@@ -2450,6 +2483,14 @@ function borrarItemNV(idConcepto){//Imagen
 				$('#to_descuento_i').val($('#precio_i').val());
 			}
 			calcular_totales();
+
+			// Actualizamos la tabla resumen del apartado de imagen
+			if ($('#precio_i').val() == 0) {
+				$('#row_descuento_imagen_directo').remove();
+				$('#row_descuento_imagen_porcentaje').remove();
+				$('#motivo_descuento_i').val('');
+			}
+			actualizarTablaDescuentos('imagen');
 		});
 	} else{alert(data);} });
 }
@@ -2534,6 +2575,8 @@ function borrarItemNVC1(idConcepto){
 			else if(parseFloat(dd)){$('#to_descuento_c1').val(dd);}else{$('#to_descuento_c1').val(0);}
 			calcular_totales();
 		}, "json");
+
+		// Actualizamos la tabla resumen del apartado de consultas
 		actualizarTablaDescuentos('consultas');
 	} else{alert(data);} });
 }
@@ -3263,32 +3306,45 @@ const getDescuentos = (url) => {
 // Inicio de la función que actualiza y pinta las tablas de descuentos
 const actualizarTablaDescuentos = async (categoria) => {
 	await definirCategoria(categoria);
-	console.log(resumenDescuentos);
 
 	$(`.${resumenDescuentos.rowDescuento}`).remove();
 	$(`#${resumenDescuentos.rowTotal}`).remove();
 	resumenDescuentos.total = 0.00;
 
 	if (resumenDescuentos.descuentos.length === 0) {
+		if ($('#row_descuento_imagen_directo').length === 1) {
+			let montoDescDirec = parseFloat($('#monto_imagen_directo').text().slice(1, $('#monto_imagen_directo').text().length));
+			$('#row_descuento_imagen_directo').remove();
+			return setDescuentoDirectoImagen($('#motivo_descuento_i').val(), montoDescDirec, montoDescDirec, 1);
+		}
 		return $(resumenDescuentos.rowSinDescuentos).show();
 	}
 
 	$(resumenDescuentos.rowSinDescuentos).hide();
+
+	if ($('#row_descuento_imagen_directo').length === 1) {
+		resumenDescuentos.total += parseFloat($('#monto_imagen_directo').text().slice(1, $('#monto_imagen_directo').text().length));
+		$('#desc_direc_num').text('1');
+	}
+
 	for (let i = 0; i < resumenDescuentos.descuentos.length; i++) {
 		resumenDescuentos.total += parseFloat(resumenDescuentos.descuentos[i].monto);
+
+		if ($('#row_descuento_imagen_directo').length === 1) { resumenDescuentos.descuentos[i].num++; }
+
 		$(resumenDescuentos.body).append(`
 			<tr class='${resumenDescuentos.rowDescuento}'>
-				<td style='text-align: center;'><strong>${resumenDescuentos.descuentos[i].num}</strong></td>
+				<td style='text-align: center;'><strong class='imagen_normal_num'>${resumenDescuentos.descuentos[i].num}</strong></td>
 				<td>${resumenDescuentos.descuentos[i].nombre}</td>
 				<td>${resumenDescuentos.descuentos[i].concepto}</td>
-				<td>$${resumenDescuentos.descuentos[i].monto}</td>
+				<td class='monto_desc_acum_img'>$${resumenDescuentos.descuentos[i].monto}</td>
 			</tr>
 		`);
 	}
 	$(resumenDescuentos.body).append(`
 		<tr id='${resumenDescuentos.rowTotal}'>
 			<th colspan='3'>Total</th>
-			<td><strong>$${resumenDescuentos.total}</strong></td>
+			<td><strong id='montoTotalDescuentosImg'>$${resumenDescuentos.total}</strong></td>
 		</tr>
 	`);
 };
@@ -3307,6 +3363,137 @@ const showTablaDescuentos = (categoria) => {
 		$(resumenFlecha).text('↓');
 		$(resumenTabla).hide();
 	}
+};
+
+const mostrarDescuentoDirecto = () => {
+	if ($('#da_descuento_i').val() == 0 || $('#motivo_descuento_i').val() === '') {
+		let montoTotalDescuentosImg = parseFloat(
+			$('#montoTotalDescuentosImg').text().slice(1, $('#montoTotalDescuentosImg').text().length)
+		);
+		let monto_imagen_directo = parseFloat(
+			$('#monto_imagen_directo').text().slice(1, $('#monto_imagen_directo').text().length)
+		);
+		if (Number.isNaN(monto_imagen_directo)) monto_imagen_directo = 0;
+		montoTotalDescuentosImg -= monto_imagen_directo;
+		$('#montoTotalDescuentosImg').text(`$${montoTotalDescuentosImg}`);
+		$('#row_descuento_imagen_directo').remove();
+
+		if ($('.row_descuento_imagen').length === 0) {
+			$('#sin_descuentos_imagen').show();
+			$('#row_total_imagen').remove();
+			return ;
+		}
+
+		$('.imagen_normal_num').each((index, element) => {
+			element.textContent = ++index;
+		})
+		return ;
+	}
+
+	if ($('#row_descuento_imagen_directo').length === 0 && $('.row_descuento_imagen').length > 0) {
+		let descuentosCont = $('.row_descuento_imagen').length + 1;
+		let descuentoDirecto = parseFloat($('#da_descuento_i').val());
+		let descuentoTotalActual = parseFloat($('#montoTotalDescuentosImg').text().slice(1, $('#montoTotalDescuentosImg').text().length));
+		let nuevoTotalDescuentoImg = parseFloat(descuentoTotalActual + descuentoDirecto);
+		$('#row_total_imagen').remove();
+		return setDescuentoDirectoImagen($('#motivo_descuento_i').val(), parseFloat($('#da_descuento_i').val()), nuevoTotalDescuentoImg, descuentosCont);
+	}
+
+	// Verificamos el estado de la tabla
+	if ($('#row_descuento_imagen_directo').length > 0) {
+		if ($('.row_descuento_imagen').length > 0) {
+			let totalActual = parseFloat($('#montoTotalDescuentosImg').text().slice(1, $('#montoTotalDescuentosImg').text().length));
+			let descuentoDirectoActual = parseFloat($('#monto_imagen_directo').text().slice(1, $('#monto_imagen_directo').text().length));
+			let nuevoTotal = parseFloat(totalActual - descuentoDirectoActual + parseFloat($('#da_descuento_i').val()));
+			$('#concepto_imagen_directo').text($('#motivo_descuento_i').val());
+			$('#monto_imagen_directo').text(`$${parseFloat($('#da_descuento_i').val())}`);
+			$('#montoTotalDescuentosImg').text(`$${nuevoTotal}`);
+			return ;
+		}
+
+		if ($('#row_descuento_imagen').length === 0) {
+			$('#concepto_imagen_directo').text($('#motivo_descuento_i').val());
+			$('#monto_imagen_directo').text(`$${parseFloat($('#da_descuento_i').val())}`);
+			$('#montoTotalDescuentosImg').text(`$${parseFloat($('#da_descuento_i').val())}`);
+			return ;
+		}
+	}
+
+	// Verificamos si existe un registro de descuento directo
+	if ($('#row_descuento_imagen_porcentaje').length === 1) {
+		$('#row_descuento_imagen_porcentaje').remove();
+		$('#row_total_imagen').remove();
+		return setDescuentoDirectoImagen($('#motivo_descuento_i').val(), $('#da_descuento_i').val(), $('#da_descuento_i').val());
+	}
+
+	return setDescuentoDirectoImagen($('#motivo_descuento_i').val(), $('#da_descuento_i').val(), $('#da_descuento_i').val());
+};
+
+const mostrarDescuentoPorcentaje = () => {
+	if ($('#po_descuento_i').val() == 0 || $('#motivo_descuento_i').val() === '' || parseFloat($('#precio_i').val()) === 0 && ($('#row_descuento_imagen_porcentaje').length === 0 && $('#row_descuento_imagen_directo').length === 0)) {
+		if ($('#row_descuento_imagen_porcentaje').length > 0) {
+			$('#row_descuento_imagen_porcentaje').remove();
+		}
+		$('#row_total_imagen').remove();
+		$('#sin_descuentos_imagen').show();
+		return ;
+	}
+
+	if ($('#row_descuento_imagen_porcentaje').length > 0) {
+		$('#monto_imagen_porcentaje').text(`$${(parseFloat($('#po_descuento_i').val()) / 100) * parseFloat($('#precio_i').val())}`);
+		$('#concepto_imagen_porcentaje').text(`${$('#motivo_descuento_i').val()}`);
+		$('#montoTotalDescuentosImg').text(`$${parseFloat($('#monto_imagen_porcentaje').text().slice(1, $('#monto_imagen_porcentaje').text().length))}`);
+		return ;
+	}
+
+	if ($('#row_descuento_imagen_directo').length > 0) $('#row_descuento_imagen_directo').remove();
+	if ($('.row_descuento_imagen').length > 0) $('.row_descuento_imagen').remove();
+	$('#row_total_imagen').remove();
+
+	return setDescuentoPorcentajeImagen($('#motivo_descuento_i').val(), parseFloat($('#po_descuento_i').val()) / 100);
+};
+
+const setDescuentoDirectoImagen = (concepto, monto, montoTotal, index = 1) => {
+	$('#sin_descuentos_imagen').hide();
+	$('#resumen_imagen_body').append(`
+		<tr id='row_descuento_imagen_directo'>
+			<td style='text-align: center;'><strong id='desc_direc_num'>${index}</strong></td>
+			<td>Descuento general</td>
+			<td id='concepto_imagen_directo'>${concepto}</td>
+			<td id='monto_imagen_directo'>$${monto}</td>
+		</tr>
+	`, `
+		<tr id='row_total_imagen'>
+			<th colspan='3'>Total</th>
+			<td><strong id='montoTotalDescuentosImg'>$${montoTotal}</strong></td>
+		</tr>
+	`);
+	return ;
+};
+
+const setDescuentoPorcentajeImagen = (concepto, monto) => {
+	$('#sin_descuentos_imagen').hide();
+	$('#resumen_imagen_body').append(`
+		<tr id='row_descuento_imagen_porcentaje'>
+			<td style='text-align: center;'><strong>1</strong></td>
+			<td>Descuento general</td>
+			<td id='concepto_imagen_porcentaje'>${concepto}</td>
+			<td id='monto_imagen_porcentaje'>$${monto * parseFloat($('#precio_i').val())}</td>
+		</tr>
+	`, `
+		<tr id='row_total_imagen'>
+			<th colspan='3'>Total</th>
+			<td><strong id='montoTotalDescuentosImg'>$${monto * parseFloat($('#precio_i').val())}</strong></td>
+		</tr>
+	`);
+	return ;
+};
+
+const seleccionarCampoDescuento = () => {
+	if ($('#po_descuento_i').val() != 0) {
+		return mostrarDescuentoPorcentaje();
+	}
+	return mostrarDescuentoDirecto();
 };
 // Fin de la función que muestra u oculta la tablas de descuentos
 

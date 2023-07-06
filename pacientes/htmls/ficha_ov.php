@@ -269,7 +269,7 @@
                             	<div class="form-group" align="center">
                                      <label for="po_descuento_i">% Descuento</label>
                                      <div class="input-group">
-                                     	<input type="text" class="form-control desc_cargo_i" id="po_descuento_i" name="po_descuento_i" placeholder="0" style="text-align:right;" min="0" max="100" value="0" data-minlength="0" data-maxlength="100" onKeyUp="cargos_descuentos_i(this.value,this.id);" onclick="alertaEliminarDescuentoI(1)" tabindex="-1">
+                                     	<input type="text" class="form-control desc_cargo_i" id="po_descuento_i" name="po_descuento_i" placeholder="0" style="text-align:right;" min="0" max="100" value="0" data-minlength="0" data-maxlength="100" onKeyUp="cargos_descuentos_i(this.value,this.id);" onclick="alertaEliminarDescuentoI(1)" onblur="mostrarDescuentoPorcentaje();" tabindex="-1">
                                         <span class="input-group-addon bootstrap-touchspin-postfix">%</span>
                                      </div>
                                  </div>
@@ -279,7 +279,7 @@
                                      <label for="da_descuento_i">$ Descuento</label>
                                      <div class="input-group">
                                      	<span class="input-group-addon bootstrap-touchspin-postfix">$</span>
-                                     	<input type="text" class="form-control desc_cargo_i" id="da_descuento_i" name="da_descuento_i" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0" onKeyUp="cargos_descuentos_i(this.value,this.id);">
+                                     	<input type="text" class="form-control desc_cargo_i" id="da_descuento_i" name="da_descuento_i" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0" onKeyUp="cargos_descuentos_i(this.value,this.id);" onblur="mostrarDescuentoDirecto();">
                                      	<input type="hidden" class="form-control" id="da_descuento_i_secreto" name="da_descuento_i_secreto" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0">
                                      </div>
                                  </div>
@@ -296,7 +296,7 @@
                             <div class="col-sm-12 col-xs-12 depende_descuento_i hidden">
                             	<div class="form-group">
                                  <label for="motivo_descuento_i">Motivo del descuento</label>
-                                 <input type="text" class="form-control desc_cargo_i" id="motivo_descuento_i" name="motivo_descuento_i" placeholder="Motivo del descuento" onKeyUp="cargos_descuentos_i(0,this.id);">
+                                 <input type="text" class="form-control desc_cargo_i" id="motivo_descuento_i" name="motivo_descuento_i" placeholder="Motivo del descuento" onKeyUp="cargos_descuentos_i(0,this.id);" onblur="seleccionarCampoDescuento();">
                                  </div>
                             </div>
                             <div class="col-sm-12 col-xs-12 depende_descuento_i2 hidden">
@@ -332,6 +332,28 @@
                                      </div>
                                  </div>
                             </div>
+
+                            <!-- Inicio resumen de imagen -->
+                            <div class="col-sm-12 col-xs-12" id="resumen_individual">
+                              <span id="resumen_individual_titulo" class="resumen_imagen_titulo" estado='hidden' onclick="showTablaDescuentos('imagen');">Resumen de los descuentos <strong id="resumen_flecha_icono" class="flecha_icono_imagen">↓</strong></span>
+                              <table width="100%" cellspacing="0" id="resumen_imagen" height="100%" border="0" cellpadding="0" class="table table-bordered table-hover table-responsive" style="display: none; margin: 1rem 0px 0px">
+                                <thead>
+                                  <tr class="bg-success">
+                                    <th width='5%' style="text-align: center;">#</th>
+                                    <th width='40%'>Estudio</th>
+                                    <th width='40%'>Concepto</th>
+                                    <th width='15%'>Monto</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="resumen_imagen_body">
+                                  <tr id="sin_descuentos_imagen">
+                                    <td colspan="4" style="text-align: center;" class="dataTables_empty">Aún no se han aplicados descuentos</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <!-- Fin resumen de imagen -->
+
                         </div>
                     </div>
                     
