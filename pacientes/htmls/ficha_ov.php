@@ -483,7 +483,7 @@
                             	<div class="form-group" align="center">
                                      <label for="po_descuento_l">% Descuento</label>
                                      <div class="input-group">
-                                     	<input type="text" class="form-control desc_cargo_l" id="po_descuento_l" name="po_descuento_l" placeholder="0" style="text-align:right;" min="0" max="100" value="0" data-minlength="0" data-maxlength="100" onKeyUp="cargos_descuentos_l(this.value,this.id);" onclick="alertaEliminarDescuentoI(2)" tabindex="-1">
+                                     	<input type="text" class="form-control desc_cargo_l" id="po_descuento_l" name="po_descuento_l" placeholder="0" style="text-align:right;" min="0" max="100" value="0" data-minlength="0" data-maxlength="100" onKeyUp="cargos_descuentos_l(this.value,this.id);" onclick="alertaEliminarDescuentoI(2)" oninput="handlerLabDescPorcentaje(this);" tabindex="-1">
                                         <span class="input-group-addon bootstrap-touchspin-postfix">%</span>
                                      </div>
                                  </div>
@@ -493,7 +493,7 @@
                                      <label for="da_descuento_l">$ Descuento</label>
                                      <div class="input-group">
                                      	<span class="input-group-addon bootstrap-touchspin-postfix">$</span>
-                                     	<input type="text" class="form-control desc_cargo_l" id="da_descuento_l" name="da_descuento_l" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0" onKeyUp="cargos_descuentos_l(this.value,this.id);">
+                                     	<input type="text" class="form-control desc_cargo_l" id="da_descuento_l" name="da_descuento_l" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0" onKeyUp="cargos_descuentos_l(this.value,this.id);" oninput="handlerLabDescDirecto(this);">
                                        <input type="hidden" class="form-control" id="da_descuento_l_secreto" name="da_descuento_l_secreto" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0">
                                      </div>
                                  </div>
@@ -510,7 +510,7 @@
                             <div class="col-sm-12 col-xs-12 depende_descuento_l hidden">
                             	<div class="form-group">
                                  <label for="motivo_descuento_l">Motivo del descuento</label>
-                                 <input type="text" class="form-control" id="motivo_descuento_l" name="motivo_descuento_l" placeholder="Motivo del descuento" onKeyUp="cargos_descuentos_l(0,this.id);">
+                                 <input type="text" class="form-control" id="motivo_descuento_l" name="motivo_descuento_l" placeholder="Motivo del descuento" onKeyUp="cargos_descuentos_l(0,this.id);" oninput="handlerMotivoDescLab(this);">
                                  </div>
                             </div>
                             <div class="col-sm-12 col-xs-12 depende_descuento_l2 hidden">
@@ -547,6 +547,27 @@
                                  </div>
                             </div>
                         </div>
+
+                        <!-- Inicio resumen de lab -->
+                        <div class="col-sm-12 col-xs-12" id="resumen_individual">
+                          <span id="resumen_individual_titulo" class="resumen_lab_titulo" estado='hidden' onclick="showTablaDescuentos('lab');">Resumen de los descuentos <strong id="resumen_flecha_icono" class="flecha_icono_lab">↓</strong></span>
+                          <table width="100%" cellspacing="0" id="resumen_lab" height="100%" border="0" cellpadding="0" class="table table-bordered table-hover table-responsive" style="display: none; margin: 1rem 0px 0px">
+                            <thead>
+                              <tr class="bg-success">
+                                <th width='5%' style="text-align: center;">#</th>
+                                <th width='40%'>Estudio</th>
+                                <th width='40%'>Concepto</th>
+                                <th width='15%'>Monto</th>
+                              </tr>
+                            </thead>
+                            <tbody id="resumen_lab_body">
+                              <tr id="sin_descuentos_lab">
+                                <td colspan="4" style="text-align: center;" class="dataTables_empty">Aún no se han aplicados descuentos</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <!-- Fin resumen de lab -->
                     </div>
                     <div role="tabpanel" class="tab-pane" id="tServicios"><br>
                         <div class="row">

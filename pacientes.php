@@ -676,6 +676,10 @@ function alertaEliminarDescuentoI(opc_elegida){
 					$('#to_descuento_l').val(parseFloat(0+$('#da_descuento_l').val()) + parseFloat($('#da_descuento_l_secreto').val()));
 				});
 				totales_laboratorio();
+
+				// Actualizamos la tabla de resumen del apartado de laboratorio
+				$('#row_descuento_lab_directo').remove();
+				actualizarTablaDescuentos('lab');
 			}
 			//--fin--
 			calcular_totales();
@@ -793,6 +797,9 @@ $(document).ready(function(e) {
 					$("#modal-precios-descuentos-lab form")[0].reset();
 					$("#modal-precios-descuentos-lab").modal("hide");
 					totales_consultas();
+
+					// Actualizamos la tabla de resumen para el apartado de lab
+					actualizarTablaDescuentos('lab');
 				}else{
 					alert("Error: "+res);
 				}
@@ -2534,6 +2541,16 @@ function borrarItemNVL(idConcepto){
 				$('#to_descuento_l').val($('#precio_l').val());
 			}
 			calcular_totales();
+
+			// Antes de actualizar la tabla verificamos que haya estudios seleccionados
+			if ($('#precio_l').val() == 0) {
+				$('#sin_descuentos_lab').show();
+				$('#row_descuento_lab_directo').remove();
+				$('#row_descuento_lab_porcentaje').remove();
+				$('#row_total_lab').remove();
+			} else {
+				actualizarTablaDescuentos('lab');
+			}
 		});
 	} else{alert(data);} });
 }
@@ -3221,6 +3238,7 @@ function initMap() { }
 // Inicio definición de variables y funciones que permiten actualizar la información de las tablas de resumen de los descuentos
 const urlConsultas = 'pacientes/js/datatable-serverside/getDescConsultasSeleccionadas.php';
 const urlImagen = 'pacientes/js/datatable-serverside/getDescImagenSeleccionadas.php';
+const urlLab = 'pacientes/js/datatable-serverside/getDescLabSeleccionadas.php';
 let resumenDescuentos = {
 	descuentos: [],
 	body: '',
@@ -3262,8 +3280,8 @@ const definirCategoria = async (categoria) => {
 	if (categoria === 'imagen') {
 		return setResumenData(await getDescuentos(urlImagen).then(data => data), '#resumen_imagen_body', 'row_descuento_imagen', 'row_total_imagen', '#sin_descuentos_imagen', 0.00);
 	}
-	if(categoria === 'laboratorio') {
-		return ;
+	if(categoria === 'lab') {
+		return setResumenData(await getDescuentos(urlLab).then(data => data), '#resumen_lab_body', 'row_descuento_lab', 'row_total_lab', '#sin_descuentos_lab', 0.00);
 	}
 	if(categoria === 'servicios') {
 		return ;
@@ -3280,8 +3298,8 @@ const definirTabla = async (tabla) => {
 	if (tabla === 'imagen') {
 		return setShowTablaCategoria('.resumen_imagen_titulo', '.flecha_icono_imagen', '#resumen_imagen');
 	}
-	if(tabla === 'laboratorio') {
-		return ;
+	if(tabla === 'lab') {
+		return setShowTablaCategoria('.resumen_lab_titulo', '.flecha_icono_lab', '#resumen_lab');;
 	}
 	if(tabla === 'servicios') {
 		return ;
@@ -3307,6 +3325,18 @@ const getDescuentos = (url) => {
 const actualizarTablaDescuentos = async (categoria) => {
 	await definirCategoria(categoria);
 
+	let idMontoTotal = '';
+	let classMontoDesc = '';
+	if (categoria === 'imagen') {
+		idMontoTotal = 'montoTotalDescuentosImg'
+		classMontoDesc = 'monto_desc_acum_img';
+	};
+
+	if (categoria === 'lab') {
+		idMontoTotal = 'montoTotalDescuentosLab';
+		classMontoDesc = 'monto_desc_acum_lab';
+	}
+
 	$(`.${resumenDescuentos.rowDescuento}`).remove();
 	$(`#${resumenDescuentos.rowTotal}`).remove();
 	resumenDescuentos.total = 0.00;
@@ -3317,6 +3347,23 @@ const actualizarTablaDescuentos = async (categoria) => {
 			$('#row_descuento_imagen_directo').remove();
 			return setDescuentoDirectoImagen($('#motivo_descuento_i').val(), montoDescDirec, montoDescDirec, 1);
 		}
+
+		// Verificamos que solo queden los descuentos por porcentaje o directo de laboratorio
+		if ($('#row_descuento_lab_directo').length === 1) {
+			$('#row_descuento_lab_directo').remove();
+			return insertarUnicoDescuentoDirectoLab($('#motivo_descuento_l').val(), parseFloat($('#to_descuento_l').val()));
+		}
+
+		if ($('#row_descuento_lab_porcentaje').length === 1) {
+			$('#num_desc_lab_porc').text('1');
+			$('#resumen_lab_body').append(`
+				<tr id='row_total_lab'>
+					<th colspan='3'>Total</th>
+					<td><strong id='montoTotalDescuentosLab'>${$('#monto_lab_porcentaje').text()}</strong></td>
+				</tr>
+			`);
+			return ;
+		}
 		return $(resumenDescuentos.rowSinDescuentos).show();
 	}
 
@@ -3325,6 +3372,16 @@ const actualizarTablaDescuentos = async (categoria) => {
 	if ($('#row_descuento_imagen_directo').length === 1) {
 		resumenDescuentos.total += parseFloat($('#monto_imagen_directo').text().slice(1, $('#monto_imagen_directo').text().length));
 		$('#desc_direc_num').text('1');
+	}
+
+	// Verificamos si hay descuento directo o por porcentaje en laboratorio
+	if ($('#row_descuento_lab_porcentaje').length > 0) {
+		$('#row_descuento_lab_porcentaje').remove();
+	}
+
+	if ($('#row_descuento_lab_directo').length === 1) {
+		resumenDescuentos.total += parseFloat($('#monto_lab_directo').text().slice(1, $('#monto_lab_directo').text().length));
+		$('#num_desc_lab_direc').text('0');
 	}
 
 	for (let i = 0; i < resumenDescuentos.descuentos.length; i++) {
@@ -3337,14 +3394,14 @@ const actualizarTablaDescuentos = async (categoria) => {
 				<td style='text-align: center;'><strong class='imagen_normal_num'>${resumenDescuentos.descuentos[i].num}</strong></td>
 				<td>${resumenDescuentos.descuentos[i].nombre}</td>
 				<td>${resumenDescuentos.descuentos[i].concepto}</td>
-				<td class='monto_desc_acum_img'>$${resumenDescuentos.descuentos[i].monto}</td>
+				<td class='${classMontoDesc}'>$${resumenDescuentos.descuentos[i].monto}</td>
 			</tr>
 		`);
 	}
 	$(resumenDescuentos.body).append(`
 		<tr id='${resumenDescuentos.rowTotal}'>
 			<th colspan='3'>Total</th>
-			<td><strong id='montoTotalDescuentosImg'>$${resumenDescuentos.total}</strong></td>
+			<td><strong id='${idMontoTotal}'>$${resumenDescuentos.total}</strong></td>
 		</tr>
 	`);
 };
@@ -3453,6 +3510,7 @@ const mostrarDescuentoPorcentaje = () => {
 	return setDescuentoPorcentajeImagen($('#motivo_descuento_i').val(), parseFloat($('#po_descuento_i').val()) / 100);
 };
 
+// Inicio funciones para manejar los descuentos directos y por porcentaje del apartado de imagen
 const setDescuentoDirectoImagen = (concepto, monto, montoTotal, index = 1) => {
 	$('#sin_descuentos_imagen').hide();
 	$('#resumen_imagen_body').append(`
@@ -3495,6 +3553,241 @@ const seleccionarCampoDescuento = () => {
 	}
 	return mostrarDescuentoDirecto();
 };
+// Fin funciones para manejar los descuentos directos y por porcentaje del apartado de imagen
+
+// Inicio funciones para manejar los descuentos directos y por porcentaje del apartado de laboratorio
+const handlerLabDescDirecto = (inputDescDirecto) => {
+	// Verificamos que el precio de los estudios no sea 0
+	if ($('#precio_l').val() == 0) {
+		$('#da_descuento_l').val('0');
+		return ;
+	}
+
+	// Verificamos que sea un descuento directo válido, es decir, mayor que 0
+	if (inputDescDirecto.value == 0) {
+		$('#motivo_descuento_l').val('');
+
+		// Caso 1: La tabla tiene únicamente un descuento directo
+		if ($('#row_descuento_lab_directo').length === 1 && $('.row_descuento_lab').length === 0) {
+			return eliminarUnicoDescuentoDirectoLab();
+		}
+
+		// Caso 2: La tabla tiene registros de descuentos normales y un descuento directo
+		if ($('#row_descuento_lab_directo').length === 1 && $('.row_descuento_lab').length > 0) {
+			return eliminarDescuentoDirectoLab();
+		}
+
+		return ;
+	}
+
+	// Caso 1: La tabla de descuentos está vacía
+	if ($('#row_total_lab').length === 0) {
+		return insertarUnicoDescuentoDirectoLab($('#motivo_descuento_l').val(), parseFloat($('#da_descuento_l').val()));
+	}
+
+	// Caso 2: La tabla de descuentos tiene únicamente un descuento directo
+	if ($('#row_descuento_lab_directo').length === 1 && $('.row_descuento_lab').length === 0) {
+		return actualizarUnicoDescuentoDirectoLab($('#motivo_descuento_l').val(), parseFloat($('#da_descuento_l').val()));
+	}
+
+	// Caso 3: La tabla de descuentos contiene únicamente descuentos normales
+	if ($('#row_descuento_lab_directo').length === 0 && $('.row_descuento_lab').length > 0) {
+		return insertarDescuentoDirectoLab($('#motivo_descuento_l').val(), parseFloat($('#da_descuento_l').val()));
+	}
+
+	// Caso 4: La tabla de descuentos contiene descuentos normales y un descuento directo
+	if ($('#row_descuento_lab_directo').length === 1 && $('.row_descuento_lab').length > 0) {
+		return actualizarDescuentoDirectoLab($('#motivo_descuento_l').val(), parseFloat($('#da_descuento_l').val()));
+	}
+
+	// Caso 5: La tabla tiene un descuento por porcentaje
+	$('#row_descuento_lab_porcentaje').remove();
+	$('#row_total_lab').remove();
+	return insertarUnicoDescuentoDirectoLab($('#motivo_descuento_l').val(), parseFloat($('#da_descuento_l').val()));
+};
+
+const handlerLabDescPorcentaje = (inputDescPorcentaje) => {
+	// Verificamos que el precio de los estudios no sea 0
+	if ($('#precio_l').val() == 0) {
+		$('#po_descuento_l').val('0');
+		return ;
+	}
+
+	// Verificamos que sea un descuento por porcentaje válido, es decir, mayor que 0
+	if (inputDescPorcentaje.value == 0) {
+		$('#motivo_descuento_l').val('');
+
+		// Caso 1: La tabla tiene únicamente un descuento por porcentaje
+		if ($('#row_descuento_lab_porcentaje').length === 1) {
+			return eliminarUnicoDescuentoPorcentajeLab();
+		}
+
+		return ;
+	}
+
+	// Caso 1: La tabla de descuentos está vacía
+	if ($('#row_total_lab').length === 0) {
+		return insertarUnicoDescuentoPorcentajeLab($('#motivo_descuento_l').val(), parseFloat((parseFloat(inputDescPorcentaje.value) / 100) * parseFloat($('#precio_l').val())));
+	}
+
+	// Caso 2: La tabla de descuentos tiene únicamente un descuento por porcentaje
+	if ($('#row_descuento_lab_porcentaje').length === 1) {
+		return actualizarUnicoDescuentoPorcentajeLab($('#motivo_descuento_l').val(), parseFloat((parseFloat(inputDescPorcentaje.value) / 100) * parseFloat($('#precio_l').val())));
+	}
+};
+
+const eliminarDescuentoDirectoLab = () => {
+	// Sumamos los montos de los descuentos normales
+	let nuevoTotalAcumulado = 0.00;
+	$('.monto_desc_acum_lab').each((index, elemento) => {
+		nuevoTotalAcumulado += parseFloat(elemento.textContent.slice(1, elemento.textContent.length));
+	});
+
+	// Actualizamos el total con la suma de los montos anteriores y eliminamos la fila del descuento directo
+	$('#montoTotalDescuentosLab').text(`$${nuevoTotalAcumulado}`);
+	$('#row_descuento_lab_directo').remove();
+	return ;
+};
+
+const eliminarUnicoDescuentoDirectoLab = () => {
+	$('#row_descuento_lab_directo').remove();
+	$('#row_total_lab').remove();
+	$('#sin_descuentos_lab').show();
+	return ;
+};
+
+const eliminarUnicoDescuentoPorcentajeLab = () => {
+	$('#row_descuento_lab_porcentaje').remove();
+	$('#row_total_lab').remove();
+	$('#sin_descuentos_lab').show();
+	return ;
+};
+
+const insertarUnicoDescuentoDirectoLab = (concepto, monto) => {
+	$('#sin_descuentos_lab').hide();
+	$('#resumen_lab_body').append(`
+		<tr id='row_descuento_lab_directo'>
+			<td style='text-align: center;'><strong id='num_desc_lab_direc'>1</strong></td>
+			<td>Descuento directo</td>
+			<td id='concepto_lab_directo'>${concepto}</td>
+			<td id='monto_lab_directo'>$${monto}</td>
+		</tr>
+	`, `
+		<tr id='row_total_lab'>
+			<th colspan='3'>Total</th>
+			<td><strong id='montoTotalDescuentosLab'>$${monto}</strong></td>
+		</tr>
+	`);
+	return ;
+};
+
+const insertarUnicoDescuentoPorcentajeLab = (concepto, monto) => {
+	$('#sin_descuentos_lab').hide();
+	$('#resumen_lab_body').append(`
+		<tr id='row_descuento_lab_porcentaje'>
+			<td style='text-align: center;'><strong id='num_desc_lab_porc'>1</strong></td>
+			<td>Descuento por porcentaje</td>
+			<td id='concepto_lab_porcentaje'>${concepto}</td>
+			<td id='monto_lab_porcentaje'>$${monto}</td>
+		</tr>
+	`, `
+		<tr id='row_total_lab'>
+			<th colspan='3'>Total</th>
+			<td><strong id='montoTotalDescuentosLab'>$${monto}</strong></td>
+		</tr>
+	`);
+	return ;
+};
+
+const insertarDescuentoDirectoLab = (concepto, monto) => {
+	// Obtenemos el número de desuentos que hay en la tabla y el total actual del descuento
+	let contDescuentos = $('.row_descuento_lab').length;
+	let totalActual = parseFloat($('#montoTotalDescuentosLab').text().slice(1, $('#montoTotalDescuentosLab').text().length));
+	
+	// Eliminamos la fila de total para poder insertar la nueva fila de descuento directo y la de total actualizada
+	$('#row_total_lab').remove();
+	$('#resumen_lab_body').append(`
+		<tr id='row_descuento_lab_directo'>
+			<td style='text-align: center;'><strong>${++contDescuentos}</strong></td>
+			<td>Descuento directo</td>
+			<td id='concepto_lab_directo'>${concepto}</td>
+			<td id='monto_lab_directo'>$${monto}</td>
+		</tr>
+	`, `
+		<tr id='row_total_lab'>
+			<th colspan='3'>Total</th>
+			<td><strong id='montoTotalDescuentosLab'>$${totalActual + monto}</strong></td>
+		</tr>
+	`);
+	return ;
+};
+
+const actualizarUnicoDescuentoDirectoLab = (concepto, monto) => {
+	$('#concepto_lab_directo').text(concepto);
+
+	// Verificamos que el valor no rebase el precio de los estudios
+	if (monto > parseFloat($('#precio_l').val())) {
+		monto = $('#precio_l').val();
+	}
+
+	$('#monto_lab_directo').text(`$${monto}`);
+	$('#montoTotalDescuentosLab').text(`$${monto}`);
+	return ;
+};
+
+const actualizarUnicoDescuentoPorcentajeLab = (concepto, monto) => {
+	$('#concepto_lab_porcentaje').text(concepto);
+
+	// Verificamos que el valor no rebase el precio de los estudios
+	if (monto > parseFloat($('#precio_l').val())) {
+		monto = $('#precio_l').val();
+	}
+
+	$('#monto_lab_porcentaje').text(`$${monto}`);
+	$('#montoTotalDescuentosLab').text(`$${monto}`);
+	return ;
+};
+
+const actualizarDescuentoDirectoLab = (concepto, monto) => {
+	// Verificamos que el monto no sea mayor al total restante del precio
+	let precioMaxlab = parseFloat($('#precio_l').val());
+	let totalActual = parseFloat($('#montoTotalDescuentosLab').text().slice(1, $('#montoTotalDescuentosLab').text().length));
+	if (precioMaxlab - monto - totalActual <= 0) {
+		monto = precioMaxlab - totalActual
+		$('#da_descuento_l').val(precioMaxlab - totalActual);
+	}
+
+	$('#concepto_lab_directo').text(concepto);
+
+	// Al total actual le restamos el monto del descuento directo anterior
+	let montoActualDescuentoDirecto = parseFloat($('#monto_lab_directo').text().slice(1, $('#monto_lab_directo').text().length));
+	let totalActualizado = totalActual - montoActualDescuentoDirecto;
+
+	// Actualizamos el total y las filas de la tabla
+	totalActualizado += monto;
+	$('#monto_lab_directo').text(`$${monto}`);
+	$('#montoTotalDescuentosLab').text(`$${totalActualizado}`);
+	return ;
+};
+
+const handlerMotivoDescLab = (inputMotivo) => {
+	if ($('#po_descuento_l').val() == 0 && $('#da_descuento_l').val() == 0) {
+		$('#motivo_descuento_l').val('');
+		return ;
+	} ;
+
+	// Caso 1: El motivo del descuento es aplicado a un descuento por porcentaje
+	if ($('#po_descuento_l').val() != 0 && $('#da_descuento_l').val() == 0) {
+		return $('#concepto_lab_porcentaje').text(inputMotivo.value);
+	}
+
+	// Caso 2: El motivo del descuento es aplicado a un descuento directo
+	if ($('#po_descuento_l').val() == 0 && $('#da_descuento_l').val() != 0) {
+		return $('#concepto_lab_directo').text(inputMotivo.value);
+	}
+};
+// Fin funciones para manejar los descuentos directos y por porcentaje del apartado de laboratorio
+
 // Fin de la función que muestra u oculta la tablas de descuentos
 
 // Fin tablas individuales de descuentos
