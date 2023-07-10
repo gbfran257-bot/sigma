@@ -3545,6 +3545,8 @@ const setDescuentoPorcentajeImagen = (concepto, monto) => {
 		</tr>
 	`);
 	return ;
+
+	
 };
 
 const seleccionarCampoDescuento = () => {
