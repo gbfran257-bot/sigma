@@ -3338,10 +3338,10 @@ const definirTabla = async (tabla) => {
 		return setShowTablaCategoria('.resumen_imagen_titulo', '.flecha_icono_imagen', '#resumen_imagen');
 	}
 	if(tabla === 'lab') {
-		return setShowTablaCategoria('.resumen_lab_titulo', '.flecha_icono_lab', '#resumen_lab');;
+		return setShowTablaCategoria('.resumen_lab_titulo', '.flecha_icono_lab', '#resumen_lab');
 	}
 	if(tabla === 'servicios') {
-		return ;
+		return setShowTablaCategoria('.resumen_servicios_titulo', '.flecha_icono_servicios', '#resumen_servicios');
 	}
 	if (tabla === 'farmacia') {
 		return ;
@@ -3838,6 +3838,9 @@ const handlerMotivoDescLab = (inputMotivo) => {
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4cHSkoaQwTQjx31Y3xFf3kkSkD28X_Rs&callback=initMap"
 	async defer>
 </script>
+
+<!--Funciones para la tabla resumen del apartado de servicios-->
+<script src='./pacientes/js/resumenServicios.js'></script>
 
 <?php include_once 'partes/header.php'; 
 
