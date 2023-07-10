@@ -3,7 +3,7 @@ require("../Connections/horizonte.php");
 require_once("../funciones/php/values.php");
 
 	$obligatorio = 0;
-	$aColumns = array('p.id_p', 'p.curp_p', 'nombre_completo_p', 'p.fNac_p', 'SUBSTRING(sx.cat_sexo, 1, 1)', 'p.tCelular_p', 's.clave_su', 'p.id_p', 'p.id_p', 'p.id_p', 's.nombre_su', 'p.id_p', 'p.id_p', 'p.id_p', 'p.id_p');
+	$aColumns = array('p.id_p', 'p.curp_p', 'nombre_completo_p', 'p.fNac_p', 'SUBSTRING(sx.cat_sexo, 1, 1)', 'p.tCelular_p', 's.clave_su', 'p.id_p', 'p.id_p', 'p.id_p', 's.nombre_su', 'p.id_p', 'p.id_p', 'p.id_p', 'p.id_p','p.nombre_p','p.apaterno_p','p.amaterno_p');
      
     // DB tables to use 
     $aTables = array( 'pacientes p');

@@ -147,7 +147,11 @@
   <tr role="row" class="bg-primary">
     <th id="clickme" style="vertical-align:middle;">VISITAS</th>
     <th style="vertical-align:middle;">FÓLIO</th>
-    <th style="vertical-align:middle;"><button class="btn btn-info btn-sm" type="button" onClick="nuevo_paciente();">PACIENTE <i class="fa fa-user-plus" aria-hidden="true"></i></button></th>
+    <th style="vertical-align:middle;">
+		<button class="btn btn-info btn-sm" type="button" onClick="nuevo_paciente();">PACIENTE <i class="fa fa-user-plus" aria-hidden="true"></i></button>
+		<button class="btn btn-info btn-sm" id="btn-buscar" name="btn-buscar" type="button">BUSQUEDA <i class="fa fa-search" aria-hidden="true"></i></button>
+		<!-- <input type="checkbox" id="busqueda-automatica" name="busqueda-automatica" onchange="verificarCheckbox()"><label for="busqueda-automatica">BUSQUEDA AUTOMÁTICA</label> -->
+	</th>
     <th style="vertical-align:middle;">EDAD</th>
     <th style="vertical-align:middle;">SEXO</th>
     <th style="vertical-align:middle;">TELÉFONO</th>
@@ -165,8 +169,12 @@
 	<tfoot>
         <tr class="bg-primary">
             <th></th>
-            <th><input type="text" class="form-control input-sm" placeholder="-FOLIO-" style="width:150px;"/></th>
-            <th><input type="text" class="form-control input-sm" placeholder="-PACIENTE-"/></th>
+            <th><input type="text" id="input-folio" name="input-folio" class="form-control input-sm" placeholder="-FOLIO-" style="width:150px;"/></th>
+            <th>
+				<input type="text" id="input-nombre" name="input-nombre" class="form-control input-sm" placeholder="-NOMBRE PACIENTE-"/>
+				<input type="text" id="input-apaterno" name="input-apaterno" class="form-control input-sm" placeholder="-APELLIDO PATERNO-"/>
+				<input type="text" id="input-amaterno" name="input-amaterno" class="form-control input-sm" placeholder="-APELLIDO MATERNO-"/>
+			</th>
             <th></th>
             <th><!--<input style="width:65px" type="text" class="form-control input-sm" placeholder="-SEXO-"/>--></th>
             <th></th>
@@ -841,7 +849,8 @@ $(document).ready(function(e) {
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, { "bVisible": true }, { "bVisible": true },
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": false }, { "bVisible": true }, { "bVisible": true },
-			{"bVisible":false}, {"bVisible":false },{ "bVisible": false }, { "bVisible": false }, { "bVisible": true }
+			{"bVisible":false}, {"bVisible":false },{ "bVisible": false }, { "bVisible": false }, { "bVisible": true }, 
+			{ "bVisible": false },{ "bVisible": false },{ "bVisible": false }
 		],
 		"sDom": '<"filtro1Principal"f>Bl<"data_tPrincipal"t><"infoPrincipal"iS><"proc"p>',
         buttons: [ 
@@ -870,14 +879,44 @@ $(document).ready(function(e) {
 	
 	//para los fintros individuales por campo de texto
 	oTableP.columns().every( function () {
-		var that = this;
-		$( 'input', this.footer() ).on( 'keyup change', function () { if ( that.search() !== this.value ) { that .search( this.value ) .draw(); } } );
+		// var that = this;
+		// $( 'input', this.footer() ).on( 'keyup change', function () { if ( that.search() !== this.value ) { that .search( this.value ) .draw(); } } );
 	} );
+	
+	$("#btn-buscar").click(function e(){
+		oTableP.columns().every( function () {
+			var that = this;
+			oTableP.column(1).search($("#input-folio").val());
+			oTableP.column(15).search($("#input-nombre").val());
+			oTableP.column(16).search($("#input-apaterno").val());
+			oTableP.column(17).search($("#input-amaterno").val());
+			oTableP.draw();
+		});
+	});
 	//fin filtros individuales por campo de texto
 	
 	$('#top-search').keyup(function(e) { $('#dataTablePrincipal_filter input').val($(this).val()); $('#dataTablePrincipal_filter input').keyup(); }).focus();
 	$('.filtro1Principal').addClass('hidden');
 });
+//se intento dejar checkbox para la busqueda automatica, pero generaba error, se deja en stand by
+function verificarCheckbox() {
+	if ($('#busqueda-automatica').prop('checked')) {
+		// Código para activar el evento keyup y change
+		$('#dataTablePrincipal').DataTable().columns().every(function () {
+			var that = this;
+			$('input', this.footer()).on('keyup change', function () {
+				if (that.search() !== this.value) {
+					that.search(this.value).draw();
+				}
+			});
+		});
+	} else {
+		// Código para desactivar o eliminar el evento keyup y change
+		$('#dataTablePrincipal').DataTable().columns().every(function () {
+			$('input', this.footer()).off('keyup change');
+		});
+	}
+}
 function padLeft(n){
     return ("00" + n).slice(-2);
 }
