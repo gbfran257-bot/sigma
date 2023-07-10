@@ -3835,12 +3835,13 @@ const handlerMotivoDescLab = (inputMotivo) => {
 
 </script>
 
+<!--Funciones para la tabla resumen del apartado de servicios-->
+<script src='./pacientes/js/funcionesResumenes.js'></script>
+<script src='./pacientes/js/resumenServicios.js'></script>
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4cHSkoaQwTQjx31Y3xFf3kkSkD28X_Rs&callback=initMap"
 	async defer>
 </script>
-
-<!--Funciones para la tabla resumen del apartado de servicios-->
-<script src='./pacientes/js/resumenServicios.js'></script>
 
 <?php include_once 'partes/header.php'; 
 

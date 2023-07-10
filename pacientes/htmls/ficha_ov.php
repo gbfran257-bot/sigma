@@ -631,7 +631,7 @@
                             	<div class="form-group" align="center">
                                      <label for="po_descuento_s">% Descuento</label>
                                      <div class="input-group">
-                                     	<input type="text" class="form-control desc_cargo_s" id="po_descuento_s" name="po_descuento_s" placeholder="0" style="text-align:right;" min="0" max="100" value="0" data-minlength="0" data-maxlength="100" onKeyUp="cargos_descuentos_s(this.value,this.id);">
+                                     	<input type="text" class="form-control desc_cargo_s" id="po_descuento_s" name="po_descuento_s" placeholder="0" style="text-align:right;" min="0" max="100" value="0" data-minlength="0" data-maxlength="100" onKeyUp="cargos_descuentos_s(this.value,this.id);" onclick="eliminarDescuentosServicios('directo');" oninput="handlerDescuentoPorcentajeServicios(this);">
                                         <span class="input-group-addon bootstrap-touchspin-postfix">%</span>
                                      </div>
                                  </div>
@@ -641,7 +641,7 @@
                                      <label for="da_descuento_s">$ Descuento</label>
                                      <div class="input-group">
                                      	<span class="input-group-addon bootstrap-touchspin-postfix">$</span>
-                                     	<input type="text" class="form-control desc_cargo_s" id="da_descuento_s" name="da_descuento_s" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0" onKeyUp="cargos_descuentos_s(this.value,this.id);">
+                                     	<input type="text" class="form-control desc_cargo_s" id="da_descuento_s" name="da_descuento_s" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0" onKeyUp="cargos_descuentos_s(this.value,this.id);" onclick="eliminarDescuentosServicios('porcentaje');" oninput="handlerDescuentoDirectoServicios(this);">
                                      </div>
                                  </div>
                             </div>
@@ -657,7 +657,7 @@
                             <div class="col-sm-12 col-xs-12 depende_descuento_s hidden">
                             	<div class="form-group">
                                  <label for="motivo_descuento_s">Motivo del descuento o del cargo extra</label>
-                                 <input type="text" class="form-control" id="motivo_descuento_s" name="motivo_descuento_s" placeholder="Motivo del descuento o del cargo extra">
+                                 <input type="text" class="form-control" id="motivo_descuento_s" name="motivo_descuento_s" placeholder="Motivo del descuento o del cargo extra" oninput="actualizarCoceptoDescuento(this);">
                                  </div>
                             </div>
                             <div class="col-sm-4 col-xs-4 depende_ser hidden">
@@ -687,7 +687,29 @@
                                      </div>
                                  </div>
                             </div>
-                        </div>
+
+                            <!-- Inicio resumen de servicios -->
+                            <div class="col-sm-12 col-xs-12" id="resumen_individual">
+                              <span id="resumen_individual_titulo" class="resumen_servicios_titulo" estado='hidden' onclick="showTablaDescuentos('servicios');">Resumen de los descuentos <strong id="resumen_flecha_icono" class="flecha_icono_servicios">↓</strong></span>
+                              <table width="100%" cellspacing="0" id="resumen_servicios" height="100%" border="0" cellpadding="0" class="table table-bordered table-hover table-responsive" style="display: none; margin: 1rem 0px 0px">
+                                <thead>
+                                  <tr class="bg-success">
+                                    <th width='5%' style="text-align: center;">#</th>
+                                    <th width='40%'>Servicio</th>
+                                    <th width='40%'>Concepto</th>
+                                    <th width='15%'>Monto</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="resumen_servicios_body">
+                                  <tr id="sin_descuentos_servicios">
+                                    <td colspan="4" style="text-align: center;" class="dataTables_empty">Aún no se han aplicados descuentos</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <!-- Fin resumen de servicios -->
+
+                          </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="tFarmacia"><br>
                         <div class="row">
