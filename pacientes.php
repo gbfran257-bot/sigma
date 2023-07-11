@@ -243,7 +243,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title">Modificación de precio de la consulta</h4>
+				<h4 class="modal-title">Modificación de precio del servicio</h4>
 			</div>
 			<form action="" method="POST" role="form">
 				<input type="hidden" name="id_vc" id="inputId_vc" class="form-control" value="">
@@ -251,11 +251,17 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
-								<span class="label">Precio de la consulta</span>
-								<input type="number" name="precio_original" id="inputPrecio_original_s" class="form-control" value="" step="0.01" required="required">
+								<span class="label">Precio del servicio</span>
+								<input type="number" name="precio_original" id="inputPrecio_original_s" class="form-control" value="" min="0" step="0.01" required="required">
 							</div>
 						</div>
+						<!-- Inicio descuento que se aplicará al servicio -->
 						<div class="col-md-6">
+							<span class="label">Descuento*</span>
+							<input type="number" min="0" max='' step="0.01" name="descuento" id="input_descuento_s" class="form-control" value="" required="required">
+						</div>
+						<!-- Fin descuento que se aplicará al servicio -->
+						<div class="col-md-12">
 							<span class="label">Motivo de esta modificación*</span>
 							<input type="text" name="motivo_alteracion" id="inputMotivo_alteracion_s" class="form-control" value="" required="required">
 						</div>
@@ -549,6 +555,11 @@ function modifica_precio_servicios(id){
 	$.post("pacientes/files-serverside/dameVC.php", {id_vc: id}, function(res){
 		$("#modal-precios-servicios #inputPrecio_original_s").val(res[2]);
 		$("#modal-precios-servicios #inputPrecio_original").attr("min", res[0]);
+		// Inicio obtenemos para mostrar el valor del descuento y del motivo del descuento
+		$('#input_descuento_s').attr('max', res[2]);
+		$('#input_descuento_s').val(res[3]);
+		$('#inputMotivo_alteracion_s').val(res[4]);
+		// Fin obtenemos para mostrar el valor del descuento y del motivo del descuento
 		$("#modal-precios-servicios").modal("show");
 	}, "json");
 }
