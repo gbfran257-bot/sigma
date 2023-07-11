@@ -92,7 +92,24 @@ require_once("../funciones/php/values.php");
         {
             if ( $sWhere == "" ) { $sWhere = "WHERE "; }
             else { $sWhere .= " AND "; }
-            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+            //busqueda por edad
+            if($i==3){
+
+                $busqueda_años = $_GET['sSearch_'.$i];
+                if(strpos($busqueda_años, "A")==true){//si es A es busqueda por años
+                    $busqueda_años = preg_replace('([^0-9])', '', $busqueda_años);
+                    $sWhere .= " YEAR(NOW()) - YEAR(fNac_p) = $busqueda_años ";
+                }else if(strpos($busqueda_años, "M")==true){//si es M es busqueda por meses
+                    $busqueda_años = preg_replace('([^0-9])', '', $busqueda_años);
+                    $sWhere .= " PERIOD_DIFF(EXTRACT(YEAR_MONTH FROM NOW()), EXTRACT(YEAR_MONTH FROM fNac_p)) = $busqueda_años ";
+                }else{//si no encuentra letra aplica busqueda por años
+                    $busqueda_años = preg_replace('([^0-9])', '', $busqueda_años);
+                    $sWhere .= " YEAR(NOW()) - YEAR(fNac_p) = $busqueda_años ";
+                }
+
+            }else{
+                $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+            }
         }
     }
      

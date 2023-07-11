@@ -175,10 +175,10 @@
 				<input type="text" id="input-apaterno" name="input-apaterno" class="form-control input-sm" placeholder="-APELLIDO PATERNO-"/>
 				<input type="text" id="input-amaterno" name="input-amaterno" class="form-control input-sm" placeholder="-APELLIDO MATERNO-"/>
 			</th>
-            <th></th>
-            <th><!--<input style="width:65px" type="text" class="form-control input-sm" placeholder="-SEXO-"/>--></th>
-            <th></th>
-            <th><input type="text" class="form-control input-sm" placeholder="-CONVENIO-"style="width:90px"/></th>
+            <th><input type="text" id="input-edad" name="input-edad" class="form-control input-sm" placeholder="-EDAD-" oninput="conv_mayusc(this);" style="width:90px"/></th>
+            <th><input type="text" id="input-sexo" name="input-sexo" class="form-control input-sm" placeholder="-SEXO-" style="width:65px"/></th>
+            <th><input type="text" id="input-tel" name="input-tel" class="form-control input-sm" placeholder="-TELÉFONO-" data-mask="(999) 999-9999" maxlength="12" style="width:105px"/></th>
+            <th><input type="text" id="input-convenio" name="input-convenio" class="form-control input-sm" placeholder="-CONVENIO-" style="width:90px"/></th>
             <th></th>
             <th></th>
             <th></th>
@@ -887,9 +887,14 @@ $(document).ready(function(e) {
 		oTableP.columns().every( function () {
 			var that = this;
 			oTableP.column(1).search($("#input-folio").val());
+			oTableP.column(3).search($("#input-edad").val());
+			oTableP.column(4).search($("#input-sexo").val());
+			oTableP.column(5).search($("#input-tel").val());
+			oTableP.column(6).search($("#input-convenio").val());
 			oTableP.column(15).search($("#input-nombre").val());
 			oTableP.column(16).search($("#input-apaterno").val());
 			oTableP.column(17).search($("#input-amaterno").val());
+			// oTableP.column().search();
 			oTableP.draw();
 		});
 	});
@@ -916,6 +921,19 @@ function verificarCheckbox() {
 			$('input', this.footer()).off('keyup change');
 		});
 	}
+}
+//El campo de busqueda edad solo acepta numeros y letras A y M
+$('#input-edad').keypress(function(e) {
+    var key = String.fromCharCode(e.keyCode);
+    var regex = /[0-9AaMm]/;
+    if (!regex.test(key)) {
+      e.preventDefault();
+      return false;
+    }
+});
+//convertir a mayusculas
+function conv_mayusc(input) {
+  input.value = input.value.toUpperCase();
 }
 function padLeft(n){
     return ("00" + n).slice(-2);
