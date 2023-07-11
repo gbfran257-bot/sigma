@@ -81,16 +81,25 @@ const actualizarDescuentoUnico = (apartado, tipoDescuento, infoDesc) => {
 /**
  * Función que actualiza el concepto del descuento aplicado
  * @param { HTMLElement } inputMotivo
+ * @param { String } apartado
  */
-const actualizarCoceptoDescuento = (inputMotivo) => {
-    if ($("#precio_s").val() == 0 || $("#po_descuento_s").val() == 0 && $("#da_descuento_s").val() == 0) return;
+const actualizarConceptoDescuento = (inputMotivo, apartado) => {
+	// Concatenamos los selectores de JQuery
+	let precio = `#precio_${apartado.slice(0, 1)}`;
+	let poDescuento = `#po_descuento_${apartado.slice(0, 1)}`;
+	let daDescuento = `#da_descuento_${apartado.slice(0, 1)}`;
+	let concepto = `#concepto_${apartado}_`;
 
-    if ($("#po_descuento_s").val() != 0) {
-        $("#concepto_servicios_porcentaje").text(inputMotivo.value);
+    if ($(precio).val() == 0 || $(poDescuento).val() == 0 && $(daDescuento).val() == 0) return;
+
+    if ($(poDescuento).val() != 0) {
+		concepto += 'porcentaje';
+        $(concepto).text(inputMotivo.value);
         return;
     }
 
-    $("#concepto_servicios_directo").text(inputMotivo.value);
+	concepto += 'directo';
+    $(concepto).text(inputMotivo.value);
     return;
 };
 

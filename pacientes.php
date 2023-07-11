@@ -3361,8 +3361,8 @@ const definirTabla = async (tabla) => {
 	if(tabla === 'servicios') {
 		return setShowTablaCategoria('.resumen_servicios_titulo', '.flecha_icono_servicios', '#resumen_servicios');
 	}
-	if (tabla === 'farmacia') {
-		return ;
+	if (tabla === 'productos') {
+		return setShowTablaCategoria('.resumen_productos_titulo', '.flecha_icono_productos', '#resumen_productos');
 	}
 	if (tabla === 'consultas') {
 		return setShowTablaCategoria('.resumen_consultas_titulo', '.flecha_icono_consultas', '#resumen_consultas');
@@ -3853,9 +3853,17 @@ const handlerMotivoDescLab = (inputMotivo) => {
 
 </script>
 
-<!--Funciones para la tabla resumen del apartado de servicios-->
+<!-- Inicio de las funciones genéricas para el manejo de los resúmenes -->
 <script src='./pacientes/js/funcionesResumenes.js'></script>
+<!-- Fin de las funciones genéricas para el manejo de los resúmenes -->
+
+<!-- Inicio de las funciones para la tabla resumen del apartado de servicios-->
 <script src='./pacientes/js/resumenServicios.js'></script>
+<!-- Fin de las funciones para la tabla resumen del apartado de servicios-->
+
+<!-- Inicio de las funciones para la tabla resumen del apartado de farmacia-->
+<script src='./pacientes/js/resumenProductos.js'></script>
+<!-- Fin de las funciones para la tabla resumen del apartado de farmacia-->
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4cHSkoaQwTQjx31Y3xFf3kkSkD28X_Rs&callback=initMap"
 	async defer>
