@@ -87,12 +87,25 @@
   <tr role="row" class="bg-primary">
     <th id="clickme" style="vertical-align:middle;">#</th>
     <th style="vertical-align:middle;">REFERENCIA</th>
-    <th style="vertical-align:middle;">PACIENTE</th>
-    <th style="vertical-align:middle;">MÉDICO</th>
+    <th style="vertical-align:middle;">
+		PACIENTE
+		<button class="btn btn-info btn-sm" id="btn-buscar-c" name="btn-buscar-c" type="button">BUSQUEDA <i class="fa fa-search" aria-hidden="true"></i></button>
+	</th>
+    <!-- <th style="vertical-align:middle;">MÉDICO</th> -->
+    <th style="vertical-align:middle;">MOTIVO CONSULTA</th>
+    <!-- <th style="vertical-align:middle;">ESPECIALIDAD</th> -->
+    <th style="vertical-align:middle;">EDAD</th>
+    <!-- <th style="vertical-align:middle; white-space:nowrap;" nowrap>TIEMPO DE ESPERA</th> -->
+    <th style="vertical-align:middle; white-space:nowrap;">SEXO</th>
+	<th style="vertical-align:middle;">MÉDICO</th>
+    <!-- <th style="vertical-align:middle;">CONVENIO</th> -->
+    <!-- <th style="vertical-align:middle;">ESTATUS</th> -->
     <th style="vertical-align:middle;">ESPECIALIDAD</th>
-    <th style="vertical-align:middle; white-space:nowrap;" nowrap>TIEMPO DE ESPERA</th>
-    <th style="vertical-align:middle;">CONVENIO</th>
-    <th style="vertical-align:middle;">ESTATUS</th>
+	<!-- <th style="vertical-align:middle;">NOTA</th> -->
+	<th style="vertical-align:middle; white-space:nowrap;" nowrap>TIEMPO DE ESPERA</th>
+	<!-- <th style="vertical-align:middle;">RECETA</th> -->
+	<th style="vertical-align:middle;">CONVENIO</th>
+	<th style="vertical-align:middle;">ESTATUS</th>
 	<th style="vertical-align:middle;">NOTA</th>
 	<th style="vertical-align:middle;">RECETA</th>
   </tr>
@@ -100,15 +113,32 @@
 	<tfoot>
         <tr class="bg-primary">
             <th></th>
-            <th><input style="width:120px;" type="text" class="form-control" placeholder="-REFERENCIA-" onKeyUp="conMayusculas(this);"/></th>
-            <th><input type="text" class="form-control" placeholder="-PACIENTE-" onKeyUp="conMayusculas(this);"/></th>
-            <th><input type="text" class="form-control" placeholder="-MÉDICO-" onKeyUp="conMayusculas(this);"/></th>
-            <th><input type="text" class="form-control" placeholder="-ESPECIALIDAD-" onKeyUp="conMayusculas(this);"/></th>
-            <th></th>
-            <th><input style="width:110px;" type="text" class="form-control" placeholder="-CONVENIO-" onKeyUp="conMayusculas(this);"/></th>
-            <th><input style="width:100px;" type="text" class="form-control" placeholder="-ESTATUS-" onKeyUp="conMayusculas(this);"/></th>
+            <th><input style="width:120px;" type="text" id="input-c-referencia" name="input-c-referencia" class="form-control" placeholder="-REFERENCIA-"  onKeyUp="conMayusculas(this);"/></th>
+            <th><input type="text" id="input-c-paciente" name="input-c-paciente" class="form-control" placeholder="-PACIENTE-" onKeyUp="conMayusculas(this);"/></th>
+            <th><input type="text" id="input-c-motivo" name="input-c-motivo" class="form-control" placeholder="-MOTIVO CONSULTA-" onKeyUp="conMayusculas(this);"/></th>
+            <th><input type="text" id="input-c-edad" name="input-c-edad" class="form-control" placeholder="-EDAD-" onKeyUp="conMayusculas(this);" style="width:90px"/></th>
+            <th><input type="text" id="input-c-sexo" name="input-c-sexo" class="form-control" placeholder="-SEXO-" onKeyUp="conMayusculas(this);" style="width:75px"/></th>
+			<th><input type="text" id="input-c-medico" name="input-c-medico" class="form-control" placeholder="-MÉDICO-" onKeyUp="conMayusculas(this);"/></th>
+            <th><input type="text" id="input-c-especialidad" name="input-c-especialidad" class="form-control" placeholder="-ESPECIALIDAD-" onKeyUp="conMayusculas(this);"/></th>
+			<th></th>
+			<th><input style="width:110px;" type="text" id="input-c-convenio" name="input-c-convenio" class="form-control" placeholder="-CONVENIO-" onKeyUp="conMayusculas(this);"/></th>
+			<th><input style="width:100px;" type="text" id="input-c-estatus" name="input-c-estatus" class="form-control" placeholder="-ESTATUS-" onKeyUp="conMayusculas(this);"/></th>
 			<th></th>
 			<th></th>
+			<!-- comienzan campos de relleno necesarios para la busqueda por boton -->
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<!-- terminan campos de relleno necesarios para la busqueda por boton -->
         </tr>
     </tfoot>
 </table>
@@ -131,6 +161,10 @@ $(document).ready(function(e) {
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, { "bVisible": true }, { "bVisible": true },
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true }
+			,{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },
+			{"bVisible":false}, {"bVisible":false },{ "bVisible": false }, { "bVisible": false }, { "bVisible": false },
+			{"bVisible":false}, {"bVisible":false },{ "bVisible": false }, { "bVisible": false }, { "bVisible": false },
+			{"bVisible":false}, {"bVisible":false }
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
@@ -160,12 +194,30 @@ $(document).ready(function(e) {
 	
 	//para los fintros individuales por campo de texto
 	oTableP.columns().every( function () {
-		var that = this;
+		/* var that = this;
  
 		$( 'input', this.footer() ).on( 'keyup change', function () {
 			if ( that.search() !== this.value ) { that .search( this.value ) .draw(); }
-		} );
+		} ); */
 	} );
+	//para la busqueda por boton
+	$("#btn-buscar-c").click(function e(){ 
+		oTableP.columns().every( function () {
+			var that = this; 
+			oTableP.column(1).search( $('#input-c-referencia', this.footer()).val() );
+			oTableP.column(2).search( $('#input-c-paciente', this.footer()).val() );
+			oTableP.column(3).search( $('#input-c-medico', this.footer()).val() );
+			oTableP.column(4).search( $('#input-c-especialidad', this.footer()).val() );
+			oTableP.column(6).search( $('#input-c-convenio', this.footer()).val() );
+			oTableP.column(7).search( $('#input-c-estatus', this.footer()).val() );
+			oTableP.column(22).search( $('#input-c-motivo', this.footer()).val() );
+			oTableP.column(23).search( $('#input-c-edad', this.footer()).val() );
+			oTableP.column(24).search( $('#input-c-sexo', this.footer()).val() );
+			oTableP.draw();
+		});
+	});
+
+
 	//fin filtros individuales por campo de texto
 	$('#top-search').keyup(function(e) {
         $('#dataTablePrincipal_filter input').val($(this).val()); $('#dataTablePrincipal_filter input').keyup();
@@ -185,6 +237,16 @@ $(document).ready(function(e) {
 	$('#fechaDe').on('changeDate', function(e) { oTableP.draw(); });
 	$("#fechaA").on('changeDate', function(e) { oTableP.draw(); });
 
+});
+
+//El campo de busqueda edad solo acepta numeros y letras A y M
+$('#input-c-edad').keypress(function(e) {
+    var key = String.fromCharCode(e.keyCode);
+    var regex = /[0-9AaMm]/;
+    if (!regex.test(key)) {
+      e.preventDefault();
+      return false;
+    }
 });
 
 function ver_ov(ref){
