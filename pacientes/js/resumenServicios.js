@@ -71,5 +71,8 @@ const handlerDescuentoPorcentajeServicios = (inputDescuentoPorcentaje) => {
  * @param { String } tipoDescuento tipo de descuento que se va a eliminar
  */
 const eliminarDescuentosServicios = (tipoDescuento) => {
-    return eliminarDescuento("servicios", tipoDescuento);
+    if ((tipoDescuento === 'directo' && hayDescuento('servicios', 'directo')) || (tipoDescuento === 'porcentaje' && hayDescuento('servicios', 'porcentaje'))) {
+        return eliminarDescuento("servicios", tipoDescuento);
+    }
+    return;
 };
