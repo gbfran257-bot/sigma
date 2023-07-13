@@ -49,6 +49,7 @@
     <script src="TableTools-2.1.5/media/js/ZeroClipboard.js"></script>
     <script src="bootstrap-validator/js/validator.js"></script>
     <script src="sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="chosen/chosen.jquery.js" type="text/javascript"></script>
     <script src="funciones/js/jquery.media.js" type="text/javascript"></script>
     <script src="funciones/js/jquery.printElement.min.js" type="text/javascript"></script>
@@ -86,7 +87,9 @@
     <link rel="stylesheet" href="chosen/chosen-bootstrap.css">
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <style>
-
+		.swal2-container {
+  			z-index: 9999;
+		}
 		/* Inicio estilos generales del texto */
 		.font-size-14 {
 			font-size: 14px !important;
@@ -836,6 +839,9 @@ $(document).ready(function(e) {
 					$("#modal-precios-servicios").modal("hide");
 					$('#clickmeSmS').click();
 					totales_servicios();
+
+					// Pintamos la tabla resumen del apartado servicios para descuentos de tipo normal
+					pintarTablaResumen('servicios', 'normal');
 				}else{
 					alert("Error: "+res);
 				}
@@ -2638,6 +2644,13 @@ function borrarItemNVS(idConcepto){
 			if(parseFloat(pd)){ $('#to_descuento_s').val( (parseFloat(data)*parseFloat(pd))/100 ); }
 			else if(parseFloat(dd)){$('#to_descuento_s').val(dd);}else{$('#to_descuento_s').val(0);}
 			calcular_totales();
+
+			// Pintamos la tabla resumen del apartado servicios para descuentos de tipo normal
+			if ($('#precio_s').val() == 0) {
+				limpiarTablaResumen('servicios');
+			} else {
+				pintarTablaResumen('servicios', 'normal');
+			}
 		});
 	} else{alert(data);} });
 }
@@ -3307,6 +3320,7 @@ function initMap() { }
 const urlConsultas = 'pacientes/js/datatable-serverside/getDescConsultasSeleccionadas.php';
 const urlImagen = 'pacientes/js/datatable-serverside/getDescImagenSeleccionadas.php';
 const urlLab = 'pacientes/js/datatable-serverside/getDescLabSeleccionadas.php';
+const urlServicios = 'pacientes/js/datatable-serverside/getDescServiciosSeleccionados.php';
 let resumenDescuentos = {
 	descuentos: [],
 	body: '',
@@ -3352,7 +3366,7 @@ const definirCategoria = async (categoria) => {
 		return setResumenData(await getDescuentos(urlLab).then(data => data), '#resumen_lab_body', 'row_descuento_lab', 'row_total_lab', '#sin_descuentos_lab', 0.00);
 	}
 	if(categoria === 'servicios') {
-		return ;
+		return await getDescuentos(urlServicios).then(data => data);
 	}
 	if (categoria === 'farmacia') {
 		return ;
@@ -3861,19 +3875,19 @@ const handlerMotivoDescLab = (inputMotivo) => {
 // Fin de la función que muestra u oculta la tablas de descuentos
 
 // Fin tablas individuales de descuentos
-
 </script>
 
 <!-- Inicio de las funciones genéricas para el manejo de los resúmenes -->
-<script src='./pacientes/js/funcionesResumenes.js'></script>
+<!-- <script src='./pacientes/js/funcionesResumenes.js'></script> -->
+<script src="./pacientes/js/funcionesTablaResumen.js"></script>
 <!-- Fin de las funciones genéricas para el manejo de los resúmenes -->
 
 <!-- Inicio de las funciones para la tabla resumen del apartado de servicios-->
-<script src='./pacientes/js/resumenServicios.js'></script>
+<!-- <script src='./pacientes/js/resumenServicios.js'></script> -->
 <!-- Fin de las funciones para la tabla resumen del apartado de servicios-->
 
 <!-- Inicio de las funciones para la tabla resumen del apartado de farmacia-->
-<script src='./pacientes/js/resumenProductos.js'></script>
+<!-- <script src='./pacientes/js/resumenProductos.js'></script> -->
 <!-- Fin de las funciones para la tabla resumen del apartado de farmacia-->
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4cHSkoaQwTQjx31Y3xFf3kkSkD28X_Rs&callback=initMap"

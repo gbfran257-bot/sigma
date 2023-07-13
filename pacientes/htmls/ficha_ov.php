@@ -631,7 +631,7 @@
                             	<div class="form-group" align="center">
                                      <label for="po_descuento_s">% Descuento</label>
                                      <div class="input-group">
-                                     	<input type="text" class="form-control desc_cargo_s" id="po_descuento_s" name="po_descuento_s" placeholder="0" style="text-align:right;" min="0" max="100" value="0" data-minlength="0" data-maxlength="100" onKeyUp="cargos_descuentos_s(this.value,this.id);" onclick="eliminarDescuentosServicios('directo');" oninput="handlerDescuentoPorcentajeServicios(this);">
+                                     	<input type="text" class="form-control desc_cargo_s" id="po_descuento_s" name="po_descuento_s" placeholder="0" style="text-align:right;" min="0" max="100" value="0" data-minlength="0" data-maxlength="100" onKeyUp="cargos_descuentos_s(this.value,this.id);" onclick="alertaEliminarDescuentos('servicios', this);" oninput="pintarTablaResumen('servicios', 'porcentaje');">
                                         <span class="input-group-addon bootstrap-touchspin-postfix">%</span>
                                      </div>
                                  </div>
@@ -641,7 +641,7 @@
                                      <label for="da_descuento_s">$ Descuento</label>
                                      <div class="input-group">
                                      	<span class="input-group-addon bootstrap-touchspin-postfix">$</span>
-                                     	<input type="text" class="form-control desc_cargo_s" id="da_descuento_s" name="da_descuento_s" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0" onKeyUp="cargos_descuentos_s(this.value,this.id);" onclick="eliminarDescuentosServicios('porcentaje');" oninput="handlerDescuentoDirectoServicios(this);">
+                                     	<input type="text" class="form-control desc_cargo_s" id="da_descuento_s" name="da_descuento_s" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0" onKeyUp="cargos_descuentos_s(this.value,this.id);" onclick="" oninput="pintarTablaResumen('servicios', 'directo');">
                                      </div>
                                  </div>
                             </div>
@@ -657,7 +657,7 @@
                             <div class="col-sm-12 col-xs-12 depende_descuento_s hidden">
                             	<div class="form-group">
                                  <label for="motivo_descuento_s">Motivo del descuento o del cargo extra</label>
-                                 <input type="text" class="form-control" id="motivo_descuento_s" name="motivo_descuento_s" placeholder="Motivo del descuento o del cargo extra" oninput="actualizarConceptoDescuento(this, 'servicios');">
+                                 <input type="text" class="form-control" id="motivo_descuento_s" name="motivo_descuento_s" placeholder="Motivo del descuento o del cargo extra" oninput="actualizarConcepto('servicios', this);">
                                  </div>
                             </div>
                             <div class="col-sm-4 col-xs-4 depende_ser hidden">
