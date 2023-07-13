@@ -2934,7 +2934,7 @@ include_once 'recursos/datauser.php';
 				});
 
 				$('#btn_liquidar_ov').click(function(e) {
-					$('#pago_ov_c').val(parseFloat($('#total_c1').val()) + parseFloat($('#total_s').val()));
+					$('#pago_ov_c').val(parseFloat($('#total_c').val()) + parseFloat($('#total_s').val()));
 					$('#pago_ov_i').val($('#total_i').val());
 					$('#pago_ov_l').val($('#total_l').val());
 					$('#pago_ov_f').val($('#total_p').val());
@@ -3840,10 +3840,10 @@ include_once 'recursos/datauser.php';
 					subirEstudioC1(rowData[0][4], $('#aleatorio_ov').val(), idP, $('#id_usr_reg').val(), $('#medico_c1').val(),
 						$('#mi_id_convenioC1').val(), $('#sucursal_fi_p').val(), $('#observacionesC1_NV').val(), 2, rowData[0][2], 2, coveni, ocu, rowData[0][6]
 					);
-					$('.desc_cargo_c1').change(function(e) {
+					$('.desc_cargo_c').change(function(e) {
 						nota_desc_cargo_c1();
 					});
-					$('.desc_cargo_c1').keyup(function(e) {
+					$('.desc_cargo_c').keyup(function(e) {
 						nota_desc_cargo_c1();
 					});
 				});
@@ -4336,7 +4336,7 @@ include_once 'recursos/datauser.php';
 				}
 				$.post('pacientes/files-serverside/sumar_precios_consultas.php', datos, function(dataT) {
 					var data = dataT[0];
-					$("#da_descuento_c1").val(dataT[1]);
+					$("#da_descuento_c").val(dataT[1]);
 					if (!parseFloat(data)) {
 						data = 0;
 					} else {
@@ -4345,9 +4345,9 @@ include_once 'recursos/datauser.php';
 					if ($('#hay_iva_ov').val() == 1) {
 						$('#cb_facturada_ov').click();
 					}
-					var pd = $('#po_descuento_c1').val(),
-						ce = $('#cargo_extra_c1').val(),
-						dd = $('#da_descuento_c1').val();
+					var pd = $('#po_descuento_c').val(),
+						ce = $('#cargo_extra_c').val(),
+						dd = $('#da_descuento_c').val();
 					if (!parseFloat(pd)) {
 						var porcentaje_d = 0;
 					} else {
@@ -4359,18 +4359,18 @@ include_once 'recursos/datauser.php';
 						var cargo_extra = 0;
 					}
 
-					$('#precio_c1').val(data);
+					$('#precio_c').val(data);
 					if (parseFloat(pd)) {
-						$('#to_descuento_c1').val((parseFloat(data) * parseFloat(pd)) / 100);
+						$('#to_descuento_c').val((parseFloat(data) * parseFloat(pd)) / 100);
 					} else if (parseFloat(dd)) {
-						$('#to_descuento_c1').val(dd);
+						$('#to_descuento_c').val(dd);
 					} else {
-						$('#to_descuento_c1').val(0);
+						$('#to_descuento_c').val(0);
 					}
 					calcular_totales();
 
 					// Pintamos la tabla resumen del apartado consultas para descuentos de tipo normal
-					if ($('#precio_c1').val() == 0) {
+					if ($('#precio_c').val() == 0) {
 						limpiarTablaResumen('consultas');
 					} else {
 						pintarTablaResumen('consultas', 'normal');
@@ -4548,7 +4548,7 @@ include_once 'recursos/datauser.php';
 		$.post('pacientes/files-serverside/guardarEstudioNV.php', datosSENV).done(function(data) {
 			if (data == 1) {
 				$('#clickmeCo1,#clickmeCoS1').click();
-				totales_consultas(p, $('#po_descuento_c1').val(), $('#da_descuento_c1').val(), $('#cargo_extra_c1').val());
+				totales_consultas(p, $('#po_descuento_c').val(), $('#da_descuento_c').val(), $('#cargo_extra_c').val());
 				calcular_totales();
 			} else {
 				alert(data);
@@ -4644,41 +4644,41 @@ include_once 'recursos/datauser.php';
 	}
 
 	function cargos_descuentos_c1(v, id) {
-		$('.desc_cargo_c1').each(function(index, element) {
+		$('.desc_cargo_c').each(function(index, element) {
 			if (this.id == id) {} else {
 				if (parseFloat(v)) {
 					$('#' + this.id).val(0);
 				}
 			}
-			if (id == 'po_descuento_c1') {
+			if (id == 'po_descuento_c') {
 				if (v < 0) {
-					$('#po_descuento_c1').val(0);
+					$('#po_descuento_c').val(0);
 				} else if (v > 100) {
-					$('#po_descuento_c1').val(100);
+					$('#po_descuento_c').val(100);
 				}
 				if (!parseFloat(v)) {
-					$('#po_descuento_c1').val('');
+					$('#po_descuento_c').val('');
 				}
 			}
-			if (id == 'da_descuento_c1') {
+			if (id == 'da_descuento_c') {
 				if (v < 0) {
-					$('#da_descuento_c1').val(0);
-				} else if (v > parseFloat($('#precio_c1').val())) {
-					$('#da_descuento_c1').val(redondear($('#precio_c1').val(), 2));
+					$('#da_descuento_c').val(0);
+				} else if (v > parseFloat($('#precio_c').val())) {
+					$('#da_descuento_c').val(redondear($('#precio_c').val(), 2));
 				}
 				if (!parseFloat(v)) {
-					$('#da_descuento_c1').val('');
+					$('#da_descuento_c').val('');
 				}
 			}
-			if (id == 'cargo_extra_c1') {
+			if (id == 'cargo_extra_c') {
 				if (v < 0) {
-					$('#cargo_extra_c1').val(0);
+					$('#cargo_extra_c').val(0);
 				}
 				if (!parseFloat(v)) {
-					$('#cargo_extra_c1').val('');
+					$('#cargo_extra_c').val('');
 				}
 			}
-			totales_consultas($('#precio_c1').val(), $('#po_descuento_c1').val(), $('#da_descuento_c1').val(), $('#cargo_extra_c1').val());
+			totales_consultas($('#precio_c').val(), $('#po_descuento_c').val(), $('#da_descuento_c').val(), $('#cargo_extra_c').val());
 		});
 	}
 
@@ -4894,8 +4894,8 @@ include_once 'recursos/datauser.php';
 		} else {
 			var cargo_extra_p = 0;
 		}
-		if (parseFloat($('#cargo_extra_c1').val())) {
-			var cargo_extra_c = $('#cargo_extra_c1').val();
+		if (parseFloat($('#cargo_extra_c').val())) {
+			var cargo_extra_c = $('#cargo_extra_c').val();
 		} else {
 			var cargo_extra_c = 0;
 		}
@@ -4904,15 +4904,15 @@ include_once 'recursos/datauser.php';
 		$('#total_l').val(parseFloat($('#precio_l').val()) + parseFloat(cargo_extra_l) - parseFloat($('#to_descuento_l').val()));
 		$('#total_s').val(parseFloat($('#precio_s').val()) + parseFloat(cargo_extra_s) - parseFloat($('#to_descuento_s').val()));
 		$('#total_p').val(parseFloat($('#precio_p').val()) + parseFloat(cargo_extra_p) - parseFloat($('#to_descuento_p').val()));
-		$('#total_c1').val(parseFloat($('#precio_c1').val()) + parseFloat(cargo_extra_c) - parseFloat($('#to_descuento_c1').val()));
+		$('#total_c').val(parseFloat($('#precio_c').val()) + parseFloat(cargo_extra_c) - parseFloat($('#to_descuento_c').val()));
 
 		$('.1total_i').text(parseFloat($('#precio_i').val()) + parseFloat(cargo_extra_i) - parseFloat($('#to_descuento_i').val()));
 		$('.1total_l').text(parseFloat($('#precio_l').val()) + parseFloat(cargo_extra_l) - parseFloat($('#to_descuento_l').val()));
 		$('.1total_p').text(parseFloat($('#precio_p').val()) + parseFloat(cargo_extra_p) - parseFloat($('#to_descuento_p').val()));
 		$('.1total_s').text();
-		$('.1total_c1').text(parseFloat($('#precio_c1').val()) + parseFloat(cargo_extra_c) - parseFloat($('#to_descuento_c1').val()) + parseFloat($('#precio_s').val()) + parseFloat(cargo_extra_s) - parseFloat($('#to_descuento_s').val()));
+		$('.1total_c').text(parseFloat($('#precio_c').val()) + parseFloat(cargo_extra_c) - parseFloat($('#to_descuento_c').val()) + parseFloat($('#precio_s').val()) + parseFloat(cargo_extra_s) - parseFloat($('#to_descuento_s').val()));
 
-		if ($('.1total_c1').text() < 0.0001) {
+		if ($('.1total_c').text() < 0.0001) {
 			$('#pago_ov_c').val(0);
 		} else {
 			$('#pago_ov_c').val('');
@@ -4937,13 +4937,13 @@ include_once 'recursos/datauser.php';
 		$('.total_laboratorio').text('$' + redondear($('#precio_l').val(), 2));
 		$('.total_servicios').text('$' + redondear($('#precio_s').val(), 2));
 		$('.total_productos').text('$' + redondear($('#precio_p').val(), 2));
-		$('.total_consulta').text('$' + redondear($('#precio_c1').val(), 2));
-		$('#subtotal_ov').text('$' + redondear(parseFloat($('#precio_i').val()) + parseFloat($('#precio_l').val()) + parseFloat($('#precio_s').val()) + parseFloat($('#precio_p').val()) + parseFloat($('#precio_c1').val()), 2));
+		$('.total_consulta').text('$' + redondear($('#precio_c').val(), 2));
+		$('#subtotal_ov').text('$' + redondear(parseFloat($('#precio_i').val()) + parseFloat($('#precio_l').val()) + parseFloat($('#precio_s').val()) + parseFloat($('#precio_p').val()) + parseFloat($('#precio_c').val()), 2));
 		$('#extras_ov').text('+ $' + redondear(parseFloat(cargo_extra) + parseFloat(cargo_extra_i) + parseFloat(cargo_extra_l) + parseFloat(cargo_extra_s) + parseFloat(cargo_extra_p) + parseFloat(cargo_extra_c), 2));
-		$('#descuento_ov').text('- $' + redondear(parseFloat($('#to_descuento_i').val()) + parseFloat($('#to_descuento_l').val()) + parseFloat($('#to_descuento_s').val()) + parseFloat($('#to_descuento_p').val()) + parseFloat($('#to_descuento_c1').val()), 2));
+		$('#descuento_ov').text('- $' + redondear(parseFloat($('#to_descuento_i').val()) + parseFloat($('#to_descuento_l').val()) + parseFloat($('#to_descuento_s').val()) + parseFloat($('#to_descuento_p').val()) + parseFloat($('#to_descuento_c').val()), 2));
 		$('#iva_ov').text('+ $' + redondear($('#iva_ov_h').val(), 2));
-		$('#total_ov').text('$' + redondear(parseFloat($('#precio_c1').val()) + parseFloat($('#precio_i').val()) + parseFloat($('#precio_l').val()) + parseFloat($('#precio_s').val()) + parseFloat($('#precio_p').val()) + parseFloat(cargo_extra_c) + parseFloat(cargo_extra_i) + parseFloat(cargo_extra_l) + parseFloat(cargo_extra_s) + parseFloat(cargo_extra_p) - parseFloat($('#to_descuento_c1').val()) - parseFloat($('#to_descuento_i').val()) - parseFloat($('#to_descuento_l').val()) - parseFloat($('#to_descuento_s').val()) - parseFloat($('#to_descuento_p').val()) + parseFloat($('#iva_ov_h').val()), 2));
-		$('#total_ov_h').val(redondear(parseFloat($('#precio_c1').val()) + parseFloat($('#precio_i').val()) + parseFloat($('#precio_l').val()) + parseFloat($('#precio_s').val()) + parseFloat($('#precio_p').val()) + parseFloat(cargo_extra_c) + parseFloat(cargo_extra_i) + parseFloat(cargo_extra_l) + parseFloat(cargo_extra_s) + parseFloat(cargo_extra_p) - parseFloat($('#to_descuento_c1').val()) - parseFloat($('#to_descuento_i').val()) - parseFloat($('#to_descuento_l').val()) - parseFloat($('#to_descuento_s').val()) - parseFloat($('#to_descuento_p').val()) + parseFloat($('#iva_ov_h').val()), 2));
+		$('#total_ov').text('$' + redondear(parseFloat($('#precio_c').val()) + parseFloat($('#precio_i').val()) + parseFloat($('#precio_l').val()) + parseFloat($('#precio_s').val()) + parseFloat($('#precio_p').val()) + parseFloat(cargo_extra_c) + parseFloat(cargo_extra_i) + parseFloat(cargo_extra_l) + parseFloat(cargo_extra_s) + parseFloat(cargo_extra_p) - parseFloat($('#to_descuento_c').val()) - parseFloat($('#to_descuento_i').val()) - parseFloat($('#to_descuento_l').val()) - parseFloat($('#to_descuento_s').val()) - parseFloat($('#to_descuento_p').val()) + parseFloat($('#iva_ov_h').val()), 2));
+		$('#total_ov_h').val(redondear(parseFloat($('#precio_c').val()) + parseFloat($('#precio_i').val()) + parseFloat($('#precio_l').val()) + parseFloat($('#precio_s').val()) + parseFloat($('#precio_p').val()) + parseFloat(cargo_extra_c) + parseFloat(cargo_extra_i) + parseFloat(cargo_extra_l) + parseFloat(cargo_extra_s) + parseFloat(cargo_extra_p) - parseFloat($('#to_descuento_c').val()) - parseFloat($('#to_descuento_i').val()) - parseFloat($('#to_descuento_l').val()) - parseFloat($('#to_descuento_s').val()) - parseFloat($('#to_descuento_p').val()) + parseFloat($('#iva_ov_h').val()), 2));
 		//revisa la BD en busca de descuentos y los coloca en el resumen de orden de venta
 		var datos = {
 			no_temp_vc: $('#aleatorio_ov').val()
@@ -4962,7 +4962,7 @@ include_once 'recursos/datauser.php';
 		});
 
 		window.setTimeout(function() {
-			if ($('#precio_c1').val() >= 0) {
+			if ($('#precio_c').val() >= 0) {
 				var datos = {
 					aleatorio: $('#aleatorio_ov').val()
 				}
@@ -5072,20 +5072,20 @@ include_once 'recursos/datauser.php';
 		}
 		$.post('pacientes/files-serverside/sumar_precios_consultas.php', datos, function(dataT) {
 			var data = dataT[0];
-			$("#da_descuento_c1").val(dataT[1]);
+			$("#da_descuento_c").val(dataT[1]);
 			dd = dataT[1];
 			if (!parseFloat(data)) {
 				data = 0;
 			} else {
 				data = data;
 			}
-			$('#precio_c1').val(data);
+			$('#precio_c').val(data);
 			if (parseFloat(pd)) {
-				$('#to_descuento_c1').val((parseFloat(data) * parseFloat(pd)) / 100);
+				$('#to_descuento_c').val((parseFloat(data) * parseFloat(pd)) / 100);
 			} else if (parseFloat(dd)) {
-				$('#to_descuento_c1').val(dd);
+				$('#to_descuento_c').val(dd);
 			} else {
-				$('#to_descuento_c1').val(0);
+				$('#to_descuento_c').val(0);
 			}
 			calcular_totales();
 		}, "json");
@@ -5239,7 +5239,7 @@ include_once 'recursos/datauser.php';
 
 	function nota_desc_cargo_c1() {
 		var i = 0;
-		$('.desc_cargo_c1').each(function(index, element) {
+		$('.desc_cargo_c').each(function(index, element) {
 			if ($(this).val() > 0) {
 				i++;
 			}
@@ -5328,8 +5328,8 @@ include_once 'recursos/datauser.php';
 				$('#' + id).val('');
 			}
 		}
-		if (parseFloat(v) > parseFloat($('#1total_c1').text())) {
-			$('#' + id).val(parseFloat($('#1total_c1').text()));
+		if (parseFloat(v) > parseFloat($('#1total_c').text())) {
+			$('#' + id).val(parseFloat($('#1total_c').text()));
 		}
 	}
 
