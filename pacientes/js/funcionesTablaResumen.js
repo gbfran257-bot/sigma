@@ -1,8 +1,11 @@
 /**
  * Función que, si la tabla tiene descuentos normales y directo, actualiza los descuentos normales y el total
- * @param { string } apartado 
+ * @param { string } apartado
  */
-const actualizarDescuentosNormalesConDirecto = async (apartado, tipoDescuento) => {
+const actualizarDescuentosNormalesConDirecto = async (
+    apartado,
+    tipoDescuento
+) => {
     // Eliminamos los descuentos normales
     const rowDescuentoNormal = `.row_descuento_${apartado}_normal`;
     $(rowDescuentoNormal).remove();
@@ -13,7 +16,11 @@ const actualizarDescuentosNormalesConDirecto = async (apartado, tipoDescuento) =
         // Actualizamos el total de la tabla con el monto del descuento directo
         const rowMontoDescuentoDirecto = `.monto_${apartado}_directo`;
         const rowTotalDescuentos = `#montoTotalDescuentos_${apartado}`;
-        const montoDescuentoDirecto = parseFloat($(rowMontoDescuentoDirecto).text().slice(1, $(rowMontoDescuentoDirecto).text().length));
+        const montoDescuentoDirecto = parseFloat(
+            $(rowMontoDescuentoDirecto)
+                .text()
+                .slice(1, $(rowMontoDescuentoDirecto).text().length)
+        );
         $(rowTotalDescuentos).text(`$${montoDescuentoDirecto}`);
         return;
     }
@@ -21,15 +28,27 @@ const actualizarDescuentosNormalesConDirecto = async (apartado, tipoDescuento) =
     // Insertamos los nuevos descuentos normales
     const rowTotalDescuentos = `#row_total_${apartado}`;
     const rowMontoDescuentoDirecto = `.monto_${apartado}_directo`;
-    let nuevoTotal = parseFloat($(rowMontoDescuentoDirecto).text().slice(1, $(rowMontoDescuentoDirecto).text().length));
+    let nuevoTotal = parseFloat(
+        $(rowMontoDescuentoDirecto)
+            .text()
+            .slice(1, $(rowMontoDescuentoDirecto).text().length)
+    );
     descuentosNormales.forEach((descuento, index) => {
         nuevoTotal += parseFloat(descuento.monto);
         $(`
             <tr class="row_descuento_${apartado}_${tipoDescuento}">
-                <td style="text-align: center;"><strong class="num_descuento_${apartado}_${tipoDescuento}">${index + 2}</strong></td>
-                <td class="nombre_${apartado}_${tipoDescuento}">${descuento.nombre}</td>
-                <td class="concepto_${apartado}_${tipoDescuento}">${descuento.concepto}</td>
-                <td class="monto_${apartado}_${tipoDescuento}">$${descuento.monto}</td>
+                <td style="text-align: center;"><strong class="num_descuento_${apartado}_${tipoDescuento}">${
+            index + 2
+        }</strong></td>
+                <td class="nombre_${apartado}_${tipoDescuento}">${
+            descuento.nombre
+        }</td>
+                <td class="concepto_${apartado}_${tipoDescuento}">${
+            descuento.concepto
+        }</td>
+                <td class="monto_${apartado}_${tipoDescuento}">$${
+            descuento.monto
+        }</td>
             </tr>
         `).insertBefore($(rowTotalDescuentos));
     });
@@ -40,20 +59,28 @@ const actualizarDescuentosNormalesConDirecto = async (apartado, tipoDescuento) =
 
 /**
  * Función que, si la tabla tiene descuentos normales y descuento directo, actualiza el descuento directo y el total
- * @param { string } apartado 
- * @param { string } tipoDescuento 
+ * @param { string } apartado
+ * @param { string } tipoDescuento
  */
 const actualizarDescuentoDirectoConNormales = (apartado, tipoDescuento) => {
     const inputDescuentoDirecto = `#da_descuento_${apartado.slice(0, 1)}`;
 
     // Guardamos el descuento directo antiguo, es decir el que está registrado en la tabla
     const rowDescuentoDirectoAntiguo = `.monto_${apartado}_directo`;
-    const montoDescuentoDirectoAntiguo = parseFloat($(rowDescuentoDirectoAntiguo).text().slice(1, $(rowDescuentoDirectoAntiguo).text().length));
+    const montoDescuentoDirectoAntiguo = parseFloat(
+        $(rowDescuentoDirectoAntiguo)
+            .text()
+            .slice(1, $(rowDescuentoDirectoAntiguo).text().length)
+    );
     // Guardamos el total antiguo de los descuentos
     const rowTotalDescuentos = `#montoTotalDescuentos_${apartado}`;
-    const montoTotalAntiguoDescuentos = parseFloat($(rowTotalDescuentos).text().slice(1, $(rowTotalDescuentos).text().length));
+    const montoTotalAntiguoDescuentos = parseFloat(
+        $(rowTotalDescuentos)
+            .text()
+            .slice(1, $(rowTotalDescuentos).text().length)
+    );
     // Definimos la variable para actualiza el total
-    let nuevoTotal = 0.00;
+    let nuevoTotal = 0.0;
 
     // Verificamos si el descuento directo es 0
     if ($(inputDescuentoDirecto).val() == 0) {
@@ -67,40 +94,53 @@ const actualizarDescuentoDirectoConNormales = (apartado, tipoDescuento) => {
         const rowsNumsDescuentos = `.num_descuento_${apartado}_normal`;
         const numsDescuentos = $(rowsNumsDescuentos);
         let cont = 0;
-        for (let rowNumDescuento of numsDescuentos) rowNumDescuento.textContent = ++cont;
+        for (let rowNumDescuento of numsDescuentos)
+            rowNumDescuento.textContent = ++cont;
         return;
     }
 
     // Actualizamos el total de los descuento en la tabla
-    nuevoTotal = (montoTotalAntiguoDescuentos - montoDescuentoDirectoAntiguo) + parseFloat($(inputDescuentoDirecto).val());
+    nuevoTotal =
+        montoTotalAntiguoDescuentos -
+        montoDescuentoDirectoAntiguo +
+        parseFloat($(inputDescuentoDirecto).val());
     $(rowTotalDescuentos).text(`$${nuevoTotal}`);
     $(rowDescuentoDirectoAntiguo).text(`$${$(inputDescuentoDirecto).val()}`);
 };
 
 /**
  * Función que, cuando la tabla tiene únicamente descuento directo o por porcentaje, actualiza la tabla
- * @param { string } apartado 
- * @param { string } tipoDescuento 
- * @returns 
+ * @param { string } apartado
+ * @param { string } tipoDescuento
+ * @returns
  */
 const actualizarDescuentoUnico = (apartado, tipoDescuento) => {
-    if (tipoDescuento === 'directo') {
-        const inputDescuentoDirecto = `#da_descuento_${apartado.slice(0, 1)}`;        
-        if ($(inputDescuentoDirecto).val() == 0) return limpiarTablaResumen(apartado);
+    if (tipoDescuento === "directo") {
+        const inputDescuentoDirecto = `#da_descuento_${apartado.slice(0, 1)}`;
+        if ($(inputDescuentoDirecto).val() == 0)
+            return limpiarTablaResumen(apartado);
         const rowMontoDescuento = `.monto_${apartado}_directo`;
         const rowMontoTotalDescuento = `#montoTotalDescuentos_${apartado}`;
-        const montoDescuentoDirecto = parseFloat($(inputDescuentoDirecto).val());
+        const montoDescuentoDirecto = parseFloat(
+            $(inputDescuentoDirecto).val()
+        );
         $(rowMontoDescuento).text(`$${montoDescuentoDirecto}`);
         $(rowMontoTotalDescuento).text(`$${montoDescuentoDirecto}`);
         return;
     }
-    if (tipoDescuento === 'porcentaje') {
-        const inputDescuentoPorcentaje = `#po_descuento_${apartado.slice(0, 1)}`;        
-        if ($(inputDescuentoPorcentaje).val() == 0) return limpiarTablaResumen(apartado);
+    if (tipoDescuento === "porcentaje") {
+        const inputDescuentoPorcentaje = `#po_descuento_${apartado.slice(
+            0,
+            1
+        )}`;
+        if ($(inputDescuentoPorcentaje).val() == 0)
+            return limpiarTablaResumen(apartado);
         const inputPrecio = `#precio_${apartado.slice(0, 1)}`;
         const rowMontoDescuento = `.monto_${apartado}_porcentaje`;
         const rowMontoTotalDescuento = `#montoTotalDescuentos_${apartado}`;
-        const montoDescuentoPorcentaje = parseFloat($(inputPrecio).val()) * (parseFloat($(inputDescuentoPorcentaje).val()) / 100);
+        const montoDescuentoPorcentaje =
+            parseFloat($(inputPrecio).val()) *
+            (parseFloat($(inputDescuentoPorcentaje).val()) / 100);
         $(rowMontoDescuento).text(`$${montoDescuentoPorcentaje}`);
         $(rowMontoTotalDescuento).text(`$${montoDescuentoPorcentaje}`);
         return;
@@ -110,8 +150,8 @@ const actualizarDescuentoUnico = (apartado, tipoDescuento) => {
 
 /**
  * Función que, cuando solo hay descuentos normales, inserta un nuevo descuento directo
- * @param { string } apartado 
- * @param { string } tipoDescuento 
+ * @param { string } apartado
+ * @param { string } tipoDescuento
  */
 const insertarDescuentoDirectoConNormales = (apartado, tipoDescuento) => {
     // Concatenamos el apartado con los selectores que nos permiten manejar la tabla
@@ -125,7 +165,9 @@ const insertarDescuentoDirectoConNormales = (apartado, tipoDescuento) => {
             <td style="text-align: center;"><strong class="num_descuento_${apartado}_${tipoDescuento}">1</strong></td>
             <td class="nombre_${apartado}_${tipoDescuento}">Descuento directo aplicado</td>
             <td class="concepto_${apartado}_${tipoDescuento}"></td>
-            <td class="monto_${apartado}_${tipoDescuento}">$${$(inputDescuentoDirecto).val()}</td>
+            <td class="monto_${apartado}_${tipoDescuento}">$${$(
+        inputDescuentoDirecto
+    ).val()}</td>
         </tr>
     `);
     // Calculamos el total de la tabla descuento y actualizamos el número de descuento en el resumen
@@ -135,9 +177,16 @@ const insertarDescuentoDirectoConNormales = (apartado, tipoDescuento) => {
     let nuevoNum = 2;
     let nuevoTotal = parseFloat($(inputDescuentoDirecto).val());
     for (let descuentoNormal of descuentosNormales) {
-        const monto = descuentoNormal.querySelector(montoDescuentoNormal).textContent.slice(1, descuentoNormal.querySelector(montoDescuentoNormal).textContent.length);
+        const monto = descuentoNormal
+            .querySelector(montoDescuentoNormal)
+            .textContent.slice(
+                1,
+                descuentoNormal.querySelector(montoDescuentoNormal).textContent
+                    .length
+            );
         nuevoTotal += parseFloat(monto);
-        descuentoNormal.querySelector(numDescuentoNormal).textContent = nuevoNum++;
+        descuentoNormal.querySelector(numDescuentoNormal).textContent =
+            nuevoNum++;
     }
     $(`#montoTotalDescuentos_${apartado}`).text(`$${nuevoTotal}`);
     return;
@@ -145,24 +194,40 @@ const insertarDescuentoDirectoConNormales = (apartado, tipoDescuento) => {
 
 /**
  * Función que, si la tabla contiene un descuento directo, inserta nuevos descuentos normales
- * @param { string } apartado 
- * @param { string } tipoDescuento 
+ * @param { string } apartado
+ * @param { string } tipoDescuento
  */
-const insertarDescuentosNormalesConDirecto = async (apartado, tipoDescuento) => {
+const insertarDescuentosNormalesConDirecto = async (
+    apartado,
+    tipoDescuento
+) => {
     // Obtenemos el nuevo descuento individual
-    const nuevoDescuentoNormal = await obtenerDescuentos(apartado).then(data => data[0]);
+    const nuevoDescuentoNormal = await obtenerDescuentos(apartado).then(
+        (data) => data[0]
+    );
     // Comprobamos si hay un descuento individual
-    if (typeof nuevoDescuentoNormal === 'undefined') return;
+    if (typeof nuevoDescuentoNormal === "undefined") return;
     // Pintamos la tabla actualizada y acumulamos el nuevo total
     const rowTotal = `#row_total_${apartado}`;
     const rowMontoDescuentoDirecto = `.monto_${apartado}_directo`;
-    let nuevoTotal = parseFloat($(rowMontoDescuentoDirecto).text().slice(1, $(rowMontoDescuentoDirecto).text().length)) + parseFloat(nuevoDescuentoNormal.monto);
+    let nuevoTotal =
+        parseFloat(
+            $(rowMontoDescuentoDirecto)
+                .text()
+                .slice(1, $(rowMontoDescuentoDirecto).text().length)
+        ) + parseFloat(nuevoDescuentoNormal.monto);
     $(`
         <tr class="row_descuento_${apartado}_${tipoDescuento}">
-            <td style="text-align: center;"><strong class="num_descuento_${apartado}_${tipoDescuento}">${(++nuevoDescuentoNormal.num)}</strong></td>
-            <td class="nombre_${apartado}_${tipoDescuento}">${nuevoDescuentoNormal.nombre}</td>
-            <td class="concepto_${apartado}_${tipoDescuento}">${nuevoDescuentoNormal.concepto}</td>
-            <td class="monto_${apartado}_${tipoDescuento}">$${nuevoDescuentoNormal.monto}</td>
+            <td style="text-align: center;"><strong class="num_descuento_${apartado}_${tipoDescuento}">${++nuevoDescuentoNormal.num}</strong></td>
+            <td class="nombre_${apartado}_${tipoDescuento}">${
+        nuevoDescuentoNormal.nombre
+    }</td>
+            <td class="concepto_${apartado}_${tipoDescuento}">${
+        nuevoDescuentoNormal.concepto
+    }</td>
+            <td class="monto_${apartado}_${tipoDescuento}">$${
+        nuevoDescuentoNormal.monto
+    }</td>
         </tr>
     `).insertBefore($(rowTotal));
     // Actualizamos el total
@@ -176,12 +241,18 @@ const insertarDescuentosNormalesConDirecto = async (apartado, tipoDescuento) => 
  * @param { string } apartado
  * @param { string } tipoDescuento
  */
-const insertarDescuentosNormales = async (apartado, tipoDescuento, rowSinDescuentos) => {
+const insertarDescuentosNormales = async (
+    apartado,
+    tipoDescuento,
+    rowSinDescuentos
+) => {
     // Eliminamos los descuentos de la tabla
     const rowDescuentoNormal = `.row_descuento_${apartado}_${tipoDescuento}`;
     $(rowDescuentoNormal).remove();
     // Obtenemos los descuentos normales y verificamos si hay descuentos aplicados
-    const descuentosNormales = await obtenerDescuentos(apartado).then((data) => data);
+    const descuentosNormales = await obtenerDescuentos(apartado).then(
+        (data) => data
+    );
     if (descuentosNormales.length === 0) {
         const rowTotal = `#row_total_${apartado}`;
         $(rowSinDescuentos).show();
@@ -197,10 +268,18 @@ const insertarDescuentosNormales = async (apartado, tipoDescuento, rowSinDescuen
         total += parseFloat(descuentoNormal.monto);
         $(tablaResumenBody).prepend(`
             <tr class="row_descuento_${apartado}_${tipoDescuento}">
-                <td style="text-align: center;"><strong class="num_descuento_${apartado}_${tipoDescuento}">${descuentosNormales.length - index}</strong></td>
-                <td class="nombre_${apartado}_${tipoDescuento}">${descuentoNormal.nombre}</td>
-                <td class="concepto_${apartado}_${tipoDescuento}">${descuentoNormal.concepto}</td>
-                <td class="monto_${apartado}_${tipoDescuento}">$${descuentoNormal.monto}</td>
+                <td style="text-align: center;"><strong class="num_descuento_${apartado}_${tipoDescuento}">${
+            descuentosNormales.length - index
+        }</strong></td>
+                <td class="nombre_${apartado}_${tipoDescuento}">${
+            descuentoNormal.nombre
+        }</td>
+                <td class="concepto_${apartado}_${tipoDescuento}">${
+            descuentoNormal.concepto
+        }</td>
+                <td class="monto_${apartado}_${tipoDescuento}">$${
+            descuentoNormal.monto
+        }</td>
             </tr>
         `);
     });
@@ -219,7 +298,11 @@ const insertarDescuentosNormales = async (apartado, tipoDescuento, rowSinDescuen
  * @param { string } apartado
  * @param { string } tipoDescuento
  */
-const insertarDescuentoTablaVacia = async (apartado, tipoDescuento, rowSinDescuentos) => {
+const insertarDescuentoTablaVacia = async (
+    apartado,
+    tipoDescuento,
+    rowSinDescuentos
+) => {
     // Concatenamos el apartado y el tipo de descuento con el nombre de los selectores para manejar la tabla
     const tablaResumenBody = `#resumen_${apartado}_body`;
     const inputPrecio = `#precio_${apartado.slice(0, 1)}`;
@@ -227,7 +310,9 @@ const insertarDescuentoTablaVacia = async (apartado, tipoDescuento, rowSinDescue
 
     // Caso 1: Se va a insertar uno o más descuentos normales
     if (tipoDescuento === "normal") {
-        const descuentoNormal = await obtenerDescuentos(apartado).then((data) => data[0]);
+        const descuentoNormal = await obtenerDescuentos(apartado).then(
+            (data) => data[0]
+        );
         if (typeof descuentoNormal === "undefined") return;
         total = descuentoNormal.monto;
         $(tablaResumenBody).prepend(`
@@ -242,9 +327,15 @@ const insertarDescuentoTablaVacia = async (apartado, tipoDescuento, rowSinDescue
 
     // Caso 2: Se va a insertar un descuento por porcentaje
     if (tipoDescuento === "porcentaje") {
-        const inputDescuentoPorcentaje = `#po_descuento_${apartado.slice(0, 1)}`;
-        if ($(inputDescuentoPorcentaje).val() == 0 || $(inputPrecio).val() == 0) return;
-        total = parseFloat($(inputPrecio).val()) * (parseFloat($(inputDescuentoPorcentaje).val()) / 100);
+        const inputDescuentoPorcentaje = `#po_descuento_${apartado.slice(
+            0,
+            1
+        )}`;
+        if ($(inputDescuentoPorcentaje).val() == 0 || $(inputPrecio).val() == 0)
+            return;
+        total =
+            parseFloat($(inputPrecio).val()) *
+            (parseFloat($(inputDescuentoPorcentaje).val()) / 100);
         $(tablaResumenBody).prepend(`
             <tr class="row_descuento_${apartado}_${tipoDescuento}">
                 <td style="text-align: center;"><strong class="num_descuento_${apartado}_${tipoDescuento}">1</strong></td>
@@ -258,7 +349,8 @@ const insertarDescuentoTablaVacia = async (apartado, tipoDescuento, rowSinDescue
     // Caso 3: Se va a insertar un descuento directo
     if (tipoDescuento === "directo") {
         const inputDescuentoDirecto = `#da_descuento_${apartado.slice(0, 1)}`;
-        if ($(inputDescuentoDirecto).val() == 0 || $(inputPrecio).val() == 0) return;
+        if ($(inputDescuentoDirecto).val() == 0 || $(inputPrecio).val() == 0)
+            return;
         total = parseFloat($(inputDescuentoDirecto).val());
         $(tablaResumenBody).prepend(`
             <tr class="row_descuento_${apartado}_${tipoDescuento}">
@@ -274,7 +366,10 @@ const insertarDescuentoTablaVacia = async (apartado, tipoDescuento, rowSinDescue
     const inputTotalDescuento = `#to_descuento_${apartado.slice(0, 1)}`;
     const inputTotal = `#total_${apartado.slice(0, 1)}`;
     $(inputTotalDescuento).val(total);
-    $(inputTotal).val(parseFloat($(inputPrecio).val()) - parseFloat($(inputTotalDescuento).val()));
+    $(inputTotal).val(
+        parseFloat($(inputPrecio).val()) -
+            parseFloat($(inputTotalDescuento).val())
+    );
     $(rowSinDescuentos).hide();
     $(tablaResumenBody).append(`
         <tr id="row_total_${apartado}">
@@ -290,8 +385,43 @@ const insertarDescuentoTablaVacia = async (apartado, tipoDescuento, rowSinDescue
  * @param { string } apartado
  */
 const obtenerDescuentos = async (apartado) => {
+    if (apartado === "consultas") {
+        return await fetch(
+            `${URL_CONSULTAS}?aleatorio=${$("#aleatorio_ov").val()}`,
+            { method: "get" }
+        )
+            .then((response) => response.json())
+            .catch((error) => console.log(error));
+    }
+    if (apartado === "imagen") {
+        return await fetch(
+            `${URL_IMAGEN}?aleatorio=${$("#aleatorio_ov").val()}`,
+            { method: "get" }
+        )
+            .then((response) => response.json())
+            .catch((error) => console.log(error));
+    }
+    if (apartado === "laboratorio") {
+        return await fetch(
+            `${URL_LABORATORIO}?aleatorio=${$("#aleatorio_ov").val()}`,
+            { method: "get" }
+        )
+            .then((response) => response.json())
+            .catch((error) => console.log(error));
+    }
     if (apartado === "servicios") {
-        return await fetch(`${URL_SERVICIOS}?aleatorio=${$("#aleatorio_ov").val()}`,{ method: "get" })
+        return await fetch(
+            `${URL_SERVICIOS}?aleatorio=${$("#aleatorio_ov").val()}`,
+            { method: "get" }
+        )
+            .then((response) => response.json())
+            .catch((error) => console.log(error));
+    }
+    if (apartado === "productos") {
+        return await fetch(
+            `${URL_PRODUCTOS}?aleatorio=${$("#aleatorio_ov").val()}`,
+            { method: "get" }
+        )
             .then((response) => response.json())
             .catch((error) => console.log(error));
     }
@@ -308,34 +438,44 @@ const tablaResumenVacia = (rowSinDescuentos) => {
 
 /**
  * Función que verifica si una tabla resumen contiene tanto descuentos normales como descuento directo
- * @param { string } apartado 
+ * @param { string } apartado
  */
 const descuentosNormalesYDirecto = (apartado) => {
     const rowDescuentoNormal = `.row_descuento_${apartado}_normal`;
     const rowDescuentoDirecto = `.row_descuento_${apartado}_directo`;
-    return $(rowDescuentoNormal).length != 0 && $(rowDescuentoDirecto).length != 0;
+    return (
+        $(rowDescuentoNormal).length != 0 && $(rowDescuentoDirecto).length != 0
+    );
 };
 
 /**
  * Función que verifica si una tabla resumen contiene únicamente descuentos de tipo directo
- * @param { string } apartado 
+ * @param { string } apartado
  */
 const unicamenteDescuentoDirecto = (apartado) => {
     const rowDescuentoNormal = `.row_descuento_${apartado}_normal`;
     const rowDescuentoDirecto = `.row_descuento_${apartado}_directo`;
     const rowDescuentoPorcentaje = `.row_descuento_${apartado}_porcentaje`;
-    return $(rowDescuentoNormal).length == 0 && $(rowDescuentoDirecto).length != 0 && $(rowDescuentoPorcentaje).length == 0;
+    return (
+        $(rowDescuentoNormal).length == 0 &&
+        $(rowDescuentoDirecto).length != 0 &&
+        $(rowDescuentoPorcentaje).length == 0
+    );
 };
 
 /**
  * Función que verifica si una tabla resumen contiene únicamente descuentos de tipo porcentaje
- * @param { string } apartado 
+ * @param { string } apartado
  */
 const unicamenteDescuentoPorcentaje = (apartado) => {
     const rowDescuentoNormal = `.row_descuento_${apartado}_normal`;
     const rowDescuentoDirecto = `.row_descuento_${apartado}_directo`;
     const rowDescuentoPorcentaje = `.row_descuento_${apartado}_porcentaje`;
-    return $(rowDescuentoNormal).length == 0 && $(rowDescuentoDirecto).length == 0 && $(rowDescuentoPorcentaje).length != 0;
+    return (
+        $(rowDescuentoNormal).length == 0 &&
+        $(rowDescuentoDirecto).length == 0 &&
+        $(rowDescuentoPorcentaje).length != 0
+    );
 };
 
 /**
@@ -347,7 +487,11 @@ const unicamenteDescuentosNormales = (apartado) => {
     const rowDescuentoNormal = `.row_descuento_${apartado}_normal`;
     const rowDescuentoDirecto = `.row_descuento_${apartado}_directo`;
     const rowDescuentoPorcentaje = `.row_descuento_${apartado}_porcentaje`;
-    return $(rowDescuentoNormal).length != 0 && $(rowDescuentoDirecto).length == 0 && $(rowDescuentoPorcentaje).length == 0;
+    return (
+        $(rowDescuentoNormal).length != 0 &&
+        $(rowDescuentoDirecto).length == 0 &&
+        $(rowDescuentoPorcentaje).length == 0
+    );
 };
 
 /**
@@ -360,34 +504,63 @@ const pintarTablaResumen = (apartado, tipoDescuento) => {
     let rowSinDescuentos = `#sin_descuentos_${apartado}`;
 
     // Caso 1: La tabla está vacía para cualquier tipo de descuento a aplicar
-    if (tablaResumenVacia(rowSinDescuentos)) return insertarDescuentoTablaVacia(apartado, tipoDescuento, rowSinDescuentos);
+    if (tablaResumenVacia(rowSinDescuentos))
+        return insertarDescuentoTablaVacia(
+            apartado,
+            tipoDescuento,
+            rowSinDescuentos
+        );
 
     // Caso 2: La tabla tiene únicamente descuentos normales
     if (unicamenteDescuentosNormales(apartado)) {
-        if (tipoDescuento === "normal") return insertarDescuentosNormales(apartado, tipoDescuento, rowSinDescuentos);
-        if (tipoDescuento === "directo") return insertarDescuentoDirectoConNormales(apartado, tipoDescuento);
+        if (tipoDescuento === "normal")
+            return insertarDescuentosNormales(
+                apartado,
+                tipoDescuento,
+                rowSinDescuentos
+            );
+        if (tipoDescuento === "directo")
+            return insertarDescuentoDirectoConNormales(apartado, tipoDescuento);
     }
 
     // Caso 3: La tabla tiene únicamente descuento por porcentaje
     if (unicamenteDescuentoPorcentaje(apartado)) {
-        if (tipoDescuento === 'normal' || tipoDescuento === 'directo') {
+        if (tipoDescuento === "normal" || tipoDescuento === "directo") {
             limpiarTablaResumen(apartado);
-            insertarDescuentoTablaVacia(apartado, tipoDescuento, rowSinDescuentos)
+            insertarDescuentoTablaVacia(
+                apartado,
+                tipoDescuento,
+                rowSinDescuentos
+            );
             return;
         }
-        if (tipoDescuento === 'porcentaje') return actualizarDescuentoUnico(apartado, tipoDescuento);
-    };
+        if (tipoDescuento === "porcentaje")
+            return actualizarDescuentoUnico(apartado, tipoDescuento);
+    }
 
     // Caso 4: La tabla tiene únicamente descuento directo
     if (unicamenteDescuentoDirecto(apartado)) {
-        if (tipoDescuento === 'directo') return actualizarDescuentoUnico(apartado, tipoDescuento);
-        if (tipoDescuento === 'normal') return insertarDescuentosNormalesConDirecto(apartado, tipoDescuento);
+        if (tipoDescuento === "directo")
+            return actualizarDescuentoUnico(apartado, tipoDescuento);
+        if (tipoDescuento === "normal")
+            return insertarDescuentosNormalesConDirecto(
+                apartado,
+                tipoDescuento
+            );
     }
 
     // Caso 5: La tabla tienes descuentos normales y descuento directo
     if (descuentosNormalesYDirecto(apartado)) {
-        if (tipoDescuento === 'normal') return actualizarDescuentosNormalesConDirecto(apartado, tipoDescuento);
-        if (tipoDescuento === 'directo') return actualizarDescuentoDirectoConNormales(apartado, tipoDescuento); 
+        if (tipoDescuento === "normal")
+            return actualizarDescuentosNormalesConDirecto(
+                apartado,
+                tipoDescuento
+            );
+        if (tipoDescuento === "directo")
+            return actualizarDescuentoDirectoConNormales(
+                apartado,
+                tipoDescuento
+            );
     }
     return;
 };
@@ -400,7 +573,8 @@ const pintarTablaResumen = (apartado, tipoDescuento) => {
 const alertaEliminarDescuentos = (apartado, inputDescuentoPorcentaje) => {
     // Verificamos si hay un descuento por porcentaje ya activado para evitar eliminar los descuentos y limpiar la tabla
     const inputPrecio = `#precio_${apartado.slice(0, 1)}`;
-    if (inputDescuentoPorcentaje.value != 0 || $(inputPrecio).val() == 0) return;
+    if (inputDescuentoPorcentaje.value != 0 || $(inputPrecio).val() == 0)
+        return;
     Swal.fire({
         title: "Esta acción borrará los descuentos individuales de cada estudio y el descuento directo",
         text: "¿Deseas continuar?",
@@ -416,8 +590,14 @@ const alertaEliminarDescuentos = (apartado, inputDescuentoPorcentaje) => {
     }).then((result) => {
         if (result.isConfirmed) {
             // Eliminamos el descuentos directo, el motivo del descuento y actualizamos el total de descuentos y el total
-            const inputDescuentoDirecto = `#da_descuento_${apartado.slice(0,1)}`;
-            const inputMotivoDescuento = `#motivo_descuento_${apartado.slice(0,1)}`;
+            const inputDescuentoDirecto = `#da_descuento_${apartado.slice(
+                0,
+                1
+            )}`;
+            const inputMotivoDescuento = `#motivo_descuento_${apartado.slice(
+                0,
+                1
+            )}`;
             const inputTotalDescuento = `#to_descuento_${apartado.slice(0, 1)}`;
             const inputTotal = `#total_${apartado.slice(0, 1)}`;
             const inputPrecio = `#precio_${apartado.slice(0, 1)}`;
@@ -427,8 +607,17 @@ const alertaEliminarDescuentos = (apartado, inputDescuentoPorcentaje) => {
             $(inputTotal).val($(inputPrecio).val());
 
             // Comprobamos a qué apartado se le eliminarán los descuentos
-            let url = ''
-            if (apartado === 'servicios') url = URL_SERVICIOS_ELIMINAR_DESCUENTOS;
+            let url = "";
+            if (apartado === "consultas")
+                url = URL_CONSULTAS_ELIMINAR_DESCUENTOS;
+            else if (apartado === "imagen")
+                url = URL_IMAGEN_ELIMINAR_DESCUENTOS;
+            else if (apartado === "laboratorio")
+                url = URL_LABORATORIO_ELIMINAR_DESCUENTOS;
+            else if (apartado === "productos")
+                url = URL_PRODUCTOS_ELIMINAR_DESCUENTOS;
+            else if (apartado === "servicios")
+                url = URL_SERVICIOS_ELIMINAR_DESCUENTOS;
 
             // Realizamos la consulta para eliminar los descuentos individuales
             const formData = new FormData();
@@ -437,30 +626,31 @@ const alertaEliminarDescuentos = (apartado, inputDescuentoPorcentaje) => {
                 method: "post",
                 body: formData,
             })
-                .then(response => response.json())
-                .then(result => {
+                .then((response) => response.json())
+                .then((result) => {
                     Swal.fire({
                         title: "Descuentos eliminados correctamente :)",
                         icon: "success",
                     });
                 })
-                .catch(error => {
+                .catch((error) => {
                     Swal.fire({
                         title: "Ocurrió un problema :(",
                         text: error,
                         icon: "error",
                     });
                 });
-            
+
             // Limpiamos la tabla resumen
             limpiarTablaResumen(apartado);
-        } else if (result.dismiss === Swal.DismissReason.cancel) {}
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+        }
     });
 };
 
 /**
  * Función que limpia completamente la tabla resumen de un apartado, dejando únicamente el mensaje de sin descuentos aplicados
- * @param { string } apartado 
+ * @param { string } apartado
  */
 const limpiarTablaResumen = (apartado) => {
     const rowDescuentosNormales = `.row_descuento_${apartado}_normal`;
@@ -488,23 +678,50 @@ const limpiarTablaResumen = (apartado) => {
 const actualizarConcepto = (apartado, inputMotivoDescuento) => {
     const inputDescuentoPorcentaje = `#po_descuento_${apartado.slice(0, 1)}`;
     const inputDescuentoDirecto = `#da_descuento_${apartado.slice(0, 1)}`;
-    if ($(inputDescuentoPorcentaje).val() === 0 && $(inputDescuentoDirecto).val() == 0) return;
+    if (
+        $(inputDescuentoPorcentaje).val() === 0 &&
+        $(inputDescuentoDirecto).val() == 0
+    )
+        return;
 
-    if ($(inputDescuentoPorcentaje).val() != 0 && $(inputDescuentoDirecto).val() == 0) {
+    if (
+        $(inputDescuentoPorcentaje).val() != 0 &&
+        $(inputDescuentoDirecto).val() == 0
+    ) {
         const rowConceptoDescuentoPorcentaje = `.concepto_${apartado}_porcentaje`;
         $(rowConceptoDescuentoPorcentaje).text(inputMotivoDescuento.value);
     }
 
-    if ($(inputDescuentoPorcentaje).val() == 0 && $(inputDescuentoDirecto).val() != 0) {
+    if (
+        $(inputDescuentoPorcentaje).val() == 0 &&
+        $(inputDescuentoDirecto).val() != 0
+    ) {
         const rowConceptoDescuentoDirecto = `.concepto_${apartado}_directo`;
         $(rowConceptoDescuentoDirecto).text(inputMotivoDescuento.value);
     }
-    
+
     return;
-}
+};
 
 // URL's para cada petición según el apartado
+const URL_CONSULTAS =
+    "pacientes/js/datatable-serverside/getDescConsultasSeleccionadas.php";
+const URL_IMAGEN =
+    "pacientes/js/datatable-serverside/getDescImagenSeleccionadas.php";
+const URL_LABORATORIO =
+    "pacientes/js/datatable-serverside/getDescLabSeleccionadas.php";
 const URL_SERVICIOS =
     "pacientes/js/datatable-serverside/getDescServiciosSeleccionados.php";
+const URL_PRODUCTOS =
+    "pacientes/js/datatable-serverside/getDescProductosSeleccionados.php";
+
+const URL_CONSULTAS_ELIMINAR_DESCUENTOS =
+    "pacientes/js/datatable-serverside/eliminarDescuentosConsultas.php";
+const URL_IMAGEN_ELIMINAR_DESCUENTOS =
+    "pacientes/js/datatable-serverside/eliminarDescuentosImagen.php";
+const URL_LABORATORIO_ELIMINAR_DESCUENTOS =
+    "pacientes/js/datatable-serverside/eliminarDescuentosLaboratorio.php";
 const URL_SERVICIOS_ELIMINAR_DESCUENTOS =
     "pacientes/js/datatable-serverside/eliminarDescuentosServicios.php";
+const URL_PRODUCTOS_ELIMINAR_DESCUENTOS =
+    "pacientes/js/datatable-serverside/eliminarDescuentosProductos.php";
