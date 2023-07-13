@@ -3,7 +3,7 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('v.id_vc','v.referencia_vc', 'concat(p.nombre_p," ", p.apaterno_p)', 'concat(m.nombre_u," ", m.apaterno_u)', 'replace(e.concepto_to,"CONSULTA DE ","")', 'v.fecha_venta_vc', 's.clave_su', 'es.estatus_est', 'v.urgente_vc', 'p.id_p', 'm.id_u', 'v.fecha_venta_vc','p.amaterno_p', 'm.amaterno_u', 'v.id_vc', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%c/%Y %H:%m")', 'v.fechaEdo3_e', 'v.fecha_venta_vc', 'v.nota_interpretacion', 'es.estatus_est', 's.nombre_su', 's.id_su' );
+	$aColumns = array('v.id_vc','v.referencia_vc', 'concat(p.nombre_p," ", p.apaterno_p," ", p.amaterno_p)', 'concat(m.nombre_u," ", m.apaterno_u)', 'replace(e.concepto_to,"CONSULTA DE ","")', 'v.fecha_venta_vc', 's.clave_su', 'es.estatus_est', 'v.urgente_vc', 'p.id_p', 'm.id_u', 'v.fecha_venta_vc','p.amaterno_p', 'm.amaterno_u', 'v.id_vc', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%c/%Y %H:%m")', 'v.fechaEdo3_e', 'v.fecha_venta_vc', 'v.nota_interpretacion', 'es.estatus_est', 's.nombre_su', 's.id_su','o.motivo_c_ov','p.fNac_p','SUBSTRING(sx.cat_sexo, 1, 1)','concat(m.nombre_u," ", m.apaterno_u, " ", m.amaterno_u)', 'replace(e.concepto_to,"CONSULTA DE ","")','s.clave_su','v.urgente_vc','concat(nu.nombre_u, " ", nu.apaterno_u, " ", nu.amaterno_u)' );
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -12,7 +12,7 @@ require("../../funciones/php/values.php");
     $sIndexColumn = "v.id_vc";
      
 	 // Joins   
-	$sJoin = 'left JOIN pacientes p ON p.id_p = v.id_paciente_vc left join usuarios m on m.id_u = v.id_personal_medico_vc left join estatus es on es.id_est = v.estatus_vc left join conceptos e on e.id_to = v.id_concepto_es left join orden_venta o on o.referencia_ov = v.referencia_vc left join sucursales s on s.id_su = o.sucursal_ov';
+	$sJoin = 'left JOIN pacientes p ON p.id_p = v.id_paciente_vc left join usuarios m on m.id_u = v.id_personal_medico_vc left join estatus es on es.id_est = v.estatus_vc left join conceptos e on e.id_to = v.id_concepto_es left join orden_venta o on o.referencia_ov = v.referencia_vc left join sucursales s on s.id_su = o.sucursal_ov left join catalogo_sexos sx on sx.id_sexo = p.sexo_p left join usuarios nu on nu.id_u = o.usuario_ov';
 	
 	mysql_select_db($database_horizonte, $horizonte); 
 	$resultAU = mysql_query("SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[idU]'",$horizonte) or die (mysql_error());
@@ -85,7 +85,25 @@ require("../../funciones/php/values.php");
         if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' )
         {
             if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " AND "; }
-            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+
+			//si es la columna de edad realiza la consulta correspondiente al caso(año o mes)	
+			if($i==23){
+
+                $busqueda_años = $_GET['sSearch_'.$i];
+                if(strpos($busqueda_años, "A")==true){//si es A es busqueda por años
+                    $busqueda_años = preg_replace('([^0-9])', '', $busqueda_años);
+                    $sWhere .= " YEAR(NOW()) - YEAR(fNac_p) = $busqueda_años ";
+                }else if(strpos($busqueda_años, "M")==true){//si es M es busqueda por meses
+                    $busqueda_años = preg_replace('([^0-9])', '', $busqueda_años);
+                    $sWhere .= " PERIOD_DIFF(EXTRACT(YEAR_MONTH FROM NOW()), EXTRACT(YEAR_MONTH FROM fNac_p)) = $busqueda_años ";
+                }else{//si no encuentra letra aplica busqueda por años
+                    $busqueda_años = preg_replace('([^0-9])', '', $busqueda_años);
+                    $sWhere .= " YEAR(NOW()) - YEAR(fNac_p) = $busqueda_años ";
+                }
+
+            }else{
+				$sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+			}
         }
     }
      
@@ -133,22 +151,47 @@ require("../../funciones/php/values.php");
 		$row1 = array();
         for ( $j=0 ; $j<count($aColumns) ; $j++ ) { if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; } else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; } }
 		
+		//PARA LA EDAD
+		
+			$fecha1 = new DateTime($row[23]); $fecha2 = new DateTime(date("Y-m-d H:i:s")); $fecha = $fecha1->diff($fecha2);
+			//printf('%d AÑOS %d MESES %d DÍAS %d HORAS %d MINUTOS', $fecha->y, $fecha->m, $fecha->d, $fecha->h, $fecha->i);
+			$anos=$fecha->y; $meses=$fecha->m; $dias=$fecha->d; $horas=$fecha->h; $minutos=$fecha->i; $segundos=$fecha->s;
+			if($anos>0){$row[4]=$anos." AÑOS";}
+			if($anos<1){
+				if($meses<=2 and $meses>=1){$row[4]=$meses." MES(ES) ".$dias." DÍA(S)";}
+				if($meses>=3){$row[4]=$meses." MES(ES) ";}
+				if($meses==0){$row[4]=$dias." DÍA(S)";}
+				if($meses==0 and $dias<=1){$row[4]=$dias." DÍA(S) ".$horas." HORA(S)";}
+				if($meses==0 and $dias<1){$row[4]=$horas." HORA(S) ".$minutos." MINUTO(S)";}
+			} 
+			if($anos>150 or $anos<0){$row[4]="DESCONOCIDA";$obligatorio=1;}else{$obligatorio=$obligatorio;}
+		
+		//
+
 		//para el contador de tiempo
 		$fecha1 = new DateTime($row[5]); $fecha2 = new DateTime(date("Y-m-d H:i:s")); $fecha = $fecha1->diff($fecha2);
 		$anos=$fecha->y; $meses=$fecha->m; $dias=$fecha->d; $horas=$fecha->h; $minutos=$fecha->i; $segundos=$fecha->s;
-		$row[5] = sprintf("%02d", $dias)."D/".sprintf("%02d", $horas).":".sprintf("%02d", $minutos).":".sprintf("%02d", $segundos); 
-		$row[5] = "<div align='center'><span id='$row[14]' lang='$row[11]' class='miConta'>$row[5]</span></div>";
+		// $row[5] = sprintf("%02d", $dias)."D/".sprintf("%02d", $horas).":".sprintf("%02d", $minutos).":".sprintf("%02d", $segundos); 
+		// $row[5] = "<div align='center'><span id='$row[14]' lang='$row[11]' class='miConta'>$row[5]</span></div>";
+		$row[8] = sprintf("%02d", $dias)."D/".sprintf("%02d", $horas).":".sprintf("%02d", $minutos).":".sprintf("%02d", $segundos); 
+		$row[8] = "<div align='center'><span id='$row[14]' lang='$row[11]' class='miConta'>$row[8]</span></div>";
 		
-		$row[2] = $row[2]." ".$row[12];//Nombre completo del paciente
-		$row[3] = $row[3]." ".$row[13];//Nombre completo del médico $row[1] = "$row[1]</span>";
+		$row[2] = $row[2];//Nombre completo del paciente
+		//$row[3] = $row[3]." ".$row[13];//Nombre completo del médico $row[1] = "$row[1]</span>";
+		$row[1] = "<span lang='$row[1]' style='text-decoration:underline; cursor:pointer; color:blue;' onClick='ver_ov(this.lang)'>$row[1]</span><br>$row[29] <br>$row[15]";
+		$row[3] = $row[22];//Nombre completo del médico $row[1] = "$row[1]</span>";
+		$row[5] = "<div align='center'>$row[24]</div>";
+		$row[6] = $row[25];
+		$row[7] = $row[26];
 		
+
 		//$row[5] = "<div align='left'><button lang='$row[12]' class='icono_vacio botonaso' onClick='signosVvacios(this.lang)' style='height:25px;width:25px;cursor:pointer;'></button></div>";
 		//$row[6] = "<div align='center'><button lang='$row[12]' class='icono_vacio botonaso' onClick='historiaCvacia(this.lang)' style='height:25px;width:25px;cursor:pointer;'></button></div>";
 		
 		//Si el paciente no tiene signos vitales enconces el ícono de SV sera un ? en caso de que si tenga el ícono será un info o alerta si tiene signos anormales
 		mysql_select_db($database_horizonte, $horizonte); $resultS = mysql_query("SELECT count(id_sv) from signos_vitales where id_paciente_sv = $row[9] ", $horizonte) or die (mysql_error()); $rowS = mysql_fetch_row($resultS);
 		mysql_select_db($database_horizonte, $horizonte); $resultS1 = mysql_query("SELECT DATE_FORMAT(fecha_sv,'%d/%c/%Y') from signos_vitales where id_paciente_sv = $row[9] order by id_sv desc", $horizonte) or die (mysql_error()); $rowS1 = mysql_fetch_row($resultS1);
-		//if($rowS[0]>0){$row[5] = "<div align=''><span lang='$row[12]' onClick='verSignosV(this.lang)' style='cursor:pointer;'>$rowS1[0]</span></div>";}
+		// if($rowS[0]>0){$row[5] = "<div align=''><span lang='$row[12]' onClick='verSignosV(this.lang)' style='cursor:pointer;'>$rowS1[0]</span></div>";}
 		
 		mysql_select_db($database_horizonte, $horizonte); $resultH1 = mysql_query("SELECT count(id_hc) from historia_clinica where id_paciente_hc = $row[9] ", $horizonte) or die (mysql_error()); $rowH1 = mysql_fetch_row($resultH1);
 		if($rowH1[0]<1){
@@ -162,38 +205,64 @@ require("../../funciones/php/values.php");
 		//if($rowH[0]==0){$row[6] = "<div align='center'><button lang='$row[12]' class='icono_verInfo botonaso' onClick='historiaCvacia(this.lang)' style='height:25px;width:25px;cursor:pointer;'></button></div>";}
 		
 		if ($row[19] == "PENDIENTE"){ 
-			$row[7] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang, this.id,1,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[7]</span>";
-			$row[8] = "<div align='center'>-</div>"; $row[9] = "<div align='center'>-</div>";
+			// $row[7] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang, this.id,1,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[7]</span>";
+			$row[10] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang, this.id,1,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[19]</span>";
+			/* $row[8] = "<div align='center'>-</div>"; */ 
+			$row[11] = "<div align='center'>-</div>"; 
+			// $row[9] = "<div align='center'>-</div>";
+			$row[12] = "<div align='center'>-</div>";
 		}
 		else if($row[19] == "PROCESO"){
-			$row[7] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang, this.id,2,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[7]</span>";
-			$row[8] = "<div align='center'>-</div>"; $row[9] = "<div align='center'>-</div>";
+			// $row[7] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang, this.id,2,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[7]</span>";
+			$row[10] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang, this.id,2,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[19]</span>";
+			/* $row[8] = "<div align='center'>-</div>"; */ 
+			$row[11] = "<div align='center'>-</div>"; 
+			// $row[9] = "<div align='center'>-</div>";
+			$row[12] = "<div align='center'>-</div>";
 		}
 		else if($row[19] == "FINALIZADA"){
 			//para el contador de tiempo
 			$fecha1 = new DateTime($row[17]); $fecha2 = new DateTime($row[16]); $fecha = $fecha1->diff($fecha2);
 			$anos=$fecha->y; $meses=$fecha->m; $dias=$fecha->d; $horas=$fecha->h; $minutos=$fecha->i; $segundos=$fecha->s;
-			$row[5]=sprintf("%02d",$dias)."D/".sprintf("%02d",$horas).":".sprintf("%02d", $minutos).":".sprintf("%02d", $segundos);
+			// $row[5]=sprintf("%02d",$dias)."D/".sprintf("%02d",$horas).":".sprintf("%02d", $minutos).":".sprintf("%02d", $segundos);
+			$row[8]=sprintf("%02d",$dias)."D/".sprintf("%02d",$horas).":".sprintf("%02d", $minutos).":".sprintf("%02d", $segundos);
 		
-			//$row[7] = "<span id='$row[17]' lang='$row[12]' onClick='preImprimir($row[9], $row[12])' style='cursor:pointer; text-decoration:underline;'>$row[7]</span>";
-			$row[7] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang,this.id,3,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[7]</span>";
+			//$row[7] = "<span id='$row[17]' lang='$row[12]' onClick='preImprimir($row[9], $row[12])' style='cursor:pointer; text-decoration:underline;'>$row[7]</span>";ya estaba comentado
+			// $row[7] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang,this.id,3,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[7]</span>";
+			$row[10] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang,this.id,3,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[19]</span>";
 						
-			$row[5] = "<div align='center'><span id='$row[14]' lang='$row[11]' class='miContaX'>$row[5]</span></div>";
+			// $row[5] = "<div align='center'><span id='$row[14]' lang='$row[11]' class='miContaX'>$row[5]</span></div>";
+			$row[8] = "<div align='center'><span id='$row[14]' lang='$row[11]' class='miContaX'>$row[8]</span></div>";
 			
 			//Checamos si tiene nota de evo
-			if($row[18]==''){ $row[7] = "*$row[7]"; }else{ }
+			if($row[18]==''){ 
+				/* $row[7] = "*$row[7]"; */ 
+				$row[10] = "*$row[19]"; 
+			}else{ }
 			
-			$row[8] = "<button id='$row[14]' lang='$row[9]' class='btn btn-xs btn-primary' onClick='imprimirNM(this.lang,this.id)'>Imprimir</button>";
-			$row[9] = "<button id='$row[14]' lang='$row[9]' class='btn btn-xs btn-primary' onClick='imprimirRM(this.lang,this.id)'>Imprimir</button>";
+			// $row[8] = "<button id='$row[14]' lang='$row[9]' class='btn btn-xs btn-primary' onClick='imprimirNM(this.lang,this.id)'>Imprimir</button>";
+			$row[11] = "<button id='$row[14]' lang='$row[9]' class='btn btn-xs btn-primary' onClick='imprimirNM(this.lang,this.id)'>Imprimir</button>";
+			// $row[9] = "<button id='$row[14]' lang='$row[9]' class='btn btn-xs btn-primary' onClick='imprimirRM(this.lang,this.id)'>Imprimir</button>";
+			$row[12] = "<button id='$row[14]' lang='$row[9]' class='btn btn-xs btn-primary' onClick='imprimirRM(this.lang,this.id)'>Imprimir</button>";
 			
-		}else{$row[8] = "<div align='center'>-</div>"; $row[9] = "<div align='center'>-</div>";}
+		}else{
+			/* $row[8] = "<div align='center'>-</div>"; */ 
+			$row[11] = "<div align='center'>-</div>"; 
+			// $row[9] = "<div align='center'>-</div>";
+			$row[12] = "<div align='center'>-</div>";
+		}
 		
-		if ($row[8] == 1){ $row[7] = "<span style='color:red;'>$row[7]</span>"; }//Para las consultas urgentes
+		// if ($row[8] == 1){ 
+		if ($row[28] == 1){ 
+			/* $row[7] = "<span style='color:red;'>$row[7]</span>"; */ 
+			$row[10] = "<span style='color:red;'>$row[19]</span>"; 
+		}//Para las consultas urgentes
 		
-		$row[6] = "<span title='$row[20]'>$row[6]</span>";
+		// $row[6] = "<span title='$row[20]'>$row[6]</span>";
 		
+		$row[9] = "<div align='center'><span title='$row[20]'>$row[27]</span></div>";
 		$row[0] = "<span>$hh</span>";
-		$row[1] = "<span lang='$row[1]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[1]</span><br>$row[15]";
+		
 		
 		$output['aaData'][] = $row;
     }
