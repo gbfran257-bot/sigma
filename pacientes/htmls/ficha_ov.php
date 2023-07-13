@@ -548,10 +548,10 @@
                             </div>
                         </div>
 
-                        <!-- Inicio resumen de lab -->
+                        <!-- Inicio resumen de laboratorio -->
                         <div class="col-sm-12 col-xs-12" id="resumen_individual">
-                          <span id="resumen_individual_titulo" class="resumen_lab_titulo" estado='hidden' onclick="showTablaDescuentos('lab');">Resumen de los descuentos <strong id="resumen_flecha_icono" class="flecha_icono_lab">↓</strong></span>
-                          <table width="100%" cellspacing="0" id="resumen_lab" height="100%" border="0" cellpadding="0" class="table table-bordered table-hover table-responsive" style="display: none; margin: 1rem 0px 0px">
+                          <span id="resumen_individual_titulo" class="resumen_laboratorio_titulo" estado='hidden' onclick="showTablaDescuentos('laboratorio');">Resumen de los descuentos <strong id="resumen_flecha_icono" class="flecha_icono_laboratorio">↓</strong></span>
+                          <table width="100%" cellspacing="0" id="resumen_laboratorio" height="100%" border="0" cellpadding="0" class="table table-bordered table-hover table-responsive" style="display: none; margin: 1rem 0px 0px">
                             <thead>
                               <tr class="bg-success">
                                 <th width='5%' style="text-align: center;">#</th>
@@ -560,14 +560,14 @@
                                 <th width='15%'>Monto</th>
                               </tr>
                             </thead>
-                            <tbody id="resumen_lab_body">
-                              <tr id="sin_descuentos_lab">
+                            <tbody id="resumen_laboratorio_body">
+                              <tr id="sin_descuentos_laboratorio">
                                 <td colspan="4" style="text-align: center;" class="dataTables_empty">Aún no se han aplicados descuentos</td>
                               </tr>
                             </tbody>
                           </table>
                         </div>
-                        <!-- Fin resumen de lab -->
+                        <!-- Fin resumen de laboratorio -->
                     </div>
                     <div role="tabpanel" class="tab-pane" id="tServicios"><br>
                         <div class="row">
