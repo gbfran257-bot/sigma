@@ -25,5 +25,3 @@ while($descuento = mysql_fetch_object($queryResult)) {
 echo json_encode($descuentos);
 
 mysql_close($horizonte);
-
-?>
