@@ -1286,7 +1286,7 @@ include_once 'recursos/datauser.php';
 		$('.filtro1Principal').addClass('hidden');
 
 		// Asignamos los eventos para el filtrado
-		setFiltradoHandler();
+		setFiltradoPacientesHandler();
 	});
 	//se intento dejar checkbox para la busqueda automatica, pero generaba error, se deja en stand by
 	function verificarCheckbox() {
