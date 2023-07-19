@@ -35,12 +35,25 @@ const setFiltradoPacientesHandler = () => {
     $("#input-convenio").on("keydown", (e) => enterFiltradoHandler(e, 'pacientes'));
 };
 
-const setFiltradoConsultasHandler = () => { }
+const setFiltradoConsultasHandler = () => {
+    $('#input-c-referencia').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
+    $('#input-c-paciente').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
+    $('#input-c-motivo').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
+    $('#input-c-edad').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
+    $('#input-c-sexo').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
+    $('#input-c-medico').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
+    $('#input-c-especialidad').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
+    $('#input-c-convenio').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
+    $('#input-c-estatus').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
+}
 
 /**
  * Función que limpia la data table en caso de que nigún campo de filtrado tenga un valor
+ * @param { HTMLElement } input
  */
-const inputHandlerFiltrar = () => {
+const inputHandlerFiltrar = async (input = null) => {
+    if (input !== null) guardarValorTemporal(input);
+
     let pagina = window.location.href === 'http://localhost/sigmacruzroja/pacientes.php' ? 'pacientes' : 'consultas';
     if (pagina === 'pacientes') {
         if (filtrosVaciosPacientes()) {
@@ -75,4 +88,27 @@ const filtrosVaciosPacientes = () => {
  * Función que verifica si los campos de filtrado están vacíos o no en la página de consultas
  * @returns { boolean }
  */
-const filtrosVaciosConsultas = () => { };
+const filtrosVaciosConsultas = () => {
+    for (const filtroConsulta in filtrosConsultas) {
+        if (filtrosConsultas[filtroConsulta] !== '') return false;
+    }
+    return true;
+};
+
+/**
+ * Función que guarda el valor de los filtros de las consultas
+ * @param { HTMLElement } input 
+ */
+const guardarValorTemporal = input => filtrosConsultas[input.id] = input.value;
+
+const filtrosConsultas = {
+    "input-c-referencia": '',
+    "input-c-paciente": '',
+    "input-c-motivo": '',
+    "input-c-edad": '',
+    "input-c-sexo": '',
+    "input-c-medico": '',
+    "input-c-especialidad": '',
+    "input-c-convenio": '',
+    "input-c-estatus": ''
+};

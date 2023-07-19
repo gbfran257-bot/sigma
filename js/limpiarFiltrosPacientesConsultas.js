@@ -41,15 +41,6 @@ const limpiarFiltrosPacientes = () => {
  * @returns { void }
  */
 const limpiarFiltrosConsultas = () => {
-    $("#input-c-referencia").val("");
-    $("#input-c-paciente").val("");
-    $("#input-c-motivo").val("");
-    $("#input-c-edad").val("");
-    $("#input-c-sexo").val("");
-    $("#input-c-medico").val("");
-    $("#input-c-especialidad").val("");
-    $("#input-c-convenio").val("");
-    $("#input-c-estatus").val("");
-    $("#btn-buscar-c").click();
+    for (const filtroConsulta in filtrosConsultas) filtrosConsultas[filtroConsulta] = '';
     return;
 };
