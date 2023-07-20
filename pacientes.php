@@ -190,16 +190,16 @@ include_once 'recursos/datauser.php';
 		<tfoot>
 			<tr class="bg-primary">
 				<th></th>
-				<th><input type="text" id="input-folio" name="input-folio" class="form-control input-sm" placeholder="-FOLIO-" style="width:150px;" /></th>
+				<th><input type="text" id="input-folio" name="input-folio" class="form-control input-sm" placeholder="-FOLIO-" style="width:150px;" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th>
-					<input type="text" id="input-nombre" name="input-nombre" class="form-control input-sm" placeholder="-NOMBRE PACIENTE-" />
-					<input type="text" id="input-apaterno" name="input-apaterno" class="form-control input-sm" placeholder="-APELLIDO PATERNO-" />
-					<input type="text" id="input-amaterno" name="input-amaterno" class="form-control input-sm" placeholder="-APELLIDO MATERNO-" />
+					<input type="text" id="input-nombre" name="input-nombre" class="form-control input-sm" placeholder="-NOMBRE PACIENTE-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" />
+					<input type="text" id="input-apaterno" name="input-apaterno" class="form-control input-sm" placeholder="-APELLIDO PATERNO-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" />
+					<input type="text" id="input-amaterno" name="input-amaterno" class="form-control input-sm" placeholder="-APELLIDO MATERNO-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" />
 				</th>
-				<th><input type="text" id="input-edad" name="input-edad" class="form-control input-sm" placeholder="-EDAD-" oninput="conv_mayusc(this);" style="width:90px" /></th>
+				<th><input type="text" id="input-edad" name="input-edad" class="form-control input-sm" placeholder="-EDAD-" oninput="conv_mayusc();" style="width:90px" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th><input type="text" id="input-sexo" name="input-sexo" class="form-control input-sm" placeholder="-SEXO-" style="width:65px" /></th>
-				<th><input type="text" id="input-tel" name="input-tel" class="form-control input-sm" placeholder="-TELÉFONO-" data-mask="(999) 999-9999" maxlength="12" style="width:105px" /></th>
-				<th><input type="text" id="input-convenio" name="input-convenio" class="form-control input-sm" placeholder="-CONVENIO-" style="width:90px" /></th>
+				<th><input type="text" id="input-tel" name="input-tel" class="form-control input-sm" placeholder="-TELÉFONO-" data-mask="(999) 999-9999" maxlength="12" style="width:105px" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
+				<th><input type="text" id="input-convenio" name="input-convenio" class="form-control input-sm" placeholder="-CONVENIO-" style="width:90px" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th></th>
 				<th></th>
 				<th></th>
@@ -1277,13 +1277,28 @@ include_once 'recursos/datauser.php';
 				oTableP.draw();
 			});
 		});
-		//fin filtros individuales por campo de texto
 
+		$('#top-search').click(() => {
+			$("#input-folio").val("");
+			$("#input-nombre").val("");
+			$("#input-apaterno").val("");
+			$("#input-amaterno").val("");
+			$("#input-edad").val("");
+			$("#input-sexo").val("");
+			$("#input-telefono").val("");
+			$("#input-convenio").val("");
+			$("#btn-buscar").click();
+		});
+
+		//fin filtros individuales por campo de texto
 		$('#top-search').keyup(function(e) {
 			$('#dataTablePrincipal_filter input').val($(this).val());
 			$('#dataTablePrincipal_filter input').keyup();
 		}).focus();
 		$('.filtro1Principal').addClass('hidden');
+
+		// Asignamos los eventos para el filtrado
+		setFiltradoPacientesHandler();
 	});
 	//se intento dejar checkbox para la busqueda automatica, pero generaba error, se deja en stand by
 	function verificarCheckbox() {
@@ -5754,6 +5769,11 @@ include_once 'recursos/datauser.php';
 <!-- Inicio de las funciones genéricas para el manejo de los resúmenes -->
 <script src="./pacientes/js/funcionesTablaResumen.js"></script>
 <!-- Fin de las funciones genéricas para el manejo de los resúmenes -->
+
+<!-- Inicio de las funciones que permiten el filtrado de pacientes -->
+<script src="./js/limpiarFiltrosPacientesConsultas.js"></script>
+<script src="./js/filtradoPacientesConsultas.js"></script>
+<!-- Fin de las funciones que permiten el filtrado de pacientes -->
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4cHSkoaQwTQjx31Y3xFf3kkSkD28X_Rs&callback=initMap" async defer>
 </script>
