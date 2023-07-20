@@ -17,7 +17,9 @@ const filtradoPacientesHandler = () => $("#btn-buscar").click();
 const enterFiltradoHandler = (e, pagina) => {
     if (e.key === "Enter") {
         e.preventDefault();
-        pagina === 'pacientes' ? filtradoPacientesHandler() : filtradoConsultasHandler();
+        pagina === "pacientes"
+            ? filtradoPacientesHandler()
+            : filtradoConsultasHandler();
     }
 };
 
@@ -25,44 +27,72 @@ const enterFiltradoHandler = (e, pagina) => {
  * Función que agrega los event listeners para los filtros inferiores de la data table de pacientes
  */
 const setFiltradoPacientesHandler = () => {
-    $("#input-folio").on("keydown", (e) => enterFiltradoHandler(e, 'pacientes'));
-    $("#input-nombre").on("keydown", (e) => enterFiltradoHandler(e, 'pacientes'));
-    $("#input-apaterno").on("keydown", (e) => enterFiltradoHandler(e, 'pacientes'));
-    $("#input-amaterno").on("keydown", (e) => enterFiltradoHandler(e, 'pacientes'));
-    $("#input-edad").on("keydown", (e) => enterFiltradoHandler(e, 'pacientes'));
-    $("#input-sexo").on("keydown", (e) => enterFiltradoHandler(e, 'pacientes'));
-    $("#input-tel").on("keydown", (e) => enterFiltradoHandler(e, 'pacientes'));
-    $("#input-convenio").on("keydown", (e) => enterFiltradoHandler(e, 'pacientes'));
+    $("#input-folio").on("keydown", (e) =>
+        enterFiltradoHandler(e, "pacientes")
+    );
+    $("#input-nombre").on("keydown", (e) =>
+        enterFiltradoHandler(e, "pacientes")
+    );
+    $("#input-apaterno").on("keydown", (e) =>
+        enterFiltradoHandler(e, "pacientes")
+    );
+    $("#input-amaterno").on("keydown", (e) =>
+        enterFiltradoHandler(e, "pacientes")
+    );
+    $("#input-edad").on("keydown", (e) => enterFiltradoHandler(e, "pacientes"));
+    $("#input-sexo").on("keydown", (e) => enterFiltradoHandler(e, "pacientes"));
+    $("#input-tel").on("keydown", (e) => enterFiltradoHandler(e, "pacientes"));
+    $("#input-convenio").on("keydown", (e) =>
+        enterFiltradoHandler(e, "pacientes")
+    );
 };
 
 const setFiltradoConsultasHandler = () => {
-    $('#input-c-referencia').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
-    $('#input-c-paciente').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
-    $('#input-c-motivo').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
-    $('#input-c-edad').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
-    $('#input-c-sexo').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
-    $('#input-c-medico').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
-    $('#input-c-especialidad').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
-    $('#input-c-convenio').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
-    $('#input-c-estatus').on('keydown', (e) => enterFiltradoHandler(e, 'consultas'));
-}
+    $("#input-c-referencia").on("keydown", (e) =>
+        enterFiltradoHandler(e, "consultas")
+    );
+    $("#input-c-paciente").on("keydown", (e) =>
+        enterFiltradoHandler(e, "consultas")
+    );
+    $("#input-c-motivo").on("keydown", (e) =>
+        enterFiltradoHandler(e, "consultas")
+    );
+    $("#input-c-edad").on("keydown", (e) =>
+        enterFiltradoHandler(e, "consultas")
+    );
+    $("#input-c-sexo").on("keydown", (e) =>
+        enterFiltradoHandler(e, "consultas")
+    );
+    $("#input-c-medico").on("keydown", (e) =>
+        enterFiltradoHandler(e, "consultas")
+    );
+    $("#input-c-especialidad").on("keydown", (e) =>
+        enterFiltradoHandler(e, "consultas")
+    );
+    $("#input-c-convenio").on("keydown", (e) =>
+        enterFiltradoHandler(e, "consultas")
+    );
+    $("#input-c-estatus").on("keydown", (e) =>
+        enterFiltradoHandler(e, "consultas")
+    );
+};
 
 /**
  * Función que limpia la data table en caso de que nigún campo de filtrado tenga un valor
- * @param { HTMLElement } input
  */
-const inputHandlerFiltrar = async (input = null) => {
-    if (input !== null) guardarValorTemporal(input);
-
-    let pagina = window.location.href === 'http://localhost/sigmacruzroja/pacientes.php' ? 'pacientes' : 'consultas';
-    if (pagina === 'pacientes') {
+const inputHandlerFiltrar = async () => {
+    let pagina =
+        window.location.href === "http://localhost/sigmacruzroja/pacientes.php"
+            ? "pacientes"
+            : "consultas";
+    if (pagina === "pacientes") {
         if (filtrosVaciosPacientes()) {
-            return $('#btn-buscar').click();
+            return $("#btn-buscar").click();
         }
     }
-    if (pagina === 'consultas') {
+    if (pagina === "consultas") {
         if (filtrosVaciosConsultas()) {
-            $("#btn-buscar-c").click();
+            return $("#btn-buscar-c").click();
         }
     }
 };
@@ -89,26 +119,42 @@ const filtrosVaciosPacientes = () => {
  * @returns { boolean }
  */
 const filtrosVaciosConsultas = () => {
-    for (const filtroConsulta in filtrosConsultas) {
-        if (filtrosConsultas[filtroConsulta] !== '') return false;
-    }
-    return true;
-};
-
-/**
- * Función que guarda el valor de los filtros de las consultas
- * @param { HTMLElement } input 
- */
-const guardarValorTemporal = input => filtrosConsultas[input.id] = input.value;
-
-const filtrosConsultas = {
-    "input-c-referencia": '',
-    "input-c-paciente": '',
-    "input-c-motivo": '',
-    "input-c-edad": '',
-    "input-c-sexo": '',
-    "input-c-medico": '',
-    "input-c-especialidad": '',
-    "input-c-convenio": '',
-    "input-c-estatus": ''
+    return (
+        $(
+            "#input-c-referencia",
+            $("#dataTablePrincipal").DataTable().column(1).footer()
+        ).val() === "" &&
+        $(
+            "#input-c-paciente",
+            $("#dataTablePrincipal").DataTable().column(2).footer()
+        ).val() === "" &&
+        $(
+            "#input-c-motivo",
+            $("#dataTablePrincipal").DataTable().column(3).footer()
+        ).val() === "" &&
+        $(
+            "#input-c-edad",
+            $("#dataTablePrincipal").DataTable().column(4).footer()
+        ).val() === "" &&
+        $(
+            "#input-c-sexo",
+            $("#dataTablePrincipal").DataTable().column(5).footer()
+        ).val() === "" &&
+        $(
+            "#input-c-medico",
+            $("#dataTablePrincipal").DataTable().column(6).footer()
+        ).val() === "" &&
+        $(
+            "#input-c-especialidad",
+            $("#dataTablePrincipal").DataTable().column(7).footer()
+        ).val() === "" &&
+        $(
+            "#input-c-convenio",
+            $("#dataTablePrincipal").DataTable().column(9).footer()
+        ).val() === "" &&
+        $(
+            "#input-c-estatus",
+            $("#dataTablePrincipal").DataTable().column(10).footer()
+        ).val() === ""
+    );
 };

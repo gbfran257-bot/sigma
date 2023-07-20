@@ -190,16 +190,16 @@ include_once 'recursos/datauser.php';
 		<tfoot>
 			<tr class="bg-primary">
 				<th></th>
-				<th><input type="text" id="input-folio" name="input-folio" class="form-control input-sm" placeholder="-FOLIO-" style="width:150px;" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar();" /></th>
+				<th><input type="text" id="input-folio" name="input-folio" class="form-control input-sm" placeholder="-FOLIO-" style="width:150px;" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th>
-					<input type="text" id="input-nombre" name="input-nombre" class="form-control input-sm" placeholder="-NOMBRE PACIENTE-" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar();" />
-					<input type="text" id="input-apaterno" name="input-apaterno" class="form-control input-sm" placeholder="-APELLIDO PATERNO-" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar();" />
-					<input type="text" id="input-amaterno" name="input-amaterno" class="form-control input-sm" placeholder="-APELLIDO MATERNO-" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar();" />
+					<input type="text" id="input-nombre" name="input-nombre" class="form-control input-sm" placeholder="-NOMBRE PACIENTE-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" />
+					<input type="text" id="input-apaterno" name="input-apaterno" class="form-control input-sm" placeholder="-APELLIDO PATERNO-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" />
+					<input type="text" id="input-amaterno" name="input-amaterno" class="form-control input-sm" placeholder="-APELLIDO MATERNO-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" />
 				</th>
-				<th><input type="text" id="input-edad" name="input-edad" class="form-control input-sm" placeholder="-EDAD-" oninput="conv_mayusc(this);" style="width:90px" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar();" /></th>
+				<th><input type="text" id="input-edad" name="input-edad" class="form-control input-sm" placeholder="-EDAD-" oninput="conv_mayusc();" style="width:90px" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th><input type="text" id="input-sexo" name="input-sexo" class="form-control input-sm" placeholder="-SEXO-" style="width:65px" /></th>
-				<th><input type="text" id="input-tel" name="input-tel" class="form-control input-sm" placeholder="-TELÉFONO-" data-mask="(999) 999-9999" maxlength="12" style="width:105px" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar();" /></th>
-				<th><input type="text" id="input-convenio" name="input-convenio" class="form-control input-sm" placeholder="-CONVENIO-" style="width:90px" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar();" /></th>
+				<th><input type="text" id="input-tel" name="input-tel" class="form-control input-sm" placeholder="-TELÉFONO-" data-mask="(999) 999-9999" maxlength="12" style="width:105px" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
+				<th><input type="text" id="input-convenio" name="input-convenio" class="form-control input-sm" placeholder="-CONVENIO-" style="width:90px" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th></th>
 				<th></th>
 				<th></th>
@@ -1277,8 +1277,20 @@ include_once 'recursos/datauser.php';
 				oTableP.draw();
 			});
 		});
-		//fin filtros individuales por campo de texto
 
+		$('#top-search').click(() => {
+			$("#input-folio").val("");
+			$("#input-nombre").val("");
+			$("#input-apaterno").val("");
+			$("#input-amaterno").val("");
+			$("#input-edad").val("");
+			$("#input-sexo").val("");
+			$("#input-telefono").val("");
+			$("#input-convenio").val("");
+			$("#btn-buscar").click();
+		});
+
+		//fin filtros individuales por campo de texto
 		$('#top-search').keyup(function(e) {
 			$('#dataTablePrincipal_filter input').val($(this).val());
 			$('#dataTablePrincipal_filter input').keyup();

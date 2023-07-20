@@ -120,16 +120,16 @@ include_once 'recursos/datauser.php';
 		<tfoot>
 			<tr class="bg-primary">
 				<th></th>
-				<th><input style="width:120px;" type="text" id="input-c-referencia" name="input-c-referencia" class="form-control" placeholder="-REFERENCIA-" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar(this);" /></th>
-				<th><input type="text" id="input-c-paciente" name="input-c-paciente" class="form-control" placeholder="-PACIENTE-" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar(this);" /></th>
-				<th><input type="text" id="input-c-motivo" name="input-c-motivo" class="form-control" placeholder="-MOTIVO CONSULTA-" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar(this);" /></th>
-				<th><input type="text" id="input-c-edad" name="input-c-edad" class="form-control" placeholder="-EDAD-" style="width:90px" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar(this);" /></th>
-				<th><input type="text" id="input-c-sexo" name="input-c-sexo" class="form-control" placeholder="-SEXO-" style="width:75px" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar(this);" /></th>
-				<th><input type="text" id="input-c-medico" name="input-c-medico" class="form-control" placeholder="-MÉDICO-" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar(this);" /></th>
-				<th><input type="text" id="input-c-especialidad" name="input-c-especialidad" class="form-control" placeholder="-ESPECIALIDAD-" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar(this);" /></th>
+				<th><input style="width:120px;" type="text" id="input-c-referencia" name="input-c-referencia" class="form-control" placeholder="-REFERENCIA-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
+				<th><input type="text" id="input-c-paciente" name="input-c-paciente" class="form-control" placeholder="-PACIENTE-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
+				<th><input type="text" id="input-c-motivo" name="input-c-motivo" class="form-control" placeholder="-MOTIVO CONSULTA-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
+				<th><input type="text" id="input-c-edad" name="input-c-edad" class="form-control" placeholder="-EDAD-" style="width:90px" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
+				<th><input type="text" id="input-c-sexo" name="input-c-sexo" class="form-control" placeholder="-SEXO-" style="width:75px" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
+				<th><input type="text" id="input-c-medico" name="input-c-medico" class="form-control" placeholder="-MÉDICO-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
+				<th><input type="text" id="input-c-especialidad" name="input-c-especialidad" class="form-control" placeholder="-ESPECIALIDAD-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th></th>
-				<th><input style="width:110px;" type="text" id="input-c-convenio" name="input-c-convenio" class="form-control" placeholder="-CONVENIO-" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar(this);" /></th>
-				<th><input style="width:100px;" type="text" id="input-c-estatus" name="input-c-estatus" class="form-control" placeholder="-ESTATUS-" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar(this);" /></th>
+				<th><input style="width:110px;" type="text" id="input-c-convenio" name="input-c-convenio" class="form-control" placeholder="-CONVENIO-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
+				<th><input style="width:100px;" type="text" id="input-c-estatus" name="input-c-estatus" class="form-control" placeholder="-ESTATUS-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th></th>
 				<th></th>
 				<!-- comienzan campos de relleno necesarios para la busqueda por boton -->
@@ -312,6 +312,18 @@ include_once 'recursos/datauser.php';
 			});
 		});
 
+		$('#top-search').click(() => {
+			$('#input-c-referencia', oTableP.column(1).footer()).val('');
+			$('#input-c-paciente', oTableP.column(2).footer()).val('');
+			$('#input-c-motivo', oTableP.column(3).footer()).val('');
+			$('#input-c-edad', oTableP.column(4).footer()).val('');
+			$('#input-c-sexo', oTableP.column(5).footer()).val('');
+			$('#input-c-medico', oTableP.column(6).footer()).val('');
+			$('#input-c-especialidad', oTableP.column(7).footer()).val('');
+			$('#input-c-convenio', oTableP.column(9).footer()).val('');
+			$('#input-c-estatus', oTableP.column(10).footer()).val('');
+			$("#btn-buscar-c").click();
+		});
 
 		//fin filtros individuales por campo de texto
 		$('#top-search').keyup(function(e) {

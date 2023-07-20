@@ -262,7 +262,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                     <button class="navbar-minimalize minimalize-styl-2 btn btn-default btn-sm" href="#" style="color:#2c549c; border:none;"><img style=" margin-top:-3px;" src="imagenes/empresa/brand.png" width="75px" /> <i class="fa fa-bars fa-lg"></i> </button>
                     <form role="search" class="navbar-form-custom" method="post" action="#" id="my_search">
                         <div class="form-group">
-                            <input type="text" placeholder="Buscar..." class="form-control" style="color:white;" name="top-search" id="top-search" onclick="clickHandlerLimpiarFiltros(this);">
+                            <input type="text" placeholder="Buscar..." class="form-control" style="color:white;" name="top-search" id="top-search">
                         </div>
                     </form>
                 </div>

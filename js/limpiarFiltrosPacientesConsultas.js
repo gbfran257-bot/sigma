@@ -1,46 +1,14 @@
 /**
- * Función que maneja el clic en los input de filtrado para limpiar los filtros no aplicados
+ * Función que maneja el clic en los campos de búsqueda tanto de paientes como de consultas
  * @param { HTMLElement } input
  */
-const clickHandlerLimpiarFiltros = (input) => {
-    if (input.getAttribute("id") === "top-search") {
-        let pagina = window.location.href === "http://localhost/sigmacruzroja/pacientes.php" ? "pacientes" : "consultas";
-        return pagina === 'pacientes' ? limpiarFiltrosPacientes() : limpiarFiltrosConsultas();
-    }
-    return limpiarBarraBusqueda();
-};
+const clickHandlerLimpiarFiltros = () => limpiarBarraBusqueda();
 
 /**
- * Función que limpia el value del input de la barra de búsqueda
+ * Función que limpia la barra de búsqueda y recarga la tabla con toda la información
  * @param { string }
  */
 const limpiarBarraBusqueda = () => {
     $("#top-search").val("");
     $("#top-search").keyup();
 }
-
-/**
- * Función que limpia los campos de filtrado de la página de pacientes
- * @returns { void }
- */
-const limpiarFiltrosPacientes = () => {
-    $("#input-folio").val("");
-    $("#input-nombre").val("");
-    $("#input-apaterno").val("");
-    $("#input-amaterno").val("");
-    $("#input-edad").val("");
-    $("#input-sexo").val("");
-    $("#input-telefono").val("");
-    $("#input-convenio").val("");
-    $("#btn-buscar").click();
-    return;
-};
-
-/**
- * Función que limpia los capos de filtrado de la página de consultas
- * @returns { void }
- */
-const limpiarFiltrosConsultas = () => {
-    for (const filtroConsulta in filtrosConsultas) filtrosConsultas[filtroConsulta] = '';
-    return;
-};
