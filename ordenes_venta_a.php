@@ -92,9 +92,10 @@
     <thead>
       <tr class="bg-primary">
         <th width="110px" id="clickme" style="white-space:nowrap;">REFERENCIA</th>
-        <th>
+        <th style="white-space:nowrap;">
 			PACIENTE
-            <button class="btn btn-info btn-sm" id="btn-buscar" name="btn-buscar" type="button">BUSQUEDA <i class="fa fa-search" aria-hidden="true"></i></button>
+            <button class="btn btn-info btn-xs" id="btn-buscar" name="btn-buscar" type="button">BUSQUEDA <i class="fa fa-search" aria-hidden="true"></i></button>
+            <button class="btn btn-info btn-xs" id="btn-reporte" name="btn-reporte" type="button" onClick="ver_reporte();">REPORTE <i class="fa fa-table" aria-hidden="true"></i></button>
 		</th>
         <th width="80px">FECHA</th>
         <th width="100px">SUCURSAL</th>
@@ -370,6 +371,43 @@ $(document).ready(function(e) {
         // if ( this.value == "" ) { this.className = "search_init form-control input-sm"; this.value = asInitVals[$("tfoot input").index(this)]; }
     } );
 });
+
+function ver_reporte(){
+        $("#myModal1").load('corte_caja/reportes/htmls/vista_reporte_extra.php', function(response, status, xhr){ if(status=="success"){
+            $('#titulo_modal').text('REPORTE EXTRA'); 
+
+		var tamano_altura = $('#referencia').height()/5;
+		
+		var oTableR = $('#dataTableEliminados').DataTable({
+			// serverSide:true,"sScrollY":'100%',ordering:false,searching:false,scrollCollapse:false,"scrollX": true,
+			serverSide:true,"sScrollY":tamano_altura,ordering:false,"bInfo": true, "bFilter": false,scrollCollapse:false,"scrollX": true,
+			"fnFooterCallback":function(nRow, aaData, iStart, iEnd, aiDisplay){ $( '#rangosFechas' ).buttonset(); },scroller:false,responsive:false,
+			"aoColumns": [
+				{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, { "bVisible": true }, { "bVisible": true }, { "bVisible": true }
+			],
+			"sDom": '<"opcTable"T><"filtro1"><"regis"l>B1<"data_t"t><"infoPrincipal"i>',
+			deferRender: true, select: false, "processing": false, 
+			"sAjaxSource": "corte_caja/reportes/datatable-serverside/reporte_extra.php",
+			"fnServerParams": function (aoData, fnCallback) { 
+				var aleatorio = 56; aoData.push(  {"name": "aleatorio", "value": aleatorio } );
+
+			},
+			"oLanguage": {
+				"sLengthMenu":"MONSTRANDO _MENU_ records per page", "sZeroRecords":"LA TABLA ESTA VACIA",
+				"sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": " CONCEPTOS: _MAX_", 
+				"sSearch": "BUSCAR"
+			},"iDisplayLength": 50000, paging: false,
+		});
+
+		// inicio fechas
+
+		//  fin fechas
+
+            $('#myModal1').modal('show');
+            $('#myModal1').on('shown.bs.modal', function(e){ $('#form-escuela').validator(); });
+            $('#myModal1').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModal1").empty(); });
+        }});
+    }
 
 function ver_ov(ref){
 	$("#myModal3").load("laboratorio/htmls/ficha_ov.php",function(response,status,xhr){ if(status == "success"){
