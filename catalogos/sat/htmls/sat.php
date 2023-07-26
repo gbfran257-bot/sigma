@@ -33,8 +33,8 @@
             <label for=" select_tipo" class="col-form-label rec-requeridos">Tipo*</label>
             <select name="select_tipo" id="select_tipo" class="form-control form-control-sm" required onchange="tipoChangeHandler(this);">
               <option value="" selected></option>
-              <option value="retencion">Retención</option>
-              <option value="traslado">Traslado</option>
+              <option value="2">Retención</option>
+              <option value="1">Traslado</option>
             </select>
             <div class="help-block with-errors"></div>
           </div>

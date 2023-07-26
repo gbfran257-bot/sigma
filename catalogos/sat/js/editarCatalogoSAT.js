@@ -6,54 +6,106 @@ const factorChangeHandler = (selectFactor) => {
     limpiarSelects("select_tasa_cuota");
     const selectTasaCuota = $("#select_tasa_cuota");
     selectTasaCuota.show();
+    selectTasaCuota.attr("required", true);
 
     const selectTipoValor = $("#select_tipo").val();
     const selectImpuestoValor = $("#select_impuesto").val();
 
-    // Caso 1 -> traslado - iva - excento
-    if (selectTipoValor === "traslado" && selectImpuestoValor === "iva" && selectFactor.value === "excento") {
+    // Caso 1 -> traslado - iva - exento
+    if (
+        selectTipoValor === "1" &&
+        selectImpuestoValor === "1" &&
+        selectFactor.value === "3"
+    ) {
         selectTasaCuota.hide();
+        selectTasaCuota.attr("required", false);
     }
 
     // Caso 2 -> traslado - ieps - tasa / retencion - ieps - tasa
-    if ((selectTipoValor === "traslado" && selectImpuestoValor === "ieps" && selectFactor.value === "tasa") || (selectTipoValor === "retencion" && selectImpuestoValor === "ieps" && selectFactor.value === "tasa")) {
-        selectTasaCuota.append('<option value="26.50">26.50%</option>');
-        selectTasaCuota.append('<option value="30.00">30.00%</option>');
-        selectTasaCuota.append('<option value="50.00">50.00%</option>');
-        selectTasaCuota.append('<option value="53.00">53.00%</option>');
-        selectTasaCuota.append('<option value="160.50">160.50%</option>');
-        selectTasaCuota.append('<option value="30.40">30.40%</option>');
-        selectTasaCuota.append('<option value="25.00">25.00%</option>');
+    if (
+        (selectTipoValor === "1" &&
+            selectImpuestoValor === "2" &&
+            selectFactor.value === "1") ||
+        (selectTipoValor === "2" &&
+            selectImpuestoValor === "2" &&
+            selectFactor.value === "1")
+    ) {
+        selectTasaCuota.append('<option value="2">0.06%</option>');
+        selectTasaCuota.append('<option value="3">0.07%</option>');
+        selectTasaCuota.append('<option value="4">0.08%</option>');
+        selectTasaCuota.append('<option value="5">0.09%</option>');
+        selectTasaCuota.append('<option value="6">0.25%</option>');
+        selectTasaCuota.append('<option value="7">0.265%</option>');
+        selectTasaCuota.append('<option value="8">0.3%</option>');
+        selectTasaCuota.append('<option value="9">0.304%</option>');
+        selectTasaCuota.append('<option value="10">0.5%</option>');
+        selectTasaCuota.append('<option value="11">0.53%</option>');
+        selectTasaCuota.append('<option value="12">1.6%</option>');
     }
 
     // Caso 3 -> retencion - ieps - cuota / retencion - isr - tasa / retencion - isr - cuota / traslado - ieps - cuota
-    if ((selectTipoValor === "retencion" && selectImpuestoValor === "ieps" && selectFactor.value === "cuota") || (selectTipoValor === "retencion" && selectImpuestoValor === "isr" && selectFactor.value === "tasa") || (selectTipoValor === "retencion" && selectImpuestoValor === "isr" && selectFactor.value === "cuota") || (selectTipoValor === "traslado" && selectImpuestoValor === "ieps" && selectFactor.value === "cuota")) {
+    if (
+        (selectTipoValor === "2" &&
+            selectImpuestoValor === "2" &&
+            selectFactor.value === "2") ||
+        (selectTipoValor === "2" &&
+            selectImpuestoValor === "3" &&
+            selectFactor.value === "1") ||
+        (selectTipoValor === "2" &&
+            selectImpuestoValor === "3" &&
+            selectFactor.value === "2") ||
+        (selectTipoValor === "1" &&
+            selectImpuestoValor === "2" &&
+            selectFactor.value === "2")
+    ) {
         selectTasaCuota.append('<option value="otro">Otro</option>');
     }
-    
-    // Caso 4 -> retencion - iva - excento / retencion - ieps - excento / traslado - ieps - excento
-    if ((selectTipoValor === "retencion" && selectImpuestoValor === "iva" && selectFactor.value === "excento") || (selectTipoValor === "retencion" && selectImpuestoValor === "ieps" && selectFactor.value === "excento") || (selectTipoValor === "traslado" && selectImpuestoValor === "ieps" && selectFactor.value === "excento")) {
-        selectTasaCuota.append('<option value="0.00">0.00 %</option>');
+
+    // Caso 4 -> retencion - iva - exento / retencion - ieps - exento / traslado - ieps - exento
+    if (
+        (selectTipoValor === "2" &&
+            selectImpuestoValor === "1" &&
+            selectFactor.value === "3") ||
+        (selectTipoValor === "2" &&
+            selectImpuestoValor === "2" &&
+            selectFactor.value === "3") ||
+        (selectTipoValor === "1" &&
+            selectImpuestoValor === "2" &&
+            selectFactor.value === "3")
+    ) {
+        selectTasaCuota.append('<option value="1">0.00 %</option>');
     }
 
-    // Caso 4.1 -> retencion - isr - excento
-    if (selectTipoValor === "retencion" && selectImpuestoValor === "isr" && selectFactor.value === "excento") {
-        selectTasaCuota.append('<option value="0.00">0.00%</option>');
+    // Caso 4.1 -> retencion - isr - exento
+    if (
+        selectTipoValor === "2" &&
+        selectImpuestoValor === "3" &&
+        selectFactor.value === "3"
+    ) {
+        selectTasaCuota.append('<option value="1">0.00%</option>');
         selectTasaCuota.append('<option value="otro">Otro</option>');
     }
 
     // Caso 5 -> traslado - iva - tasa
-    if (selectTipoValor === "traslado" && selectImpuestoValor === "iva" && selectFactor.value === "tasa") {
-        selectTasaCuota.append('<option value="0.00">0.00%</option>');
-        selectTasaCuota.append('<option value="8.00">8.00%</option>');
-        selectTasaCuota.append('<option value="16.00">16.00%</option>');
+    if (
+        selectTipoValor === "1" &&
+        selectImpuestoValor === "1" &&
+        selectFactor.value === "1"
+    ) {
+        selectTasaCuota.append('<option value="1">0.00%</option>');
+        selectTasaCuota.append('<option value="13">8.00%</option>');
+        selectTasaCuota.append('<option value="14">16.00%</option>');
     }
 
     // Caso 5.1 -> retencion - iva - tasa
-    if (selectTipoValor === "retencion" && selectImpuestoValor === "iva" && selectFactor.value === "tasa") {
-        selectTasaCuota.append('<option value="0.00">0.00%</option>');
-        selectTasaCuota.append('<option value="8.00">8.00%</option>');
-        selectTasaCuota.append('<option value="16.00">16.00%</option>');
+    if (
+        selectTipoValor === "2" &&
+        selectImpuestoValor === "1" &&
+        selectFactor.value === "1"
+    ) {
+        selectTasaCuota.append('<option value="1">0.00%</option>');
+        selectTasaCuota.append('<option value="13">8.00%</option>');
+        selectTasaCuota.append('<option value="14">16.00%</option>');
         selectTasaCuota.append('<option value="otro">Otro</option>');
     }
 };
@@ -66,15 +118,15 @@ const impuestoChangeHandler = (selectImpuesto) => {
     limpiarSelects("select_factor", "select_tasa_cuota");
     const selectFactor = $("#select_factor");
 
-    if (selectImpuesto.value === "iva") {
-        selectFactor.append("<option value='tasa'>Tasa</option>");
-        selectFactor.append("<option value='excento'>Excento</option>");
+    if (selectImpuesto.value === "1") {
+        selectFactor.append("<option value='1'>Tasa</option>");
+        selectFactor.append("<option value='3'>Excento</option>");
         return;
     }
-    if (selectImpuesto.value === "ieps" || selectImpuesto.value === "isr") {
-        selectFactor.append("<option value='tasa'>Tasa</option>");
-        selectFactor.append("<option value='cuota'>Cuota</option>");
-        selectFactor.append("<option value='excento'>Excento</option>");
+    if (selectImpuesto.value === "2" || selectImpuesto.value === "3") {
+        selectFactor.append("<option value='1'>Tasa</option>");
+        selectFactor.append("<option value='2'>Cuota</option>");
+        selectFactor.append("<option value='3'>Exento</option>");
         return;
     }
 };
@@ -87,16 +139,16 @@ const tipoChangeHandler = (selectTipo) => {
     limpiarSelects("select_impuesto", "select_factor", "select_tasa_cuota");
     const selectImpuesto = $("#select_impuesto");
 
-    if (selectTipo.value === "retencion") {
-        selectImpuesto.append(`<option value="iva">IVA</option>`);
-        selectImpuesto.append(`<option value="ieps">IEPS</option>`);
-        selectImpuesto.append(`<option value="isr">ISR</option>`);
+    if (selectTipo.value === "2") {
+        selectImpuesto.append(`<option value="1">IVA</option>`);
+        selectImpuesto.append(`<option value="2">IEPS</option>`);
+        selectImpuesto.append(`<option value="3">ISR</option>`);
         return;
     }
 
-    if (selectTipo.value === "traslado") {
-        selectImpuesto.append(`<option value="iva">IVA</option>`);
-        selectImpuesto.append(`<option value="ieps">IEPS</option>`);
+    if (selectTipo.value === "1") {
+        selectImpuesto.append(`<option value="1">IVA</option>`);
+        selectImpuesto.append(`<option value="2">IEPS</option>`);
         return;
     }
 };
