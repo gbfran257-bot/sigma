@@ -68,8 +68,8 @@
      
     /* * Ordering */
     $sOrder = "";
-    // if ( isset( $_GET['iSortCol_0'] ) )
-    // {
+    /* if ( isset( $_GET['iSortCol_0'] ) )
+    { */
         $sOrder = "GROUP BY pa.referencia_pag ORDER BY ";
         for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ )
         {
