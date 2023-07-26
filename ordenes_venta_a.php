@@ -28,18 +28,18 @@
     <!-- Custom and plugin javascript -->
     <script src="js/inspinia.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
-    <!-- <script src="DataTables-1.9.4/media/js/jquery.dataTables.js"></script> -->
+    <!-- <script src="DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+	<script src="TableTools-2.1.5/media/js/TableTools.js"></script>
+    <script src="TableTools-2.1.5/media/js/ZeroClipboard.js"></script> -->
 	<script src="DataTables-1.12/DataTables-1.12.1/js/jquery.dataTables.min.js"></script>
-    <!-- <script src="DataTables-1.12/DataTables-1.12.1/js/dataTables.bootstrap.min.js"></script> -->
     <script src="DataTables-1.12/Select-1.4.0/js/dataTables.select.min.js"></script> 
     <script src="DataTables-1.12/Buttons-2.2.3/js/dataTables.buttons.min.js"></script>
     <script src="DataTables-1.12/JSZip-2.5.0/jszip.min.js"></script>
     <script src="DataTables-1.12/Buttons-2.2.3/js/buttons.html5.min.js"></script> 
-	<script src="DataTables-1.12/Buttons-2.2.3/js/buttons.print.min.js"></script> 
-	<script src="DataTables-1.12/pdfmake-0.1.36/pdfmake.min.js"></script> 
-	<script src="DataTables-1.12/pdfmake-0.1.36/vfs_fonts.js"></script> 
-	<!-- <script src="TableTools-2.1.5/media/js/TableTools.js"></script> -->
-    <!-- <script src="TableTools-2.1.5/media/js/ZeroClipboard.js"></script> -->
+    <script src="DataTables-1.12/Buttons-2.2.3/js/buttons.print.min.js"></script> 
+    <script src="DataTables-1.12/pdfmake-0.1.36/pdfmake.min.js"></script> 
+    <script src="DataTables-1.12/pdfmake-0.1.36/vfs_fonts.js"></script> 
+
     <script src="bootstrap-validator/js/validator.js"></script>
     <script src="sweetalert/dist/sweetalert.min.js"></script>
     <script src="chosen/chosen.jquery.js" type="text/javascript"></script>
@@ -65,11 +65,12 @@
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <!-- <link href="DataTables-1.10.5/media/css/jquery.dataTables.css" rel="stylesheet" type="text/css"> -->
+    <!-- <link href="DataTables-1.10.5/media/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+    <link href="TableTools-2.1.5/media/css/TableTools.css" rel="stylesheet"> -->
 	<link href="DataTables-1.12/DataTables-1.12.1/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.12/Scroller-2.0.6/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link href="DataTables-1.12/Select-1.4.0/css/select.bootstrap.min.css" rel="stylesheet"> 
-    <!-- <link href="TableTools-2.1.5/media/css/TableTools.css" rel="stylesheet"> -->
+
     <link href="bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">
     <link href="sweetalert/dist/sweetalert.css" rel="stylesheet">
     <link rel="stylesheet" href="chosen/chosen.css">
@@ -91,9 +92,10 @@
     <thead>
       <tr class="bg-primary">
         <th width="110px" id="clickme" style="white-space:nowrap;">REFERENCIA</th>
-        <th>
+        <th style="white-space:nowrap;">
 			PACIENTE
-			<button class="btn btn-info btn-sm" id="btn-buscar" name="btn-buscar" type="button">BUSQUEDA <i class="fa fa-search" aria-hidden="true"></i></button>
+            <button class="btn btn-info btn-xs" id="btn-buscar" name="btn-buscar" type="button">BUSQUEDA <i class="fa fa-search" aria-hidden="true"></i></button>
+            <button class="btn btn-info btn-xs" id="btn-reporte" name="btn-reporte" type="button" onClick="ver_reporte();">REPORTE <i class="fa fa-table" aria-hidden="true"></i></button>
 		</th>
         <th width="80px">FECHA</th>
         <th width="100px">SUCURSAL</th>
@@ -114,12 +116,12 @@
     <tfoot>
 		<tr class="bg-primary">
 			<th><input type="hidden"></th>
-			<th><input type="text" id="input-referencia" name="input-referencia" placeholder="Referencia" class="form-control input-sm entrada-texto"/></th>
-			<th><input type="text" id="input-paciente" name="input-paciente" placeholder="Paciente" class="form-control input-sm entrada-texto" /></th>
+            <th><input type="text" id="input-referencia" name="input-referencia" placeholder="Referencia" class="form-control input-sm entrada-texto"/></th>
+            <th><input type="text" id="input-paciente" name="input-paciente" placeholder="Paciente" class="form-control input-sm entrada-texto" /></th>
             <th><input type="hidden" class=""></th>
-			<th> <input type="hidden" class=""> <input type="text" id="input-sucursal" name="input-sucursal" placeholder="Sucursal" class="form-control input-sm entrada-texto"/> </th>
-			<th><input type="text" id="input-usuario" name="input-usuario" placeholder="Usuario" class="form-control input-sm entrada-texto" /></th>
-			<th><input type="text" id="input-pago" name="input-pago" placeholder="Tipo Pago" class="form-control input-sm entrada-texto" /></th>
+            <th> <input type="hidden" class=""> <input type="text" id="input-sucursal" name="input-sucursal" placeholder="Sucursal" class="form-control input-sm entrada-texto"/> </th>
+            <th><input type="text" id="input-usuario" name="input-usuario" placeholder="Usuario" class="form-control input-sm entrada-texto" /></th>
+            <th><input type="text" id="input-pago" name="input-pago" placeholder="Tipo Pago" class="form-control input-sm entrada-texto" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
@@ -187,9 +189,11 @@ $(document).ready(function(e) {
 	
 	var tam = $('#referencia').height() - 242-$('#breadc').height();
 	var wT = $('#referencia').width()*0.9;
+	//$('#dataTable').css('width',100);
 	oTable = $('#dataTable').dataTable({
 		//funciones para calcular los totales en los campos del pie de página
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+			//$('.cambiar_suc').change(function() { alert( "Handler for .change() called." ); });
 			
 			$( '#rangosFechas' ).buttonset();
 			
@@ -235,10 +239,10 @@ $(document).ready(function(e) {
 		"bProcessing": false, "bServerSide": true,
 		"sDom": '<"opcTable"T><"filtro1"><"regis"l>B1<"data_t"t><"infoPrincipal"i>',
 		buttons: [ 
-			{ extend: 'copyHtml5', footer: true },
+            { extend: 'copyHtml5', footer: true },
             { extend: 'excelHtml5', footer: true },
             { extend: 'pdfHtml5', footer: true }
-		],
+        ],
 		/* "oTableTools": {
 			"sSwfPath": "TableTools-2.1.5/media/swf/copy_csv_xls_pdf.swf",
 			"aButtons": [ 
@@ -267,16 +271,16 @@ $(document).ready(function(e) {
 			"sLengthMenu": "_MENU_ REGISTROS", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", "sInfo": "MOSTRADAS: _END_", "sInfoEmpty": "MOSTRADAS: 0",
 			"sInfoFiltered": "&nbsp;REGISTROS: _MAX_", "sSearch": "BUSCAR"
 		}
-	});
-
-  $(".entrada-texto").on("keypress", function(event) {
-    // Verificar si la tecla presionada es "Enter" (código 13)
-    if (event.keyCode === 13) {
-      // Hacer clic en el botón
-      $("#btn-buscar").click();
-    }
-  });
+	}); 
 	
+	$(".entrada-texto").on("keypress", function(event) {
+		// Verificar si la tecla presionada es "Enter" (código 13)
+		if (event.keyCode === 13) {
+			// Hacer clic en el botón
+			$("#btn-buscar").click();
+		}
+    });
+
 	$('#clickme').click(function(e) { oTable.fnDraw(); });
 	
 	$('.regis').append('<div id="filtroDepto" style="border:1px none red; white-space:nowrap; width:60%; float:right;" align="right" class="hidden"><table width="100%" border="0" cellspacing="0" cellpadding="2"><tr style="display:;"><td align="right"><select style="max-width:300px;" name="miFiltroDeptos" id="miFiltroDeptos" class="form-control input-sm"><option value="x">-DEPARTAMENTOS-</option><?php do { ?> <option value="<?php echo $row_departamentosOV['id_d']?>"><?php echo $row_departamentosOV['nombre_d']?></option><?php } while ($row_departamentosOV = mysql_fetch_assoc($departamentosOV)); $rows = mysql_num_rows($departamentosOV); if($rows > 0) { mysql_data_seek($departamentosOV, 0); $row_departamentosOV = mysql_fetch_assoc($departamentosOV); }?></select></td></tr></table></div>');
@@ -345,14 +349,14 @@ $(document).ready(function(e) {
 	//para filtros con cuadro de textos individuales
 	// $("tfoot input").keyup( function () { oTable.fnFilter( this.value, $("tfoot input").index(this) ); });
 	$("#btn-buscar").click(function e() {
-				var that = this;
-				oTable.fnFilter($("#input-referencia").val(), 1);
-				oTable.fnFilter($("#input-paciente").val(), 2);
-				oTable.fnFilter($("#input-sucursal").val(), 4);
-				oTable.fnFilter($("#input-usuario").val(), 5);
-				oTable.fnFilter($("#input-pago").val(), 6);
-				oTable.fnDraw();
-		});
+		var that = this;
+		oTable.fnFilter($("#input-referencia").val(), 1);
+		oTable.fnFilter($("#input-paciente").val(), 2);
+		oTable.fnFilter($("#input-sucursal").val(), 4);
+		oTable.fnFilter($("#input-usuario").val(), 5);
+		oTable.fnFilter($("#input-pago").val(), 6);
+		oTable.fnDraw();
+    });
 	 /*
      * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
      * the footer
@@ -367,6 +371,43 @@ $(document).ready(function(e) {
         // if ( this.value == "" ) { this.className = "search_init form-control input-sm"; this.value = asInitVals[$("tfoot input").index(this)]; }
     } );
 });
+
+function ver_reporte(){
+        $("#myModal1").load('corte_caja/reportes/htmls/vista_reporte_extra.php', function(response, status, xhr){ if(status=="success"){
+            $('#titulo_modal').text('REPORTE EXTRA'); 
+
+		var tamano_altura = $('#referencia').height()/5;
+		
+		var oTableR = $('#dataTableEliminados').DataTable({
+			// serverSide:true,"sScrollY":'100%',ordering:false,searching:false,scrollCollapse:false,"scrollX": true,
+			serverSide:true,"sScrollY":tamano_altura,ordering:false,"bInfo": true, "bFilter": false,scrollCollapse:false,"scrollX": true,
+			"fnFooterCallback":function(nRow, aaData, iStart, iEnd, aiDisplay){ $( '#rangosFechas' ).buttonset(); },scroller:false,responsive:false,
+			"aoColumns": [
+				{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, { "bVisible": true }, { "bVisible": true }, { "bVisible": true }
+			],
+			"sDom": '<"opcTable"T><"filtro1"><"regis"l>B1<"data_t"t><"infoPrincipal"i>',
+			deferRender: true, select: false, "processing": false, 
+			"sAjaxSource": "corte_caja/reportes/datatable-serverside/reporte_extra.php",
+			"fnServerParams": function (aoData, fnCallback) { 
+				var aleatorio = 56; aoData.push(  {"name": "aleatorio", "value": aleatorio } );
+
+			},
+			"oLanguage": {
+				"sLengthMenu":"MONSTRANDO _MENU_ records per page", "sZeroRecords":"LA TABLA ESTA VACIA",
+				"sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": " CONCEPTOS: _MAX_", 
+				"sSearch": "BUSCAR"
+			},"iDisplayLength": 50000, paging: false,
+		});
+
+		// inicio fechas
+
+		//  fin fechas
+
+            $('#myModal1').modal('show');
+            $('#myModal1').on('shown.bs.modal', function(e){ $('#form-escuela').validator(); });
+            $('#myModal1').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModal1").empty(); });
+        }});
+    }
 
 function ver_ov(ref){
 	$("#myModal3").load("laboratorio/htmls/ficha_ov.php",function(response,status,xhr){ if(status == "success"){
