@@ -249,6 +249,7 @@ include_once 'recursos/datauser.php';
 
 					// INICIO: Mostramos la información de los impuestos en los select //
 					const datosI = JSON.parse(data1);
+					$('#id_impuesto_catalogo').val(datosI.id_impuesto_catalogo);
 					setImpuestosCatalogoSAT(datosI);
 					// FIN: Mostramos la información de los impuestos en los select //
 

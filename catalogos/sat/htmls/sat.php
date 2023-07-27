@@ -11,6 +11,7 @@
       <form action="" method="post" name="form-sat" id="form-sat" target="_self" style="height:100%;">
         <input name="id_sat" id="id_sat" type="hidden" value="">
         <input name="idU" id="idU" type="hidden" value="">
+        <input name="id_impuesto_catalogo" id="id_impuesto_catalogo" type="hidden" value="">
 
         <!-- Grupo de inputs del primer row -->
         <div class="row" id="row-catalogo-priemr-grupo-campos">
