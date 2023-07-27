@@ -65,11 +65,18 @@
         <div class="alert alert-danger hidden" id="alert_colonia" role="alert">Llenar los campos obligatorios</div>
       </form>
 
+      <!-- INICIO: Sección de los impuestos extra que se agregan -->
+      <div id="div_impuestos_extra">
+
+      </div>
+      <!-- FIN: Sección de los impuestos extra que se agregan -->
+
     </div>
 
     <div class="modal-footer">
       <div class="form-group">
         <div class="col-sm-offset-0 col-sm-12">
+          <button type='button' class="btn btn-primary btn-sm" onclick="agregarImpuesto();">Agregar impuesto</button>
           <button type='submit' id="btn_update_colonia" class="btn btn-success btn-sm hidden" form="form-sat">Actualizar</button>
           <button type='submit' id="btn_save_colonia" class="btn btn-success btn-sm" form="form-sat">Guardar</button>
           <button type='button' class="btn btn-warning btn-sm" data-dismiss="modal">Cancelar</button>

@@ -392,3 +392,7 @@ include_once 'recursos/datauser.php';
 <!-- INICIO: Función que maneja el mostrar la información de los impuestos de la bd en los select para su edición -->
 <script src="./catalogos/sat/js/setImpuestosCatalogoSAT.js"></script>
 <!-- FIN: Función que maneja el mostrar la información de los impuestos de la bd en los select para su edición -->
+
+<!-- INICIO: Función que agrega el html para los impuestos extra que se van a aplicar -->
+<script src="./catalogos/sat/js/agregarImpuesto.js"></script>
+<!-- FIN: Función que agrega el html para los impuestos extra que se van a aplicar -->

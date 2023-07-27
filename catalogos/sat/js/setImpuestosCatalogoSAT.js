@@ -3,8 +3,6 @@
  * @param { Object } impuesto
  */
 const setImpuestosCatalogoSAT = (impuesto) => {
-    console.log(impuesto);
-
     // Asignamos los valores de la primera fila
     $("#clave").val(impuesto.clave_sat);
     $("#descripcion").val(impuesto.descripcion_sat);

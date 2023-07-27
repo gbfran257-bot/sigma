@@ -6,13 +6,24 @@ const factorChangeHandler = (selectFactor) => {
     if (typeof selectFactor === "string")
         selectFactor = { value: selectFactor };
 
-    limpiarSelects("select_tasa_cuota");
-    const selectTasaCuota = $("#select_tasa_cuota");
+    // Verificación en caso de ser un impuesto extra
+    let selectTasaCuota;
+    let selectTipoValor;
+    let selectImpuestoValor;
+    if (selectFactor.hasAttribute("impuesto_extra")) {
+        limpiarSelectsImpuestosExtra(selectFactor.parentElement.parentElement.id, "select_tasa_cuota");
+        selectTasaCuota = $(`#${selectFactor.parentElement.parentElement.id} #select_tasa_cuota`);
+        selectTipoValor = $(`#${selectFactor.parentElement.parentElement.id} #select_tipo`).val();
+        selectImpuestoValor = $(`#${selectFactor.parentElement.parentElement.id} #select_impuesto`).val();
+    } else {
+        limpiarSelects("select_tasa_cuota");
+        selectTasaCuota = $("#select_tasa_cuota");
+        selectTipoValor = $("#select_tipo").val();
+        selectImpuestoValor = $("#select_impuesto").val();
+    }
+
     selectTasaCuota.show();
     selectTasaCuota.attr("required", true);
-
-    const selectTipoValor = $("#select_tipo").val();
-    const selectImpuestoValor = $("#select_impuesto").val();
 
     // Caso 1 -> traslado - iva - exento
     if (
@@ -121,8 +132,15 @@ const impuestoChangeHandler = (selectImpuesto) => {
     if (typeof selectImpuesto === "string")
         selectImpuesto = { value: selectImpuesto };
 
-    limpiarSelects("select_factor", "select_tasa_cuota");
-    const selectFactor = $("#select_factor");
+    // Verificación en caso de ser un impuesto extra
+    let selectFactor;
+    if (selectImpuesto.hasAttribute("impuesto_extra")) {
+        limpiarSelectsImpuestosExtra(selectImpuesto.parentElement.parentElement.id, "select_factor", "select_tasa_cuota");
+        selectFactor = $(`#${selectImpuesto.parentElement.parentElement.id} #select_factor`);
+    } else {
+        limpiarSelects("select_factor", "select_tasa_cuota");
+        selectFactor = $("#select_factor");
+    }
 
     if (selectImpuesto.value === "1") {
         selectFactor.append("<option value='1'>Tasa</option>");
@@ -142,10 +160,18 @@ const impuestoChangeHandler = (selectImpuesto) => {
  * @param { HTMLSelectElement } selectTipo
  */
 const tipoChangeHandler = (selectTipo) => {
+    // Verificación en caso de ser una actualización
     if (typeof selectTipo === "string") selectTipo = { value: selectTipo };
 
-    limpiarSelects("select_impuesto", "select_factor", "select_tasa_cuota");
-    const selectImpuesto = $("#select_impuesto");
+    // Verificación en caso de ser un impuesto extra
+    let selectImpuesto;
+    if (selectTipo.hasAttribute("impuesto_extra")) {
+        limpiarSelectsImpuestosExtra(selectTipo.parentElement.parentElement.id, "select_impuesto", "select_factor", "select_tasa_cuota");
+        selectImpuesto = $(`#${selectTipo.parentElement.parentElement.id} #select_impuesto`);
+    } else {
+        limpiarSelects("select_impuesto", "select_factor", "select_tasa_cuota");
+        selectImpuesto = $("#select_impuesto");
+    }
 
     if (selectTipo.value === "2") {
         selectImpuesto.append(`<option value="1">IVA</option>`);
@@ -159,6 +185,19 @@ const tipoChangeHandler = (selectTipo) => {
         selectImpuesto.append(`<option value="2">IEPS</option>`);
         return;
     }
+};
+
+/**
+ * @param { string } idPadre
+ * @param { ...string } ids
+ */
+const limpiarSelectsImpuestosExtra = (idPadre, ...ids) => {
+    ids.forEach((id) => {
+        $(`#${idPadre} #${id}`).empty();
+        $(`#${idPadre} #${id}`).append("<option selected></option>");
+    });
+    $(`#${idPadre} #monto_impuesto`).hide();
+    $(`#${idPadre} #monto_impuesto`).val(0);
 };
 
 /**
@@ -184,5 +223,18 @@ const mostrarOcultarInputOtro = (selectTasaCuota) => {
     } else {
         $("#monto_impuesto").hide();
         $("#monto_impuesto").val(0);
+    }
+};
+
+/**
+ *
+ * @param { HTMLSelectElement } selectTasaCuota
+ */
+const mostrarOcultarInputOtroExtra = (selectTasaCuota) => {
+    if (selectTasaCuota.value === "otro") {
+        $(`#${selectTasaCuota.parentElement.parentElement.id} #monto_impuesto`).show();
+    } else {
+        $(`#${selectTasaCuota.parentElement.parentElement.id} #monto_impuesto`).hide();
+        $(`#${selectTasaCuota.parentElement.parentElement.id} #monto_impuesto`).val(0);
     }
 };
