@@ -3,6 +3,9 @@
  * @param { HTMLSelectElement } selectFactor
  */
 const factorChangeHandler = (selectFactor) => {
+    if (typeof selectFactor === "string")
+        selectFactor = { value: selectFactor };
+
     limpiarSelects("select_tasa_cuota");
     const selectTasaCuota = $("#select_tasa_cuota");
     selectTasaCuota.show();
@@ -115,6 +118,9 @@ const factorChangeHandler = (selectFactor) => {
  * @param { HTMLSelectElement } selectImpuesto
  */
 const impuestoChangeHandler = (selectImpuesto) => {
+    if (typeof selectImpuesto === "string")
+        selectImpuesto = { value: selectImpuesto };
+
     limpiarSelects("select_factor", "select_tasa_cuota");
     const selectFactor = $("#select_factor");
 
@@ -136,6 +142,8 @@ const impuestoChangeHandler = (selectImpuesto) => {
  * @param { HTMLSelectElement } selectTipo
  */
 const tipoChangeHandler = (selectTipo) => {
+    if (typeof selectTipo === "string") selectTipo = { value: selectTipo };
+
     limpiarSelects("select_impuesto", "select_factor", "select_tasa_cuota");
     const selectImpuesto = $("#select_impuesto");
 

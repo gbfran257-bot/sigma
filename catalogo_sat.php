@@ -246,9 +246,12 @@ include_once 'recursos/datauser.php';
 					id_um: id_um
 				}
 				$.post('catalogos/sat/files-serverside/ficha_sat.php', datos).done(function(data1) {
-					var datosI = data1.split('*}');
-					$('#clave').val(datosI[0]);
-					$('#descripcion').val(datosI[1]);
+
+					// INICIO: Mostramos la información de los impuestos en los select //
+					const datosI = JSON.parse(data1);
+					setImpuestosCatalogoSAT(datosI);
+					// FIN: Mostramos la información de los impuestos en los select //
+
 					if (datosI[2] != null || datosI[2] != '') {
 						$('#iva').val(datosI[2]);
 					} else {
@@ -384,3 +387,7 @@ include_once 'recursos/datauser.php';
 <!-- Inicio de la función que permite manejar el cambio del select para el impuesto ieps -->
 <script src="./catalogos/sat/js/editarCatalogoSAT.js"></script>
 <!-- Fin de la función que permite manejar el cambio del select para el impuesto ieps -->
+
+<!-- INICIO: Función que maneja el mostrar la información de los impuestos de la bd en los select para su edición -->
+<script src="./catalogos/sat/js/setImpuestosCatalogoSAT.js"></script>
+<!-- FIN: Función que maneja el mostrar la información de los impuestos de la bd en los select para su edición -->
