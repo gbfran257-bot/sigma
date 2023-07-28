@@ -68,6 +68,10 @@ include_once 'recursos/datauser.php';
 
 	<!-- Inicio de los diseños aplicados a los campos del formulario del modal de editar catálogo -->
 	<style>
+		.swal2-container {
+			z-index: 8000;
+		}
+
 		#row-catalogo-priemr-grupo-campos {
 			margin-bottom: 1.5rem;
 		}
@@ -315,18 +319,47 @@ include_once 'recursos/datauser.php';
 					} else { // everything looks good!
 						e.preventDefault();
 
+						// Verificamos si hay impuestos extra y si estos están debidamente llenados //
+						const impuestosExtra = $(".impuesto_extra");
+						let impuestos = null;
+						if (impuestosExtra.length !== 0) {
+							impuestos = verificarImpuestos(impuestosExtra);
+							if (!impuestos) {
+								return swal({
+									title: "Formulario incompleto",
+									text: "Llena los campos faltantes",
+									type: "warning",
+								});
+							}
+						}
+
 						var datosP = $('#myModal #form-sat').serialize();
 						// var token = $('meta[name="csrf-token"]').attr('content');
 						$.post('catalogos/sat/files-serverside/addCuenta.php', datosP).done(function(data) {
 							if (data == 1) { //si el paciente se Actualizó
 								$('#clickme').click();
-								$('#myModal').modal('hide'); //$('#btn_cancel_registro').show(); //$btn.button('reset');
-								swal({
-									title: "",
-									type: "success",
-									text: "La línea ha sido creado.",
-									timer: 1800,
-									showConfirmButton: false
+								$('#myModal').modal('hide');
+								// Realizamos la petición para registrar los impuestos extra
+								const bodyImpuestosExtra = new FormData();
+								bodyImpuestosExtra.append('clave_sat', $('#clave').val());
+								bodyImpuestosExtra.append('impuestosExtra', JSON.stringify(impuestos));
+								fetch('catalogos/sat/files-serverside/addImpuestosExtra.php', {
+									method: 'post',
+									body: bodyImpuestosExtra
+								}).then(response => response.json()).then(data => {
+									swal({
+										title: 'Registro exitoso',
+										text: data.EXITO,
+										type: 'success',
+										timer: 1800,
+									});
+								}).catch(error => {
+									swal({
+										title: 'Ocurrió un error',
+										text: error,
+										type: 'error',
+										timer: 1800,
+									});
 								});
 								return;
 							} else {
@@ -396,3 +429,7 @@ include_once 'recursos/datauser.php';
 <!-- INICIO: Función que agrega el html para los impuestos extra que se van a aplicar -->
 <script src="./catalogos/sat/js/agregarImpuesto.js"></script>
 <!-- FIN: Función que agrega el html para los impuestos extra que se van a aplicar -->
+
+<!-- INICIO: Función que agrega verifica si los impuestos extra son válidos para su envío a la bd -->
+<script src="./catalogos/sat/js/verificarImpuestosExtra.js"></script>
+<!-- FIN: Función que agrega verifica si los impuestos extra son válidos para su envío a la bd -->
