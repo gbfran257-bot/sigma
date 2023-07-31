@@ -1,4 +1,4 @@
-let cont = 1;
+let cont = new Date().getTime();
 const agregarImpuesto = () => {
     $("#div_impuestos_extra").append(`
         <div class="row impuesto_extra" id="impuesto_extra_${cont++}" style="padding: 0px 1rem;">

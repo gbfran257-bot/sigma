@@ -1,26 +1,15 @@
 /**
- *
  * @param { HTMLSelectElement } selectFactor
+ * @param {}
  */
-const factorChangeHandler = (selectFactor) => {
-    if (typeof selectFactor === "string")
-        selectFactor = { value: selectFactor };
+const factorChangeHandler = (selectFactor, idFactor = null) => {
+    const selectValue = idFactor !== null ? idFactor : selectFactor.value;
 
     // Verificación en caso de ser un impuesto extra
-    let selectTasaCuota;
-    let selectTipoValor;
-    let selectImpuestoValor;
-    if (selectFactor.hasAttribute("impuesto_extra")) {
-        limpiarSelectsImpuestosExtra(selectFactor.parentElement.parentElement.id, "select_tasa_cuota");
-        selectTasaCuota = $(`#${selectFactor.parentElement.parentElement.id} #select_tasa_cuota`);
-        selectTipoValor = $(`#${selectFactor.parentElement.parentElement.id} #select_tipo`).val();
-        selectImpuestoValor = $(`#${selectFactor.parentElement.parentElement.id} #select_impuesto`).val();
-    } else {
-        limpiarSelects("select_tasa_cuota");
-        selectTasaCuota = $("#select_tasa_cuota");
-        selectTipoValor = $("#select_tipo").val();
-        selectImpuestoValor = $("#select_impuesto").val();
-    }
+    let selectTasaCuota = $(`#${selectFactor.parentElement.parentElement.id} #select_tasa_cuota`);
+    let selectTipoValor = $(`#${selectFactor.parentElement.parentElement.id} #select_tipo`).val();
+    let selectImpuestoValor = $(`#${selectFactor.parentElement.parentElement.id} #select_impuesto`).val();
+    limpiarSelectsImpuestosExtra(selectFactor.parentElement.parentElement.id, "select_tasa_cuota");
 
     selectTasaCuota.show();
     selectTasaCuota.attr("required", true);
@@ -29,7 +18,7 @@ const factorChangeHandler = (selectFactor) => {
     if (
         selectTipoValor === "1" &&
         selectImpuestoValor === "1" &&
-        selectFactor.value === "3"
+        selectValue === "3"
     ) {
         selectTasaCuota.hide();
         selectTasaCuota.attr("required", false);
@@ -39,10 +28,10 @@ const factorChangeHandler = (selectFactor) => {
     if (
         (selectTipoValor === "1" &&
             selectImpuestoValor === "2" &&
-            selectFactor.value === "1") ||
+            selectValue === "1") ||
         (selectTipoValor === "2" &&
             selectImpuestoValor === "2" &&
-            selectFactor.value === "1")
+            selectValue === "1")
     ) {
         selectTasaCuota.append('<option value="2">0.06%</option>');
         selectTasaCuota.append('<option value="3">0.07%</option>');
@@ -61,16 +50,16 @@ const factorChangeHandler = (selectFactor) => {
     if (
         (selectTipoValor === "2" &&
             selectImpuestoValor === "2" &&
-            selectFactor.value === "2") ||
+            selectValue === "2") ||
         (selectTipoValor === "2" &&
             selectImpuestoValor === "3" &&
-            selectFactor.value === "1") ||
+            selectValue === "1") ||
         (selectTipoValor === "2" &&
             selectImpuestoValor === "3" &&
-            selectFactor.value === "2") ||
+            selectValue === "2") ||
         (selectTipoValor === "1" &&
             selectImpuestoValor === "2" &&
-            selectFactor.value === "2")
+            selectValue === "2")
     ) {
         selectTasaCuota.append('<option value="otro">Otro</option>');
     }
@@ -79,13 +68,13 @@ const factorChangeHandler = (selectFactor) => {
     if (
         (selectTipoValor === "2" &&
             selectImpuestoValor === "1" &&
-            selectFactor.value === "3") ||
+            selectValue === "3") ||
         (selectTipoValor === "2" &&
             selectImpuestoValor === "2" &&
-            selectFactor.value === "3") ||
+            selectValue === "3") ||
         (selectTipoValor === "1" &&
             selectImpuestoValor === "2" &&
-            selectFactor.value === "3")
+            selectValue === "3")
     ) {
         selectTasaCuota.append('<option value="1">0.00 %</option>');
     }
@@ -94,7 +83,7 @@ const factorChangeHandler = (selectFactor) => {
     if (
         selectTipoValor === "2" &&
         selectImpuestoValor === "3" &&
-        selectFactor.value === "3"
+        selectValue === "3"
     ) {
         selectTasaCuota.append('<option value="1">0.00%</option>');
         selectTasaCuota.append('<option value="otro">Otro</option>');
@@ -104,7 +93,7 @@ const factorChangeHandler = (selectFactor) => {
     if (
         selectTipoValor === "1" &&
         selectImpuestoValor === "1" &&
-        selectFactor.value === "1"
+        selectValue === "1"
     ) {
         selectTasaCuota.append('<option value="1">0.00%</option>');
         selectTasaCuota.append('<option value="13">8.00%</option>');
@@ -115,7 +104,7 @@ const factorChangeHandler = (selectFactor) => {
     if (
         selectTipoValor === "2" &&
         selectImpuestoValor === "1" &&
-        selectFactor.value === "1"
+        selectValue === "1"
     ) {
         selectTasaCuota.append('<option value="1">0.00%</option>');
         selectTasaCuota.append('<option value="13">8.00%</option>');
@@ -128,26 +117,23 @@ const factorChangeHandler = (selectFactor) => {
  * Función que maneja los factores que serán mostrados en el select de factor según el valor del impuesto
  * @param { HTMLSelectElement } selectImpuesto
  */
-const impuestoChangeHandler = (selectImpuesto) => {
-    if (typeof selectImpuesto === "string")
-        selectImpuesto = { value: selectImpuesto };
+const impuestoChangeHandler = (selectImpuesto, idImpuesto = null) => {
+    const selectValue = idImpuesto !== null ? idImpuesto : selectImpuesto.value;
 
     // Verificación en caso de ser un impuesto extra
-    let selectFactor;
-    if (selectImpuesto.hasAttribute("impuesto_extra")) {
-        limpiarSelectsImpuestosExtra(selectImpuesto.parentElement.parentElement.id, "select_factor", "select_tasa_cuota");
-        selectFactor = $(`#${selectImpuesto.parentElement.parentElement.id} #select_factor`);
-    } else {
-        limpiarSelects("select_factor", "select_tasa_cuota");
-        selectFactor = $("#select_factor");
-    }
+    let selectFactor = $(`#${selectImpuesto.parentElement.parentElement.id} #select_factor`);
+    let selectTasaCuota = $(`#${selectImpuesto.parentElement.parentElement.id} #select_tasa_cuota`);
+    limpiarSelectsImpuestosExtra(selectImpuesto.parentElement.parentElement.id, "select_factor", "select_tasa_cuota");
 
-    if (selectImpuesto.value === "1") {
+    selectTasaCuota.show();
+    selectTasaCuota.attr("required", true);
+
+    if (selectValue === "1") {
         selectFactor.append("<option value='1'>Tasa</option>");
         selectFactor.append("<option value='3'>Excento</option>");
         return;
     }
-    if (selectImpuesto.value === "2" || selectImpuesto.value === "3") {
+    if (selectValue === "2" || selectValue === "3") {
         selectFactor.append("<option value='1'>Tasa</option>");
         selectFactor.append("<option value='2'>Cuota</option>");
         selectFactor.append("<option value='3'>Exento</option>");
@@ -158,29 +144,28 @@ const impuestoChangeHandler = (selectImpuesto) => {
 /**
  * Función que maneja los impuestos que serán mostrados en el select de impuesto según el valor del tipo
  * @param { HTMLSelectElement } selectTipo
+ * @param { String } idTipo
  */
-const tipoChangeHandler = (selectTipo) => {
+const tipoChangeHandler = (selectTipo, idTipo = null) => {
     // Verificación en caso de ser una actualización
-    if (typeof selectTipo === "string") selectTipo = { value: selectTipo };
-
+    const selectValue = idTipo !== null ? idTipo : selectTipo.value;
+    
     // Verificación en caso de ser un impuesto extra
-    let selectImpuesto;
-    if (selectTipo.hasAttribute("impuesto_extra")) {
-        limpiarSelectsImpuestosExtra(selectTipo.parentElement.parentElement.id, "select_impuesto", "select_factor", "select_tasa_cuota");
-        selectImpuesto = $(`#${selectTipo.parentElement.parentElement.id} #select_impuesto`);
-    } else {
-        limpiarSelects("select_impuesto", "select_factor", "select_tasa_cuota");
-        selectImpuesto = $("#select_impuesto");
-    }
+    let selectImpuesto = $(`#${selectTipo.parentElement.parentElement.id} #select_impuesto`);;
+    let selectTasaCuota = $(`#${selectTipo.parentElement.parentElement.id} #select_tasa_cuota`);;
+    limpiarSelectsImpuestosExtra(selectTipo.parentElement.parentElement.id, "select_impuesto", "select_factor", "select_tasa_cuota");
+    
+    selectTasaCuota.show();
+    selectTasaCuota.attr("required", true);
 
-    if (selectTipo.value === "2") {
+    if (selectValue === "2") {
         selectImpuesto.append(`<option value="1">IVA</option>`);
         selectImpuesto.append(`<option value="2">IEPS</option>`);
         selectImpuesto.append(`<option value="3">ISR</option>`);
         return;
     }
 
-    if (selectTipo.value === "1") {
+    if (selectValue === "1") {
         selectImpuesto.append(`<option value="1">IVA</option>`);
         selectImpuesto.append(`<option value="2">IEPS</option>`);
         return;

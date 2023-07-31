@@ -16,7 +16,10 @@ $sql = "SELECT clave_sat, descripcion_sat, iva, impuesto_libre, impuesto_tipo.id
         WHERE catalogo_sat.id_sat = $id";
 
 $result = mysql_query($sql, $horizonte) or die(mysql_error());
-$registros = mysql_fetch_assoc($result);
+$registros = [];
+while ($registro = mysql_fetch_assoc($result)) {
+        array_push($registros, $registro);
+}
 
 echo json_encode($registros);
 

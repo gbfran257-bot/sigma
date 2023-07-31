@@ -234,7 +234,6 @@ include_once 'recursos/datauser.php';
 	});
 
 	function editar(id_um, unidad) {
-		0
 		$("#myModal").load('catalogos/sat/htmls/sat.php', function(response, status, xhr) {
 			if (status == "success") {
 				$('#id_usr_reg').val($('#id_user').val());
@@ -250,13 +249,22 @@ include_once 'recursos/datauser.php';
 					id_um: id_um
 				}
 				$.post('catalogos/sat/files-serverside/ficha_sat.php', datos).done(function(data1) {
-
 					// INICIO: Mostramos la información de los impuestos en los select //
 					const datosI = JSON.parse(data1);
-					$('#id_impuesto_catalogo').val(datosI.id_impuesto_catalogo);
-					setImpuestosCatalogoSAT(datosI);
+					console.log(datosI);
+					$("#clave").val(datosI[0].clave_sat);
+					$("#descripcion").val(datosI[0].descripcion_sat);
+					for (let i = 0; i < datosI.length; i++) {
+						agregarImpuesto();
+					}
+
+					const htmlImpuestosExtra = $('.impuesto_extra');
+					for (let i = 0; i < htmlImpuestosExtra.length; i++) {
+						setImpuestosCatalogoSAT(htmlImpuestosExtra[i], datosI[i]);
+					}
 					// FIN: Mostramos la información de los impuestos en los select //
 
+					/*
 					if (datosI[2] != null || datosI[2] != '') {
 						$('#iva').val(datosI[2]);
 					} else {
@@ -290,7 +298,7 @@ include_once 'recursos/datauser.php';
 								}
 							});
 						}
-					});
+					}); */
 				});
 
 				$('#myModal').modal('show');
@@ -315,22 +323,25 @@ include_once 'recursos/datauser.php';
 
 
 				$('#form-sat').validator().on('submit', function(e) {
-					if (e.isDefaultPrevented()) { // handle the invalid form...
-					} else { // everything looks good!
+					if (!e.isDefaultPrevented()) { // everything looks good!
 						e.preventDefault();
 
 						// Verificamos si hay impuestos extra y si estos están debidamente llenados //
 						const impuestosExtra = $(".impuesto_extra");
-						let impuestos = null;
-						if (impuestosExtra.length !== 0) {
-							impuestos = verificarImpuestos(impuestosExtra);
-							if (!impuestos) {
-								return swal({
-									title: "Formulario incompleto",
-									text: "Llena los campos faltantes",
-									type: "warning",
-								});
-							}
+						if (impuestosExtra.length === 0) {
+							return swal({
+								title: "Formulario incompleto",
+								text: "Debes crear mínimo un impuesto aplicable",
+								type: "error"
+							});
+						}
+						const impuestos = verificarImpuestos(impuestosExtra);
+						if (!impuestos) {
+							return swal({
+								title: "Formulario incompleto",
+								text: "Llena los campos faltantes",
+								type: "error"
+							});
 						}
 
 						var datosP = $('#myModal #form-sat').serialize();
@@ -352,6 +363,7 @@ include_once 'recursos/datauser.php';
 										text: data.EXITO,
 										type: 'success',
 										timer: 1800,
+										showConfirmButton: false
 									});
 								}).catch(error => {
 									swal({
@@ -359,6 +371,7 @@ include_once 'recursos/datauser.php';
 										text: error,
 										type: 'error',
 										timer: 1800,
+										showConfirmButton: false
 									});
 								});
 								return;
