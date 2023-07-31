@@ -255,7 +255,7 @@ include_once 'recursos/datauser.php';
 					$("#clave").val(datosI[0].clave_sat);
 					$("#descripcion").val(datosI[0].descripcion_sat);
 					for (let i = 0; i < datosI.length; i++) {
-						agregarImpuesto();
+						agregarImpuesto(datosI[i].id_impuesto_catalogo);
 					}
 
 					const htmlImpuestosExtra = $('.impuesto_extra');
@@ -263,14 +263,6 @@ include_once 'recursos/datauser.php';
 						setImpuestosCatalogoSAT(htmlImpuestosExtra[i], datosI[i]);
 					}
 					// FIN: Mostramos la información de los impuestos en los select //
-
-					/*
-					if (datosI[2] != null || datosI[2] != '') {
-						$('#iva').val(datosI[2]);
-					} else {
-						$('#iva').val('excento');
-					}
-
 
 					$('#form-sat').validator().on('submit', function(e) {
 						if (e.isDefaultPrevented()) { // handle the invalid form...
@@ -298,7 +290,7 @@ include_once 'recursos/datauser.php';
 								}
 							});
 						}
-					}); */
+					});
 				});
 
 				$('#myModal').modal('show');

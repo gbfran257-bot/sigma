@@ -1,7 +1,11 @@
 let cont = new Date().getTime();
-const agregarImpuesto = () => {
+/**
+ * @param { string } id_impuesto_catalogo
+ */
+const agregarImpuesto = (id_impuesto_catalogo = null) => {
     $("#div_impuestos_extra").append(`
         <div class="row impuesto_extra" id="impuesto_extra_${cont++}" style="padding: 0px 1rem;">
+            <input type="hidden" id="id_impuesto_catalogo" name="id_impuesto_catalogo" value=${id_impuesto_catalogo} />
             <div class="float-sm-end" style="margin: 1.2rem;">
                 <button type="button" class="btn btn-danger btn-sm" onclick="eliminarImpuesto(this);">Eliminar impuesto</button>
             </div>
@@ -44,5 +48,50 @@ const agregarImpuesto = () => {
  * Elimina el
  * @param { HTMLButtonElement } buttonEliminar
  */
-const eliminarImpuesto = (buttonEliminar) =>
-    buttonEliminar.parentElement.parentElement.remove();
+const eliminarImpuesto = (buttonEliminar) => {
+    if (buttonEliminar.parentElement.previousElementSibling.value === "null") {
+        return buttonEliminar.parentElement.parentElement.remove();
+    }
+
+    return swal(
+        {
+            title: "Eliminar impuesto",
+            text: "¿Estás seguro que deseas elimnar el impuesto?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar",
+            closeOnConfirm: false,
+        },
+        () => {
+            const bodyID = new FormData();
+            bodyID.append(
+                "id_impuesto_catalogo",
+                buttonEliminar.parentElement.previousElementSibling.value
+            );
+            fetch("catalogos/sat/files-serverside/EliminarImpuestoExtra.php", {
+                method: "POST",
+                body: bodyID,
+            })
+                .then((response) => response.text())
+                .then((data) => {
+                    swal({
+                        title: "Impuesto eliminado",
+                        text: "El impuesto ha sido eliminado de manera exitosa",
+                        type: "success",
+                        timer: 1800,
+                        showConfirmButton: false,
+                    });
+                    buttonEliminar.parentElement.parentElement.remove();
+                })
+                .catch((error) =>
+                    swal({
+                        title: "Ocurrió un error",
+                        text: error.message,
+                        type: "error",
+                    })
+                );
+        }
+    );
+};
