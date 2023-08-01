@@ -11,7 +11,7 @@ $clave_sat = htmlentities($_POST['clave_sat'], ENT_QUOTES, 'utf-8');
 mysql_select_db($database_horizonte, $horizonte);
 
 // Obtenemos el id_sat recién registrado
-$sql = "SELECT id_sat FROM catalogo_sat WHERE clave_sat = $clave_sat";
+$sql = "SELECT id_sat FROM catalogo_sat WHERE clave_sat = '$clave_sat'";
 $id_sat = mysql_fetch_assoc(mysql_query($sql, $horizonte))['id_sat'];
 
 // Realizamos las consultas de inserción de los nuevos registros

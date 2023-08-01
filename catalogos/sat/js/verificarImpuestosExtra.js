@@ -26,7 +26,7 @@ const verificarImpuesto = (impuestoActual) => {
     const factor = impuestoActual.querySelector("#select_factor").value;
     const porcentajeFijo = impuestoActual.querySelector("#select_tasa_cuota").value;
     const porcentajeLibre = impuestoActual.querySelector('#monto_impuesto').value;
-    if ((impuesto === '1' && factor === '3') || (porcentajeFijo !== '' && porcentajeFijo !== 'otro') || (porcentajeFijo === 'otro' && porcentajeLibre != 0)) {
+    if ((tipo === '1' && impuesto === '1' && factor === '3') || (porcentajeFijo !== '' && porcentajeFijo !== 'otro') || (porcentajeFijo === 'otro' && porcentajeLibre != 0)) {
         return {
             tipo, impuesto, factor, porcentajeFijo, porcentajeLibre
         };

@@ -251,7 +251,6 @@ include_once 'recursos/datauser.php';
 				$.post('catalogos/sat/files-serverside/ficha_sat.php', datos).done(function(data1) {
 					// INICIO: Mostramos la información de los impuestos en los select //
 					const datosI = JSON.parse(data1);
-					console.log(datosI);
 					$("#clave").val(datosI[0].clave_sat);
 					$("#descripcion").val(datosI[0].descripcion_sat);
 					for (let i = 0; i < datosI.length; i++) {
@@ -272,7 +271,37 @@ include_once 'recursos/datauser.php';
 						} else { // everything looks good!
 							e.preventDefault();
 
-							var datosP = $('#myModal #form-sat').serialize();
+							// Verificamos si hay impuestos extra y si estos están debidamente llenados //
+							const impuestosExtra = $(".impuesto_extra");
+							if (impuestosExtra.length === 0) {
+								return swal({
+									title: "Formulario incompleto",
+									text: "Debes crear mínimo un impuesto aplicable",
+									type: "error"
+								});
+							}
+							const impuestos = verificarImpuestos(impuestosExtra);
+							if (!impuestos) {
+								return swal({
+									title: "Formulario incompleto",
+									text: "Llena los campos faltantes",
+									type: "error"
+								});
+							}
+
+							// Obtenemos los impuestos que se van a actualizar y los impuestos que se van a dar de alta
+							const impuestosExtraActualizados = [];
+							const impuestosExtraNuevos = [];
+							for (const ie of impuestosExtra) {
+								if (ie.querySelector('#id_impuesto_catalogo').value !== 'null') {
+									impuestosExtraActualizados.push(ie);
+								} else {
+									impuestosExtraNuevos.push(ie);
+								}
+							}
+							actualizarImpuestos(impuestosExtraActualizados);
+							
+							/* var datosP = $('#myModal #form-sat').serialize();
 							$.post('catalogos/sat/files-serverside/update_sat.php', datosP).done(function(data) {
 								if (data == 1) { //si el paciente se Actualizó 
 									$('#clickme').click();
@@ -288,7 +317,7 @@ include_once 'recursos/datauser.php';
 								} else {
 									alert(data);
 								}
-							});
+							}); */
 						}
 					});
 				});
@@ -438,3 +467,5 @@ include_once 'recursos/datauser.php';
 <!-- INICIO: Función que agrega verifica si los impuestos extra son válidos para su envío a la bd -->
 <script src="./catalogos/sat/js/verificarImpuestosExtra.js"></script>
 <!-- FIN: Función que agrega verifica si los impuestos extra son válidos para su envío a la bd -->
+
+<script src="./catalogos/sat/js/actualizarImpuestos.js"></script>
