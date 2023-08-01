@@ -299,25 +299,24 @@ include_once 'recursos/datauser.php';
 									impuestosExtraNuevos.push(ie);
 								}
 							}
-							actualizarImpuestos(impuestosExtraActualizados);
-							
-							/* var datosP = $('#myModal #form-sat').serialize();
+
+							var datosP = $('#myModal #form-sat').serialize();
 							$.post('catalogos/sat/files-serverside/update_sat.php', datosP).done(function(data) {
 								if (data == 1) { //si el paciente se Actualizó 
 									$('#clickme').click();
 									$('#myModal').modal('hide');
-									swal({
-										title: "¡CONFIRMACIÓN!",
-										type: "success",
-										text: "La cuenta se ha actualizado.",
-										timer: 1900,
-										showConfirmButton: false
-									});
+
+									// Actualizamos los impuestos ya existentes
+									actualizarImpuestos(impuestosExtraActualizados);
+
+									// Insertamos los impuestos recién creados
+									insertarImpuestos(impuestosExtraNuevos);
+
 									return;
 								} else {
 									alert(data);
 								}
-							}); */
+							});
 						}
 					});
 				});
@@ -468,4 +467,5 @@ include_once 'recursos/datauser.php';
 <script src="./catalogos/sat/js/verificarImpuestosExtra.js"></script>
 <!-- FIN: Función que agrega verifica si los impuestos extra son válidos para su envío a la bd -->
 
+<script src="./catalogos/sat/js/insertarImpuestos.js"></script>
 <script src="./catalogos/sat/js/actualizarImpuestos.js"></script>
