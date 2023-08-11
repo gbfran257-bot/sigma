@@ -50,7 +50,6 @@ include_once 'recursos/datauser.php';
 	<script src="TableTools-2.1.5/media/js/ZeroClipboard.js"></script>
 	<script src="bootstrap-validator/js/validator.js"></script>
 	<script src="sweetalert/dist/sweetalert.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="chosen/chosen.jquery.js" type="text/javascript"></script>
 	<script src="funciones/js/jquery.media.js" type="text/javascript"></script>
 	<script src="funciones/js/jquery.printElement.min.js" type="text/javascript"></script>
@@ -88,10 +87,6 @@ include_once 'recursos/datauser.php';
 	<link rel="stylesheet" href="chosen/chosen-bootstrap.css">
 	<link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
 	<style>
-		.swal2-container {
-			z-index: 9999;
-		}
-
 		/* Inicio estilos generales del texto */
 		.font-size-14 {
 			font-size: 14px !important;
