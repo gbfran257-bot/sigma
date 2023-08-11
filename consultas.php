@@ -32,7 +32,7 @@ include_once 'recursos/datauser.php';
 	<script src="DataTables-1.10.13/media/js/dataTables.bootstrap.min.js"></script>
 	<script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script>
 	<script src="bootstrap-validator/js/validator.js"></script>
-	<script src="sweetalert/dist/sweetalert.min.js"></script>
+	<!-- <script src="sweetalert/dist/sweetalert.min.js"></script> -->
 	<script src="chosen/chosen.jquery.js" type="text/javascript"></script>
 	<script src="funciones/js/jquery.media.js" type="text/javascript"></script>
 	<script src="funciones/js/jquery.printElement.min.js" type="text/javascript"></script>
@@ -59,7 +59,7 @@ include_once 'recursos/datauser.php';
 	<link href="DataTables-1.10.13/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet">
 	<link href="DataTables-1.10.13/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet">
 	<link href="bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">
-	<link href="sweetalert/dist/sweetalert.css" rel="stylesheet">
+	<!-- <link href="sweetalert/dist/sweetalert.css" rel="stylesheet"> -->
 	<link rel="stylesheet" href="chosen/chosen.css">
 	<link rel="stylesheet" href="chosen/chosen-bootstrap.css">
 	<link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
@@ -71,12 +71,28 @@ include_once 'recursos/datauser.php';
 		.select2-container {
 			z-index: 9999;
 		}
+
+		/* Diseño de los botones de los modales creados con sweetalert */
+		.atender-consulta_confirm_button {
+			background-color: #DD6B55;
+		}
+
+		.hospitalizar_cancel-button {
+			background-color: #DD6B55;
+		}
+
+		.finalizar-consulta_confirm_button {
+			background-color: #DD6B55;
+		}
 	</style>
 
 	<!--Select2-->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<script src="js/select2Gen.js"></script>
+
+	<!-- Importamos sweetalert para evitar los errores por las versiones -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
@@ -583,7 +599,7 @@ include_once 'recursos/datauser.php';
 								type: "success",
 								text: "Los signos vitales se han guardado satisfactoriamente.",
 								timer: 2500,
-								showConfirmButton: false
+								buttons: false
 							});
 							$('#myModalx').modal('hide');
 							atenderC(idP, idC, 2, 0, id_s);
@@ -1335,7 +1351,7 @@ include_once 'recursos/datauser.php';
 							type: "success",
 							text: "La historia clínica se ha guardado satisfactoriamente.",
 							timer: 2500,
-							showConfirmButton: false
+							buttons: false
 						});
 						$('#myModalx').modal('hide');
 						window.setTimeout(function() {
@@ -2216,9 +2232,64 @@ include_once 'recursos/datauser.php';
 			});
 		});
 		//fin filtros individuales por campo de texto
+
 		oTableBME.on('select', function(e, dt, type, indexes) {
 			var rowData = oTableBME.rows(indexes).data().toArray();
-			subirMED(rowData[0][7], idC, $('#id_user').val(), idP);
+
+			// Verificamos que el medicamento seleccionado no tenga antagonismo con ninguno ya seleccionado o viceversa
+			const idMedicamentoSeleccionado = parseInt(rowData[0][7]);
+			const medicamentosYaSeleccionados = [];
+			$('#dataTableMS').children('tbody').children('tr').each((index, element) => medicamentosYaSeleccionados.push(element.querySelectorAll('td')[1].textContent));
+			verificarAntagonismosMedicamentos(idMedicamentoSeleccionado, medicamentosYaSeleccionados)
+				.then(result => subirMED(rowData[0][7], idC, $('#id_user').val(), idP))
+				.catch(error => {
+					const pregunta = document.createElement('strong');
+					pregunta.textContent = '¿Deseas continuar?';
+					swal({
+						title: "¡Advertencia!",
+						text: `${error.medicamento} tiene antagonismo con ${error.antagonismo}`,
+						content: pregunta,
+						icon: "warning",
+						buttons: {
+							cancel: {
+								text: "Cancelar",
+								visible: true
+							},
+							confirm: {
+								text: "Continuar",
+							}
+						}
+					}).then(async isConfirmed => {
+						if (isConfirmed) {
+							// Se hace la trazabilidad de la decisión de agregar medicamentos antagónicos a la receta
+							const respuesta = await registrarReporteConsultaAntagonismo(idC, parseInt($('#id_user').val())).then(respuesta => respuesta);
+
+							if (respuesta.ERROR) {
+								return swal({
+									title: "¡Ocurrió un error!",
+									text: respuesta.ERROR,
+									icon: "error",
+								});
+							}
+
+							return swal({
+								title: "¡Hecho!",
+								text: respuesta.EXITO,
+								icon: 'success',
+								buttons: false,
+								timer: 1800
+							}).then(() => subirMED(rowData[0][7], idC, $('#id_user').val(), idP));
+						}
+
+						return swal({
+							title: "¡Hecho!",
+							text: "Acción cancelada correctamente",
+							icon: "success",
+							buttons: false,
+							timer: 1800
+						});
+					});
+				});
 		});
 
 		var oTableSME;
@@ -2339,1019 +2410,991 @@ include_once 'recursos/datauser.php';
 		$.post('enfermeria/files-serverside/datosSV.php', datosCon).done(function(data) {
 			var datos = data.split(';*-'); //PENDI Y PROCES
 			if (opc == 2 || opc == 3) {
-				var showConfirmButton = 'false',
-					timer = 1,
-					confirmButtonText = '';
-			} else {
-				var showConfirmButton = 'true',
-					timer = 'null',
-					confirmButtonText = 'Atender';
+				return atenderConsulta(idP, idC, opc, concept, id_s, datos);
 			}
 
-			swal({
-					title: "¿Atender la consulta?",
-					text: "Paciente " + datos[0],
-					showCancelButton: true,
-					confirmButtonColor: "#DD6B55",
-					showConfirmButton: showConfirmButton,
-					timer: timer,
-					confirmButtonText: confirmButtonText,
-					cancelButtonText: "Cancelar",
-					closeOnConfirm: true
+			return swal({
+				title: "¿Atender la consulta?",
+				text: "Paciente " + datos[0],
+				buttons: {
+					cancel: {
+						text: "Cancelar",
+						visible: true
+					},
+					confirm: {
+						text: "Atender",
+						className: "atender-consulta_confirm-button"
+					}
 				},
-				function() {
-					swal.close();
-					var st = opc;
-					if (opc == 1) {
-						st = 2;
-					}
-					if (opc == 3) {
-						st = 6;
-					}
-					var datoCo = {
-						idC: idC,
-						idP: idP,
-						idU: $('#id_user').val(),
-						st: st
-					}
-					$.post('consultas/files-serverside/procesarConsulta.php', datoCo).done(function(data) {
-						var datos1 = data.split(';*-');
-						if (datos1[0] == 1) {
-							$('#clickme').click();
-							$("#myModalx").load('consultas/htmls/ficha_consulta.php', function(response, status, xhr) {
-								if (status == "success") {
-									$('#titulo_modal').text('CONSULTA DEL PACIENTE: ' + datos[22] + ' - EDAD: ' + datos[1] + ' - SEXO: ' + datos[2] + ' | FECHA: ' + datos1[1]);
-									$('#idUsuario_hc').val($('#id_user').val());
-									$('#id_cons').val(idC);
-									$('#idPaciente_c').val(idP);
+			}).then((isConfirmed) => {
+				if (isConfirmed) {
+					atenderConsulta(idP, idC, opc, concept, id_s, datos);
+				}
+			});
+		});
+	}
 
-									tinymce.remove("#notaMedicaC");
-									tinymce.remove("#indiF");
-									//bloqueamos los campos que no son necesarios mantener abiertos para edición
-									$('#tablaSVT input, #tablaNotaSV textarea, .sv_ro').prop('readonly', 'readonly');
-									$('.escala_g').prop('disabled', 'disabled');
+	const atenderConsulta = (idP, idC, opc, concept, id_s, datos) => {
+		var st = opc;
+		if (opc == 1) {
+			st = 2;
+		}
+		if (opc == 3) {
+			st = 6;
+		}
+		var datoCo = {
+			idC: idC,
+			idP: idP,
+			idU: $('#id_user').val(),
+			st: st
+		}
+		$.post('consultas/files-serverside/procesarConsulta.php', datoCo).done(function(data) {
+			var datos1 = data.split(';*-');
+			if (datos1[0] == 1) {
+				$('#clickme').click();
+				$("#myModalx").load('consultas/htmls/ficha_consulta.php', function(response, status, xhr) {
+					if (status == "success") {
+						$('#titulo_modal').text('CONSULTA DEL PACIENTE: ' + datos[22] + ' - EDAD: ' + datos[1] + ' - SEXO: ' + datos[2] + ' | FECHA: ' + datos1[1]);
+						$('#idUsuario_hc').val($('#id_user').val());
+						$('#id_cons').val(idC);
+						$('#idPaciente_c').val(idP);
 
-									$('#b_agregarSignosC').click(function(e) {
-										tomar_sv(idP, 2, idC, id_s);
-									});
+						tinymce.remove("#notaMedicaC");
+						tinymce.remove("#indiF");
+						//bloqueamos los campos que no son necesarios mantener abiertos para edición
+						$('#tablaSVT input, #tablaNotaSV textarea, .sv_ro').prop('readonly', 'readonly');
+						$('.escala_g').prop('disabled', 'disabled');
 
-									cargarImagenesReporte(idC);
+						$('#b_agregarSignosC').click(function(e) {
+							tomar_sv(idP, 2, idC, id_s);
+						});
 
-									if (opc == 3) {
-										$('#celdaVideo, #hospitalizarP').hide(); //$('#imprimirNotaE').show(); $('#imprimirRecetaF').show();
-										//ocultamos todos los controles para que no se pueda cambiar nada porque ya esta atendida
-										$('#b_agregarSignosC,#b_dictamenC,#b_medicamentosC,#salvarConsulta,#finalizarConsulta,#hospitalizarP,#dictado').hide();
-										$('#b_editarHC').hide();
-										$('#notaMedicaC').val(datos[15]);
+						cargarImagenesReporte(idC);
 
-										var str1 = datos[16];
-										var res1 = str1.replace(/[?]\d{14}/g, '');
+						if (opc == 3) {
+							$('#celdaVideo, #hospitalizarP').hide(); //$('#imprimirNotaE').show(); $('#imprimirRecetaF').show();
+							//ocultamos todos los controles para que no se pueda cambiar nada porque ya esta atendida
+							$('#b_agregarSignosC,#b_dictamenC,#b_medicamentosC,#salvarConsulta,#finalizarConsulta,#hospitalizarP,#dictado').hide();
+							$('#b_editarHC').hide();
+							$('#notaMedicaC').val(datos[15]);
 
-										$('#indiF').val(res1);
+							var str1 = datos[16];
+							var res1 = str1.replace(/[?]\d{14}/g, '');
 
-										tinyMCE.init({
-											selector: '#notaMedicaC',
-											readonly: true,
-											resize: false,
-											height: $('#myModalx').height() * 0.44,
-											theme: "modern",
-											menubar: false,
-											toolbar: false
-										});
-										tinyMCE.init({
-											selector: '#indiF',
-											readonly: true,
-											resize: false,
-											height: $('#myModalx').height() * 0.45,
-											theme: "modern",
-											menubar: false,
-											toolbar: false
-										});
-										$('#imprimirNotaE').click(function(e) {
-											preImprimir(idC, idP, 1, id_s);
-										});
-										$('#imprimirRecetaF').click(function(e) {
-											preImprimir(idC, idP, 2, id_s);
-										});
-										$("#tipoNotaMed").remove();
-										$("#tipoRecetaMed").remove();
-									} else {
-										var datosCC = {
-											id_vc: idC
-										}
-										/**
-										 * Colocar el modal que pedira:
-										 *  -El usuario
-										 * 	-Una cama disponible
-										 * 	-Descripción
-										 */
-										$('#hospitalizarP').click(function(e) {
-											$("#myModal1").load('consultas/htmls/selecciona_cama.php', function(response, status, xhr) {
-												if (status == "success") {
-													// $("#myModal1").attr('tabindex', 2);
-													$('#titulo_modal').text('SELECCIONA UNA CAMA DEL HOSPITAL');
+							$('#indiF').val(res1);
 
-													$('#form-selecciona-cama').validator().on('submit', function(e) {
-														if (e.isDefaultPrevented()) { // handle the invalid form...
-														} else { // everything looks good!
-															e.preventDefault();
-															var datosP = $('#myModal1 #form-selecciona-cama').serialize();
-															// console.log('Datosp: ', datosP)
+							tinyMCE.init({
+								selector: '#notaMedicaC',
+								readonly: true,
+								resize: false,
+								height: $('#myModalx').height() * 0.44,
+								theme: "modern",
+								menubar: false,
+								toolbar: false
+							});
+							tinyMCE.init({
+								selector: '#indiF',
+								readonly: true,
+								resize: false,
+								height: $('#myModalx').height() * 0.45,
+								theme: "modern",
+								menubar: false,
+								toolbar: false
+							});
+							$('#imprimirNotaE').click(function(e) {
+								preImprimir(idC, idP, 1, id_s);
+							});
+							$('#imprimirRecetaF').click(function(e) {
+								preImprimir(idC, idP, 2, id_s);
+							});
+							$("#tipoNotaMed").remove();
+							$("#tipoRecetaMed").remove();
+						} else {
+							var datosCC = {
+								id_vc: idC
+							}
+							$('#hospitalizarP').click(function(e) {
+								$("#myModal1").load('consultas/htmls/selecciona_cama.php', function(response, status, xhr) {
+									if (status == "success") {
+										// $("#myModal1").attr('tabindex', 2);
+										$('#titulo_modal').text('SELECCIONA UNA CAMA DEL HOSPITAL');
 
-															// Aqui ya se hospitaliza
-															$.post('consultas/files-serverside/check_hospitalizado.php', datosCC).done(function(data) {
-																if (data < 1) {
-																	swal({
-																			title: "",
-																			text: "¿Desea hospitalizar a éste paciente?",
-																			showCancelButton: true,
-																			confirmButtonColor: "#DD6B55",
-																			type: "warning",
-																			showConfirmButton: true,
-																			confirmButtonText: 'Hospitalizar',
-																			cancelButtonText: "Cancelar",
-																			closeOnConfirm: false,
-																		},
-																		function() {
-																			var datosT = {
-																				idP: idP,
-																				idU: $('#id_user').val(),
-																				id_vc: idC,
-																				id_cama_h: $('#id_cama_h').val(),
-																				motivo_h: $('#motivo_h').val(),
-																				idM: $('#id_medico_t').val()
-																			}
-																			$.post('consultas/files-serverside/hospitalizar.php', datosT).done(function(data) {
-																				if (data == 1) {
-																					$('#clickme').click();
-																					$('#hospitalizarP').remove();
-																					swal({
-																						title: "",
-																						type: "success",
-																						text: "El paciente ha sido hospitalizado.",
-																						timer: 2000,
-																						showConfirmButton: false
-																					});
-																					$('#myModal1').modal('hide');
-																					$('#titulo_modal').text('CONSULTA DEL PACIENTE: ' + datos[22] + ' - EDAD: ' + datos[1] + ' - SEXO: ' + datos[2] + ' | FECHA: ' + datos1[1]);
-																				} else {
-																					alert(data);
-																				}
-																			});
-																		});
-																} else {
-																	swal({
-																		title: "No se puede hospitalizar",
-																		type: "error",
-																		text: "El paciente ya se encuentra hospitalizado.",
-																		timer: 1800,
-																		showConfirmButton: false
-																	});
-																	$('#hospitalizarP').remove();
+										$('#form-selecciona-cama').validator().on('submit', function(e) {
+											if (e.isDefaultPrevented()) { // handle the invalid form...
+											} else { // everything looks good!
+												e.preventDefault();
+												var datosP = $('#myModal1 #form-selecciona-cama').serialize();
+												// console.log('Datosp: ', datosP)
+
+												// Aqui ya se hospitaliza
+												$.post('consultas/files-serverside/check_hospitalizado.php', datosCC).done(function(data) {
+													if (data < 1) {
+														swal({
+															title: "",
+															text: "¿Desea hospitalizar a éste paciente?",
+															buttons: {
+																confirm: {
+																	text: "Hospitalizar",
+																	closeModal: false,
+																},
+																cancel: {
+																	text: "Cancelar",
+																	visible: true,
+																	className: "hospitalizar_cancel-button"
 																}
-															});
-															$('#titulo_modal').text('CONSULTA DEL PACIENTE: ' + datos[22] + ' - EDAD: ' + datos[1] + ' - SEXO: ' + datos[2] + ' | FECHA: ' + datos1[1]);
-														}
-													});
+															},
+															type: "warning",
+														});
+													} else {
+														swal({
+															title: "No se puede hospitalizar",
+															type: "error",
+															text: "El paciente ya se encuentra hospitalizado.",
+															timer: 1800,
+															buttons: false
+														});
+														$('#hospitalizarP').remove();
+													}
+												});
+												$('#titulo_modal').text('CONSULTA DEL PACIENTE: ' + datos[22] + ' - EDAD: ' + datos[1] + ' - SEXO: ' + datos[2] + ' | FECHA: ' + datos1[1]);
+											}
+										});
 
-													$('#myModal1').modal('show');
-													$('#myModal1').on('shown.bs.modal', function(e) {
-														$('#form-selecciona-cama').validator();
-													});
-													$('#myModal1').on('hidden.bs.modal', function(e) {
-														$("#myModal1 .modal-content").remove();
-														$("#myModal1").empty();
-													});
-												}
+										$('#myModal1').modal('show');
+										$('#myModal1').on('shown.bs.modal', function(e) {
+											$('#form-selecciona-cama').validator();
+										});
+										$('#myModal1').on('hidden.bs.modal', function(e) {
+											$("#myModal1 .modal-content").remove();
+											$("#myModal1").empty();
+										});
+									}
+								});
+							});
+
+							$("#tipoNotaMed").load("consultas/files-serverside/tNotaMedica.php?x=" + $('#id_user').val(), function(response, status, xhr) {
+								if (status == "success") {
+									var datosT = {
+										idP: idP,
+										idU: $('#id_user').val(),
+										id_vc: idC
+									}
+									$.post('consultas/files-serverside/cat_texts.php', datosT).done(function(dataT) {
+										var datosTe = dataT.split('-{]');
+										var alergiasx = datosTe[0],
+											edadx = datosTe[1],
+											sexox = datosTe[2],
+											nombre_pacientex = datosTe[3];
+										var nombre_medicox = datosTe[4],
+											svx = datosTe[5],
+											abitusx = datosTe[6],
+											adiccionesx = datosTe[7];
+										var puntuacion_glax = datosTe[8],
+											peso_tallax = datosTe[9],
+											fecha_horax = datosTe[10]; //alert(et_firma_medico_atiende_x);
+										var nombre_medico_a = datosTe[11],
+											edadx1 = datosTe[12],
+											cedula_p_ma = datosTe[13],
+											nombre_conceptox = datosTe[28];
+										var cedula_espe_x = datosTe[14],
+											edad1_x = datosTe[15],
+											especialidadm_x = datosTe[16],
+											fecha_dia_x = datosTe[17];
+										var fecha_mes_n_x = datosTe[18],
+											fecha_anio_x = datosTe[19],
+											fecha_hora_x = datosTe[20],
+											nombre_establecimiento_x = datosTe[21];
+										var nombre_universidad_x = datosTe[22],
+											peso_x = datosTe[23],
+											et_talla_g = datosTe[24],
+											sex_x = datosTe[25];
+										var tiposan_x = datosTe[26],
+											titulom_x = datosTe[27],
+											medico_refiere_x = datosTe[28],
+											fecha_mes_l_x = datosTe[30];
+										var firma_medico_atiende_x = datosTe[31],
+											et_t_x = datosTe[34],
+											et_a_x = datosTe[35],
+											et_fc_x = datosTe[36];
+										var et_fr_x = datosTe[37],
+											et_temp_x = datosTe[38],
+											et_dx_envio_x = datosTe[39],
+											et_referencia_x = datosTe[40];
+										var et_nombre_anestesiologo_x = datosTe[41],
+											et_firma_medico_atiende_x = datosTe[42],
+											et_logo_suc_x = datosTe[43];
+										var et_logoe_x = datosTe[44],
+											et_logoee_x = datosTe[45],
+											et_logogm_x = datosTe[46],
+											et_historia_clinica_x = datosTe[52];
+										var et_historia_clinica_AHF_x = datosTe[53],
+											et_historia_clinica_APNP_x = datosTe[54],
+											et_historia_clinica_APP_x = datosTe[55],
+											et_historia_clinica_AGO_x = datosTe[56],
+											et_Fnac = datosTe[57],
+											et_dx = datosTe[58],
+											et_Med = datosTe[59],
+											et_destroxtis = datosTe[60],
+											et_logo1 = datosTe[61],
+											et_logo2 = datosTe[62],
+											et_logo3 = datosTe[63],
+											et_logo4 = datosTe[64],
+											et_logo5 = datosTe[65],
+											et_logo6 = datosTe[66],
+											et_logo7 = datosTe[67],
+											et_logo8 = datosTe[68],
+											et_logo9 = datosTe[69],
+											et_logo10 = datosTe[70],
+											et_logo11 = datosTe[71],
+											et_logo12 = datosTe[72],
+											et_logo13 = datosTe[73],
+											et_logo14 = datosTe[74],
+											et_logo15 = datosTe[75];
+
+										$("#tipoNotaMed").change(function(e) { //alert('Cambia');
+											var datos = {
+												idNM: $("#tipoNotaMed").val(),
+												idC: idC
+											}
+											$.post('consultas/files-serverside/textoNotaM.php', datos).done(function(data) { //alert(data);
+												data = data.replace(/{ET_DIAGNOSTICO_PACIENTE}/gi, et_dx);
+												data = data.replace(/{ET_MEDICAMENTOS_PACIENTE}/gi, et_Med);
+												data = data.replace(/{et_destroxtis}/gi, et_destroxtis);
+												data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
+												data = data.replace(/{ET_EDAD}/gi, edadx1);
+												data = data.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
+												data = data.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);
+												data = data.replace(/{ET_NOMBRE_PACIENTE}/gi, nombre_pacientex);
+												data = data.replace(/{ET_SEX}/gi, sexox);
+												data = data.replace(/{ET_SV}/gi, svx);
+												data = data.replace(/{ET_ABITUS}/gi, abitusx);
+												data = data.replace(/{et_adicciones}/gi, adiccionesx);
+												data = data.replace(/{et_puntuacion_g}/gi, puntuacion_glax);
+												data = data.replace(/{et_pesotalla_g}/gi, peso_tallax);
+												data = data.replace(/{et_fechahora}/gi, fecha_horax);
+												data = data.replace(/{et_cedulap}/gi, cedula_p_ma);
+												data = data.replace(/{et_nombre_procedimiento}/gi, nombre_conceptox);
+												data = data.replace(/{et_cedulaesp}/gi, cedula_espe_x);
+												data = data.replace(/{et_edad}/gi, edad1_x);
+												data = data.replace(/{et_especialidadm}/gi, especialidadm_x);
+												data = data.replace(/{et_fecha_dia}/gi, fecha_dia_x);
+												data = data.replace(/{et_fecha_mes_numero}/gi, fecha_mes_n_x);
+												data = data.replace(/{et_fecha_mes_letra}/gi, fecha_mes_l_x);
+												data = data.replace(/{et_fecha_anio}/gi, fecha_anio_x);
+												data = data.replace(/{et_fecha_hora}/gi, fecha_hora_x);
+												data = data.replace(/{et_nombre_establecimiento}/gi, nombre_establecimiento_x);
+												data = data.replace(/{et_nombre_medico_atiende}/gi, nombre_medico_a);
+												data = data.replace(/{et_nombre_universidad}/gi, nombre_universidad_x);
+												data = data.replace(/{et_nombre_paciente}/gi, nombre_pacientex);
+												data = data.replace(/{et_fecha_nacimiento_paciente}/gi, et_Fnac);
+
+												data = data.replace(/{et_peso_g}/gi, peso_x);
+												data = data.replace(/{et_talla_g}/gi, et_talla_g);
+												data = data.replace(/{et_sex}/gi, sex_x);
+												data = data.replace(/{et_sv}/gi, svx);
+												data = data.replace(/{et_tiposan}/gi, tiposan_x);
+												data = data.replace(/{et_titulom}/gi, titulom_x);
+												data = data.replace(/{et_nombre_medico_refiere}/gi, medico_refiere_x);
+												data = data.replace(/{et_t}/gi, et_t_x);
+												data = data.replace(/{et_a}/gi, et_a_x);
+												data = data.replace(/{et_fc}/gi, et_fc_x);
+												data = data.replace(/{et_fr}/gi, et_fr_x);
+												data = data.replace(/{et_temp}/gi, et_temp_x);
+												data = data.replace(/{et_dx_envio}/gi, et_dx_envio_x);
+												data = data.replace(/{et_referencia}/gi, et_referencia_x);
+												data = data.replace(/{et_nombre_anestesiologo}/gi, et_nombre_anestesiologo_x);
+												data = data.replace(/{et_firma_medico_atiende}/gi, et_firma_medico_atiende_x);
+												data = data.replace(/{et_logo_suc}/gi, et_logo_suc_x);
+												data = data.replace(/{et_logoe}/gi, et_logoe_x);
+												data = data.replace(/{et_logoee}/gi, et_logoee_x);
+												data = data.replace(/{et_logogm}/gi, et_logogm_x);
+												data = data.replace(/{et_historia_clinica}/gi, et_historia_clinica_x);
+												data = data.replace(/{et_historia_clinica_AHF}/gi, et_historia_clinica_AHF_x);
+												data = data.replace(/{et_historia_clinica_APNP}/gi, et_historia_clinica_APNP_x);
+												data = data.replace(/{et_historia_clinica_APP}/gi, et_historia_clinica_APP_x);
+												data = data.replace(/{et_historia_clinica_AGO}/gi, et_historia_clinica_AGO_x);
+												data = data.replace(/{et_logo1}/gi, et_logo1);
+												data = data.replace(/{et_logo2}/gi, et_logo2);
+												data = data.replace(/{et_logo3}/gi, et_logo3);
+												data = data.replace(/{et_logo4}/gi, et_logo4);
+												data = data.replace(/{et_logo5}/gi, et_logo5);
+												data = data.replace(/{et_logo6}/gi, et_logo6);
+												data = data.replace(/{et_logo7}/gi, et_logo7);
+												data = data.replace(/{et_logo8}/gi, et_logo8);
+												data = data.replace(/{et_logo9}/gi, et_logo9);
+												data = data.replace(/{et_logo10}/gi, et_logo10);
+												data = data.replace(/{et_logo11}/gi, et_logo11);
+												data = data.replace(/{et_logo12}/gi, et_logo12);
+												data = data.replace(/{et_logo13}/gi, et_logo13);
+												data = data.replace(/{et_logo14}/gi, et_logo14);
+												data = data.replace(/{et_logo15}/gi, et_logo15);
+												tinymce.get('notaMedicaC').setContent(data);
+												//$('#tabs_nnm #tabs-1n .jqte_editor').html(data);
 											});
 										});
-
-										$("#tipoNotaMed").load("consultas/files-serverside/tNotaMedica.php?x=" + $('#id_user').val(), function(response, status, xhr) {
-											if (status == "success") {
-												var datosT = {
-													idP: idP,
-													idU: $('#id_user').val(),
-													id_vc: idC
-												}
-												$.post('consultas/files-serverside/cat_texts.php', datosT).done(function(dataT) {
-													var datosTe = dataT.split('-{]');
-													var alergiasx = datosTe[0],
-														edadx = datosTe[1],
-														sexox = datosTe[2],
-														nombre_pacientex = datosTe[3];
-													var nombre_medicox = datosTe[4],
-														svx = datosTe[5],
-														abitusx = datosTe[6],
-														adiccionesx = datosTe[7];
-													var puntuacion_glax = datosTe[8],
-														peso_tallax = datosTe[9],
-														fecha_horax = datosTe[10]; //alert(et_firma_medico_atiende_x);
-													var nombre_medico_a = datosTe[11],
-														edadx1 = datosTe[12],
-														cedula_p_ma = datosTe[13],
-														nombre_conceptox = datosTe[28];
-													var cedula_espe_x = datosTe[14],
-														edad1_x = datosTe[15],
-														especialidadm_x = datosTe[16],
-														fecha_dia_x = datosTe[17];
-													var fecha_mes_n_x = datosTe[18],
-														fecha_anio_x = datosTe[19],
-														fecha_hora_x = datosTe[20],
-														nombre_establecimiento_x = datosTe[21];
-													var nombre_universidad_x = datosTe[22],
-														peso_x = datosTe[23],
-														et_talla_g = datosTe[24],
-														sex_x = datosTe[25];
-													var tiposan_x = datosTe[26],
-														titulom_x = datosTe[27],
-														medico_refiere_x = datosTe[28],
-														fecha_mes_l_x = datosTe[30];
-													var firma_medico_atiende_x = datosTe[31],
-														et_t_x = datosTe[34],
-														et_a_x = datosTe[35],
-														et_fc_x = datosTe[36];
-													var et_fr_x = datosTe[37],
-														et_temp_x = datosTe[38],
-														et_dx_envio_x = datosTe[39],
-														et_referencia_x = datosTe[40];
-													var et_nombre_anestesiologo_x = datosTe[41],
-														et_firma_medico_atiende_x = datosTe[42],
-														et_logo_suc_x = datosTe[43];
-													var et_logoe_x = datosTe[44],
-														et_logoee_x = datosTe[45],
-														et_logogm_x = datosTe[46],
-														et_historia_clinica_x = datosTe[52];
-													var et_historia_clinica_AHF_x = datosTe[53],
-														et_historia_clinica_APNP_x = datosTe[54],
-														et_historia_clinica_APP_x = datosTe[55],
-														et_historia_clinica_AGO_x = datosTe[56],
-														et_Fnac = datosTe[57],
-														et_dx = datosTe[58],
-														et_Med = datosTe[59],
-														et_destroxtis = datosTe[60],
-														et_logo1 = datosTe[61],
-														et_logo2 = datosTe[62],
-														et_logo3 = datosTe[63],
-														et_logo4 = datosTe[64],
-														et_logo5 = datosTe[65],
-														et_logo6 = datosTe[66],
-														et_logo7 = datosTe[67],
-														et_logo8 = datosTe[68],
-														et_logo9 = datosTe[69],
-														et_logo10 = datosTe[70],
-														et_logo11 = datosTe[71],
-														et_logo12 = datosTe[72],
-														et_logo13 = datosTe[73],
-														et_logo14 = datosTe[74],
-														et_logo15 = datosTe[75];
-
-													$("#tipoNotaMed").change(function(e) { //alert('Cambia');
-														var datos = {
-															idNM: $("#tipoNotaMed").val(),
-															idC: idC
-														}
-														$.post('consultas/files-serverside/textoNotaM.php', datos).done(function(data) { //alert(data);
-															data = data.replace(/{ET_DIAGNOSTICO_PACIENTE}/gi, et_dx);
-															data = data.replace(/{ET_MEDICAMENTOS_PACIENTE}/gi, et_Med);
-															data = data.replace(/{et_destroxtis}/gi, et_destroxtis);
-															data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
-															data = data.replace(/{ET_EDAD}/gi, edadx1);
-															data = data.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
-															data = data.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);
-															data = data.replace(/{ET_NOMBRE_PACIENTE}/gi, nombre_pacientex);
-															data = data.replace(/{ET_SEX}/gi, sexox);
-															data = data.replace(/{ET_SV}/gi, svx);
-															data = data.replace(/{ET_ABITUS}/gi, abitusx);
-															data = data.replace(/{et_adicciones}/gi, adiccionesx);
-															data = data.replace(/{et_puntuacion_g}/gi, puntuacion_glax);
-															data = data.replace(/{et_pesotalla_g}/gi, peso_tallax);
-															data = data.replace(/{et_fechahora}/gi, fecha_horax);
-															data = data.replace(/{et_cedulap}/gi, cedula_p_ma);
-															data = data.replace(/{et_nombre_procedimiento}/gi, nombre_conceptox);
-															data = data.replace(/{et_cedulaesp}/gi, cedula_espe_x);
-															data = data.replace(/{et_edad}/gi, edad1_x);
-															data = data.replace(/{et_especialidadm}/gi, especialidadm_x);
-															data = data.replace(/{et_fecha_dia}/gi, fecha_dia_x);
-															data = data.replace(/{et_fecha_mes_numero}/gi, fecha_mes_n_x);
-															data = data.replace(/{et_fecha_mes_letra}/gi, fecha_mes_l_x);
-															data = data.replace(/{et_fecha_anio}/gi, fecha_anio_x);
-															data = data.replace(/{et_fecha_hora}/gi, fecha_hora_x);
-															data = data.replace(/{et_nombre_establecimiento}/gi, nombre_establecimiento_x);
-															data = data.replace(/{et_nombre_medico_atiende}/gi, nombre_medico_a);
-															data = data.replace(/{et_nombre_universidad}/gi, nombre_universidad_x);
-															data = data.replace(/{et_nombre_paciente}/gi, nombre_pacientex);
-															data = data.replace(/{et_fecha_nacimiento_paciente}/gi, et_Fnac);
-
-															data = data.replace(/{et_peso_g}/gi, peso_x);
-															data = data.replace(/{et_talla_g}/gi, et_talla_g);
-															data = data.replace(/{et_sex}/gi, sex_x);
-															data = data.replace(/{et_sv}/gi, svx);
-															data = data.replace(/{et_tiposan}/gi, tiposan_x);
-															data = data.replace(/{et_titulom}/gi, titulom_x);
-															data = data.replace(/{et_nombre_medico_refiere}/gi, medico_refiere_x);
-															data = data.replace(/{et_t}/gi, et_t_x);
-															data = data.replace(/{et_a}/gi, et_a_x);
-															data = data.replace(/{et_fc}/gi, et_fc_x);
-															data = data.replace(/{et_fr}/gi, et_fr_x);
-															data = data.replace(/{et_temp}/gi, et_temp_x);
-															data = data.replace(/{et_dx_envio}/gi, et_dx_envio_x);
-															data = data.replace(/{et_referencia}/gi, et_referencia_x);
-															data = data.replace(/{et_nombre_anestesiologo}/gi, et_nombre_anestesiologo_x);
-															data = data.replace(/{et_firma_medico_atiende}/gi, et_firma_medico_atiende_x);
-															data = data.replace(/{et_logo_suc}/gi, et_logo_suc_x);
-															data = data.replace(/{et_logoe}/gi, et_logoe_x);
-															data = data.replace(/{et_logoee}/gi, et_logoee_x);
-															data = data.replace(/{et_logogm}/gi, et_logogm_x);
-															data = data.replace(/{et_historia_clinica}/gi, et_historia_clinica_x);
-															data = data.replace(/{et_historia_clinica_AHF}/gi, et_historia_clinica_AHF_x);
-															data = data.replace(/{et_historia_clinica_APNP}/gi, et_historia_clinica_APNP_x);
-															data = data.replace(/{et_historia_clinica_APP}/gi, et_historia_clinica_APP_x);
-															data = data.replace(/{et_historia_clinica_AGO}/gi, et_historia_clinica_AGO_x);
-															data = data.replace(/{et_logo1}/gi, et_logo1);
-															data = data.replace(/{et_logo2}/gi, et_logo2);
-															data = data.replace(/{et_logo3}/gi, et_logo3);
-															data = data.replace(/{et_logo4}/gi, et_logo4);
-															data = data.replace(/{et_logo5}/gi, et_logo5);
-															data = data.replace(/{et_logo6}/gi, et_logo6);
-															data = data.replace(/{et_logo7}/gi, et_logo7);
-															data = data.replace(/{et_logo8}/gi, et_logo8);
-															data = data.replace(/{et_logo9}/gi, et_logo9);
-															data = data.replace(/{et_logo10}/gi, et_logo10);
-															data = data.replace(/{et_logo11}/gi, et_logo11);
-															data = data.replace(/{et_logo12}/gi, et_logo12);
-															data = data.replace(/{et_logo13}/gi, et_logo13);
-															data = data.replace(/{et_logo14}/gi, et_logo14);
-															data = data.replace(/{et_logo15}/gi, et_logo15);
-															tinymce.get('notaMedicaC').setContent(data);
-															//$('#tabs_nnm #tabs-1n .jqte_editor').html(data);
-														});
-													});
-												});
-											}
-										});
-										$("#tipoRecetaMed").load("consultas/files-serverside/tRecetaMedica.php?x=" + $('#id_user').val(), function(response, status, xhr) {
-											if (status == "success") {
-												var datosT = {
-													idP: idP,
-													idU: $('#id_user').val(),
-													id_vc: idC
-												}
-												$.post('consultas/files-serverside/cat_texts.php', datosT).done(function(dataT) {
-													var datosTe = dataT.split('-{]');
-													var alergiasx = datosTe[0],
-														edadx = datosTe[1],
-														sexox = datosTe[2],
-														nombre_pacientex = datosTe[3];
-													var nombre_medicox = datosTe[4],
-														svx = datosTe[5],
-														abitusx = datosTe[6],
-														adiccionesx = datosTe[7];
-													var puntuacion_glax = datosTe[8],
-														peso_tallax = datosTe[9],
-														fecha_horax = datosTe[10]; //alert(et_firma_medico_atiende_x);
-													var nombre_medico_a = datosTe[11],
-														edadx1 = datosTe[12],
-														cedula_p_ma = datosTe[13],
-														nombre_conceptox = datosTe[28];
-													var cedula_espe_x = datosTe[14],
-														edad1_x = datosTe[15],
-														especialidadm_x = datosTe[16],
-														fecha_dia_x = datosTe[17];
-													var fecha_mes_n_x = datosTe[18],
-														fecha_anio_x = datosTe[19],
-														fecha_hora_x = datosTe[20],
-														nombre_establecimiento_x = datosTe[21];
-													var nombre_universidad_x = datosTe[22],
-														peso_x = datosTe[23],
-														et_talla_g = datosTe[24],
-														sex_x = datosTe[25];
-													var tiposan_x = datosTe[26],
-														titulom_x = datosTe[27],
-														medico_refiere_x = datosTe[28],
-														fecha_mes_l_x = datosTe[30];
-													var firma_medico_atiende_x = datosTe[31],
-														et_t_x = datosTe[34],
-														et_a_x = datosTe[35],
-														et_fc_x = datosTe[36];
-													var et_fr_x = datosTe[37],
-														et_temp_x = datosTe[38],
-														et_dx_envio_x = datosTe[39],
-														et_referencia_x = datosTe[40];
-													var et_nombre_anestesiologo_x = datosTe[41],
-														et_firma_medico_atiende_x = datosTe[42],
-														et_logo_suc_x = datosTe[43];
-													var et_logoe_x = datosTe[44],
-														et_logoee_x = datosTe[45],
-														et_logogm_x = datosTe[46],
-														et_historia_clinica_x = datosTe[52];
-													var et_historia_clinica_AHF_x = datosTe[53],
-														et_historia_clinica_APNP_x = datosTe[54],
-														et_historia_clinica_APP_x = datosTe[55],
-														et_historia_clinica_AGO_x = datosTe[56],
-														et_Fnac = datosTe[57],
-														et_dx = datosTe[58],
-														et_Med = datosTe[59],
-														et_destroxtis = datosTe[60],
-														et_logo1 = datosTe[61],
-														et_logo2 = datosTe[62],
-														et_logo3 = datosTe[63],
-														et_logo4 = datosTe[64],
-														et_logo5 = datosTe[65],
-														et_logo6 = datosTe[66],
-														et_logo7 = datosTe[67],
-														et_logo8 = datosTe[68],
-														et_logo9 = datosTe[69],
-														et_logo10 = datosTe[70],
-														et_logo11 = datosTe[71],
-														et_logo12 = datosTe[72],
-														et_logo13 = datosTe[73],
-														et_logo14 = datosTe[74],
-														et_logo15 = datosTe[75];
-
-													$("#tipoRecetaMed").change(function(e) {
-														var datos = {
-															idNM: $("#tipoRecetaMed").val(),
-															idC: idC
-														}
-														$.post('consultas/files-serverside/textoRecetaM.php', datos).done(function(data) { //alert(data);
-															data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
-															data = data.replace(/{ET_EDAD}/gi, edadx1);
-															data = data.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
-															data = data.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);
-															data = data.replace(/{et_destroxtis}/gi, et_destroxtis);
-															data = data.replace(/{ET_NOMBRE_PACIENTE}/gi, nombre_pacientex);
-															data = data.replace(/{ET_SEX}/gi, sexox);
-															data = data.replace(/{ET_SV}/gi, svx);
-															data = data.replace(/{ET_ABITUS}/gi, abitusx);
-															data = data.replace(/{et_adicciones}/gi, adiccionesx);
-															data = data.replace(/{et_puntuacion_g}/gi, puntuacion_glax);
-															data = data.replace(/{et_pesotalla_g}/gi, peso_tallax);
-															data = data.replace(/{et_fechahora}/gi, fecha_horax);
-															data = data.replace(/{et_cedulap}/gi, cedula_p_ma);
-															data = data.replace(/{et_nombre_procedimiento}/gi, nombre_conceptox);
-															data = data.replace(/{et_cedulaesp}/gi, cedula_espe_x);
-															data = data.replace(/{et_edad}/gi, edad1_x);
-															data = data.replace(/{et_especialidadm}/gi, especialidadm_x);
-															data = data.replace(/{et_fecha_dia}/gi, fecha_dia_x);
-															data = data.replace(/{et_fecha_mes_numero}/gi, fecha_mes_n_x);
-															data = data.replace(/{et_fecha_mes_letra}/gi, fecha_mes_l_x);
-															data = data.replace(/{et_fecha_anio}/gi, fecha_anio_x);
-															data = data.replace(/{et_fecha_hora}/gi, fecha_hora_x);
-															data = data.replace(/{et_nombre_establecimiento}/gi, nombre_establecimiento_x);
-															data = data.replace(/{et_nombre_medico_atiende}/gi, nombre_medico_a);
-															data = data.replace(/{et_nombre_universidad}/gi, nombre_universidad_x);
-															data = data.replace(/{et_nombre_paciente}/gi, nombre_pacientex);
-															data = data.replace(/{et_fecha_nacimiento_paciente}/gi, et_Fnac);
-															data = data.replace(/{ET_DIAGNOSTICO_PACIENTE}/gi, et_dx);
-															data = data.replace(/{ET_MEDICAMENTOS_PACIENTE}/gi, et_Med);
-															data = data.replace(/{et_peso_g}/gi, peso_x);
-															data = data.replace(/{et_talla_g}/gi, et_talla_g);
-															data = data.replace(/{et_sex}/gi, sex_x);
-															data = data.replace(/{et_sv}/gi, svx);
-															data = data.replace(/{et_tiposan}/gi, tiposan_x);
-															data = data.replace(/{et_titulom}/gi, titulom_x);
-															data = data.replace(/{et_nombre_medico_refiere}/gi, medico_refiere_x);
-															data = data.replace(/{et_t}/gi, et_t_x);
-															data = data.replace(/{et_a}/gi, et_a_x);
-															data = data.replace(/{et_fc}/gi, et_fc_x);
-															data = data.replace(/{et_fr}/gi, et_fr_x);
-															data = data.replace(/{et_temp}/gi, et_temp_x);
-															data = data.replace(/{et_dx_envio}/gi, et_dx_envio_x);
-															data = data.replace(/{et_referencia}/gi, et_referencia_x);
-															data = data.replace(/{et_nombre_anestesiologo}/gi, et_nombre_anestesiologo_x);
-															data = data.replace(/{et_firma_medico_atiende}/gi, et_firma_medico_atiende_x);
-															data = data.replace(/{et_logo_suc}/gi, et_logo_suc_x);
-															data = data.replace(/{et_logoe}/gi, et_logoe_x);
-															data = data.replace(/{et_logoee}/gi, et_logoee_x);
-															data = data.replace(/{et_logogm}/gi, et_logogm_x);
-															data = data.replace(/{et_historia_clinica}/gi, et_historia_clinica_x);
-															data = data.replace(/{et_historia_clinica_AHF}/gi, et_historia_clinica_AHF_x);
-															data = data.replace(/{et_historia_clinica_APNP}/gi, et_historia_clinica_APNP_x);
-															data = data.replace(/{et_historia_clinica_APP}/gi, et_historia_clinica_APP_x);
-															data = data.replace(/{et_historia_clinica_AGO}/gi, et_historia_clinica_AGO_x);
-															data = data.replace(/{et_logo1}/gi, et_logo1);
-															data = data.replace(/{et_logo2}/gi, et_logo2);
-															data = data.replace(/{et_logo3}/gi, et_logo3);
-															data = data.replace(/{et_logo4}/gi, et_logo4);
-															data = data.replace(/{et_logo5}/gi, et_logo5);
-															data = data.replace(/{et_logo6}/gi, et_logo6);
-															data = data.replace(/{et_logo7}/gi, et_logo7);
-															data = data.replace(/{et_logo8}/gi, et_logo8);
-															data = data.replace(/{et_logo9}/gi, et_logo9);
-															data = data.replace(/{et_logo10}/gi, et_logo10);
-															data = data.replace(/{et_logo11}/gi, et_logo11);
-															data = data.replace(/{et_logo12}/gi, et_logo12);
-															data = data.replace(/{et_logo13}/gi, et_logo13);
-															data = data.replace(/{et_logo14}/gi, et_logo14);
-															data = data.replace(/{et_logo15}/gi, et_logo15);
-															tinymce.get('indiF').setContent(data);
-															//$('#tabs_nnm #tabs-1n .jqte_editor').html(data);
-														});
-													});
-												});
-
-											}
-										});
-										$('#tabRevisiones').hide();
-										$('#imprimirNotaE').hide();
-										$('#imprimirRecetaF').hide();
-										var idCons = {
-											idC: idC
-										} //Generamos la nota de evolución si nunca ha sido guardada la consulta
-										$.post('consultas/files-serverside/notaInicial.php', idCons).done(function(data) { //alert(data);
-											var datosNI = data.split(';*-');
-											if (datosNI[0] == 0) {
-												//Aquí van los valores dinámicos alert(datosNI[1]);
-												var datosT = {
-													idP: idP,
-													idU: $('#id_user').val(),
-													id_vc: idC
-												}
-												$.post('consultas/files-serverside/cat_texts.php', datosT).done(function(dataT) {
-													var datosTe = dataT.split('-{]');
-													var alergiasx = datosTe[0],
-														edadx = datosTe[1],
-														sexox = datosTe[2],
-														nombre_pacientex = datosTe[3];
-													var nombre_medicox = datosTe[4],
-														svx = datosTe[5],
-														abitusx = datosTe[6],
-														adiccionesx = datosTe[7];
-													var puntuacion_glax = datosTe[8],
-														peso_tallax = datosTe[9],
-														fecha_horax = datosTe[10]; //alert(et_firma_medico_atiende_x);
-													var nombre_medico_a = datosTe[11],
-														edadx1 = datosTe[12],
-														cedula_p_ma = datosTe[13],
-														nombre_conceptox = datosTe[28];
-													var cedula_espe_x = datosTe[14],
-														edad1_x = datosTe[15],
-														especialidadm_x = datosTe[16],
-														fecha_dia_x = datosTe[17];
-													var fecha_mes_n_x = datosTe[18],
-														fecha_anio_x = datosTe[19],
-														fecha_hora_x = datosTe[20],
-														nombre_establecimiento_x = datosTe[21];
-													var nombre_universidad_x = datosTe[22],
-														peso_x = datosTe[23],
-														et_talla_g = datosTe[24],
-														sex_x = datosTe[25];
-													var tiposan_x = datosTe[26],
-														titulom_x = datosTe[27],
-														medico_refiere_x = datosTe[28],
-														fecha_mes_l_x = datosTe[30];
-													var firma_medico_atiende_x = datosTe[31],
-														et_t_x = datosTe[34],
-														et_a_x = datosTe[35],
-														et_fc_x = datosTe[36];
-													var et_fr_x = datosTe[37],
-														et_temp_x = datosTe[38],
-														et_dx_envio_x = datosTe[39],
-														et_referencia_x = datosTe[40];
-													var et_nombre_anestesiologo_x = datosTe[41],
-														et_firma_medico_atiende_x = datosTe[42],
-														et_logo_suc_x = datosTe[43];
-													var et_logoe_x = datosTe[44],
-														et_logoee_x = datosTe[45],
-														et_logogm_x = datosTe[46];
-													var data = datosNI[1],
-														data1 = datosNI[2],
-														et_dx = datosTe[58],
-														et_Med = datosTe[59],
-														et_destroxtis = datosTe[60],
-														et_logo1 = datosTe[61],
-														et_logo2 = datosTe[62],
-														et_logo3 = datosTe[63],
-														et_logo4 = datosTe[64],
-														et_logo5 = datosTe[65],
-														et_logo6 = datosTe[66],
-														et_logo7 = datosTe[67],
-														et_logo8 = datosTe[68],
-														et_logo9 = datosTe[69],
-														et_logo10 = datosTe[70],
-														et_logo11 = datosTe[71],
-														et_logo12 = datosTe[72],
-														et_logo13 = datosTe[73],
-														et_logo14 = datosTe[74],
-														et_logo15 = datosTe[75];;
-
-													data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
-													data = data.replace(/{ET_EDAD}/gi, edadx1);
-													data = data.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
-													data = data.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);
-													data = data.replace(/{ET_DIAGNOSTICO_PACIENTE}/gi, et_dx);
-													data = data.replace(/{ET_MEDICAMENTOS_PACIENTE}/gi, et_Med);
-													data = data.replace(/{et_destroxtis}/gi, et_destroxtis);
-													data = data.replace(/{ET_NOMBRE_PACIENTE}/gi, nombre_pacientex);
-													data = data.replace(/{ET_SEX}/gi, sexox);
-													data = data.replace(/{ET_SV}/gi, svx);
-													data = data.replace(/{ET_ABITUS}/gi, abitusx);
-													data = data.replace(/{et_adicciones}/gi, adiccionesx);
-													data = data.replace(/{et_puntuacion_g}/gi, puntuacion_glax);
-													data = data.replace(/{et_pesotalla_g}/gi, peso_tallax);
-													data = data.replace(/{et_fechahora}/gi, fecha_horax);
-													data = data.replace(/{et_cedulap}/gi, cedula_p_ma);
-													data = data.replace(/{et_nombre_procedimiento}/gi, nombre_conceptox);
-													data = data.replace(/{et_cedulaesp}/gi, cedula_espe_x);
-													data = data.replace(/{et_edad}/gi, edad1_x);
-													data = data.replace(/{et_especialidadm}/gi, especialidadm_x);
-													data = data.replace(/{et_fecha_dia}/gi, fecha_dia_x);
-													data = data.replace(/{et_fecha_mes_numero}/gi, fecha_mes_n_x);
-													data = data.replace(/{et_fecha_mes_letra}/gi, fecha_mes_l_x);
-													data = data.replace(/{et_fecha_anio}/gi, fecha_anio_x);
-													data = data.replace(/{et_fecha_hora}/gi, fecha_hora_x);
-													data = data.replace(/{et_nombre_establecimiento}/gi, nombre_establecimiento_x);
-													data = data.replace(/{et_nombre_medico_atiende}/gi, nombre_medico_a);
-													data = data.replace(/{et_nombre_universidad}/gi, nombre_universidad_x);
-													data = data.replace(/{et_nombre_paciente}/gi, nombre_pacientex);
-													data = data.replace(/{et_peso_g}/gi, peso_x);
-													data = data.replace(/{et_talla_g}/gi, et_talla_g);
-													data = data.replace(/{et_sex}/gi, sex_x);
-													data = data.replace(/{et_sv}/gi, svx);
-													data = data.replace(/{et_tiposan}/gi, tiposan_x);
-													data = data.replace(/{et_titulom}/gi, titulom_x);
-													data = data.replace(/{et_nombre_medico_refiere}/gi, medico_refiere_x);
-													data = data.replace(/{et_t}/gi, et_t_x);
-													data = data.replace(/{et_a}/gi, et_a_x);
-													data = data.replace(/{et_fc}/gi, et_fc_x);
-													data = data.replace(/{et_fr}/gi, et_fr_x);
-													data = data.replace(/{et_temp}/gi, et_temp_x);
-													data = data.replace(/{et_dx_envio}/gi, et_dx_envio_x);
-													data = data.replace(/{et_referencia}/gi, et_referencia_x);
-													data = data.replace(/{et_nombre_anestesiologo}/gi, et_nombre_anestesiologo_x);
-													data = data.replace(/{et_firma_medico_atiende}/gi, et_firma_medico_atiende_x);
-													data = data.replace(/{et_logo_suc}/gi, et_logo_suc_x);
-													data = data.replace(/{et_logoe}/gi, et_logoe_x);
-													data = data.replace(/{et_logoee}/gi, et_logoee_x);
-													data = data.replace(/{et_logogm}/gi, et_logogm_x);
-													data = data.replace(/{et_logo1}/gi, et_logo1);
-													data = data.replace(/{et_logo2}/gi, et_logo2);
-													data = data.replace(/{et_logo3}/gi, et_logo3);
-													data = data.replace(/{et_logo4}/gi, et_logo4);
-													data = data.replace(/{et_logo5}/gi, et_logo5);
-													data = data.replace(/{et_logo6}/gi, et_logo6);
-													data = data.replace(/{et_logo7}/gi, et_logo7);
-													data = data.replace(/{et_logo8}/gi, et_logo8);
-													data = data.replace(/{et_logo9}/gi, et_logo9);
-													data = data.replace(/{et_logo10}/gi, et_logo10);
-													data = data.replace(/{et_logo11}/gi, et_logo11);
-													data = data.replace(/{et_logo12}/gi, et_logo12);
-													data = data.replace(/{et_logo13}/gi, et_logo13);
-													data = data.replace(/{et_logo14}/gi, et_logo14);
-													data = data.replace(/{et_logo15}/gi, et_logo15);
-
-													data1 = data1.replace(/{ET_ALERGIAS}/gi, alergiasx);
-													data1 = data1.replace(/{ET_EDAD}/gi, edadx1);
-													data1 = data1.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
-													data1 = data1.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);
-													data1 = data1.replace(/{ET_DIAGNOSTICO_PACIENTE}/gi, et_dx);
-													data1 = data1.replace(/{ET_MEDICAMENTOS_PACIENTE}/gi, et_Med);
-													data1 = data1.replace(/{et_destroxtis}/gi, et_destroxtis);
-													data1 = data1.replace(/{ET_NOMBRE_PACIENTE}/gi, nombre_pacientex);
-													data1 = data1.replace(/{ET_SEX}/gi, sexox);
-													data1 = data1.replace(/{ET_SV}/gi, svx);
-													data1 = data1.replace(/{ET_ABITUS}/gi, abitusx);
-													data1 = data1.replace(/{et_adicciones}/gi, adiccionesx);
-													data1 = data1.replace(/{et_puntuacion_g}/gi, puntuacion_glax);
-													data1 = data1.replace(/{et_pesotalla_g}/gi, peso_tallax);
-													data1 = data1.replace(/{et_fechahora}/gi, fecha_horax);
-													data1 = data1.replace(/{et_cedulap}/gi, cedula_p_ma);
-													data1 = data1.replace(/{et_nombre_procedimiento}/gi, nombre_conceptox);
-													data1 = data1.replace(/{et_cedulaesp}/gi, cedula_espe_x);
-													data1 = data1.replace(/{et_edad}/gi, edad1_x);
-													data1 = data1.replace(/{et_especialidadm}/gi, especialidadm_x);
-													data1 = data1.replace(/{et_fecha_dia}/gi, fecha_dia_x);
-													data1 = data1.replace(/{et_fecha_mes_numero}/gi, fecha_mes_n_x);
-													data1 = data1.replace(/{et_fecha_mes_letra}/gi, fecha_mes_l_x);
-													data1 = data1.replace(/{et_fecha_anio}/gi, fecha_anio_x);
-													data1 = data1.replace(/{et_fecha_hora}/gi, fecha_hora_x);
-													data1 = data1.replace(/{et_nombre_establecimiento}/gi, nombre_establecimiento_x);
-													data1 = data1.replace(/{et_nombre_medico_atiende}/gi, nombre_medico_a);
-													data1 = data1.replace(/{et_nombre_universidad}/gi, nombre_universidad_x);
-													data1 = data1.replace(/{et_nombre_paciente}/gi, nombre_pacientex);
-													data1 = data1.replace(/{et_peso_g}/gi, peso_x);
-													data1 = data1.replace(/{et_talla_g}/gi, et_talla_g);
-													data1 = data1.replace(/{et_sex}/gi, sex_x);
-													data1 = data1.replace(/{et_sv}/gi, svx);
-													data1 = data1.replace(/{et_tiposan}/gi, tiposan_x);
-													data1 = data1.replace(/{et_titulom}/gi, titulom_x);
-													data1 = data1.replace(/{et_nombre_medico_refiere}/gi, medico_refiere_x);
-													data1 = data1.replace(/{et_t}/gi, et_t_x);
-													data1 = data1.replace(/{et_a}/gi, et_a_x);
-													data1 = data1.replace(/{et_fc}/gi, et_fc_x);
-													data1 = data1.replace(/{et_fr}/gi, et_fr_x);
-													data1 = data1.replace(/{et_temp}/gi, et_temp_x);
-													data1 = data1.replace(/{et_dx_envio}/gi, et_dx_envio_x);
-													data1 = data1.replace(/{et_referencia}/gi, et_referencia_x);
-													data1 = data1.replace(/{et_nombre_anestesiologo}/gi, et_nombre_anestesiologo_x);
-													data1 = data1.replace(/{et_firma_medico_atiende}/gi, et_firma_medico_atiende_x);
-													data1 = data1.replace(/{et_logo_suc}/gi, et_logo_suc_x);
-													data1 = data1.replace(/{et_logoe}/gi, et_logoe_x);
-													data1 = data1.replace(/{et_logoee}/gi, et_logoee_x);
-													data1 = data1.replace(/{et_logogm}/gi, et_logogm_x);
-													data1 = data1.replace(/{et_logo1}/gi, et_logo1);
-													data1 = data1.replace(/{et_logo2}/gi, et_logo2);
-													data1 = data1.replace(/{et_logo3}/gi, et_logo3);
-													data1 = data1.replace(/{et_logo4}/gi, et_logo4);
-													data1 = data1.replace(/{et_logo5}/gi, et_logo5);
-													data1 = data1.replace(/{et_logo6}/gi, et_logo6);
-													data1 = data1.replace(/{et_logo7}/gi, et_logo7);
-													data1 = data1.replace(/{et_logo8}/gi, et_logo8);
-													data1 = data1.replace(/{et_logo9}/gi, et_logo9);
-													data1 = data1.replace(/{et_logo10}/gi, et_logo10);
-													data1 = data1.replace(/{et_logo11}/gi, et_logo11);
-													data1 = data1.replace(/{et_logo12}/gi, et_logo12);
-													data1 = data1.replace(/{et_logo13}/gi, et_logo13);
-													data1 = data1.replace(/{et_logo14}/gi, et_logo14);
-													data1 = data1.replace(/{et_logo15}/gi, et_logo15);
-
-													$('#notaMedicaC').val(data);
-													$('#indiF').val(data1);
-													//tinymce.get('indiF').setContent(data);
-												});
-											} else {
-												$('#notaMedicaC').val(datos[15]);
-												$('#indiF').val(datos[16]);
-											}
-										});
-										//$('#my_tb_nm').click(function(e) { insertarMED();});
-										$('#salvarConsulta').click(function(e) {
-											salvarConsulta(idC, idP);
-										});
-										$('#finalizarConsulta').click(function(e) {
-											if (confirm("Está a punto de finalizar la consulta, ¿desea continuar?")) {
-												finalizarConsulta(idP, idC, id_s);
-											}
-										});
-
-										var datoG = {
-											idE: idC
-										}
-										$.post('consultas/files-serverside/datosDXcslta.php', datoG).done(function(dataDX) {
-											var datosDX = dataDX.split('*[+');
-
-											var k = 0;
-											navigator.getUserMedia = navigator.getUserMedia ||
-												navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
-											window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
-											var j = datosDX[1]; //el número de la última imagen de la tabla de imágenes de consulta
-
-											document.getElementById('start').addEventListener('click', function() {
-												var hV = $('#contenedorVideo').height() * 0.4,
-													wV = $('#contenedorVideo').width() * 0.4;
-												$('#video').css('width', wV, 'height', hV);
-												navigator.getUserMedia({
-														video: true
-													},
-													function(stream) {
-														videoStream = stream; // Stream the data
-														video.src = window.URL.createObjectURL(stream);
-														video = document.querySelector('video');
-														video.play();
-														$('#start').addClass('hidden');
-														$('#capture, #stop').removeClass('hidden');
-													},
-													function(e) {
-														console.log(e);
-													});
-											}, false);
-
-											document.getElementById('stop').addEventListener('click', function() {
-												if (typeof video !== "undefined" && video) {
-													video.pause();
-												} // Pause the video
-												if (typeof videoStream !== "undefined" && videoStream) {
-													videoStream.getTracks()[0].stop(); // Stop the stream
-												}
-												$('#capture, #stop').addClass('hidden');
-												$('#start').removeClass('hidden');
-											}, false);
-
-											var button = document.getElementById('capture');
-
-											button.addEventListener('click', function() {
-												j++; //alert(j);
-												$('#deCanvas').append('<table style="float:left;" width="" border="0" cellspacing="0" cellpadding="3"> <tr> <td align=""><span style="display:block;">Eliminar</span></td> </tr> <tr> <td><canvas id="miFoto' + j + '" width="160" height="120"></canvas></td> </tr> </table>');
-
-												var canvas = document.getElementById('miFoto' + j),
-													ctx = canvas.getContext('2d');
-												ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-												var canvasX = document.getElementById('miFotoX'),
-													ctxX = canvasX.getContext('2d');
-												ctxX.drawImage(video, 0, 0, canvasX.width, canvasX.height); //esta va culta en una pestaña que no es visible
-
-												var canvas1 = document.getElementById('miFotoX1'),
-													ctx1 = canvas1.getContext('2d');
-												ctx1.drawImage(video, 0, 0, canvas1.width, canvas1.height);
-
-												var image = new Image();
-												image.src = canvas1.toDataURL("image/png");
-												var dataURL1 = canvas1.toDataURL();
-												//alert(image);
-												$('#imagenesEndo').append('<table style="float:left;" width="" border="0" cellspacing="0" cellpadding="3"> <tr> <td align=""> </td> </tr> <tr> <td><img id="miFoto1' + j + '" alt="Right click to save me!"></td> </tr> </table>');
-												document.getElementById('miFoto1' + j).src = dataURL1;
-
-												var dataURL1 = canvas1.toDataURL();
-												$.ajax({
-													type: "POST",
-													url: "consultas/files-serverside/guardarImgNormalC.php",
-													data: {
-														imgBase64: dataURL1,
-														cont: j,
-														id: idC
-													}
-												}).done(function(o) {
-													console.log('saved');
-												});
-
-												var dataURL = canvasX.toDataURL();
-												$.ajax({
-													type: "POST",
-													url: "consultas/files-serverside/guardarImgC.php",
-													data: {
-														imgBase64: dataURL,
-														cont: j,
-														id: idC
-													}
-												}).done(function(o) {
-													console.log('saved');
-													cargarImagenesReporte(idC);
-												});
-											}, false);
-										});
-									}
-									//Cargamos los datos de los Signos Vitales y Cargamos los datos de Historia Clínica
-									cargar_todo_signos_vitales(idP, idC);
-									cargar_todo_historia_clinica(idP, idC, id_s);
-
-									//Para que nos ponga el número de cosas que hay en los historiales en los botones
-									var idPx = {
-										idP: idP
-									}
-									$.post('consultas/files-serverside/datosBotonesHistoriales.php', idPx).done(function(data) {
-										var datosBP = data.split(';*-'); //alert(data); HC <span class="badge">4</span>
-										$('#verHistorialLabC').html('LAB <span class="badge">' + datosBP[0] + '</span>');
-										if (datosBP[0] < 1) {
-											$('#verHistorialLabC').addClass('disabled');
-										}
-										$('#verHistorialUsgC').html('USG <span class="badge">' + datosBP[1] + '</span>');
-										if (datosBP[1] < 1) {
-											$('#verHistorialUsgC').addClass('disabled');
-										}
-										$('#verHistorialImgC').html('IMG <span class="badge">' + datosBP[2] + '</span>');
-										if (datosBP[2] < 1) {
-											$('#verHistorialImgC').addClass('disabled');
-										}
-										$('#verHistorialEndC').html('END <span class="badge">' + datosBP[3] + '</span>');
-										if (datosBP[3] < 1) {
-											$('#verHistorialEndC').addClass('disabled');
-										}
-										$('#verHistorialColC').html('COL <span class="badge">' + datosBP[4] + '</span>');
-										if (datosBP[4] < 1) {
-											$('#verHistorialColC').addClass('disabled');
-										}
-										$('#verHistorialOtrosC').html('OTROS <span class="badge">' + datosBP[5] + '</span>');
-										if (datosBP[5] < 1) {
-											$('#verHistorialOtrosC').addClass('disabled');
-										}
-										$('#verHistorialNotasC').html('CNTS <span class="badge">' + datosBP[6] + '</span>');
-										if (datosBP[6] < 1) {
-											$('#verHistorialNotasC').addClass('disabled');
-										}
-										cargar_historiales(idP, idC);
-									});
-
-									window.setTimeout(function() {
-										tinymce.init({
-											selector: '#notaMedicaC',
-											resize: false,
-											height: $('#myModalx').height() * 0.45,
-											theme: "modern",
-											plugins: "table, charmap, emoticons, textcolor colorpicker, hr, image imagetools, image, insertdatetime, lists, noneditable, pagebreak, paste, preview, print, visualblocks, wordcount, code, importcss",
-											table_default_styles: {
-												width: '100%'
-											},
-											relative_urls: true,
-											image_advtab: true,
-											menubar: false,
-											plugin_preview_width: $('#referencia').width() * 0.8,
-											toolbar: "undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybutton | mybuttonIDX | mybuttonVP |",
-											insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
-											paste_data_images: true,
-											paste_as_text: true,
-											browser_spellcheck: true,
-											setup: function(editor) {
-												editor.addButton('mybutton', {
-													text: 'DXs',
-													tooltip: 'Asignar los diagnósticos',
-													icon: false,
-													onclick: function() {
-														if (opc != 3) {
-															buscarDX(idC, idP);
-														}
-													}
-												});
-												editor.addButton('mybuttonVP', {
-													text: 'VPI',
-													icon: false,
-													tooltip: 'Vista previa de impresión',
-													onclick: function() {
-														var res = tinyMCE.get("notaMedicaC").getContent().replace(/<p/g, "<div");
-														res = res.replace(/<\/p>/g, "</div>"); //alert(res);
-														$('#dpa_imprimir1').html(res).css('background-image', 'url(imagenes/vista_previa.png)').css('background-size', '65%');
-														$('#dpa_imprimir1').html(res);
-														$('#dpa_imprimir1').printElement();
-													}
-												});
-												editor.addButton('mybuttonIDX', {
-													text: 'INSERTAR DXs',
-													icon: false,
-													tooltip: 'Insertar los diagnósticos en la nota médica',
-													onclick: function() {
-														insertar_dxs(idC);
-													}
-												});
-											}
-										});
-										tinymce.init({
-											selector: '#indiF',
-											resize: false,
-											height: $('#myModalx').height() * 0.45,
-											theme: "modern",
-											plugins: "table, charmap, emoticons, textcolor colorpicker, hr, image imagetools, image, insertdatetime, lists, noneditable, pagebreak, paste, preview, print, visualblocks, wordcount, code, importcss",
-											table_default_styles: {
-												width: '100%'
-											},
-											relative_urls: true,
-											image_advtab: true,
-											menubar: false,
-											plugin_preview_width: $('#referencia').width() * 0.8,
-											toolbar: "undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybutton | mybuttonIMe | mybuttonVP |",
-											insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
-											paste_data_images: true,
-											paste_as_text: true,
-											browser_spellcheck: true,
-											setup: function(editor) {
-												editor.addButton('mybutton', {
-													text: 'MEDICAMENTOS',
-													icon: false,
-													onclick: function() {
-														if (opc != 3) {
-															buscar_medis(idC, idP);
-														}
-													}
-												});
-												editor.addButton('mybuttonVP', {
-													text: 'VPI',
-													icon: false,
-													tooltip: 'Vista previa de impresión',
-													onclick: function() {
-														var res = tinyMCE.get("indiF").getContent().replace(/<p/g, "<div");
-														res = res.replace(/<\/p>/g, "</div>"); //alert(res);
-														$('#dpa_imprimir1').html(res).css('background-image', 'url(imagenes/vista_previa.png)').css('background-size', '65%');
-														$('#dpa_imprimir1').html(res);
-														$('#dpa_imprimir1').printElement();
-													}
-												});
-												editor.addButton('mybuttonIMe', {
-													text: 'INSERTAR MEDICAMENTOS',
-													icon: false,
-													tooltip: 'Insertar los medicamentos en la receta',
-													onclick: function() {
-														insertar_medicamentos(idC);
-													}
-												});
-											}
-										});
-									}, 400);
-
-									$('#print_SignosV').click(function(e) {
-										imprimirSV(idP, idC);
-									});
-
-									$('#myModalx').modal('show');
-									$('#myModalx').on('shown.bs.modal', function(e) {
-										$('#form-ficha_us').validator();
-										$('#form-ficha_us input').keyup(function(e) {
-											$('#alerta_new_user').hide();
-										});
-									});
-									$('#myModalx').on('hidden.bs.modal', function(e) {
-										$(".modal-content").remove();
-										$("#myModalx").empty();
 									});
 								}
 							});
-						} else {
-							alert(data);
+							$("#tipoRecetaMed").load("consultas/files-serverside/tRecetaMedica.php?x=" + $('#id_user').val(), function(response, status, xhr) {
+								if (status == "success") {
+									var datosT = {
+										idP: idP,
+										idU: $('#id_user').val(),
+										id_vc: idC
+									}
+									$.post('consultas/files-serverside/cat_texts.php', datosT).done(function(dataT) {
+										var datosTe = dataT.split('-{]');
+										var alergiasx = datosTe[0],
+											edadx = datosTe[1],
+											sexox = datosTe[2],
+											nombre_pacientex = datosTe[3];
+										var nombre_medicox = datosTe[4],
+											svx = datosTe[5],
+											abitusx = datosTe[6],
+											adiccionesx = datosTe[7];
+										var puntuacion_glax = datosTe[8],
+											peso_tallax = datosTe[9],
+											fecha_horax = datosTe[10]; //alert(et_firma_medico_atiende_x);
+										var nombre_medico_a = datosTe[11],
+											edadx1 = datosTe[12],
+											cedula_p_ma = datosTe[13],
+											nombre_conceptox = datosTe[28];
+										var cedula_espe_x = datosTe[14],
+											edad1_x = datosTe[15],
+											especialidadm_x = datosTe[16],
+											fecha_dia_x = datosTe[17];
+										var fecha_mes_n_x = datosTe[18],
+											fecha_anio_x = datosTe[19],
+											fecha_hora_x = datosTe[20],
+											nombre_establecimiento_x = datosTe[21];
+										var nombre_universidad_x = datosTe[22],
+											peso_x = datosTe[23],
+											et_talla_g = datosTe[24],
+											sex_x = datosTe[25];
+										var tiposan_x = datosTe[26],
+											titulom_x = datosTe[27],
+											medico_refiere_x = datosTe[28],
+											fecha_mes_l_x = datosTe[30];
+										var firma_medico_atiende_x = datosTe[31],
+											et_t_x = datosTe[34],
+											et_a_x = datosTe[35],
+											et_fc_x = datosTe[36];
+										var et_fr_x = datosTe[37],
+											et_temp_x = datosTe[38],
+											et_dx_envio_x = datosTe[39],
+											et_referencia_x = datosTe[40];
+										var et_nombre_anestesiologo_x = datosTe[41],
+											et_firma_medico_atiende_x = datosTe[42],
+											et_logo_suc_x = datosTe[43];
+										var et_logoe_x = datosTe[44],
+											et_logoee_x = datosTe[45],
+											et_logogm_x = datosTe[46],
+											et_historia_clinica_x = datosTe[52];
+										var et_historia_clinica_AHF_x = datosTe[53],
+											et_historia_clinica_APNP_x = datosTe[54],
+											et_historia_clinica_APP_x = datosTe[55],
+											et_historia_clinica_AGO_x = datosTe[56],
+											et_Fnac = datosTe[57],
+											et_dx = datosTe[58],
+											et_Med = datosTe[59],
+											et_destroxtis = datosTe[60],
+											et_logo1 = datosTe[61],
+											et_logo2 = datosTe[62],
+											et_logo3 = datosTe[63],
+											et_logo4 = datosTe[64],
+											et_logo5 = datosTe[65],
+											et_logo6 = datosTe[66],
+											et_logo7 = datosTe[67],
+											et_logo8 = datosTe[68],
+											et_logo9 = datosTe[69],
+											et_logo10 = datosTe[70],
+											et_logo11 = datosTe[71],
+											et_logo12 = datosTe[72],
+											et_logo13 = datosTe[73],
+											et_logo14 = datosTe[74],
+											et_logo15 = datosTe[75];
+
+										$("#tipoRecetaMed").change(function(e) {
+											var datos = {
+												idNM: $("#tipoRecetaMed").val(),
+												idC: idC
+											}
+											$.post('consultas/files-serverside/textoRecetaM.php', datos).done(function(data) { //alert(data);
+												data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
+												data = data.replace(/{ET_EDAD}/gi, edadx1);
+												data = data.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
+												data = data.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);
+												data = data.replace(/{et_destroxtis}/gi, et_destroxtis);
+												data = data.replace(/{ET_NOMBRE_PACIENTE}/gi, nombre_pacientex);
+												data = data.replace(/{ET_SEX}/gi, sexox);
+												data = data.replace(/{ET_SV}/gi, svx);
+												data = data.replace(/{ET_ABITUS}/gi, abitusx);
+												data = data.replace(/{et_adicciones}/gi, adiccionesx);
+												data = data.replace(/{et_puntuacion_g}/gi, puntuacion_glax);
+												data = data.replace(/{et_pesotalla_g}/gi, peso_tallax);
+												data = data.replace(/{et_fechahora}/gi, fecha_horax);
+												data = data.replace(/{et_cedulap}/gi, cedula_p_ma);
+												data = data.replace(/{et_nombre_procedimiento}/gi, nombre_conceptox);
+												data = data.replace(/{et_cedulaesp}/gi, cedula_espe_x);
+												data = data.replace(/{et_edad}/gi, edad1_x);
+												data = data.replace(/{et_especialidadm}/gi, especialidadm_x);
+												data = data.replace(/{et_fecha_dia}/gi, fecha_dia_x);
+												data = data.replace(/{et_fecha_mes_numero}/gi, fecha_mes_n_x);
+												data = data.replace(/{et_fecha_mes_letra}/gi, fecha_mes_l_x);
+												data = data.replace(/{et_fecha_anio}/gi, fecha_anio_x);
+												data = data.replace(/{et_fecha_hora}/gi, fecha_hora_x);
+												data = data.replace(/{et_nombre_establecimiento}/gi, nombre_establecimiento_x);
+												data = data.replace(/{et_nombre_medico_atiende}/gi, nombre_medico_a);
+												data = data.replace(/{et_nombre_universidad}/gi, nombre_universidad_x);
+												data = data.replace(/{et_nombre_paciente}/gi, nombre_pacientex);
+												data = data.replace(/{et_fecha_nacimiento_paciente}/gi, et_Fnac);
+												data = data.replace(/{ET_DIAGNOSTICO_PACIENTE}/gi, et_dx);
+												data = data.replace(/{ET_MEDICAMENTOS_PACIENTE}/gi, et_Med);
+												data = data.replace(/{et_peso_g}/gi, peso_x);
+												data = data.replace(/{et_talla_g}/gi, et_talla_g);
+												data = data.replace(/{et_sex}/gi, sex_x);
+												data = data.replace(/{et_sv}/gi, svx);
+												data = data.replace(/{et_tiposan}/gi, tiposan_x);
+												data = data.replace(/{et_titulom}/gi, titulom_x);
+												data = data.replace(/{et_nombre_medico_refiere}/gi, medico_refiere_x);
+												data = data.replace(/{et_t}/gi, et_t_x);
+												data = data.replace(/{et_a}/gi, et_a_x);
+												data = data.replace(/{et_fc}/gi, et_fc_x);
+												data = data.replace(/{et_fr}/gi, et_fr_x);
+												data = data.replace(/{et_temp}/gi, et_temp_x);
+												data = data.replace(/{et_dx_envio}/gi, et_dx_envio_x);
+												data = data.replace(/{et_referencia}/gi, et_referencia_x);
+												data = data.replace(/{et_nombre_anestesiologo}/gi, et_nombre_anestesiologo_x);
+												data = data.replace(/{et_firma_medico_atiende}/gi, et_firma_medico_atiende_x);
+												data = data.replace(/{et_logo_suc}/gi, et_logo_suc_x);
+												data = data.replace(/{et_logoe}/gi, et_logoe_x);
+												data = data.replace(/{et_logoee}/gi, et_logoee_x);
+												data = data.replace(/{et_logogm}/gi, et_logogm_x);
+												data = data.replace(/{et_historia_clinica}/gi, et_historia_clinica_x);
+												data = data.replace(/{et_historia_clinica_AHF}/gi, et_historia_clinica_AHF_x);
+												data = data.replace(/{et_historia_clinica_APNP}/gi, et_historia_clinica_APNP_x);
+												data = data.replace(/{et_historia_clinica_APP}/gi, et_historia_clinica_APP_x);
+												data = data.replace(/{et_historia_clinica_AGO}/gi, et_historia_clinica_AGO_x);
+												data = data.replace(/{et_logo1}/gi, et_logo1);
+												data = data.replace(/{et_logo2}/gi, et_logo2);
+												data = data.replace(/{et_logo3}/gi, et_logo3);
+												data = data.replace(/{et_logo4}/gi, et_logo4);
+												data = data.replace(/{et_logo5}/gi, et_logo5);
+												data = data.replace(/{et_logo6}/gi, et_logo6);
+												data = data.replace(/{et_logo7}/gi, et_logo7);
+												data = data.replace(/{et_logo8}/gi, et_logo8);
+												data = data.replace(/{et_logo9}/gi, et_logo9);
+												data = data.replace(/{et_logo10}/gi, et_logo10);
+												data = data.replace(/{et_logo11}/gi, et_logo11);
+												data = data.replace(/{et_logo12}/gi, et_logo12);
+												data = data.replace(/{et_logo13}/gi, et_logo13);
+												data = data.replace(/{et_logo14}/gi, et_logo14);
+												data = data.replace(/{et_logo15}/gi, et_logo15);
+												tinymce.get('indiF').setContent(data);
+												//$('#tabs_nnm #tabs-1n .jqte_editor').html(data);
+											});
+										});
+									});
+
+								}
+							});
+							$('#tabRevisiones').hide();
+							$('#imprimirNotaE').hide();
+							$('#imprimirRecetaF').hide();
+							var idCons = {
+								idC: idC
+							} //Generamos la nota de evolución si nunca ha sido guardada la consulta
+							$.post('consultas/files-serverside/notaInicial.php', idCons).done(function(data) { //alert(data);
+								var datosNI = data.split(';*-');
+								if (datosNI[0] == 0) {
+									//Aquí van los valores dinámicos alert(datosNI[1]);
+									var datosT = {
+										idP: idP,
+										idU: $('#id_user').val(),
+										id_vc: idC
+									}
+									$.post('consultas/files-serverside/cat_texts.php', datosT).done(function(dataT) {
+										var datosTe = dataT.split('-{]');
+										var alergiasx = datosTe[0],
+											edadx = datosTe[1],
+											sexox = datosTe[2],
+											nombre_pacientex = datosTe[3];
+										var nombre_medicox = datosTe[4],
+											svx = datosTe[5],
+											abitusx = datosTe[6],
+											adiccionesx = datosTe[7];
+										var puntuacion_glax = datosTe[8],
+											peso_tallax = datosTe[9],
+											fecha_horax = datosTe[10]; //alert(et_firma_medico_atiende_x);
+										var nombre_medico_a = datosTe[11],
+											edadx1 = datosTe[12],
+											cedula_p_ma = datosTe[13],
+											nombre_conceptox = datosTe[28];
+										var cedula_espe_x = datosTe[14],
+											edad1_x = datosTe[15],
+											especialidadm_x = datosTe[16],
+											fecha_dia_x = datosTe[17];
+										var fecha_mes_n_x = datosTe[18],
+											fecha_anio_x = datosTe[19],
+											fecha_hora_x = datosTe[20],
+											nombre_establecimiento_x = datosTe[21];
+										var nombre_universidad_x = datosTe[22],
+											peso_x = datosTe[23],
+											et_talla_g = datosTe[24],
+											sex_x = datosTe[25];
+										var tiposan_x = datosTe[26],
+											titulom_x = datosTe[27],
+											medico_refiere_x = datosTe[28],
+											fecha_mes_l_x = datosTe[30];
+										var firma_medico_atiende_x = datosTe[31],
+											et_t_x = datosTe[34],
+											et_a_x = datosTe[35],
+											et_fc_x = datosTe[36];
+										var et_fr_x = datosTe[37],
+											et_temp_x = datosTe[38],
+											et_dx_envio_x = datosTe[39],
+											et_referencia_x = datosTe[40];
+										var et_nombre_anestesiologo_x = datosTe[41],
+											et_firma_medico_atiende_x = datosTe[42],
+											et_logo_suc_x = datosTe[43];
+										var et_logoe_x = datosTe[44],
+											et_logoee_x = datosTe[45],
+											et_logogm_x = datosTe[46];
+										var data = datosNI[1],
+											data1 = datosNI[2],
+											et_dx = datosTe[58],
+											et_Med = datosTe[59],
+											et_destroxtis = datosTe[60],
+											et_logo1 = datosTe[61],
+											et_logo2 = datosTe[62],
+											et_logo3 = datosTe[63],
+											et_logo4 = datosTe[64],
+											et_logo5 = datosTe[65],
+											et_logo6 = datosTe[66],
+											et_logo7 = datosTe[67],
+											et_logo8 = datosTe[68],
+											et_logo9 = datosTe[69],
+											et_logo10 = datosTe[70],
+											et_logo11 = datosTe[71],
+											et_logo12 = datosTe[72],
+											et_logo13 = datosTe[73],
+											et_logo14 = datosTe[74],
+											et_logo15 = datosTe[75];;
+
+										data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
+										data = data.replace(/{ET_EDAD}/gi, edadx1);
+										data = data.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
+										data = data.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);
+										data = data.replace(/{ET_DIAGNOSTICO_PACIENTE}/gi, et_dx);
+										data = data.replace(/{ET_MEDICAMENTOS_PACIENTE}/gi, et_Med);
+										data = data.replace(/{et_destroxtis}/gi, et_destroxtis);
+										data = data.replace(/{ET_NOMBRE_PACIENTE}/gi, nombre_pacientex);
+										data = data.replace(/{ET_SEX}/gi, sexox);
+										data = data.replace(/{ET_SV}/gi, svx);
+										data = data.replace(/{ET_ABITUS}/gi, abitusx);
+										data = data.replace(/{et_adicciones}/gi, adiccionesx);
+										data = data.replace(/{et_puntuacion_g}/gi, puntuacion_glax);
+										data = data.replace(/{et_pesotalla_g}/gi, peso_tallax);
+										data = data.replace(/{et_fechahora}/gi, fecha_horax);
+										data = data.replace(/{et_cedulap}/gi, cedula_p_ma);
+										data = data.replace(/{et_nombre_procedimiento}/gi, nombre_conceptox);
+										data = data.replace(/{et_cedulaesp}/gi, cedula_espe_x);
+										data = data.replace(/{et_edad}/gi, edad1_x);
+										data = data.replace(/{et_especialidadm}/gi, especialidadm_x);
+										data = data.replace(/{et_fecha_dia}/gi, fecha_dia_x);
+										data = data.replace(/{et_fecha_mes_numero}/gi, fecha_mes_n_x);
+										data = data.replace(/{et_fecha_mes_letra}/gi, fecha_mes_l_x);
+										data = data.replace(/{et_fecha_anio}/gi, fecha_anio_x);
+										data = data.replace(/{et_fecha_hora}/gi, fecha_hora_x);
+										data = data.replace(/{et_nombre_establecimiento}/gi, nombre_establecimiento_x);
+										data = data.replace(/{et_nombre_medico_atiende}/gi, nombre_medico_a);
+										data = data.replace(/{et_nombre_universidad}/gi, nombre_universidad_x);
+										data = data.replace(/{et_nombre_paciente}/gi, nombre_pacientex);
+										data = data.replace(/{et_peso_g}/gi, peso_x);
+										data = data.replace(/{et_talla_g}/gi, et_talla_g);
+										data = data.replace(/{et_sex}/gi, sex_x);
+										data = data.replace(/{et_sv}/gi, svx);
+										data = data.replace(/{et_tiposan}/gi, tiposan_x);
+										data = data.replace(/{et_titulom}/gi, titulom_x);
+										data = data.replace(/{et_nombre_medico_refiere}/gi, medico_refiere_x);
+										data = data.replace(/{et_t}/gi, et_t_x);
+										data = data.replace(/{et_a}/gi, et_a_x);
+										data = data.replace(/{et_fc}/gi, et_fc_x);
+										data = data.replace(/{et_fr}/gi, et_fr_x);
+										data = data.replace(/{et_temp}/gi, et_temp_x);
+										data = data.replace(/{et_dx_envio}/gi, et_dx_envio_x);
+										data = data.replace(/{et_referencia}/gi, et_referencia_x);
+										data = data.replace(/{et_nombre_anestesiologo}/gi, et_nombre_anestesiologo_x);
+										data = data.replace(/{et_firma_medico_atiende}/gi, et_firma_medico_atiende_x);
+										data = data.replace(/{et_logo_suc}/gi, et_logo_suc_x);
+										data = data.replace(/{et_logoe}/gi, et_logoe_x);
+										data = data.replace(/{et_logoee}/gi, et_logoee_x);
+										data = data.replace(/{et_logogm}/gi, et_logogm_x);
+										data = data.replace(/{et_logo1}/gi, et_logo1);
+										data = data.replace(/{et_logo2}/gi, et_logo2);
+										data = data.replace(/{et_logo3}/gi, et_logo3);
+										data = data.replace(/{et_logo4}/gi, et_logo4);
+										data = data.replace(/{et_logo5}/gi, et_logo5);
+										data = data.replace(/{et_logo6}/gi, et_logo6);
+										data = data.replace(/{et_logo7}/gi, et_logo7);
+										data = data.replace(/{et_logo8}/gi, et_logo8);
+										data = data.replace(/{et_logo9}/gi, et_logo9);
+										data = data.replace(/{et_logo10}/gi, et_logo10);
+										data = data.replace(/{et_logo11}/gi, et_logo11);
+										data = data.replace(/{et_logo12}/gi, et_logo12);
+										data = data.replace(/{et_logo13}/gi, et_logo13);
+										data = data.replace(/{et_logo14}/gi, et_logo14);
+										data = data.replace(/{et_logo15}/gi, et_logo15);
+
+										data1 = data1.replace(/{ET_ALERGIAS}/gi, alergiasx);
+										data1 = data1.replace(/{ET_EDAD}/gi, edadx1);
+										data1 = data1.replace(/{ET_NOMBRE_MEDICO_ATIENDE}/gi, nombre_medicox);
+										data1 = data1.replace(/{et_nombre_personal_atiende}/gi, nombre_medico_a);
+										data1 = data1.replace(/{ET_DIAGNOSTICO_PACIENTE}/gi, et_dx);
+										data1 = data1.replace(/{ET_MEDICAMENTOS_PACIENTE}/gi, et_Med);
+										data1 = data1.replace(/{et_destroxtis}/gi, et_destroxtis);
+										data1 = data1.replace(/{ET_NOMBRE_PACIENTE}/gi, nombre_pacientex);
+										data1 = data1.replace(/{ET_SEX}/gi, sexox);
+										data1 = data1.replace(/{ET_SV}/gi, svx);
+										data1 = data1.replace(/{ET_ABITUS}/gi, abitusx);
+										data1 = data1.replace(/{et_adicciones}/gi, adiccionesx);
+										data1 = data1.replace(/{et_puntuacion_g}/gi, puntuacion_glax);
+										data1 = data1.replace(/{et_pesotalla_g}/gi, peso_tallax);
+										data1 = data1.replace(/{et_fechahora}/gi, fecha_horax);
+										data1 = data1.replace(/{et_cedulap}/gi, cedula_p_ma);
+										data1 = data1.replace(/{et_nombre_procedimiento}/gi, nombre_conceptox);
+										data1 = data1.replace(/{et_cedulaesp}/gi, cedula_espe_x);
+										data1 = data1.replace(/{et_edad}/gi, edad1_x);
+										data1 = data1.replace(/{et_especialidadm}/gi, especialidadm_x);
+										data1 = data1.replace(/{et_fecha_dia}/gi, fecha_dia_x);
+										data1 = data1.replace(/{et_fecha_mes_numero}/gi, fecha_mes_n_x);
+										data1 = data1.replace(/{et_fecha_mes_letra}/gi, fecha_mes_l_x);
+										data1 = data1.replace(/{et_fecha_anio}/gi, fecha_anio_x);
+										data1 = data1.replace(/{et_fecha_hora}/gi, fecha_hora_x);
+										data1 = data1.replace(/{et_nombre_establecimiento}/gi, nombre_establecimiento_x);
+										data1 = data1.replace(/{et_nombre_medico_atiende}/gi, nombre_medico_a);
+										data1 = data1.replace(/{et_nombre_universidad}/gi, nombre_universidad_x);
+										data1 = data1.replace(/{et_nombre_paciente}/gi, nombre_pacientex);
+										data1 = data1.replace(/{et_peso_g}/gi, peso_x);
+										data1 = data1.replace(/{et_talla_g}/gi, et_talla_g);
+										data1 = data1.replace(/{et_sex}/gi, sex_x);
+										data1 = data1.replace(/{et_sv}/gi, svx);
+										data1 = data1.replace(/{et_tiposan}/gi, tiposan_x);
+										data1 = data1.replace(/{et_titulom}/gi, titulom_x);
+										data1 = data1.replace(/{et_nombre_medico_refiere}/gi, medico_refiere_x);
+										data1 = data1.replace(/{et_t}/gi, et_t_x);
+										data1 = data1.replace(/{et_a}/gi, et_a_x);
+										data1 = data1.replace(/{et_fc}/gi, et_fc_x);
+										data1 = data1.replace(/{et_fr}/gi, et_fr_x);
+										data1 = data1.replace(/{et_temp}/gi, et_temp_x);
+										data1 = data1.replace(/{et_dx_envio}/gi, et_dx_envio_x);
+										data1 = data1.replace(/{et_referencia}/gi, et_referencia_x);
+										data1 = data1.replace(/{et_nombre_anestesiologo}/gi, et_nombre_anestesiologo_x);
+										data1 = data1.replace(/{et_firma_medico_atiende}/gi, et_firma_medico_atiende_x);
+										data1 = data1.replace(/{et_logo_suc}/gi, et_logo_suc_x);
+										data1 = data1.replace(/{et_logoe}/gi, et_logoe_x);
+										data1 = data1.replace(/{et_logoee}/gi, et_logoee_x);
+										data1 = data1.replace(/{et_logogm}/gi, et_logogm_x);
+										data1 = data1.replace(/{et_logo1}/gi, et_logo1);
+										data1 = data1.replace(/{et_logo2}/gi, et_logo2);
+										data1 = data1.replace(/{et_logo3}/gi, et_logo3);
+										data1 = data1.replace(/{et_logo4}/gi, et_logo4);
+										data1 = data1.replace(/{et_logo5}/gi, et_logo5);
+										data1 = data1.replace(/{et_logo6}/gi, et_logo6);
+										data1 = data1.replace(/{et_logo7}/gi, et_logo7);
+										data1 = data1.replace(/{et_logo8}/gi, et_logo8);
+										data1 = data1.replace(/{et_logo9}/gi, et_logo9);
+										data1 = data1.replace(/{et_logo10}/gi, et_logo10);
+										data1 = data1.replace(/{et_logo11}/gi, et_logo11);
+										data1 = data1.replace(/{et_logo12}/gi, et_logo12);
+										data1 = data1.replace(/{et_logo13}/gi, et_logo13);
+										data1 = data1.replace(/{et_logo14}/gi, et_logo14);
+										data1 = data1.replace(/{et_logo15}/gi, et_logo15);
+
+										$('#notaMedicaC').val(data);
+										$('#indiF').val(data1);
+										//tinymce.get('indiF').setContent(data);
+									});
+								} else {
+									$('#notaMedicaC').val(datos[15]);
+									$('#indiF').val(datos[16]);
+								}
+							});
+							//$('#my_tb_nm').click(function(e) { insertarMED();});
+							$('#salvarConsulta').click(function(e) {
+								salvarConsulta(idC, idP);
+							});
+							$('#finalizarConsulta').click(function(e) {
+								if (confirm("Está a punto de finalizar la consulta, ¿desea continuar?")) {
+									finalizarConsulta(idP, idC, id_s);
+								}
+							});
+
+							var datoG = {
+								idE: idC
+							}
+							$.post('consultas/files-serverside/datosDXcslta.php', datoG).done(function(dataDX) {
+								var datosDX = dataDX.split('*[+');
+
+								var k = 0;
+								navigator.getUserMedia = navigator.getUserMedia ||
+									navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+								window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+								var j = datosDX[1]; //el número de la última imagen de la tabla de imágenes de consulta
+
+								document.getElementById('start').addEventListener('click', function() {
+									var hV = $('#contenedorVideo').height() * 0.4,
+										wV = $('#contenedorVideo').width() * 0.4;
+									$('#video').css('width', wV, 'height', hV);
+									navigator.getUserMedia({
+											video: true
+										},
+										function(stream) {
+											videoStream = stream; // Stream the data
+											video.src = window.URL.createObjectURL(stream);
+											video = document.querySelector('video');
+											video.play();
+											$('#start').addClass('hidden');
+											$('#capture, #stop').removeClass('hidden');
+										},
+										function(e) {
+											console.log(e);
+										});
+								}, false);
+
+								document.getElementById('stop').addEventListener('click', function() {
+									if (typeof video !== "undefined" && video) {
+										video.pause();
+									} // Pause the video
+									if (typeof videoStream !== "undefined" && videoStream) {
+										videoStream.getTracks()[0].stop(); // Stop the stream
+									}
+									$('#capture, #stop').addClass('hidden');
+									$('#start').removeClass('hidden');
+								}, false);
+
+								var button = document.getElementById('capture');
+
+								button.addEventListener('click', function() {
+									j++; //alert(j);
+									$('#deCanvas').append('<table style="float:left;" width="" border="0" cellspacing="0" cellpadding="3"> <tr> <td align=""><span style="display:block;">Eliminar</span></td> </tr> <tr> <td><canvas id="miFoto' + j + '" width="160" height="120"></canvas></td> </tr> </table>');
+
+									var canvas = document.getElementById('miFoto' + j),
+										ctx = canvas.getContext('2d');
+									ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+									var canvasX = document.getElementById('miFotoX'),
+										ctxX = canvasX.getContext('2d');
+									ctxX.drawImage(video, 0, 0, canvasX.width, canvasX.height); //esta va culta en una pestaña que no es visible
+
+									var canvas1 = document.getElementById('miFotoX1'),
+										ctx1 = canvas1.getContext('2d');
+									ctx1.drawImage(video, 0, 0, canvas1.width, canvas1.height);
+
+									var image = new Image();
+									image.src = canvas1.toDataURL("image/png");
+									var dataURL1 = canvas1.toDataURL();
+									//alert(image);
+									$('#imagenesEndo').append('<table style="float:left;" width="" border="0" cellspacing="0" cellpadding="3"> <tr> <td align=""> </td> </tr> <tr> <td><img id="miFoto1' + j + '" alt="Right click to save me!"></td> </tr> </table>');
+									document.getElementById('miFoto1' + j).src = dataURL1;
+
+									var dataURL1 = canvas1.toDataURL();
+									$.ajax({
+										type: "POST",
+										url: "consultas/files-serverside/guardarImgNormalC.php",
+										data: {
+											imgBase64: dataURL1,
+											cont: j,
+											id: idC
+										}
+									}).done(function(o) {
+										console.log('saved');
+									});
+
+									var dataURL = canvasX.toDataURL();
+									$.ajax({
+										type: "POST",
+										url: "consultas/files-serverside/guardarImgC.php",
+										data: {
+											imgBase64: dataURL,
+											cont: j,
+											id: idC
+										}
+									}).done(function(o) {
+										console.log('saved');
+										cargarImagenesReporte(idC);
+									});
+								}, false);
+							});
 						}
-					});
+						//Cargamos los datos de los Signos Vitales y Cargamos los datos de Historia Clínica
+						cargar_todo_signos_vitales(idP, idC);
+						cargar_todo_historia_clinica(idP, idC, id_s);
+
+						//Para que nos ponga el número de cosas que hay en los historiales en los botones
+						var idPx = {
+							idP: idP
+						}
+						$.post('consultas/files-serverside/datosBotonesHistoriales.php', idPx).done(function(data) {
+							var datosBP = data.split(';*-'); //alert(data); HC <span class="badge">4</span>
+							$('#verHistorialLabC').html('LAB <span class="badge">' + datosBP[0] + '</span>');
+							if (datosBP[0] < 1) {
+								$('#verHistorialLabC').addClass('disabled');
+							}
+							$('#verHistorialUsgC').html('USG <span class="badge">' + datosBP[1] + '</span>');
+							if (datosBP[1] < 1) {
+								$('#verHistorialUsgC').addClass('disabled');
+							}
+							$('#verHistorialImgC').html('IMG <span class="badge">' + datosBP[2] + '</span>');
+							if (datosBP[2] < 1) {
+								$('#verHistorialImgC').addClass('disabled');
+							}
+							$('#verHistorialEndC').html('END <span class="badge">' + datosBP[3] + '</span>');
+							if (datosBP[3] < 1) {
+								$('#verHistorialEndC').addClass('disabled');
+							}
+							$('#verHistorialColC').html('COL <span class="badge">' + datosBP[4] + '</span>');
+							if (datosBP[4] < 1) {
+								$('#verHistorialColC').addClass('disabled');
+							}
+							$('#verHistorialOtrosC').html('OTROS <span class="badge">' + datosBP[5] + '</span>');
+							if (datosBP[5] < 1) {
+								$('#verHistorialOtrosC').addClass('disabled');
+							}
+							$('#verHistorialNotasC').html('CNTS <span class="badge">' + datosBP[6] + '</span>');
+							if (datosBP[6] < 1) {
+								$('#verHistorialNotasC').addClass('disabled');
+							}
+							cargar_historiales(idP, idC);
+						});
+
+						window.setTimeout(function() {
+							tinymce.init({
+								selector: '#notaMedicaC',
+								resize: false,
+								height: $('#myModalx').height() * 0.45,
+								theme: "modern",
+								plugins: "table, charmap, emoticons, textcolor colorpicker, hr, image imagetools, image, insertdatetime, lists, noneditable, pagebreak, paste, preview, print, visualblocks, wordcount, code, importcss",
+								table_default_styles: {
+									width: '100%'
+								},
+								relative_urls: true,
+								image_advtab: true,
+								menubar: false,
+								plugin_preview_width: $('#referencia').width() * 0.8,
+								toolbar: "undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybutton | mybuttonIDX | mybuttonVP |",
+								insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
+								paste_data_images: true,
+								paste_as_text: true,
+								browser_spellcheck: true,
+								setup: function(editor) {
+									editor.addButton('mybutton', {
+										text: 'DXs',
+										tooltip: 'Asignar los diagnósticos',
+										icon: false,
+										onclick: function() {
+											if (opc != 3) {
+												buscarDX(idC, idP);
+											}
+										}
+									});
+									editor.addButton('mybuttonVP', {
+										text: 'VPI',
+										icon: false,
+										tooltip: 'Vista previa de impresión',
+										onclick: function() {
+											var res = tinyMCE.get("notaMedicaC").getContent().replace(/<p/g, "<div");
+											res = res.replace(/<\/p>/g, "</div>"); //alert(res);
+											$('#dpa_imprimir1').html(res).css('background-image', 'url(imagenes/vista_previa.png)').css('background-size', '65%');
+											$('#dpa_imprimir1').html(res);
+											$('#dpa_imprimir1').printElement();
+										}
+									});
+									editor.addButton('mybuttonIDX', {
+										text: 'INSERTAR DXs',
+										icon: false,
+										tooltip: 'Insertar los diagnósticos en la nota médica',
+										onclick: function() {
+											insertar_dxs(idC);
+										}
+									});
+								}
+							});
+							tinymce.init({
+								selector: '#indiF',
+								resize: false,
+								height: $('#myModalx').height() * 0.45,
+								theme: "modern",
+								plugins: "table, charmap, emoticons, textcolor colorpicker, hr, image imagetools, image, insertdatetime, lists, noneditable, pagebreak, paste, preview, print, visualblocks, wordcount, code, importcss",
+								table_default_styles: {
+									width: '100%'
+								},
+								relative_urls: true,
+								image_advtab: true,
+								menubar: false,
+								plugin_preview_width: $('#referencia').width() * 0.8,
+								toolbar: "undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybutton | mybuttonIMe | mybuttonVP |",
+								insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
+								paste_data_images: true,
+								paste_as_text: true,
+								browser_spellcheck: true,
+								setup: function(editor) {
+									editor.addButton('mybutton', {
+										text: 'MEDICAMENTOS',
+										icon: false,
+										onclick: function() {
+											if (opc != 3) {
+												buscar_medis(idC, idP);
+											}
+										}
+									});
+									editor.addButton('mybuttonVP', {
+										text: 'VPI',
+										icon: false,
+										tooltip: 'Vista previa de impresión',
+										onclick: function() {
+											var res = tinyMCE.get("indiF").getContent().replace(/<p/g, "<div");
+											res = res.replace(/<\/p>/g, "</div>"); //alert(res);
+											$('#dpa_imprimir1').html(res).css('background-image', 'url(imagenes/vista_previa.png)').css('background-size', '65%');
+											$('#dpa_imprimir1').html(res);
+											$('#dpa_imprimir1').printElement();
+										}
+									});
+									editor.addButton('mybuttonIMe', {
+										text: 'INSERTAR MEDICAMENTOS',
+										icon: false,
+										tooltip: 'Insertar los medicamentos en la receta',
+										onclick: function() {
+											insertar_medicamentos(idC);
+										}
+									});
+								}
+							});
+						}, 400);
+
+						$('#print_SignosV').click(function(e) {
+							imprimirSV(idP, idC);
+						});
+
+						$('#myModalx').modal('show');
+						$('#myModalx').on('shown.bs.modal', function(e) {
+							$('#form-ficha_us').validator();
+							$('#form-ficha_us input').keyup(function(e) {
+								$('#alerta_new_user').hide();
+							});
+						});
+						$('#myModalx').on('hidden.bs.modal', function(e) {
+							$(".modal-content").remove();
+							$("#myModalx").empty();
+						});
+					}
 				});
-			//fin dialog preguntar*/
+			} else {
+				alert(data);
+			}
 		});
-	}
+	};
 
 	function imprimirNM(idPa, x) { //x=id del estudio, y es si se imprimen los encabe
 		$("#myModal1").load('imagen/htmls/imprimir.php', function(response, status, xhr) {
@@ -3429,14 +3472,20 @@ include_once 'recursos/datauser.php';
 					swal({
 							title: 'Tipo de impresión:',
 							type: "",
+							buttons: {
+								confirm: {
+									text: "Imprimir",
+									closeModa: false
+								},
+								cancel: {
+									text: "Cancelar",
+									visible: true
+								}
+							},
 							html: true,
-							closeOnConfirm: false,
-							confirmButtonText: 'Imprimir',
 							text: '<select id="tipo_print" class="form-control"><option value="" selected>-SELECCIONAR-</option><option value="1">Con membretes</option><option value="2">Sin membretes</option></select>',
-							showCancelButton: true,
-							cancelButtonText: "Cancelar"
-						},
-						function() {
+						})
+						.then(() => {
 							if ($('#tipo_print').val() != '') {
 								if ($('#tipo_print').val() == 1) {
 									window.setTimeout(function() {
@@ -3463,14 +3512,20 @@ include_once 'recursos/datauser.php';
 					swal({
 							title: 'Tipo de impresión:',
 							type: "",
+							buttons: {
+								confirm: {
+									text: "Imprimir",
+									closeModal: false
+								},
+								cancel: {
+									text: "Cancelar",
+									visible: true
+								}
+							},
 							html: true,
-							closeOnConfirm: false,
-							confirmButtonText: 'Imprimir',
 							text: '<select id="tipo_print" class="form-control"><option value="" selected>-SELECCIONAR-</option><option value="1">Con membretes</option><option value="2">Sin membretes</option></select>',
-							showCancelButton: true,
-							cancelButtonText: "Cancelar"
-						},
-						function() {
+						})
+						.then(() => {
 							if ($('#tipo_print').val() != '') {
 								if ($('#tipo_print').val() == 1) {
 									window.setTimeout(function() {
@@ -3531,16 +3586,20 @@ include_once 'recursos/datauser.php';
 		swal({
 				title: "",
 				text: "¿Desea finalizar la consulta?",
-				showCancelButton: true,
-				confirmButtonColor: "#DD6B55",
+				buttons: {
+					confirm: {
+						text: "Finalizar",
+						className: "finalizar-consulta_confirm-button"
+					},
+					cancel: {
+						text: "Cancelar",
+						visible: true
+					}
+				},
 				type: "warning",
-				showConfirmButton: true,
 				timer: null,
-				confirmButtonText: 'Finalizar',
-				cancelButtonText: "Cancelar",
-				closeOnConfirm: true
-			},
-			function() {
+			})
+			.then(() => {
 				var str = tinyMCE.get('notaMedicaC').getContent();
 				var res = str.replace('src="usuarios/firmas/', 'src="../../usuarios/firmas/');
 				var res = res.replace(/src="img_cslta/g, 'src="../../../consultas/img_cslta');
@@ -3568,7 +3627,7 @@ include_once 'recursos/datauser.php';
 							type: "success",
 							text: "LA CONSULTA SE HA FINALIZAO CORRECTAMENTE",
 							timer: 2500,
-							showConfirmButton: false
+							buttons: false
 						});
 						$('#clickme').click(); //window.setTimeout(function(){atenderC(idP, idC, 3, id_s, id_s);},700);
 
@@ -3604,7 +3663,7 @@ include_once 'recursos/datauser.php';
 					type: "success",
 					text: "LOS DATOS DE LA CONSULTA HAN SIDO GUARDADOS.",
 					timer: 2500,
-					showConfirmButton: false
+					buttons: false
 				});
 			} else {
 				alert(data);
@@ -4176,3 +4235,8 @@ include_once 'recursos/datauser.php';
 <script src="./js/limpiarFiltrosPacientesConsultas.js"></script>
 <script src="./js/filtradoPacientesConsultas.js"></script>
 <!-- Fin de las funciones que permiten el filtrado de pacientes -->
+
+<script src="./js/verificarAntagonismosMedicamentos.js"></script>
+<script src="./farmacia/medicamentos/js/sinergiasAntagonismos.js"></script>
+
+<script src="./consultas/js/reportesConsultas.js"></script>

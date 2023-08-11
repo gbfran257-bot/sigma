@@ -4,6 +4,66 @@ const URL_ALL_MEDICAMENTOS_COMERCIALES =
 const URL_SINERGIAS_ANTAGONISMOS =
     "farmacia/medicamentos/files-serverside/getSinergiasAntagonismos.php";
 
+const URL_GET_ANTAGONISMOS =
+    "farmacia/medicamentos/files-serverside/getAntagonismos.php";
+
+const URL_GET_MEDICAMENTO_COMERCIAL_BY_ID =
+    "farmacia/medicamentos/files-serverside/getMedicamentoComercialById.php";
+
+/**
+ * Obtiene toda la información del medicamento cuyo id sea pasado como parámetro
+ * @param { number } idMedicamento 
+ */
+const getMedicamentoComercialById = async (idMedicamento) => {
+    const body = new FormData();
+    body.append("id_medicamento", idMedicamento);
+    return await fetch(URL_GET_MEDICAMENTO_COMERCIAL_BY_ID, {
+        method: "POST",
+        body,
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.ERROR) {
+                throw new Error(data.ERROR);
+            }
+            return data;
+        })
+        .catch((error) =>
+            swal({
+                title: "Ocurrió un error",
+                text: error,
+                type: "error",
+            })
+        );
+};
+
+/**
+ * Obtiene los medicamento antagónicos del medicamento cuyo id sea pasado como parámetro
+ * @param { number } idMedicamento 
+ */
+const getAntagonismos = async (idMedicamento) => {
+    const body = new FormData();
+    body.append("id_medicamento", idMedicamento);
+    return await fetch(URL_GET_ANTAGONISMOS, {
+        method: "POST",
+        body,
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.ERROR) {
+                throw new Error(data.ERROR);
+            }
+            return data;
+        })
+        .catch((error) =>
+            swal({
+                title: "Ocurrió un error",
+                text: error,
+                type: "error",
+            })
+        );
+};
+
 /**
  * Obtiene todos los medicamentos genéricos sin filtros
  */
