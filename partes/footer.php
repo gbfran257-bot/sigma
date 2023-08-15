@@ -20,6 +20,12 @@
     <div id="myModal4" class="modal fade" tabindex="-1" role="dialog" data-backdrop="false" data-keyboard="false"> </div>
     <div id="myModalx" class="modal fade modal-fullscreen" tabindex="-1" role="dialog" data-backdrop="false" data-keyboard="false"> </div>
     <div id="myModal1" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"> </div>
+
+    <!-- Hay páginas del sistema que necesitan modales indepentiendes, aquí se verifica en qué página se está para cargar los modales correspondientes -->
+    <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/consultas.php") : ?>
+        <div id="visualizar_medicamento_sinergias" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+    <?php endif; ?>
+
     </body>
 
     </html>

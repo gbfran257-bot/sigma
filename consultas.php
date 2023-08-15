@@ -2236,6 +2236,11 @@ include_once 'recursos/datauser.php';
 		oTableBME.on('select', function(e, dt, type, indexes) {
 			var rowData = oTableBME.rows(indexes).data().toArray();
 
+			// Verifi	camos si hay al menos un medicamento ya seleccionado
+			if ($('#dataTableMS').children('tbody').children('tr').length === 1) {
+				return subirMED(rowData[0][7], idC, $('#id_user').val(), idP);
+			}
+
 			// Verificamos que el medicamento seleccionado no tenga antagonismo con ninguno ya seleccionado o viceversa
 			const idMedicamentoSeleccionado = parseInt(rowData[0][7]);
 			const medicamentosYaSeleccionados = [];
@@ -2311,6 +2316,10 @@ include_once 'recursos/datauser.php';
 			"aoColumns": [{
 				"bSortable": false
 			}, {
+				"bSortable": false
+			},{
+				"bSortable": false
+			},{
 				"bSortable": false
 			}, {
 				"bSortable": false
@@ -4240,3 +4249,4 @@ include_once 'recursos/datauser.php';
 <script src="./farmacia/medicamentos/js/sinergiasAntagonismos.js"></script>
 
 <script src="./consultas/js/reportesConsultas.js"></script>
+<script src="./consultas/js/receta_medicamentos_seleccionados.js"></script>

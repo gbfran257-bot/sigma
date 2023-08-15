@@ -4,6 +4,9 @@ const URL_ALL_MEDICAMENTOS_COMERCIALES =
 const URL_SINERGIAS_ANTAGONISMOS =
     "farmacia/medicamentos/files-serverside/getSinergiasAntagonismos.php";
 
+const URL_GET_SINERGIAS =
+    "farmacia/medicamentos/files-serverside/getSinergias.php";
+
 const URL_GET_ANTAGONISMOS =
     "farmacia/medicamentos/files-serverside/getAntagonismos.php";
 
@@ -12,7 +15,7 @@ const URL_GET_MEDICAMENTO_COMERCIAL_BY_ID =
 
 /**
  * Obtiene toda la información del medicamento cuyo id sea pasado como parámetro
- * @param { number } idMedicamento 
+ * @param { number } idMedicamento
  */
 const getMedicamentoComercialById = async (idMedicamento) => {
     const body = new FormData();
@@ -38,8 +41,35 @@ const getMedicamentoComercialById = async (idMedicamento) => {
 };
 
 /**
+ * Obtiene los medicamentos sinergicos del medicamento cuyo id sea pasado como parámetro
+ * @param { number } idMedicamento
+ */
+const getSinergias = async (idMedicamento) => {
+    const body = new FormData();
+    body.append("id_medicamento", idMedicamento);
+    return await fetch(URL_GET_SINERGIAS, {
+        method: "POST",
+        body,
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.ERROR) {
+                throw new Error(data.ERROR);
+            }
+            return data;
+        })
+        .catch((error) =>
+            swal({
+                title: "Ocurrió un error",
+                text: error.message,
+                icon: "error",
+            })
+        );
+};
+
+/**
  * Obtiene los medicamento antagónicos del medicamento cuyo id sea pasado como parámetro
- * @param { number } idMedicamento 
+ * @param { number } idMedicamento
  */
 const getAntagonismos = async (idMedicamento) => {
     const body = new FormData();
