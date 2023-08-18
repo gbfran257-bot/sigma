@@ -193,7 +193,7 @@ require("../../Connections/horizonte.php");
 
         $htmlAntagonismos = "";
         foreach ($antagonismos as $antagonismo) {
-            $htmlAntagonismos .= "<p>{$antagonismo}</p>";
+            $htmlAntagonismos .= "<p class='p_antagonismo'>{$antagonismo}</p>";
         }
 
         $row[2] = $htmlSinergias;

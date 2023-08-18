@@ -2236,65 +2236,84 @@ include_once 'recursos/datauser.php';
 		oTableBME.on('select', function(e, dt, type, indexes) {
 			var rowData = oTableBME.rows(indexes).data().toArray();
 
-			// Verifi	camos si hay al menos un medicamento ya seleccionado
-			if ($('#dataTableMS').children('tbody').children('tr').length === 1) {
-				return subirMED(rowData[0][7], idC, $('#id_user').val(), idP);
-			}
-
-			// Verificamos que el medicamento seleccionado no tenga antagonismo con ninguno ya seleccionado o viceversa
-			const idMedicamentoSeleccionado = parseInt(rowData[0][7]);
-			const medicamentosYaSeleccionados = [];
-			$('#dataTableMS').children('tbody').children('tr').each((index, element) => medicamentosYaSeleccionados.push(element.querySelectorAll('td')[1].textContent));
-			verificarAntagonismosMedicamentos(idMedicamentoSeleccionado, medicamentosYaSeleccionados)
-				.then(result => subirMED(rowData[0][7], idC, $('#id_user').val(), idP))
-				.catch(error => {
-					const pregunta = document.createElement('strong');
-					pregunta.textContent = '¿Deseas continuar?';
-					swal({
-						title: "¡Advertencia!",
-						text: `${error.medicamento} tiene antagonismo con ${error.antagonismo}`,
-						content: pregunta,
-						icon: "warning",
-						buttons: {
-							cancel: {
-								text: "Cancelar",
-								visible: true
-							},
-							confirm: {
-								text: "Continuar",
-							}
-						}
-					}).then(async isConfirmed => {
-						if (isConfirmed) {
-							// Se hace la trazabilidad de la decisión de agregar medicamentos antagónicos a la receta
-							const respuesta = await registrarReporteConsultaAntagonismo(idC, parseInt($('#id_user').val())).then(respuesta => respuesta);
-
-							if (respuesta.ERROR) {
-								return swal({
-									title: "¡Ocurrió un error!",
-									text: respuesta.ERROR,
-									icon: "error",
-								});
-							}
-
-							return swal({
-								title: "¡Hecho!",
-								text: respuesta.EXITO,
-								icon: 'success',
-								buttons: false,
-								timer: 1800
-							}).then(() => subirMED(rowData[0][7], idC, $('#id_user').val(), idP));
-						}
-
-						return swal({
-							title: "¡Hecho!",
-							text: "Acción cancelada correctamente",
-							icon: "success",
-							buttons: false,
-							timer: 1800
-						});
+			// Algoritmo para verificar los antagonismos al momento de seleccionar un medicamento para una receta
+			verificarAntagonismos(parseInt(rowData[0][7]), {
+				idC,
+				idU: parseInt($('#id_user').val()),
+				idP,
+			})
+				.then((casoVerificacion) => {
+					if (casoVerificacion === 1) {
+						return subirMED(rowData[0][7], idC, $('#id_user').val(), idP);
+					}
+				})
+				.catch((error) => {
+					return swal({
+						icon: "error",
+						title: "¡Ocurrió un error!",
+						text: error.message,
 					});
 				});
+
+			// Verificamos que el medicamento seleccionado no sea antagónico de alguno ya seleccionado
+			/* verificarTodosAntagonismos(nombreMedSel, nombresMedSel, medSelAnt).then(response => {
+				if (!response) {
+					// Verificamos que el medicamento seleccionado no tenga antagonismo con ninguno ya seleccionado o viceversa
+					const idMedicamentoSeleccionado = parseInt(rowData[0][7]);
+					const medicamentosYaSeleccionados = [];
+					$('#dataTableMS').children('tbody').children('tr').each((index, element) => medicamentosYaSeleccionados.push(element.querySelectorAll('td')[1].textContent));
+					verificarAntagonismosMedicamentos(idMedicamentoSeleccionado, medicamentosYaSeleccionados)
+						.then(result => subirMED(rowData[0][7], idC, $('#id_user').val(), idP))
+						.catch(error => {
+							const pregunta = document.createElement('strong');
+							pregunta.textContent = '¿Deseas continuar?';
+							swal({
+								title: "¡Advertencia!",
+								text: `${error.medicamento} tiene antagonismo con ${error.antagonismo}`,
+								content: pregunta,
+								icon: "warning",
+								buttons: {
+									cancel: {
+										text: "Cancelar",
+										visible: true
+									},
+									confirm: {
+										text: "Continuar",
+									}
+								}
+							}).then(async isConfirmed => {
+								if (isConfirmed) {
+									// Se hace la trazabilidad de la decisión de agregar medicamentos antagónicos a la receta
+									const respuesta = await registrarReporteConsultaAntagonismo(idC, parseInt($('#id_user').val())).then(respuesta => respuesta);
+
+									if (respuesta.ERROR) {
+										return swal({
+											title: "¡Ocurrió un error!",
+											text: respuesta.ERROR,
+											icon: "error",
+										});
+									}
+
+									return swal({
+										title: "¡Hecho!",
+										text: respuesta.EXITO,
+										icon: 'success',
+										buttons: false,
+										timer: 1800
+									}).then(() => subirMED(rowData[0][7], idC, $('#id_user').val(), idP));
+								}
+
+								return swal({
+									title: "¡Hecho!",
+									text: "Acción cancelada correctamente",
+									icon: "success",
+									buttons: false,
+									timer: 1800
+								});
+							});
+						});
+				}
+			}); */
 		});
 
 		var oTableSME;
@@ -2317,9 +2336,9 @@ include_once 'recursos/datauser.php';
 				"bSortable": false
 			}, {
 				"bSortable": false
-			},{
+			}, {
 				"bSortable": false
-			},{
+			}, {
 				"bSortable": false
 			}, {
 				"bSortable": false
@@ -4250,3 +4269,5 @@ include_once 'recursos/datauser.php';
 
 <script src="./consultas/js/reportesConsultas.js"></script>
 <script src="./consultas/js/receta_medicamentos_seleccionados.js"></script>
+
+<script src="./consultas/js/verificarAntagonismos.js"></script>
