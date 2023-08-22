@@ -258,7 +258,26 @@ function procesar(a,b){//a es el id del paciente y b es el id del estudio en ven
 				}
             });
 		});
-			
+
+		// Obtenemos el historial de creación del estudio
+		getInfoHistorial(parseInt(b), 1)
+		.then(response => {
+			if (response.error) {
+				throw new Error(response.error);
+			}
+			$("#usuario_creacion").text(response.info.usuario);
+			$("#fecha_hora_creacion").text(response.info.fecha_hora);
+		})
+		.catch(error => {
+			swal({
+				type: "error",
+				title: "¡Ocurrió un error!",
+				text: error.message,
+				showConfirmButton: false,
+				timer: 1800
+			});
+		});
+
 		$('#myModal1').modal('show');
 		$('#myModal1').on('shown.bs.modal', function(e){ });
 		$('#myModal1').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModal1").empty(); });
@@ -1234,3 +1253,6 @@ function visualizar(x){ var x1=x; x='laboratorio/takeArchivos/pdf/'+x+'.pdf';
 	} });
 }
 </script>
+
+<!-- Funciones para el historial -->
+<script src="historial/js/historial.js"></script>

@@ -1,6 +1,6 @@
 <?php
 
-require("../../../../Connections/horizonte2.php");
+require("../../Connections/horizonte2.php");
 
 // Verificamos que la petición se haya hecho correctamente.
 if (empty($_POST) || empty($_POST['id_temporal_estudios']) || empty($_POST['tipo_estudio'])) {

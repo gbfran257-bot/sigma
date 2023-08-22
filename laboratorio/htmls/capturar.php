@@ -14,6 +14,14 @@
 <input name="idUserPro" id="idUserPro" type="hidden" value="<?php echo $row_usuario['id_u']; ?>">
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" class="table table-condensed table-bordered">
   <tr>
+    <td class="ocultarX" align="right" width="1px">PROCESÓ</td>
+    <td id="usuario_proceso" class="ocultarX text-info" align="left" colspan="2"></td>
+  </tr>
+  <tr>
+    <td class="ocultarX" align="right" width="1px">FECHA Y HORA</td>
+    <td id="fecha_hora_proceso" class="ocultarX text-info" align="left" colspan="2"></td>
+  </tr>
+  <tr>
     <td class="ocultarX" align="right" width="1px">PACIENTE</td> 
     <td class="ocultarX text-info" align="left" id="pacientePro"></td> 
     <td width="1%" nowrap class="cargaPDF">

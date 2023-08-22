@@ -5798,7 +5798,7 @@ include_once 'recursos/datauser.php';
 </script>
 
 <!-- Funciones para el historial del estudio de laboratorio -->
-<script src="laboratorio/estudios/js/historial/historial.js"></script>
+<script src="historial/js/historial.js"></script>
 
 <?php include_once 'partes/header.php';
 
