@@ -3053,132 +3053,156 @@ include_once 'recursos/datauser.php';
 								$('#btn_cancel1').hide();
 								$.post('pacientes/files-serverside/guardar_ov.php', datosP).done(function(data) {
 									var datil = data.split(';]');
-									if (datil[0] == 1) { //si el paciente se Actualizó 
-										$('#clickme').click();
-										$btn.button('reset');
-										$('#btn_cancel1').show();
-										$('#myModal4').modal('hide');
-										swal({
-												title: "VENTA REALIZADA",
-												text: "¿Deseas imprimir el ticket de venta " + datil[1] + "?",
+									if (datil[0] == 1) { //si el paciente se Actualizó
+
+										// Enviamos la petición para guardar usuario - fecha - hora de quién dió de alta el estudio
+										nuevoHistorial($('#aleatorio_ov').val(), 3)
+										.then(response => {
+											swal({
 												type: "success",
-												showCancelButton: true,
-												confirmButtonText: "Imprimir",
-												cancelButtonText: "Salir",
-												closeOnConfirm: false
-											},
-											function() {
-												$("#myModal1").load('pacientes/htmls/ticket.php', function(response, status, xhr) {
-													if (status == "success") {
-														//var tamP = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-144;
-														$('#contenedorAnteriores, #myAbonadoA').hide();
-														var oTableT = $('#dataTableResumenT').DataTable({
-															serverSide: true,
-															"sScrollY": '100%',
-															ordering: false,
-															searching: false,
-															scrollCollapse: false,
-															"scrollX": true,
-															"fnFooterCallback": function(nRow, aaData, iStart, iEnd, aiDisplay) {},
-															scroller: false,
-															responsive: false,
-															"aoColumns": [{
-																"bVisible": true
-															}, {
-																"bVisible": false
-															}, {
-																"bVisible": false
-															}, {
-																"bVisible": true
-															}, {
-																"bVisible": false
-															}, {
-																"bVisible": true
-															}],
-															"sDom": '<"filtroCt"><"infoCt"><"data_tCt"t>',
-															deferRender: true,
-															select: false,
-															"processing": false,
-															"sAjaxSource": "pacientes/js/datatable-serverside/totales_nvTi.php",
-															"fnServerParams": function(aoData, fnCallback) {
-																var aleatorio = $('#aleatorio_ov_a').val();
-																aoData.push({
-																	"name": "aleatorio",
-																	"value": aleatorio
-																});
-															},
-															"oLanguage": {
-																"sLengthMenu": "MONSTRANDO _MENU_ records per page",
-																"sZeroRecords": "LA ORDEN DE VENTA ESTA VACIA",
-																"sInfo": "MOSTRADOS: _END_",
-																"sInfoEmpty": "MOSTRADOS: 0",
-																"sInfoFiltered": " CONCEPTOS: _MAX_",
-																"sSearch": "BUSCAR"
-															},
-															"iDisplayLength": 50000,
-															paging: false
-														});
-
-														var datosTi = {
-															noAleatorio: $('#aleatorio_ov_a').val()
-														}
-														$.post('pacientes/files-serverside/datosTicketNV.php', datosTi).done(function(data) {
-															var datosT = data.split(';}');
-															if (datosT[5] == '') {
-																datosT[5] = 0;
-															} //alert(data);
-															//para el ticket
-															$('#fechaT').text(datosT[0]);
-															$('#referenciaT').text(datosT[1]);
-															$('#pacienteT').text(datosT[2]);
-															$('#adicionalesT').text(datosT[10]);
-															$('#totalT').text(datosT[4]);
-															$('#pagoT').text(datosT[5]);
-															$('#saldoT').text(datosT[6]);
-															$('#usuarioIT').text(datosT[33]);
-															$('#fechaIT').text(datosT[8]);
-															$('#horaIT').text(datosT[9]);
-															$('#formaPagoT').text(datosT[11]);
-															$('#cantidadLetraT').text(nn(datosT[4]));
-															$('#municipioS').text(datosT[16]);
-															$('#calleSucursal').text(datosT[19]);
-															$('#coloniaSucursal').text(datosT[18]);
-															$('#cpSucursal').text(datosT[20]);
-															$('#telefonoSucursal').text(datosT[21]);
-															$('#municipioSucursal').text(datosT[17]);
-															$('#estadoSucursal').text(datosT[15]);
-															$('#sitioS').text(datosT[22]);
-															$('#emailSucursal').text(datosT[23]);
-															$('#descuentoT').text(datosT[24]);
-															$('#subTotalT').text(datosT[29]);
-															if (datosT[25] > 0) {
-																x = 'sucursales/documentos/files/' + datosT[26] + '.' + datosT[27] + '?' + Math.round(Math.random() * 1000);
-																$('#myLogoS').html('<img src=' + x + ' width="150" style="border:5px none white; background-color:rgba(255, 255, 255, 1);">');
-															}
-															if (datosT[28] > 0) {
-																$('#myIva').removeClass('hidden');
-															} else {
-																$('#myIva').addClass('hidden');
-															}
-															$('#ivaT').text(datosT[28]);
-															$('#abonosT').val(datosT[29]);
-															$('#saldosT').val(datosT[30]);
-															$('#fechaOv').text(datosT[34]);
-															$('#imprimirTic').click(function(e) {
-																$('#tablaTicket').css('font-size', '8px').printElement();
-															});
-														});
-
-														$('#myModal1').modal('show');
-														$('#myModal1').on('shown.bs.modal', function(e) {});
-														$('#myModal1').on('hidden.bs.modal', function(e) {
-															$("#myModal1 .modal-content").remove();
-															$("#myModal1").empty();
-														});
-													}
-												});
-												swal.close();
+												title: "¡HECHO!",
+												text: "Historial creado exitosamente.",
+												showConfirmButton: false,
+												timer: 1800
 											});
+										})
+										.catch(error => {
+											swal({
+												type: "error",
+												title: "¡Ocurrió un error!",
+												text: error.message,
+												showConfirmButton: false,
+												tiemr: 1800
+											});
+										});
+
+										setTimeout(() => {
+											$('#clickme').click();
+											$btn.button('reset');
+											$('#btn_cancel1').show();
+											$('#myModal4').modal('hide');
+											swal({
+													title: "VENTA REALIZADA",
+													text: "¿Deseas imprimir el ticket de venta " + datil[1] + "?",
+													type: "success",
+													showCancelButton: true,
+													confirmButtonText: "Imprimir",
+													cancelButtonText: "Salir",
+													closeOnConfirm: false
+												},
+												function() {
+													$("#myModal1").load('pacientes/htmls/ticket.php', function(response, status, xhr) {
+														if (status == "success") {
+															//var tamP = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-144;
+															$('#contenedorAnteriores, #myAbonadoA').hide();
+															var oTableT = $('#dataTableResumenT').DataTable({
+																serverSide: true,
+																"sScrollY": '100%',
+																ordering: false,
+																searching: false,
+																scrollCollapse: false,
+																"scrollX": true,
+																"fnFooterCallback": function(nRow, aaData, iStart, iEnd, aiDisplay) {},
+																scroller: false,
+																responsive: false,
+																"aoColumns": [{
+																	"bVisible": true
+																}, {
+																	"bVisible": false
+																}, {
+																	"bVisible": false
+																}, {
+																	"bVisible": true
+																}, {
+																	"bVisible": false
+																}, {
+																	"bVisible": true
+																}],
+																"sDom": '<"filtroCt"><"infoCt"><"data_tCt"t>',
+																deferRender: true,
+																select: false,
+																"processing": false,
+																"sAjaxSource": "pacientes/js/datatable-serverside/totales_nvTi.php",
+																"fnServerParams": function(aoData, fnCallback) {
+																	var aleatorio = $('#aleatorio_ov_a').val();
+																	aoData.push({
+																		"name": "aleatorio",
+																		"value": aleatorio
+																	});
+																},
+																"oLanguage": {
+																	"sLengthMenu": "MONSTRANDO _MENU_ records per page",
+																	"sZeroRecords": "LA ORDEN DE VENTA ESTA VACIA",
+																	"sInfo": "MOSTRADOS: _END_",
+																	"sInfoEmpty": "MOSTRADOS: 0",
+																	"sInfoFiltered": " CONCEPTOS: _MAX_",
+																	"sSearch": "BUSCAR"
+																},
+																"iDisplayLength": 50000,
+																paging: false
+															});
+
+															var datosTi = {
+																noAleatorio: $('#aleatorio_ov_a').val()
+															}
+															$.post('pacientes/files-serverside/datosTicketNV.php', datosTi).done(function(data) {
+																var datosT = data.split(';}');
+																if (datosT[5] == '') {
+																	datosT[5] = 0;
+																} //alert(data);
+																//para el ticket
+																$('#fechaT').text(datosT[0]);
+																$('#referenciaT').text(datosT[1]);
+																$('#pacienteT').text(datosT[2]);
+																$('#adicionalesT').text(datosT[10]);
+																$('#totalT').text(datosT[4]);
+																$('#pagoT').text(datosT[5]);
+																$('#saldoT').text(datosT[6]);
+																$('#usuarioIT').text(datosT[33]);
+																$('#fechaIT').text(datosT[8]);
+																$('#horaIT').text(datosT[9]);
+																$('#formaPagoT').text(datosT[11]);
+																$('#cantidadLetraT').text(nn(datosT[4]));
+																$('#municipioS').text(datosT[16]);
+																$('#calleSucursal').text(datosT[19]);
+																$('#coloniaSucursal').text(datosT[18]);
+																$('#cpSucursal').text(datosT[20]);
+																$('#telefonoSucursal').text(datosT[21]);
+																$('#municipioSucursal').text(datosT[17]);
+																$('#estadoSucursal').text(datosT[15]);
+																$('#sitioS').text(datosT[22]);
+																$('#emailSucursal').text(datosT[23]);
+																$('#descuentoT').text(datosT[24]);
+																$('#subTotalT').text(datosT[29]);
+																if (datosT[25] > 0) {
+																	x = 'sucursales/documentos/files/' + datosT[26] + '.' + datosT[27] + '?' + Math.round(Math.random() * 1000);
+																	$('#myLogoS').html('<img src=' + x + ' width="150" style="border:5px none white; background-color:rgba(255, 255, 255, 1);">');
+																}
+																if (datosT[28] > 0) {
+																	$('#myIva').removeClass('hidden');
+																} else {
+																	$('#myIva').addClass('hidden');
+																}
+																$('#ivaT').text(datosT[28]);
+																$('#abonosT').val(datosT[29]);
+																$('#saldosT').val(datosT[30]);
+																$('#fechaOv').text(datosT[34]);
+																$('#imprimirTic').click(function(e) {
+																	$('#tablaTicket').css('font-size', '8px').printElement();
+																});
+															});
+
+															$('#myModal1').modal('show');
+															$('#myModal1').on('shown.bs.modal', function(e) {});
+															$('#myModal1').on('hidden.bs.modal', function(e) {
+																$("#myModal1 .modal-content").remove();
+																$("#myModal1").empty();
+															});
+														}
+													});
+													swal.close();
+												});
+										}, 2000);
 									} else {
 										alert(datil[0]);
 									}
@@ -5772,6 +5796,9 @@ include_once 'recursos/datauser.php';
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4cHSkoaQwTQjx31Y3xFf3kkSkD28X_Rs&callback=initMap" async defer>
 </script>
+
+<!-- Funciones para el historial del estudio de laboratorio -->
+<script src="laboratorio/estudios/js/historial/historial.js"></script>
 
 <?php include_once 'partes/header.php';
 
