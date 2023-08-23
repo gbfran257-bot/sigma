@@ -17,7 +17,7 @@ try {
             FROM venta_conceptos vc
             LEFT JOIN orden_venta ov ON ov.referencia_ov = vc.referencia_vc
             LEFT JOIN conceptos c ON vc.id_concepto_es = c.id_to
-            WHERE ov.referencia_ov = ? AND c.id_tipo_concepto_to BETWEEN 3 AND 4";
+            WHERE ov.referencia_ov = ? AND c.id_tipo_concepto_to = 3";
     $consulta = $horizonte->prepare($sql);
     $consulta->bind_param("s", $referencia);
     if (!$consulta->execute()) {
