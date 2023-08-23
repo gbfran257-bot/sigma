@@ -2,6 +2,24 @@ const URL_NUEVO_HISTORIAL = "historial/files-serverside/nuevoHistorial.php";
 const URL_GET_INFO_HISTORIAL = "historial/files-serverside/getInfoHistorial.php?";
 const URL_CONTINUAR_HISTORIAL = "historial/files-serverside/continuarHistorial.php";
 
+const accionesHistorial = {
+    CREO: "CREÓ",
+    PROCESO: "PROCESÓ",
+    CAPTURO: "CAPTURÓ",
+    AUTORIZO: "AUTORIZÓ",
+    FINALIZO : "FINALIZÓ",
+    REINICIO: "REINICIÓ"
+}
+
+const estausHistorial = {
+    CREACION: 1,
+    PROCESAMIENTO: 2,
+    CAPTURACION: 3,
+    AUTORIZACION: 4,
+    FINALIZACION: 5,
+    REINICIO: 6
+};
+
 /**
  * Creamos un historial para cada estudio creado en una orden de venta
  * @param { string } id_temporal_estudios

@@ -264,7 +264,7 @@ function procesar(a,b){//a es el id del paciente y b es el id del estudio en ven
 									showConfirmButton:false
 								}, function() {
 									// Realizamos la consulta para registrar un nuevo cambio en el estudio PENDIENTE -> PROCESO
-									continuarHistorial(idUsuario, idEstudio, 2)
+									continuarHistorial(idUsuario, idEstudio, estausHistorial.PROCESAMIENTO)
 									.then(response => {
 										swal({
 											type: "success",
@@ -290,11 +290,12 @@ function procesar(a,b){//a es el id del paciente y b es el id del estudio en ven
 		});
 
 		// Obtenemos la información del usuario que creó el estudio
-		getInfoHistorial(parseInt(b), 1)
+		getInfoHistorial(parseInt(b), estausHistorial.CREACION)
 		.then(response => {
 			if (response.error) {
 				throw new Error(response.error);
 			}
+			$("#accion_usuario").text(accionesHistorial.CREO);
 			$("#usuario_creacion").text(response.info.usuario);
 			$("#fecha_hora_creacion").text(response.info.fecha_hora);
 		})
@@ -611,10 +612,18 @@ function realizar(a,b,n,id_s){//a es el id del paciente y b es el id del estudio
 			
 			$('#idUserPro').val($('#id_user').val());
 			$('#form-procesar').validator().on('submit', function (e) {
-			  if (e.isDefaultPrevented()) { // handle the invalid form...
-			  } else { // everything looks good!
+			  if (!e.isDefaultPrevented()) { // everything looks good!
 				e.preventDefault();
-				if(datosP[37]>0 || $('#name_area').val() == 'BACTERIOLOGIA'){
+				
+				// Realizamos la petición para registrar el cambio en el estudio PROCESO - CAPTURADO
+				continuarHistorial(parseInt($("#idUserPro").val()), parseInt(b), estausHistorial.CAPTURACION)
+				.then(response => {
+					swal({
+						type: "success",
+						title: "¡HECHO!",
+						text: "Historial continuado correctamente."
+					}, function () {
+						if(datosP[37]>0 || $('#name_area').val() == 'BACTERIOLOGIA'){
 					var datoP = $('#form-procesar').serialize();
 					if($('#name_area').val() != 'BACTERIOLOGIA'){
 						$.post('laboratorio/archivos_save_ajax/realizar.php', datoP).done(function( data ) { 
@@ -657,6 +666,15 @@ function realizar(a,b,n,id_s){//a es el id del paciente y b es el id del estudio
 						}else{alert(data);}
 					});
 				}
+					});
+				})
+				.catch(error => {
+					swal({
+						type: "error",
+						title: "¡Ocurrió un error!",
+						text: error.message,
+					});
+				});
 			  }
 			});
 				
@@ -684,7 +702,7 @@ function realizar(a,b,n,id_s){//a es el id del paciente y b es el id del estudio
 								showConfirmButton:false
 							}, function () {
 								// Realizamos la petición para registrar el reinicio del estudio
-								continuarHistorial(idUsuario, idEstudio, 6)
+								continuarHistorial(idUsuario, idEstudio, estausHistorial.REINICIO)
 								.then(response => {
 									swal({
 										type: "success",
@@ -710,13 +728,14 @@ function realizar(a,b,n,id_s){//a es el id del paciente y b es el id del estudio
 		});
 
 		// Obtenemos la información del usuario que procesó el estudio
-		getInfoHistorial(parseInt(b), 2)
+		getInfoHistorial(parseInt(b), estausHistorial.PROCESAMIENTO)
 		.then(response => {
 			if (response.error) {
 				throw new Error(response.error);
 			}
-			$("#usuario_proceso").text(response.info.usuario);
-			$("#fecha_hora_proceso").text(response.info.fecha_hora);
+			$("#accion").text(accionesHistorial.PROCESO);
+			$("#usuario").text(response.info.usuario);
+			$("#fecha_hora").text(response.info.fecha_hora);
 		})
 		.catch(error => {
 			swal({
@@ -884,10 +903,30 @@ function interpretar(a,b,n,id_s){//a es el id del paciente y b del estudio en vc
 			
 			$('#idUserPro').val($('#id_user').val());
 			$('#form-procesar').validator().on('submit', function (e) {
-			  if (e.isDefaultPrevented()) { // handle the invalid form...
-			  } else { // everything looks good!
-				e.preventDefault(); 
-				if(datosP[37]>0 || $('#name_area').val() == 'BACTERIOLOGIA'){
+			  if (!e.isDefaultPrevented()) { // everything looks good!
+				e.preventDefault();
+
+				// Realizamos la petición para registrar un nuevo cambio en el estudio PROCESO -> AUTORIZADO
+				continuarHistorial(parseInt($("#idUserPro").val()), parseInt(b), estausHistorial.AUTORIZACION)
+				.then(response => {
+					swal({
+						type: "success",
+						title: "¡HECHO!",
+						text: "¡Historial continuado correctamente!",
+						showConfirmButton: false,
+						timer: 1800
+					});
+				})
+				.catch(error => {
+					swal({
+						type: "error",
+						title: "¡Ocurrió un error!",
+						text: error.message,
+					});
+				});
+
+				setTimeout(() => {
+					if(datosP[37]>0 || $('#name_area').val() == 'BACTERIOLOGIA'){
 					var datoP = $('#form-procesar').serialize();
 					if($('#name_area').val() != 'BACTERIOLOGIA'){
 						$.post('laboratorio/archivos_save_ajax/autorizado.php', datoP).done(function( data ) { 
@@ -927,14 +966,8 @@ function interpretar(a,b,n,id_s){//a es el id del paciente y b del estudio en vc
 						});
 					}
 				}else{
-					//var str = tinyMCE.get('notaMedicaC').getContent(); 
-					//var res = str.replace('src="usuarios/firmas/','src="../../usuarios/firmas/');
-					//var res = res.replace(/src="img_cslta/g,'src="../../../consultas/img_cslta');
-					//var res = res.replace(/[?]\d{14}/g,'');
-					var str = tinyMCE.get('notaLibre').getContent(); //alert(str);
-					//var res = str.replace(/[?]\d{14}/g,'');//alert(res);
-					//var res = str.replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); alert(res);
-					var res = str.replace(/<p/g, "<span"); res = res.replace(/<\/p>/g, "</span><br>"); //alert(res);
+					var str = tinyMCE.get('notaLibre').getContent();
+					var res = str.replace(/<p/g, "<span"); res = res.replace(/<\/p>/g, "</span><br>");
 					var datoP = { 
 						idE:$('#idEstudioPro').val(),idU:$('#id_user').val(), notaLibre:res, idP:$('#idPacientePro').val(), notaPro:$('#notaPro').val()
 					}
@@ -951,7 +984,26 @@ function interpretar(a,b,n,id_s){//a es el id del paciente y b del estudio en vc
 						}else{alert(data);}
 					});
 				}
+				}, 2000);
 			  }
+			});
+		});
+
+		// Obtenemos la información del usuario que capturó el estudio
+		getInfoHistorial(parseInt(b), estausHistorial.CAPTURACION)
+		.then(response => {
+			if (response.error) {
+				throw new Error(response.error);
+			}
+			$("#accion").text(accionesHistorial.CAPTURO);
+			$("#usuario").text(response.info.usuario);
+			$("#fecha_hora").text(response.info.fecha_hora);
+		})
+		.catch(error => {
+			swal({
+				type: "error",
+				title: "¡Ocurrió un error!",
+				text: error.message
 			});
 		});
 
@@ -1089,6 +1141,24 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
             });
 		});
 		
+		// Obtenemos la infomación del usuario que autorizó el estudio
+		getInfoHistorial(parseInt(b), estausHistorial.AUTORIZACION)
+		.then(response => {
+			if (response.error) {
+				throw new Error(response.error);
+			}
+			$("#accion").text(accionesHistorial.AUTORIZO);
+			$("#usuario").text(response.info.usuario);
+			$("#fecha_hora").text(response.info.fecha_hora);
+		})
+		.catch(error => {
+			swal({
+				type: "error",
+				title: "¡Ocurrió un error!",
+				text: error.message,
+			});
+		});
+
 		$('#myModal1').modal('show');
 		$('#myModal1').on('shown.bs.modal', function(e){ $('#form-procesar').validator(); });
 		$('#myModal1').on('hidden.bs.modal', function(e){ tinymce.remove("#notaLibre"); $(".modal-content").remove(); $("#myModal1").empty(); });

@@ -11,7 +11,7 @@
 <form action="" method="post" name="form-procesar" id="form-procesar" target="_self" style="height:100%;">
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" class="table table-condensed">
   <tr>
-    <td class="ocultarX" align="left">CREÓ</td>
+    <td id="accion_usuario" class="ocultarX" align="left"></td>
     <td id="usuario_creacion" class="ocultarX text-info" align="left" colspan="2"></td>
   </tr>
   <tr>
