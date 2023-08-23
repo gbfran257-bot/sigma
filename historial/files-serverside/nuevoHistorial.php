@@ -43,5 +43,7 @@ try {
     die();
 }
 
+$horizonte->close();
+
 echo json_encode([true]);
 die();

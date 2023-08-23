@@ -3,7 +3,7 @@
 require("../../Connections/horizonte2.php");
 
 // Verificamos que la petición se haya hecho de manera correcta
-if (empty($_GET) || empty($_GET['ide']) || empty($_GET['te'])) {
+if (empty($_GET) || empty($_GET['ide']) || empty($_GET['es'])) {
     echo json_encode(['error' => 'Ocurrió un error con la petición.']);
     die();
 }
@@ -11,15 +11,23 @@ if (empty($_GET) || empty($_GET['ide']) || empty($_GET['te'])) {
 try {
     // Obtenemos los parametros de la petición
     $id_estudio = intval(htmlspecialchars($_GET['ide'], ENT_QUOTES, "utf-8", true));
-    $tipo_estudio = intval(htmlspecialchars($_GET['te'], ENT_QUOTES, "utf-8", true));
+    $estatus = intval(htmlspecialchars($_GET['es'], ENT_QUOTES, "utf-8", true));
+
+    // Obtenemos el ultimo cambio realizado segun el estatus del estudio
+    $consulta = $horizonte->prepare("SELECT MAX(id) AS id FROM historial_estudios WHERE id_estudio = ? AND id_estatus = ?");
+    $consulta->bind_param("ii", $id_estudio, $estatus);
+    if (!$consulta->execute()) {
+        throw new Exception($consulta->error);
+    }
+    $id_ultimo_cambio = $consulta->get_result()->fetch_object()->id;
 
     // Preparamos la consulta para obtener el nombre del usuario, y la fecha y hora del historial
     $sql = "SELECT nombre_u AS usuario, DATE_FORMAT(historial_estudios.fecha_hora, '%d/%m/%Y %H:%i:%s') AS fecha_hora
             FROM usuarios
             LEFT JOIN historial_estudios ON usuarios.id_u = historial_estudios.id_usuario
-            WHERE id_estudio = ? AND id_estatus = ?";
+            WHERE id = ?";
     $consulta = $horizonte->prepare($sql);
-    $consulta->bind_param("ii", $id_estudio, $tipo_estudio);
+    $consulta->bind_param("i", $id_ultimo_cambio);
     if (!$consulta->execute()) {
         throw new Exception($consulta->error);
     }
@@ -28,6 +36,8 @@ try {
     echo json_encode(['error' => $ex->getMessage()]);
     die();
 }
+
+$horizonte->close();
 
 echo json_encode(['info' => $info]);
 die();

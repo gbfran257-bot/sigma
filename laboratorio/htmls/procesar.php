@@ -11,6 +11,14 @@
 <form action="" method="post" name="form-procesar" id="form-procesar" target="_self" style="height:100%;">
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" class="table table-condensed">
   <tr>
+    <td class="ocultarX" align="left">CREÓ</td>
+    <td id="usuario_creacion" class="ocultarX text-info" align="left" colspan="2"></td>
+  </tr>
+  <tr>
+    <td class="ocultarX" align="left">FECHA Y HORA</td>
+    <td id="fecha_hora_creacion" class="ocultarX text-info" align="left" colspan="2"></td>
+  </tr>
+  <tr>
     <td colspan="1" class="" align="left" width="1px">PACIENTE</td> 
     <td colspan="2" id="pacientePro" class="text-info"></td>
   </tr>

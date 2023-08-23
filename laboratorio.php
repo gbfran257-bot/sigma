@@ -248,10 +248,40 @@ function procesar(a,b){//a es el id del paciente y b es el id del estudio en ven
 					if (e==0){
 						e++; $('#idUserPro').val($('#id_user').val());
 						var datoP = $('#form-procesar').serialize();
+
+						// Guardamos el id del usuario y el id del estudio
+						const idUsuario = parseInt($("#idUserPro").val());
+						const idEstudio = parseInt($("#idEstudioPro").val());
+
 						$.post('laboratorio/archivos_save_ajax/procesar.php', datoP).done(function(data) {
 							if(data==1){
 								$('#clickme').click(); $('#myModal1').modal('hide');
-								swal({title:"",type:"success",text:"¡El proceso se realizó correctamente!",timer:2500,showConfirmButton:false});
+								swal({
+									title:"",
+									type:"success",
+									text:"¡El proceso se realizó correctamente!",
+									timer:2500,
+									showConfirmButton:false
+								}, function() {
+									// Realizamos la consulta para registrar un nuevo cambio en el estudio PENDIENTE -> PROCESO
+									continuarHistorial(idUsuario, idEstudio, 2)
+									.then(response => {
+										swal({
+											type: "success",
+											title: "¡HECHO!",
+											text: "¡Historial continuado correctamente!",
+											showConfirmButton: false,
+											timer: 1800
+										});
+									})
+									.catch(error => {
+										swal({
+											type: "error",
+											title: "¡Ocurrió un error!",
+											text: error.message,
+										});
+									});
+								});
 							}else{alert(data);}
 						});
 					}
@@ -259,7 +289,7 @@ function procesar(a,b){//a es el id del paciente y b es el id del estudio en ven
             });
 		});
 
-		// Obtenemos el historial de creación del estudio
+		// Obtenemos la información del usuario que creó el estudio
 		getInfoHistorial(parseInt(b), 1)
 		.then(response => {
 			if (response.error) {
@@ -273,8 +303,6 @@ function procesar(a,b){//a es el id del paciente y b es el id del estudio en ven
 				type: "error",
 				title: "¡Ocurrió un error!",
 				text: error.message,
-				showConfirmButton: false,
-				timer: 1800
 			});
 		});
 
@@ -633,6 +661,10 @@ function realizar(a,b,n,id_s){//a es el id del paciente y b es el id del estudio
 			});
 				
 			$('#btn_reiniciar_e').click(function(e) {
+				// Guardamos el id del usuario y el id del estudio
+				const idUsuario = $("#idUserPro").val();
+				const idEstudio = $("#idEstudioPro").val();
+
                 swal({
 				  title: "REINICIAR ESTUDIO", text: "¿Estás seguro de querer reiniciar el estudio?",
 				  type: "warning", showCancelButton: true, confirmButtonColor: "#DD6B55",
@@ -643,12 +675,57 @@ function realizar(a,b,n,id_s){//a es el id del paciente y b es el id del estudio
 					$.post('laboratorio/archivos_save_ajax/reiniciar.php', dato).done(function( data ) { 
 					if (data == 1){
 						$('#clickme').click(); swal.close(); $('#myModal3').modal('hide');
-						window.setTimeout(function(){swal({title:"",type:"success",text:"EL REINICIO SE REALIZÓ CORRECTAMENTE",timer:2500,showConfirmButton:false});},300);
+						window.setTimeout(function(){
+							swal({
+								title:"",
+								type:"success",
+								text:"EL REINICIO SE REALIZÓ CORRECTAMENTE",
+								timer:2500,
+								showConfirmButton:false
+							}, function () {
+								// Realizamos la petición para registrar el reinicio del estudio
+								continuarHistorial(idUsuario, idEstudio, 6)
+								.then(response => {
+									swal({
+										type: "success",
+										title: "¡HECHO!",
+										text: "¡Historial continuado correctamente!",
+										showConfirmButton: false,
+										timer: 1800
+									});
+								})
+								.catch(error => {
+									swal({
+										type: "error",
+										title: "¡Ocurrió un error!",
+										text: error.message,
+									});
+								});
+							});
+						},300);
 					}else{alert(data);} });
 				});
             });
 			
 		});
+
+		// Obtenemos la información del usuario que procesó el estudio
+		getInfoHistorial(parseInt(b), 2)
+		.then(response => {
+			if (response.error) {
+				throw new Error(response.error);
+			}
+			$("#usuario_proceso").text(response.info.usuario);
+			$("#fecha_hora_proceso").text(response.info.fecha_hora);
+		})
+		.catch(error => {
+			swal({
+				type: "error",
+				title: "¡Ocurrió un error!",
+				text: error.message,
+			});
+		});
+
 		$('#myModal3').modal('show');
 		$('#myModal3').on('shown.bs.modal', function(e){ $('#form-procesar').validator(); });
 		$('#myModal3').on('hidden.bs.modal', function(e){ tinymce.remove("#notaLibre"); $(".modal-content").remove(); $("#myModal3").empty(); });
