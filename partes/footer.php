@@ -26,6 +26,10 @@
         <div id="visualizar_medicamento_sinergias" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
     <?php endif; ?>
 
+    <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/laboratorio.php") : ?>
+
+    <?php endif; ?>
+        <div id="modal_historial" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
     </body>
 
     </html>

@@ -1,6 +1,7 @@
 const URL_NUEVO_HISTORIAL = "historial/files-serverside/nuevoHistorial.php";
 const URL_GET_INFO_HISTORIAL = "historial/files-serverside/getInfoHistorial.php?";
 const URL_CONTINUAR_HISTORIAL = "historial/files-serverside/continuarHistorial.php";
+const URL_GET_HISTORIAL_COMPLETO_OV = "historial/files-serverside/getHistorialCompletoOV.php?referencia_ov=";
 
 const accionesHistorial = {
     CREO: "CREÓ",
@@ -83,3 +84,23 @@ const continuarHistorial = async (idUsuario, idEstudio, estatus) => {
         throw error;
     });
 };
+
+/**
+ * Se obtiene el historial completo de una orden de venta
+ * @param { string } referencia
+ */
+const getHistorialCompletoOV = async (referencia) => {
+    return await fetch(URL_GET_HISTORIAL_COMPLETO_OV + referencia, {
+        method: "GET",
+    })
+    .then(response => response.json())
+    .then(respuesta => {
+        if (respuesta.error) {
+            throw new Error(respuesta.error);
+        }
+        return respuesta.estudios;
+    })
+    .catch(error => {
+        throw error;
+    });
+}

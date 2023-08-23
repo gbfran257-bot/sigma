@@ -66,6 +66,21 @@
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
     <link href="c3/c3.css" rel="stylesheet">
+
+	<style>
+		#ver_historial {
+			margin-left: 1rem;
+			padding: 0.5rem;
+		}
+
+		.historial_estudio {
+			margin: 1rem;
+		}
+
+		.historial_estudio p {
+			margin: 0px;
+		}
+	</style>
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
@@ -183,6 +198,38 @@ function ver_ov(ref){
 		var dato = { ref:ref, idU:$('#id_user').val() }
 		$.post('laboratorio/archivos_save_ajax/datos_ficha_ov.php', dato).done(function(data){ var datos = data.split('*}');
 			$('#titulo_modal').text('ORDEN DE VENTA '+ref+' | '+datos[0]+' | '+datos[1]);
+
+			// Agregamos el boton para ver el historial del estudio
+			$("#titulo_modal").append("<button type='button' id='ver_historial' class='btn btn-info'>Ver historial</button>");
+			$("#ver_historial").click(() => {
+				$("#modal_historial").load("laboratorio/htmls/modal_ver_historial.php", (response, status, xhr) => {
+					if (status !== "success") {
+						return swal({
+							type: "error",
+							title: "¡Ocurirío un error!",
+							text: "No se pudo cargar el modal del historial."
+						}, () => $("#modal_historial").modal("hide"));
+					}
+
+					// Obtenemos el historial completo de la orden de venta
+					$("#historial_content").ready(getHistorialCompletoOV(ref)
+					.then(response => setHistorialData(response))
+					.catch(error => {
+						$("#cerrar_modal_historial").click();
+						return swal({
+							type: "error",
+							title: "¡Ocurirío un error!",
+							text: error.message
+						}, () => $("#modal_historial").modal("hide"));
+					}));
+
+					$("#modal_historial").modal("show");
+					$("#modal_historial").on("hidden.bs.modal", () => {
+						$("#modal_historial").empty();
+					});
+				});
+			});
+
 			$('#fecha_o').text(datos[2]); $('#usuario_o').text(datos[3]); $('#subtotal_o').text(datos[4]); $('#extras_o').text(datos[5]);
 			$('#iva_o').text(datos[6]); $('#descuento_o').text(datos[7]); $('#total_o').text(datos[8]); $('#abonado_o').text(datos[9]);
 			$('#saldo_o').text(datos[10]); $('#estatus_o').text(datos[11]); $('#o_items').html(datos[17]);
@@ -193,6 +240,47 @@ function ver_ov(ref){
 		}); 
 	}});
 }
+
+const setHistorialData = (estudios) => {
+	estudios.forEach(estudio => {
+		$("#historial_content").append(`
+			<div id="historial_estudio_${estudio.id_estudio}" class="historial_estudio">
+				<p><strong>ESTUDIO: </strong>${estudio.estudio}</p>
+				<div id="estudio_historial">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>USUARIO</th>
+								<th>FECHA</th>
+								<th>HORA</th>
+								<th>ESTATUS</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+		`);
+		if (estudio.historial.length === 0) {
+			$(`#historial_estudio_${estudio.id_estudio} #estudio_historial table tbody`).append(`
+				<tr>
+					<td colspan="4" style="text-align: center;"><strong>NINGÚN CAMBIO PARA MOSTRAR</strong></td>
+				</tr>
+			`);
+		} else {
+			estudio.historial.forEach((historial) => {
+			$(`#historial_estudio_${estudio.id_estudio} #estudio_historial table tbody`).append(`
+				<tr>
+					<td>${historial.usuario}</td>
+					<td>${historial.fecha}</td>
+					<td>${historial.hora}</td>
+					<td><strong>${historial.estatus}</strong></td>
+				</tr>
+			`);
+		});
+		}
+	});
+};
 
 function editar(x, estudio, referencia, paciente){//alert($('#acc_user').val());// x=id del estudio en vc
 	if($('#acc_user').val()==1){
