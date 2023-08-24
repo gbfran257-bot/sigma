@@ -70,7 +70,10 @@ require("../../funciones/php/values.php");
  $tableC = "<table class='table-condensed table-bordered' width='100%' height='100%'> \n"; 
  $tableC = $tableC."<tr class='bg-info'> <td>#</td> <td>CONCEPTO</td> <td>DESCRIPCI&Oacute;N</td> <td>MOTIVO</td><td>DESCUENTO</td> <td>ESTATUS</td> <td>PRECIO</td> </tr> \n";
  $cont = 0;
- while ( $row = mysql_fetch_row($result) ){ $cont++;
+ $dataArray = array(); // Creamos un array para almacenar los datos
+
+ while ( $row = mysql_fetch_row($result) ){ 
+	$cont++;
 	if($row[1] == 'CONSULTA'){ 
 		$motivo = $row[13];
 		$desc = $row[17];
@@ -90,10 +93,41 @@ require("../../funciones/php/values.php");
 	$tableC = $tableC."<tr style='color:black;' class='$row[11]'>
 			<td>$cont</td> <td>$row[1]</td> <td>$row[2]</td> <td>$motivo</td><td>$desc</td> <td>$row[8]</td> <td style='text-align:right'>$$row[6]</td>
 		</tr> \n"; 
+	$rowData = array(
+		'contador_vc' => $row[0],
+		'tipo_concepto_tc' => $row[1],
+		'concepto_to' => $row[2],
+		'tipo_concepto_tc_2' => $row[3],
+		'referencia' => $row[4],
+		'estatus_vc' => $row[5],
+		'precio_vc' => $row[6],
+		'id_personal_medico_vc' => $row[7],
+		'estatus_est' => $row[8],
+		'id_vc' => $row[9],
+		'id_departamento_to' => $row[10],
+		'id_vc_2' => $row[11],
+		'referencia_vc' => $row[12],
+		'motivo_c_ov' => $row[13],
+		'observaciones_i_ov' => $row[14],
+		'observaciones_l_ov' => $row[15],
+		'observaciones_s_ov' => $row[16],
+		'motivo_desc_c_ov' => $row[17],
+		'motivo_desc_i_ov' => $row[18],
+		'motivo_desc_l_ov' => $row[19],
+		'motivo_desc_s_ov' => $row[20],
+		'motivo_desc_f_ov' => $row[21],
+		'Cantidad' => '1',
+		'ClaveProdServ' => '84111506',
+		'ClaveUnidad' => 'ACT',
+		'ValorUnitario' => $row[6]
+	);
+	$dataArray[$cont-1] = $rowData;
  } 
+ $jsonData = json_encode($dataArray,JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
  $tableC = $tableC."</table> \n"; 
  
-	 echo $row1[0].'*}'.$row1[3].' '.$row1[2].'*}'.$rowR[1].'*}'.$rowR[2].'*}'.$rowR[3].'*}'.$rowR[4].'*}'.$rowR[5].'*}'.$rowR[6].'*}'.$rowR[7].'*}'.$rowA[0].'*}'.$saldo.'*}'.$estatus.'*}'.$rowIC[0].'*}'.$rowII[0].'*}'.$rowIL[0].'*}'.$rowIS[0].'*}'.$rowIF[0].'*}'.$tableC;
+	 echo $row1[0].'*}'.$row1[3].' '.$row1[2].'*}'.$rowR[1].'*}'.$rowR[2].'*}'.$rowR[3].'*}'.$rowR[4].'*}'.$rowR[5].'*}'.$rowR[6].'*}'.$rowR[7].'*}'.$rowA[0].'*}'.$saldo.'*}'.$estatus.'*}'.$rowIC[0].'*}'.$rowII[0].'*}'.$rowIL[0].'*}'.$rowIS[0].'*}'.$rowIF[0].'*}'.$tableC.'*}'.$jsonData;
 
 //Cerrar conexión a la Base de Datos
  mysql_close($horizonte);

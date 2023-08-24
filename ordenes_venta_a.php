@@ -331,21 +331,85 @@ $(document).ready(function(e) {
     } );
 });
 
-function ver_ov(ref){
-	$("#myModal3").load("laboratorio/htmls/ficha_ov.php",function(response,status,xhr){ if(status == "success"){
-		var dato = { ref:ref, idU:$('#id_user').val() }
-		$.post('laboratorio/archivos_save_ajax/datos_ficha_ov.php', dato).done(function(data){ var datos = data.split('*}');
-			$('#titulo_modal').text('ORDEN DE VENTA '+ref+' | '+datos[0]+' | '+datos[1]);
-			$('#fecha_o').text(datos[2]); $('#usuario_o').text(datos[3]); $('#subtotal_o').text(datos[4]); $('#extras_o').text(datos[5]);
-			$('#iva_o').text(datos[6]); $('#descuento_o').text(datos[7]); $('#total_o').text(datos[8]); $('#abonado_o').text(datos[9]);
-			$('#saldo_o').text(datos[10]); $('#estatus_o').text(datos[11]); $('#o_items').html(datos[17]);
+function ver_ov(ref) {
+    var modalSelector = "#myModal3";
+    var datosFichaURL = 'laboratorio/archivos_save_ajax/datos_ficha_ov.php';
+
+    // Cargar la vista de la orden de venta en el modal
+    $(modalSelector).load("laboratorio/htmls/ficha_ov.php?esFactura=true", function (response, status, xhr) {
+        if (status == "success") {
+            // Datos a enviar al servidor
+            var datos = {
+                ref: ref,
+                idUsuario: $('#id_user').val()
+            };
+            
 			
-			$('#myModal3').modal('show');
-			$('#myModal3').on('shown.bs.modal', function(e){ });
-			$('#myModal3').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModal3").empty(); });
-		}); 
-	}});
+            // Enviar datos al servidor y procesar la respuesta
+            $.post(datosFichaURL, datos).done(function (data) {
+				var datosSplit = data.split('*}');
+                var tituloModal = 'ORDEN DE VENTA ' + ref + ' | ' + datosSplit[0] + ' | ' + datosSplit[1];
+                
+                // Actualizar los elementos en el modal con los datos recibidos
+                $('#titulo_modal').text(tituloModal);
+                $('#fecha_o').text(datosSplit[2]);
+                $('#usuario_o').text(datosSplit[3]);
+                $('#subtotal_o').text(datosSplit[4]);
+                $('#extras_o').text(datosSplit[5]);
+                $('#iva_o').text(datosSplit[6]);
+                $('#descuento_o').text(datosSplit[7]);
+                $('#total_o').text(datosSplit[8]);
+                $('#abonado_o').text(datosSplit[9]);
+                $('#saldo_o').text(datosSplit[10]);
+                $('#estatus_o').text(datosSplit[11]);
+                $('#o_items').html(datosSplit[17]);
+				$('#data').val(datosSplit);
+
+				var jsonData = {
+					emisor_nombre: null,
+					emisor_rfc: null,
+					emisor_regimen: '626',
+					emisor_codigo_postal: '55555',
+					receptor_nombre: 'GABRIEL ALEJANDRO RAMOS SALAZAR', //falta dato en la db datosSplit[0],
+					receptor_rfc: 'RASG920318DXA', //falta dato en la db,
+					receptor_codigo_postal: '45200',
+					receptor_uso_cfdi: 'CP01',
+					receptor_regimen: '612',
+					fecha_o: datosSplit[2],
+					usuario_o: datosSplit[3],
+					subtotal_o: datosSplit[4],
+					extras_o: datosSplit[5],
+					iva_o: datosSplit[6],
+					descuento_o: datosSplit[7],
+					total_o: datosSplit[8],
+					abonado_o: datosSplit[9],
+					saldo_o: datosSplit[10],
+					estatus_o: datosSplit[11],
+					o_items: datosSplit[18]
+				};
+
+				// Convertir el objeto JSON en una cadena (string)
+				var jsonString = JSON.stringify(jsonData);
+
+				// Asignar la cadena JSON al campo de entrada "data"
+				$('#data').val(jsonString);
+
+                // Mostrar el modal
+                $(modalSelector).modal('show');
+
+                // Lógica adicional al mostrar el modal
+                $(modalSelector).on('shown.bs.modal', function (e) {});
+
+                // Lógica al ocultar el modal
+                $(modalSelector).on('hidden.bs.modal', function (e) {
+                    $(".modal-content").remove();
+                    $(modalSelector).empty();
+                });
+            });
+        }
+    });
 }
+
 	
 function cambiar_suc(val, temp){
 	swal({
