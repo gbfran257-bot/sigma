@@ -371,6 +371,9 @@ include_once 'recursos/datauser.php';
 
 		// Asignamos los eventos para el filtrado
 		setFiltradoConsultasHandler();
+
+		// Seleccionamos las consultas para evitar tener que dalr click al radio button siempre que entramos a la pagina
+		$("#radio2").click();
 	});
 
 	//El campo de busqueda edad solo acepta numeros y letras A y M
@@ -3425,65 +3428,113 @@ include_once 'recursos/datauser.php';
 	};
 
 	function imprimirNM(idPa, x) { //x=id del estudio, y es si se imprimen los encabe
-		$("#myModal1").load('imagen/htmls/imprimir.php', function(response, status, xhr) {
-			if (status == "success") {
-				$('#titulo_modal').text('IMPRESIÓN DE LA NOTA MÉDICA');
-				$("#myModal1").height($("#referencia").height() * 0.85);
-				var dato = {
-					idE: x,
-					idP: idPa,
-					idU: $('#id_user').val()
-				}
-				$.post('consultas/files-serverside/datosNotaMedica.php', dato).done(function(data) {
-					var datos = data.split(';*}-{'); //alert(data);
-					var res = datos[0].replace(/<p/g, "<div");
-					res = res.replace(/<\/p>/g, "</div>");
-					$("#impresion_inter").html(res);
-				});
+		// Obtenemos el membrete para imprimir la nota médica correctamente
+		getMembrete(parseInt(x))
+			.then(response => {
+				const urlEncabezado = response.url_encabezado;
+				const urlPiePagina = response.url_pie_pagina;
 
-				$('#btn_imprimir_i').click(function(e) {
-					$('#impresion_inter').printElement();
-				});
+				$("#myModal1").load('imagen/htmls/imprimir.php', function(response, status, xhr) {
+					if (status == "success") {
+						$('#titulo_modal').text('IMPRESIÓN DE LA NOTA MÉDICA');
+						$("#myModal1").height($("#referencia").height() * 0.85);
+						var dato = {
+							idE: x,
+							idP: idPa,
+							idU: $('#id_user').val()
+						}
+						$.post('consultas/files-serverside/datosNotaMedica.php', dato).done(function(data) {
+							var datos = data.split(';*}-{'); //alert(data);
+							var res = datos[0].replace(/<p/g, "<div");
+							res = res.replace(/<\/p>/g, "</div>");
+							$("#impresion_inter").html(res);
 
-				$('#myModal1').modal('show');
-				$('#myModal1').on('shown.bs.modal', function(e) {});
-				$('#myModal1').on('hidden.bs.modal', function(e) {
-					$(".modal-content").remove();
-					$("#myModal1").empty();
+							// Agregamos el encabezado y el pie de página
+							agregarMembrete("#impresion_inter", urlEncabezado, urlPiePagina);
+						});
+
+						$('#btn_imprimir_i').click(function(e) {
+							$('#impresion_inter').printElement();
+						});
+
+						$('#myModal1').modal('show');
+						$('#myModal1').on('shown.bs.modal', function(e) {});
+						$('#myModal1').on('hidden.bs.modal', function(e) {
+							$(".modal-content").remove();
+							$("#myModal1").empty();
+						});
+					}
 				});
-			}
-		});
+			}).catch(error => {
+				return swal({
+					icon: "error",
+					title: "¡Ocurrió un error!",
+					text: error.message
+				});
+			});
 	}
 
+	const agregarMembrete = (selector, urlEncabezado, urlPiePagina) => {
+		$(selector).prepend(`
+			<tr>
+				<td colspan="2">
+					<img id="membrete_encabezado" src="${urlEncabezado}" width="800" height="120" />
+				</td>
+			</tr>
+		`);
+		$(selector).append(`
+			<tr>
+				<td colspan="2">
+					<img id="membrete_pie_pagina" src="${urlPiePagina}" width="800" height="80" />
+				</td>
+			</tr>
+		`);
+	};
+
 	function imprimirRM(idPa, x) { //x=id del estudio, y es si se imprimen los encabe
-		$("#myModal1").load('imagen/htmls/imprimir.php', function(response, status, xhr) {
-			if (status == "success") {
-				$('#titulo_modal').text('IMPRESIÓN DE LA RECETA MÉDICA');
-				$("#myModal1").height($("#referencia").height() * 0.85);
-				var dato = {
-					idE: x,
-					idP: idPa,
-					idU: $('#id_user').val()
-				}
-				$.post('consultas/files-serverside/datosRecetaMedica.php', dato).done(function(data) {
-					var datos = data.split(';*}-{'); //alert(data);
-					var res = datos[0].replace(/<p/g, "<div");
-					res = res.replace(/<\/p>/g, "</div>");
-					$("#impresion_inter").html(res);
-				});
+		getMembrete(parseInt(x))
+			.then(response => {
+				const urlEncabezado = response.url_encabezado;
+				const urlPiePagina = response.url_pie_pagina;
 
-				$('#btn_imprimir_i').click(function(e) {
-					$('#impresion_inter').printElement();
-				});
+				$("#myModal1").load('imagen/htmls/imprimir.php', function(response, status, xhr) {
+					if (status == "success") {
+						$('#titulo_modal').text('IMPRESIÓN DE LA RECETA MÉDICA');
+						$("#myModal1").height($("#referencia").height() * 0.85);
+						var dato = {
+							idE: x,
+							idP: idPa,
+							idU: $('#id_user').val()
+						}
+						$.post('consultas/files-serverside/datosRecetaMedica.php', dato).done(function(data) {
+							var datos = data.split(';*}-{'); //alert(data);
+							var res = datos[0].replace(/<p/g, "<div");
+							res = res.replace(/<\/p>/g, "</div>");
+							$("#impresion_inter").html(res);
 
-				$('#myModal1').modal('show');
-				$('#myModal1').on('shown.bs.modal', function(e) {});
-				$('#myModal1').on('hidden.bs.modal', function(e) {
-					$(".modal-content").remove();
-					$("#myModal1").empty();
+							// Agregamos el encabezado y el pie de página
+							agregarMembrete("#impresion_inter", urlEncabezado, urlPiePagina);
+						});
+
+						$('#btn_imprimir_i').click(function(e) {
+							$('#impresion_inter').printElement();
+						});
+
+						$('#myModal1').modal('show');
+						$('#myModal1').on('shown.bs.modal', function(e) {});
+						$('#myModal1').on('hidden.bs.modal', function(e) {
+							$(".modal-content").remove();
+							$("#myModal1").empty();
+						});
+					}
 				});
-			}
-		});
+			}).catch(error => {
+				return swal({
+					icon: "error",
+					title: "¡Ocurrió un error!",
+					text: error.message
+				});
+			});
 	}
 
 	function preImprimir(idC, idP, opc, id_s) {
@@ -4271,3 +4322,12 @@ include_once 'recursos/datauser.php';
 <script src="./consultas/js/receta_medicamentos_seleccionados.js"></script>
 
 <script src="./consultas/js/verificarAntagonismos.js"></script>
+
+<script src="./consultas/js/agregarMedicamentosReceta.js"></script>
+<script src="./consultas/js/getInfoPacienteReceta.js"></script>
+
+<!-- Agregamos los scripts para generar los pdf de las recetas -->
+<script src="./js/html2pdf.js"></script>
+<script src="./consultas/js/imprimirRecetaMedica.js"></script>
+
+<script src="./consultas/js/getMembrete.js"></script>
