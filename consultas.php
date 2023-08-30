@@ -2241,10 +2241,10 @@ include_once 'recursos/datauser.php';
 
 			// Algoritmo para verificar los antagonismos al momento de seleccionar un medicamento para una receta
 			verificarAntagonismos(parseInt(rowData[0][7]), {
-				idC,
-				idU: parseInt($('#id_user').val()),
-				idP,
-			})
+					idC,
+					idU: parseInt($('#id_user').val()),
+					idP,
+				})
 				.then((casoVerificacion) => {
 					if (casoVerificacion === 1) {
 						return subirMED(rowData[0][7], idC, $('#id_user').val(), idP);

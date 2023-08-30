@@ -812,12 +812,19 @@ function verSucursal(id_s, nombre_s){
 					const urlPiePagina = $("#membrete_pi").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
 					
 					// Imprimimos el membrete
-					imprimirMembrete(urlEncabezado, urlPiePagina);
+					imprimirMembrete(urlEncabezado, urlPiePagina, "nota_medica");
 					
 					/* $('#table_membre1').prop('border',0); $('#table_membre1').printElement(); $('#table_membre1').prop('border',1); */
 				});
 				$('#btn_imprimir_mem2').click(function(e) {
-					$('#table_membre2').prop('border',0); $('#table_membre2').printElement(); $('#table_membre2').prop('border',1);
+					// Obtenemos el url de la imagen para el encabezado y el pie de página
+					const urlEncabezado = $("#membrete_en2").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
+					const urlPiePagina = $("#membrete_pi2").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
+					
+					// Imprimimos el membrete
+					imprimirMembrete(urlEncabezado, urlPiePagina, "receta_medica");
+
+					/* $('#table_membre2').prop('border',0); $('#table_membre2').printElement(); $('#table_membre2').prop('border',1); */
 				});
 				$('#btn_imprimir_mem3').click(function(e) {
 					$('#table_membre3').prop('border',0); $('#table_membre3').printElement(); $('#table_membre3').prop('border',1);

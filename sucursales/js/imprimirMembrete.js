@@ -1,4 +1,11 @@
-const imprimirMembrete = async (urlE, urlP) => {
+/**
+ *
+ * @param { string } urlE
+ * @param { string } urlP
+ * @param { string } tituloPDF
+ * @returns
+ */
+const imprimirMembrete = async (urlE, urlP, tituloPDF) => {
     try {
         await swal({
             type: "success",
@@ -15,14 +22,14 @@ const imprimirMembrete = async (urlE, urlP) => {
         piePagina.src = urlP;
 
         // Creamos el archivo pdf de la nota medica
-        const notaMedica = new jsPDF();
+        const membrete = new jsPDF();
 
         // Agregamos las imagenes al pdf previamente creado
-        notaMedica.addImage(encabezado, "PNG", 5, 0, 200, 30);
-        notaMedica.addImage(piePagina, "PNG", 10, 275, 180, 18);
+        membrete.addImage(encabezado, "PNG", 5, 0, 200, 30);
+        membrete.addImage(piePagina, "PNG", 10, 275, 180, 18);
 
-        // Descargamos la nota emdica
-        notaMedica.save("nota_medica.pdf");
+        // Descargamos la nota medica
+        membrete.save(`${tituloPDF}.pdf`);
     } catch (error) {
         return swal({
             type: "error",
