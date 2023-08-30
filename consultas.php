@@ -172,6 +172,11 @@ include_once 'recursos/datauser.php';
 <?php include_once 'partes/footer.php'; ?>
 
 <script>
+	const tiposMembrete = {
+		notaMedica: "MEMBRETE NOTA MEDICA",
+		receta: "MEMBRETE RECETA MEDICA"
+	};
+
 	$(document).ready(function(e) {
 		//breadcrumb
 		$('#breadc').html('<li><a href="index.php">HOME</a></li><li>CONSULTAS</li><li class="active"><strong>CONSULTAS MÉDICAS</strong></li>');
@@ -3429,7 +3434,7 @@ include_once 'recursos/datauser.php';
 
 	function imprimirNM(idPa, x) { //x=id del estudio, y es si se imprimen los encabe
 		// Obtenemos el membrete para imprimir la nota médica correctamente
-		getMembrete(parseInt(x))
+		getMembrete(parseInt(x), tiposMembrete.notaMedica)
 			.then(response => {
 				const urlEncabezado = response.url_encabezado;
 				const urlPiePagina = response.url_pie_pagina;
@@ -3492,7 +3497,7 @@ include_once 'recursos/datauser.php';
 	};
 
 	function imprimirRM(idPa, x) { //x=id del estudio, y es si se imprimen los encabe
-		getMembrete(parseInt(x))
+		getMembrete(parseInt(x), tiposMembrete.receta)
 			.then(response => {
 				const urlEncabezado = response.url_encabezado;
 				const urlPiePagina = response.url_pie_pagina;

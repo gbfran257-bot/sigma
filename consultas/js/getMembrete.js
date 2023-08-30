@@ -1,11 +1,12 @@
-const URL_GET_MEMBRETE = "consultas/js/files-serverside/getMembrete.php?id_e=";
+const URL_GET_MEMBRETE = "consultas/js/files-serverside/getMembrete.php";
 
 /**
  * Se obtiene el encabezado y pie de página que irá en la impresión de la nota o receta médica
  * @param { number } idEstudio 
+ * @param { string } tipoMembrete
  */
-const getMembrete = async (idEstudio) => {
-    return await fetch(URL_GET_MEMBRETE + idEstudio, {
+const getMembrete = async (idEstudio, tipoMembrete) => {
+    return await fetch(`${URL_GET_MEMBRETE}?id_e=${idEstudio}&tipo_m=${tipoMembrete}`, {
         method: "GET",
     })
     .then(response => response.json())
