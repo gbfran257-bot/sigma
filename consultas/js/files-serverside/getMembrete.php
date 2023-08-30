@@ -34,10 +34,10 @@ try {
             LEFT JOIN orden_venta on venta_conceptos.referencia_vc = orden_venta.referencia_ov
             LEFT JOIN sucursales on orden_venta.sucursal_ov = sucursales.id_su
             LEFT JOIN documentos on sucursales.no_temp_su = documentos.aleatorio_do
-            WHERE id_vc = ? AND (nombre_do = 'pie')
+            WHERE id_vc = ? AND (nombre_do = 'pie') AND que_es_do = ?
             ORDER BY id_do DESC";
     $consulta = $horizonte->prepare($sql);
-    $consulta->bind_param("i", $id_estudio);
+    $consulta->bind_param("is", $id_estudio, $tipo_membrete);
     if (!$consulta->execute()) {
         throw new Exception($consulta->error);
     }
