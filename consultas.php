@@ -3478,14 +3478,14 @@ include_once 'recursos/datauser.php';
 		$(selector).prepend(`
 			<tr>
 				<td colspan="2">
-					<img id="membrete_encabezado" src="${urlEncabezado}" width="800" height="120" />
+					<img id="membrete_encabezado" src="${urlEncabezado}" width="800" height="120" alt="encabezado del membrete" />
 				</td>
 			</tr>
 		`);
 		$(selector).append(`
 			<tr>
 				<td colspan="2">
-					<img id="membrete_pie_pagina" src="${urlPiePagina}" width="800" height="80" />
+					<img id="membrete_pie_pagina" src="${urlPiePagina}" width="800" height="80" alt="pie de página del membrete" />
 				</td>
 			</tr>
 		`);

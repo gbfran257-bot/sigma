@@ -17,6 +17,9 @@
     <link rel="shortcut icon" href="imagenes/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="imagenes/favicon.ico" type="image/x-icon">
     
+	<!-- Incluímos la libreria makePDF -->
+	<script src="./jspdf/dist/jspdf.min.js"></script>
+
     <!-- Mainly scripts -->
 	<script src="js/jquery-3.2.1.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
@@ -804,7 +807,14 @@ function verSucursal(id_s, nombre_s){
 				}); //Para el upload
 				
 				$('#btn_imprimir_mem1').click(function(e) {
-					$('#table_membre1').prop('border',0); $('#table_membre1').printElement(); $('#table_membre1').prop('border',1);
+					// Obtenemos el url de la iamgen para el encabezado y el pie de página
+					const urlEncabezado = $("#membrete_en").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
+					const urlPiePagina = $("#membrete_pi").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
+					
+					// Imprimimos el membrete
+					imprimirMembrete(urlEncabezado, urlPiePagina);
+					
+					/* $('#table_membre1').prop('border',0); $('#table_membre1').printElement(); $('#table_membre1').prop('border',1); */
 				});
 				$('#btn_imprimir_mem2').click(function(e) {
 					$('#table_membre2').prop('border',0); $('#table_membre2').printElement(); $('#table_membre2').prop('border',1);
@@ -1606,3 +1616,5 @@ function cargar_editores(){
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4cHSkoaQwTQjx31Y3xFf3kkSkD28X_Rs&callback=initMap"
 	async defer>
 </script>
+
+<script src="sucursales/js/imprimirMembrete.js"></script>
