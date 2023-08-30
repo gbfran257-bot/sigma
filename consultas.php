@@ -66,6 +66,12 @@ include_once 'recursos/datauser.php';
 	<link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
 	<link href="c3/c3.css" rel="stylesheet">
 
+	<!-- Estilos para la visualizacion de la receta medica -->
+	<link rel="stylesheet" href="./consultas/htmls/css/receta_consulta.css">
+
+	<!-- Librería para imprimir la receta médica -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 	<style>
 		/* Estilo necesario para que se muestre el select2 en el modal */
 		.select2-container {
@@ -83,6 +89,22 @@ include_once 'recursos/datauser.php';
 
 		.finalizar-consulta_confirm_button {
 			background-color: #DD6B55;
+		}
+
+		/* Estilo para el encabezado y pie de pagina de la receta medica */
+		#header_receta_medica {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		#encabezado_membrete {
+			margin-bottom: 0.5rem;
+		}
+
+		#pie_pagina {
+			display: flex;
+			justify-content: center;
 		}
 	</style>
 
@@ -3423,6 +3445,68 @@ include_once 'recursos/datauser.php';
 						$('#myModalx').on('hidden.bs.modal', function(e) {
 							$(".modal-content").remove();
 							$("#myModalx").empty();
+						});
+
+						// Asignamos las funciones a los botones de acciones de receta
+						$("#medicamentos").click(() => buscar_medis(idC, idP));
+
+						// Asignamos la funcionalidad para imprimir la receta
+						$("#descargar_receta").click(() => imprimirRecetaMedica());
+
+						// Agregamos la funcionalidad de agregar los medicamentos seleccionados a la receta
+						let ocultarAlert = true;
+						$("#button_agregar_medicamentos_receta").click((e) => {
+							e.preventDefault();
+							agregarMedicamentos(idC)
+								.then(response => {
+									if (!ocultarAlert) {
+										swal({
+											icon: "success",
+											title: "¡Hecho!",
+											text: "Los medicamentos se han agregado correctamente.",
+											buttons: false,
+											timer: 1800
+										});
+									}
+									ocultarAlert = false;
+								})
+								.catch(error => {
+									swal({
+										icon: "error",
+										title: "¡Ocurrió un error!",
+										text: error.message
+									});
+								});
+						});
+
+						// Cargamos la información de la receta
+						$("#receta_medica").ready(() => {
+							// Cargamos el membrete de la consulta
+							// Se obtiene el encabezado y el pie de página de la receta
+							getMembrete(parseInt($("#id_cons").val()), tiposMembrete.receta)
+							.then(data => {
+								const encabezado = new Image(600, 100);
+								encabezado.id = "encabezado_membrete";
+								encabezado.src = data.url_encabezado;
+								encabezado.alt = "encabezado_membrete";
+
+								const piePagina = new Image(600, 100);
+								piePagina.id = "pie_de_pagina_membrete";
+								piePagina.src = data.url_pie_pagina;
+								piePagina.alt = "pie_de_pagina_membrete";
+								
+								// Agregamos las imagenes al html de la receta
+								$("#header_receta_medica").prepend(encabezado);
+								$("#pie_pagina").append(piePagina);
+
+								
+							})
+							.catch(error => {
+								return swal("¡ERROR!", "Ocurrió un error al obtener el membrete de la receta.", "error");
+							});
+
+							// Cargamos la información del tratamiento
+							$("#button_agregar_medicamentos_receta").click();
 						});
 					}
 				});
