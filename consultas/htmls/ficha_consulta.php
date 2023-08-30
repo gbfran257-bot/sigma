@@ -1064,6 +1064,8 @@ Sin embargo, en sentido estricto se suele denominar cardiopatía a las enfermeda
                       <tr class="bg-success">
                         <th id="clickmeMS" align="center" width="1%">#</th>
                         <th align="center">MEDICAMENTO</th>
+                        <th align="center" style="color: #00FF00;">SINERGIAS</th>
+                        <th align="center" style="color: #FF0000;">ANTAGONISMOS</th>
                         <th align="center">BASE</th>
                         <th align="center">PRESENTACIÓN</th>
                         <th align="center">CONCENTRACIÓN</th>
