@@ -25,8 +25,8 @@ const imprimirMembrete = async (urlE, urlP, tituloPDF) => {
         const membrete = new jsPDF();
 
         // Agregamos las imagenes al pdf previamente creado
-        membrete.addImage(encabezado, "PNG", 5, 0, 200, 30);
-        membrete.addImage(piePagina, "PNG", 10, 275, 180, 18);
+        membrete.addImage(encabezado, "PNG", 5, 7, 195, 25);
+        membrete.addImage(piePagina, "PNG", 5, 267, 195, 25);
 
         // Descargamos la nota medica
         membrete.save(`${tituloPDF}.pdf`);

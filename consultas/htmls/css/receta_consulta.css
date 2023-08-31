@@ -6,7 +6,8 @@
 
 /* DISEÑO DE LA PRIMERA SECCIÓN EN DONDE VA A IR LA INFORMACIÓN DEL PACIENTE */
 #info_paciente,
-#receta_tratamiento {
+#receta_tratamiento,
+#receta_indicaciones {
     margin: 2rem;
     display: flex;
     flex-direction: column;
@@ -69,7 +70,8 @@
     align-items: center;
 }
 
-#acciones_receta_medica button, #button_agregar_medicamentos_receta {
+#acciones_receta_medica button,
+#button_agregar_medicamentos_receta {
     margin: 0px 0.5rem;
     padding: 0.5rem;
 }
@@ -82,4 +84,25 @@
 .tratamiento .tratamiento_numeracion {
     margin: 0px;
     width: 100%;
+}
+
+.tratamiento_dato span {
+    white-space: wrap !important;
+}
+
+#label_indicaciones,
+#indicaciones,
+#indicaciones_p {
+    font-size: 1.5rem;
+    margin: 0px;
+}
+
+#label_indicaciones {
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+}
+
+#indicaciones {
+    resize: none;
+    border: none;
 }

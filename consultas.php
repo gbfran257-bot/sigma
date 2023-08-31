@@ -99,7 +99,7 @@ include_once 'recursos/datauser.php';
 		}
 
 		#encabezado_membrete {
-			margin-bottom: 0.5rem;
+			margin: 1.5rem 0rem;
 		}
 
 		#pie_pagina {
@@ -3481,25 +3481,21 @@ include_once 'recursos/datauser.php';
 
 						// Cargamos la información de la receta
 						$("#receta_medica").ready(() => {
+							// Obtenemos la información del paciente
+							getInfoPaciente()
+							.catch(error => swal("ERROR", error.message, "error"));
+
 							// Cargamos el membrete de la consulta
 							// Se obtiene el encabezado y el pie de página de la receta
 							getMembrete(parseInt($("#id_cons").val()), tiposMembrete.receta)
 							.then(data => {
-								const encabezado = new Image(600, 100);
+								const encabezado = new Image(715, 80);
 								encabezado.id = "encabezado_membrete";
 								encabezado.src = data.url_encabezado;
 								encabezado.alt = "encabezado_membrete";
-
-								const piePagina = new Image(600, 100);
-								piePagina.id = "pie_de_pagina_membrete";
-								piePagina.src = data.url_pie_pagina;
-								piePagina.alt = "pie_de_pagina_membrete";
 								
 								// Agregamos las imagenes al html de la receta
 								$("#header_receta_medica").prepend(encabezado);
-								$("#pie_pagina").append(piePagina);
-
-								
 							})
 							.catch(error => {
 								return swal("¡ERROR!", "Ocurrió un error al obtener el membrete de la receta.", "error");
@@ -4420,3 +4416,4 @@ include_once 'recursos/datauser.php';
 <script src="./consultas/js/imprimirRecetaMedica.js"></script>
 
 <script src="./consultas/js/getMembrete.js"></script>
+<script src="./consultas/js/getInfoPaciente.js"></script>
