@@ -10,19 +10,19 @@ services:
       - MYSQL_DATABASE=cr
       - MYSQL_USER=test
       - MYSQL_PASSWORD=test
-    ports:
-      - 3306:3306
+    #descomentar para acceder a la base de datos desde el host 
+    # ports: 
+    #   - 3306:3306
     networks:
       - sigma_network
     volumes:
       - mysql_data:/var/lib/mysql
 
   php:
-    image: php:5.6-apache
     container_name: sigma_php
     restart: always
     ports:
-      - 8080:80
+      - 8000:80
     networks:
       - sigma_network
     volumes:
@@ -30,11 +30,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
 
 networks:
   sigma_network:
+    name: sigma_dev_network
+    driver: bridge
 
 volumes:
   mysql_data:
