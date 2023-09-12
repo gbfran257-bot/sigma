@@ -1,4 +1,6 @@
 <?php
+    require("../Connections/horizonte.php");
+    require("../funciones/php/values.php");
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
     $data = $_GET['data'];
@@ -14,22 +16,23 @@
         // echo "Data:\n" . json_encode($decodedData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $data = $decodedData;
-        
+        $fechaActual = date('Y-m-d\TH:i:s');
+        $nuevaFecha = date('Y-m-d\TH:i:s', strtotime($fechaActual) - 43200); // 43200 segundos en 12 horas
         // Crear el array base para el JSON
         $jsonArray = array(
             "Certificado" => null,
             "CondicionesDePago" => null,
-            "Fecha" => null,
-            "Folio" => null,
-            "FormaPago" => null,
+            "Fecha" => $nuevaFecha,
+            "Folio" => $data["folio"],
+            "FormaPago" => "01",
             "LugarExpedicion" => null,
-            "MetodoPago" => null,
-            "Moneda" => null,
+            "MetodoPago" => "PUE",
+            "Moneda" => "MXN",
             "NoCertificado" => null,
             "Sello" => null,
-            "Serie" => null,
-            "SubTotal" => null,
-            "TipoDeComprobante" => null,
+            "Serie" => "A",
+            "SubTotal" => 0,
+            "TipoDeComprobante" => "I",
             "Total" => null,
             "Version" => null,
             "xsi:schemaLocation" => null,
@@ -43,71 +46,71 @@
                 "Rfc" => null,
                 "UsoCFDI" => null
             ),
-            "Conceptos" => array(
-                "Concepto" => array(
-                    array(
-                        "Cantidad" => null,
-                        "ClaveProdServ" => null,
-                        "ClaveUnidad" => null,
-                        "Descripcion" => null,
-                        "Importe" => null,
-                        "Unidad" => null,
-                        "ValorUnitario" => null,
-                        "Impuestos" => array(
-                            "Traslados" => array(
-                                "Traslado" => array(
-                                    array(
-                                        "Base" => null,
-                                        "Importe" => null,
-                                        "Impuesto" => null,
-                                        "TasaOCuota" => null,
-                                        "TipoFactor" => null
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            ),
-            "Impuestos" => array(
-                "TotalImpuestosTrasladados" => null,
-                "Traslados" => array(
-                    "Traslado" => array(
-                        array(
-                            "Importe" => null,
-                            "Impuesto" => null,
-                            "TasaOCuota" => null,
-                            "TipoFactor" => null
-                        )
-                    )
-                )
-            ),
-            "Complemento" => array(
-                array(
-                    "ImpuestosLocales" => array(
-                        "TotaldeRetenciones" => null,
-                        "TotaldeTraslados" => null,
-                        "version" => null,
-                        "TrasladosLocales" => array(
-                            array(
-                                "ImpLocTrasladado" => null,
-                                "Importe" => null,
-                                "TasadeTraslado" => null
-                            )
-                        )
-                    ),
-                    "TimbreFiscalDigital" => array(
-                        "FechaTimbrado" => null,
-                        "NoCertificadoSAT" => null,
-                        "RfcProvCertif" => null,
-                        "SelloCFD" => null,
-                        "SelloSAT" => null,
-                        "UUID" => null,
-                        "Version" => null,
-                        "xsi:schemaLocation" => null
-                    )
-                )
-            )
+            // "Conceptos" => array(
+            //     "Concepto" => array(
+            //         array(
+            //             "Cantidad" => null,
+            //             "ClaveProdServ" => null,
+            //             "ClaveUnidad" => null,
+            //             "Descripcion" => null,
+            //             "Importe" => null,
+            //             "Unidad" => null,
+            //             "ValorUnitario" => null,
+            //             "Impuestos" => array(
+            //                 "Traslados" => array(
+            //                     "Traslado" => array(
+            //                         array(
+            //                             "Base" => null,
+            //                             "Importe" => null,
+            //                             "Impuesto" => null,
+            //                             "TasaOCuota" => null,
+            //                             "TipoFactor" => null
+            //                         )
+            //                     )
+            //                 )
+            //             )
+            //         )
+            //     )
+            // ),
+            // "Impuestos" => array(
+            //     "TotalImpuestosTrasladados" => null,
+            //     "Traslados" => array(
+            //         "Traslado" => array(
+            //             array(
+            //                 "Importe" => null,
+            //                 "Impuesto" => null,
+            //                 "TasaOCuota" => null,
+            //                 "TipoFactor" => null
+            //             )
+            //         )
+            //     )
+            // ),
+            // "Complemento" => array(
+            //     array(
+            //         "ImpuestosLocales" => array(
+            //             "TotaldeRetenciones" => null,
+            //             "TotaldeTraslados" => null,
+            //             "version" => null,
+            //             "TrasladosLocales" => array(
+            //                 array(
+            //                     "ImpLocTrasladado" => null,
+            //                     "Importe" => null,
+            //                     "TasadeTraslado" => null
+            //                 )
+            //             )
+            //         ),
+            //         "TimbreFiscalDigital" => array(
+            //             "FechaTimbrado" => null,
+            //             "NoCertificadoSAT" => null,
+            //             "RfcProvCertif" => null,
+            //             "SelloCFD" => null,
+            //             "SelloSAT" => null,
+            //             "UUID" => null,
+            //             "Version" => null,
+            //             "xsi:schemaLocation" => null
+            //         )
+            //     )
+            // )
         );
         
         // Rellenar los valores conocidos desde $data
@@ -139,9 +142,9 @@
                                 array(
                                     "Base" => $oItem["precio_vc"],
                                     "Importe" => null, 
-                                    "Impuesto" => null, 
-                                    "TasaOCuota" => null, 
-                                    "TipoFactor" => null 
+                                    "Impuesto" => "002", 
+                                    "TasaOCuota" => "0.160000", 
+                                    "TipoFactor" => "Tasa" 
                                 )
                             )
                         )
@@ -155,11 +158,11 @@
         // Convertir a JSON y mostrar
         $jsonOutput = json_encode($jsonArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         // echo $jsonOutput;
-
+        // echo($jsonOutput);
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://10.0.2.2:8000/api/cfdi/stamp',
+            CURLOPT_URL => 'http://api_facturacion/api/cfdi/stamp',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -169,16 +172,41 @@
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => $jsonOutput,
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer 2|laravel_sanctum_pd1O5uOqcHH81YpkdOcpYbcossxBR9i2fds2dDRX92fe9dde',
+                'Authorization: Bearer 4|laravel_sanctum_lnvGMVOuUm6ISPZDjbaffWux05ZxMscrDFUUYXqf574138d7',
                 'Content-Type: application/json'
             ),
         ));
-        print(222);
-        $response = curl_exec($curl);
-
+        $res = curl_exec($curl);
+        $response = json_decode($res);
         curl_close($curl);
-        echo $response;
+        if ($response->status == "success") {
+            // $xmlBase64 = isset($response->data->xmlb64);
+            // $pdfBase64 = isset($response->data->pdf64);
+            
+            // Ahora puedes insertar $xmlBase64 en tu tabla
+            // Supongamos que tienes una conexión MySQL existente:
+            $link = mysql_connect($hostname_horizonte, $username_horizonte, $password_horizonte);
 
+            // mysql_select_db($database_horizonte, $horizonte);
+            if (!mysql_select_db($database_horizonte, $link)) {
+                die('Error al conectar a la base de datos: ' . mysql_error());
+            }
+    
+            // Supongamos que tu tabla se llama 'mi_tabla'
+            $sql = "INSERT INTO ordenes_facturadas (referencia_ov, estatus, uuid) 
+                    VALUES ('".$data["folio"]."', 'timbrada', '".$response->data->uuid."');
+                    ";
+    
+            if (mysql_query($sql, $link)) {
+                echo "Factura timbrada correctamente. " . $response->data->uuid;
+            } else {
+                echo "Error al guardar factura: " . mysql_error();
+            }
+    
+            mysql_close($link);
+        } else {
+            echo "Error al timbrar: " . $res;
+        }
 
     }
 

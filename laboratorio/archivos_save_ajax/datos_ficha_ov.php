@@ -123,10 +123,27 @@ require("../../funciones/php/values.php");
 	);
 	$dataArray[$cont-1] = $rowData;
  } 
- $jsonData = json_encode($dataArray,JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-
- $tableC = $tableC."</table> \n"; 
  
+
+ $tableC = $tableC."</table> \n";
+ 
+ mysql_select_db($database_horizonte, $horizonte);
+ $consulta = "SELECT estatus, uuid FROM ordenes_facturadas
+				 WHERE referencia_ov = '" . $dataArray[0]['referencia_vc'] . "'" ;
+ // Obtiene el resultado
+ $query = mysql_query($consulta);
+ if (!$query) {
+	 die("Error en el query: " . mysql_error());
+ }
+ $estatus = "NO FACTURADA";
+ while ($fila = mysql_fetch_array($query)){
+	$estatus = $fila['estatus'];
+	$uuid = $fila['uuid'];
+ }
+ $dataArray[0]['estatus'] = $estatus;
+ $dataArray[0]['uuid'] = $uuid;
+
+ $jsonData = json_encode($dataArray,JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 	 echo $row1[0].'*}'.$row1[3].' '.$row1[2].'*}'.$rowR[1].'*}'.$rowR[2].'*}'.$rowR[3].'*}'.$rowR[4].'*}'.$rowR[5].'*}'.$rowR[6].'*}'.$rowR[7].'*}'.$rowA[0].'*}'.$saldo.'*}'.$estatus.'*}'.$rowIC[0].'*}'.$rowII[0].'*}'.$rowIL[0].'*}'.$rowIS[0].'*}'.$rowIF[0].'*}'.$tableC.'*}'.$jsonData;
 
 //Cerrar conexión a la Base de Datos

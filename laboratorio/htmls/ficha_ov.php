@@ -80,7 +80,7 @@
       <div class="modal-footer">
         <div class="form-group">
             <div class="col-sm-offset-0 col-sm-12 btn-container">
-                <button type='button' class="btn btn-success btn-sm ver-factura-btn d-none" onclick="ver_factura()">Ver Factura</button>
+                <button type='button' class="btn btn-success btn-sm ver-factura-btn-pdf d-none" onclick="ver_factura()">Ver Factura</button>
                 <button type='button' class="btn btn-success btn-sm ver-factura-btn d-none" onclick="ver_xml()">Ver XML</button>
                 <button type='button' class="btn btn-primary btn-sm facturar-btn" onclick="facturar()">Facturar</button>
                 <button type='button' class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
@@ -146,24 +146,32 @@
       alert.style.display = 'none';
       document.querySelector(".ver-factura-btn").classList.remove("d-none");
       $(".ver-factura-btn").css("display", "block");
-      // var data = $('#data').val();
-      // $.ajax({
-      //     url: "facturacion/facturacion.php", // Ruta de tu archivo PHP
-      //     method: "GET", // Cambiado a GET
-      //     data: { data: data }, // Enviar el valor en la solicitud
-      //     success: function(data) {
-      //         alert(data); // Mostrar la respuesta en una alerta
-      //     },
-      //     error: function() {
-      //         alert("Error al llamar a la función de PHP");
-      //     }
-      // });
     }
-
+    function facturar(){
+      var data = $('#data').val();
+      $.ajax({
+          url: "facturacion/facturacion.php", // Ruta de tu archivo PHP
+          method: "GET", // Cambiado a GET
+          data: { data: data }, // Enviar el valor en la solicitud
+          success: function(data) {
+            var lines = data.split('\n');
+            var thirdLine = lines[2];
+            alert(data); // Mostrar la respuesta en una alerta
+          },
+          error: function() {
+              alert("Error al llamar a la función de PHP");
+          }
+      });
+    }
+    //Validar si mostrar o no boton de factura
     var esFactura = $("#esFactura").val();
     
     if (esFactura === "false") {
       $(".facturar-btn").css("display", "none");
-    }
-    $(".ver-factura-btn").css("display", "none");
+    }else{
+      $(".ver-factura-btn").css("display", "none");
+    }    
+
+
+
 </script>

@@ -93,6 +93,7 @@
         <th width="10px">ABONADO</th>
         <th width="10px">SALDO</th>
         <th width="10px">PAGADO</th>
+        <th width="20px">FACTURADO</th>
       </tr>
     </thead>
     <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
@@ -113,6 +114,7 @@
 			<th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="" /></th>
+            <th><input type="hidden" placeholder="Facturado" class="" /></th>
             <th></th>
 		</tr>
 	</tfoot>
@@ -165,7 +167,6 @@ $(document).ready(function(e) {
     var nCloneTd = document.createElement( 'td' );
     nCloneTd.innerHTML = '<img src="imagenes/generales/details_open.png">';
     nCloneTd.className = "center";
-     
     $('#dataTable thead tr').each( function () { this.insertBefore( nCloneTh, this.childNodes[0] ); });
      
     $('#dataTable tbody tr').each( function () { this.insertBefore( nCloneTd.cloneNode( true ), this.childNodes[0] ); });
@@ -177,7 +178,6 @@ $(document).ready(function(e) {
 		//funciones para calcular los totales en los campos del pie de página
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
 			//$('.cambiar_suc').change(function() { alert( "Handler for .change() called." ); });
-			
 			$( '#rangosFechas' ).buttonset();
 			
 			$("#miFiltroDeptos").change(function(e){ $('#clickme').click(); });
@@ -205,7 +205,6 @@ $(document).ready(function(e) {
 			nCells[11].innerHTML = '$'+redondear(parseFloat(iSaldo * 100)/100,2);
 			nCells[6].innerHTML = '$'+redondear(parseFloat(iSubT * 100)/100,2);
 			nCells[7].innerHTML = '$'+redondear(parseFloat(iCargosE * 100)/100,2);
-			
 			window.setTimeout(function(){$('.erase1').each(function(index, element){ $(this).parent().parent().remove(); });},200);
         },
 		//fin de funciones para calcular los totales en los campos del pie de página
@@ -216,7 +215,7 @@ $(document).ready(function(e) {
 			{"bVisible": true, "aTargets": [ 7 ]},{ "bVisible": true, "aTargets": [ 8 ]},{"bVisible": false,"aTargets": [ 3 ] },
 			{"sClass":"right1","aTargets":[ 6 ] },{"sClass":"right1", "aTargets":[ 9 ] },{ "bVisible": false, "aTargets":[ 10 ] },
 			{"sClass":"right1","aTargets":[ 12 ] }, {"bVisible":true, "aTargets":[5]},{"sClass":"right1", "aTargets":[ 7 ] },
-			{"sClass":"right1", "aTargets":[ 11 ]}
+			{"sClass":"right1", "aTargets":[ 11 ]},{"sClass":"right1", "aTargets":[ 16 ]}
 		],
 		"aaSorting": [[3, "desc"]], "iDisplayLength": 500000000000000, "bLengthChange": false,
 		"bProcessing": false, "bServerSide": true,
@@ -364,12 +363,24 @@ function ver_ov(ref) {
                 $('#estatus_o').text(datosSplit[11]);
                 $('#o_items').html(datosSplit[17]);
 				$('#data').val(datosSplit);
+				var jsonObject = JSON.parse(datosSplit[18])[0];
+				if(jsonObject.estatus == "timbrada")
+				{
+					$(".facturar-btn").css("display", "none");
+					document.querySelector(".ver-factura-btn").classList.remove("d-none");
+      				$(".ver-factura-btn").css("display", "block");
+      				$(".ver-factura-btn-pdf").css("display", "block");
+				}else{
+					$(".ver-factura-btn").css("display", "none");
+      				$(".ver-factura-btn-pdf").css("display", "none");
+				}
 
 				var jsonData = {
+					folio: ref,
 					emisor_nombre: null,
 					emisor_rfc: null,
-					emisor_regimen: '626',
-					emisor_codigo_postal: '55555',
+					emisor_regimen: '626', //pendiente de obtener
+					emisor_codigo_postal: '55555',  //pendiente de obtener
 					receptor_nombre: 'GABRIEL ALEJANDRO RAMOS SALAZAR', //falta dato en la db datosSplit[0],
 					receptor_rfc: 'RASG920318DXA', //falta dato en la db,
 					receptor_codigo_postal: '45200',
@@ -522,18 +533,31 @@ function pagar(ref, tot, sal, abo, pac, noTemp, indicador, tCo, tIm, tLab, tFar)
 
 								var datosTi = {noAleatorio:ref}
 								$.post('pacientes/files-serverside/datosTicket_a.php',datosTi).done(function(data){
+									console.log("yesyes");
 									var datosT = data.split(';}'); if(datosT[5]==''){datosT[5]=0;} //alert(data);
 									//para el ticket
-									$('#fechaT').text(datosT[0]);$('#referenciaT').text(datosT[1]);$('#pacienteT').text(datosT[2]);
-									$('#adicionalesT').text(datosT[10]);$('#totalT').text(datosT[4]);$('#pagoT').text(montoPagar);
+									$('#fechaT').text(datosT[0]);
+									$('#referenciaT').text(datosT[1]);
+									$('#pacienteT').text(datosT[2]);
+									$('#adicionalesT').text(datosT[10]);
+									$('#totalT').text(datosT[4]);
+									$('#pagoT').text(montoPagar);
 									$('#saldoT').text(redondear(-1*(parseFloat(datosT[31])),2));
-									$('#usuarioIT').text(datosT[7]);$('#fechaIT').text(datosT[8]);
-									$('#horaIT').text(datosT[9]); $('#formaPagoT').text(datosT[11]);
-									$('#cantidadLetraT').text(nn(datosT[4])); $('#municipioS').text(datosT[16]);
-									$('#calleSucursal').text(datosT[19]); $('#coloniaSucursal').text(datosT[18]);
-									$('#cpSucursal').text(datosT[20]);$('#telefonoSucursal').text(datosT[21]);
-									$('#municipioSucursal').text(datosT[17]);$('#estadoSucursal').text(datosT[15]);
-									$('#sitioS').text(datosT[22]);$('#emailSucursal').text(datosT[23]);$('#descuentoT').text(datosT[24]);
+									$('#usuarioIT').text(datosT[7]);
+									$('#fechaIT').text(datosT[8]);
+									$('#horaIT').text(datosT[9]); 
+									$('#formaPagoT').text(datosT[11]);
+									$('#cantidadLetraT').text(nn(datosT[4])); 
+									$('#municipioS').text(datosT[16]);
+									$('#calleSucursal').text(datosT[19]); 
+									$('#coloniaSucursal').text(datosT[18]);
+									$('#cpSucursal').text(datosT[20]);
+									$('#telefonoSucursal').text(datosT[21]);
+									$('#municipioSucursal').text(datosT[17]);
+									$('#estadoSucursal').text(datosT[15]);
+									$('#sitioS').text(datosT[22]);$
+									('#emailSucursal').text(datosT[23]);
+									$('#descuentoT').text(datosT[24]);
 									$('#subTotalT').text(datosT[29]);
 									if(datosT[25]>0){
 										x='sucursales/documentos/files/'+datosT[26]+'.'+datosT[27]+'?'+Math.round(Math.random()*1000);
