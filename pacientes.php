@@ -1690,6 +1690,15 @@ include_once 'recursos/datauser.php';
 	function verPaciente(idP) {
 		$("#myModal").load('pacientes/htmls/ficha_paciente.php', function(response, status, xhr) {
 			if (status == "success") {
+				// Cargamos los regimenes fiscales
+				getRegimenesFiscales().catch(error => swal("ERROR", error.message, "error"));
+				
+				// Cargamos los usos CFDI
+				getUsoCFDI().catch(error => swal("ERROR", error.message, "error"));
+
+				// Cargamos las personas en adicionales
+				/* getAdicionales().catch(error => swal("ERROR", error.message, "error")); */
+
 				$.fn.datepicker.defaults.autoclose = true;
 				$('#id_usr_reg').val($('#id_user').val());
 				$('#alerta_new_user').hide();
@@ -5811,3 +5820,7 @@ if (isset($_GET['to_h'])) {
 			</script>';
 }
 ?>
+
+<script src="./pacientes/js/getRegimenesFiscales.js"></script>
+<script src="./pacientes/js/getUsoCFDI.js"></script>
+<script src="./pacientes/js/getAdicionales.js"></script>

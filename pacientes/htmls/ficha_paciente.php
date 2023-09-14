@@ -17,6 +17,7 @@
             <li role="presentation" id="t_tDireccion"><a href="#tDireccion" aria-controls="tDireccion" role="tab" data-toggle="tab">DIRECCIÓN</a></li>
             <li role="presentation"><a href="#tAcceso" aria-controls="tAcceso" role="tab" data-toggle="tab">FISCALES</a></li>
             <li role="presentation"><a href="#tImagen" aria-controls="tImagen" role="tab" data-toggle="tab">IMAGENES</a></li>
+            <li role="presentation"><a href="#tAdicionales" aria-controls="tAdicionales" role="tab" data-toggle="tab">ADICIONALES</a></li>
 
         </ul>
         
@@ -180,7 +181,7 @@
                     	</div> 
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-sm-8 col-xs-8"> <div class="form-group">
                     <label for="contacto_emergencia_p">Contacto de emergencia</label>
@@ -273,6 +274,26 @@
                     <div class="help-block with-errors"></div>
                     </div> </div>
                 </div>
+                
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="uso_cfdi">USO CFDI</label>
+                            <select id="uso_cfdi" name="uso_cfdi" class="form-control dirf">
+                    	        <option value="" selected>-SELECCIONAR-</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="regimen_fiscal">RÉGIMEN FISCAL</label>
+                            <select id="regimen_fiscal" name="regimen_fiscal" class="form-control dirf">
+                                <option value="" selected>-SELECCIONAR-</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-sm-6"> <div class="form-group">
                     <label for="estado_df">Estado</label>
@@ -379,6 +400,39 @@
                     <table id="tablaMiPDF" width="100%" border="0" cellspacing="0" cellpadding="0" class="table-condensed si_document"> <tr> 
                     <td id="mi_documento" style="vertical-align:middle;"> <a class="media" href=""> </a> </td>
                     </tr></table>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="tAdicionales"><br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group" style="display: flex;">
+                            <div class="form-check" style="display: flex; align-items: center; margin-right: 1rem;">
+                                <input style="margin: 0px 0.2rem 0px 0px;" class="form-check-input" type="checkbox" value="" id="facturar">
+                                <label style="margin: 0px;" class="form-check-label" for="facturar">FACTURAR</label>
+                            </div>
+                            <div class="form-check" style="display: flex; align-items: center;">
+                                <input style="margin: 0px 0.2rem 0px 0px;" class="form-check-input" type="checkbox" value="" id="proveedor">
+                                <label style="margin: 0px;" class="form-check-label" for="proveedor">PROVEEDOR</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" id="table_adicionales" class="table table-hover table-striped table-condensed no_document" role="grid"> 
+                            <thead>
+                                <tr role="row" class="bg-danger">
+                                    <th colspan="1" class='text-center' data-priority="1" nowrap style="vertical-align: middle;">#</th>
+                                    <th colspan="4" class='text-center' data-priority="2" nowrap style="white-space:nowrap; vertical-align: middle;">CLIENTES PARA FACTURACIÓN
+                                        <button type="button" id="nuevo_cliente" class="btn btn-info" style="padding: 0.5rem; margin-left: 0.5rem;">Nuevo cliente</button>
+                                    </th>
+                                    <th colspan="1" class='text-center' data-priority="3" style="white-space:nowrap; vertical-align: middle;">ACCIÓN</th>
+                                </tr>
+                            </thead> 
+                            <tbody id="table_body_adicionales"> </tbody> 
+                        </table>
+                    </div>
                 </div>
             </div>
             
