@@ -1692,18 +1692,46 @@ include_once 'recursos/datauser.php';
 			if (status == "success") {
 				// Cargamos los regimenes fiscales
 				getRegimenesFiscales().catch(error => swal("ERROR", error.message, "error"));
-				
+
 				// Cargamos los usos CFDI
 				getUsoCFDI().catch(error => swal("ERROR", error.message, "error"));
+				
+				// Configuramos el agregar pacientes facturables
+				$("#nuevo_cliente").click(() => {
+					$("#modal_nuevo_cliente").load("pacientes/htmls/nuevo-cliente.php", (response, status, xhr) => {
+						if (status === "success") {
+							getClientes()
+							.then(response => $(".cliente").click(() => verificarClientesSeleccionados()))
+							.catch(error => swal("ERROR", error.message, "error"));
 
-				// Cargamos las personas en adicionales
-				/* getAdicionales().catch(error => swal("ERROR", error.message, "error")); */
+							$("#agregar-nuevo-cliente").click(() => {
+								agregarCliente()
+								.then(response => {
+									swal("HECHO", response, "success");
+									$("#agregar-cliente-volver").click();
+								})
+								.catch(error => swal("ERROR", error.message, "error"));
+							});
+
+							// Configuración del modal
+							$("#modal_nuevo_cliente").modal("show");
+							$('#modal_nuevo_cliente').on('hidden.bs.modal', (e) => {
+								$("#modal_nuevo_cliente .modal-content").remove();
+								$("#modal_nuevo_cliente").empty();
+							});
+						}
+					});
+				});
 
 				$.fn.datepicker.defaults.autoclose = true;
 				$('#id_usr_reg').val($('#id_user').val());
 				$('#alerta_new_user').hide();
 				$('#id_sucu').val(<?PHP echo $id_sucursal_u; ?>);
+
 				$('#id_paciente_v').val(idP);
+				// Cargamos los clientes facturables del paciente seleccionado
+				getClientesFacturablesPaciente(parseInt($("#id_paciente_v").val())).catch(error => swal("ERROR", error.message, "error"));
+				
 				var nowY = new Date().getTime(),
 					dY = new Date();
 
@@ -5823,4 +5851,6 @@ if (isset($_GET['to_h'])) {
 
 <script src="./pacientes/js/getRegimenesFiscales.js"></script>
 <script src="./pacientes/js/getUsoCFDI.js"></script>
+<script src="./pacientes/js/getClientes.js"></script>
+<script src="./pacientes/js/agregarCliente.js"></script>
 <script src="./pacientes/js/getAdicionales.js"></script>

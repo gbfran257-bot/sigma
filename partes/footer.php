@@ -30,6 +30,11 @@
 
     <?php endif; ?>
         <div id="modal_historial" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+
+    <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/pacientes.php") : ?>
+        <div id="modal_nuevo_cliente" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+    <?php endif; ?>
+    
     </body>
 
     </html>
