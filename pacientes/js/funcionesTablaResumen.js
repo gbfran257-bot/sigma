@@ -575,77 +575,90 @@ const alertaEliminarDescuentos = (apartado, inputDescuentoPorcentaje) => {
     const inputPrecio = `#precio_${apartado.slice(0, 1)}`;
     if (inputDescuentoPorcentaje.value != 0 || $(inputPrecio).val() == 0)
         return;
-    Swal.fire({
-        title: "Esta acción borrará los descuentos individuales de cada estudio y el descuento directo",
-        text: "¿Deseas continuar?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Continuar",
-        cancelButtonText: `Cancelar`,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Aceptar",
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        width: "50rem",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Eliminamos el descuentos directo, el motivo del descuento y actualizamos el total de descuentos y el total
-            const inputDescuentoDirecto = `#da_descuento_${apartado.slice(
-                0,
-                1
-            )}`;
-            const inputMotivoDescuento = `#motivo_descuento_${apartado.slice(
-                0,
-                1
-            )}`;
-            const inputTotalDescuento = `#to_descuento_${apartado.slice(0, 1)}`;
-            const inputTotal = `#total_${apartado.slice(0, 1)}`;
-            const inputPrecio = `#precio_${apartado.slice(0, 1)}`;
-            $(inputDescuentoDirecto).val(0);
-            $(inputMotivoDescuento).val("");
-            $(inputTotalDescuento).val(0);
-            $(inputTotal).val($(inputPrecio).val());
+    swal(
+        {
+            title: "Esta acción borrará los descuentos individuales de cada estudio y el descuento directo",
+            text: "¿Deseas continuar?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Continuar",
+            cancelButtonText: `Cancelar`,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Aceptar",
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            width: "50rem",
+        },
+        (result) => {
+            if (result) {
+                // Eliminamos el descuentos directo, el motivo del descuento y actualizamos el total de descuentos y el total
+                const inputDescuentoDirecto = `#da_descuento_${apartado.slice(
+                    0,
+                    1
+                )}`;
+                const inputMotivoDescuento = `#motivo_descuento_${apartado.slice(
+                    0,
+                    1
+                )}`;
+                const inputTotalDescuento = `#to_descuento_${apartado.slice(
+                    0,
+                    1
+                )}`;
+                const inputTotal = `#total_${apartado.slice(0, 1)}`;
+                const inputPrecio = `#precio_${apartado.slice(0, 1)}`;
+                $(inputDescuentoDirecto).val(0);
+                $(inputMotivoDescuento).val("");
+                $(inputTotalDescuento).val(0);
+                $(inputTotal).val($(inputPrecio).val());
 
-            // Comprobamos a qué apartado se le eliminarán los descuentos
-            let url = "";
-            if (apartado === "consultas")
-                url = URL_CONSULTAS_ELIMINAR_DESCUENTOS;
-            else if (apartado === "imagen")
-                url = URL_IMAGEN_ELIMINAR_DESCUENTOS;
-            else if (apartado === "laboratorio")
-                url = URL_LABORATORIO_ELIMINAR_DESCUENTOS;
-            else if (apartado === "productos")
-                url = URL_PRODUCTOS_ELIMINAR_DESCUENTOS;
-            else if (apartado === "servicios")
-                url = URL_SERVICIOS_ELIMINAR_DESCUENTOS;
+                // Comprobamos a qué apartado se le eliminarán los descuentos
+                let url = "";
+                if (apartado === "consultas")
+                    url = URL_CONSULTAS_ELIMINAR_DESCUENTOS;
+                else if (apartado === "imagen")
+                    url = URL_IMAGEN_ELIMINAR_DESCUENTOS;
+                else if (apartado === "laboratorio")
+                    url = URL_LABORATORIO_ELIMINAR_DESCUENTOS;
+                else if (apartado === "productos")
+                    url = URL_PRODUCTOS_ELIMINAR_DESCUENTOS;
+                else if (apartado === "servicios")
+                    url = URL_SERVICIOS_ELIMINAR_DESCUENTOS;
 
-            // Realizamos la consulta para eliminar los descuentos individuales
-            const formData = new FormData();
-            formData.append("aleatorio", $("#aleatorio_ov").val());
-            fetch(url, {
-                method: "post",
-                body: formData,
-            })
-                .then((response) => response.json())
-                .then((result) => {
-                    Swal.fire({
-                        title: "Descuentos eliminados correctamente :)",
-                        icon: "success",
-                    });
+                // Realizamos la consulta para eliminar los descuentos individuales
+                const formData = new FormData();
+                formData.append("aleatorio", $("#aleatorio_ov").val());
+                fetch(url, {
+                    method: "post",
+                    body: formData,
                 })
-                .catch((error) => {
-                    Swal.fire({
-                        title: "Ocurrió un problema :(",
-                        text: error,
-                        icon: "error",
+                    .then((response) => response.json())
+                    .then((result) => {
+                        // Al abrir el segundo modal ocurría un error: no se mostraba, al parecer se cerraba instantaneamente, entonces al definir un timeout se corrije este error
+                        setTimeout(() => {
+                            swal({
+                                title: "Descuentos eliminados correctamente :)",
+                                type: "success",
+                                timer: 1800,
+                                showConfirmButton: false,
+                            });
+                        }, 100);
+                    })
+                    .catch((error) => {
+                        setTimeout(() => {
+                            swal({
+                                title: "Ocurrió un problema :(",
+                                text: error,
+                                icon: "error",
+                                timer: 3600,
+                            });
+                        }, 100);
                     });
-                });
 
-            // Limpiamos la tabla resumen
-            limpiarTablaResumen(apartado);
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                // Limpiamos la tabla resumen
+                limpiarTablaResumen(apartado);
+            }
         }
-    });
+    );
 };
 
 /**

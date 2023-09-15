@@ -68,8 +68,8 @@
      
     /* * Ordering */
     $sOrder = "";
-    if ( isset( $_GET['iSortCol_0'] ) )
-    {
+    /* if ( isset( $_GET['iSortCol_0'] ) )
+    { */
         $sOrder = "GROUP BY pa.referencia_pag ORDER BY ";
         for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ )
         {
@@ -83,7 +83,7 @@
         $sOrder = substr_replace( $sOrder, "", -2 );
         if ( $sOrder == "ORDER BY" ) { $sOrder = ""; }
 		$sOrder = "GROUP BY pa.referencia_pag ORDER BY pa.fecha_pag desc";
-    }
+    // }
      
     /* 
      * Filtering

@@ -50,7 +50,6 @@ include_once 'recursos/datauser.php';
 	<script src="TableTools-2.1.5/media/js/ZeroClipboard.js"></script>
 	<script src="bootstrap-validator/js/validator.js"></script>
 	<script src="sweetalert/dist/sweetalert.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="chosen/chosen.jquery.js" type="text/javascript"></script>
 	<script src="funciones/js/jquery.media.js" type="text/javascript"></script>
 	<script src="funciones/js/jquery.printElement.min.js" type="text/javascript"></script>
@@ -88,10 +87,6 @@ include_once 'recursos/datauser.php';
 	<link rel="stylesheet" href="chosen/chosen-bootstrap.css">
 	<link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
 	<style>
-		.swal2-container {
-			z-index: 9999;
-		}
-
 		/* Inicio estilos generales del texto */
 		.font-size-14 {
 			font-size: 14px !important;
@@ -190,16 +185,16 @@ include_once 'recursos/datauser.php';
 		<tfoot>
 			<tr class="bg-primary">
 				<th></th>
-				<th><input type="text" id="input-folio" name="input-folio" class="form-control input-sm" placeholder="-FOLIO-" style="width:150px;" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar();" /></th>
+				<th><input type="text" id="input-folio" name="input-folio" class="form-control input-sm" placeholder="-FOLIO-" style="width:150px;" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th>
-					<input type="text" id="input-nombre" name="input-nombre" class="form-control input-sm" placeholder="-NOMBRE PACIENTE-" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar();" />
-					<input type="text" id="input-apaterno" name="input-apaterno" class="form-control input-sm" placeholder="-APELLIDO PATERNO-" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar();" />
-					<input type="text" id="input-amaterno" name="input-amaterno" class="form-control input-sm" placeholder="-APELLIDO MATERNO-" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar();" />
+					<input type="text" id="input-nombre" name="input-nombre" class="form-control input-sm" placeholder="-NOMBRE PACIENTE-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" />
+					<input type="text" id="input-apaterno" name="input-apaterno" class="form-control input-sm" placeholder="-APELLIDO PATERNO-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" />
+					<input type="text" id="input-amaterno" name="input-amaterno" class="form-control input-sm" placeholder="-APELLIDO MATERNO-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" />
 				</th>
-				<th><input type="text" id="input-edad" name="input-edad" class="form-control input-sm" placeholder="-EDAD-" oninput="conv_mayusc(this);" style="width:90px" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar();" /></th>
+				<th><input type="text" id="input-edad" name="input-edad" class="form-control input-sm" placeholder="-EDAD-" oninput="conv_mayusc();" style="width:90px" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th><input type="text" id="input-sexo" name="input-sexo" class="form-control input-sm" placeholder="-SEXO-" style="width:65px" /></th>
-				<th><input type="text" id="input-tel" name="input-tel" class="form-control input-sm" placeholder="-TELÉFONO-" data-mask="(999) 999-9999" maxlength="12" style="width:105px" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar();" /></th>
-				<th><input type="text" id="input-convenio" name="input-convenio" class="form-control input-sm" placeholder="-CONVENIO-" style="width:90px" onclick="clickHandlerLimpiarFiltros(this);" oninput="inputHandlerFiltrar();" /></th>
+				<th><input type="text" id="input-tel" name="input-tel" class="form-control input-sm" placeholder="-TELÉFONO-" data-mask="(999) 999-9999" maxlength="12" style="width:105px" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
+				<th><input type="text" id="input-convenio" name="input-convenio" class="form-control input-sm" placeholder="-CONVENIO-" style="width:90px" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th></th>
 				<th></th>
 				<th></th>
@@ -1277,8 +1272,20 @@ include_once 'recursos/datauser.php';
 				oTableP.draw();
 			});
 		});
-		//fin filtros individuales por campo de texto
 
+		$('#top-search').click(() => {
+			$("#input-folio").val("");
+			$("#input-nombre").val("");
+			$("#input-apaterno").val("");
+			$("#input-amaterno").val("");
+			$("#input-edad").val("");
+			$("#input-sexo").val("");
+			$("#input-telefono").val("");
+			$("#input-convenio").val("");
+			$("#btn-buscar").click();
+		});
+
+		//fin filtros individuales por campo de texto
 		$('#top-search').keyup(function(e) {
 			$('#dataTablePrincipal_filter input').val($(this).val());
 			$('#dataTablePrincipal_filter input').keyup();
@@ -1683,11 +1690,48 @@ include_once 'recursos/datauser.php';
 	function verPaciente(idP) {
 		$("#myModal").load('pacientes/htmls/ficha_paciente.php', function(response, status, xhr) {
 			if (status == "success") {
+				// Cargamos los regimenes fiscales
+				getRegimenesFiscales().catch(error => swal("ERROR", error.message, "error"));
+
+				// Cargamos los usos CFDI
+				getUsoCFDI().catch(error => swal("ERROR", error.message, "error"));
+				
+				// Configuramos el agregar pacientes facturables
+				$("#nuevo_cliente").click(() => {
+					$("#modal_nuevo_cliente").load("pacientes/htmls/nuevo-cliente.php", (response, status, xhr) => {
+						if (status === "success") {
+							getClientes()
+							.then(response => $(".cliente").click(() => verificarClientesSeleccionados()))
+							.catch(error => swal("ERROR", error.message, "error"));
+
+							$("#agregar-nuevo-cliente").click(() => {
+								agregarCliente()
+								.then(response => {
+									swal("HECHO", response, "success");
+									$("#agregar-cliente-volver").click();
+								})
+								.catch(error => swal("ERROR", error.message, "error"));
+							});
+
+							// Configuración del modal
+							$("#modal_nuevo_cliente").modal("show");
+							$('#modal_nuevo_cliente').on('hidden.bs.modal', (e) => {
+								$("#modal_nuevo_cliente .modal-content").remove();
+								$("#modal_nuevo_cliente").empty();
+							});
+						}
+					});
+				});
+
 				$.fn.datepicker.defaults.autoclose = true;
 				$('#id_usr_reg').val($('#id_user').val());
 				$('#alerta_new_user').hide();
 				$('#id_sucu').val(<?PHP echo $id_sucursal_u; ?>);
+
 				$('#id_paciente_v').val(idP);
+				// Cargamos los clientes facturables del paciente seleccionado
+				getClientesFacturablesPaciente(parseInt($("#id_paciente_v").val())).catch(error => swal("ERROR", error.message, "error"));
+				
 				var nowY = new Date().getTime(),
 					dY = new Date();
 
@@ -3046,132 +3090,156 @@ include_once 'recursos/datauser.php';
 								$('#btn_cancel1').hide();
 								$.post('pacientes/files-serverside/guardar_ov.php', datosP).done(function(data) {
 									var datil = data.split(';]');
-									if (datil[0] == 1) { //si el paciente se Actualizó 
-										$('#clickme').click();
-										$btn.button('reset');
-										$('#btn_cancel1').show();
-										$('#myModal4').modal('hide');
-										swal({
-												title: "VENTA REALIZADA",
-												text: "¿Deseas imprimir el ticket de venta " + datil[1] + "?",
+									if (datil[0] == 1) { //si el paciente se Actualizó
+
+										// Enviamos la petición para guardar usuario - fecha - hora de quién dió de alta el estudio
+										nuevoHistorial($('#aleatorio_ov').val(), 3)
+										.then(response => {
+											swal({
 												type: "success",
-												showCancelButton: true,
-												confirmButtonText: "Imprimir",
-												cancelButtonText: "Salir",
-												closeOnConfirm: false
-											},
-											function() {
-												$("#myModal1").load('pacientes/htmls/ticket.php', function(response, status, xhr) {
-													if (status == "success") {
-														//var tamP = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-144;
-														$('#contenedorAnteriores, #myAbonadoA').hide();
-														var oTableT = $('#dataTableResumenT').DataTable({
-															serverSide: true,
-															"sScrollY": '100%',
-															ordering: false,
-															searching: false,
-															scrollCollapse: false,
-															"scrollX": true,
-															"fnFooterCallback": function(nRow, aaData, iStart, iEnd, aiDisplay) {},
-															scroller: false,
-															responsive: false,
-															"aoColumns": [{
-																"bVisible": true
-															}, {
-																"bVisible": false
-															}, {
-																"bVisible": false
-															}, {
-																"bVisible": true
-															}, {
-																"bVisible": false
-															}, {
-																"bVisible": true
-															}],
-															"sDom": '<"filtroCt"><"infoCt"><"data_tCt"t>',
-															deferRender: true,
-															select: false,
-															"processing": false,
-															"sAjaxSource": "pacientes/js/datatable-serverside/totales_nvTi.php",
-															"fnServerParams": function(aoData, fnCallback) {
-																var aleatorio = $('#aleatorio_ov_a').val();
-																aoData.push({
-																	"name": "aleatorio",
-																	"value": aleatorio
-																});
-															},
-															"oLanguage": {
-																"sLengthMenu": "MONSTRANDO _MENU_ records per page",
-																"sZeroRecords": "LA ORDEN DE VENTA ESTA VACIA",
-																"sInfo": "MOSTRADOS: _END_",
-																"sInfoEmpty": "MOSTRADOS: 0",
-																"sInfoFiltered": " CONCEPTOS: _MAX_",
-																"sSearch": "BUSCAR"
-															},
-															"iDisplayLength": 50000,
-															paging: false
-														});
-
-														var datosTi = {
-															noAleatorio: $('#aleatorio_ov_a').val()
-														}
-														$.post('pacientes/files-serverside/datosTicketNV.php', datosTi).done(function(data) {
-															var datosT = data.split(';}');
-															if (datosT[5] == '') {
-																datosT[5] = 0;
-															} //alert(data);
-															//para el ticket
-															$('#fechaT').text(datosT[0]);
-															$('#referenciaT').text(datosT[1]);
-															$('#pacienteT').text(datosT[2]);
-															$('#adicionalesT').text(datosT[10]);
-															$('#totalT').text(datosT[4]);
-															$('#pagoT').text(datosT[5]);
-															$('#saldoT').text(datosT[6]);
-															$('#usuarioIT').text(datosT[33]);
-															$('#fechaIT').text(datosT[8]);
-															$('#horaIT').text(datosT[9]);
-															$('#formaPagoT').text(datosT[11]);
-															$('#cantidadLetraT').text(nn(datosT[4]));
-															$('#municipioS').text(datosT[16]);
-															$('#calleSucursal').text(datosT[19]);
-															$('#coloniaSucursal').text(datosT[18]);
-															$('#cpSucursal').text(datosT[20]);
-															$('#telefonoSucursal').text(datosT[21]);
-															$('#municipioSucursal').text(datosT[17]);
-															$('#estadoSucursal').text(datosT[15]);
-															$('#sitioS').text(datosT[22]);
-															$('#emailSucursal').text(datosT[23]);
-															$('#descuentoT').text(datosT[24]);
-															$('#subTotalT').text(datosT[29]);
-															if (datosT[25] > 0) {
-																x = 'sucursales/documentos/files/' + datosT[26] + '.' + datosT[27] + '?' + Math.round(Math.random() * 1000);
-																$('#myLogoS').html('<img src=' + x + ' width="150" style="border:5px none white; background-color:rgba(255, 255, 255, 1);">');
-															}
-															if (datosT[28] > 0) {
-																$('#myIva').removeClass('hidden');
-															} else {
-																$('#myIva').addClass('hidden');
-															}
-															$('#ivaT').text(datosT[28]);
-															$('#abonosT').val(datosT[29]);
-															$('#saldosT').val(datosT[30]);
-															$('#fechaOv').text(datosT[34]);
-															$('#imprimirTic').click(function(e) {
-																$('#tablaTicket').css('font-size', '8px').printElement();
-															});
-														});
-
-														$('#myModal1').modal('show');
-														$('#myModal1').on('shown.bs.modal', function(e) {});
-														$('#myModal1').on('hidden.bs.modal', function(e) {
-															$("#myModal1 .modal-content").remove();
-															$("#myModal1").empty();
-														});
-													}
-												});
-												swal.close();
+												title: "¡HECHO!",
+												text: "Historial creado exitosamente.",
+												showConfirmButton: false,
+												timer: 1800
 											});
+										})
+										.catch(error => {
+											swal({
+												type: "error",
+												title: "¡Ocurrió un error!",
+												text: error.message,
+												showConfirmButton: false,
+												tiemr: 1800
+											});
+										});
+
+										setTimeout(() => {
+											$('#clickme').click();
+											$btn.button('reset');
+											$('#btn_cancel1').show();
+											$('#myModal4').modal('hide');
+											swal({
+													title: "VENTA REALIZADA",
+													text: "¿Deseas imprimir el ticket de venta " + datil[1] + "?",
+													type: "success",
+													showCancelButton: true,
+													confirmButtonText: "Imprimir",
+													cancelButtonText: "Salir",
+													closeOnConfirm: false
+												},
+												function() {
+													$("#myModal1").load('pacientes/htmls/ticket.php', function(response, status, xhr) {
+														if (status == "success") {
+															//var tamP = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-144;
+															$('#contenedorAnteriores, #myAbonadoA').hide();
+															var oTableT = $('#dataTableResumenT').DataTable({
+																serverSide: true,
+																"sScrollY": '100%',
+																ordering: false,
+																searching: false,
+																scrollCollapse: false,
+																"scrollX": true,
+																"fnFooterCallback": function(nRow, aaData, iStart, iEnd, aiDisplay) {},
+																scroller: false,
+																responsive: false,
+																"aoColumns": [{
+																	"bVisible": true
+																}, {
+																	"bVisible": false
+																}, {
+																	"bVisible": false
+																}, {
+																	"bVisible": true
+																}, {
+																	"bVisible": false
+																}, {
+																	"bVisible": true
+																}],
+																"sDom": '<"filtroCt"><"infoCt"><"data_tCt"t>',
+																deferRender: true,
+																select: false,
+																"processing": false,
+																"sAjaxSource": "pacientes/js/datatable-serverside/totales_nvTi.php",
+																"fnServerParams": function(aoData, fnCallback) {
+																	var aleatorio = $('#aleatorio_ov_a').val();
+																	aoData.push({
+																		"name": "aleatorio",
+																		"value": aleatorio
+																	});
+																},
+																"oLanguage": {
+																	"sLengthMenu": "MONSTRANDO _MENU_ records per page",
+																	"sZeroRecords": "LA ORDEN DE VENTA ESTA VACIA",
+																	"sInfo": "MOSTRADOS: _END_",
+																	"sInfoEmpty": "MOSTRADOS: 0",
+																	"sInfoFiltered": " CONCEPTOS: _MAX_",
+																	"sSearch": "BUSCAR"
+																},
+																"iDisplayLength": 50000,
+																paging: false
+															});
+
+															var datosTi = {
+																noAleatorio: $('#aleatorio_ov_a').val()
+															}
+															$.post('pacientes/files-serverside/datosTicketNV.php', datosTi).done(function(data) {
+																var datosT = data.split(';}');
+																if (datosT[5] == '') {
+																	datosT[5] = 0;
+																} //alert(data);
+																//para el ticket
+																$('#fechaT').text(datosT[0]);
+																$('#referenciaT').text(datosT[1]);
+																$('#pacienteT').text(datosT[2]);
+																$('#adicionalesT').text(datosT[10]);
+																$('#totalT').text(datosT[4]);
+																$('#pagoT').text(datosT[5]);
+																$('#saldoT').text(datosT[6]);
+																$('#usuarioIT').text(datosT[33]);
+																$('#fechaIT').text(datosT[8]);
+																$('#horaIT').text(datosT[9]);
+																$('#formaPagoT').text(datosT[11]);
+																$('#cantidadLetraT').text(nn(datosT[4]));
+																$('#municipioS').text(datosT[16]);
+																$('#calleSucursal').text(datosT[19]);
+																$('#coloniaSucursal').text(datosT[18]);
+																$('#cpSucursal').text(datosT[20]);
+																$('#telefonoSucursal').text(datosT[21]);
+																$('#municipioSucursal').text(datosT[17]);
+																$('#estadoSucursal').text(datosT[15]);
+																$('#sitioS').text(datosT[22]);
+																$('#emailSucursal').text(datosT[23]);
+																$('#descuentoT').text(datosT[24]);
+																$('#subTotalT').text(datosT[29]);
+																if (datosT[25] > 0) {
+																	x = 'sucursales/documentos/files/' + datosT[26] + '.' + datosT[27] + '?' + Math.round(Math.random() * 1000);
+																	$('#myLogoS').html('<img src=' + x + ' width="150" style="border:5px none white; background-color:rgba(255, 255, 255, 1);">');
+																}
+																if (datosT[28] > 0) {
+																	$('#myIva').removeClass('hidden');
+																} else {
+																	$('#myIva').addClass('hidden');
+																}
+																$('#ivaT').text(datosT[28]);
+																$('#abonosT').val(datosT[29]);
+																$('#saldosT').val(datosT[30]);
+																$('#fechaOv').text(datosT[34]);
+																$('#imprimirTic').click(function(e) {
+																	$('#tablaTicket').css('font-size', '8px').printElement();
+																});
+															});
+
+															$('#myModal1').modal('show');
+															$('#myModal1').on('shown.bs.modal', function(e) {});
+															$('#myModal1').on('hidden.bs.modal', function(e) {
+																$("#myModal1 .modal-content").remove();
+																$("#myModal1").empty();
+															});
+														}
+													});
+													swal.close();
+												});
+										}, 2000);
 									} else {
 										alert(datil[0]);
 									}
@@ -5766,6 +5834,9 @@ include_once 'recursos/datauser.php';
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4cHSkoaQwTQjx31Y3xFf3kkSkD28X_Rs&callback=initMap" async defer>
 </script>
 
+<!-- Funciones para el historial del estudio de laboratorio -->
+<script src="historial/js/historial.js"></script>
+
 <?php include_once 'partes/header.php';
 
 if (isset($_GET['to_h'])) {
@@ -5777,3 +5848,9 @@ if (isset($_GET['to_h'])) {
 			</script>';
 }
 ?>
+
+<script src="./pacientes/js/getRegimenesFiscales.js"></script>
+<script src="./pacientes/js/getUsoCFDI.js"></script>
+<script src="./pacientes/js/getClientes.js"></script>
+<script src="./pacientes/js/agregarCliente.js"></script>
+<script src="./pacientes/js/getAdicionales.js"></script>

@@ -1,0 +1,108 @@
+/* DISEÑO DEL SECTION EN DONDE VA A IR TODA LA INFORMACIÓN DE LA RECETA */
+.receta_subtitulo {
+    text-align: center;
+    margin: 0px;
+}
+
+/* DISEÑO DE LA PRIMERA SECCIÓN EN DONDE VA A IR LA INFORMACIÓN DEL PACIENTE */
+#info_paciente,
+#receta_tratamiento,
+#receta_indicaciones {
+    margin: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#primera_seccion,
+#segunda_seccion,
+#tercera_seccion,
+.tratamiento_primera_seccion,
+.tratamiento_segunda_seccion,
+.tratamiento_numeracion {
+    width: 80%;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: start;
+    white-space: nowrap;
+}
+
+#segunda_seccion {
+    margin-bottom: 1.5rem;
+}
+
+#primera_seccion .dato_paciente,
+#segunda_seccion .dato_paciente,
+#tercera_seccion .dato_paciente {
+    flex-grow: 2;
+    display: flex;
+}
+
+.dato_paciente span,
+.tratamiento_dato span {
+    margin-left: 0.5rem;
+    color: #ff0000;
+    flex-grow: 2;
+}
+
+/* DISEÑO DEL TRATAMIENTO */
+.tratamiento {
+    margin: 2rem 2rem 0rem 2rem;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tratamiento_primera_seccion,
+.tratamiento_segunda_seccion {
+    width: 100%;
+}
+
+.tratamiento_dato {
+    flex-grow: 2;
+    display: flex;
+}
+
+#acciones_receta_medica {
+    display: flex;
+    align-items: center;
+}
+
+#acciones_receta_medica button,
+#button_agregar_medicamentos_receta {
+    margin: 0px 0.5rem;
+    padding: 0.5rem;
+}
+
+#div_medicamentos_seleccionados_consulta {
+    display: flex;
+    align-items: center;
+}
+
+.tratamiento .tratamiento_numeracion {
+    margin: 0px;
+    width: 100%;
+}
+
+.tratamiento_dato span {
+    white-space: wrap !important;
+}
+
+#label_indicaciones,
+#indicaciones,
+#indicaciones_p {
+    font-size: 1.5rem;
+    margin: 0px;
+}
+
+#label_indicaciones {
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+}
+
+#indicaciones {
+    resize: none;
+    border: none;
+}
