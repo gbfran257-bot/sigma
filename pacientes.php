@@ -1707,8 +1707,18 @@ include_once 'recursos/datauser.php';
 							$("#agregar-nuevo-cliente").click(() => {
 								agregarCliente()
 								.then(response => {
-									swal("HECHO", response, "success");
+									swal({
+										type: "success",
+										title: "HECHO",
+										text: "Cliente agregado correctamente",
+										timer: 1800,
+										showConfirmButton: false
+									});
 									$("#agregar-cliente-volver").click();
+									$("#table_body_adicionales tr").remove();
+									
+									// Actualizamos los clientes facturables seleccionados
+									getClientesFacturablesPaciente(parseInt($("#id_paciente_v").val())).catch(error => swal("ERROR", error.message, "error"));
 								})
 								.catch(error => swal("ERROR", error.message, "error"));
 							});
@@ -5852,5 +5862,5 @@ if (isset($_GET['to_h'])) {
 <script src="./pacientes/js/getRegimenesFiscales.js"></script>
 <script src="./pacientes/js/getUsoCFDI.js"></script>
 <script src="./pacientes/js/getClientes.js"></script>
-<script src="./pacientes/js/agregarCliente.js"></script>
+<script src="./pacientes/js/clientesFacturables.js"></script>
 <script src="./pacientes/js/getAdicionales.js"></script>
