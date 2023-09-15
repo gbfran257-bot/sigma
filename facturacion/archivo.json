@@ -1,0 +1,55 @@
+{
+    "Certificado": null,
+    "CondicionesDePago": null,
+    "Fecha": "2023-09-14T21:27:23",
+    "Folio": "20230408-2",
+    "FormaPago": "01",
+    "LugarExpedicion": "55555",
+    "MetodoPago": "PUE",
+    "Moneda": "MXN",
+    "NoCertificado": null,
+    "Sello": null,
+    "Serie": "A",
+    "SubTotal": 0,
+    "TipoDeComprobante": "I",
+    "Total": null,
+    "Version": null,
+    "xsi:schemaLocation": null,
+    "Emisor": {
+        "Nombre": null,
+        "RegimenFiscal": "626",
+        "Rfc": null
+    },
+    "Receptor": {
+        "Nombre": "GABRIEL ALEJANDRO RAMOS SALAZAR",
+        "Rfc": "RASG920318DXA",
+        "UsoCFDI": "CP01",
+        "DomicilioFiscalReceptor": "45200",
+        "RegimenFiscalReceptor": "612"
+    },
+    "Conceptos": {
+        "Concepto": [
+            {
+                "Cantidad": "1",
+                "ClaveProdServ": "84111506",
+                "ClaveUnidad": "ACT",
+                "Descripcion": "CONSULTA DE GRATUIDAD",
+                "Importe": "0.00",
+                "ValorUnitario": "0.00",
+                "Impuestos": {
+                    "Traslados": {
+                        "Traslado": [
+                            {
+                                "Base": "0.00",
+                                "Importe": null,
+                                "Impuesto": "002",
+                                "TasaOCuota": "0.160000",
+                                "TipoFactor": "Tasa"
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
