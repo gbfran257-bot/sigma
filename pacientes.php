@@ -1700,7 +1700,7 @@ include_once 'recursos/datauser.php';
 				$("#nuevo_cliente").click(() => {
 					$("#modal_nuevo_cliente").load("pacientes/htmls/nuevo-cliente.php", (response, status, xhr) => {
 						if (status === "success") {
-							getClientes()
+							getClientes(parseInt($("#id_paciente_v").val()))
 							.then(response => $(".cliente").click(() => verificarClientesSeleccionados()))
 							.catch(error => swal("ERROR", error.message, "error"));
 

@@ -60,7 +60,7 @@ const getClientesFacturablesPaciente = async (idPaciente) => {
     
     pacientes.forEach((paciente, index) => $("#table_body_adicionales").append(`
         <tr>
-            <td class="text-center" colspan="1" style="vertical-align: middle;">${++index}</td>
+            <td id_p=${paciente.id_p} class="text-center cliente_facturable_ya_seleccionado" colspan="1" style="vertical-align: middle;">${++index}</td>
             <td class="text-center" colspan="4" style="vertical-align: middle;">${paciente.nombre_completo_p}</td>
             <td class="text-center" colspan="1" style="vertical-align: middle;">
                 <button class="btn btn-danger" type="button" id="eliminarClienteFacturable" style="padding: 0.5rem;" onclick="eliminarClienteFacturable(${paciente.id_p})">Eliminar</button>

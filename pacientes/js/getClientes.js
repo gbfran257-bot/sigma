@@ -1,7 +1,18 @@
-const URL_GET_CLIENTES = "pacientes/files-serverside/getClientes.php";
+const URL_GET_CLIENTES = "pacientes/files-serverside/getClientes.php?";
 
-const getClientes = async () => {
-    const clientes = await fetch(URL_GET_CLIENTES, {
+/**
+ * @param { number } idPaciente
+ */
+const getClientes = async (idPaciente) => {
+    const clienteSeleccionados = JSON.stringify(
+        $(".cliente_facturable_ya_seleccionado")
+            .map((index, element) => {
+                return $(element).attr("id_p");
+            })
+            .toArray()
+    );
+
+    const clientes = await fetch(`${URL_GET_CLIENTES}id_paciente=${idPaciente}&clientes_seleccionados=${clienteSeleccionados}`, {
         method: "GET",
     })
     .then(response => response.json())
