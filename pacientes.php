@@ -1690,12 +1690,6 @@ include_once 'recursos/datauser.php';
 	function verPaciente(idP) {
 		$("#myModal").load('pacientes/htmls/ficha_paciente.php', function(response, status, xhr) {
 			if (status == "success") {
-				// Cargamos los regimenes fiscales
-				getRegimenesFiscales().catch(error => swal("ERROR", error.message, "error"));
-
-				// Cargamos los usos CFDI
-				getUsoCFDI().catch(error => swal("ERROR", error.message, "error"));
-				
 				// Configuramos el agregar pacientes facturables
 				$("#nuevo_cliente").click(() => {
 					$("#modal_nuevo_cliente").load("pacientes/htmls/nuevo-cliente.php", (response, status, xhr) => {
@@ -1703,7 +1697,7 @@ include_once 'recursos/datauser.php';
 							getClientes(parseInt($("#id_paciente_v").val()))
 							.then(response => $(".cliente").click(() => verificarClientesSeleccionados()))
 							.catch(error => swal("ERROR", error.message, "error"));
-
+							
 							$("#agregar-nuevo-cliente").click(() => {
 								agregarCliente()
 								.then(response => {
@@ -1752,6 +1746,16 @@ include_once 'recursos/datauser.php';
 				$.post('pacientes/files-serverside/fichaPaciente.php', datos).done(function(data1) { //alert(data1);
 					var datosI = data1.split('*}');
 
+					// Cargamos los regimenes fiscales
+					getRegimenesFiscales()
+					.then(response => $("#regimen_fiscal").val(datosI[65]))
+					.catch(error => swal("ERROR", error.message, "error"));
+
+					// Cargamos los usos CFDI
+					getUsoCFDI()
+					.then(response => $("#uso_cfdi").val(datosI[66]))
+					.catch(error => swal("ERROR", error.message, "error"));
+					
 					$('#lat_us').text(redondear(datosI[56], 4));
 					$('#lati_ud').val(datosI[56]);
 					$('#lon_us').text(redondear(datosI[57], 4));
@@ -2045,6 +2049,12 @@ include_once 'recursos/datauser.php';
 						var $btn = $('#btn_new_u').button('loading');
 						$('#btn_cancel_new_u').hide();
 						var datosP = $('#myModal #form-ficha_us').serialize();
+
+						// Obtenemos el valor de los checkboxes de facturar y proveedor
+						const facturar = $("#facturar").is(":checked") ? 1 : 0;
+						const proveedor = $("#proveedor").is(":checked") ? 1 : 0;
+
+						datosP += `&facturar=${facturar}&proveedor=${proveedor}`;
 						$.post('pacientes/files-serverside/updatePaciente.php', datosP).done(function(data) {
 							if (data == 1) { //si el paciente se Actualizó 
 								$('#clickme').click();
