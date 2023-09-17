@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  facturacion_mysql_db:
+    env_file:
+      - ./Docker/.env-docker
+    platform: linux/x86_64
+    image: mysql:5.7
+    container_name: db_facturacion_php
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE} # Solo ayude a declarar estas variables, pero no se inyecte
+    networks:
+      - sigma_dev_network
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  api_facturacion:
+    env_file:
+        - ./Docker/.env-docker
+    container_name: api_facturacion_php
+    restart: always
+    ports:
+      - 8010:80 # Puedes cambiar el puerto según tus necesidades
+    networks:
+      - sigma_dev_network
+    volumes: 
+      - .:/app
+    build:
+      context: .
+      dockerfile: ./Docker/Dockerfile.dev
+    environment:  # Agrega estas variables de entorno
+      - DB_CONNECTION=mysql
+      - DB_HOST=facturacion_mysql_db
+      - DB_PORT=3306
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+
+networks:
+  sigma_dev_network:
+    name: sigma_dev_network
+    driver: bridge
+    external: true # Comenta esta linea para iniciar el proyecto sin depender del otro
+
+volumes:
+  mysql_data:

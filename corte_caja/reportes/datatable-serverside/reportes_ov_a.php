@@ -255,10 +255,25 @@
 				$sucs = $sucs.'<option selected value="'.$fila['id'].'">'.$fila['nombre'].'</option>';
 			}else{$sucs = $sucs.'<option value="'.$fila['id'].'">'.$fila['nombre'].'</option>';}
 		};
+        mysql_select_db($database_horizonte, $horizonte);
+        $consulta = "SELECT IF(COUNT(*) > 0, 'Si', 'No') AS resultado
+                        FROM ordenes_facturadas
+                        WHERE referencia_ov = '" . $row[20] . "'" ;
+        // Obtiene el resultado
+        $query = mysql_query($consulta);
+        if (!$query) {
+            die("Error en el query: " . mysql_error());
+        }
+        $valor = "No";
+        while ($fila = mysql_fetch_array($query)){
+            $valor = $fila['resultado'];
+        }
+        $row[16] = $valor;
 		
-		$row[4]="<select lang='$row[17]' class='form-control input-sm cambiar_suc' style='width:100%;' onChange='cambiar_suc(this.value, this.lang)'>$sucs</select>";
+        $row[4]="<select lang='$row[17]' class='form-control input-sm cambiar_suc' style='width:100%;' onChange='cambiar_suc(this.value, this.lang)'>$sucs</select>";
 		$row[1] ="<span lang='$row[1]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[1]</span><br><span style='font-size:12px'>$row[19]</span>";		
-		$output['aaData'][] = $row;
+			
+        $output['aaData'][] = $row;
     }
     echo json_encode( $output );
 ?>

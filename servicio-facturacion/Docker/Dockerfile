@@ -1,0 +1,21 @@
+# Remove the dev for prod image
+FROM webdevops/php-apache:8.2
+
+ENV  WEB_DOCUMENT_ROOT=/app/public
+
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+RUN apt install -y nodejs
+
+WORKDIR /app
+
+COPY . /app
+
+RUN composer install
+
+RUN npm install
+
+RUN cp .env.example .env
+
+RUN php artisan key:generate
+
+RUN php artisan config:cache
