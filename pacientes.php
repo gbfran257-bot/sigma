@@ -1690,6 +1690,8 @@ include_once 'recursos/datauser.php';
 	function verPaciente(idP) {
 		$("#myModal").load('pacientes/htmls/ficha_paciente.php', function(response, status, xhr) {
 			if (status == "success") {
+				let facturar_carga = true;
+
 				// Configuramos el agregar pacientes facturables
 				$("#nuevo_cliente").click(() => {
 					$("#modal_nuevo_cliente").load("pacientes/htmls/nuevo-cliente.php", (response, status, xhr) => {
@@ -1733,6 +1735,27 @@ include_once 'recursos/datauser.php';
 				$('#id_sucu').val(<?PHP echo $id_sucursal_u; ?>);
 
 				$('#id_paciente_v').val(idP);
+
+				// Configuramos la verificaciones de los datos fiscales para el caso en el que se quiera marcar al paciente como facturable
+				$("#facturar").click(() => {
+					if (facturar_carga) {
+						facturar_carga = false;
+						return;
+					}
+
+					verificarDatosFiscalesPacienteFacturable(parseInt($("#id_paciente_v").val()))
+					.catch(error => {
+						$("#facturar").click();
+						return swal({
+							type: "error",
+							title: "ERROR",
+							text: error.message,
+							showConfirmButton: false,
+							timer: 1800
+						});
+					});
+				});
+
 				// Cargamos los clientes facturables del paciente seleccionado
 				getClientesFacturablesPaciente(parseInt($("#id_paciente_v").val())).catch(error => swal("ERROR", error.message, "error"));
 				
@@ -1757,7 +1780,11 @@ include_once 'recursos/datauser.php';
 					.catch(error => swal("ERROR", error.message, "error"));
 
 					// Cargamos si el paciente está marcado como proveedor o no y si está marcado como facturador o no
-					datosI[67] == 1 ? $("#facturar").click() : "";
+					if (datosI[67] == 1) {
+						$("#facturar").click();
+					} else {
+						facturar_carga = false;
+					}
 					datosI[68] == 1 ? $("#proveedor").click() : "";
 					
 					$('#lat_us').text(redondear(datosI[56], 4));

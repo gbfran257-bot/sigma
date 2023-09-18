@@ -1,6 +1,7 @@
 const URL_AGREGAR_CLIENTE_FACTURABLE = "pacientes/files-serverside/agregarClienteFacturable.php";
 const URL_GET_CLIENTES_FACTURABLES_PACIENTE = "pacientes/files-serverside/getClientesFacturablesPacientes.php";
 const URL_ELIMINAR_CLIENTE_FACTURABLE = "pacientes/files-serverside/eliminarClienteFacturable.php";
+const URL_VERIFICAR_DATOS_FISCALES_PACIENTE_FACTURABLE = "pacientes/files-serverside/verificarDatosFiscalesPacienteFacturable.php?id_paciente=";
 
 const agregarCliente = async () => {
     const idsPacientesFacturables = $("#body-nuevo-cliente .cliente")
@@ -137,5 +138,34 @@ const eliminarClienteFacturable = async (idClienteFacturable) => {
             timer: 1800,
             showConfirmButton: false
         });
+    });
+};
+
+/**
+ * @param { number } idPaciente
+ */
+const verificarDatosFiscalesPacienteFacturable = async (idPaciente) => {
+    if (!$("#facturar").is(":checked")) {
+        return;
+    }
+
+    return await fetch(URL_VERIFICAR_DATOS_FISCALES_PACIENTE_FACTURABLE + idPaciente, {
+        method: "GET"
+    })
+    .then(response => response.text())
+    .then(respuesta => {
+        if (respuesta.includes("ERROR:")) {
+            throw new Error(respuesta);
+        }
+        return swal({
+            type: "success",
+            title: "HECHO",
+            text: respuesta,
+            showConfirmButton: false,
+            timer: 1800
+        });
+    })
+    .catch(error => {
+        throw error;
     });
 };
