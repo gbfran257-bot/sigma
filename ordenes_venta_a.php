@@ -110,6 +110,7 @@
         <th width="10px">ABONADO</th>
         <th width="10px">SALDO</th>
         <th width="10px">PAGADO</th>
+        <th width="20px">FACTURADO</th>
       </tr>
     </thead>
     <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
@@ -130,6 +131,7 @@
 			<th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="" /></th>
+            <th><input type="hidden" placeholder="Facturado" class="" /></th>
             <th></th>
 		</tr>
 	</tfoot>
@@ -182,7 +184,6 @@ $(document).ready(function(e) {
     var nCloneTd = document.createElement( 'td' );
     nCloneTd.innerHTML = '<img src="imagenes/generales/details_open.png">';
     nCloneTd.className = "center";
-     
     $('#dataTable thead tr').each( function () { this.insertBefore( nCloneTh, this.childNodes[0] ); });
      
     $('#dataTable tbody tr').each( function () { this.insertBefore( nCloneTd.cloneNode( true ), this.childNodes[0] ); });
@@ -194,7 +195,6 @@ $(document).ready(function(e) {
 		//funciones para calcular los totales en los campos del pie de página
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
 			//$('.cambiar_suc').change(function() { alert( "Handler for .change() called." ); });
-			
 			$( '#rangosFechas' ).buttonset();
 			
 			$("#miFiltroDeptos").change(function(e){ $('#clickme').click(); });
@@ -222,7 +222,6 @@ $(document).ready(function(e) {
 			nCells[11].innerHTML = '$'+redondear(parseFloat(iSaldo * 100)/100,2);
 			nCells[6].innerHTML = '$'+redondear(parseFloat(iSubT * 100)/100,2);
 			nCells[7].innerHTML = '$'+redondear(parseFloat(iCargosE * 100)/100,2);
-			
 			window.setTimeout(function(){$('.erase1').each(function(index, element){ $(this).parent().parent().remove(); });},200);
         },
 		//fin de funciones para calcular los totales en los campos del pie de página
@@ -233,7 +232,7 @@ $(document).ready(function(e) {
 			{"bVisible": true, "aTargets": [ 7 ]},{ "bVisible": true, "aTargets": [ 8 ]},{"bVisible": false,"aTargets": [ 3 ] },
 			{"sClass":"right1","aTargets":[ 6 ] },{"sClass":"right1", "aTargets":[ 9 ] },{ "bVisible": false, "aTargets":[ 10 ] },
 			{"sClass":"right1","aTargets":[ 12 ] }, {"bVisible":true, "aTargets":[5]},{"sClass":"right1", "aTargets":[ 7 ] },
-			{"sClass":"right1", "aTargets":[ 11 ]}
+			{"sClass":"right1", "aTargets":[ 11 ]},{"sClass":"right1", "aTargets":[ 16 ]}
 		],
 		"aaSorting": [[3, "desc"]], "iDisplayLength": 500000000000000, "bLengthChange": false,
 		"bProcessing": false, "bServerSide": true,
@@ -373,57 +372,134 @@ $(document).ready(function(e) {
 });
 
 function ver_reporte(){
-        $("#myModal1").load('corte_caja/reportes/htmls/vista_reporte_extra.php', function(response, status, xhr){ if(status=="success"){
-            $('#titulo_modal').text('REPORTE EXTRA'); 
+	$("#myModal1").load('corte_caja/reportes/htmls/vista_reporte_extra.php', function(response, status, xhr){ if(status=="success"){
+		$('#titulo_modal').text('REPORTE EXTRA'); 
 
-		var tamano_altura = $('#referencia').height()/5;
-		
-		var oTableR = $('#dataTableEliminados').DataTable({
-			// serverSide:true,"sScrollY":'100%',ordering:false,searching:false,scrollCollapse:false,"scrollX": true,
-			serverSide:true,"sScrollY":tamano_altura,ordering:false,"bInfo": true, "bFilter": false,scrollCollapse:false,"scrollX": true,
-			"fnFooterCallback":function(nRow, aaData, iStart, iEnd, aiDisplay){ $( '#rangosFechas' ).buttonset(); },scroller:false,responsive:false,
-			"aoColumns": [
-				{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, { "bVisible": true }, { "bVisible": true }, { "bVisible": true }
-			],
-			"sDom": '<"opcTable"T><"filtro1"><"regis"l>B1<"data_t"t><"infoPrincipal"i>',
-			deferRender: true, select: false, "processing": false, 
-			"sAjaxSource": "corte_caja/reportes/datatable-serverside/reporte_extra.php",
-			"fnServerParams": function (aoData, fnCallback) { 
-				var aleatorio = 56; aoData.push(  {"name": "aleatorio", "value": aleatorio } );
+	var tamano_altura = $('#referencia').height()/5;
+	
+	var oTableR = $('#dataTableEliminados').DataTable({
+		// serverSide:true,"sScrollY":'100%',ordering:false,searching:false,scrollCollapse:false,"scrollX": true,
+		serverSide:true,"sScrollY":tamano_altura,ordering:false,"bInfo": true, "bFilter": false,scrollCollapse:false,"scrollX": true,
+		"fnFooterCallback":function(nRow, aaData, iStart, iEnd, aiDisplay){ $( '#rangosFechas' ).buttonset(); },scroller:false,responsive:false,
+		"aoColumns": [
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, { "bVisible": true }, { "bVisible": true }, { "bVisible": true }
+		],
+		"sDom": '<"opcTable"T><"filtro1"><"regis"l>B1<"data_t"t><"infoPrincipal"i>',
+		deferRender: true, select: false, "processing": false, 
+		"sAjaxSource": "corte_caja/reportes/datatable-serverside/reporte_extra.php",
+		"fnServerParams": function (aoData, fnCallback) { 
+			var aleatorio = 56; aoData.push(  {"name": "aleatorio", "value": aleatorio } );
 
-			},
-			"oLanguage": {
-				"sLengthMenu":"MONSTRANDO _MENU_ records per page", "sZeroRecords":"LA TABLA ESTA VACIA",
-				"sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": " CONCEPTOS: _MAX_", 
-				"sSearch": "BUSCAR"
-			},"iDisplayLength": 50000, paging: false,
-		});
+		},
+		"oLanguage": {
+			"sLengthMenu":"MONSTRANDO _MENU_ records per page", "sZeroRecords":"LA TABLA ESTA VACIA",
+			"sInfo": "MOSTRADOS: _END_", "sInfoEmpty": "MOSTRADOS: 0", "sInfoFiltered": " CONCEPTOS: _MAX_", 
+			"sSearch": "BUSCAR"
+		},"iDisplayLength": 50000, paging: false,
+	});
 
-		// inicio fechas
+	// inicio fechas
 
-		//  fin fechas
+	//  fin fechas
 
-            $('#myModal1').modal('show');
-            $('#myModal1').on('shown.bs.modal', function(e){ $('#form-escuela').validator(); });
-            $('#myModal1').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModal1").empty(); });
-        }});
-    }
-
-function ver_ov(ref){
-	$("#myModal3").load("laboratorio/htmls/ficha_ov.php",function(response,status,xhr){ if(status == "success"){
-		var dato = { ref:ref, idU:$('#id_user').val() }
-		$.post('laboratorio/archivos_save_ajax/datos_ficha_ov.php', dato).done(function(data){ var datos = data.split('*}');
-			$('#titulo_modal').text('ORDEN DE VENTA '+ref+' | '+datos[0]+' | '+datos[1]);
-			$('#fecha_o').text(datos[2]); $('#usuario_o').text(datos[3]); $('#subtotal_o').text(datos[4]); $('#extras_o').text(datos[5]);
-			$('#iva_o').text(datos[6]); $('#descuento_o').text(datos[7]); $('#total_o').text(datos[8]); $('#abonado_o').text(datos[9]);
-			$('#saldo_o').text(datos[10]); $('#estatus_o').text(datos[11]); $('#o_items').html(datos[17]);
-			
-			$('#myModal3').modal('show');
-			$('#myModal3').on('shown.bs.modal', function(e){ });
-			$('#myModal3').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModal3").empty(); });
-		}); 
+		$('#myModal1').modal('show');
+		$('#myModal1').on('shown.bs.modal', function(e){ $('#form-escuela').validator(); });
+		$('#myModal1').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModal1").empty(); });
 	}});
 }
+
+
+function ver_ov(ref) {
+    var modalSelector = "#myModal3";
+    var datosFichaURL = 'laboratorio/archivos_save_ajax/datos_ficha_ov.php';
+
+    // Cargar la vista de la orden de venta en el modal
+    $(modalSelector).load("laboratorio/htmls/ficha_ov.php?esFactura=true", function (response, status, xhr) {
+        if (status == "success") {
+            // Datos a enviar al servidor
+            var datos = {
+                ref: ref,
+                idUsuario: $('#id_user').val()
+            };
+            
+			
+            // Enviar datos al servidor y procesar la respuesta
+            $.post(datosFichaURL, datos).done(function (data) {
+				var datosSplit = data.split('*}');
+                var tituloModal = 'ORDEN DE VENTA ' + ref + ' | ' + datosSplit[0] + ' | ' + datosSplit[1];
+                
+                // Actualizar los elementos en el modal con los datos recibidos
+                $('#titulo_modal').text(tituloModal);
+                $('#fecha_o').text(datosSplit[2]);
+                $('#usuario_o').text(datosSplit[3]);
+                $('#subtotal_o').text(datosSplit[4]);
+                $('#extras_o').text(datosSplit[5]);
+                $('#iva_o').text(datosSplit[6]);
+                $('#descuento_o').text(datosSplit[7]);
+                $('#total_o').text(datosSplit[8]);
+                $('#abonado_o').text(datosSplit[9]);
+                $('#saldo_o').text(datosSplit[10]);
+                $('#estatus_o').text(datosSplit[11]);
+                $('#o_items').html(datosSplit[17]);
+				$('#data').val(datosSplit);
+				var jsonObject = JSON.parse(datosSplit[18])[0];
+				if(jsonObject.estatus == "timbrada")
+				{
+					$(".facturar-btn").css("display", "none");
+					document.querySelector(".ver-factura-btn").classList.remove("d-none");
+      				$(".ver-factura-btn").css("display", "block");
+      				$(".ver-factura-btn-pdf").css("display", "block");
+				}else{
+					$(".ver-factura-btn").css("display", "none");
+      				$(".ver-factura-btn-pdf").css("display", "none");
+				}
+
+				var jsonData = {
+					folio: ref,
+					emisor_nombre: null,
+					emisor_rfc: null,
+					emisor_regimen: '626', //pendiente de obtener
+					emisor_codigo_postal: '55555',  //pendiente de obtener
+					receptor_nombre: 'GABRIEL ALEJANDRO RAMOS SALAZAR', //falta dato en la db datosSplit[0],
+					receptor_rfc: 'RASG920318DXA', //falta dato en la db,
+					receptor_codigo_postal: '45200',
+					receptor_uso_cfdi: 'CP01',
+					receptor_regimen: '612',
+					fecha_o: datosSplit[2],
+					usuario_o: datosSplit[3],
+					subtotal_o: datosSplit[4],
+					extras_o: datosSplit[5],
+					iva_o: datosSplit[6],
+					descuento_o: datosSplit[7],
+					total_o: datosSplit[8],
+					abonado_o: datosSplit[9],
+					saldo_o: datosSplit[10],
+					estatus_o: datosSplit[11],
+					o_items: datosSplit[18]
+				};
+
+				// Convertir el objeto JSON en una cadena (string)
+				var jsonString = JSON.stringify(jsonData);
+
+				// Asignar la cadena JSON al campo de entrada "data"
+				$('#data').val(jsonString);
+
+                // Mostrar el modal
+                $(modalSelector).modal('show');
+
+                // Lógica adicional al mostrar el modal
+                $(modalSelector).on('shown.bs.modal', function (e) {});
+
+                // Lógica al ocultar el modal
+                $(modalSelector).on('hidden.bs.modal', function (e) {
+                    $(".modal-content").remove();
+                    $(modalSelector).empty();
+                });
+            });
+        }
+    });
+}
+
 	
 function cambiar_suc(val, temp){
 	swal({
@@ -536,18 +612,31 @@ function pagar(ref, tot, sal, abo, pac, noTemp, indicador, tCo, tIm, tLab, tFar)
 
 								var datosTi = {noAleatorio:ref}
 								$.post('pacientes/files-serverside/datosTicket_a.php',datosTi).done(function(data){
+									console.log("yesyes");
 									var datosT = data.split(';}'); if(datosT[5]==''){datosT[5]=0;} //alert(data);
 									//para el ticket
-									$('#fechaT').text(datosT[0]);$('#referenciaT').text(datosT[1]);$('#pacienteT').text(datosT[2]);
-									$('#adicionalesT').text(datosT[10]);$('#totalT').text(datosT[4]);$('#pagoT').text(montoPagar);
+									$('#fechaT').text(datosT[0]);
+									$('#referenciaT').text(datosT[1]);
+									$('#pacienteT').text(datosT[2]);
+									$('#adicionalesT').text(datosT[10]);
+									$('#totalT').text(datosT[4]);
+									$('#pagoT').text(montoPagar);
 									$('#saldoT').text(redondear(-1*(parseFloat(datosT[31])),2));
-									$('#usuarioIT').text(datosT[7]);$('#fechaIT').text(datosT[8]);
-									$('#horaIT').text(datosT[9]); $('#formaPagoT').text(datosT[11]);
-									$('#cantidadLetraT').text(nn(datosT[4])); $('#municipioS').text(datosT[16]);
-									$('#calleSucursal').text(datosT[19]); $('#coloniaSucursal').text(datosT[18]);
-									$('#cpSucursal').text(datosT[20]);$('#telefonoSucursal').text(datosT[21]);
-									$('#municipioSucursal').text(datosT[17]);$('#estadoSucursal').text(datosT[15]);
-									$('#sitioS').text(datosT[22]);$('#emailSucursal').text(datosT[23]);$('#descuentoT').text(datosT[24]);
+									$('#usuarioIT').text(datosT[7]);
+									$('#fechaIT').text(datosT[8]);
+									$('#horaIT').text(datosT[9]); 
+									$('#formaPagoT').text(datosT[11]);
+									$('#cantidadLetraT').text(nn(datosT[4])); 
+									$('#municipioS').text(datosT[16]);
+									$('#calleSucursal').text(datosT[19]); 
+									$('#coloniaSucursal').text(datosT[18]);
+									$('#cpSucursal').text(datosT[20]);
+									$('#telefonoSucursal').text(datosT[21]);
+									$('#municipioSucursal').text(datosT[17]);
+									$('#estadoSucursal').text(datosT[15]);
+									$('#sitioS').text(datosT[22]);$
+									('#emailSucursal').text(datosT[23]);
+									$('#descuentoT').text(datosT[24]);
 									$('#subTotalT').text(datosT[29]);
 									if(datosT[25]>0){
 										x='sucursales/documentos/files/'+datosT[26]+'.'+datosT[27]+'?'+Math.round(Math.random()*1000);
