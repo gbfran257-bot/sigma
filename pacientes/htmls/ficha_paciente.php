@@ -408,11 +408,11 @@
                     <div class="col-sm-6">
                         <div class="form-group" style="display: flex;">
                             <div class="form-check" style="display: flex; align-items: center; margin-right: 1rem;">
-                                <input style="margin: 0px 0.2rem 0px 0px;" class="form-check-input" type="checkbox" value="" id="facturar">
+                                <input style="margin: 0px 0.2rem 0px 0px;" class="form-check-input" type="checkbox" id="facturar">
                                 <label style="margin: 0px;" class="form-check-label" for="facturar">FACTURAR</label>
                             </div>
                             <div class="form-check" style="display: flex; align-items: center;">
-                                <input style="margin: 0px 0.2rem 0px 0px;" class="form-check-input" type="checkbox" value="" id="proveedor">
+                                <input style="margin: 0px 0.2rem 0px 0px;" class="form-check-input" type="checkbox" id="proveedor">
                                 <label style="margin: 0px;" class="form-check-label" for="proveedor">PROVEEDOR</label>
                             </div>
                         </div>

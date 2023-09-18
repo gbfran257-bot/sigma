@@ -1755,6 +1755,10 @@ include_once 'recursos/datauser.php';
 					getUsoCFDI()
 					.then(response => $("#uso_cfdi").val(datosI[66]))
 					.catch(error => swal("ERROR", error.message, "error"));
+
+					// Cargamos si el paciente está marcado como proveedor o no y si está marcado como facturador o no
+					datosI[67] == 1 ? $("#facturar").click() : "";
+					datosI[68] == 1 ? $("#proveedor").click() : "";
 					
 					$('#lat_us').text(redondear(datosI[56], 4));
 					$('#lati_ud').val(datosI[56]);
