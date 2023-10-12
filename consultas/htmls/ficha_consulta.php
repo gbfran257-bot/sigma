@@ -1043,7 +1043,7 @@ Sin embargo, en sentido estricto se suele denominar cardiopatía a las enfermeda
                   <span id="graficaFC" style="cursor:pointer;" onClick="graficas(1)"></span>
                 </td>
                 <td colspan="2" rowspan="10">
-                  <select class="form-control input-sm" name="tipoNotaMed" id="tipoNotaMed"> </select>
+                  <!-- <select class="form-control input-sm" name="tipoNotaMed" id="tipoNotaMed"> </select> -->
                   <input style="resize:none; text-align:left" name="notaMedicaC" id="notaMedicaC" type="text" value="" class="jqte-test">
                 </td>
               </tr>

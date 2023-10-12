@@ -9,11 +9,11 @@ include_once '../../recursos/utilities.php';
 $id_del_user = $_SESSION['id'];
 ?>
 
-<div class="modal-dialog modal-lg" role="document">
+<div class="modal-dialog modal-lg" role="document" style="width: 1200px;">
 <div class="modal-content">
   <div class="modal-header"> <h4 class="modal-title text-dark" id="registroModalLabel">FICHA DE DATOS DEL USUARIO</h4> </div>
   <div class="modal-body" id="body_modal_reg">
-<form class="small" method="post" name="form-registro" id="form-registro" data-toggle="validator" role="form">
+<form class="" method="post" name="form-registro" id="form-registro" data-toggle="validator" role="form">
     <input name="idUsuarioN" type="hidden" id="idUsuarioN"> <input name="temporal_s" type="hidden" id="temporal_s">
     <input name="p_latitud_s" type="hidden" id="p_latitud_s"> <input name="p_longitud_s" type="hidden" id="p_longitud_s">
     <input name="nuevo_o_viejo_u" type="hidden" id="nuevo_o_viejo_u" value="x">
