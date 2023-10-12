@@ -2507,7 +2507,7 @@ include_once 'recursos/datauser.php';
 			var datos1 = data.split(';*-');
 			if (datos1[0] == 1) {
 				$('#clickme').click();
-				$("#myModalx").load('consultas/htmls/ficha_consulta.php', function(response, status, xhr) {
+				$("#myModalx").load('consultas/htmls/ficha_consulta.php',{opcion: opc}, function(response, status, xhr) {
 					if (status == "success") {
 						$('#titulo_modal').text('CONSULTA DEL PACIENTE: ' + datos[22] + ' - EDAD: ' + datos[1] + ' - SEXO: ' + datos[2] + ' | FECHA: ' + datos1[1]);
 						$('#idUsuario_hc').val($('#id_user').val());
