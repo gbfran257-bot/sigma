@@ -1142,90 +1142,9 @@ Sin embargo, en sentido estricto se suele denominar cardiopatía a las enfermeda
               </div>
             </div>
             <div class="panel-body">
-              <section id="receta_medica">
-                <header id="header_receta_medica">
-                  <h2 class="receta_subtitulo">
-                    <strong>RECETA MEDICA</strong>
-                  </h2>
-                </header>
-
-                <div id="info_paciente">
-                  <div id="primera_seccion">
-                    <div class="dato_paciente">
-                      <strong>REFERENCIA: </strong>
-                      <span id="referencia_vc"></span>
-                    </div>
-                    <div class="dato_paciente">
-                      <strong>PACIENTE: </strong>
-                      <span id="paciente_vc"></span>
-                    </div>
-                    <div class="dato_paciente">
-                      <strong>ALERGIAS: </strong>
-                      <span id="alergias_vc"></span>
-                    </div>
-                    <div class="dato_paciente">
-                      <strong>F. NACIMIENTO: </strong>
-                      <span id="f_nacimiento_vc"></span>
-                    </div>
-                  </div>
-                  <div id="segunda_seccion">
-                    <div class="dato_paciente">
-                      <strong>EDAD: </strong>
-                      <span id="edad_vc"></span>
-                    </div>
-                    <div class="dato_paciente">
-                      <strong>SEXO: </strong>
-                      <span id="sexo_vc"></span>
-                    </div>
-                    <div class="dato_paciente">
-                      <strong>TALLA: </strong>
-                      <span id="talla_vc"></span>
-                    </div>
-                    <div class="dato_paciente">
-                      <strong>PESO: </strong>
-                      <span id="peso_vc"></span>
-                    </div>
-                    <div class="dato_paciente">
-                      <strong>IMC: </strong>
-                      <span id="imc_vc"></span>
-                    </div>
-                    <div class="dato_paciente">
-                      <strong>TEMP: </strong>
-                      <span id="temp_vc"></span>
-                    </div>
-                    <div class="dato_paciente">
-                      <strong>PRESIÓN ARTERIAL: </strong>
-                      <span id="presion_arterial_vc"></span>
-                    </div>
-                  </div>
-                  <div id="tercera_seccion">
-                    <div class="dato_paciente">
-                      <strong>DIAGNÓSTICO:</strong>
-                      <span id="diagnostico_vc"></span>
-                    </div>
-                  </div>
-                </div>
-
-                <section id="receta_tratamiento">
-                  <header>
-                    <h2 class="receta_subtitulo">
-                      <strong>TRATAMIENTO</strong>
-                    </h2>
-                  </header>
-                </section>
-
-                <section id="receta_indicaciones">
-                  <label for="indicaciones" id="label_indicaciones">
-                    <strong>Indicaciones: </strong>
-                  </label>
-                  <textarea name="indicaciones" id="indicaciones" cols="80" rows="5"></textarea>
-                </section>
-
-                <div id="pie_pagina"></div>
-              </section>
               <!-- Se comentaron las siguientes dos lineas para cambiar el diseño de la visualización de la receta 23/08/23 -->
-              <!-- <select class="form-control input-sm" name="tipoRecetaMed" id="tipoRecetaMed"> </select>
-              <input style="resize:none; text-align:left" name="indiF" id="indiF" type="text" value="" class="jqte-test"> -->
+              <select class="form-control input-sm" name="tipoRecetaMed" id="tipoRecetaMed"> </select>
+              <input style="resize:none; text-align:left" name="indiF" id="indiF" type="text" value="" class="jqte-test">
             </div>
           </div>
         </div>

@@ -69,9 +69,6 @@ include_once 'recursos/datauser.php';
 	<!-- Estilos para la visualizacion de la receta medica -->
 	<link rel="stylesheet" href="./consultas/htmls/css/receta_consulta.css">
 
-	<!-- Librería para imprimir la receta médica -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 	<style>
 		/* Estilo necesario para que se muestre el select2 en el modal */
 		.select2-container {
@@ -3478,32 +3475,6 @@ include_once 'recursos/datauser.php';
 									});
 								});
 						});
-
-						// Cargamos la información de la receta
-						$("#receta_medica").ready(() => {
-							// Obtenemos la información del paciente
-							getInfoPaciente()
-							.catch(error => swal("ERROR", error.message, "error"));
-
-							// Cargamos el membrete de la consulta
-							// Se obtiene el encabezado y el pie de página de la receta
-							getMembrete(parseInt($("#id_cons").val()), tiposMembrete.receta)
-							.then(data => {
-								const encabezado = new Image(715, 80);
-								encabezado.id = "encabezado_membrete";
-								encabezado.src = data.url_encabezado;
-								encabezado.alt = "encabezado_membrete";
-								
-								// Agregamos las imagenes al html de la receta
-								$("#header_receta_medica").prepend(encabezado);
-							})
-							.catch(error => {
-								return swal("¡ERROR!", "Ocurrió un error al obtener el membrete de la receta.", "error");
-							});
-
-							// Cargamos la información del tratamiento
-							$("#button_agregar_medicamentos_receta").click();
-						});
 					}
 				});
 			} else {
@@ -4409,10 +4380,8 @@ include_once 'recursos/datauser.php';
 <script src="./consultas/js/verificarAntagonismos.js"></script>
 
 <script src="./consultas/js/agregarMedicamentosReceta.js"></script>
-<script src="./consultas/js/getInfoPacienteReceta.js"></script>
 
 <!-- Agregamos los scripts para generar los pdf de las recetas -->
-<script src="./js/html2pdf.js"></script>
 <script src="./consultas/js/imprimirRecetaMedica.js"></script>
 
 <script src="./consultas/js/getMembrete.js"></script>
