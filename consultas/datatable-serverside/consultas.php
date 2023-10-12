@@ -178,7 +178,7 @@ require("../../funciones/php/values.php");
 		
 		$row[2] = $row[2];//Nombre completo del paciente
 		//$row[3] = $row[3]." ".$row[13];//Nombre completo del médico $row[1] = "$row[1]</span>";
-		$row[1] = "<span lang='$row[1]' style='text-decoration:underline; cursor:pointer; color:blue;' onClick='ver_ov(this.lang)'>$row[1]</span><br>$row[29] <br>$row[15]";
+		$row[1] = "<span lang='$row[1]' style='text-decoration:underline; cursor:pointer; color:blue;' onClick='ver_ov(this.lang)'>$row[1]</span><br>$row[30] <br>$row[15]";
 		$row[3] = $row[22];//Nombre completo del médico $row[1] = "$row[1]</span>";
 		$row[5] = "<div align='center'>$row[24]</div>";
 		$row[6] = $row[25];
@@ -241,9 +241,9 @@ require("../../funciones/php/values.php");
 			}else{ }
 			
 			// $row[8] = "<button id='$row[14]' lang='$row[9]' class='btn btn-xs btn-primary' onClick='imprimirNM(this.lang,this.id)'>Imprimir</button>";
-			$row[11] = "<button id='$row[14]' lang='$row[9]' class='btn btn-xs btn-primary' onClick='imprimirNM(this.lang,this.id)'>Imprimir</button>";
+			$row[11] = "<button id='$row[14]' lang='$row[9]' class='btn btn-xs btn-primary' onClick='imprimirNM(this.lang,this.id)'><i class='fa fa-eye' aria-hidden='true'></i></button>";
 			// $row[9] = "<button id='$row[14]' lang='$row[9]' class='btn btn-xs btn-primary' onClick='imprimirRM(this.lang,this.id)'>Imprimir</button>";
-			$row[12] = "<button id='$row[14]' lang='$row[9]' class='btn btn-xs btn-primary' onClick='imprimirRM(this.lang,this.id)'>Imprimir</button>";
+			$row[12] = "<button id='$row[14]' lang='$row[9]' class='btn btn-xs btn-primary' onClick='imprimirRM(this.lang,this.id)'><i class='fa fa-eye' aria-hidden='true'></i></button>";
 			
 		}else{
 			/* $row[8] = "<div align='center'>-</div>"; */ 
