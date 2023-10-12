@@ -3450,6 +3450,19 @@ include_once 'recursos/datauser.php';
 						// Asignamos la funcionalidad para imprimir la receta
 						$("#descargar_receta").click(() => imprimirRecetaMedica());
 
+						// Agregamos la función de imprimir las notas y recetas desde el modal de ficha consulta
+						$("#imprimir").click(() => {
+							$("#myModalx").modal("hide");
+
+							if ($("#tNM").hasClass("active")) {
+								return setTimeout(() => imprimirNM(idP, idC), 1000);
+							}
+
+							if ($("#tReceta").hasClass("active")) {
+								return setTimeout(() => imprimirRM(idP, idC), 1000);
+							}
+						});
+
 						// Agregamos la funcionalidad de agregar los medicamentos seleccionados a la receta
 						let ocultarAlert = true;
 						$("#button_agregar_medicamentos_receta").click((e) => {
