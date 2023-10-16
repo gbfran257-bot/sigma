@@ -807,42 +807,76 @@ function verSucursal(id_s, nombre_s){
 				}); //Para el upload
 				
 				$('#btn_imprimir_mem1').click(function(e) {
+					$("#myModal").modal("hide");
+
 					// Obtenemos el url de la iamgen para el encabezado y el pie de página
 					const urlEncabezado = $("#membrete_en").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
 					const urlPiePagina = $("#membrete_pi").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
 					
-					// Imprimimos el membrete
-					imprimirMembrete(urlEncabezado, urlPiePagina, "nota_medica");
-					
-					/* $('#table_membre1').prop('border',0); $('#table_membre1').printElement(); $('#table_membre1').prop('border',1); */
+					imprimirMembrete(tiposMembretes.NOTA, urlEncabezado, urlPiePagina);
 				});
 				$('#btn_imprimir_mem2').click(function(e) {
-					// Obtenemos el url de la imagen para el encabezado y el pie de página
+					$("#myModal").modal("hide");
+
+					// Obtenemos el url de la iamgen para el encabezado y el pie de página
 					const urlEncabezado = $("#membrete_en2").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
 					const urlPiePagina = $("#membrete_pi2").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
 					
-					// Imprimimos el membrete
-					imprimirMembrete(urlEncabezado, urlPiePagina, "receta_medica");
-
-					/* $('#table_membre2').prop('border',0); $('#table_membre2').printElement(); $('#table_membre2').prop('border',1); */
+					imprimirMembrete(tiposMembretes.RECETA, urlEncabezado, urlPiePagina);
 				});
 				$('#btn_imprimir_mem3').click(function(e) {
-					$('#table_membre3').prop('border',0); $('#table_membre3').printElement(); $('#table_membre3').prop('border',1);
+					$("#myModal").modal("hide");
+
+					// Obtenemos el url de la iamgen para el encabezado y el pie de página
+					const urlEncabezado = $("#membrete_en3").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
+					const urlPiePagina = $("#membrete_pi3").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
+					
+					imprimirMembrete(tiposMembretes.LABORATORIO, urlEncabezado, urlPiePagina);
 				});
 				$('#btn_imprimir_mem4').click(function(e) {
-					$('#table_membre4').prop('border',0); $('#table_membre4').printElement(); $('#table_membre4').prop('border',1);
+					$("#myModal").modal("hide");
+
+					// Obtenemos el url de la iamgen para el encabezado y el pie de página
+					const urlEncabezado = $("#membrete_en4").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
+					const urlPiePagina = $("#membrete_pi4").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
+					
+					imprimirMembrete(tiposMembretes.IMAGEN, urlEncabezado, urlPiePagina);
 				});
 				$('#btn_imprimir_mem5').click(function(e) {
-					$('#table_membre5').prop('border',0); $('#table_membre5').printElement(); $('#table_membre5').prop('border',1);
+					$("#myModal").modal("hide");
+
+					// Obtenemos el url de la iamgen para el encabezado y el pie de página
+					const urlEncabezado = $("#membrete_en5").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
+					const urlPiePagina = $("#membrete_pi5").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
+					
+					imprimirMembrete(tiposMembretes.ENDOSCOPIA, urlEncabezado, urlPiePagina);
 				});
 				$('#btn_imprimir_mem6').click(function(e) {
-					$('#table_membre6').prop('border',0); $('#table_membre6').printElement(); $('#table_membre6').prop('border',1);
+					$("#myModal").modal("hide");
+
+					// Obtenemos el url de la iamgen para el encabezado y el pie de página
+					const urlEncabezado = $("#membrete_en6").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
+					const urlPiePagina = $("#membrete_pi6").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
+					
+					imprimirMembrete(tiposMembretes.ULTRASONIDO, urlEncabezado, urlPiePagina);
 				});
 				$('#btn_imprimir_mem7').click(function(e) {
-					$('#table_membre7').prop('border',0); $('#table_membre7').printElement(); $('#table_membre7').prop('border',1);
+					$("#myModal").modal("hide");
+
+					// Obtenemos el url de la iamgen para el encabezado y el pie de página
+					const urlEncabezado = $("#membrete_en7").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
+					const urlPiePagina = $("#membrete_pi7").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
+					
+					imprimirMembrete(tiposMembretes.COLPOSCOPIA, urlEncabezado, urlPiePagina);
 				});
 				$('#btn_imprimir_mem8').click(function(e) {
-					$('#table_membre8').prop('border',0); $('#table_membre8').printElement(); $('#table_membre8').prop('border',1);
+					$("#myModal").modal("hide");
+
+					// Obtenemos el url de la iamgen para el encabezado y el pie de página
+					const urlEncabezado = $("#membrete_en8").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
+					const urlPiePagina = $("#membrete_pi8").css("background-image").slice(5, $("#membrete_en").css("background-image").length - 3);
+					
+					imprimirMembrete(tiposMembretes.SERVICIOS, urlEncabezado, urlPiePagina);
 				});
 
 				$('#rSocial').val(dato[73]);
@@ -896,6 +930,56 @@ function verSucursal(id_s, nombre_s){
 		});
 	}});
 }
+
+const tiposMembretes = {
+	NOTA: "nota",
+	RECETA: "receta",
+	LABORATORIO: "laboratorio",
+	IMAGEN: "imagen",
+	ENDOSCOPIA: "endoscopia",
+	ULTRASONIDO: "ultrasonido",
+	COLPOSCOPIA: "colposcopia",
+	SERVICIOS: "servicios",
+};
+
+// Función para imprimir los membretes de la sucursal
+// @param { string } tipoMembrete // Puede imprimirse la nota, receta, etc.
+// @param { string } encabezado url de la imagen encabezado de la sucursal
+// @param { string } piePagina url de la imagen pie de página de la sucursal
+const imprimirMembrete = (tipoMembrete, encabezado, piePagina) => {
+	try {
+		window.setTimeout(() => {
+			// Definimos las imágenes de los membretes
+			e = `<img src="${encabezado}" width="770">`;
+			p = `<img src="${piePagina}" width="760">`;
+
+			// Definimos la configuración del documento
+			const configuracion = {
+				encL: escape(e),
+				pieL: escape(p),
+				id_s: escape($('#sucu_user').val()),
+				tipoMembrete,
+			};
+
+			// Agregamos el contenido del modal de la impresión que nos va a permitir ver el documento
+			$("#myModalx").html('<div class="modal-dialog modal-lg" role="document"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4"></div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
+
+			// Cargamos el documento al modal de impresión
+			window.setTimeout(() => {
+				$("#body_modal4").load("sucursales/htmls/frame_membrete.php", configuracion, (response, status, xhr) => {
+					if (status === "success") {
+						$('#titulo_modal').text('IMPRIMIR NOTA MÉDICA');
+						$("#body_modal4").height($("#myModalx").height() - 180);
+						$('#myModalx').modal('show');
+					}
+				});
+			}, 100);
+		}, 1000);
+	} catch (error) {
+		swal("¡Ocurrió un error!", error.message, "error");
+	}
+};
+
 function nuevaSucursal(){
 	$("#myModal").load('sucursales/htmls/fichaSucursal.php', function( response, status, xhr ){ if(status=="success"){ var datosF = {id:1}
 		$(".insers").load('genera/inserciones.php', function( response, status, xhr ) { if ( status == "success" ) { } });
@@ -1624,4 +1708,4 @@ function cargar_editores(){
 	async defer>
 </script>
 
-<script src="sucursales/js/imprimirMembrete.js"></script>
+<!-- <script src="sucursales/js/imprimirMembrete.js"></script> -->
