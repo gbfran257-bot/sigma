@@ -348,7 +348,7 @@ function nuevaCompra(){
 		});
 
 		// Agregamos la funcionalidad de cargar a todos los proveedores en la lista despegable //
-		select2ini("#select-proveedor", 'farmacia-proveedores.php', "Seleccione el proveedor de compra");
+		getListaProvedores();
 
 		/* FINAL DE LOS CAMBIOS PARA EL FUNCIONAMIENTO DE LOS PROVEEDORES */
 
@@ -357,6 +357,22 @@ function nuevaCompra(){
 		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
 	}});
 }
+
+const getListaProvedores = () => {
+	fetch("farmacia/compras/files-serverside/farmacia-proveedores.php", {
+		method: "GET"
+	})
+		.then(response => response.json())
+		.then(provedores => {
+			if (provedores.error) {
+				throw new Error(provedores.error);
+			}
+
+			provedores.forEach((proveedor) => $("#select-proveedores").append(proveedor));
+			$("#select-proveedores").select2();
+		})
+		.catch(error => console.error(error));
+};
 
 function estatus(id){
 	swal({
