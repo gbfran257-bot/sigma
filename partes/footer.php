@@ -27,11 +27,10 @@
     <?php endif; ?>
 
     <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/laboratorio.php") : ?>
-
-    <?php endif; ?>
         <div id="modal_historial" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+    <?php endif; ?>
 
-    <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/pacientes.php") : ?>
+    <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/pacientes.php" || $_SERVER['REQUEST_URI'] == "/sigmacruzroja/pacientes.php?nuevo-proveedor=true") : ?>
         <div id="modal_nuevo_cliente" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
     <?php endif; ?>
     

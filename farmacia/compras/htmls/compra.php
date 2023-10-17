@@ -43,6 +43,27 @@ $id_del_user = $_SESSION['id'];
                     <label id="cantMin" class="col-form-label"></label>
                 </div>
             </div>
+
+            <!--Agregamos la lista despegable de los proveedores-->
+            <div class="row">
+                <div class="form-group col-md-4 col-sm-4 text-primary">
+                    <label for="select-proveedor" class="col-form-label">*PROVEEDOR</label>
+                    <div style="display:flex;">
+                        <button style="margin-right:10px;" class="btn btn-primary">Proveedor</button>
+                        <select class="form-control form-control-sm" name="select-proveedor" id="select-proveedor"></select>
+                        <button style="margin-left:10px;" class="btn btn-primary" id="redirect-nuevo-proveedor"><i class="fa fa-plus"></i> Proveedor</button>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group col-md-4 col-sm-4 text-primary"></div>
+                <div class="form-group col-md-4 col-sm-4 text-primary">
+                    <label  id='proveedor-nombre'  class="col-form-label"></label> <br>
+                    <label id="precioPublicoProd" class="col-form-label"></label> <br>
+                    <label id="cantMax" class="col-form-label"></label> 
+                    <label id="cantMin" class="col-form-label"></label>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="form-group col-md-4 col-sm-4 text-primary">
                     <label for="costoU" class="col-form-label">* COSTO UNITARIO</label>

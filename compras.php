@@ -333,6 +333,11 @@ function nuevaCompra(){
 			});
 		});
 		
+		// Aagregamos la función de redirigir a la página de pacientes en caso de que se quiera crear un proveedor //
+		$("#redirect-nuevo-proveedor").click((e) => {
+			e.preventDefault();
+			window.location.href = "./pacientes.php?nuevo-proveedor=true";
+		});
 
 		$('#myModal').modal('show');
 		$('#myModal').on('shown.bs.modal',function(e){});
