@@ -304,6 +304,7 @@ function nuevaCompra(){
 			if (e.target.id === "producto" && $("#producto").val() === null) {
 				$("#productoName").text("");
 				$("#precioPublicoProd").text("");
+				$("#precioUltimaCompra").text("");
 				$("#cantMax").text("");
 				$("#cantMin").text("");
 				return ;
@@ -316,6 +317,7 @@ function nuevaCompra(){
 				$('#cantMin').text("Cantidad minima de producto: "+datos[3]);
 				$('#productoName').text(datos[0]);
 				$('#precioPublicoProd').text("Precio público: $" + datos[1]);
+				$('#precioUltimaCompra').text("Última compra: $" + datos[4]);
 			});
 		});
 
