@@ -271,6 +271,12 @@ include_once 'recursos/datauser.php';
 				});
 			}
 		});
+
+		// INICIO DE LOSCAMBIOS PARA EL FUNCIONAMIENTO DE LOS PROVEEDORES //
+		if (window.location.search.includes("nuevo-medicamento=true")) {
+			nuevoEstudio();
+		}
+		// FINAL DE LOS CAMBIOS PARA EL FUNCIONAMIENTO DE LOS PROVEEDORES //
 	});
 
 	function nuevoEstudio() {

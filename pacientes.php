@@ -1295,10 +1295,11 @@ include_once 'recursos/datauser.php';
 		// Asignamos los eventos para el filtrado
 		setFiltradoPacientesHandler();
 
-		//  Se verifica si en el enlace se define el parámetro 'nuevo-proveedor' en caso de que el usuario haya sido redirigido a pacientes desde compras
+		// INICIO DE LOSCAMBIOS PARA EL FUNCIONAMIENTO DE LOS PROVEEDORES //
 		if (window.location.search.includes("nuevo-proveedor=true")) {
 			nuevo_paciente();
 		}
+		// FINAL DE LOS CAMBIOS PARA EL FUNCIONAMIENTO DE LOS PROVEEDORES //
 	});
 	//se intento dejar checkbox para la busqueda automatica, pero generaba error, se deja en stand by
 	function verificarCheckbox() {

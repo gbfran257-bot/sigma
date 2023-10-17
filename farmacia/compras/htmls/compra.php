@@ -28,7 +28,7 @@ $id_del_user = $_SESSION['id'];
                     <label for="producto" class="col-form-label">*PRODUCTO</label>
                     <div style="display:flex;">
                         <select class="form-control form-control-sm" name="producto" id="producto"></select>
-                        <button style="margin-left:10px;" class="btn btn-primary"><i class="fa fa-plus"></i> Producto</button>
+                        <button style="margin-left:10px;" class="btn btn-primary" id="redirect-nuevo-medicamento"><i class="fa fa-plus"></i> Producto</button>
                     </div>
                     <div class="help-block with-errors"></div>
                 </div>
@@ -44,7 +44,7 @@ $id_del_user = $_SESSION['id'];
                 </div>
             </div>
 
-            <!--Agregamos la lista despegable de los proveedores-->
+            <!-- INICIO DE LOS CAMBIOS PARA EL FUNCIONAMIENTO DE LOS PROVEEDORES -->
             <div class="row">
                 <div class="form-group col-md-4 col-sm-4 text-primary">
                     <label for="select-proveedor" class="col-form-label">*PROVEEDOR</label>
@@ -63,6 +63,7 @@ $id_del_user = $_SESSION['id'];
                     <label id="cantMin" class="col-form-label"></label>
                 </div>
             </div>
+            <!-- FINAL DE LOS CAMBIOS PARA EL FUNCIONAMIENTO DE LOS PROVEEDORES -->
 
             <div class="row">
                 <div class="form-group col-md-4 col-sm-4 text-primary">
