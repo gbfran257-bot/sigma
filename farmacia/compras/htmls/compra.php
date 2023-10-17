@@ -24,7 +24,7 @@ $id_del_user = $_SESSION['id'];
         </ul>
         <div class="tab-pane active tap-pane-primary" id="t_compra" role="tabpanel" aria-labelledby="compra-tab"><br>
             <div class="row">
-                <div class="form-group col-md-4 col-sm-4 text-primary">
+                <div class="form-group col-md-8 col-sm-8 text-primary">
                     <label for="producto" class="col-form-label">*PRODUCTO</label>
                     <div style="display:flex;">
                         <select class="form-control form-control-sm" name="producto" id="producto"></select>
@@ -32,10 +32,11 @@ $id_del_user = $_SESSION['id'];
                     </div>
                     <div class="help-block with-errors"></div>
                 </div>
-                <div class="form-group col-md-4 col-sm-4 text-primary">
-                    <!-- <label  id='productoName'  class="col-form-label"></label> <br>
-                    <label id="precioPublicoProd" class="col-form-label"></label> -->
-                </div>
+                <!--Se comenta el siguiente div que no se utiliza para acomodar mejor la lista despegable de productos. 17/10/2023-->
+                <!-- <div class="form-group col-md-4 col-sm-4 text-primary">
+                    <label  id='productoName'  class="col-form-label"></label> <br>
+                    <label id="precioPublicoProd" class="col-form-label"></label>
+                </div> -->
                 <div class="form-group col-md-4 col-sm-4 text-primary">
                     <label  id='productoName'  class="col-form-label"></label> <br>
                     <label id="precioPublicoProd" class="col-form-label"></label> <br>
@@ -49,7 +50,6 @@ $id_del_user = $_SESSION['id'];
                 <div class="form-group col-md-8 col-sm-8 text-primary">
                     <label for="select-proveedores" class="col-form-label">*PROVEEDOR</label>
                     <div style="display:flex;">
-                        <button style="margin-right:10px;" class="btn btn-primary">Proveedor</button>
                         <select class="form-control form-control-sm" name="select-proveedores" id="select-proveedores"></select>
                         <button style="margin-left:10px;" class="btn btn-primary" id="redirect-nuevo-proveedor"><i class="fa fa-plus"></i> Proveedor</button>
                     </div>
@@ -71,7 +71,7 @@ $id_del_user = $_SESSION['id'];
                 </div>
                 <div class="form-group col-md-4 col-sm-4 text-primary">
                     <label for="lote" class="col-form-label">LOTE</label>
-                    <input name="lote" id="lote" type="text" class="form-control form-control-sm" placeholder="Cantidad">
+                    <input name="lote" id="lote" type="text" class="form-control form-control-sm" placeholder="Lote">
                     <div class="help-block with-errors"></div>
                 </div>
             </div>

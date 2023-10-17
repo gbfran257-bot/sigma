@@ -220,7 +220,7 @@ function nuevaCompra(){
 				$('#btn_pagar').removeClass('hidden');
 			}
 		});
-		select2ini("#producto", "medicamento.php", "Seleccione el produccto que desea comprar");
+		select2ini("#producto", "medicamento.php", "Seleccione el producto que desea comprar");
 		
 		$('#sucursal').load("farmacia/compras/files-serverside/sucursales.php?idU="+$('#id_user').val(),function(response,status,xhr){});
 
@@ -293,9 +293,22 @@ function nuevaCompra(){
 			$('#lote').val('');
 			$('#caducidad').val('');
 			console.log(COMPRA);
+
+			// Se limpia la lista despegable de los productos //
+			$("#producto").val("");
+			$("#producto").change();
 		});
 
 		$('#producto, #sucursal').change(function(e){
+			// Se ocultan los textos referentes al producto seleccionado cuando se guarda uno //
+			if (e.target.id === "producto" && $("#producto").val() === null) {
+				$("#productoName").text("");
+				$("#precioPublicoProd").text("");
+				$("#cantMax").text("");
+				$("#cantMin").text("");
+				return ;
+			}
+
 			var datoPro = { prod : $('#producto').val(), id_su : $('#sucursal').val()}
 			$.post('farmacia/compras/files-serverside/precioProd.php', datoPro).done(function( data ) {
 				var datos = data.split('}{[_}');
