@@ -21,19 +21,38 @@
     <div id="myModalx" class="modal fade modal-fullscreen" tabindex="-1" role="dialog" data-backdrop="false" data-keyboard="false"> </div>
     <div id="myModal1" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"> </div>
 
-    <!-- Hay páginas del sistema que necesitan modales indepentiendes, aquí se verifica en qué página se está para cargar los modales correspondientes -->
-    <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/consultas.php") : ?>
-        <div id="visualizar_medicamento_sinergias" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
-    <?php endif; ?>
+    <!--Comprobamos el servidor para cargar los recursos dependiendo de la página en la que se esté-->
+    <?php if ($_SERVER['SERVER_NAME'] == "localhost") : ?>
+        <!--Laboratorio-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/laboratorio.php") : ?>
+            <div id="modal_historial" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
 
-    <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/laboratorio.php") : ?>
-        <div id="modal_historial" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
-    <?php endif; ?>
+        <!--Consultas-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/consultas.php") : ?>
+            <div id="visualizar_medicamento_sinergias" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
 
-    <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/pacientes.php" || $_SERVER['REQUEST_URI'] == "/sigmacruzroja/pacientes.php?nuevo-proveedor=true") : ?>
-        <div id="modal_nuevo_cliente" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <!--Pacientes-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/pacientes.php" || $_SERVER['REQUEST_URI'] == "/sigmacruzroja/pacientes.php?nuevo-proveedor=true") : ?>
+            <div id="modal_nuevo_cliente" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
+    <?php else : ?>
+        <!--Laboratorio-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/laboratorio.php") : ?>
+            <div id="modal_historial" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
+
+        <!--Consultas-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/consultas.php") : ?>
+            <div id="visualizar_medicamento_sinergias" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
+
+        <!--Pacientes-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/pacientes.php" || $_SERVER['REQUEST_URI'] == "/pacientes.php?nuevo-proveedor=true") : ?>
+            <div id="modal_nuevo_cliente" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
     <?php endif; ?>
-    
     </body>
 
     </html>
