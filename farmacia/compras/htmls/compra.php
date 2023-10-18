@@ -103,8 +103,8 @@ $id_del_user = $_SESSION['id'];
                     <th>#</th>
                     <th>Producto</th>
                     <th>Cantidad</th>
-                    <th>Entrega</th>
                     <th>Precio unitario</th>
+                    <th>Acciones</th>
                     <th>Total</th>
                 </thead>
                 <tbody id="ResumenTable">

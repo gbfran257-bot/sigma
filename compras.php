@@ -202,6 +202,7 @@ function nuevaCompra(){
 	$("#myModal").load('farmacia/compras/htmls/compra.php', function( response, status, xhr ){
 	if(status=="success"){ 
 		var COMPRA = [];
+		COMPRA['eliminacion_reciente'] = false;
 		var cont = 0;
 		$('#compra-tab').click(function(e){
 			if($('#t_compra').hasClass('hide')){
@@ -225,28 +226,32 @@ function nuevaCompra(){
 		$('#sucursal').load("farmacia/compras/files-serverside/sucursales.php?idU="+$('#id_user').val(),function(response,status,xhr){});
 
 		$('#btn_agregar').click(function(e){
-			var producto = $('#producto').val();
-			var productoletra = $('select[name="producto"] option:selected').text();
-			var costo = $('#costoU').val();
-			var cantidad = $('#cantidad').val();
-			var lote = $('#lote').val();
-			var sucursal = $('#sucursal').val();
-			var caducidad = $('#caducidad').val();
-			var estatus = $('#estatus').val();
-			var costoT =  Number.parseFloat(costo) * Number.parseFloat(cantidad);
-				costoT = costoT.toFixed(2);
-			COMPRA[cont] = {
-				"producto":producto,
-				"producto_letra":productoletra,
-				"costo":costo,
-				"cantidad":cantidad,
-				"lote":lote,
-				"sucursal":sucursal,
-				"caducidad":caducidad,
-				"estatus":estatus,
-				"total":costoT,
-			};
-			cont++;
+			if (!COMPRA['eliminacion_reciente']) {
+				console.log(COMPRA);
+				var producto = $('#producto').val();
+				var productoletra = $('select[name="producto"] option:selected').text();
+				var costo = $('#costoU').val();
+				var cantidad = $('#cantidad').val();
+				var lote = $('#lote').val();
+				var sucursal = $('#sucursal').val();
+				var caducidad = $('#caducidad').val();
+				var estatus = $('#estatus').val();
+				var costoT =  Number.parseFloat(costo) * Number.parseFloat(cantidad);
+					costoT = costoT.toFixed(2);
+				COMPRA[cont] = {
+					"producto":producto,
+					"producto_letra":productoletra,
+					"costo":costo,
+					"cantidad":cantidad,
+					"lote":lote,
+					"sucursal":sucursal,
+					"caducidad":caducidad,
+					"estatus":estatus,
+					"total":costoT,
+				};
+				cont++;
+			}
+			COMPRA['eliminacion_reciente'] = false;
 			var salida= "";
 			var costoTotal = 0;
 			for (let index = 0; index < COMPRA.length; index++) {
@@ -262,16 +267,13 @@ function nuevaCompra(){
 						"		<td>"+
 									COMPRA[index]['cantidad'] +
 						"		</td>"+
-						"		<td>";
-				if(COMPRA[index]['estatus'] == 1){
-					salida += "PENDIENTE";
-				}else if(COMPRA[index]['estatus'] == 9){
-					salida += "ENTREGADO";
-				}			
-				salida +="		</td>"+
 						"		<td>"+
 									COMPRA[index]['costo'] +
 						"		</td>"+
+						"		<td>" +
+									`<button id="editar-${COMPRA[index]['producto']}" type="button" class="btn btn-warning" style="margin-right: 5px;"><img src="./farmacia/compras/img/editar_icono.png"  width="15px" height="15px" /></button>`+
+									`<button id="eliminar-${COMPRA[index]['producto']}" type="button" class="btn btn-danger"><img src="./farmacia/compras/img/eliminar_icono.png" width="15px" height="15px" /></button>`+
+						"		</td>" +
 						"		<td>"+
 									COMPRA[index]['total'] + 
 						"		</td>"+
@@ -288,15 +290,38 @@ function nuevaCompra(){
 						"	</tr> ";
 			$('#ResumenTable').html(salida);
 
+			// Asignamos las funciones de editar y eliminar a todos los productos agregados al resumen
+			for (let index = 0; index < COMPRA.length; index++) {
+				$("#eliminar-" + COMPRA[index]['producto']).click(() => {
+					swal({
+						type: "info",
+						title: "¡Atención!",
+						text: "¿Quieres eliminar el medicamento/producto seleccionado de la orden de compra?",
+						showCancelButton: true,
+						cancelButtonText: "Cancelar",
+						confirmButtonText: "Eliminar"
+					}, (isConfirmed) => {
+						if (isConfirmed) {
+							COMPRA = COMPRA.filter((producto) => producto.producto !== COMPRA[index]['producto']);
+							COMPRA['eliminacion_reciente'] = true;
+							cont--;
+							$("#btn_agregar").click();
+						}
+					});
+				});
+			}
+
 			$('#costoU').val(0);
 			$('#cantidad').val(0);
 			$('#lote').val('');
 			$('#caducidad').val('');
 			console.log(COMPRA);
 
-			// Se limpia la lista despegable de los productos //
+			// Se limpia la lista despegable de los productos y de los proveedores //
 			$("#producto").val("");
 			$("#producto").change();
+			$("#select-proveedores").val("");
+			$("#select-proveedores").change();
 		});
 
 		$('#producto, #sucursal').change(function(e){
