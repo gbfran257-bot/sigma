@@ -816,8 +816,10 @@ $id_del_user = $_SESSION['id'];
                       <label><input type="checkbox" name="p_36" class="chekito"> INVENTARIO</label>
                       <input name="h_permisos[36]" type="hidden" value="0">
                     </td>
-                    
-
+                    <td>
+                      <label><input type="checkbox" name="p_37" class="chekito"> TRASPASOS</label>
+                      <input name="h_permisos[37]" type="hidden" value="0">
+                    </td>
                 </tr>
               </table>
           </div>
