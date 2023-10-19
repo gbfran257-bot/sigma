@@ -84,7 +84,8 @@ $id_del_user = $_SESSION['id'];
                 </div>
                 <div class="form-group col-md-4 col-sm-4 text-primary">
                     <label for="caducidad" class="col-form-label">*CADUCIDAD</label>
-                    <input name="caducidad" id="caducidad" type="date" class="form-control form-control-sm" placeholder="Cantidad">
+                    <?php $current_date = date("Y-m-d");?>
+                    <input name="caducidad" id="caducidad" type="date" min="<?php echo $current_date; ?>" max="2100-01-01" class="form-control form-control-sm" placeholder="Cantidad">
                     <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group col-md-4 col-sm-4 text-primary">
