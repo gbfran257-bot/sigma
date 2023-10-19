@@ -203,6 +203,7 @@ function nuevaCompra(){
 	if(status=="success"){ 
 		var COMPRA = [];
 		COMPRA['eliminacion_reciente'] = false;
+		COMPRA['editado_reciente'] = null;
 		var cont = 0;
 		$('#compra-tab').click(function(e){
 			if($('#t_compra').hasClass('hide')){
@@ -226,7 +227,7 @@ function nuevaCompra(){
 		$('#sucursal').load("farmacia/compras/files-serverside/sucursales.php?idU="+$('#id_user').val(),function(response,status,xhr){});
 
 		$('#btn_agregar').click(function(e){
-			if (!COMPRA['eliminacion_reciente']) {
+			if ((!COMPRA['eliminacion_reciente'] && COMPRA['editado_reciente'] === null) || (!COMPRA['eliminacion_reciente'] && COMPRA['editado_reciente'] !== null)) {
 				console.log(COMPRA);
 				var producto = $('#producto').val();
 				var productoletra = $('select[name="producto"] option:selected').text();
@@ -238,20 +239,41 @@ function nuevaCompra(){
 				var estatus = $('#estatus').val();
 				var costoT =  Number.parseFloat(costo) * Number.parseFloat(cantidad);
 					costoT = costoT.toFixed(2);
-				COMPRA[cont] = {
-					"producto":producto,
-					"producto_letra":productoletra,
-					"costo":costo,
-					"cantidad":cantidad,
-					"lote":lote,
-					"sucursal":sucursal,
-					"caducidad":caducidad,
-					"estatus":estatus,
-					"total":costoT,
-				};
-				cont++;
+				const proveedor = $("#select-proveedores").val();
+				
+				if (COMPRA['editado_reciente'] !== null) {
+					COMPRA[COMPRA['editado_reciente']] = {
+						"producto":producto,
+						"producto_letra":productoletra,
+						"costo":costo,
+						"cantidad":cantidad,
+						"lote":lote,
+						"sucursal":sucursal,
+						"caducidad":caducidad,
+						"estatus":estatus,
+						"total":costoT,
+						"proveedor": proveedor,
+					};
+				} else {
+					COMPRA[cont] = {
+						"producto":producto,
+						"producto_letra":productoletra,
+						"costo":costo,
+						"cantidad":cantidad,
+						"lote":lote,
+						"sucursal":sucursal,
+						"caducidad":caducidad,
+						"estatus":estatus,
+						"total":costoT,
+						"proveedor": proveedor,
+					};
+					cont++;
+				}
 			}
+			
 			COMPRA['eliminacion_reciente'] = false;
+			COMPRA['editado_reciente'] = null;
+
 			var salida= "";
 			var costoTotal = 0;
 			for (let index = 0; index < COMPRA.length; index++) {
@@ -292,6 +314,23 @@ function nuevaCompra(){
 
 			// Asignamos las funciones de editar y eliminar a todos los productos agregados al resumen
 			for (let index = 0; index < COMPRA.length; index++) {
+				$("#editar-" + COMPRA[index]['producto']).click(() => {
+					$("#compra-tab").click();
+					$("#producto").val(COMPRA[index]['producto']);
+					$("#producto").change();
+					$("#costoU").val(COMPRA[index]['costo']);
+					$("#cantidad").val(COMPRA[index]['cantidad']);
+					$("#lote").val(COMPRA[index]['lote']);
+					$("#sucursal").val(COMPRA[index]['sucursal']);
+					$("#sucursal").change();
+					$("#caducidad").val(COMPRA[index]['caducidad']);
+					$("#estatus").val(COMPRA[index]['estatus']);
+					$("#estatus").change();
+					$("#select-proveedores").val(COMPRA[index]['proveedor']);
+					$("#select-proveedores").change();
+					COMPRA['editado_reciente'] = index;
+				});
+
 				$("#eliminar-" + COMPRA[index]['producto']).click(() => {
 					swal({
 						type: "info",
