@@ -761,6 +761,9 @@
                                   ÁREA&nbsp;
                                 </th>
                                 <th align="center">PRECIO</th>
+                                <th align="center">LOTE</th>
+                                <th align="center">STOCK</th>
+                                <th align="center">CADUCIDAD</th>
                                 <th align="center">BENEFICIO</th>
                               </tr>
                             </thead>

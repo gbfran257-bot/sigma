@@ -4074,6 +4074,12 @@ include_once 'recursos/datauser.php';
 						"bVisible": true
 					}, {
 						"bVisible": true
+					}, {
+						"bVisible": true
+					}, {
+						"bVisible": true,
+					}, {
+						"bVisible": true
 					}],
 					"sDom": '<"">r<""t><""S><"">',
 					deferRender: true,

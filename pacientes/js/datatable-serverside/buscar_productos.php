@@ -282,6 +282,22 @@ require("../../../funciones/php/values.php");
 				//$row[3] = "<div lang='$row[5]'>$row[3]</div>";
 			}
 		}
+		
+		// Recorremos la última columna para poder agregar las columnas de lote, stock y caducidad //
+		$row[7] = $row[4];
+		
+		// Realizamos las consultas para obtener el lote, stock y caducidad del producto //
+		$id_producto = intval($row[5]);
+		$query_lote_stock_caducidad = "SELECT Lote AS lote, existencias AS stock, DATE_FORMAT(fecha_expiracion, '%d-%m-%Y') AS caducidad FROM stock_has_bach WHERE id_Producto = {$id_producto}";
+		
+		mysql_select_db($database_horizonte, $horizonte);
+		$resultado_query_lote_stock_caducidad = mysql_query($query_lote_stock_caducidad, $horizonte) or die (mysql_error());
+		$info_producto = mysql_fetch_object($resultado_query_lote_stock_caducidad);
+
+		$row[4] = $info_producto->lote;
+		$row[5] = $info_producto->stock;
+		$row[6] = $info_producto->caducidad;
+
 		$output['aaData'][] = $row;	
     }     
     echo json_encode( $output );
