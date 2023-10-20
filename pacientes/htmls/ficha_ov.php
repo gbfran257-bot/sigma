@@ -785,6 +785,13 @@
                                 </th>
                                 <th></th>
                                 <th>
+                                  <input type="text" name="te4" class="form-control input-sm" style="width:99%;" placeholder="LOTE">
+                                </th>
+                                <th>
+                                  <input type="text" name="te5" class="form-control input-sm" style="width:99%;" placeholder="STOCK">
+                                </th>
+                                <th></th>
+                                <th>
                                   <select id="beneficio_p" name="beneficio_p" class="form-control input-sm" style=""></select>
                                 </th>
                               </tr>
