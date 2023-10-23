@@ -231,7 +231,11 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 	$("#myModal").load('farmacia/stock/htmls/transferencias.php', function( response, status, xhr ){
 	if(status=="success"){ 
 		$('#tituloModal').text('TRANSFERIR PRODUCTO '+ nombreProd);
-		select2ini("#sucursal", "sucursales.php", "Seleccione la sucursal a la que desea traferir el producto",id_su);
+		select2ini("#sucursal-origen", "sucursales.php", "Seleccione la sucursal de la cual va transferir el producto", id_su, "600px");
+		select2ini("#sucursal-destino", "sucursales.php", "Seleccione la sucursal a la que desea traferir el producto", id_su, "600px");
+		
+		// Seleccionamos la sucursal por defecto
+		getSucursalPorDefecto(id_su);
 		
 		$('#cant').change(function(e){
 			if($('#cant').val() <= cantExis){
@@ -247,7 +251,7 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 		$('#btn_trans').click(function(e){
 			//validamos que los campos tengan un valor
 			console.log("dentro 1");
-			var sucursal = $('#sucursal').val();
+			var sucursal = $('#sucursal-origen').val();
 			if(( sucursal != null) && ($('#cant').val() > 0)){
 				var datosP = {idU:$('#id_user').val(), idPro: idProd, cant: $('#cant').val(), su: sucursal};
 				//registramos y realizamos  la tranferencia 
@@ -264,11 +268,73 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 			}
 		});
 
+		// Llenamos la tabla de productos
+		getProductosSucursal(id_su);
+
+		// Agregamos la funcinalidad de cargar los productos según la terminal de origen seleccionada
+		$("#sucursal-origen").change(() => {
+			$("#dataTableProductos").DataTable().clear().destroy();
+			getProductosSucursal($("#sucursal-origen").val());
+		});
+
 		$('#myModal').modal('show');
 		$('#myModal').on('shown.bs.modal',function(e){});
 		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
 	}});
 }
+
+const getSucursalPorDefecto = (idSucursal) => {
+	fetch('farmacia/stock/files-serverside/getSucursalPorDefecto.php?id_s=' + idSucursal, {
+		method: "GET"
+	})
+		.then(response => response.json())
+		.then(sucursal => $("#sucursal-origen").append(`<option value="${idSucursal}">${sucursal.nombre}</option>`))
+		.catch(error => console.error(error));
+};
+
+const getProductosSucursal = (idSucursal) => {
+	$("#dataTableProductos").DataTable({
+		response: true,
+		searching: true,
+		select: "single",
+		scrollCollapse: true,
+		scrollY: 300,
+		language: {
+			lengthMenu: "Mostrar _MENU_ registros por página",
+            zeroRecords: "Tabla vacía",
+            info: "Mostrando la página _PAGE_ de _PAGES_",
+            infoEmpty: "Sin registros",
+            infoFiltered: "(Filtrado de _MAX_ registros en total)",
+			search: "Buscar",
+			paginate: {
+				first: 'Primero',
+				previous: 'Anterior',
+				next: 'Siguiente',
+				last: 'Último'
+			},
+			select: {
+				rows: {
+					_: "%d registros seleccionados",
+					0: "",
+					1: "1 registro seleccionado"
+				}
+			}
+		},
+		ajax: {
+			url: 'farmacia/stock/files-serverside/getProductosSucursal.php?id_s=' + idSucursal,
+			dataSrc: "",
+		},
+		columns: [
+			{ data: 'producto'},
+			{ data: 'codigo_barras'},
+			{ data: 'area'},
+			{ data: 'precio'},
+			{ data: 'lote'},
+			{ data: 'stock'},
+			{ data: 'caducidad'},
+		]
+	});
+};
 
 function cambiarExistencias(idS, exis, lote, feCad){
 	$("#myModal").load('farmacia/stock/htmls/existencias.php', function(response, status, xhr){ if(status=="success"){
@@ -313,10 +379,10 @@ function cambiarExistencias(idS, exis, lote, feCad){
 }
 
 
-function select2ini(donde, url, ph, id_su){
+function select2ini(donde, url, ph, id_su, width = "off"){
     $(donde).select2({
         language: "es",
-        width: "off",
+        width: width,
         allowClear: true,
         ajax: {
             url: 'select/'+url,
