@@ -4160,7 +4160,7 @@ include_once 'recursos/datauser.php';
 									const cantidadAgregar = $("#cantidad-productos").val();
 									if (cantidadAgregar == "" || parseInt(cantidadAgregar) > existenciaProducto) {
 										$("#cantidad-productos").val("");
-										return swal("¡Error!", "Selecciona una cantidad de " + nombreProducto + " válida.", "error");
+										return swal("¡Error!", "La cantidad excede la existencia del producto.", "error");
 									}
 
 									// Agregamos la cantidad de productos seleccinados

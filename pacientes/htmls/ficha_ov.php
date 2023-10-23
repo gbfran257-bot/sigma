@@ -1,5 +1,5 @@
 <form id="form-2" name="form-2" data-toggle="validator" role="form">
-  <div class="modal-dialog modal-lg" role="document" id="contenido_ficha_usuario">
+  <div class="modal-dialog modal-lg" role="document" id="contenido_ficha_usuario" style="width: 1200px;">
     <div class="modal-content animated flipInY">
       <div class="modal-header">
         <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
