@@ -4139,8 +4139,65 @@ include_once 'recursos/datauser.php';
 				});
 				//fin filtros individuales por campo de texto
 				oTablePro.on('select', function(e, dt, type, indexes) {
+					// Obtenemos la información del producto
+					var rowData = oTablePro.rows(indexes).data().toArray();
 					$('.depende_pro').removeClass('hidden');
-					var rowData = oTablePro.rows(indexes).data().toArray(); //alert(rowData[0][6]); //alert(rowData[0][9]);
+
+					const existenciaProducto = parseInt(rowData[0][5]);
+					const nombreProducto = rowData[0][0].replace(/(<([^>]+)>)/ig, '');
+					if (existenciaProducto === 0) {
+						swal("¡Atención!", "no hay stock de " + nombreProducto, "info");
+					}
+
+					if (existenciaProducto > 1) {
+						$("#modal_agregar_cantidad_productos").load("pacientes/htmls/agregar-cantidad-productos.php", {
+							nombreProducto,
+							cantidadMaxima: parseInt(rowData[0][5]),
+						}, (response, status, xhr) => {
+							if (status === "success") {
+								// Agregamos la funcionalidad de agregar medicamentos
+								$("#agregar-cantidad-producto").click(() => {
+									const cantidadAgregar = $("#cantidad-productos").val();
+									if (cantidadAgregar == "" || parseInt(cantidadAgregar) > existenciaProducto) {
+										$("#cantidad-productos").val("");
+										return swal("¡Error!", "Selecciona una cantidad de " + nombreProducto + " válida.", "error");
+									}
+
+									// Agregamos la cantidad de productos seleccinados
+									for (let i = 0; i < cantidadAgregar; i++) {
+										if (rowData[0][9] == undefined) {
+											var coveni = 0,
+												ocu = 0;
+										} else {
+											var coveni = rowData[0][9],
+												ocu = rowData[0][10];
+										}
+
+										subirProductoS(rowData[0][5], $('#aleatorio_ov').val(), idP, $('#id_usr_reg').val(),
+											$('#mi_id_convenioP').val(), $('#sucursal_fi_p').val(), $('#observacionesS_NV').val(), 3, rowData[0][3], 5, coveni, ocu
+										);
+										$('.desc_cargo_p').change(function(e) {
+											nota_desc_cargo_p();
+										});
+										$('.desc_cargo_p').keyup(function(e) {
+											nota_desc_cargo_p();
+										});
+									}
+
+									$("#cancelar-agregar-cantidad-productos").click();
+								});
+
+								// Comportamiento del modal
+								$('#modal_agregar_cantidad_productos').modal('show');
+								$('#modal_agregar_cantidad_productos').on('hidden.bs.modal', function(e) {
+									$("#modal_agregar_cantidad_productos").empty();
+								});
+							}
+						});
+						
+						return;
+					}
+
 					if (rowData[0][9] == undefined) {
 						var coveni = 0,
 							ocu = 0;
