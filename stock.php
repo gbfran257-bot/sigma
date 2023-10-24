@@ -275,7 +275,6 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 				.then(response => response.json())
 				.then(productos => {
 					$("#dataTableProductos").DataTable().clear().rows.add(productos).draw();
-					console.log(productos);
 				})
 				.catch(error => console.error(error));
 		});

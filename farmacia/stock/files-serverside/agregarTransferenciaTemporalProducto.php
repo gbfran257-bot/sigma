@@ -20,7 +20,7 @@ try {
     // si existe una transferencia previa actualizamos la cantidad a transferir sino hacemos el insert normal
     $query = "";
     if ($existe_transferencia_producto == 1) {
-        $query = "UPDATE transferencia_temporal SET cantidad_transferir = {$cantidad_transferir} WHERE id_temporal = '{$id_transferencia_temporal}' AND codigo_barras = '{$producto_seleccionado->codigo_barras}'";
+        $query = "UPDATE transferencia_temporal SET cantidad_transferir = {$cantidad_transferir}, id_sucursal_destino = {$id_sucursal_destino} WHERE id_temporal = '{$id_transferencia_temporal}' AND codigo_barras = '{$producto_seleccionado->codigo_barras}'";
     } else {
         $query = "INSERT INTO transferencia_temporal VALUES('{$id_transferencia_temporal}', '{$producto_seleccionado->producto}', '{$producto_seleccionado->codigo_barras}', '{$producto_seleccionado->lote}', '{$producto_seleccionado->caducidad}', {$cantidad_transferir}, {$id_sucursal_origen}, {$id_sucursal_destino})";
     }
