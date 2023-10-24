@@ -55,6 +55,24 @@ $id_del_user = $_SESSION['id'];
                             </tbody>
                         </table>
                     </div>
+                    <div class="row" style="margin-top: 1rem;">
+                    <table width="100%" cellspacing="0" id="dataTableProductosSeleccionados" height="100%" border="0" cellpadding="0" class="table table-striped table-hover table-bordered table-responsive">
+                            <thead id="my_head">
+                                <tr class="bg-warning">
+                                    <th align="center" id="clickmePr">PRODUCTO</th>
+                                    <th align="center">CÓDIGO DE BARRAS</th>
+                                    <th align="center">LOTE</th>
+                                    <th align="center">CANTIDAD A TRANSFERIR</th>
+                                    <th align="center">ORIGEN</th>
+                                    <th align="center">DESTINO</th>
+                                    <th align="center">ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
             </form>

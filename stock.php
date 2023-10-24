@@ -227,6 +227,7 @@ $(document).ready(function(e) {
 	$('#fechaDe').on('changeDate', function(e) { oTableP.draw(); });
 	$("#fechaA").on('changeDate', function(e) { oTableP.draw(); });
 });
+
 function transferencias(idProd, cantExis, id_su, nombreProd){
 	$("#myModal").load('farmacia/stock/htmls/transferencias.php', function( response, status, xhr ){
 	if(status=="success"){ 
@@ -236,17 +237,6 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 		
 		// Seleccionamos la sucursal por defecto
 		getSucursalPorDefecto(id_su);
-		
-		$('#cant').change(function(e){
-			if($('#cant').val() <= cantExis){
-				$('#cantAlerta').text("");
-				$('#cant').css("border","solid 1px aqua");
-			}else{
-				$('#cantAlerta').text("No se puede tranferir una cantidad mayor a la existencia del lote");
-				$('#cant').css("border","solid 2px red");
-				$('#cant').val(0);
-			}
-		});
 
 		$('#btn_trans').click(function(e){
 			//validamos que los campos tengan un valor
@@ -268,13 +258,26 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 			}
 		});
 
+		// Guardamos el id temporal de las transferencias
+		localStorage.setItem("id_transferencia_temporal", randomStr());
+
 		// Llenamos la tabla de productos
 		getProductosSucursal(id_su);
 
+		// Configuramos la tabla de productos seleccionados
+		getProductosSeleccionados();
+
 		// Agregamos la funcinalidad de cargar los productos según la terminal de origen seleccionada
 		$("#sucursal-origen").change(() => {
-			$("#dataTableProductos").DataTable().clear().destroy();
-			getProductosSucursal($("#sucursal-origen").val());
+			fetch("farmacia/stock/files-serverside/getProductosSucursal.php?id_s=" + $("#sucursal-origen").val(), {
+				method: "GET"
+			})
+				.then(response => response.json())
+				.then(productos => {
+					$("#dataTableProductos").DataTable().clear().rows.add(productos).draw();
+					console.log(productos);
+				})
+				.catch(error => console.error(error));
 		});
 
 		$('#myModal').modal('show');
@@ -283,22 +286,69 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 	}});
 }
 
+const randomStr = () => {
+	let ans = '';
+	const arr = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+	for (let i = 0; i < 28; i++) {
+		ans += arr[(Math.floor(Math.random() * arr.length))];
+	}
+	return ans;
+}
+
 const getSucursalPorDefecto = (idSucursal) => {
 	fetch('farmacia/stock/files-serverside/getSucursalPorDefecto.php?id_s=' + idSucursal, {
 		method: "GET"
 	})
 		.then(response => response.json())
-		.then(sucursal => $("#sucursal-origen").append(`<option value="${idSucursal}">${sucursal.nombre}</option>`))
+		.then(sucursal => {
+			$("#sucursal-origen").append(`<option selected value="${idSucursal}">${sucursal.nombre}</option>`);
+			$("#sucursal-origen").change();
+		})
 		.catch(error => console.error(error));
 };
 
+const getProductosSeleccionados = () => {
+	$("#dataTableProductosSeleccionados").DataTable({
+		response: true,
+		searching: false,
+		select: false,
+		scrollCollapse: true,
+		language: {
+			lengthMenu: "Mostrar _MENU_ registros por página",
+			zeroRecords: "Tabla vacía",
+			info: "Mostrando la página _PAGE_ de _PAGES_",
+			infoEmpty: "Sin registros",
+			infoFiltered: "(Filtrado de _MAX_ registros en total)",
+			search: "Buscar",
+			paginate: {
+				first: 'Primero',
+				previous: 'Anterior',
+				next: 'Siguiente',
+				last: 'Último'
+			},
+		},
+		ajax: {
+			url: 'farmacia/stock/files-serverside/getProductosSeleccionados.php?id_t_t=' + localStorage.getItem("id_transferencia_temporal"),
+			dataSrc: "",
+		},
+		columns: [
+			{ data: 'producto'},
+			{ data: 'codigo_barras'},
+			{ data: 'lote'},
+			{ data: 'cantidad_transferir'},
+			{ data: 'sucursal_origen' },
+			{ data: 'sucursal_destino' },
+			{ data: 'acciones'},
+		]
+	});
+};
+
 const getProductosSucursal = (idSucursal) => {
-	$("#dataTableProductos").DataTable({
+	// Configuramos la tabla de los productos de la sucursal
+	const dataTableProductos = $("#dataTableProductos").DataTable({
 		response: true,
 		searching: true,
 		select: "single",
-		scrollCollapse: true,
-		scrollY: 300,
 		language: {
 			lengthMenu: "Mostrar _MENU_ registros por página",
             zeroRecords: "Tabla vacía",
@@ -320,20 +370,109 @@ const getProductosSucursal = (idSucursal) => {
 				}
 			}
 		},
-		ajax: {
-			url: 'farmacia/stock/files-serverside/getProductosSucursal.php?id_s=' + idSucursal,
-			dataSrc: "",
-		},
 		columns: [
-			{ data: 'producto'},
-			{ data: 'codigo_barras'},
-			{ data: 'area'},
-			{ data: 'precio'},
-			{ data: 'lote'},
-			{ data: 'stock'},
-			{ data: 'caducidad'},
+			{ data: "producto" },
+			{ data: "codigo_barras" },
+			{ data: "area" },
+			{ data: "precio" },
+			{ data: "lote" },
+			{ data: "stock" },
+			{ data: "caducidad" },
 		]
 	});
+
+	// Configuramos la funcionalidad de agregar productos
+	dataTableProductos.on("select", (e, dt, type, index) => {
+		// Verificamos que la sucursal destino este seleccionada
+		if ($("#sucursal-destino").val() === null) {
+			return swal("¡Oops!", "Selecciona una sucursal destino para el producto", "info");
+		}
+
+		const productoSeleccionado = dataTableProductos.rows(index).data()[0];
+
+		// Cambiamos el formato de la fecha para que se pueda guardar en la base de datos
+		const digitosCaducidad = productoSeleccionado.caducidad.split("-");
+		productoSeleccionado.caducidad = digitosCaducidad[2] + "-" + digitosCaducidad[1] + "-" + digitosCaducidad[0];
+
+		// Verificamos la existencia del producto
+		if (productoSeleccionado.stock == 0) {
+			return swal("¡Oops!", "Producto sin existencias", "info");
+		}
+
+		// Agregamos el producto directamente si solo tiene una existencia
+		if (productoSeleccionado.stock == 1) {
+			return agregarTransferenciaTemporalProducto(productoSeleccionado, 1);
+		}
+
+		// Si el stock es mayor a 1 entonces se muestra un modal para que el usuario seleccione la cantidad a transferir
+		$("#modal_agregar_cantidad_productos").load("pacientes/htmls/agregar-cantidad-productos.php", {
+			nombreProducto: productoSeleccionado.producto,
+			cantidadMaxima: parseInt(productoSeleccionado.stock),
+		}, (response, status, xhr) => {
+			$("#agregar-cantidad-producto").click(() => {
+				const cantidadAgregar = $("#cantidad-productos").val();
+				if (cantidadAgregar == "") {
+					return swal("¡Error!", "Selecciona una cantidad correcta.", "error");
+				}
+
+				if (parseInt(cantidadAgregar) > productoSeleccionado.stock) {
+					$("#cantidad-productos").val("");
+					return swal("¡Error!", "La cantidad excede la existencia del producto.", "error");
+				}
+
+				$("#cancelar-agregar-cantidad-productos").click();
+				
+				return agregarTransferenciaTemporalProducto(productoSeleccionado, cantidadAgregar);
+			});
+
+			// Comportamiento del modal
+			$('#modal_agregar_cantidad_productos').modal('show');
+			$('#modal_agregar_cantidad_productos').on('hidden.bs.modal', function(e) {
+				$("#modal_agregar_cantidad_productos").empty();
+				$('body').addClass('modal-open');
+			});
+		});
+	});
+};
+
+const agregarTransferenciaTemporalProducto = (producto, cantidadTranferir) => {
+	const body = new FormData();
+	body.append("id_transferencia_temporal", localStorage.getItem("id_transferencia_temporal"));
+	body.append("cantidad_transferir", cantidadTranferir);
+	body.append("id_sucursal_origen", $("#sucursal-origen").val());
+	body.append("id_sucursal_destino", $("#sucursal-destino").val());
+	body.append("producto", JSON.stringify(producto));
+
+	fetch(`farmacia/stock/files-serverside/agregarTransferenciaTemporalProducto.php`, {
+		method: "POST",
+		body,
+	})
+	.then(response => response.json())
+	.then(response => {
+		if (response.error) {
+			swal({
+				type: "error",
+				title: "¡ERROR!",
+				text: response.error,
+				showConfirmButton: false,
+				timer: 1800,
+			}, () => {
+				// Volvemos a cargar la información de la tabla de productos seleccionados
+				$("#dataTableProductosSeleccionados").DataTable().ajax.reload();
+			});
+		}
+		swal({
+			type: "success",
+			title: "¡HECHO!",
+			text: response.success,
+			showConfirmButton: false,
+			timer: 1800,
+		}, () => {
+			// Volvemos a cargar la información de la tabla de productos seleccionados
+			$("#dataTableProductosSeleccionados").DataTable().ajax.reload();
+		});
+	})
+	.catch(error =>console.error(error));
 };
 
 function cambiarExistencias(idS, exis, lote, feCad){

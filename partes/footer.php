@@ -38,6 +38,11 @@
             <div id="modal_nuevo_cliente" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
             <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
+
+        <!--Stock-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/stock.php") : ?>
+            <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
     <?php else : ?>
         <!--Laboratorio-->
         <?php if ($_SERVER['REQUEST_URI'] == "/laboratorio.php") : ?>
@@ -52,6 +57,11 @@
         <!--Pacientes-->
         <?php if ($_SERVER['REQUEST_URI'] == "/pacientes.php" || $_SERVER['REQUEST_URI'] == "/pacientes.php?nuevo-proveedor=true") : ?>
             <div id="modal_nuevo_cliente" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+            <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
+
+        <!--Stock-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/stock.php") : ?>
             <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
     <?php endif; ?>
