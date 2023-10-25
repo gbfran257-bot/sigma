@@ -467,8 +467,7 @@ const agregarTransferenciaTemporalProducto = (producto, cantidadTranferir, idPro
 				type: "error",
 				title: "¡ERROR!",
 				text: response.error,
-				showConfirmButton: false,
-				timer: 1800,
+				confirmButtonText: "De acuerdo"
 			}, () => {
 				// Volvemos a cargar la información de la tabla de productos seleccionados
 				$("#dataTableProductosSeleccionados").DataTable().ajax.reload();
@@ -478,8 +477,7 @@ const agregarTransferenciaTemporalProducto = (producto, cantidadTranferir, idPro
 			type: "success",
 			title: "¡HECHO!",
 			text: response.success,
-			showConfirmButton: false,
-			timer: 1800,
+			confirmButtonText: "Listo"
 		}, () => {
 			// Volvemos a cargar la información de la tabla de productos seleccionados
 			$("#dataTableProductosSeleccionados").DataTable().ajax.reload();
