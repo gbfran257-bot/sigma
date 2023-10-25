@@ -12,7 +12,7 @@ try {
                                     nombre_a AS area,
                                     precio_to AS precio,
                                     Lote AS lote,
-                                    cantidad AS stock,
+                                    existencias AS stock,
                                     DATE_FORMAT(fecha_expiracion, '%d-%m-%Y') AS caducidad
                                 FROM stock_has_bach shb
                                 LEFT JOIN stock s ON shb.id_stock = s.id
