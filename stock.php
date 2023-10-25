@@ -387,7 +387,19 @@ const getProductosSucursal = (idSucursal) => {
 			return swal("¡Oops!", "Selecciona una sucursal destino para el producto", "info");
 		}
 
+		// Obtenemos la información del registro seleccionado
 		const productoSeleccionado = dataTableProductos.rows(index).data()[0];
+		
+		// El nombre del producto se recibe como un elemento html
+		// Se crea el nodo con el elemento html que contiene el id del producto
+		// Se obtiene el id y se elimina el elemento html
+		$("body > #producto-seleccionado-temporal").remove();
+		$("body").append(productoSeleccionado.producto);
+		const idProductoSeleccionado = parseInt($("body > #producto-seleccionado-temporal").attr("id_p"));
+		$("#body > producto-seleccionado-temporal").remove();
+		
+		// Del nombre del producto seleccionado eliminamos el contenido html y nos quedamos con el nombre del producto
+		const nombreProductoSeleccionado = productoSeleccionado.producto.replace(/(<([^>]+)>)/ig, '').trim();
 
 		// Cambiamos el formato de la fecha para que se pueda guardar en la base de datos
 		const digitosCaducidad = productoSeleccionado.caducidad.split("-");
@@ -400,7 +412,7 @@ const getProductosSucursal = (idSucursal) => {
 
 		// Agregamos el producto directamente si solo tiene una existencia
 		if (productoSeleccionado.stock == 1) {
-			return agregarTransferenciaTemporalProducto(productoSeleccionado, 1);
+			return agregarTransferenciaTemporalProducto(productoSeleccionado, 1, idProductoSeleccionado, nombreProductoSeleccionado);
 		}
 
 		// Si el stock es mayor a 1 entonces se muestra un modal para que el usuario seleccione la cantidad a transferir
@@ -421,7 +433,7 @@ const getProductosSucursal = (idSucursal) => {
 
 				$("#cancelar-agregar-cantidad-productos").click();
 				
-				return agregarTransferenciaTemporalProducto(productoSeleccionado, cantidadAgregar);
+				return agregarTransferenciaTemporalProducto(productoSeleccionado, cantidadAgregar, idProductoSeleccionado, nombreProductoSeleccionado);
 			});
 
 			// Comportamiento del modal
@@ -434,12 +446,14 @@ const getProductosSucursal = (idSucursal) => {
 	});
 };
 
-const agregarTransferenciaTemporalProducto = (producto, cantidadTranferir) => {
+const agregarTransferenciaTemporalProducto = (producto, cantidadTranferir, idProductoSeleccionado, nombreProductoSeleccionado) => {
 	const body = new FormData();
 	body.append("id_transferencia_temporal", localStorage.getItem("id_transferencia_temporal"));
 	body.append("cantidad_transferir", cantidadTranferir);
 	body.append("id_sucursal_origen", $("#sucursal-origen").val());
 	body.append("id_sucursal_destino", $("#sucursal-destino").val());
+	body.append("id_producto_seleccionado", idProductoSeleccionado);
+	body.append("nombre_producto_seleccionado", nombreProductoSeleccionado);
 	body.append("producto", JSON.stringify(producto));
 
 	fetch(`farmacia/stock/files-serverside/agregarTransferenciaTemporalProducto.php`, {
