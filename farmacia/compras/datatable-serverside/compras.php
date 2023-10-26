@@ -155,8 +155,14 @@ require("../../../funciones/php/values.php");
             $row[9]= $fechaCadu;
         }
 
-        
+        $id_stock = $row[0];
        $row[0]= $hh;
+
+       // Consultamos el proveedor del producto
+       $query_proveedor_producto = "SELECT nombre_p AS proveedor FROM pacientes p LEFT JOIN stock_has_bach shb ON MD5(p.id_p) = shb.id_proveedor WHERE shb.id = {$id_stock}";
+       $resultado_query_proovedor_producto = mysql_query($query_proveedor_producto, $horizonte) or die (mysql_error());
+       $proveedor = mysql_fetch_object($resultado_query_proovedor_producto)->proveedor;
+       $row[14] = $proveedor == "" || $proveedor == null ? "Sin proveedor" : $proveedor;
 		
 		$output['aaData'][] = $row;
     }
