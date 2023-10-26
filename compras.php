@@ -93,6 +93,7 @@
     <th style="vertical-align:middle;" nowrap>USUARIO REGISTRO</th>
     <th style="vertical-align:middle;" nowrap>FECHA ENTRADA</th>
 	<th style="vertical-align:middle;" nowrap>EXIST.LOTE</th>
+	<th style="vertical-align:middle;" nowrap>PROVEEDOR</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -111,6 +112,7 @@
             <th><input type="text" class="form-control input-sm" placeholder="Usuario" style="max-width:100px;"/></th>
             <th></th>
 			<th></th>
+            <th><input type="text" class="form-control input-sm" placeholder="Proveedor" style="max-width:100px;"/></th>
         </tr>
     </tfoot>
 </table>
@@ -140,7 +142,8 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
 			{"bVisible":false}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
-			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true}, {"bVisible":true}
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true}, {"bVisible":true},
+			{ "bVisible": true },
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
@@ -222,11 +225,16 @@ function nuevaCompra(){
 				$('#btn_pagar').removeClass('hidden');
 			}
 		});
-		select2ini("#producto", "medicamento.php", "Seleccione el producto que desea comprar");
+		select2ini("#producto", "medicamento.php", "Seleccione el producto que desea comprar", "431.763px");
 		
 		$('#sucursal').load("farmacia/compras/files-serverside/sucursales.php?idU="+$('#id_user').val(),function(response,status,xhr){});
 
 		$('#btn_agregar').click(function(e){
+			// Verificamos que el formulario este completo
+			if ($("#producto").val() === null || $("#select-proveedores").val() === "" || $("#costoU").val() === "" || $("#cantidad").val() === "" || $("#lote").val() === "" || $("#caducidad").val() === "") {
+				return swal("¡Oops!", "Completa los datos del formulario para contirnuar.", "info");
+			}
+
 			if ((!COMPRA['eliminacion_reciente'] && COMPRA['editado_reciente'] === null) || (!COMPRA['eliminacion_reciente'] && COMPRA['editado_reciente'] !== null)) {
 				console.log(COMPRA);
 				var producto = $('#producto').val();
@@ -473,10 +481,10 @@ function estatus(id){
 		});
 }
 
-function select2ini(donde, url, ph){
+function select2ini(donde, url, ph, width = "off"){
     $(donde).select2({
         language: "es",
-        width: "off",
+        width: width,
         allowClear: true,
         ajax: {
             url: 'select/'+url,

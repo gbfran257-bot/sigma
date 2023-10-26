@@ -7,6 +7,6 @@ CREATE TABLE transferencia_temporal (
     caducidad DATE NOT NULL,
     cantidad_transferir INT(11) NOT NULL,
     id_sucursal_origen INT(10) NOT NULL,
-    id_sucursal_producto INT(10) NOT NULL,
-    id_producto BIGINT(20) NOT NULL,
+    id_sucursal_destino INT(10) NOT NULL,
+    id_producto BIGINT(20) NOT NULL
 );

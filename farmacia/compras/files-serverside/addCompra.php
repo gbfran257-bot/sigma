@@ -34,6 +34,7 @@ $da = date('Ymd');
         $sucursal = $compras[$i]['sucursal'];
         $caducidad = "'".$compras[$i]['caducidad']." 00:00:00"."'";
         $estatus = $compras[$i]['estatus'];
+        $id_proveedor = $compras[$i]['proveedor'];
 
         mysql_select_db($database_horizonte, $horizonte);
         $resultA = mysql_query("SELECT id from stock where id_su = $sucursal ", $horizonte) or die(mysql_error());
@@ -41,7 +42,7 @@ $da = date('Ymd');
         $sucu = $rowA[0];
 
         mysql_select_db($database_horizonte, $horizonte);
-        $sql = "INSERT INTO `stock_has_bach` (`id`, `referencia_compra`, `id_stock`, `Lote`, `fecha_expiracion`, `id_Producto`, `costo_unitario`, `cantidad`, `estatus`, `existencias`, `contador`, `usuario_registro`, `fecha_update`, `fecha_registro`) VALUES (NULL, $noRef, $sucu, $lote, $caducidad,  $idProducto, $costo, $cantidad, $estatus, $cantidad, $contador, $idU, $now, $now) ";
+        $sql = "INSERT INTO `stock_has_bach` (`id`, `referencia_compra`, `id_stock`, `Lote`, `fecha_expiracion`, `id_Producto`, `costo_unitario`, `cantidad`, `estatus`, `existencias`, `contador`, `usuario_registro`, `fecha_update`, `fecha_registro`, id_proveedor) VALUES (NULL, $noRef, $sucu, $lote, $caducidad,  $idProducto, $costo, $cantidad, $estatus, $cantidad, $contador, $idU, $now, $now, '{$id_proveedor}') ";
         // echo $sql;
         $result = mysql_query($sql, $horizonte) or die(mysql_error());
     
