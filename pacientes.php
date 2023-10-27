@@ -4141,7 +4141,6 @@ include_once 'recursos/datauser.php';
 				oTablePro.on('select', function(e, dt, type, indexes) {
 					// Obtenemos la información del producto
 					var rowData = oTablePro.rows(indexes).data().toArray();
-					$('.depende_pro').removeClass('hidden');
 
 					const existenciaProducto = parseInt(rowData[0][5]);
 					const nombreProducto = rowData[0][0].replace(/(<([^>]+)>)/ig, '');
@@ -4149,6 +4148,13 @@ include_once 'recursos/datauser.php';
 						swal("¡Atención!", "no hay stock de " + nombreProducto, "info");
 					}
 
+					$('.depende_pro').removeClass('hidden');
+					let coveni = 0;
+					let ocu = 0;
+					// Obtenemos el id del producto
+					$("body").append(rowData[0][0]);
+					const idE = $("body").children("span:last").attr("lang");
+					$("body").children("span:last").remove();
 					if (existenciaProducto > 1) {
 						$("#modal_agregar_cantidad_productos").load("pacientes/htmls/agregar-cantidad-productos.php", {
 							nombreProducto,
@@ -4164,26 +4170,33 @@ include_once 'recursos/datauser.php';
 									}
 
 									// Agregamos la cantidad de productos seleccinados
+									$('.depende_pro').removeClass('hidden');
 									for (let i = 0; i < cantidadAgregar; i++) {
-										if (rowData[0][9] == undefined) {
-											var coveni = 0,
-												ocu = 0;
-										} else {
-											var coveni = rowData[0][9],
-												ocu = rowData[0][10];
+										if (rowData[0][8] !== undefined) {
+											coveni = rowData[0][8];
+											ocu = rowData[0][9];
 										}
-
-										subirProductoS(rowData[0][5], $('#aleatorio_ov').val(), idP, $('#id_usr_reg').val(),
-											$('#mi_id_convenioP').val(), $('#sucursal_fi_p').val(), $('#observacionesS_NV').val(), 3, rowData[0][3], 5, coveni, ocu
+										subirProductoS(
+											idE,
+											$('#aleatorio_ov').val(),
+											idP,
+											$('#id_usr_reg').val(),
+											$('#mi_id_convenioP').val(),
+											$('#sucursal_fi_p').val(),
+											$('#observacionesS_NV').val(),
+											11,
+											rowData[0][3],
+											5,
+											coveni,
+											ocu
 										);
-										$('.desc_cargo_p').change(function(e) {
-											nota_desc_cargo_p();
-										});
-										$('.desc_cargo_p').keyup(function(e) {
-											nota_desc_cargo_p();
-										});
 									}
-
+									$('.desc_cargo_p').change(function(e) {
+										nota_desc_cargo_p();
+									});
+									$('.desc_cargo_p').keyup(function(e) {
+										nota_desc_cargo_p();
+									});
 									$("#cancelar-agregar-cantidad-productos").click();
 								});
 
@@ -4198,15 +4211,23 @@ include_once 'recursos/datauser.php';
 						return;
 					}
 
-					if (rowData[0][9] == undefined) {
-						var coveni = 0,
-							ocu = 0;
-					} else {
-						var coveni = rowData[0][9],
-							ocu = rowData[0][10];
+					if (rowData[0][8] !== undefined) {
+						coveni = rowData[0][8];
+						ocu = rowData[0][9];
 					}
-					subirProductoS(rowData[0][5], $('#aleatorio_ov').val(), idP, $('#id_usr_reg').val(),
-						$('#mi_id_convenioP').val(), $('#sucursal_fi_p').val(), $('#observacionesS_NV').val(), 3, rowData[0][3], 5, coveni, ocu
+					subirProductoS(
+						idE,
+						$('#aleatorio_ov').val(),
+						idP,
+						$('#id_usr_reg').val(),
+						$('#mi_id_convenioP').val(),
+						$('#sucursal_fi_p').val(),
+						$('#observacionesS_NV').val(),
+						11,
+						rowData[0][3],
+						5,
+						coveni,
+						ocu
 					);
 					$('.desc_cargo_p').change(function(e) {
 						nota_desc_cargo_p();
@@ -4214,6 +4235,7 @@ include_once 'recursos/datauser.php';
 					$('.desc_cargo_p').keyup(function(e) {
 						nota_desc_cargo_p();
 					});
+					$("#cancelar-agregar-cantidad-productos").click();
 				});
 
 				var oTableProS = $('#dataTablePS').DataTable({
