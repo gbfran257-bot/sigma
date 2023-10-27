@@ -20,6 +20,9 @@ require("../../funciones/php/values.php");
 	 $idMedico = $rowMCt[0];
  }
 
+ // Obtenemos la cantidad a agregar del producto
+ $cantidad = intval(htmlentities($_POST["cantidad"], ENT_QUOTES, "utf'8"));
+
  $idConvenio = sqlValue($_POST["idConvenio"], "int");
  if($_POST["idConvenio"]==''){$idConvenio=0;}
  $idDepartamento = sqlValue($rowC[1], "int");
@@ -76,11 +79,11 @@ require("../../funciones/php/values.php");
 			if($banderaExistencias){
 				if($ocupado==0){
 					mysql_select_db($database_horizonte, $horizonte); 
-					$sql="INSERT INTO venta_conceptos(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios)";
-					$sql.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio,  $idU, $fechaC, $id_con_bene)";
+					$sql="INSERT INTO venta_conceptos(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios,cantidad)";
+					$sql.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio,  $idU, $fechaC, $id_con_bene, $cantidad)";
 					
-					$sql_1="INSERT INTO venta_conceptos_1(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios)";
-					$sql_1.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio, $idU, $fechaC, $id_con_bene)";
+					$sql_1="INSERT INTO venta_conceptos_1(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios,cantidad)";
+					$sql_1.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio, $idU, $fechaC, $id_con_bene, $cantidad)";
 					 
 					$update = mysql_query($sql, $horizonte) or die (mysql_error());
 					if (!$update) { echo $sql; }else{ 
@@ -95,11 +98,11 @@ require("../../funciones/php/values.php");
 		}else{
 			if($ocupado==0){
 				mysql_select_db($database_horizonte, $horizonte); 
-				$sql="INSERT INTO venta_conceptos(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,precio_original,honorarios,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios)";
-				$sql.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio, $precio_orig, $honor, $idU, $fechaC, $id_con_bene)";
+				$sql="INSERT INTO venta_conceptos(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,precio_original,honorarios,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios,cantidad)";
+				$sql.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio, $precio_orig, $honor, $idU, $fechaC, $id_con_bene, $cantidad)";
 				
-				$sql_1="INSERT INTO venta_conceptos_1(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios)";
-				$sql_1.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio, $idU, $fechaC, $id_con_bene)";
+				$sql_1="INSERT INTO venta_conceptos_1(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios,cantidad)";
+				$sql_1.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio, $idU, $fechaC, $id_con_bene, $cantidad)";
 				 
 				$update = mysql_query($sql, $horizonte) or die (mysql_error());
 				if (!$update) { echo $sql; }else{ 

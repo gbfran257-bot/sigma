@@ -4171,26 +4171,25 @@ include_once 'recursos/datauser.php';
 
 									// Agregamos la cantidad de productos seleccinados
 									$('.depende_pro').removeClass('hidden');
-									for (let i = 0; i < cantidadAgregar; i++) {
-										if (rowData[0][8] !== undefined) {
-											coveni = rowData[0][8];
-											ocu = rowData[0][9];
-										}
-										subirProductoS(
-											idE,
-											$('#aleatorio_ov').val(),
-											idP,
-											$('#id_usr_reg').val(),
-											$('#mi_id_convenioP').val(),
-											$('#sucursal_fi_p').val(),
-											$('#observacionesS_NV').val(),
-											11,
-											rowData[0][3],
-											5,
-											coveni,
-											ocu
-										);
+									if (rowData[0][8] !== undefined) {
+										coveni = rowData[0][8];
+										ocu = rowData[0][9];
 									}
+									subirProductoS(
+										idE,
+										$('#aleatorio_ov').val(),
+										idP,
+										$('#id_usr_reg').val(),
+										$('#mi_id_convenioP').val(),
+										$('#sucursal_fi_p').val(),
+										$('#observacionesS_NV').val(),
+										11,
+										rowData[0][3],
+										5,
+										coveni,
+										ocu,
+										cantidadAgregar
+									);
 									$('.desc_cargo_p').change(function(e) {
 										nota_desc_cargo_p();
 									});
@@ -4769,7 +4768,7 @@ include_once 'recursos/datauser.php';
 		});
 	}
 
-	function subirProductoS(idE, noAleatorio, idP, idU, idConvenio, idSucursal, observaciones, departamento, p, t, id_con_bene, ocup) {
+	function subirProductoS(idE, noAleatorio, idP, idU, idConvenio, idSucursal, observaciones, departamento, p, t, id_con_bene, ocup, cantidad = 1) {
 		var datosSENV = {
 			noAleatorio: noAleatorio,
 			idP: idP,
@@ -4784,7 +4783,8 @@ include_once 'recursos/datauser.php';
 			tipoConcepto: t,
 			id_con_bene: id_con_bene,
 			fechaC: $('#fichaNV').val() + ' ' + $('#horaNV').val(),
-			ocupado: ocup
+			ocupado: ocup,
+			cantidad,
 		}
 		$.post('pacientes/files-serverside/guardarEstudioNV.php', datosSENV).done(function(data) {
 			if (data == 1) {
