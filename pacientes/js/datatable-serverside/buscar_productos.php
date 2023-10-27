@@ -158,7 +158,7 @@ require("../../../funciones/php/values.php");
     }
      
     /* * Ordering */
-    $sOrder = "GROUP by e.concepto_to asc";
+    $sOrder = "";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
         $sOrder = "ORDER BY  ";
