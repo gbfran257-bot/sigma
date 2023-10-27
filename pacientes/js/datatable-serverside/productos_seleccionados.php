@@ -1,7 +1,7 @@
 <?php
 require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
-$aColumns = array('vc.id_vc', 'e.concepto_to', 'a.nombre_a', 'vc.precio_vc', 'c.convenio_cv', 'vc.id_vc', 'vc.id_vc', 'e.id_to');
+$aColumns = array('vc.id_vc', 'e.concepto_to', 'a.nombre_a', 'vc.precio_vc', 'c.convenio_cv', 'vc.id_vc', 'vc.id_vc', 'e.id_to', "vc.cantidad", "vc.precio_vc * vc.cantidad");
 
 // DB tables to use 
 $aTables = array('venta_conceptos vc');
@@ -120,14 +120,16 @@ $hh = 0;
 while ($aRow = mysql_fetch_array($rResult)) {
     $hh++;
     $row = array();
+    $producto_seleccionado = [];
     for ($i = 0; $i < count($aColumns); $i++) {
         if ($aColumns[$i] == "version") {
             $row[] = ($aRow[$aColumns[$i]] == "0") ? '-' : $aRow[$aColumns[$i]];
+            $producto_seleccionado[] = ($aRow[$aColumns[$i]] == "0") ? '-' : $aRow[$aColumns[$i]];
         } else if ($aColumns[$i] != ' ') {
             $row[] = $aRow[$i];
+            $producto_seleccionado[] = $aRow[$i];
         }
     }
-
     $id_concepti = sqlValue($row[7], "int");
 
     mysql_select_db($database_horizonte, $horizonte);
@@ -135,18 +137,31 @@ while ($aRow = mysql_fetch_array($rResult)) {
     $rowC = mysql_fetch_row($resultC);
 
     if ($rowC[0] == 5) {
-        $row[1] = "<span>$row[1] ($rowC[1], $rowC[2])</span>";
+        //$row[1] = "<span>$row[1] ($rowC[1], $rowC[2])</span>";
+        $producto_seleccionado[1] = "<span>$row[1] ($rowC[1], $rowC[2])</span>";
     }
 
-    $row[0] = "<span lang='$row[7]'>$hh</span>";
-    $row[3] = "<a onclick='modificar_precio_producto($row[6])'>" . $row[3] . "</a>";
+    //$row[0] = "<span lang='$row[7]'>$hh</span>";
+    $producto_seleccionado[0] = "<span lang='$row[7]'>$hh</span>";
+
+    //$row[3] = "<a onclick='modificar_precio_producto($row[6])'>" . $row[3] . "</a>";
+    $producto_seleccionado[3] = "<a onclick='modificar_precio_producto($row[6])'>" . $row[3] . "</a>";
+
+    $producto_seleccionado[2] = $row[2];
+    $producto_seleccionado[4] = $row[8];
+    $producto_seleccionado[5] = $row[9];
+    
     if ($row[4] == '') {
-        $row[4] = 'PARTICULAR';
+        //$row[4] = 'PARTICULAR';
+        $producto_seleccionado[6] = 'PARTICULAR';
     }
 
-    $row[5] = "<div align='center'><button type='button' class='btn btn-xs btn-danger' onClick='borrarItemNVP(this.id);' id='$row[6]'><i class='fa fa-trash' aria-hidden='true'></i></button></div>";
+    //$row[5] = "<div align='center'><button type='button' class='btn btn-xs btn-danger' onClick='borrarItemNVP(this.id);' id='$row[6]'><i class='fa fa-trash' aria-hidden='true'></i></button></div>";
+    $producto_seleccionado[7] = "<div align='center'><button type='button' class='btn btn-xs btn-danger' onClick='borrarItemNVP(this.id);' id='$row[6]'><i class='fa fa-trash' aria-hidden='true'></i></button></div>";
 
-    $row[6] = "<a class='btn btn-xs btn-primary' onclick='imprimirEtiquetas($row[7])'><i class='fa fa-print' aria-hidden='true'></i></a>";
-    $output['aaData'][] = $row;
+    //$row[6] = "<a class='btn btn-xs btn-primary' onclick='imprimirEtiquetas($row[7])'><i class='fa fa-print' aria-hidden='true'></i></a>";
+    $producto_seleccionado[8] = "<a class='btn btn-xs btn-primary' onclick='imprimirEtiquetas($row[7])'><i class='fa fa-print' aria-hidden='true'></i></a>";
+    
+    $output['aaData'][] = $producto_seleccionado;
 }
 echo json_encode($output);

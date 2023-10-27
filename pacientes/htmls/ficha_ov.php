@@ -808,6 +808,8 @@
                                 <th align="center">PRODUCTOS SELECCIONADOS</th>
                                 <th align="center">ÁREA</th>
                                 <th align="center">PRECIO</th>
+                                <th align="center">CANTIDAD</th>
+                                <th align="center">SUBTOTAL</th>
                                 <th align="center">BENEFICIO</th>
                                 <th align="center" width="1%">ELIMINAR</th>
                                 <th align="center" width="1%">PRINT</th>
