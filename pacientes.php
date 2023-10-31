@@ -1890,15 +1890,20 @@ include_once 'recursos/datauser.php';
 					$('#puesto_p').val(datosI[69]);
 					$('#clave_p').val(datosI[66]);
 
+					// Datos del tarjeton
 					$("#tarjeton-parentesco").val(datosI[70]);
 					$("#tarjeton-clave-trabajador").val(datosI[71]);
 					$("#tarjeton-tipo-trabajador").val(datosI[72]);
 					$("#tarjeton-departamento").val(datosI[73]);
-					if (datosI[74] === "") {
-						$(`<select id="titular-tarjeton" name="titular-tarjeton" class="form-control"></select>`).insertAfter("#label-tarjeton-titular");
+					if (datosI[75] == 1) {
+						$("#select-titular-tarjeton").hide();
+						$("#input-titular-tarjeton").show();
+						$("#input-titular-tarjeton").val(`${datosI[1]} ${datosI[2]} ${datosI[3]}`);
 					} else {
-						$(`<input type="text" id="titular-tarjeton" name="titular-tarjeton" class="form-control" readonly value="${datosI[74]}"/>`).insertAfter("#label-tarjeton-titular");
+						getTitulares();
+						setTimeout(() => $("#select-titular-tarjeton").val(datosI[76]), 100);
 					}
+					
 					//$('#centroSaludP').val(datosI[54]); $('#derechohabienciaP').val(datosI[55]);
 
 					$('#fecha_nacimiento_p1').on('changeDate', function(e) {
