@@ -160,9 +160,9 @@
                             <input type="text" class="form-control" id="tarjeton-departamento" name="tarjeton-departamento" placeholder="Departamento" />
                         </div>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-12 col-xs-12">
                         <div class="form-group">
-                            <label for="tarjeton-titular">Titular del tarjetón</label>
+                            <label for="tarjeton-titular" id="label-tarjeton-titular">Titular del tarjetón</label>
                         </div>
                     </div>
                 </div>
@@ -447,8 +447,8 @@
                                 <label style="margin: 0px;" class="form-check-label" for="proveedor">PROVEEDOR</label>
                             </div>
                             <div class="form-check" style="display: flex; align-items: center;">
-                                <input style="margin: 0px 0.2rem 0px 0px;" class="form-check-input" type="checkbox" id="titular">
-                                <label style="margin: 0px;" class="form-check-label" for="titular">TITULAR</label>
+                                <input style="margin: 0px 0.2rem 0px 0px;" class="form-check-input" type="checkbox" id="titular-check">
+                                <label style="margin: 0px;" class="form-check-label" for="titular-check">TITULAR</label>
                             </div>
                         </div>
                     </div>
