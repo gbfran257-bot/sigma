@@ -1,6 +1,6 @@
 <?php
-include_once '../Connections/database.php';
-include_once 'recursos/utilities.php';
+include_once './Connections/database.php';
+include_once './recursos/utilities.php';
 
 $loginFormAction = $_SERVER['PHP_SELF'];
 if (isset($_POST['usuario'], $_POST['token'])) {

@@ -24,23 +24,23 @@
     <!--Comprobamos el servidor para cargar los recursos dependiendo de la página en la que se esté-->
     <?php if ($_SERVER['SERVER_NAME'] == "localhost") : ?>
         <!--Laboratorio-->
-        <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/laboratorio.php") : ?>
+        <?php if ($_SERVER['REQUEST_URI'] == "/sigma/laboratorio.php") : ?>
             <div id="modal_historial" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 
         <!--Consultas-->
-        <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/consultas.php") : ?>
+        <?php if ($_SERVER['REQUEST_URI'] == "/sigma/consultas.php") : ?>
             <div id="visualizar_medicamento_sinergias" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 
         <!--Pacientes-->
-        <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/pacientes.php" || $_SERVER['REQUEST_URI'] == "/sigmacruzroja/pacientes.php?nuevo-proveedor=true") : ?>
+        <?php if ($_SERVER['REQUEST_URI'] == "/sigma/pacientes.php" || $_SERVER['REQUEST_URI'] == "/sigma/pacientes.php?nuevo-proveedor=true") : ?>
             <div id="modal_nuevo_cliente" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
             <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 
         <!--Stock-->
-        <?php if ($_SERVER['REQUEST_URI'] == "/sigmacruzroja/stock.php") : ?>
+        <?php if ($_SERVER['REQUEST_URI'] == "/sigma/stock.php") : ?>
             <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
     <?php else : ?>
