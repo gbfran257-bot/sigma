@@ -21,6 +21,8 @@ require("../../funciones/php/values.php");
  $idP = sqlValue($_POST["idPacienteN"], "int");
  $razon = sqlValue($_POST["razonPF"], "text");
  $tSangreP = sqlValue($_POST["tSangreP"], "int");
+
+ $puesto_paciente = htmlentities($_POST['puesto_p']);
  
  //Datos de dirección
  if(isset($_POST["estadoP"])){$estado = sqlValue($_POST["estadoP"], "int");}else{$estado = 'NULL';}
@@ -60,8 +62,8 @@ require("../../funciones/php/values.php");
  $digitos4 = sqlValue($_POST["digitos4B"], "text");
 
  mysql_select_db($database_horizonte, $horizonte);
- $sql = "INSERT INTO pacientes (idUsuarioR_p, nombre_p, apaterno_p, amaterno_p, sexo_p, nacionalidad_p, fNac_p, tCelular_p, tParticular_p, curp_p, rfc_p, idSucursal_p, entidadFederativa_p, municipio_p, colonia_p, cp_p, calle_p, noExt_p, noInt_p, tTrabajo_p, extensionTt_p, email_p,fechaR_p, foto_p, nombreFoto_p, entidad_nacimiento_p, razon_social_p, calle_pf, noExt_pf, noInt_pf, entidadFederativa_pf, municipio_pf, colonia_pf, cp_pf, rfc_f_p, id_banco_p, digitos_banco_p, tSanguineo_p)";
- $sql.= "VALUES ($idU, $nombre, $apaterno, $amaterno, $idSexo, $nacionalidad, $fechaNacimiento, $tCelular, $tParticular, $curp, $rfc, $idSucursal, $estado, $municipio, $colonia, $cp, $calle, $noExt, $noInt, $telefonoTrabajo, $extensionTT, $email, $now, $foto, '$nombreFoto', $entidadNacimiento, $razon, $calleF, $noExtF, $noIntF, $estadoF, $municipioF, $coloniaF, $cpF, $rfcF, $idBanco, $digitos4, $tSangreP)";
+ $sql = "INSERT INTO pacientes (idUsuarioR_p, nombre_p, apaterno_p, amaterno_p, sexo_p, nacionalidad_p, fNac_p, tCelular_p, tParticular_p, curp_p, rfc_p, idSucursal_p, entidadFederativa_p, municipio_p, colonia_p, cp_p, calle_p, noExt_p, noInt_p, tTrabajo_p, extensionTt_p, email_p,fechaR_p, foto_p, nombreFoto_p, entidad_nacimiento_p, razon_social_p, calle_pf, noExt_pf, noInt_pf, entidadFederativa_pf, municipio_pf, colonia_pf, cp_pf, rfc_f_p, id_banco_p, digitos_banco_p, tSanguineo_p, puesto_p)";
+ $sql.= "VALUES ($idU, $nombre, $apaterno, $amaterno, $idSexo, $nacionalidad, $fechaNacimiento, $tCelular, $tParticular, $curp, $rfc, $idSucursal, $estado, $municipio, $colonia, $cp, $calle, $noExt, $noInt, $telefonoTrabajo, $extensionTT, $email, $now, $foto, '$nombreFoto', $entidadNacimiento, $razon, $calleF, $noExtF, $noIntF, $estadoF, $municipioF, $coloniaF, $cpF, $rfcF, $idBanco, $digitos4, $tSangreP, $puesto_paciente)";
   
  $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	
