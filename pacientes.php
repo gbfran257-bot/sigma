@@ -1843,7 +1843,7 @@ include_once 'recursos/datauser.php';
 					$('#cp_df').val(datosI[45]);
 					$('#facebook_p').val(datosI[63]);
 					$('#instagram_p').val(datosI[64]);
-					$('#puesto_p').val(datosI[65]);
+					$('#puesto_p').val(datosI[69]);
 					$('#clave_p').val(datosI[66]);
 					//$('#centroSaludP').val(datosI[54]); $('#derechohabienciaP').val(datosI[55]);
 
