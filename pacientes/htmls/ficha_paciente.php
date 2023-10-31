@@ -136,29 +136,34 @@
                     </div> </div>
                 </div> 
                 <div class="row">
-                    <div class="col-sm-3 col-xs-3"> <div class="form-group">
-                    <label for="tarjeton-parentesco">Parentesco</label>
-                    <input type="text" class="form-control" id="tarjeton-parentesco" name="tarjeton-parentesco" placeholder="Parentesco">
-                    <div class="help-block with-errors"></div>
-                    </div> </div>
-                    <div class="col-sm-3 col-xs-3"> <div class="form-group">
-                    <label for="tarjeton-clave-trabajador">Clave Trabajador</label>
-                    <input type="text" class="form-control" id="tarjeton-clave-trabajador" name="tarjeton-clave-trabajador" placeholder="Clave Trabajador">
-                    <div class="help-block with-errors"></div>
-                    </div> </div>
-                    <div class="col-sm-3 col-xs-3"> <div class="form-group">
-                    <label for="tarjeton-tipo-trabajador">Tipo de trabajador</label>
-                    <input type="text" class="form-control" id="tarjeton-tipo-trabajador" name="tarjeton-tipo-trabajador" placeholder="Tipo de trabajador">
-                    <div class="help-block with-errors"></div>
-                    </div> </div>
-                    <div class="col-sm-3 col-xs-3"> <div class="form-group">
-                    <label for="tarjeton-departamento">Departamento</label>
-                    <input type="text" class="form-control" id="tarjeton-departamento" name="tarjeton-departamento" placeholder="Departamento">
-                    <div class="help-block with-errors"></div>
-                    </div> </div>
-                    <div class="col-sm-12 col-xs-12"> <div class="form-group">
-                    <label for="tarjeton-titular" id="label-tarjeton-titular">Titular Tarjeton</label>
-                    <div class="help-block with-errors"></div>
+                    <div class="col-sm-3 col-xs-3">
+                        <div class="form-group">
+                            <label for="tarjeton-parentesco">Parentesco</label>
+                            <input type="text" class="form-control" id="tarjeton-parentesco" name="tarjeton-parentesco" placeholder="Parentesco" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="tarjeton-clave-trabajador">Clave del trabajador</label>
+                            <input type="text" class="form-control" id="tarjeton-clave-trabajador" name="tarjeton-clave-trabajador" placeholder="Clave del trabajador" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="tarjeton-tipo-trabajador">Tipo del trabajador</label>
+                            <input type="text" class="form-control" id="tarjeton-tipo-trabajador" name="tarjeton-tipo-trabajador" placeholder="Tipo del trabajador" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="tarjeton-departamento">Departamento</label>
+                            <input type="text" class="form-control" id="tarjeton-departamento" name="tarjeton-departamento" placeholder="Departamento" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="tarjeton-titular">Titular del tarjetón</label>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
