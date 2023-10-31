@@ -163,6 +163,8 @@
                     <div class="col-sm-12 col-xs-12">
                         <div class="form-group">
                             <label for="tarjeton-titular" id="label-tarjeton-titular">Titular del tarjetón</label>
+                            <select name="select-titular-tarjeton" id="select-titular-tarjeton" class="form-control"></select>
+                            <input class="form-control" type="text" id="input-titular-tarjeton" name="input-titular-tarjeton" value="" style="display: none;" readonly/>
                         </div>
                     </div>
                 </div>

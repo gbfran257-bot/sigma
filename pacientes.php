@@ -1338,9 +1338,48 @@ include_once 'recursos/datauser.php';
 		return ("00" + n).slice(-2);
 	}
 
+	const getTitulares = () => {
+		fetch("pacientes/files-serverside/getTitulares.php")
+			.then(response => response.json())
+			.then(titulares => {
+				if (titulares.error) {
+					throw new Error(titulares.error);
+				}
+				titulares.forEach((titular) => $("#select-titular-tarjeton").append(titular));
+			})
+			.catch(error => console.error(error));
+	};
+
+	const verificarFormularioDatosTarjeton = () => {
+		return $("#nombre_p").val() !== "" && $("#apaterno_p").val() !== "" && $("#amaterno_p").val() !== "" && $("#tarjeton-parentesco").val() !== "" && $("#tarjeton-clave-trabajador").val() !== "" && $("#tarjeton-tipo-trabajador").val() !== "" && $("#tarjeton-departamento").val() !== "" && $("#puesto_p").val() !== "";
+	};
+
 	function nuevo_paciente() { //Para poder crear un usuario nuevo, el usuario actual debe tener por lo menos una empresa asignada
 		$("#myModal").load('pacientes/htmls/ficha_paciente.php', function(response, status, xhr) {
 			if (status == "success") {
+				// Cargamos a los pacientes que son titulares
+				getTitulares();
+
+				$("#titular-check").click(() => {
+					if ($("#titular-check").is(":checked") && !verificarFormularioDatosTarjeton()) {
+						swal("¡Oops!", "Completa el formulario de datos personales para poder marcar al paciente como titular.", "info");
+						$("#titular-check").prop("checked", false);
+						return;
+					}
+
+					if ($("#titular-check").is(":not(:checked)")) {
+						$("#select-titular-tarjeton").show();
+						$("#input-titular-tarjeton").hide();
+						return;
+					}
+
+					$("#select-titular-tarjeton").hide();
+					$("#input-titular-tarjeton").show();
+					$("#input-titular-tarjeton").val(`${$("#nombre_p").val()} ${$("#apaterno_p").val()} ${$("#amaterno_p").val()}`);
+				});
+
+				$("#nombre_p, #apaterno_p, #amaterno_p").on("input", () => $("#input-titular-tarjeton").val(`${$("#nombre_p").val()} ${$("#apaterno_p").val()} ${$("#amaterno_p").val()}`));
+
 				$.fn.datepicker.defaults.autoclose = true;
 				$('#id_usr_reg').val($('#id_user').val());
 				$('#alerta_new_user').hide();
@@ -1567,6 +1606,11 @@ include_once 'recursos/datauser.php';
 						var $btn = $('#btn_new_u').button('loading');
 						$('#btn_cancel_new_u').hide();
 						var datosP = $('#myModal #form-ficha_us').serialize();
+
+						// Agregamos el campo que marca al paciente como titular
+						const pacienteComoTitular = $("#titular-check").prop("checked") ? 1 : 0;
+						datosP += "&paciente_como_titular=" + pacienteComoTitular;
+
 						$.post('pacientes/files-serverside/addPaciente.php', datosP).done(function(data) {
 							var data2 = data.split(';-:');
 							if (data2[0] == 1) { //si el paciente se Actualizó

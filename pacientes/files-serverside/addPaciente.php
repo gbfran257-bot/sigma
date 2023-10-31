@@ -29,6 +29,14 @@ require("../../funciones/php/values.php");
  $instagram = sqlValue($_POST["instagram_p"], "text");
  $puesto_p = sqlValue($_POST["puesto_p"], "text");
  $clave_p = sqlValue($_POST["clave_p"], "text");
+
+ // Datos tarjeton
+ $titular = sqlValue($_POST['paciente_como_titular'], "int");
+ $titular_tarjeton = sqlValue($_POST['select-titular-tarjeton'], "int");
+ $parentesco = sqlValue($_POST['tarjeton-parentesco'], "text");
+ $clave = sqlValue($_POST['tarjeton-clave-trabajador'], "text");
+ $tipo = sqlValue($_POST['tarjeton-tipo-trabajador'], "text");
+ $departamento = sqlValue($_POST['tarjeton-departamento'], "text");
  
  //Datos de dirección
  if(isset($_POST["estado_dir_p"])){$estado = sqlValue($_POST["estado_dir_p"], "int");}else{$estado = 'NULL';}
@@ -60,11 +68,13 @@ require("../../funciones/php/values.php");
  "tCelular_p, tParticular_p, curp_p, rfc_p, idSucursal_p, entidadFederativa_p, municipio_p, ciudad_p, colonia_p, ".
  "cp_p, calle_p, tTrabajo_p, extensionTt_p, email_p, fechaR_p, entidad_nacimiento_p, razon_social_p, calle_pf, ".
  "entidadFederativa_pf, municipio_pf, ciudad_pf, colonia_pf, cp_pf, rfc_f_p, tSanguineo_p, nombre_completo_p, ".
- "coordenadas_p, email_pf, contactoEmergencia_p, tEmergencia_p, facebook, instagram, puesto_p, clave_p )";
+ "coordenadas_p, email_pf, contactoEmergencia_p, tEmergencia_p, facebook, instagram, puesto_p, clave_p, ".
+ "titular, paciente_titular, parentesco, clave_t, tipo_trabajador, departamento)";
  $sql.= "VALUES ($idU, $nombre, $apaterno, $amaterno, $idSexo, $id_pais, $fechaNacimiento, $tCelular, $tParticular, ".
  "$curp, $rfc, $id_sucu, $estado, $municipio, $ciudad, $colonia, $cp, $calle, $telefonoTrabajo, $extensionTT, $email, ".
  "$now, $entidadNacimiento, $razon, $calleF, $estadoF, $municipioF, $ciudadF, $coloniaF, $cpF, $rfcF, $tSangreP, ".
- "$nombre_completo, GeomFromText('POINT($latitud $longitud)'), $email_pf, $avisara, $temergencia, $facebook, $instagram, $puesto_p, $clave_p )";
+ "$nombre_completo, GeomFromText('POINT($latitud $longitud)'), $email_pf, $avisara, $temergencia, $facebook, $instagram, $puesto_p, $clave_p, ".
+ "$titular, $titular_tarjeton, $parentesco, $clave, $tipo, $departamento)";
   
  $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	
