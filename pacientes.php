@@ -1896,13 +1896,33 @@ include_once 'recursos/datauser.php';
 					$("#tarjeton-tipo-trabajador").val(datosI[72]);
 					$("#tarjeton-departamento").val(datosI[73]);
 					if (datosI[75] == 1) {
+						getTitulares();
 						$("#select-titular-tarjeton").hide();
 						$("#input-titular-tarjeton").show();
 						$("#input-titular-tarjeton").val(`${datosI[1]} ${datosI[2]} ${datosI[3]}`);
+						$("#titular-check").prop("checked", true);
 					} else {
 						getTitulares();
 						setTimeout(() => $("#select-titular-tarjeton").val(datosI[76]), 100);
 					}
+
+					$("#titular-check").click(() => {
+						if ($("#titular-check").is(":checked") && !verificarFormularioDatosTarjeton()) {
+							swal("¡Oops!", "Completa el formulario de datos personales para poder marcar al paciente como titular.", "info");
+							$("#titular-check").prop("checked", false);
+							return;
+						}
+
+						if ($("#titular-check").is(":not(:checked)")) {
+							$("#select-titular-tarjeton").show();
+							$("#input-titular-tarjeton").hide();
+							return;
+						}
+
+						$("#select-titular-tarjeton").hide();
+						$("#input-titular-tarjeton").show();
+						$("#input-titular-tarjeton").val(`${$("#nombre_p").val()} ${$("#apaterno_p").val()} ${$("#amaterno_p").val()}`);
+					});
 					
 					//$('#centroSaludP').val(datosI[54]); $('#derechohabienciaP').val(datosI[55]);
 
@@ -2149,8 +2169,9 @@ include_once 'recursos/datauser.php';
 						// Obtenemos el valor de los checkboxes de facturar y proveedor
 						const facturar = $("#facturar").is(":checked") ? 1 : 0;
 						const proveedor = $("#proveedor").is(":checked") ? 1 : 0;
+						const pacienteComoTitular = $("#titular-check").is(":checked") ? 1 : 0;
 
-						datosP += `&facturar=${facturar}&proveedor=${proveedor}`;
+						datosP += `&facturar=${facturar}&proveedor=${proveedor}&paciente_como_titular=${pacienteComoTitular}`;
 						$.post('pacientes/files-serverside/updatePaciente.php', datosP).done(function(data) {
 							if (data == 1) { //si el paciente se Actualizó 
 								$('#clickme').click();

@@ -36,6 +36,14 @@ require("../../funciones/php/values.php");
  $regimen_fiscal = intval(htmlspecialchars($_POST['regimen_fiscal'], ENT_QUOTES, "utf-8", true));
 
  $puesto_paciente = htmlentities($_POST['puesto_p'], ENT_QUOTES, "utf-8");
+
+ // Datos tarjeton
+ $titular = sqlValue($_POST['paciente_como_titular'], "int");
+ $titular_tarjeton = $titular == 1 ? 0 : sqlValue($_POST['select-titular-tarjeton'], "int");
+ $parentesco = sqlValue($_POST['tarjeton-parentesco'], "text");
+ $clave = sqlValue($_POST['tarjeton-clave-trabajador'], "text");
+ $tipo = sqlValue($_POST['tarjeton-tipo-trabajador'], "text");
+ $departamento = sqlValue($_POST['tarjeton-departamento'], "text");
  
  //Datos de dirección
  if(isset($_POST["estado_dir_p"])){$estado = sqlValue($_POST["estado_dir_p"], "int");}else{$estado = 'NULL';}
@@ -72,7 +80,7 @@ require("../../funciones/php/values.php");
  "cp_pf = $cpF, rfc_f_p = $rfcF, tSanguineo_p = $tSangreP, nombre_completo_p = $nombre_completo, ".
  "coordenadas_p = GeomFromText('POINT($latitud $longitud)'), email_pf = $email_pf, contactoEmergencia_p = $avisara, ".
  "tEmergencia_p = $temergencia, facebook = $facebook, instagram = $instagram, ".
- "facturar = {$facturar}, proveedor = {$proveedor}, regimen_fiscal = {$regimen_fiscal}, uso_cfdi = '{$uso_cfdi}', puesto_p = '{$puesto_paciente}' where id_p = $idP limit 1 ";
+ "facturar = {$facturar}, proveedor = {$proveedor}, regimen_fiscal = {$regimen_fiscal}, uso_cfdi = '{$uso_cfdi}', puesto_p = '{$puesto_paciente}', titular = $titular, paciente_titular = $titular_tarjeton, parentesco = $parentesco, clave_t = $clave, tipo_trabajador = $tipo, departamento = $departamento where id_p = $idP limit 1 ";
   
  $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	

@@ -32,7 +32,7 @@ require("../../funciones/php/values.php");
 
  // Datos tarjeton
  $titular = sqlValue($_POST['paciente_como_titular'], "int");
- $titular_tarjeton = sqlValue($_POST['select-titular-tarjeton'], "int");
+ $titular_tarjeton = $titular == 1 ? 0 : sqlValue($_POST['select-titular-tarjeton'], "int");
  $parentesco = sqlValue($_POST['tarjeton-parentesco'], "text");
  $clave = sqlValue($_POST['tarjeton-clave-trabajador'], "text");
  $tipo = sqlValue($_POST['tarjeton-tipo-trabajador'], "text");
