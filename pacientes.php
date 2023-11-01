@@ -1338,13 +1338,16 @@ include_once 'recursos/datauser.php';
 		return ("00" + n).slice(-2);
 	}
 
-	const getTitulares = () => {
-		fetch("pacientes/files-serverside/getTitulares.php")
+	const getTitulares = (idIgnorar = 0) => {
+		console.log(idIgnorar);
+		fetch("pacientes/files-serverside/getTitulares.php?id_ignorar=" + idIgnorar)
 			.then(response => response.json())
 			.then(titulares => {
 				if (titulares.error) {
 					throw new Error(titulares.error);
 				}
+				console.log(titulares);
+				$("#select-titular-tarjeton").empty();
 				titulares.forEach((titular) => $("#select-titular-tarjeton").append(titular));
 			})
 			.catch(error => console.error(error));
@@ -1368,8 +1371,11 @@ include_once 'recursos/datauser.php';
 					}
 
 					if ($("#titular-check").is(":not(:checked)")) {
-						$("#select-titular-tarjeton").show();
-						$("#input-titular-tarjeton").hide();
+						getTitulares();
+						setTimeout(() => {
+							$("#select-titular-tarjeton").show();
+							$("#input-titular-tarjeton").hide();
+						}, 100);
 						return;
 					}
 
@@ -1896,13 +1902,12 @@ include_once 'recursos/datauser.php';
 					$("#tarjeton-tipo-trabajador").val(datosI[72]);
 					$("#tarjeton-departamento").val(datosI[73]);
 					if (datosI[75] == 1) {
-						getTitulares();
 						$("#select-titular-tarjeton").hide();
 						$("#input-titular-tarjeton").show();
 						$("#input-titular-tarjeton").val(`${datosI[1]} ${datosI[2]} ${datosI[3]}`);
 						$("#titular-check").prop("checked", true);
 					} else {
-						getTitulares();
+						getTitulares(idP);
 						setTimeout(() => $("#select-titular-tarjeton").val(datosI[76]), 100);
 					}
 
@@ -1914,8 +1919,11 @@ include_once 'recursos/datauser.php';
 						}
 
 						if ($("#titular-check").is(":not(:checked)")) {
-							$("#select-titular-tarjeton").show();
-							$("#input-titular-tarjeton").hide();
+							getTitulares(idP);
+							setTimeout(() => {
+								$("#select-titular-tarjeton").show();
+								$("#input-titular-tarjeton").hide();
+							}, 100);
 							return;
 						}
 
