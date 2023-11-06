@@ -56,6 +56,11 @@ require("../../funciones/php/values.php");
 			$cantConc = mysql_query("SELECT count(id_vc) FROM venta_conceptos WHERE no_temp_vc = $noTemp and id_concepto_es = $idE", $horizonte) or die (mysql_error());
 			$cant_c = mysql_fetch_row($cantConc);
 
+			// Obtenemos el id del producto en caso de que ya haya sido agregado a la orden de venta para actualizarlo
+			mysql_select_db($database_horizonte, $horizonte);
+			$query_id_producto = mysql_query("SELECT id_vc FROM venta_conceptos WHERE no_temp_vc = $noTemp and id_concepto_es = $idE", $horizonte) or die (mysql_error());
+			$id_producto = mysql_fetch_row($query_id_producto)[0];
+
 			//OBTENER EXISTENCIA TOTAL DEL PRODUCTO 
 			mysql_select_db($database_horizonte, $horizonte);
 			$totalExistencias = mysql_query("SELECT SUM(s.existencias) FROM stock_has_bach s left join stock s1 on s1.id = s.id_stock WHERE id_Producto = $idE and s1.id_su = $idSucursal ", $horizonte) or die (mysql_error());
@@ -78,18 +83,29 @@ require("../../funciones/php/values.php");
 			}
 			if($banderaExistencias){
 				if($ocupado==0){
-					mysql_select_db($database_horizonte, $horizonte); 
-					$sql="INSERT INTO venta_conceptos(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios,cantidad)";
-					$sql.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio,  $idU, $fechaC, $id_con_bene, $cantidad)";
-					
-					$sql_1="INSERT INTO venta_conceptos_1(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios,cantidad)";
-					$sql_1.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio, $idU, $fechaC, $id_con_bene, $cantidad)";
-					 
-					$update = mysql_query($sql, $horizonte) or die (mysql_error());
-					if (!$update) { echo $sql; }else{ 
-						echo 1;
-					   
-					   $update_1 = mysql_query($sql_1, $horizonte) or die (mysql_error());
+					if ($id_producto != "") {
+						mysql_select_db($database_horizonte, $horizonte); 
+						$sql="UPDATE venta_conceptos ";
+						$sql.=" SET cantidad = {$cantidad} WHERE no_temp_vc = $noTemp and id_concepto_es = $idE";
+
+						$query_update = mysql_query($sql, $horizonte) or die (mysql_error());
+						if (!$query_update) { echo $sql; }else{ 
+							echo 1;
+						}
+					} else {
+						mysql_select_db($database_horizonte, $horizonte); 
+						$sql="INSERT INTO venta_conceptos(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios,cantidad)";
+						$sql.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio,  $idU, $fechaC, $id_con_bene, $cantidad)";
+						
+						$sql_1="INSERT INTO venta_conceptos_1(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios,cantidad)";
+						$sql_1.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio, $idU, $fechaC, $id_con_bene, $cantidad)";
+							
+						$update = mysql_query($sql, $horizonte) or die (mysql_error());
+						if (!$update) { echo $sql; }else{ 
+							echo 1;
+							
+							$update_1 = mysql_query($sql_1, $horizonte) or die (mysql_error());
+						}
 					}
 				}else{echo 1;}
 			}else{
