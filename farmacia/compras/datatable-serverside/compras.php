@@ -2,7 +2,7 @@
 require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
      
-    $aColumns = array('s.id', 's.id','s.referencia_compra','g.nombre_generico_med', 'c.concepto_to', 's.Lote','su.nombre_su',  's.cantidad','es.estatus_est', 's.fecha_expiracion', 's.costo_unitario', 'u.usuario_u','DATE_FORMAT(s.fecha_update,"%d/%c/%Y")','s.existencias');
+    $aColumns = array('s.id', 's.id','s.referencia_compra','g.nombre_generico_med', 'c.concepto_to', 's.Lote','su.nombre_su',  's.cantidad','es.estatus_est', 's.fecha_expiracion', 's.costo_unitario','CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))','s.existencias');
     // DB tables to use 
     $aTables = array( 'stock_has_bach s');
      
@@ -162,7 +162,7 @@ require("../../../funciones/php/values.php");
        $query_proveedor_producto = "SELECT nombre_p AS proveedor FROM pacientes p LEFT JOIN stock_has_bach shb ON MD5(p.id_p) = shb.id_proveedor WHERE shb.id = {$id_stock}";
        $resultado_query_proovedor_producto = mysql_query($query_proveedor_producto, $horizonte) or die (mysql_error());
        $proveedor = mysql_fetch_object($resultado_query_proovedor_producto)->proveedor;
-       $row[14] = $proveedor == "" || $proveedor == null ? "Sin proveedor" : $proveedor;
+       $row[13] = $proveedor == "" || $proveedor == null ? "Sin proveedor" : $proveedor;
 		
 		$output['aaData'][] = $row;
     }

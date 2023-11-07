@@ -90,8 +90,7 @@
 	<th style="vertical-align:middle;">ESTATUS</th>
     <th style="vertical-align:middle;">FECHA CADUCIDAD</th>
     <th style="vertical-align:middle;">COSTO UNITARIO</th>
-    <th style="vertical-align:middle;" nowrap>USUARIO REGISTRO</th>
-    <th style="vertical-align:middle;" nowrap>FECHA ENTRADA</th>
+    <th style="vertical-align:middle;" nowrap>REGISTRO</th>
 	<th style="vertical-align:middle;" nowrap>EXIST.LOTE</th>
 	<th style="vertical-align:middle;" nowrap>PROVEEDOR</th>
   </tr>
@@ -110,7 +109,6 @@
             <th></th>
             <th></th>
             <th><input type="text" class="form-control input-sm" placeholder="Usuario" style="max-width:100px;"/></th>
-            <th></th>
 			<th></th>
             <th><input type="text" class="form-control input-sm" placeholder="Proveedor" style="max-width:100px;"/></th>
         </tr>
@@ -142,7 +140,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
 			{"bVisible":false}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
-			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true}, {"bVisible":true},
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true},
 			{ "bVisible": true },
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
