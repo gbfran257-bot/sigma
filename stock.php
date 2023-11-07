@@ -243,55 +243,43 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 			if ($("#dataTableProductosSeleccionados").DataTable().rows().count() === 0) {
 				return swal("¡ERROR!", "Primero debes seleccionar al menos un medicamento para ser traspasado.", "error");
 			}
+			
+			const body = new FormData();
+			body.append("id_t_t", localStorage.getItem("id_transferencia_temporal"));
+			body.append("id_u", $("#id_user").val());
 
-			/* return swal({
-				type: "warning",
-				title: "¿Deseas continuar?",
-				text: "¡Se realizará un seguimiento a los traslados realizados!",
-				confirmButtonText: "Continuar",
-				dangerMode: true,
-				showCancelButton: true,
-				cancelButtonText: "Cancelar"
-			}, (isConfirmed) => {
-				if (isConfirmed) { */
-					const body = new FormData();
-					body.append("id_t_t", localStorage.getItem("id_transferencia_temporal"));
-					body.append("id_u", $("#id_user").val());
+			fetch("farmacia/stock/files-serverside/transferencia.php", {
+				method: "POST",
+				body
+			})
+				.then(response => response.json())
+				.then(response => {
+					if (response.error) {
+						throw new Error(response.error);
+					}
+					
+					return swal({
+						type: "success",
+						title: "¡HECHO!",
+						text: response.success,
+						confirmButtonText: "Listo"
+					}, () => {
+						// Limpiamos las listas despegables
+						$("#sucursal-destino").val("");
+						$("#sucursal-destino").change();
+						$("#sucursal-destino > option").remove();
+						$("#sucursal-origen").val($("#sucursal-origen > option:first").val());
+						$("#sucursal-origen").change();
+						$("#sucursal-origen > option:not(:first)").change();
 
-					fetch("farmacia/stock/files-serverside/transferencia.php", {
-						method: "POST",
-						body
-					})
-						.then(response => response.json())
-						.then(response => {
-							if (response.error) {
-								throw new Error(response.error);
-							}
-							
-							return swal({
-								type: "success",
-								title: "¡HECHO!",
-								text: response.success,
-								confirmButtonText: "Listo"
-							}, () => {
-								// Limpiamos las listas despegables
-								$("#sucursal-destino").val("");
-								$("#sucursal-destino").change();
-								$("#sucursal-destino > option").remove();
-								$("#sucursal-origen").val($("#sucursal-origen > option:first").val());
-								$("#sucursal-origen").change();
-								$("#sucursal-origen > option:not(:first)").change();
+						// Limpiamos la tabla de productos seleccionados
+						$("#dataTableProductosSeleccionados").DataTable().clear().draw();
 
-								// Limpiamos la tabla de productos seleccionados
-								$("#dataTableProductosSeleccionados").DataTable().clear().draw();
-
-								// Actualizamos la referencia temporal de los traspasos
-								localStorage.setItem("id_transferencia_temporal", randomStr());
-							});
-						})
-						.catch(error => console.error(error));
-				/* }
-			}); */
+						// Actualizamos la referencia temporal de los traspasos
+						localStorage.setItem("id_transferencia_temporal", randomStr());
+					});
+				})
+				.catch(error => console.error(error));
 		});
 
 		// Guardamos el id temporal de las transferencias
