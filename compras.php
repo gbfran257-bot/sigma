@@ -229,7 +229,7 @@ function nuevaCompra(){
 
 		$('#btn_agregar').click(function(e){
 			// Verificamos que el formulario este completo
-			if ($("#producto").val() === null || $("#select-proveedores").val() === "" || $("#costoU").val() === "" || $("#cantidad").val() === "" || $("#lote").val() === "" || $("#caducidad").val() === "") {
+			if (($("#producto").val() === null || $("#select-proveedores").val() === "" || $("#costoU").val() === "" || $("#cantidad").val() === "" || $("#lote").val() === "" || $("#caducidad").val() === "") && !COMPRA['eliminacion_reciente']) {
 				return swal("¡Oops!", "Completa los datos del formulario para contirnuar.", "info");
 			}
 
