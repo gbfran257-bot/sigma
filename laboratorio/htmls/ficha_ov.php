@@ -49,7 +49,7 @@
   <p>Factura emitida</p>
   <button class="btn" onclick="closeAlert()">Aceptar</button>
 </div>
-<div class="modal-dialog modal-lg" role="document" id="contenido_ficha_consulta">
+<div class="modal-dialog modal-lg" role="document" id="contenido_ficha_consulta" style="width: 1200px;">
     <div class="modal-content animated flipInY">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
