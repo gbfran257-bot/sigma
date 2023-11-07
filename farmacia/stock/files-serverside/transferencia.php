@@ -60,7 +60,7 @@ try {
             //Actualizamos la existencia del stock existente
             $query_suma_stock = "UPDATE stock_has_bach shb
                                  LEFT JOIN stock s ON shb.id_stock = s.id
-                                 SET existencias = existencias + {$transferencia_temporal['cantidad_transferir']}, fecha_update = NOW(), contador = contador + 1, cantidad = cantidad + {$transferencia_temporal['cantidad_transferir']}
+                                 SET existencias = existencias + {$transferencia_temporal['cantidad_transferir']}, fecha_update = NOW(), contador = contador + 1, cantidad = {$transferencia_temporal['cantidad_transferir']}
                                  WHERE shb.id_Producto = {$transferencia_temporal['id_producto']} AND Lote = '{$transferencia_temporal['lote']}' AND s.id_su = {$transferencia_temporal['id_sucursal_destino']}";
 
             if (!$resultado_query_suma = mysqli_query($horizonte, $query_suma_stock)) {
