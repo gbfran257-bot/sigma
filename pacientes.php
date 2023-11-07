@@ -3240,30 +3240,12 @@ include_once 'recursos/datauser.php';
 										// Enviamos la petición para guardar usuario - fecha - hora de quién dió de alta el estudio
 										nuevoHistorial($('#aleatorio_ov').val(), 3)
 										.then(response => {
-											swal({
-												type: "success",
-												title: "¡HECHO!",
-												text: "Historial creado exitosamente.",
-												showConfirmButton: false,
-												timer: 1800
-											});
-										})
-										.catch(error => {
-											swal({
-												type: "error",
-												title: "¡Ocurrió un error!",
-												text: error.message,
-												showConfirmButton: false,
-												tiemr: 1800
-											});
-										});
-
-										setTimeout(() => {
-											$('#clickme').click();
-											$btn.button('reset');
-											$('#btn_cancel1').show();
-											$('#myModal4').modal('hide');
-											swal({
+											setTimeout(() => {
+												$('#clickme').click();
+												$btn.button('reset');
+												$('#btn_cancel1').show();
+												$('#myModal4').modal('hide');
+												swal({
 													title: "VENTA REALIZADA",
 													text: "¿Deseas imprimir el ticket de venta " + datil[1] + "?",
 													type: "success",
@@ -3384,7 +3366,8 @@ include_once 'recursos/datauser.php';
 													});
 													swal.close();
 												});
-										}, 2000);
+											}, 2000);
+										});
 									} else {
 										alert(datil[0]);
 									}
