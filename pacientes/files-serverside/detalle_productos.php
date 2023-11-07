@@ -11,7 +11,7 @@ while ( $row = mysql_fetch_row($result) ){
 	echo"<tr style='color:black;' class='$row[11]'>
 			<td>$cont</td>
 			<td>$row[0]</td>
-			<td>x $row[2]</td>
+			<td>$$row[1] x $row[2]</td>
 		</tr> \n"; 
 } 
 echo "</table> \n"; 
