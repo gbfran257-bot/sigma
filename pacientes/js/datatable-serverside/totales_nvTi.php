@@ -1,6 +1,6 @@
 <?php
 require("../../../Connections/horizonte.php");
-	$aColumns = array('vc.id_vc' , 'a.nombre_a', 't.tipo_concepto_tc','CONCAT_WS(" x ", c.concepto_to, cantidad)', 'vc.precio_vc', 'vc.precio_vc', 'vc.id_vc', 'c.id_tipo_concepto_to', 'd.nombre_d' );
+	$aColumns = array('vc.id_vc' , 'a.nombre_a', 't.tipo_concepto_tc','CONCAT(concepto_to, " $", precio_vc, " x ", cantidad)', 'vc.precio_vc', 'precio_vc * cantidad', 'vc.id_vc', 'c.id_tipo_concepto_to', 'd.nombre_d',);
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos vc');
