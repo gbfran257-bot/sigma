@@ -1,0 +1,1 @@
+ALTER TABLE stock_has_bach ADD es_traspaso TINYINT(1) NOT NULL DEFAULT 0;
