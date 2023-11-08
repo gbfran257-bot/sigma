@@ -167,6 +167,12 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                             <?php if ($permisos[34]) { ?> <li><a href="#"><i class="fa fa-product-hunt"></i> PRODUCTOS</a></li> <?php } ?>
                             <?php if ($permisos[35]) { ?> <li style="white-space:nowrap;"><a href="#"><i class="fa fa-dollar"></i> CORTE DE CAJA</a></li> <?php } ?>
                             <?php if ($permisos[36]) { ?> <li><a href="stock.php"><i class="fa fa-stack-exchange"></i> STOCK</a></li> <?php } ?>
+                            
+                            <!--Se agrega la opción de traspasos. Queda pendiente hacer la verificación del permiso requerido para visualizar esta opción-->
+                            <?php if (true) : ?>
+                                <li><a href="traspasos.php"><i class="fa fa-exchange"></i> TRASPASOS</a></li>
+                            <?php endif; ?>
+
                             <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>
                         <li style="white-space:nowrap;"><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
 
