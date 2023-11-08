@@ -50,8 +50,8 @@ try {
             // Insertamos el nuevo stock
             $fecha = date("Y-m-d H:i:s");
             $referencia_compra = implode("", explode("-", $fecha)) . "-1";
-            $query_nuevo_stock = "INSERT INTO stock_has_bach(referencia_compra, id_stock, Lote, fecha_expiracion, id_Producto, costo_unitario, cantidad, estatus, existencias, contador, usuario_registro, fecha_update, fecha_registro)
-                                  VALUES('{$referencia_compra}', {$transferencia_temporal['id_sucursal_destino']}, '{$stock['Lote']}', '{$stock['fecha_expiracion']}', {$stock['id_Producto']}, {$stock['costo_unitario']}, {$transferencia_temporal['cantidad_transferir']}, 9, {$transferencia_temporal['cantidad_transferir']}, 1, {$id_usuario}, '{$fecha}', '{$fecha}')";
+            $query_nuevo_stock = "INSERT INTO stock_has_bach(referencia_compra, id_stock, Lote, fecha_expiracion, id_Producto, costo_unitario, cantidad, estatus, existencias, contador, usuario_registro, fecha_update, fecha_registro, es_traspaso)
+                                  VALUES('{$referencia_compra}', {$transferencia_temporal['id_sucursal_destino']}, '{$stock['Lote']}', '{$stock['fecha_expiracion']}', {$stock['id_Producto']}, {$stock['costo_unitario']}, {$transferencia_temporal['cantidad_transferir']}, 9, {$transferencia_temporal['cantidad_transferir']}, 1, {$id_usuario}, '{$fecha}', '{$fecha}', 1)";
 
             if (!$resultado_nuevo_stock = mysqli_query($horizonte, $query_nuevo_stock)) {
                 throw new Exception(mysqli_error($horizonte));
