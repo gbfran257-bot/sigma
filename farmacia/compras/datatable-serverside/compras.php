@@ -2,7 +2,7 @@
 require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
      
-    $aColumns = array('s.id', 's.id','s.referencia_compra','g.nombre_generico_med', 'c.concepto_to', 's.Lote','su.nombre_su',  's.cantidad','es.estatus_est', 's.fecha_expiracion', 's.costo_unitario','CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))','s.existencias');
+    $aColumns = array('s.id', 's.id','s.referencia_compra','g.nombre_generico_med', 'c.concepto_to', 's.Lote','su.nombre_su',  's.cantidad', 's.fecha_expiracion', 's.costo_unitario','CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))');
     // DB tables to use 
     $aTables = array( 'stock_has_bach s');
      
@@ -135,7 +135,7 @@ require("../../../funciones/php/values.php");
 		$row1 = array();
         for ( $j=0 ; $j<count($aColumns) ; $j++ ) { if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; } else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; } }
 
-        $row[1]="<span id='$row[0]' onClick='resumenCompra(this.id, \"$row[2]\");'class='btn btn-primary' ><i class='fa fa-eye' ></i></span>";
+        $row[0]="<span id='$row[1]' onClick='resumenCompra(this.id, \"$row[2]\");'class='btn btn-primary' ><i class='fa fa-eye' ></i></span>";
 
         if($row[8] == "PENDIENTE"){
             $row[8] ="<span id='$row[0]' onClick='estatus(this.id)' style='cursor:pointer; text-decoration:underline;'>PENDIENTE</span>";
@@ -155,14 +155,15 @@ require("../../../funciones/php/values.php");
             $row[9]= $fechaCadu;
         }
 
-        $id_stock = $row[0];
-       $row[0]= $hh;
+        $id_stock = $row[1];
+       /* $row[0]= $hh; */
 
        // Consultamos el proveedor del producto
        $query_proveedor_producto = "SELECT nombre_p AS proveedor FROM pacientes p LEFT JOIN stock_has_bach shb ON MD5(p.id_p) = shb.id_proveedor WHERE shb.id = {$id_stock}";
        $resultado_query_proovedor_producto = mysql_query($query_proveedor_producto, $horizonte) or die (mysql_error());
        $proveedor = mysql_fetch_object($resultado_query_proovedor_producto)->proveedor;
-       $row[13] = $proveedor == "" || $proveedor == null ? "Sin proveedor" : $proveedor;
+       $row[11] = $proveedor == "" || $proveedor == null ? "Sin proveedor" : $proveedor;
+       $row[12] = "<button type='button' id='' class='btn btn-success btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
 		
 		$output['aaData'][] = $row;
     }
