@@ -43,6 +43,11 @@
         <?php if ($_SERVER['REQUEST_URI'] == "/sigma/stock.php") : ?>
             <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
+
+        <!--Compras-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/sigma/compras.php") : ?>
+            <div id="modal_ver_factura_compra" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
     <?php else : ?>
         <!--Laboratorio-->
         <?php if ($_SERVER['REQUEST_URI'] == "/laboratorio.php") : ?>
@@ -63,6 +68,11 @@
         <!--Stock-->
         <?php if ($_SERVER['REQUEST_URI'] == "/stock.php") : ?>
             <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
+
+        <!--Compras-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/compras.php") : ?>
+            <div id="modal_ver_factura_compra" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
     <?php endif; ?>
     </body>

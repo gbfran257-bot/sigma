@@ -163,7 +163,13 @@ require("../../../funciones/php/values.php");
        $resultado_query_proovedor_producto = mysql_query($query_proveedor_producto, $horizonte) or die (mysql_error());
        $proveedor = mysql_fetch_object($resultado_query_proovedor_producto)->proveedor;
        $row[11] = $proveedor == "" || $proveedor == null ? "Sin proveedor" : $proveedor;
-       $row[12] = "<button type='button' onclick='verFacturaCompra(this);' class='btn btn-success btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
+
+       $query_factura_compra = "SELECT nombre_factura FROM compra_factura WHERE referencia_compra = '{$row[2]}'";
+       $resultado_query_factura_compra = mysql_query($query_factura_compra, $horizonte) or die (mysql_error());
+       $class_factura = mysql_num_rows($resultado_query_factura_compra) == 0 ? "btn-danger" : "btn-success";
+       $nombre_factura = mysql_fetch_object($resultado_query_factura_compra)->nombre_factura;
+       $facturado = $class_factura == "btn-danger" ? 0 : 1;
+       $row[12] = "<button type='button' onclick='verFacturaCompra(this, {$facturado}, \"{$nombre_factura}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
 		
 		$output['aaData'][] = $row;
     }
