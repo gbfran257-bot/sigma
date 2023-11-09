@@ -163,7 +163,7 @@ require("../../../funciones/php/values.php");
        $resultado_query_proovedor_producto = mysql_query($query_proveedor_producto, $horizonte) or die (mysql_error());
        $proveedor = mysql_fetch_object($resultado_query_proovedor_producto)->proveedor;
        $row[11] = $proveedor == "" || $proveedor == null ? "Sin proveedor" : $proveedor;
-       $row[12] = "<button type='button' id='' class='btn btn-success btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
+       $row[12] = "<button type='button' onclick='verFacturaCompra(this);' class='btn btn-success btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
 		
 		$output['aaData'][] = $row;
     }
