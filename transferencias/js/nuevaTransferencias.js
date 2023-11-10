@@ -1,0 +1,1 @@
+const nuevaTransferencia = () => window.open("stock.php?nueva_transferencia=true", "_blank");

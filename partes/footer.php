@@ -40,7 +40,7 @@
         <?php endif; ?>
 
         <!--Stock-->
-        <?php if ($_SERVER['REQUEST_URI'] == "/sigma/stock.php") : ?>
+        <?php if ($_SERVER['REQUEST_URI'] == "/sigma/stock.php" || $_SERVER['REQUEST_URI'] == "/sigma/stock.php?nueva_tranferencia=true") : ?>
             <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 
@@ -66,7 +66,7 @@
         <?php endif; ?>
 
         <!--Stock-->
-        <?php if ($_SERVER['REQUEST_URI'] == "/stock.php") : ?>
+        <?php if ($_SERVER['REQUEST_URI'] == "/stock.php" || $_SERVER['REQUEST_URI'] == "/stock.php?nueva_tranferencia=true") : ?>
             <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 

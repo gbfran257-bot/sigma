@@ -129,5 +129,6 @@
 <?php include_once("./partes/footer.php"); ?>
 
 <script src="./transferencias/js/transferencias.js"></script>
+<script src="./transferencias/js/nuevaTransferencias.js"></script>
 
 </html>

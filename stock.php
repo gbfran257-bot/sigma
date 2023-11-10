@@ -134,6 +134,11 @@ $(document).ready(function(e) {
 	var oTableP = $('#dataTablePrincipal').DataTable({
 		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+			// Verificamos si se redireccionó a la página para realizar una nueva transferencia
+			if (window.location.search.includes("nueva_transferencia=true")) {
+				$("span.btn-primary:first").click();
+			}
+
 			$("#caducidad").button();
 			$("#existencias").button();
 

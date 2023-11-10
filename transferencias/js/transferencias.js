@@ -77,7 +77,6 @@ const initDataTablePrincipal = () => {
                 "name": "idU",
                 "value": $('#id_user').val()
             });
-            console.log(aoData);
 		},
         "oLanguage": {
 			"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
