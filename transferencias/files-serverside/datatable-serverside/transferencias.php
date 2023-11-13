@@ -3,7 +3,7 @@
 require("../../../Connections/horizonte2.php");
 require("../../../funciones/php/values.php");
 
-$aColumns = array('s.id', 's.id', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', 'su.nombre_su',  's.cantidad', 's.fecha_expiracion', 's.costo_unitario', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.id', 's.id', 's.id');
+$aColumns = array('s.id', 's.id', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', 's.id', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 's.fecha_expiracion', 'su.nombre_su', 's.id', 's.id', 'id_Producto');
 
 $aTables = array('stock_has_bach s');
 
@@ -170,6 +170,15 @@ while ($aRow = mysqli_fetch_array($rResult)) {
 
     $id_stock = $row[1];
 
+    // Consultamos la sucursal de origen //
+    $query_datos_transferencia_temporal = "SELECT s.nombre_su AS sucursal_origen
+                                            FROM sucursales s
+                                            LEFT JOIN transferencia_temporal tt ON tt.id_sucursal_origen = s.id_su
+                                            LEFT JOIN stock_has_bach shb ON shb.referencia_traspaso_temporal = tt.id_temporal AND shb.id_Producto = tt.id_producto
+                                            WHERE shb.id = {$id_stock}";
+    $resultado_query_sucursal_origen = mysqli_query($horizonte, $query_datos_transferencia_temporal) or die(mysqli_error($horizonte));
+    $row[6] = $resultado_query_sucursal_origen->fetch_object()->sucursal_origen;
+
     // Consultamos el proveedor del producto
     $query_proveedor_producto = "SELECT nombre_p AS proveedor FROM pacientes p LEFT JOIN stock_has_bach shb ON MD5(p.id_p) = shb.id_proveedor WHERE shb.id = {$id_stock}";
     $resultado_query_proovedor_producto = mysqli_query($horizonte, $query_proveedor_producto) or die(mysqli_error($horizonte));
@@ -181,7 +190,9 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     $class_factura = mysqli_num_rows($resultado_query_factura_compra) == 0 ? "btn-danger" : "btn-success";
     $nombre_factura = mysqli_fetch_object($resultado_query_factura_compra)->nombre_factura;
     $facturado = $class_factura == "btn-danger" ? 0 : 1;
-    $row[12] = "<button type='button' onclick='verFacturaCompra(this, {$facturado}, \"{$nombre_factura}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
+    $row[13] = "<button type='button' onclick='verFacturaCompra(this, {$facturado}, \"{$nombre_factura}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
+
+    $row[12] = "Sin receptor";
 
     $output['aaData'][] = $row;
 }

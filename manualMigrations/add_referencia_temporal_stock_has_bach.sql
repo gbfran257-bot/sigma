@@ -1,0 +1,1 @@
+ALTER TABLE `stock_has_bach` ADD `referencia_traspaso_temporal` VARCHAR(28) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ;
