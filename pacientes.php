@@ -1339,14 +1339,12 @@ include_once 'recursos/datauser.php';
 	}
 
 	const getTitulares = (idIgnorar = 0) => {
-		console.log(idIgnorar);
 		fetch("pacientes/files-serverside/getTitulares.php?id_ignorar=" + idIgnorar)
 			.then(response => response.json())
 			.then(titulares => {
 				if (titulares.error) {
 					throw new Error(titulares.error);
 				}
-				console.log(titulares);
 				$("#select-titular-tarjeton").empty();
 				titulares.forEach((titular) => $("#select-titular-tarjeton").append(titular));
 			})
@@ -1385,6 +1383,43 @@ include_once 'recursos/datauser.php';
 				});
 
 				$("#nombre_p, #apaterno_p, #amaterno_p").on("input", () => $("#input-titular-tarjeton").val(`${$("#nombre_p").val()} ${$("#apaterno_p").val()} ${$("#amaterno_p").val()}`));
+
+				// Configuramos el agregar pacientes facturables
+				$("#nuevo_cliente").click(() => {
+					$("#modal_nuevo_cliente").load("pacientes/htmls/nuevo-cliente.php", (response, status, xhr) => {
+						if (status === "success") {
+							getClientes(parseInt($("#id_paciente_v").val()))
+							.then(response => $(".cliente").click(() => verificarClientesSeleccionados()))
+							.catch(error => swal("ERROR", error.message, "error"));
+							
+							$("#agregar-nuevo-cliente").click(() => {
+								agregarCliente()
+								.then(response => {
+									swal({
+										type: "success",
+										title: "HECHO",
+										text: "Cliente agregado correctamente",
+										timer: 1800,
+										showConfirmButton: false
+									});
+									$("#agregar-cliente-volver").click();
+									$("#table_body_adicionales tr").remove();
+									
+									// Actualizamos los clientes facturables seleccionados
+									getClientesFacturablesPaciente(parseInt($("#id_paciente_v").val())).catch(error => swal("ERROR", error.message, "error"));
+								})
+								.catch(error => swal("ERROR", error.message, "error"));
+							});
+
+							// Configuración del modal
+							$("#modal_nuevo_cliente").modal("show");
+							$('#modal_nuevo_cliente').on('hidden.bs.modal', (e) => {
+								$("#modal_nuevo_cliente .modal-content").remove();
+								$("#modal_nuevo_cliente").empty();
+							});
+						}
+					});
+				});
 
 				$.fn.datepicker.defaults.autoclose = true;
 				$('#id_usr_reg').val($('#id_user').val());
