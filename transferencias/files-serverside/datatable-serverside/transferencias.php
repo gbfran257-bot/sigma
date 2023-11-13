@@ -185,7 +185,8 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     $proveedor = mysqli_fetch_object($resultado_query_proovedor_producto)->proveedor;
     $row[11] = $proveedor == "" || $proveedor == null ? "Sin proveedor" : $proveedor;
 
-    $query_factura_compra = "SELECT nombre_factura FROM compra_factura WHERE referencia_compra = '{$row[2]}'";
+    $referencia = str_replace(" ", "_", str_replace(":", "_", $row[2]));
+    $query_factura_compra = "SELECT nombre_factura FROM compra_factura WHERE referencia_compra = '{$referencia}'";
     $resultado_query_factura_compra = mysqli_query($horizonte, $query_factura_compra) or die(mysqli_error($horizonte));
     $class_factura = mysqli_num_rows($resultado_query_factura_compra) == 0 ? "btn-danger" : "btn-success";
     $nombre_factura = mysqli_fetch_object($resultado_query_factura_compra)->nombre_factura;

@@ -48,6 +48,11 @@
         <?php if ($_SERVER['REQUEST_URI'] == "/sigma/compras.php") : ?>
             <div id="modal_ver_factura_compra" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
+
+        <!--Transferencias-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/sigma/transferencias.php") : ?>
+            <div id="modal_ver_factura_compra" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
     <?php else : ?>
         <!--Laboratorio-->
         <?php if ($_SERVER['REQUEST_URI'] == "/laboratorio.php") : ?>
@@ -72,6 +77,11 @@
 
         <!--Compras-->
         <?php if ($_SERVER['REQUEST_URI'] == "/compras.php") : ?>
+            <div id="modal_ver_factura_compra" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
+
+        <!--Transferencias-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/transferencias.php") : ?>
             <div id="modal_ver_factura_compra" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
     <?php endif; ?>

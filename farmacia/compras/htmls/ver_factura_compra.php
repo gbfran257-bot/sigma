@@ -19,8 +19,6 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-success no_document no_nota no_receta no_forma_i" form="form-registro" id="btn_agregar">Agregar</button>
-            <button type="submit" class="btn btn-success hidden" form="form-registro" id="btn_pagar">Pagar</button>
             <button type="button" class="btn btn-warning no_document no_nota no_receta no_forma_i" data-dismiss="modal" id="btn_cancel_registro">Cancelar</button>
         </div>
     </div>
