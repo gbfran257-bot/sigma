@@ -6105,4 +6105,3 @@ if (isset($_GET['to_h'])) {
 <script src="./pacientes/js/getUsoCFDI.js"></script>
 <script src="./pacientes/js/getClientes.js"></script>
 <script src="./pacientes/js/clientesFacturables.js"></script>
-<script src="./pacientes/js/getAdicionales.js"></script>
