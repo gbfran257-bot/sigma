@@ -268,21 +268,7 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 						title: "¡HECHO!",
 						text: response.success,
 						confirmButtonText: "Listo"
-					}, () => {
-						// Limpiamos las listas despegables
-						$("#sucursal-destino").val("");
-						$("#sucursal-destino").change();
-						$("#sucursal-destino > option").remove();
-						$("#sucursal-origen").val($("#sucursal-origen > option:first").val());
-						$("#sucursal-origen").change();
-						$("#sucursal-origen > option:not(:first)").change();
-
-						// Limpiamos la tabla de productos seleccionados
-						$("#dataTableProductosSeleccionados").DataTable().clear().draw();
-
-						// Actualizamos la referencia temporal de los traspasos
-						localStorage.setItem("id_transferencia_temporal", randomStr());
-					});
+					}, () => window.location.reload());
 				})
 				.catch(error => console.error(error));
 		});
@@ -499,6 +485,10 @@ const agregarTransferenciaTemporalProducto = (producto, cantidadTranferir, idPro
 		
 		// Volvemos a cargar la información de la tabla de productos seleccionados
 		$("#dataTableProductosSeleccionados").DataTable().ajax.reload();
+
+		// Bloqueamos las listas despegables
+		$("#sucursal-origen").attr("disabled", true);
+		$("#sucursal-destino").attr("disabled", true);
 	})
 	.catch(error =>console.error(error));
 };
