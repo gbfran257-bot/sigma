@@ -29,7 +29,7 @@ try {
 
         $producto_seleccionado = [
             "producto" => $producto->producto,
-            "codigo_barras" => $producto->codigo_barras,
+            "nombre_generico" => $producto->nombre_generico,
             "lote" => $producto->lote,
             "sucursal_origen" => $sucursal_origen->nombre_su,
             "sucursal_destino" => $sucursal_destino->nombre_su,

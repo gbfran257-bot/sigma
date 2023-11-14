@@ -43,9 +43,7 @@ $id_del_user = $_SESSION['id'];
                             <thead id="my_head">
                                 <tr class="bg-info">
                                     <th align="center" id="clickmePr">PRODUCTOS DISPONIBLES</th>
-                                    <th align="center">CÓDIGO DE BARRAS</th>
-                                    <th align="center">ÁREA&nbsp;</th>
-                                    <th align="center">PRECIO</th>
+                                    <th align="center">NOMBRE GENÉRICO</th>
                                     <th align="center">LOTE</th>
                                     <th align="center">STOCK</th>
                                     <th align="center">CADUCIDAD</th>
@@ -53,6 +51,23 @@ $id_del_user = $_SESSION['id'];
                             </thead>
                             <tbody align="left" id="tbody-datatable-productos">
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>
+                                        <input type="text" class="form-control input-sm" placeholder="Producto">
+                                    </th>
+                                    <th>
+                                        <input type="text" class="form-control input-sm" placeholder="Nombre genérico">
+                                    </th>
+                                    <th>
+                                        <input type="text" class="form-control input-sm" placeholder="Lote">
+                                    </th>
+                                    <th>
+                                        <input type="text" class="form-control input-sm" placeholder="Stock">
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                     <div class="row" style="margin-top: 1rem;">
@@ -60,7 +75,7 @@ $id_del_user = $_SESSION['id'];
                             <thead id="my_head">
                                 <tr class="bg-warning">
                                     <th align="center" id="clickmePr">PRODUCTO</th>
-                                    <th align="center">CÓDIGO DE BARRAS</th>
+                                    <th align="center">NOMBRE GENÉRICO</th>
                                     <th align="center">LOTE</th>
                                     <th align="center">CANTIDAD A TRANSFERIR</th>
                                     <th align="center">ORIGEN</th>
@@ -78,6 +93,9 @@ $id_del_user = $_SESSION['id'];
             </form>
         </div>
         <div class="modal-footer">
+            <button class="btn btn-primary" type="button" id="print-hoja-entrega">
+                <i class="fa fa-print"></i>
+            </button>
             <button type="submit" class="btn btn-success no_document no_nota no_receta no_forma_i" id="btn_trans">Tranferir</button>
             <!-- <button type="submit" class="btn btn-success hidden" form="form-registro" id="btn_pagar">Pagar</button> -->
             <button type="button" class="btn btn-warning no_document no_nota no_receta no_forma_i" data-dismiss="modal" id="btn_cancel_registro">Cancelar</button>

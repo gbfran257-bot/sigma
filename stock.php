@@ -347,7 +347,7 @@ const getProductosSeleccionados = () => {
 		},
 		columns: [
 			{ data: 'producto'},
-			{ data: 'codigo_barras'},
+			{ data: 'nombre_generico'},
 			{ data: 'lote'},
 			{ data: 'cantidad_transferir'},
 			{ data: 'sucursal_origen' },
@@ -386,13 +386,22 @@ const getProductosSucursal = (idSucursal) => {
 		},
 		columns: [
 			{ data: "producto" },
-			{ data: "codigo_barras" },
-			{ data: "area" },
-			{ data: "precio" },
+			{ data: "nombre_generico" },
 			{ data: "lote" },
 			{ data: "stock" },
 			{ data: "caducidad" },
 		]
+	});
+
+	$("#dataTableProductos_filter").hide();
+
+	dataTableProductos.columns().every(function () {
+		var that = this;
+		$('input', this.footer()).on('keyup change', function () {
+			if (that.search() !== this.value) {
+				that.search(this.value).draw();
+			}
+		});
 	});
 
 	// Configuramos la funcionalidad de agregar productos

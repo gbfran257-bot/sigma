@@ -12,7 +12,7 @@ try {
     require("../../../Connections/horizonte2.php");
 
     // Verificamos si ya hay una transferencia previa del producto seleccionado
-    $query_verificar_transferencia = "SELECT COUNT(producto) AS existencia FROM transferencia_temporal WHERE id_temporal = '{$id_transferencia_temporal}' AND codigo_barras = '{$producto_seleccionado->codigo_barras}' AND lote = '{$producto_seleccionado->lote}'";
+    $query_verificar_transferencia = "SELECT COUNT(producto) AS existencia FROM transferencia_temporal WHERE id_temporal = '{$id_transferencia_temporal}' AND id_producto = {$id_producto_seleccionado}";
     if (!$resultado__verificar_transferencia = mysqli_query($horizonte, $query_verificar_transferencia)) {
         throw new Exception(mysqli_error($horizonte));
     }
@@ -22,9 +22,9 @@ try {
     // si existe una transferencia previa actualizamos la cantidad a transferir sino hacemos el insert normal
     $query = "";
     if ($existe_transferencia_producto == 1) {
-        $query = "UPDATE transferencia_temporal SET cantidad_transferir = {$cantidad_transferir}, id_sucursal_destino = {$id_sucursal_destino} WHERE id_temporal = '{$id_transferencia_temporal}' AND codigo_barras = '{$producto_seleccionado->codigo_barras}' AND lote = '{$producto_seleccionado->lote}'";
+        $query = "UPDATE transferencia_temporal SET cantidad_transferir = {$cantidad_transferir}, id_sucursal_destino = {$id_sucursal_destino} WHERE id_temporal = '{$id_transferencia_temporal}' AND id_producto = {$id_producto_seleccionado}";
     } else {
-        $query = "INSERT INTO transferencia_temporal VALUES('{$id_transferencia_temporal}', '{$nombre_producto_seleccionado}', '{$producto_seleccionado->codigo_barras}', '{$producto_seleccionado->lote}', '{$producto_seleccionado->caducidad}', {$cantidad_transferir}, {$id_sucursal_origen}, {$id_sucursal_destino}, {$id_producto_seleccionado})";
+        $query = "INSERT INTO transferencia_temporal VALUES('{$id_transferencia_temporal}', '{$nombre_producto_seleccionado}', '{$producto_seleccionado->nombre_generico}', '{$producto_seleccionado->lote}', '{$producto_seleccionado->caducidad}', {$cantidad_transferir}, {$id_sucursal_origen}, {$id_sucursal_destino}, {$id_producto_seleccionado})";
     }
 
     if (!$resultado_query = mysqli_query($horizonte, $query)) {

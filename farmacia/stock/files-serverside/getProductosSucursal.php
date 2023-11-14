@@ -8,16 +8,14 @@ try {
     $query_productos_sucursal = "SELECT
                                     c.id_to AS id_producto,
                                     c.concepto_to AS producto,
-                                    codigo_barras_to AS codigo_barras,
-                                    nombre_a AS area,
-                                    precio_to AS precio,
+                                    m.nombre_generico_med AS nombre_generico,
                                     Lote AS lote,
                                     existencias AS stock,
                                     DATE_FORMAT(fecha_expiracion, '%d-%m-%Y') AS caducidad
                                 FROM stock_has_bach shb
                                 LEFT JOIN stock s ON shb.id_stock = s.id
                                 LEFT JOIN conceptos c ON shb.id_Producto = c.id_to
-                                LEFT JOIN areas a ON c.id_area_to = a.id_a
+                                LEFT JOIN medicamentos m ON c.id_medicamento_g = m.id_med
                                 WHERE s.id_su = {$id_sucursal}
                                 ORDER BY producto";
 
@@ -29,9 +27,7 @@ try {
     while ($producto = mysqli_fetch_object($resultado_query_productos_sucursal)) {
         array_push($productos_sucursal, [
             "producto" => "<span id='producto-seleccionado-temporal' id_p='{$producto->id_producto}'>{$producto->producto}</span>",
-            "codigo_barras" => $producto->codigo_barras,
-            "area" => $producto->area,
-            "precio" => $producto->precio,
+            "nombre_generico" => $producto->nombre_generico,
             "lote" => $producto->lote,
             "stock" => $producto->stock,
             "caducidad" => $producto->caducidad,
