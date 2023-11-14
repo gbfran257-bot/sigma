@@ -148,7 +148,7 @@ while ($aRow = mysqli_fetch_array($rResult)) {
         }
     }
 
-    $row[0] = "<span id='$row[1]' onClick='resumenCompra(this.id, \"$row[2]\");'class='btn btn-primary' ><i class='fa fa-eye' ></i></span>";
+    $row[0] = "<span onClick='resumenTransferencias(\"$row[2]\");'class='btn btn-primary' ><i class='fa fa-eye' ></i></span>";
 
     if ($row[8] == "PENDIENTE") {
         $row[8] = "<span id='$row[0]' onClick='estatus(this.id)' style='cursor:pointer; text-decoration:underline;'>PENDIENTE</span>";
