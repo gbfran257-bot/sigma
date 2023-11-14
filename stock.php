@@ -492,25 +492,13 @@ const agregarTransferenciaTemporalProducto = (producto, cantidadTranferir, idPro
 	.then(response => response.json())
 	.then(response => {
 		if (response.error) {
-			swal({
-				type: "error",
-				title: "¡ERROR!",
-				text: response.error,
-				confirmButtonText: "De acuerdo"
-			}, () => {
-				// Volvemos a cargar la información de la tabla de productos seleccionados
-				$("#dataTableProductosSeleccionados").DataTable().ajax.reload();
-			});
-		}
-		swal({
-			type: "success",
-			title: "¡HECHO!",
-			text: response.success,
-			confirmButtonText: "Listo"
-		}, () => {
 			// Volvemos a cargar la información de la tabla de productos seleccionados
 			$("#dataTableProductosSeleccionados").DataTable().ajax.reload();
-		});
+			throw new Error(response.error);
+		}
+		
+		// Volvemos a cargar la información de la tabla de productos seleccionados
+		$("#dataTableProductosSeleccionados").DataTable().ajax.reload();
 	})
 	.catch(error =>console.error(error));
 };
