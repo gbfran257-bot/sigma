@@ -300,6 +300,29 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 	}});
 }
 
+const eliminarTransferenciaTemporal = (idProducto) => {
+	const body = new FormData();
+	body.append("id_producto", idProducto);
+	body.append("id_temporal", localStorage.getItem("id_transferencia_temporal"));
+	fetch("farmacia/stock/files-serverside/eliminarTransferenciaTemporal.php", {
+		method: "POST",
+		body,
+	})
+		.then(response => response.json())
+		.then(respuesta => {
+			if (respuesta.error) {
+				throw new Error(respuesta.error);
+			}
+			
+			swal({
+				type: "success",
+				title: "¡HECHO!",
+				text: respuesta.success,
+			}, () => $("#dataTableProductosSeleccionados").DataTable().ajax.reload());
+		})
+		.catch(error => console.error(error));
+};
+
 const randomStr = () => {
 	let ans = '';
 	const arr = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ";

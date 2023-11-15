@@ -27,6 +27,7 @@ try {
         $sucursal_origen = mysqli_fetch_object($resultado_query_sucursal_origen);
         $sucursal_destino = mysqli_fetch_object($resultado_query_sucursal_destino);
 
+        $id_producto = md5($producto->id_producto);
         $producto_seleccionado = [
             "producto" => $producto->producto,
             "nombre_generico" => $producto->nombre_generico,
@@ -34,7 +35,7 @@ try {
             "sucursal_origen" => $sucursal_origen->nombre_su,
             "sucursal_destino" => $sucursal_destino->nombre_su,
             "cantidad_transferir" => $producto->cantidad_transferir,
-            "acciones" => "<button type'button' class='btn btn-sm bg-danger' onClick=''>Eliminar</button>"
+            "acciones" => "<button type='button' class='btn btn-sm bg-danger' onClick='eliminarTransferenciaTemporal(\"{$id_producto}\");'><i class=\"fa fa-trash\"></i></button>"
         ];
         array_push($productos_seleccionados, $producto_seleccionado);
     }
