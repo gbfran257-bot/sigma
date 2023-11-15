@@ -296,9 +296,33 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 
 		$('#myModal').modal('show');
 		$('#myModal').on('shown.bs.modal',function(e){});
-		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
+		$('#myModal').on('hidden.bs.modal', function (e) {
+			// Función para eliminar las transferencias temporales al cancelar la orden de transferencias
+			cancelarOrdenTransferencias()
+				.then(() => {
+					$(".modal-content").remove();
+					$("#myModal").empty();
+				})
+				.catch(error => console.error(error));
+		});
 	}});
 }
+
+const cancelarOrdenTransferencias = async () => {
+	const body = new FormData();
+	body.append("id_temporal", localStorage.getItem("id_transferencia_temporal"));
+	await fetch("farmacia/stock/files-serverside/cancelarOrdenTransferencias.php", {
+		method: "POST",
+		body,
+	})
+		.then(response => response.json())
+		.then(respuesta => {
+			if (respuesta.error) {
+				throw new Error(respuesta.error);
+			}
+		})
+		.catch(error => console.error(error));
+};
 
 const eliminarTransferenciaTemporal = (idProducto) => {
 	const body = new FormData();

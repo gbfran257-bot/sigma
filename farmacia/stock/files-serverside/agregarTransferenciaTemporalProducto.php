@@ -12,7 +12,7 @@ try {
     require("../../../Connections/horizonte2.php");
 
     // Verificamos si ya hay una transferencia previa del producto seleccionado
-    $query_verificar_transferencia = "SELECT COUNT(producto) AS existencia FROM transferencia_temporal WHERE id_temporal = '{$id_transferencia_temporal}' AND id_producto = {$id_producto_seleccionado}";
+    $query_verificar_transferencia = "SELECT COUNT(producto) AS existencia FROM transferencia_temporal WHERE id_temporal = '{$id_transferencia_temporal}' AND id_producto = {$id_producto_seleccionado} AND lote = '{$producto_seleccionado->lote}'";
     if (!$resultado__verificar_transferencia = mysqli_query($horizonte, $query_verificar_transferencia)) {
         throw new Exception(mysqli_error($horizonte));
     }
