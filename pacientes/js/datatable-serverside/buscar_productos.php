@@ -71,9 +71,9 @@ require("../../../funciones/php/values.php");
 
 	if($con_membresia>0){//Tiene membresía vigente
 		if($urgencia==1){//Nocturno
-			$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', 'e.precio_mu', 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
+			$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', 'e.precio_mu', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')');
 		}else{
-			$aColumns = array('e.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'e.precio_m', 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
+			$aColumns = array('e.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'e.precio_m', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')');
 		}
 		// DB tables to use 
 		$aTables = array( 'conceptos e');
@@ -89,13 +89,13 @@ require("../../../funciones/php/values.php");
 		while ($fila = mysql_fetch_array($query)) {
 			$lista = $lista.','.$fila['id_concepto_es'];
 		};//echo $lista;
-		$sWhere = "WHERE e.id_tipo_concepto_to = 5 and s1.id_su = $idSucu GROUP by e.concepto_to asc";
+		$sWhere = "WHERE e.id_tipo_concepto_to = 5 and s1.id_su = $idSucu";
 	}else{
 		if($_GET['idConvenio']==0){//Sin convenios
 			if($urgencia==1){//Nocturno
-				$aColumns = array('e.concepto_to','e.codigo_barras_to', 'a.nombre_a', $precio_ur, 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
+				$aColumns = array('e.concepto_to','e.codigo_barras_to', 'a.nombre_a', $precio_ur, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')' );
 			}else{
-				$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', $precio_nor, 'c.convenio_cv', 'e.id_to', 'c.id_cv' );
+				$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', $precio_nor, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')' );
 			}
 			// DB tables to use 
 			$aTables = array( 'conceptos e');
@@ -115,9 +115,9 @@ require("../../../funciones/php/values.php");
 		}
 		else{//Con algún convenio
 			if($urgencia==1){
-				$aColumns = array('c.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'acc.precio_urgencia_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb');
+				$aColumns = array('c.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'acc.precio_urgencia_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')');
 			}else{
-				$aColumns = array('c.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'acc.precio_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb');
+				$aColumns = array('c.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'acc.precio_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')');
 			}
 			// DB tables to use 
 			$aTables = array( 'conceptos_beneficios cb');
@@ -187,7 +187,8 @@ require("../../../funciones/php/values.php");
         $sWhere .= "AND (";
         for ( $i=0 ; $i<count($aColumns) ; $i++ )
         {
-            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string( $_GET['sSearch'] )."%' OR ";
+			$busqueda = "%" . htmlentities($_GET['sSearch']) . "%";
+            $sWhere .= $aColumns[$i]." LIKE ".$busqueda." OR ";
         }
         $sWhere = substr_replace( $sWhere, "", -3 );
         $sWhere .= ')';
@@ -198,9 +199,28 @@ require("../../../funciones/php/values.php");
     {
         if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' )
         {
-            if ( $sWhere == "" ) { $sWhere = "WHERE "; }
-            else { $sWhere .= " AND "; }
-            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+			// Filtrado especial para el lote y el stock
+			if ( $sWhere == "" ) { $sWhere = "WHERE "; }
+			else { $sWhere .= " AND "; }
+			
+			$busqueda = "%" . htmlentities($_GET['sSearch_' . $i]) . "%";
+
+			if ($i == 4) {
+				if (count($aColumns) == 10) {
+					$sWhere .= $aColumns[7]." LIKE '".$busqueda."' ";
+				} else {
+					$sWhere .= $aColumns[11]." LIKE '".$busqueda."' ";
+				}
+			} elseif ($i == 5) {
+				if (count($aColumns) == 10) {
+					$sWhere .= $aColumns[8]." LIKE '".$busqueda."' ";
+				} else {
+					$sWhere .= $aColumns[12]." LIKE '".$busqueda."' ";
+				}
+			} else {
+				$sWhere .= $aColumns[$i]." LIKE '".$busqueda."' ";
+			}
+
         }
     }
      
@@ -211,7 +231,7 @@ require("../../../funciones/php/values.php");
 		$sJoin
         $sWhere
         $sOrder
-        $sLimit";
+        $sLimit" . " GROUP by e.concepto_to asc";
 		// echo $sQuery ;
      
     $rResult = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
@@ -284,19 +304,11 @@ require("../../../funciones/php/values.php");
 		}
 		
 		// Recorremos la última columna para poder agregar las columnas de lote, stock y caducidad //
-		$row[7] = $row[4];
-		
-		// Realizamos las consultas para obtener el lote, stock y caducidad del producto //
-		$id_producto = intval($row[5]);
-		$query_lote_stock_caducidad = "SELECT Lote AS lote, existencias AS stock, DATE_FORMAT(fecha_expiracion, '%d-%m-%Y') AS caducidad FROM stock_has_bach WHERE id_Producto = {$id_producto}";
-		
-		mysql_select_db($database_horizonte, $horizonte);
-		$resultado_query_lote_stock_caducidad = mysql_query($query_lote_stock_caducidad, $horizonte) or die (mysql_error());
-		$info_producto = mysql_fetch_object($resultado_query_lote_stock_caducidad);
-
-		$row[4] = $info_producto->lote;
-		$row[5] = $info_producto->stock;
-		$row[6] = $info_producto->caducidad;
+		$aux_row = $row[4];
+		$row[4] = $row[7];
+		$row[7] = $aux_row;
+		$row[5] = $row[8];
+		$row[6] = $row[9];
 
 		$output['aaData'][] = $row;	
     }     
