@@ -42,6 +42,7 @@
         <!--Stock-->
         <?php if ($_SERVER['REQUEST_URI'] == "/sigma/stock.php" || $_SERVER['REQUEST_URI'] == "/sigma/stock.php?nueva_transferencia=true") : ?>
             <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+            <div id="modal_impresion_hoja_entrega" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 
         <!--Compras-->
@@ -74,6 +75,7 @@
         <!--Stock-->
         <?php if ($_SERVER['REQUEST_URI'] == "/stock.php" || $_SERVER['REQUEST_URI'] == "/stock.php?nueva_transferencia=true") : ?>
             <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+            <div id="modal_impresion_hoja_entrega" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 
         <!--Compras-->
