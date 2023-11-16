@@ -11,11 +11,9 @@ const subirComprobanteFactura = (body) => {
 
             swal(
                 {
-                    icon: "success",
+                    type: "success",
                     title: "¡HECHO!",
                     text: respuesta.success,
-                    showConfirmButton: false,
-                    timer: 1800,
                 },
                 () => {
                     $("#dataTablePrincipal").DataTable().ajax.reload();
