@@ -14,6 +14,8 @@ const initSelectSucursales = () => {
             dataType: "json",
         },
     });
+
+    $("#sucursales-pedidos").change(() => $("#dataTablePrincipal").DataTable().ajax.reload().draw());
 };
 
 const initDataTablePrincipal = () => {
@@ -43,21 +45,19 @@ const initDataTablePrincipal = () => {
                 "bVisible": true,
             }, {
                 "bVisible": true,
+            }, {
+                "bVisible": true,
             },
         ],
         "sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true,
         select: false,
         "processing": false,
-		"sAjaxSource": "",
+		"sAjaxSource": "pedidos/files-serverside/datatable-serverside/pedidos.php",
         "fnServerParams": (aoData, fnCallback) => {
             const date = new Date();
             const fechaMin = $('#fechaDe').val() === undefined ? `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` : $('#fechaDe').val();
             const fechaMax = $('#fechaA').val() === undefined ? `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` : $('#fechaA').val();
-			aoData.push({
-                "name": "nombre",
-                "value": $('#top-search').val()
-            });
 			aoData.push({
                 "name": "accesoU",
                 "value": $('#acc_user').val()

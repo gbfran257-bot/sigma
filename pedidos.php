@@ -84,6 +84,7 @@
             <tr role="row" class="bg-primary">
                 <th id="clickme" style="vertical-align:middle;">#</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>PRODUCTO</th>
+                <th style="vertical-align:middle; white-space:nowrap;" nowrap>NOMBRE GENÉRICO</th>
                 <th id="clickme" style="vertical-align:middle;">EXISTENCIAS</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>MÁXIMOS</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>MÍNIMOS</th>
@@ -109,6 +110,7 @@
                 <th></th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
         </tfoot>
     </table>
@@ -119,5 +121,6 @@
 <?php include_once("./partes/footer.php"); ?>
 
 <script src="./pedidos/js/pedidos.js"></script>
+<script src="./pedidos/js/cambiarSurtir.js"></script>
 
 </html>
