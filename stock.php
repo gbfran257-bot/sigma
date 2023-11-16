@@ -312,24 +312,38 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 }
 
 const imprimirHojaEntrega = () => {
+	// Verificamos que haya traspasos temporales creados
+	if ($("#dataTableProductosSeleccionados").DataTable().rows().count() === 0) {
+		return swal("¡ERROR!", "Antes de imprimir la hoja de entrega debes hacer al menos un traspaso.", "error");
+	}
+
 	// Agregamos el contenido del modal de la impresión que nos va a permitir ver el documento
 	$("#modal_impresion_hoja_entrega").html('<div class="modal-dialog modal-lg" role="document" style="width: 1000px;"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4"></div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
 
-	/* $("#body_modal4").load("", (response, status, xhr) => { */
-		/* if (status === "success") { */
+	const fecha = new Date();
+	const fecha_movimiento = `${fecha.getFullYear()}-${fecha.getMonth() + 1}-${fecha.getDate()} ${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`;
+	const configuracion = {
+		id_usuario: $("#id_user").val(),
+		folio_transferencia: localStorage.getItem("id_transferencia_temporal"),
+		fecha_movimiento,
+		sucursal_origen: $("#sucursal-origen").children("option:selected").text(),
+		sucursal_destino: $("#sucursal-destino").children("option:selected").text(),
+		productos_seleccionados: JSON.stringify($("#dataTableProductosSeleccionados").DataTable().rows().data().toArray()),
+	};
+
+	$("#body_modal4").load("farmacia/stock/htmls/frame_hoja_entrega.php", configuracion, (response, status, xhr) => {
+		if (status === "success") {
 			$('#titulo_modal').text('IMPRESIÓN HOJA DE ENTREGA');
 			$("#body_modal4").height($("#myModal > div").children(".modal-content").height() - 100);
 			$('#modal_impresion_hoja_entrega').modal('show');
-
-			
 
 			// Comportamiento del modal
 			$('#modal_impresion_hoja_entrega').on('hidden.bs.modal', function(e) {
 				$("#modal_impresion_hoja_entrega").empty();
 				$('body').addClass('modal-open');
 			});
-		/* } */
-	/* }); */
+		}
+	});
 };
 
 const cancelarOrdenTransferencias = async () => {
