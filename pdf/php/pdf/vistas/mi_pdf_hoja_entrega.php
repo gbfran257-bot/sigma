@@ -57,8 +57,17 @@ mysqli_close($horizonte);
 </style>
 
 <!-- <page backtop="3mm" backbottom="3mm" backleft="3mm" backright="3mm"> -->
-<page>
-    <page_header></page_header>
+<page backtop="3mm" backbottom="3mm" backleft="3mm" backright="3mm">
+    <page_header></page_header> <!-- Define el header de la hoja -->
+
+    <page_footer> <!-- Define el footer de la hoja -->
+        <table id="footer">
+            <tr>
+                <td id="numero_pagina" align="right">PÁGINA [[page_cu]] / [[page_nb]] </td>
+                <td id="fecha_impresion">FECHA DE IMPRESIÓN: <?php echo $usuario . " " . $_GET['fm']; ?></td>
+            </tr>
+        </table>
+    </page_footer>
 
     <table id="contenido">
         <tr>
@@ -106,13 +115,4 @@ mysqli_close($horizonte);
             <td align="center" style="width: 250px; padding-top: 30px;">_________________________</td>
         </tr>
     </table>
-
-    <page_footer>
-        <table id="footer">
-            <tr>
-                <td id="numero_pagina" align="right">PÁGINA X / X</td>
-                <td id="fecha_impresion">FECHA DE IMPRESIÓN: <?php echo $usuario . " " . $_GET['fm']; ?></td>
-            </tr>
-        </table>
-    </page_footer>
 </page>
