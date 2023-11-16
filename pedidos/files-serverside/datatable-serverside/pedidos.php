@@ -1,7 +1,6 @@
 <?php
 
 require("../../../Connections/horizonte2.php");
-require("../../../funciones/php/values.php");
 
 $aColumns = array('s.id', 'c.concepto_to', 'g.nombre_generico_med', 's.existencias', 'mms.max_mm', 'mms.min_mm', 'CAST(mms.max_mm AS SIGNED) - CAST(s.existencias AS SIGNED)',);
 
@@ -13,7 +12,7 @@ $sJoin = 'left join conceptos c on c.id_to = s.id_Producto left join stock s1 on
 
 $resultAU = mysqli_query($horizonte, "SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[idU]'") or die(mysqli_error($horizonte));
 $rowAU = mysqli_fetch_row($resultAU);
-$id_suc = sqlValue($rowAU[1], "int");
+$id_suc = intval($rowAU[1]);
 
 switch ($rowAU[0]) {
     case 0: //Solo vé lo suyo
