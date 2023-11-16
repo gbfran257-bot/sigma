@@ -99,7 +99,7 @@ mysqli_close($horizonte);
         </tr>
         <tr>
             <td align="center" style="width: 250px; padding-top: 100px;">USUARIO EMISOR: <?php echo $usuario . " " . $_GET['fm']; ?></td>
-            <td align="center" style="width: 250px; padding-top: 100px;">USUARIO RECEPTOR: <?php echo $usuario . " " . $_GET['fm']; ?></td>
+            <td align="center" style="width: 250px; padding-top: 100px;">USUARIO RECEPTOR: </td>
         </tr>
         <tr>
             <td align="center" style="width: 250px; padding-top: 30px;">_________________________</td>
