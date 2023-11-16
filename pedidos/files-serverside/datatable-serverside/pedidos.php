@@ -12,7 +12,7 @@ $sJoin = 'left join conceptos c on c.id_to = s.id_Producto left join stock s1 on
 
 $resultAU = mysqli_query($horizonte, "SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[idU]'") or die(mysqli_error($horizonte));
 $rowAU = mysqli_fetch_row($resultAU);
-$id_suc = intval($rowAU[1]);
+$id_suc = intval($_GET['id_sucursal']);
 
 switch ($rowAU[0]) {
     case 0: //Solo vé lo suyo
