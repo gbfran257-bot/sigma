@@ -16,6 +16,7 @@ const verFacturaCompra = (button, compraFacturada, nombreFactura) => {
             idCompra,
             referencia,
             compraFacturada,
+            transferencias: true,
         },
         (response, status, xhr) => {
             if (status === "success") {

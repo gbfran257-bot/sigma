@@ -10,6 +10,10 @@
             <div>
                 <?php if ($_POST['compraFacturada']) : ?>
                     <img class="media_comprobante_factura" src="" alt="comprobante_factura">
+                <?php elseif ($_POST['transferencias']) : ?>
+                    <div>
+                        <p>Aún no hay comprobante.</p>
+                    </div>
                 <?php else : ?>
                     <div>
                         <label for="comprobante_factura" class="form-label">Comprobante</label>
