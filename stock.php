@@ -362,10 +362,11 @@ const cancelarOrdenTransferencias = async () => {
 		.catch(error => console.error(error));
 };
 
-const eliminarTransferenciaTemporal = (idProducto) => {
+const eliminarTransferenciaTemporal = (idProducto, lote) => {
 	const body = new FormData();
 	body.append("id_producto", idProducto);
 	body.append("id_temporal", localStorage.getItem("id_transferencia_temporal"));
+	body.append("lote", lote);
 	fetch("farmacia/stock/files-serverside/eliminarTransferenciaTemporal.php", {
 		method: "POST",
 		body,
@@ -380,7 +381,15 @@ const eliminarTransferenciaTemporal = (idProducto) => {
 				type: "success",
 				title: "¡HECHO!",
 				text: respuesta.success,
-			}, () => $("#dataTableProductosSeleccionados").DataTable().ajax.reload());
+			}, () => {
+				$("#dataTableProductosSeleccionados").DataTable().ajax.reload();
+				setTimeout(() => {
+					if ($("#dataTableProductosSeleccionados").DataTable().rows().count() === 0) {
+						$("#sucursal-origen").removeAttr("disabled");
+						$("#sucursal-destino").removeAttr("disabled");
+					}
+				}, 100);
+			});
 		})
 		.catch(error => console.error(error));
 };

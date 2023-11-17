@@ -3,10 +3,11 @@
 try {
     $id_producto = "\"" . $_POST['id_producto'] . "\"";
     $id_temporal = "\"" . $_POST['id_temporal'] . "\"";
+    $lote = "\"" . $_POST['lote'] . "\"";
 
     require("../../../Connections/horizonte2.php");
 
-    $query_eliminar_transferencia_temporal = "DELETE FROM transferencia_temporal WHERE id_temporal = {$id_temporal} AND MD5(id_producto) = {$id_producto}";
+    $query_eliminar_transferencia_temporal = "DELETE FROM transferencia_temporal WHERE (id_temporal = {$id_temporal} AND MD5(id_producto) = {$id_producto}) AND MD5(lote) = {$lote}";
 
     $resultado_query = mysqli_query($horizonte, $query_eliminar_transferencia_temporal);
 
