@@ -175,7 +175,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
 
                             <!--Se agrega la opción de pedido. Queda pendiente hacer la verificación del permiso requerido para visualizar esta opción-->
                             <?php if (true) : ?>
-                                <li><a href="pedidos.php"><i class="fa fa-shopping-cart"></i> PEDIDO</a></li>
+                                <li><a href="pedidos.php"><i class="fa fa-shopping-cart"></i> PEDIDOS</a></li>
                             <?php endif; ?>
 
                             <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>
