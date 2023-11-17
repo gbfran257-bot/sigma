@@ -6,7 +6,7 @@ try {
     include_once("../../Connections/horizonte2.php");
 
     // Obtenemos la referencia de la orden de los traspasos
-    $query_id_temporal = "SELECT referencia_traspaso_temporal AS id_temporal FROM stock_has_bach WHERE referencia_compra = \"{$referencia}\" LIMIT 1";
+    $query_id_temporal = "SELECT referencia_traspaso_temporal AS id_temporal FROM stock_has_bach WHERE referencia_compra = \"{$referencia}\" AND referencia_traspaso_temporal != \"\" LIMIT 1";
     $resultado_query_id_temporal = mysqli_query($horizonte, $query_id_temporal);
     $id_temporal = mysqli_fetch_object($resultado_query_id_temporal)->id_temporal;
 
