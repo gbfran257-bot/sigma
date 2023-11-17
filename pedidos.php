@@ -90,7 +90,7 @@
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>MÍNIMOS</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>SURTIR</th>
                 <th style="vertical-align:middle;">IMPRIMIR
-                    <button style="margin-left: 1rem;" class="btn btn-primary btn-sm">
+                    <button style="margin-left: 1rem;" class="btn btn-primary btn-sm" onclick="imprimirReportePedidos()">
                         <i class="fa fa-print"></i>
                     </button>
                 </th>
@@ -122,5 +122,7 @@
 
 <script src="./pedidos/js/pedidos.js"></script>
 <script src="./pedidos/js/cambiarSurtir.js"></script>
+<script src="./pedidos/js/imprimirReportePedidos.js"></script>
+<script src="./pedidos/js/generatePrintingDate.js"></script>
 
 </html>
