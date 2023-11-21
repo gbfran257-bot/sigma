@@ -421,7 +421,7 @@
 
             <? if (true) : ?>
                 <div class="col-md-2">
-                    <a href="transferencias.php"><img src="imagenes/menu/_stock.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"
+                    <a href="transferencias.php"><img src="imagenes/menu/_transferencias.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"
                     id="farmacia_transferencias"
                     onmouseenter="cambiar(this.id);" 
                     onmouseleave="returner(this.id);"
@@ -431,7 +431,7 @@
             
             <? if (true) : ?>
                 <div class="col-md-2">
-                    <a href="pedidos.php"><img src="imagenes/menu/_stock.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"
+                    <a href="pedidos.php"><img src="imagenes/menu/_pedidos.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"
                     id="farmacia_pedidos"
                     onmouseenter="cambiar(this.id);" 
                     onmouseleave="returner(this.id);"
@@ -744,8 +744,8 @@
         //farmacia
         'farmacia_corte_caja':'compra_a.png',
         'farmacia_stock':'stock_a.png',
-        'farmacia_transferencias':'stock_a.png',
-        'farmacia_pedidos':'stock_a.png',
+        'farmacia_transferencias':'transferencias_a.png',
+        'farmacia_pedidos':'pedidos_a.png',
         'farmacia_productos':'productos_a.png',
         'farmacia_medicamentos':'medicamentos_a.png',
 
@@ -840,8 +840,8 @@
             //farmacia
         'farmacia_corte_caja':'compras.png',
         'farmacia_stock':'_stock.png',
-        'farmacia_transferencias':'_stock.png',
-        'farmacia_pedidos':'_stock.png',
+        'farmacia_transferencias':'_transferencias.png',
+        'farmacia_pedidos':'_pedidos.png',
         'farmacia_productos':'Productos-01.png',
         'farmacia_medicamentos':'Medicamentos-01.png',
 
