@@ -14,27 +14,16 @@ $resultAU = mysqli_query($horizonte, "SELECT multisucursal_u, idSucursal_u from 
 $rowAU = mysqli_fetch_row($resultAU);
 $id_suc = intval($_GET['id_sucursal']);
 
+$fecha = date("Y-m-d");
 switch ($rowAU[0]) {
     case 0: //Solo vé lo suyo
-        if (isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != '') {
-            $sWhere = "WHERE (s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]') AND (s.es_traspaso = 0 AND s.id_stock = {$id_suc})";
-        } else {
-            $sWhere = "where s.usuario_registro = '$_GET[idU]' AND (s.es_traspaso = 0 AND s.id_stock = {$id_suc})";
-        }
+            $sWhere = "WHERE (s.fecha_update BETWEEN '2001-01-01' AND '$fecha' and s.usuario_registro = '$_GET[idU]') AND (s.es_traspaso = 0 AND s.id_stock = {$id_suc}) AND (existencias = 0 OR existencias < mms.max_mm)";
         break;
     case 2: //Ve todo lo de su sucursal y lo suyo
-        if (isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != '') {
-            $sWhere = "WHERE (s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]')) AND (s.es_traspaso = 0 AND s.id_stock = {$id_suc})";
-        } else {
-            $sWhere = "WHERE (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') AND (s.es_traspaso = 0 AND s.id_stock = {$id_suc})";
-        }
+            $sWhere = "WHERE (s.fecha_update BETWEEN '2001-01-01' AND '$fecha' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]')) AND (s.es_traspaso = 0 AND s.id_stock = {$id_suc}) AND (existencias = 0 OR existencias < mms.max_mm)";
         break;
     case 1: //Ve todo de todas las sucursales
-        if (isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != '') {
-            $sWhere = "WHERE (s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]') AND (s.es_traspaso = 0 AND s.id_stock = {$id_suc})";
-        } else {
-            $sWhere = "WHERE 1 = 1 AND (s.es_traspaso = 0 AND s.id_stock = {$id_suc})";
-        }
+            $sWhere = "WHERE (s.fecha_update BETWEEN '2001-01-01' AND '$fecha') AND (s.es_traspaso = 0 AND s.id_stock = {$id_suc}) AND (existencias = 0 OR existencias < mms.max_mm)";
         break;
     default:
         echo 'Ha ocurrido un error';
@@ -67,29 +56,6 @@ if (isset($_GET['iSortCol_0'])) {
     $sOrder = substr_replace($sOrder, "", -2);
     if ($sOrder == "ORDER BY") {
         $sOrder = "";
-    }
-}
-
-/*  * Filtering * NOTE this does not match the built-in DataTables filtering which does it * word by word on any field. It's possible to do here, but concerned about efficiency * on very large tables, and MySQL's regex functionality is very limited */
-
-if (isset($_GET['sSearch']) && $_GET['sSearch'] != "") {
-    $sWhere .= "AND (";
-    for ($i = 0; $i < count($aColumns); $i++) {
-        $sWhere .= $aColumns[$i] . " LIKE '%" . mysqli_real_escape_string($gaSql['link'], $_GET['sSearch']) . "%' OR ";
-    }
-    $sWhere = substr_replace($sWhere, "", -3);
-    $sWhere .= ')';
-}
-
-/* Individual column filtering */
-for ($i = 0; $i < count($aColumns); $i++) {
-    if (isset($_GET['bSearchable_' . $i]) && $_GET['bSearchable_' . $i] == "true" && $_GET['sSearch_' . $i] != '') {
-        if ($sWhere == "") {
-            $sWhere = "WHERE ";
-        } else {
-            $sWhere .= " AND ";
-        }
-        $sWhere .= $aColumns[$i] . " LIKE '%" . mysqli_real_escape_string($gaSql['link'], $_GET['sSearch_' . $i]) . "%' ";
     }
 }
 
