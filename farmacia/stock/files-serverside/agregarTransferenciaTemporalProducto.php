@@ -2,6 +2,7 @@
 
 try {
     $id_transferencia_temporal = $_POST['id_transferencia_temporal'];
+    $id_transferencia = $_POST['id_transferencia'];
     $cantidad_transferir = htmlentities($_POST['cantidad_transferir'], ENT_QUOTES, "utf-8");
     $id_sucursal_origen = intval(htmlentities($_POST['id_sucursal_origen'], ENT_QUOTES, "utf-8"));
     $id_sucursal_destino = intval(htmlentities($_POST['id_sucursal_destino'], ENT_QUOTES, "utf-8"));
@@ -20,11 +21,12 @@ try {
     $existe_transferencia_producto = mysqli_fetch_object($resultado__verificar_transferencia)->existencia;
 
     // si existe una transferencia previa actualizamos la cantidad a transferir sino hacemos el insert normal
+    $fecha = date("Y-m-d H:i:s");
     $query = "";
     if ($existe_transferencia_producto == 1) {
         $query = "UPDATE transferencia_temporal SET cantidad_transferir = {$cantidad_transferir}, id_sucursal_destino = {$id_sucursal_destino} WHERE id_temporal = '{$id_transferencia_temporal}' AND id_producto = {$id_producto_seleccionado}";
     } else {
-        $query = "INSERT INTO transferencia_temporal VALUES('{$id_transferencia_temporal}', '{$nombre_producto_seleccionado}', '{$producto_seleccionado->nombre_generico}', '{$producto_seleccionado->lote}', '{$producto_seleccionado->caducidad}', {$cantidad_transferir}, {$id_sucursal_origen}, {$id_sucursal_destino}, {$id_producto_seleccionado})";
+        $query = "INSERT INTO transferencia_temporal VALUES('{$id_transferencia_temporal}', '{$nombre_producto_seleccionado}', '{$producto_seleccionado->nombre_generico}', '{$producto_seleccionado->lote}', '{$producto_seleccionado->caducidad}', {$cantidad_transferir}, {$id_sucursal_origen}, {$id_sucursal_destino}, {$id_producto_seleccionado}, '{$fecha}', '{$id_transferencia}')";
     }
 
     if (!$resultado_query = mysqli_query($horizonte, $query)) {

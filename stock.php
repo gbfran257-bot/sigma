@@ -278,6 +278,7 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 
 		// Guardamos el id temporal de las transferencias
 		localStorage.setItem("id_transferencia_temporal", randomStr());
+		nuevoIdTransferencia();
 
 		// Llenamos la tabla de productos
 		getProductosSucursal(id_su);
@@ -310,6 +311,19 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 		});
 	}});
 }
+
+const nuevoIdTransferencia = async () => {
+	const id_transferencia = await fetch("farmacia/stock/files-serverside/nuevo_id_temporal.php")
+		.then(response => response.json())
+		.then(response => {
+			if (response.error) {
+				throw new Error(response.error);
+			}
+			return response.id_temporal;
+		})
+		.catch(error => console.error(error));
+	localStorage.setItem("id_transferencia", id_transferencia);
+};
 
 const imprimirHojaEntrega = () => {
 	// Verificamos que haya traspasos temporales creados
@@ -567,6 +581,7 @@ const getProductosSucursal = (idSucursal) => {
 const agregarTransferenciaTemporalProducto = (producto, cantidadTranferir, idProductoSeleccionado, nombreProductoSeleccionado) => {
 	const body = new FormData();
 	body.append("id_transferencia_temporal", localStorage.getItem("id_transferencia_temporal"));
+	body.append("id_transferencia", localStorage.getItem("id_transferencia"));
 	body.append("cantidad_transferir", cantidadTranferir);
 	body.append("id_sucursal_origen", $("#sucursal-origen").val());
 	body.append("id_sucursal_destino", $("#sucursal-destino").val());
