@@ -3,13 +3,13 @@
 require("../../../Connections/horizonte2.php");
 require("../../../funciones/php/values.php");
 
-$aColumns = array('s.id', 's.id', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', 's.id', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 's.fecha_expiracion', 'su.nombre_su', 's.id', 's.id', 'id_Producto');
+$aColumns = array('s.id', 'tt.id_transferencia', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', 's.id', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 's.fecha_expiracion', 'su.nombre_su', 's.id', 's.id', 's.id_Producto');
 
 $aTables = array('stock_has_bach s');
 
 $sIndexColumn = "s.id";
 
-$sJoin = 'left join conceptos c on c.id_to = s.id_Producto left join stock s1 on s1.id = s.id_stock left join usuarios u on u.id_u = s.usuario_registro left join sucursales su on su.id_su = s1.id_su left join medicamentos g on g.id_med = c.id_medicamento_g left join estatus es on es.id_est = s.estatus';
+$sJoin = 'left join transferencia_temporal tt on s.referencia_traspaso_temporal = tt.id_temporal left join conceptos c on c.id_to = s.id_Producto left join stock s1 on s1.id = s.id_stock left join usuarios u on u.id_u = s.usuario_registro left join sucursales su on su.id_su = s1.id_su left join medicamentos g on g.id_med = c.id_medicamento_g';
 
 $resultAU = mysqli_query($horizonte, "SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[idU]'") or die(mysqli_error($horizonte));
 $rowAU = mysqli_fetch_row($resultAU);
@@ -148,6 +148,7 @@ while ($aRow = mysqli_fetch_array($rResult)) {
         }
     }
 
+    $id_stock = $row[0];
     $row[0] = "<span onClick='resumenTransferencias(\"$row[2]\");'class='btn btn-primary' ><i class='fa fa-eye' ></i></span>";
 
     if ($row[8] == "PENDIENTE") {
@@ -167,8 +168,6 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     } else {
         $row[9] = $fechaCadu;
     }
-
-    $id_stock = $row[1];
 
     // Consultamos la sucursal de origen //
     $query_datos_transferencia_temporal = "SELECT s.nombre_su AS sucursal_origen
