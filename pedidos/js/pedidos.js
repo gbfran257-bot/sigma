@@ -1,6 +1,7 @@
 $(document).ready((e) => {
-    $('#breadc').html('<li><a href="index.php">HOME</a></li><li>FARMACIA</li><li class="active"><strong>PEDIDOS</strong></li><br><select class="form-control" id="sucursales-pedidos"></select>');
+    $('#breadc').html('<li><a href="index.php">HOME</a></li><li>FARMACIA</li><li class="active"><strong>PEDIDOS</strong></li><br><select style="width: 500px !important;" class="form-control" id="sucursales-pedidos"><option selected>-SELECCIONAR-</option></select><button id="generar_pedidos" class="btn btn-warning btn-sm" style="margin-left: 01rem;">Generar pedido</button>');
 	$('#my_search').removeClass('hidden'); $.fn.datepicker.defaults.autoclose = true;
+    $("#generar_pedidos").click(() => imprimirReportePedidos());
 
     initSelectSucursales();
 
@@ -110,23 +111,4 @@ const initDataTablePrincipal = () => {
     }).focus();
 	
     $('.filtro1Principal').addClass('hidden');
-    
-    const date = new Date();
-    $('#fechaDe').val(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`);
-    $('#fechaA').val(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`);
-
-	$('#radio1').click((e) =>{
-		$('#fechaDe').val(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`);
-        $('#fechaA').val(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`);
-        tablaPrincipal.draw();
-	});
-	
-	$('#radio2').click((e) =>{
-		$('#fechaDe').val('2000-01-01');
-        $('#fechaA').val(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`);
-        tablaPrincipal.draw();
-	});
-	
-	$('#fechaDe').on('changeDate', (e) => tablaPrincipal.draw());
-	$("#fechaA").on('changeDate', (e) => tablaPrincipal.draw());
 };
