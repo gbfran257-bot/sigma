@@ -338,7 +338,7 @@ const imprimirHojaEntrega = () => {
 	const fecha_movimiento = `${fecha.getFullYear()}-${fecha.getMonth() + 1}-${fecha.getDate()} ${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`;
 	const configuracion = {
 		id_usuario: $("#id_user").val(),
-		folio_transferencia: localStorage.getItem("id_transferencia_temporal"),
+		folio_transferencia: localStorage.getItem("id_transferencia"),
 		fecha_movimiento,
 		sucursal_origen: $("#sucursal-origen").children("option:selected").text(),
 		sucursal_destino: $("#sucursal-destino").children("option:selected").text(),

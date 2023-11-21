@@ -10,6 +10,7 @@ try {
         throw new Exception(mysqli_error($horizonte));
     }
 
+    $fecha = date("Ymd");
     $contador = intval(mysqli_num_rows($resultado_query)) + 1;
     $nuevo_id_temporal = $fecha . "-" . $contador;
     echo json_encode(['id_temporal' => $nuevo_id_temporal]);
