@@ -108,8 +108,12 @@
                 <th></th>
                 <th></th>
                 <th></th>
-                <th></th>
-                <th></th>
+                <th>
+                    <input type="text" id="nombre_generico" name="nombre_generico" class="form-control form-control-sm" style="text-transform: uppercase;" placeholder="NOMBRE GENÉRICO">
+                </th>
+                <th>
+                <input type="text" id="producto" name="producto" class="form-control form-control-sm" style="text-transform: uppercase;" placeholder="PRODUCTO">
+                </th>
                 <th></th>
                 <th></th>
                 <th></th>
