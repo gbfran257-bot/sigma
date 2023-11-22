@@ -83,7 +83,7 @@
         <thead id="cabecera_tBusquedaPrincipal">
             <tr role="row" class="bg-primary">
                 <th id="clickme" style="vertical-align:middle;"><button type='button' class='btn btn-default btn-md' id='nueva_transferencia' onClick='nuevaTransferencia()' title='Hacer una nueva transferencia'><i class='fa fa-exchange' aria-hidden='true'></i></button></th>
-                <th id="clickme" style="vertical-align:middle;">ID</th>
+                <th id="clickme" style="vertical-align:middle;">FOLIO</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>REFERENCIA</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>MED. GENERICO</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>PRODUCTO</th>
