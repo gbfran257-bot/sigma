@@ -94,15 +94,17 @@ const initDataTablePrincipal = () => {
 
     setTimeout(() => $('#clickme').click(), 500);
 	
+    $(".filtro1Principal").addClass("hidden");
+
 	//para los fintros individuales por campo de texto
-	/* tablaPrincipal.columns().every(() => {
-		var that = this;
-		$('input', this.footer()).on('keyup change', () => {
-			if (that.search() !== this.value) {
+	tablaPrincipal.columns().every(function() {
+        var that = this;
+        $('input', this.footer()).on('keyup change', function() {
+            if (that.search() !== this.value) {
                 that.search(this.value).draw();
             }
-		});
-	}); */
+        });
+    });
 	//fin filtros individuales por campo de texto
 
 	$('#top-search').keyup((e) => {

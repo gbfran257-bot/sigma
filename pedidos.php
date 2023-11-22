@@ -104,8 +104,12 @@
         <tfoot>
             <tr class="bg-primary">
                 <th></th>
-                <th></th>
-                <th></th>
+                <th>
+                    <input type="text" id="medicamento" name="medicamento" class="form-control form-control-sm" placeholder="Medicamento" style="text-transform: uppercase;" />
+                </th>
+                <th>
+                    <input type="text" id="nombre_generico" name="nombre_generico" class="form-control form-control-sm" placeholder="Nombre Genérico" style="text-transform: uppercase;" />
+                </th>
                 <th></th>
                 <th></th>
                 <th></th>

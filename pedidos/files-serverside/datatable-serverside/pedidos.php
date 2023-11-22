@@ -59,6 +59,29 @@ if (isset($_GET['iSortCol_0'])) {
     }
 }
 
+/*  * Filtering * NOTE this does not match the built-in DataTables filtering which does it * word by word on any field. It's possible to do here, but concerned about efficiency * on very large tables, and MySQL's regex functionality is very limited */
+
+if (isset($_GET['sSearch']) && $_GET['sSearch'] != "") {
+    $sWhere .= "AND (";
+    for ($i = 0; $i < count($aColumns); $i++) {
+        $sWhere .= $aColumns[$i] . " LIKE '%" . mysqli_real_escape_string($gaSql['link'], $_GET['sSearch']) . "%' OR ";
+    }
+    $sWhere = substr_replace($sWhere, "", -3);
+    $sWhere .= ')';
+}
+
+/* Individual column filtering */
+for ($i = 0; $i < count($aColumns); $i++) {
+    if (isset($_GET['bSearchable_' . $i]) && $_GET['bSearchable_' . $i] == "true" && $_GET['sSearch_' . $i] != '') {
+        if ($sWhere == "") {
+            $sWhere = "WHERE ";
+        } else {
+            $sWhere .= " AND ";
+        }
+        $sWhere .= $aColumns[$i] . " LIKE '%" . mysqli_real_escape_string($gaSql['link'], $_GET['sSearch_' . $i]) . "%' ";
+    }
+}
+
 /*  * SQL queries  * Get data to display */
 $sQuery = "
         SELECT SQL_CALC_FOUND_ROWS " . str_replace(" , ", " ", implode(", ", $aColumns)) . "
