@@ -15,6 +15,7 @@ try {
 
     $comprobante_factura = $_FILES['comprobante_factura'];
     $referencia = $_POST['referencia'];
+    $id_usuario = $_POST['id_usuario'];
 
     $tipo_archivo = explode(".", $comprobante_factura['name']);
     $fecha = date("Y-m-d");
@@ -25,7 +26,7 @@ try {
         throw new Exception("Ocurrió un error al subir el archivo.");
     }
 
-    $query_subir_comprobante = "INSERT INTO compra_factura(referencia_compra, nombre_factura) VALUES('{$referencia}', '{$nombre_comprobante_factura}')";
+    $query_subir_comprobante = "INSERT INTO compra_factura(referencia_compra, nombre_factura, id_usuario, fecha_hora) VALUES('{$referencia}', '{$nombre_comprobante_factura}', {$id_usuario}, '{$fecha} {$hora}')";
     if (!$resultado = mysqli_query($horizonte, $query_subir_comprobante)) {
         throw new Exception(mysqli_error($horizonte));
     }

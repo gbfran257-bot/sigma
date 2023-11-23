@@ -169,7 +169,13 @@ require("../../../funciones/php/values.php");
        $class_factura = mysql_num_rows($resultado_query_factura_compra) == 0 ? "btn-danger" : "btn-success";
        $nombre_factura = mysql_fetch_object($resultado_query_factura_compra)->nombre_factura;
        $facturado = $class_factura == "btn-danger" ? 0 : 1;
-       $row[12] = "<button type='button' onclick='verFacturaCompra(this, {$facturado}, \"{$nombre_factura}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
+
+       $query_usuario_subio_factura = "SELECT u.usuario_u AS usuario, fecha_hora FROM usuarios u LEFT JOIN compra_factura cf ON cf.id_usuario = u.id_u WHERE cf.referencia_compra= '{$row[2]}'";
+       $resultado_query_usuario_subio_factura = mysql_query($query_usuario_subio_factura, $horizonte);
+       $info_usuario = mysql_fetch_object($resultado_query_usuario_subio_factura);
+       $usuario_responsable = $info_usuario->usuario == "" ? $_GET['idU'] : $info_usuario->usuario;
+       $fecha_hora = $info_usuario->fecha_hora;
+       $row[12] = "<button type='button' onclick='verFacturaCompra(this, {$facturado}, \"{$nombre_factura}\", \"{$usuario_responsable}\", \"{$fecha_hora}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
 		
 		$output['aaData'][] = $row;
     }

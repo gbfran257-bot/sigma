@@ -196,7 +196,7 @@ $(document).ready(function(e) {
 	$("#fechaA").on('changeDate', function(e) { oTableP.draw(); });
 });
 
-const verFacturaCompra = (button, compraFacturada, nombreFactura) => {
+const verFacturaCompra = (button, compraFacturada, nombreFactura, usuario, fecha_hora) => {
 	const idCompra = parseInt($(button).parent().parent().children("td")[1].textContent);
 	const referencia = $(button).parent().parent().children("td")[2].textContent;
 
@@ -205,6 +205,8 @@ const verFacturaCompra = (button, compraFacturada, nombreFactura) => {
 		idCompra,
 		referencia,
 		compraFacturada,
+		usuario,
+		fecha_hora,
 	}, (response, status, xhr) => {
 		if (status === "success") {
 			// Función para enviar la imagen
@@ -213,6 +215,7 @@ const verFacturaCompra = (button, compraFacturada, nombreFactura) => {
 				const body = new FormData();
 				body.append("comprobante_factura", comprobante);
 				body.append("referencia", referencia);
+				body.append("id_usuario", usuario);
 				subirComprobanteFactura(body);
 			});
 

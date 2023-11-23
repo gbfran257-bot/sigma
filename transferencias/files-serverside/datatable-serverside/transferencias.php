@@ -193,7 +193,13 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     $class_factura = mysqli_num_rows($resultado_query_factura_compra) == 0 ? "btn-danger" : "btn-success";
     $nombre_factura = mysqli_fetch_object($resultado_query_factura_compra)->nombre_factura;
     $facturado = $class_factura == "btn-danger" ? 0 : 1;
-    $row[13] = "<button type='button' onclick='verFacturaCompra(this, {$facturado}, \"{$nombre_factura}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
+
+    $query_usuario_subio_factura = "SELECT u.usuario_u AS usuario, fecha_hora FROM usuarios u LEFT JOIN compra_factura cf ON cf.id_usuario = u.id_u WHERE cf.referencia_compra = '{$referencia}'";
+    $resultado_query_usuario_subio_factura = mysql_query($query_usuario_subio_factura, $horizonte);
+    $info_usuario = mysql_fetch_object($resultado_query_usuario_subio_factura);
+    $usuario_responsable = $info_usuario->usuario == "" ? $_GET['idU'] : $info_usuario->usuario;
+    $fecha_hora = $info_usuario->fecha_hora;
+    $row[13] = "<button type='button' onclick='verFacturaCompra(this, {$facturado}, \"{$nombre_factura}\", \"{$usuario_responsable}\", \"{$fecha_hora}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
 
     $query_receptor = "SELECT usuario_u FROM usuarios LEFT JOIN transferencia_temporal ON transferencia_temporal.id_usuario_receptor = usuarios.id_u WHERE transferencia_temporal.id_transferencia = '{$folio}' LIMIT 1";
     $resultado_query_receptor = mysqli_query($horizonte, $query_receptor);
