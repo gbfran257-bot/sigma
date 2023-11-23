@@ -1,0 +1,1 @@
+ALTER TABLE `transferencia_temporal` ADD `id_usuario_receptor` INT(10) UNSIGNED NOT NULL ;

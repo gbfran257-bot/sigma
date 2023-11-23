@@ -170,6 +170,7 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     }
 
     // Se coloca la funcionalidad de abrir el reporte de entrega de la transferencia
+    $folio = $row[1];
     $row[1] = "<a role=\"button\" onclick=\"verReporteEntregaTransferencia('{$row[1]}', 'Sin receptor', $_GET[idU]);\">{$row[1]}</a>";
 
     // Consultamos la sucursal de origen //
@@ -195,7 +196,11 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     $facturado = $class_factura == "btn-danger" ? 0 : 1;
     $row[13] = "<button type='button' onclick='verFacturaCompra(this, {$facturado}, \"{$nombre_factura}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
 
-    $row[12] = "Sin receptor";
+    $query_receptor = "SELECT usuario_u FROM usuarios LEFT JOIN transferencia_temporal ON transferencia_temporal.id_usuario_receptor = usuarios.id_u WHERE transferencia_temporal.id_transferencia = '{$folio}' LIMIT 1";
+    $resultado_query_receptor = mysqli_query($horizonte, $query_receptor);
+    $receptor = mysqli_fetch_object($resultado_query_receptor)->usuario_u;
+    $receptor = $receptor != "" ? $receptor : "Sin receptor";
+    $row[12] = "<a role=\"button\" onclick=\"modificarReceptorTransferencia('{$folio}', this);\">{$receptor}</a>";
 
     $output['aaData'][] = $row;
 }

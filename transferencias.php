@@ -139,5 +139,7 @@
 <script src="./transferencias/js/resumenTransferencias.js"></script>
 <script src="./transferencias/js/getDatosTransferencia.js"></script>
 <script src="./transferencias/js/verReporteEntregaTransferencias.js"></script>
+<script src="./transferencias/js/modificarReceptorTransferencia.js"></script>
+<script src="./transferencias/js/actualizarReceptorTransferencia.js"></script>
 
 </html>
