@@ -243,7 +243,7 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 		// Seleccionamos la sucursal por defecto
 		getSucursalPorDefecto(id_su);
 
-		$('#btn_trans').click(function(e){
+		$('#btn_trans').click(async function(e){
 			// Verificamos que haya traspasos temporales creados
 			if ($("#dataTableProductosSeleccionados").DataTable().rows().count() === 0) {
 				return swal("¡ERROR!", "Primero debes seleccionar al menos un medicamento para ser traspasado.", "error");
@@ -253,7 +253,7 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 			body.append("id_t_t", localStorage.getItem("id_transferencia_temporal"));
 			body.append("id_u", $("#id_user").val());
 
-			fetch("farmacia/stock/files-serverside/transferencia.php", {
+			const respuesta = await fetch("farmacia/stock/files-serverside/transferencia.php", {
 				method: "POST",
 				body
 			})
@@ -262,19 +262,34 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 					if (response.error) {
 						throw new Error(response.error);
 					}
-					
-					return swal({
-						type: "success",
-						title: "¡HECHO!",
-						text: response.success,
-						confirmButtonText: "Listo"
-					}, () => window.location.reload());
+					return response.success;
 				})
 				.catch(error => console.error(error));
-		});
 
-		// Función para imprimir la hoja de entrega
-		$("#print-hoja-entrega").click(() => imprimirHojaEntrega());
+			swal({
+				type: "success",
+				title: "¡HECHO!",
+				text: respuesta,
+				showConfirmButton: false,
+				timer: 1800,
+			});
+
+			setTimeout(() => {
+				swal({
+					type: "info",
+					title: "Hoja de entrega",
+					text: "¿Deseas imprimir la hoja de entrega?",
+					confirmButtonText: "Imprimir",
+					showCancelButton: true,
+					cancelButtonText: "No imprimir",
+				}, function(response) {
+					if (!response) {
+						return window.location.reload();
+					}
+					return imprimirHojaEntrega();
+				});
+			}, 2000);
+		});
 
 		// Guardamos el id temporal de las transferencias
 		localStorage.setItem("id_transferencia_temporal", randomStr());
@@ -355,6 +370,7 @@ const imprimirHojaEntrega = () => {
 			$('#modal_impresion_hoja_entrega').on('hidden.bs.modal', function(e) {
 				$("#modal_impresion_hoja_entrega").empty();
 				$('body').addClass('modal-open');
+				$("#myModal").modal("hide");
 			});
 		}
 	});
