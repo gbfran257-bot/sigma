@@ -235,6 +235,31 @@ const verFacturaCompra = (button, compraFacturada, nombreFactura, usuario, fecha
 	});
 };
 
+const eliminarFacturaCompra = referencia => {
+	const body = new FormData();
+	body.append("referencia_compra", referencia);
+	fetch("farmacia/compras/files-serverside/eliminar_factura_compra.php", {
+		method: "POST",
+		body,
+	})
+		.then(response => response.json())
+		.then(response => {
+			if (response.error) {
+				throw new Error(response.error);
+			}
+			
+			return swal({
+				type: "success",
+				title: "¡HECHO!",
+				text: response.success,
+			}, function () {
+				$("#dataTablePrincipal").DataTable().ajax.reload();
+				$("#btn_cancel_registro").click();
+			});
+		})
+		.catch(error => console.error(error));
+};
+
 const subirComprobanteFactura = (body) => {
 	fetch("farmacia/compras/files-serverside/subir_comprobante_factura.php", {
 		method: "POST",

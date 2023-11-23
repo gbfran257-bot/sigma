@@ -1,4 +1,4 @@
-const verFacturaCompra = (button, compraFacturada, nombreFactura) => {
+const verFacturaCompra = (button, compraFacturada, nombreFactura, usuario, fecha_hora) => {
     const idCompra = parseInt(
         $(button).parent().parent().children("td")[1].textContent
     );
@@ -17,6 +17,8 @@ const verFacturaCompra = (button, compraFacturada, nombreFactura) => {
             referencia,
             compraFacturada,
             transferencias: true,
+            usuario,
+            fecha_hora
         },
         (response, status, xhr) => {
             if (status === "success") {

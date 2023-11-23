@@ -25,8 +25,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <?php if ($_POST['compraFacturada'] && ($_SERVER['REQUEST_URI'] == "/sigma/farmacia/compras/htmls/ver_factura_compra.php" || $_SERVER['REQUEST_URI'] == "/farmacia/compras/htmls/ver_factura_compra.php.php")) : ?>
-                <button id="eliminar_factura_compra" type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar</button>
+            <?php if (!$_POST['transferencias'] && $_POST['compraFacturada']) : ?>
+                <button id="eliminar_factura_compra" type="button" class="btn btn-danger" onclick="eliminarFacturaCompra('<?php echo $_POST['referencia']; ?>');"><i class="fa fa-trash"></i> Eliminar</button>
             <?php endif; ?>
             <button type="button" class="btn btn-warning no_document no_nota no_receta no_forma_i" data-dismiss="modal" id="btn_cancel_registro">Cancelar</button>
         </div>
