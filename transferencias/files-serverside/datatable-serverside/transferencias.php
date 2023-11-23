@@ -207,7 +207,7 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     $receptor = $receptor != "" ? $receptor : "Sin receptor";
     $row[12] = "<a role=\"button\" onclick=\"modificarReceptorTransferencia('{$folio}', this);\">{$receptor}</a>";
 
-    $row[1] = "<a role=\"button\" onclick=\"verReporteEntregaTransferencia('{$row[1]}', '{$receptor}', $_GET[idU]);\">{$row[1]}</a>";
+    $row[1] = "<a role=\"button\" onclick=\"verReporteEntregaTransferencia('{$folio}', '{$receptor}', $_GET[idU]);\">{$folio}</a>";
 
     $output['aaData'][] = $row;
 }
