@@ -169,6 +169,9 @@ while ($aRow = mysqli_fetch_array($rResult)) {
         $row[9] = $fechaCadu;
     }
 
+    // Se coloca la funcionalidad de abrir el reporte de entrega de la transferencia
+    $row[1] = "<a role=\"button\" onclick=\"verReporteEntregaTransferencia('{$row[1]}', 'Sin receptor', $_GET[idU]);\">{$row[1]}</a>";
+
     // Consultamos la sucursal de origen //
     $query_datos_transferencia_temporal = "SELECT s.nombre_su AS sucursal_origen
                                             FROM sucursales s

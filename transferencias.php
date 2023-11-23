@@ -138,5 +138,6 @@
 <script src="./transferencias/js/subirComprobanteFactura.js"></script>
 <script src="./transferencias/js/resumenTransferencias.js"></script>
 <script src="./transferencias/js/getDatosTransferencia.js"></script>
+<script src="./transferencias/js/verReporteEntregaTransferencias.js"></script>
 
 </html>

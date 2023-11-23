@@ -54,6 +54,7 @@
         <?php if ($_SERVER['REQUEST_URI'] == "/sigma/transferencias.php") : ?>
             <div id="modal_ver_factura_compra" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
             <div id="modal_resumen_transferencia" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+            <div id="modal_reporte_entrega_transferencias" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 
         <!--Pedidos-->
@@ -92,6 +93,7 @@
         <?php if ($_SERVER['REQUEST_URI'] == "/transferencias.php") : ?>
             <div id="modal_ver_factura_compra" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
             <div id="modal_resumen_transferencia" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+            <div id="modal_reporte_entrega_transferencias" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 
         <!--Pedidos-->
