@@ -19,7 +19,9 @@
                 <?php else : ?>
                     <div>
                         <label for="comprobante_factura" class="form-label">Comprobante</label>
-                        <input class="form-control form-control-lg" id="comprobante_factura" type="file">
+                        <br>
+                        <span>Seleccione el archivo PDF, imagen JPG o PNG.</span>
+                        <input class="form-control form-control-lg" id="comprobante_factura" type="file" accept=".pdf, .png, .jpg">
                     </div>
                 <?php endif; ?>
             </div>
