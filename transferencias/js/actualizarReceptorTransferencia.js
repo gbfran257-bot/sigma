@@ -1,17 +1,14 @@
-const actualizarReceptorTransferencia = (folio, usuario) => {
+const actualizarReceptorTransferencia = async (folio, usuario) => {
     const body = new FormData();
     body.append("f", folio);
     body.append("u", usuario);
-    fetch("transferencias/files-serverside/actualizar_receptor_transferencia.php", {
-        method: "POST",
-        body,
-    })
-        .then(response => response.json())
-        .then(response => {
+    return await fetch("transferencias/files-serverside/actualizar_receptor_transferencia.php", { method: "POST", body, })
+        .then((response) => response.json())
+        .then((response) => {
             if (response.error) {
                 throw new Error(response.error);
             }
-            return swal("¡HECHO!", response.success, "success");
+            return response.success;
         })
-        .catch(error => console.error(error));
+        .catch((error) => console.error(error));
 };

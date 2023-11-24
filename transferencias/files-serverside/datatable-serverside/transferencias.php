@@ -204,8 +204,11 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     $query_receptor = "SELECT usuario_u FROM usuarios LEFT JOIN transferencia_temporal ON transferencia_temporal.id_usuario_receptor = usuarios.id_u WHERE transferencia_temporal.id_transferencia = '{$folio}' LIMIT 1";
     $resultado_query_receptor = mysqli_query($horizonte, $query_receptor);
     $receptor = mysqli_fetch_object($resultado_query_receptor)->usuario_u;
-    $receptor = $receptor != "" ? $receptor : "Sin receptor";
-    $row[12] = "<a role=\"button\" onclick=\"modificarReceptorTransferencia('{$folio}', this);\">{$receptor}</a>";
+    if (empty($receptor)) {
+        $row[12] = "<a role=\"button\" onclick=\"modificarReceptorTransferencia('{$folio}', this);\">PENDIENTE</a>";
+    } else {
+        $row[12] = "<span>{$receptor}</span>";
+    }
 
     $row[1] = "<a role=\"button\" onclick=\"verReporteEntregaTransferencia('{$folio}', '{$receptor}', $_GET[idU]);\">{$folio}</a>";
 
