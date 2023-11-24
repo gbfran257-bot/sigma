@@ -84,7 +84,7 @@ mysqli_close($horizonte);
     <table id="contenido">
         <tr>
             <td colspan="5" align="center" style="width: 100%; padding-bottom: 20px;">
-                <h3>REPORTE DE LA ENTREGA DE LA TRANSFERENCIA</h3>
+                <h3>REPORTE DE ENTREGA DE LA TRANSFERENCIA</h3>
             </td>
         </tr>
         <tr>
