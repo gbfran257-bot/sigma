@@ -1,0 +1,1 @@
+ALTER TABLE `transferencia_temporal` ADD `fecha_recepcion` DATETIME NOT NULL ;
