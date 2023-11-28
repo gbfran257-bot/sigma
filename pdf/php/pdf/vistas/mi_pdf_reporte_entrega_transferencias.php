@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set("America/Mexico_City");
+
 $folio = $_GET['f'];
 $receptor = $_GET['r'];
 $fecha_movimiento_impresion = date("Y-m-d H:i:s");
@@ -23,6 +25,10 @@ $sucursal_origen = mysqli_fetch_object($resultado_query_sucursal_origen)->nombre
 $query_sucursal_destino = "SELECT nombre_su FROM sucursales WHERE id_su = {$transferencias[0]['id_sucursal_destino']}";
 $resultado_query_sucursal_destino = mysqli_query($horizonte, $query_sucursal_destino);
 $sucursal_destino = mysqli_fetch_object($resultado_query_sucursal_destino)->nombre_su;
+
+$query_fecha_hora_recepcion = "SELECT fecha_recepcion FROM transferencia_temporal WHERE id_transferencia = \"{$folio}\" LIMIT 1";
+$resultado_query_fecha_hora_recepcion = mysqli_query($horizonte, $query_fecha_hora_recepcion);
+$fecha_hora_recepcion = mysqli_fetch_object($resultado_query_fecha_hora_recepcion)->fecha_recepcion;
 
 mysqli_close($horizonte);
 
@@ -120,7 +126,7 @@ mysqli_close($horizonte);
         </tr>
         <tr>
             <td align="center" style="width: 250px; padding-top: 100px;">USUARIO EMISOR: <?php echo $usuario . " " . $fecha_movimiento_impresion; ?></td>
-            <td align="center" style="width: 250px; padding-top: 100px;">USUARIO RECEPTOR: <?php echo $receptor . " " . $fecha_movimiento_impresion; ?></td>
+            <td align="center" style="width: 250px; padding-top: 100px;">USUARIO RECEPTOR: <?php echo $receptor . " " . $fecha_hora_recepcion; ?></td>
         </tr>
         <tr>
             <td align="center" style="width: 250px; padding-top: 30px;">_________________________</td>

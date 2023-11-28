@@ -7,7 +7,6 @@
             <table class="table table-hover">
                 <thead>
                     <th>#</th>
-                    <th>ID</th>
                     <th>Producto</th>
                     <th>Cantidad</th>
                     <th>Precio unitario</th>
@@ -20,7 +19,6 @@
                     <?php for ($i = 0; $i < count($transferencias); $i++) : ?>
                         <tr>
                             <td><?php echo $i + 1; ?></td>
-                            <td><?php echo $datos_stock[$i]['id']; ?></td>
                             <td><?php echo $transferencias[$i]['producto']; ?></td>
                             <td><?php echo $transferencias[$i]['cantidad']; ?></td>
                             <td>$<?php echo $datos_stock[$i]['precio_unitario']; ?></td>
@@ -29,7 +27,7 @@
                         <?php $total += intval($datos_stock[$i]['total']); ?>
                     <?php endfor; ?>
                     <tr>
-                        <td colspan="5"></td>
+                        <td colspan="4"></td>
                         <td>
                             <strong>$<?php echo $total; ?></strong>
                         </td>
