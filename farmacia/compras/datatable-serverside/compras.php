@@ -2,7 +2,7 @@
 require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
      
-    $aColumns = array('s.id', 's.id','s.referencia_compra','g.nombre_generico_med', 'c.concepto_to', 's.Lote','su.nombre_su',  's.cantidad', 'DATE_FORMAT(s.fecha_expiracion, "%d/%m/%Y")', 's.costo_unitario','CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))');
+    $aColumns = array('s.id', 's.referencia_compra','g.nombre_generico_med', 'c.concepto_to', 's.Lote','su.nombre_su',  's.cantidad', 'DATE_FORMAT(s.fecha_expiracion, "%d/%m/%Y")', 's.costo_unitario','CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))');
     // DB tables to use 
     $aTables = array( 'stock_has_bach s');
      
@@ -135,14 +135,12 @@ require("../../../funciones/php/values.php");
 		$row1 = array();
         for ( $j=0 ; $j<count($aColumns) ; $j++ ) { if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; } else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; } }
 
-        $row[0]="<span id='$row[1]' onClick='resumenCompra(this.id, \"$row[2]\");'class='btn btn-primary' ><i class='fa fa-eye' ></i></span>";
-
-        if($row[8] == "PENDIENTE"){
-            $row[8] ="<span id='$row[0]' onClick='estatus(this.id)' style='cursor:pointer; text-decoration:underline;'>PENDIENTE</span>";
-        }
+        $id_stock = $row[0];
+        $folio = $row[1];
+        $row[0]="<span id='{$id_stock}' onClick='resumenCompra(this.id, \"$folio\");'class='btn btn-primary' ><i class='fa fa-eye' ></i></span>";
 
        //fecha  de caducidad que viene de BD
-        $fechaCadu = substr($row[9],0,10);
+        $fechaCadu = substr($row[7],0,10);
         //le restamos una mes a la fecha de caducidad para poder compararla
         $Alertafecha = date('Y-m-d', strtotime($fechaCadu.'-1 month'));
          //sacar la fecha actual
@@ -150,33 +148,32 @@ require("../../../funciones/php/values.php");
 
         //verificamos si la fecha actual supera a la fecha de caducidad que tiene un mes restado
         if($now > $Alertafecha){
-            $row[9]= "<span class='btn btn-danger disabled' >".$fechaCadu."</span>";
+            $row[7]= "<span class='btn btn-danger disabled' >".$fechaCadu."</span>";
         }else{
-            $row[9]= $fechaCadu;
+            $row[7]= $fechaCadu;
         }
 
-        $id_stock = $row[1];
-       /* $row[0]= $hh; */
-
-       // Consultamos el proveedor del producto
-       $query_proveedor_producto = "SELECT nombre_p AS proveedor FROM pacientes p LEFT JOIN stock_has_bach shb ON MD5(p.id_p) = shb.id_proveedor WHERE shb.id = {$id_stock}";
-       $resultado_query_proovedor_producto = mysql_query($query_proveedor_producto, $horizonte) or die (mysql_error());
-       $proveedor = mysql_fetch_object($resultado_query_proovedor_producto)->proveedor;
-       $row[11] = $proveedor == "" || $proveedor == null ? "Sin proveedor" : $proveedor;
-
-       $query_factura_compra = "SELECT nombre_factura FROM compra_factura WHERE referencia_compra = '{$row[2]}'";
+       $query_factura_compra = "SELECT nombre_factura FROM compra_factura WHERE referencia_compra = '{$folio}'";
        $resultado_query_factura_compra = mysql_query($query_factura_compra, $horizonte) or die (mysql_error());
        $class_factura = mysql_num_rows($resultado_query_factura_compra) == 0 ? "btn-danger" : "btn-success";
        $nombre_factura = mysql_fetch_object($resultado_query_factura_compra)->nombre_factura;
        $facturado = $class_factura == "btn-danger" ? 0 : 1;
 
-       $query_usuario_subio_factura = "SELECT u.usuario_u AS usuario, fecha_hora FROM usuarios u LEFT JOIN compra_factura cf ON cf.id_usuario = u.id_u WHERE cf.referencia_compra= '{$row[2]}'";
+       $query_usuario_subio_factura = "SELECT u.usuario_u AS usuario, fecha_hora FROM usuarios u LEFT JOIN compra_factura cf ON cf.id_usuario = u.id_u WHERE cf.referencia_compra = '{$folio}'";
        $resultado_query_usuario_subio_factura = mysql_query($query_usuario_subio_factura, $horizonte);
        $info_usuario = mysql_fetch_object($resultado_query_usuario_subio_factura);
        $usuario_responsable = $info_usuario->usuario == "" ? $_GET['idU'] : $info_usuario->usuario;
        $fecha_hora = $info_usuario->fecha_hora;
-       $row[12] = "<button type='button' onclick='verFacturaCompra(this, {$facturado}, \"{$nombre_factura}\", \"{$usuario_responsable}\", \"{$fecha_hora}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
+       $row[10] = "<button type='button' onclick='verFacturaCompra(this, {$facturado}, \"{$nombre_factura}\", \"{$usuario_responsable}\", \"{$fecha_hora}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
 		
+       $row[1] = "<span>{$folio}<br>{$row[9]}</span>";
+
+       // Consultamos el proveedor del producto
+       $query_proveedor_producto = "SELECT nombre_p AS proveedor FROM pacientes p LEFT JOIN stock_has_bach shb ON MD5(p.id_p) = shb.id_proveedor WHERE shb.id = {$id_stock}";
+       $resultado_query_proovedor_producto = mysql_query($query_proveedor_producto, $horizonte) or die (mysql_error());
+       $proveedor = mysql_fetch_object($resultado_query_proovedor_producto)->proveedor;
+       $row[9] = $proveedor == "" || $proveedor == null ? "Sin proveedor" : $proveedor;
+
 		$output['aaData'][] = $row;
     }
 	

@@ -80,7 +80,6 @@
 <thead id="cabecera_tBusquedaPrincipal">
   <tr role="row" class="bg-primary">
 	  <th id="clickme" style="vertical-align:middle;"><button type='button' class='btn btn-default btn-xs' id='btnAddEstudio' onClick='nuevaCompra()' title='Agregar un nuevo estudio'><i class='fa fa-plus' aria-hidden='true'></i> COMPRA</button></th>
-	  <th id="clickme" style="vertical-align:middle;">ID</th>
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>REFERENCIA</th>
     <th style="vertical-align:middle; white-space:nowrap;" nowrap>MED. GENERICO</th>
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>PRODUCTO</th>
@@ -89,7 +88,6 @@
     <th style="vertical-align:middle;">CANTIDAD ENTRANTE</th>
     <th style="vertical-align:middle;">FECHA CADUCIDAD</th>
     <th style="vertical-align:middle;">COSTO UNITARIO</th>
-    <th style="vertical-align:middle;" nowrap>REGISTRO</th>
 	<th style="vertical-align:middle;" nowrap>PROVEEDOR</th>
 	<th style="vertical-align:middle;" nowrap>PDF</th>
   </tr>
@@ -97,7 +95,6 @@
 	<tfoot>
         <tr class="bg-primary">
             <th></th>
-			<th></th>
 			<th><input type="text" class="form-control input-sm" placeholder="Referencia" style="max-width:90px;"/></th>
 			<th><input type="text" class="form-control input-sm" placeholder="Med. generico"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="Producto"style="max-width:100px;" /></th>
@@ -106,7 +103,6 @@
             <th></th>
             <th></th>
             <th></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Usuario" style="max-width:100px;"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="Proveedor" style="max-width:100px;"/></th>
 			<th></th>
         </tr>
@@ -137,8 +133,8 @@ $(document).ready(function(e) {
 		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
-			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
-			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true},
+			{"bVisible":true},{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},{"bVisible":true},{"bVisible":true}, {"bVisible":true},
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
