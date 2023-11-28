@@ -507,13 +507,13 @@ function nuevaCompra(){
 		// Agregamos la función de redirigir a la página de pacientes en caso de que se quiera crear uno //
 		$("#redirect-nuevo-proveedor").click((e) => {
 			e.preventDefault();
-			window.location.href = "./pacientes.php?nuevo-proveedor=true";
+			window.open("./pacientes.php?nuevo-proveedor=true", "_blank");
 		});
 
 		// Agregamos la función de redirigir a la página de medicamentos en caso de que se quiera crear uno //
 		$("#redirect-nuevo-medicamento").click((e) => {
 			e.preventDefault();
-			window.location.href = "./catalogo_medicamentos.php?nuevo-medicamento=true";
+			window.open("./catalogo_medicamentos.php?nuevo-medicamento=true", "_blank");
 		});
 
 		// Agregamos la funcionalidad de cargar a todos los proveedores en la lista despegable //
