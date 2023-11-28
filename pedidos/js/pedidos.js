@@ -46,8 +46,6 @@ const initDataTablePrincipal = () => {
                 "bVisible": true,
             }, {
                 "bVisible": true,
-            }, {
-                "bVisible": true,
             },
         ],
         "sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 

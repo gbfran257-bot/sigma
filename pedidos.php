@@ -89,11 +89,6 @@
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>MÁXIMOS</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>MÍNIMOS</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>SURTIR</th>
-                <th style="vertical-align:middle;">IMPRIMIR
-                    <button style="margin-left: 1rem;" class="btn btn-primary btn-sm" onclick="imprimirReportePedidos()">
-                        <i class="fa fa-print"></i>
-                    </button>
-                </th>
             </tr>
         </thead>
         <tbody>
@@ -110,7 +105,6 @@
                 <th>
                     <input type="text" id="nombre_generico" name="nombre_generico" class="form-control form-control-sm" placeholder="Nombre Genérico" style="text-transform: uppercase;" />
                 </th>
-                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
