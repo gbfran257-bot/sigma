@@ -212,7 +212,7 @@ while ($aRow = mysqli_fetch_array($rResult)) {
         $row[12] = "<span>{$usuario_receptor}<br>{$receptor->fecha_recepcion}</span>";
     }
 
-    $row[1] = "<a role=\"button\" onclick=\"verReporteEntregaTransferencia('{$folio}', '{$usuario_receptor}', $_GET[idU]);\">{$folio}</a>";
+    $row[1] = "<a role=\"button\" onclick=\"verReporteEntregaTransferencia('{$folio}', '{$usuario_receptor}', $_GET[idU], '{$row[7]}');\">{$folio}</a>";
 
     $output['aaData'][] = $row;
 }

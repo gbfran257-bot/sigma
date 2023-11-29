@@ -5,7 +5,7 @@ date_default_timezone_set("America/Mexico_City");
 $folio = $_GET['f'];
 $receptor = $_GET['r'];
 $fecha_movimiento_impresion = date("Y-m-d H:i:s");
-
+$emisor_fecha_hora = $_GET['e'];
 $id_usuario = $_GET['idu'];
 
 require("../../../Connections/horizonte2.php");
@@ -125,7 +125,7 @@ mysqli_close($horizonte);
             </td>
         </tr>
         <tr>
-            <td align="center" style="width: 250px; padding-top: 100px;">USUARIO EMISOR: <?php echo $usuario . " " . $fecha_movimiento_impresion; ?></td>
+            <td align="center" style="width: 250px; padding-top: 100px;">USUARIO EMISOR: <?php echo $emisor_fecha_hora; ?></td>
             <td align="center" style="width: 250px; padding-top: 100px;">USUARIO RECEPTOR: <?php echo $receptor . " " . $fecha_hora_recepcion; ?></td>
         </tr>
         <tr>
