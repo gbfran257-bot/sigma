@@ -6,7 +6,7 @@ try {
 
     require("../../../Connections/horizonte2.php");
 
-    $query_update = "UPDATE conceptos SET precio_to = {$nuevo_precio} WHERE id_to = {$id_producto}";
+    $query_update = "UPDATE conceptos SET precio_to = {$nuevo_precio}, precio_mu = {$nuevo_precio}, precio_m = {$nuevo_precio} WHERE id_to = {$id_producto}";
 
     if (!$resultado_query_update = mysqli_query($horizonte, $query_update)) {
         throw new Exception(mysqli_error($horizonte));
