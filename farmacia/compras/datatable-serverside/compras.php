@@ -164,7 +164,7 @@ require("../../../funciones/php/values.php");
        $info_usuario = mysql_fetch_object($resultado_query_usuario_subio_factura);
        $usuario_responsable = $info_usuario->usuario == "" ? $_GET['idU'] : $info_usuario->usuario;
        $fecha_hora = $info_usuario->fecha_hora;
-       $row[10] = "<button type='button' onclick='verFacturaCompra(this, {$facturado}, \"{$nombre_factura}\", \"{$usuario_responsable}\", \"{$fecha_hora}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
+       $row[10] = "<button type='button' onclick='verFacturaCompra({$id_stock}, \"{$folio}\", this, {$facturado}, \"{$nombre_factura}\", \"{$usuario_responsable}\", \"{$fecha_hora}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
 		
        $row[1] = "<span>{$folio}<br>{$row[9]}</span>";
 
