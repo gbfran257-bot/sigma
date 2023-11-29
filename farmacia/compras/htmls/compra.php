@@ -30,7 +30,8 @@ $id_del_user = $_SESSION['id'];
                     <label for="select-proveedores" class="col-form-label">*PROVEEDOR</label>
                     <div style="display:flex;">
                         <select class="form-control form-control-sm" name="select-proveedores" id="select-proveedores"></select>
-                        <button style="margin-left:10px;" class="btn btn-primary" id="redirect-nuevo-proveedor"><i class="fa fa-plus"></i> Proveedor</button>
+                        <button style="margin-left:10px;" class="btn btn-primary btn-xs" id="redirect-nuevo-proveedor"><i class="fa fa-plus"></i> Proveedor</button>
+                        <button type="button" style="margin-left:10px;" class="btn btn-primary btn-xs" id="actualizar_proveedores"><i class="fa fa-spinner"></i> Actualizar</button>
                     </div>
                     <div class="help-block with-errors"></div>
                 </div>
@@ -43,7 +44,8 @@ $id_del_user = $_SESSION['id'];
                         <label for="producto" class="col-form-label">*PRODUCTO</label>
                         <div style="display:flex;">
                             <select class="form-control form-control-sm" name="producto" id="producto"></select>
-                            <button style="margin-left:10px;" class="btn btn-primary" id="redirect-nuevo-medicamento"><i class="fa fa-plus"></i> Producto</button>
+                            <button style="margin-left:10px;" class="btn btn-primary btn-xs" id="redirect-nuevo-medicamento"><i class="fa fa-plus"></i> Producto</button>
+                            <button type="button" style="margin-left:10px;" class="btn btn-primary btn-xs" id="actualizar_productos"><i class="fa fa-spinner"></i> Actualizar</button>
                         </div>
                         <div class="help-block with-errors"></div>
                     </div>

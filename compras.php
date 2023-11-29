@@ -495,11 +495,13 @@ function nuevaCompra(){
 				$("#cambiar-proveedor").show();
 				$("#select-proveedores").attr("disabled", true);
 				$("#redirect-nuevo-proveedor").attr("disabled", true);
+				$("#actualizar_proveedores").attr("disabled", true);
 			} else {
 				$("#div-compra-container").hide();
 				$("#cambiar-proveedor").hide();
 				$("#select-proveedores").attr("disabled", false);
 				$("#redirect-nuevo-proveedor").attr("disabled", false);
+				$("#actualizar_proveedores").attr("disabled", false);
 			}
 		});
 
@@ -508,6 +510,13 @@ function nuevaCompra(){
 			$("#select-proveedores").change();
 			$("#select-proveedores").attr("actualizar-proveedor", true);
 		});
+
+		$("#actualizar_proveedores").click(() => {
+			$("#select-proveedores").empty();
+			$("#select-proveedores").select2("destroy");
+			getListaProvedores();
+		});
+		$("#actualizar_productos").click(() => select2ini("#producto", "medicamento.php", "Seleccione el producto que desea comprar", "431.763px"));
 
 		$('#btn_pagar').click(function(e){
 			var dato = { idU:$('#id_user').val(), datos:COMPRA }
