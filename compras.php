@@ -646,7 +646,9 @@ function resumenCompra(id,ref){
 		var dato = { idU:$('#id_user').val(), idC:id}
 		$.post('farmacia/compras/datatable-serverside/resumen.php', dato).done(function( data ) {
 			
-			
+			// Obtenemos el usuario, fecha y hora de la compra
+			getRegistroCompraInfo(id, ref);
+
 			$('#resumenTable').html(data);
 			$('#tituloC').text("RESUMEN DE COMPRA "+ ref );
 			// if(data==1){
@@ -664,6 +666,23 @@ function resumenCompra(id,ref){
 	});
 }
 
+const getRegistroCompraInfo = (idCompra, referenciaCompra) => {
+	const body = new FormData();
+	body.append("id_compra", idCompra);
+	body.append("referencia_compra", referenciaCompra);
+	fetch("farmacia/compras/files-serverside/get_registro_compra_info.php", {
+		method: "POST",
+		body,
+	})
+		.then(response => response.json())
+		.then(response => {
+			if (response.error) {
+				throw new Error(response.error);
+			}
+			$("#tituloC").text($("#tituloC").text() + " " + response.success);
+		})
+		.catch(error => console.error(error));
+};
 
 
 
