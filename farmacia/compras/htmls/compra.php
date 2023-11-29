@@ -23,32 +23,10 @@ $id_del_user = $_SESSION['id'];
             </li>
         </ul>
         <div class="tab-pane active tap-pane-primary" id="t_compra" role="tabpanel" aria-labelledby="compra-tab"><br>
+        <!-- INICIO DE LOS CAMBIOS PARA EL FUNCIONAMIENTO DE LOS PROVEEDORES -->
             <div class="row">
                 <div class="form-group col-md-8 col-sm-8 text-primary">
-                    <label for="producto" class="col-form-label">*PRODUCTO</label>
-                    <div style="display:flex;">
-                        <select class="form-control form-control-sm" name="producto" id="producto"></select>
-                        <button style="margin-left:10px;" class="btn btn-primary" id="redirect-nuevo-medicamento"><i class="fa fa-plus"></i> Producto</button>
-                    </div>
-                    <div class="help-block with-errors"></div>
-                </div>
-                <!--Se comenta el siguiente div que no se utiliza para acomodar mejor la lista despegable de productos. 17/10/2023-->
-                <!-- <div class="form-group col-md-4 col-sm-4 text-primary">
-                    <label  id='productoName'  class="col-form-label"></label> <br>
-                    <label id="precioPublicoProd" class="col-form-label"></label>
-                </div> -->
-                <div class="form-group col-md-4 col-sm-4 text-primary">
-                    <label  id='productoName'  class="col-form-label"></label> <br>
-                    <label id="precioPublicoProd" class="col-form-label"></label> <br>
-                    <label id="precioUltimaCompra" class="col-form-label"></label> <br>
-                    <label id="cantMax" class="col-form-label"></label> 
-                    <label id="cantMin" class="col-form-label"></label>
-                </div>
-            </div>
-
-            <!-- INICIO DE LOS CAMBIOS PARA EL FUNCIONAMIENTO DE LOS PROVEEDORES -->
-            <div class="row">
-                <div class="form-group col-md-8 col-sm-8 text-primary">
+                    <strong style="margin-right: 1rem;">Selecciona un proveedor para comenzar con la compra</strong> <button type="button" id="cambiar-proveedor" class="btn btn-warning btn-sm" style="display: none;"><i class="fa fa-pencil"></i></button> <br> <br>
                     <label for="select-proveedores" class="col-form-label">*PROVEEDOR</label>
                     <div style="display:flex;">
                         <select class="form-control form-control-sm" name="select-proveedores" id="select-proveedores"></select>
@@ -59,42 +37,68 @@ $id_del_user = $_SESSION['id'];
             </div>
             <!-- FINAL DE LOS CAMBIOS PARA EL FUNCIONAMIENTO DE LOS PROVEEDORES -->
 
-            <div class="row">
-                <div class="form-group col-md-4 col-sm-4 text-primary">
-                    <label for="costoU" class="col-form-label">* COSTO UNITARIO</label>
-                    <input name="costoU" id="costoU" type="Number" class="form-control form-control-sm" required placeholder="Costo unitario">
-                    <div id="costoAlert" class="help-block with-errors"></div>
+            <div class="row" id="div-compra-container" style="display: none; padding-left: 1.5rem;">
+                <div class="row">
+                    <div class="form-group col-md-8 col-sm-8 text-primary">
+                        <label for="producto" class="col-form-label">*PRODUCTO</label>
+                        <div style="display:flex;">
+                            <select class="form-control form-control-sm" name="producto" id="producto"></select>
+                            <button style="margin-left:10px;" class="btn btn-primary" id="redirect-nuevo-medicamento"><i class="fa fa-plus"></i> Producto</button>
+                        </div>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <!--Se comenta el siguiente div que no se utiliza para acomodar mejor la lista despegable de productos. 17/10/2023-->
+                    <!-- <div class="form-group col-md-4 col-sm-4 text-primary">
+                        <label  id='productoName'  class="col-form-label"></label> <br>
+                        <label id="precioPublicoProd" class="col-form-label"></label>
+                    </div> -->
+                    <div class="form-group col-md-4 col-sm-4 text-primary">
+                        <label  id='productoName'  class="col-form-label"></label> <br>
+                        <label id="precioPublicoProd" class="col-form-label"></label> <br>
+                        <label id="precioUltimaCompra" class="col-form-label"></label> <br>
+                        <label id="cantMax" class="col-form-label"></label> 
+                        <label id="cantMin" class="col-form-label"></label>
+                    </div>
                 </div>
-                <div class="form-group col-md-4 col-sm-4 text-primary">
-                    <label for="cantidad" class="col-form-label">*CANTIDAD</label>
-                    <input name="cantidad" id="cantidad" type="number" class="form-control form-control-sm" placeholder="Cantidad">
-                    <div class="help-block with-errors"></div>
+
+                <div class="row">
+                    <div class="form-group col-md-4 col-sm-4 text-primary">
+                        <label for="costoU" class="col-form-label">* COSTO UNITARIO</label>
+                        <input name="costoU" id="costoU" type="Number" class="form-control form-control-sm" required placeholder="Costo unitario">
+                        <div id="costoAlert" class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group col-md-4 col-sm-4 text-primary">
+                        <label for="cantidad" class="col-form-label">*CANTIDAD</label>
+                        <input name="cantidad" id="cantidad" type="number" class="form-control form-control-sm" placeholder="Cantidad">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group col-md-4 col-sm-4 text-primary">
+                        <label for="lote" class="col-form-label">LOTE</label>
+                        <input name="lote" id="lote" type="text" class="form-control form-control-sm" placeholder="Lote">
+                        <div class="help-block with-errors"></div>
+                    </div>
                 </div>
-                <div class="form-group col-md-4 col-sm-4 text-primary">
-                    <label for="lote" class="col-form-label">LOTE</label>
-                    <input name="lote" id="lote" type="text" class="form-control form-control-sm" placeholder="Lote">
-                    <div class="help-block with-errors"></div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-4 col-sm-4 text-primary">
-                    <label for="sucursal" class="col-form-label">*SUCURSAL</label>
-                    <select class="form-control form-control-sm" name="sucursal" id="sucursal"></select>
-                    <div class="help-block with-errors"></div>
-                </div>
-                <div class="form-group col-md-4 col-sm-4 text-primary">
-                    <label for="caducidad" class="col-form-label">*CADUCIDAD</label>
-                    <?php $current_date = date("Y-m-d");?>
-                    <input name="caducidad" id="caducidad" type="date" min="<?php echo $current_date; ?>" max="2100-01-01" class="form-control form-control-sm" placeholder="Cantidad">
-                    <div class="help-block with-errors"></div>
-                </div>
-                <div class="form-group col-md-4 col-sm-4 text-primary">
-                    <label for="estatus" class="col-form-label">*ENTREGA</label>
-                    <select class="form-control form-control-sm" name="estatus" id="estatus">
-                        <option value="9">Entregado</option>
-                        <option value="1">Pendiente</option>
-                    </select>
-                    <div class="help-block with-errors"></div>
+
+                <div class="row">
+                    <div class="form-group col-md-4 col-sm-4 text-primary">
+                        <label for="sucursal" class="col-form-label">*SUCURSAL</label>
+                        <select class="form-control form-control-sm" name="sucursal" id="sucursal"></select>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group col-md-4 col-sm-4 text-primary">
+                        <label for="caducidad" class="col-form-label">*CADUCIDAD</label>
+                        <?php $current_date = date("Y-m-d");?>
+                        <input name="caducidad" id="caducidad" type="date" min="<?php echo $current_date; ?>" max="2100-01-01" class="form-control form-control-sm" placeholder="Cantidad">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group col-md-4 col-sm-4 text-primary">
+                        <label for="estatus" class="col-form-label">*ENTREGA</label>
+                        <select class="form-control form-control-sm" name="estatus" id="estatus">
+                            <option value="9">Entregado</option>
+                            <option value="1">Pendiente</option>
+                        </select>
+                        <div class="help-block with-errors"></div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -310,7 +310,7 @@ function nuevaCompra(){
 		$('#btn_agregar').click(function(e){
 			// Verificamos que el formulario este completo
 			if (($("#producto").val() === null || $("#select-proveedores").val() === "" || $("#costoU").val() === "" || $("#cantidad").val() === "" || $("#lote").val() === "" || $("#caducidad").val() === "") && !COMPRA['eliminacion_reciente']) {
-				return swal("¡Oops!", "Completa los datos del formulario para contirnuar.", "info");
+				return swal("¡Oops!", "Completa los datos del formulario para continuar.", "info");
 			}
 
 			if ((!COMPRA['eliminacion_reciente'] && COMPRA['editado_reciente'] === null) || (!COMPRA['eliminacion_reciente'] && COMPRA['editado_reciente'] !== null)) {
@@ -445,7 +445,6 @@ function nuevaCompra(){
 			// Se limpia la lista despegable de los productos y de los proveedores //
 			$("#producto").val("");
 			$("#producto").change();
-			$("#select-proveedores").val("");
 			$("#select-proveedores").change();
 		});
 
@@ -483,6 +482,31 @@ function nuevaCompra(){
 					$('#costoU').css("border","solid 1px aqua");
 				}
 			});
+		});
+
+		$("#select-proveedores").change(() => {
+			if ($("#select-proveedores").attr("actualizar-proveedor")) {
+				$("#select-proveedores").removeAttr("actualizar-proveedor");
+				COMPRA.forEach((producto) => producto.proveedor = $("#select-proveedores").val());
+			}
+
+			if ($("#select-proveedores").val() !== "") {
+				$("#div-compra-container").show();
+				$("#cambiar-proveedor").show();
+				$("#select-proveedores").attr("disabled", true);
+				$("#redirect-nuevo-proveedor").attr("disabled", true);
+			} else {
+				$("#div-compra-container").hide();
+				$("#cambiar-proveedor").hide();
+				$("#select-proveedores").attr("disabled", false);
+				$("#redirect-nuevo-proveedor").attr("disabled", false);
+			}
+		});
+
+		$("#cambiar-proveedor").click(() => {
+			$("#select-proveedores").val("");
+			$("#select-proveedores").change();
+			$("#select-proveedores").attr("actualizar-proveedor", true);
 		});
 
 		$('#btn_pagar').click(function(e){
