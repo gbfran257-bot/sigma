@@ -94,7 +94,7 @@ mysqli_close($horizonte);
             </td>
         </tr>
         <tr>
-            <td style="padding-bottom: 10px;" id="folio_transferencia">FOLIO DE TRANSFERENCIA: <?php echo $folio; ?></td>
+            <td style="padding-bottom: 10px;" id="folio_transferencia">REFERENCIA DE TRANSFERENCIA: <?php echo $folio; ?></td>
             <td style="padding-bottom: 10px;" id="fecha_movimiento">FECHA DE MOVIMIENTO: <?php echo $fecha_movimiento_impresion; ?></td>
         </tr>
         <tr>
