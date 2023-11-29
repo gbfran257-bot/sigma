@@ -463,6 +463,7 @@ function nuevaCompra(){
 				$('#cantMin').text("Cantidad minima de producto: "+datos[3]);
 				$('#productoName').text(datos[0]);
 				$('#precioPublicoProd').text("Precio público: $" + datos[1]);
+				$('#precioPublicoProd').attr("precio_actual", datos[1]);
 				$('#precioUltimaCompra').text("Última compra: $" + datos[4]);
 			});
 		});
@@ -556,7 +557,8 @@ function nuevaCompra(){
 }
 
 const actualizarPrecioPublico = () => {
-	$("#precioPublicoProd").replaceWith(`<input type="number" step="0.01" min="0" id="nuevo-precio-publico" class="form-control" />`);
+	const precioActual = $("#precioPublicoProd").attr("precio_actual");
+	$("#precioPublicoProd").replaceWith(`<input type="number" step="0.01" min="0" value="${precioActual}" id="nuevo-precio-publico" class="form-control" />`);
 	$("#nuevo-precio-publico").focus();
 	$("#nuevo-precio-publico").blur(() => {
 		if ($("#nuevo-precio-publico").val() === "") {
@@ -579,7 +581,7 @@ const actualizarPrecioPublico = () => {
 				return swal("¡HECHO!", response.success, "success");
 			})
 			.catch(error => console.error(error));
-		$("#nuevo-precio-publico").replaceWith(`<label onclick="actualizarPrecioPublico()" style="cursor: pointer;" id="precioPublicoProd" class="col-form-label">Precio público: $${$("#nuevo-precio-publico").val()}</label>`);
+		$("#nuevo-precio-publico").replaceWith(`<label onclick="actualizarPrecioPublico()" style="cursor: pointer;" id="precioPublicoProd" precio_actual="${$("#nuevo-precio-publico").val()}" class="col-form-label">Precio público: $${$("#nuevo-precio-publico").val()}</label>`);
 	});
 };
 
