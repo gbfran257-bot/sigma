@@ -518,6 +518,8 @@ function nuevaCompra(){
 		});
 		$("#actualizar_productos").click(() => select2ini("#producto", "medicamento.php", "Seleccione el producto que desea comprar", "431.763px"));
 
+		$("#precioPublicoProd").click(() => actualizarPrecioPublico());
+
 		$('#btn_pagar').click(function(e){
 			var dato = { idU:$('#id_user').val(), datos:COMPRA }
 			$.post('farmacia/compras/files-serverside/addCompra.php', dato).done(function( data ) {
@@ -555,6 +557,34 @@ function nuevaCompra(){
 		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
 	}});
 }
+
+const actualizarPrecioPublico = () => {
+	$("#precioPublicoProd").replaceWith(`<input type="number" step="0.01" min="0" id="nuevo-precio-publico" class="form-control" />`);
+	$("#nuevo-precio-publico").focus();
+	$("#nuevo-precio-publico").blur(() => {
+		if ($("#nuevo-precio-publico").val() === "") {
+			$("#nuevo-precio-publico").focus();
+			return swal("¡ATENCIÓN!", "Selecciona un precio público válido.", "info");
+		}
+		
+		const body = new FormData();
+		body.append("id_producto", $("#producto").val());
+		body.append("nuevo_precio", $("#nuevo-precio-publico").val());
+		fetch("farmacia/compras/files-serverside/actualizar_precio_publico.php", {
+			method: "POST",
+			body,
+		})
+			.then(response => response.json())
+			.then(response => {
+				if (response.error) {
+					throw new Error(response.error);
+				}
+				return swal("¡HECHO!", response.success, "success");
+			})
+			.catch(error => console.error(error));
+		$("#nuevo-precio-publico").replaceWith(`<label onclick="actualizarPrecioPublico()" style="cursor: pointer;" id="precioPublicoProd" class="col-form-label">Precio público: $${$("#nuevo-precio-publico").val()}</label>`);
+	});
+};
 
 const getListaProvedores = () => {
 	fetch("farmacia/compras/files-serverside/farmacia-proveedores.php", {
