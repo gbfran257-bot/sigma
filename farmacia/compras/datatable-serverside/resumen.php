@@ -20,7 +20,7 @@ while ($fila = mysql_fetch_assoc($compras)) {
     $tt = $tt +  $costoT;
     $salida .="	<tr> ".
     "		<td>".
-                ($hh + 1) .
+                (++$hh) .
     "		</td>".
     "		<td>".
                 $fila["concepto_to"].
