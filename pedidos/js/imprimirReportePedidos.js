@@ -8,9 +8,18 @@ const imprimirReportePedidos = () => {
     
     const fecha_impresion = generatePrintingDate();
 
-    const pedidos = $("#dataTablePrincipal").DataTable().rows().data().toArray();
+    /* const pedidos = $("#dataTablePrincipal").DataTable().rows().data().toArray();
     for (let i = 0; i < pedidos.length; i++) {
         pedidos[i][6] = pedidos[i][6].replace(/\D/g, "");
+    } */
+
+    const pedidos = [];
+    const filas = $("#dataTablePrincipal > tbody").children("tr").toArray();
+    for (let i = 0; i < filas.length; i++) {
+        const pedido = $(filas[i]).children("td").map((index, td) => {
+            return $(td).text();
+        }).toArray();
+        pedidos.push(pedido);
     }
 
     const configuracion = {
