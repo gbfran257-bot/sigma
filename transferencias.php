@@ -89,7 +89,7 @@
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>PRODUCTO</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap> LOTE</th>
                 <th style="vertical-align:middle;">SUCURSAL ORIGEN</th>
-                <th style="vertical-align:middle;">USUARIO</th>
+                <th style="vertical-align:middle;">EMISOR</th>
                 <th style="vertical-align:middle;">CANTIDAD</th>
                 <th style="vertical-align:middle;">FECHA CADUCIDAD</th>
                 <th style="vertical-align:middle;" nowrap>SUCURSAL DESTINO</th>
