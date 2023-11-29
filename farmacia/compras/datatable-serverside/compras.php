@@ -2,7 +2,7 @@
 require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
      
-    $aColumns = array('s.id', 's.referencia_compra','g.nombre_generico_med', 'c.concepto_to', 's.Lote','su.nombre_su',  's.cantidad', 'DATE_FORMAT(s.fecha_expiracion, "%d/%m/%Y")', 's.costo_unitario','CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))');
+    $aColumns = array('s.id', 's.referencia_compra','g.nombre_generico_med', 'c.concepto_to', 's.Lote','su.nombre_su',  's.cantidad', 'DATE_FORMAT(s.fecha_expiracion, "%d/%m/%Y")', 's.costo_unitario','CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%H:%i:%s"))');
     // DB tables to use 
     $aTables = array( 'stock_has_bach s');
      
