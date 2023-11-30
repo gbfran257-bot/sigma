@@ -368,9 +368,7 @@ const imprimirHojaEntrega = () => {
 
 			// Comportamiento del modal
 			$('#modal_impresion_hoja_entrega').on('hidden.bs.modal', function(e) {
-				$("#modal_impresion_hoja_entrega").empty();
-				$('body').addClass('modal-open');
-				$("#myModal").modal("hide");
+				window.location.reload();
 			});
 		}
 	});
