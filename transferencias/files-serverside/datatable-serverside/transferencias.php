@@ -96,7 +96,7 @@ for ($i = 0; $i < count($aColumns); $i++) {
 
 /*  * SQL queries  * Get data to display */
 $sQuery = "
-        SELECT SQL_CALC_FOUND_ROWS " . str_replace(" , ", " ", implode(", ", $aColumns)) . "
+        SELECT DISTINCT SQL_CALC_FOUND_ROWS " . str_replace(" , ", " ", implode(", ", $aColumns)) . "
         FROM   " . str_replace(" , ", " ", implode(", ", $aTables)) . "
 		$sJoin
         $sWhere
