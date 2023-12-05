@@ -71,9 +71,9 @@ require("../../../funciones/php/values.php");
 
 	if($con_membresia>0){//Tiene membresía vigente
 		if($urgencia==1){//Nocturno
-			$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', 'e.precio_mu', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')');
+			$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', 'e.precio_mu', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote");
 		}else{
-			$aColumns = array('e.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'e.precio_m', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')');
+			$aColumns = array('e.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'e.precio_m', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote");
 		}
 		// DB tables to use 
 		$aTables = array( 'conceptos e');
@@ -278,6 +278,8 @@ require("../../../funciones/php/values.php");
 		$resultC = mysql_query("SELECT c.id_tipo_concepto_to, m.presentacion_med, m.cantidad_med from conceptos c left join medicamentos m on m.id_med = c.id_medicamento_g where c.id_to = $id_concepti limit 1", $horizonte) or die (mysql_error());
 		$rowC = mysql_fetch_row($resultC);
 		
+		$id_producto = intval($row[5]);
+		$lote = $row[7];
 		if($rowC[0]==5){
 			$row[0]="<span>$row[0] ($rowC[1], $rowC[2])</span>";
 		}
@@ -309,6 +311,21 @@ require("../../../funciones/php/values.php");
 		$row[7] = $aux_row;
 		$row[5] = $row[8];
 		$row[6] = $row[9];
+		
+		// Verificamos si el producto tiene factura
+		$query_referencia = "SELECT referencia_compra FROM stock_has_bach WHERE (id_Producto = {$id_producto} AND lote = '{$lote}') AND es_traspaso = 0";
+		mysql_select_db($database_horizonte, $horizonte);
+		$resultado_query_referencia = mysql_query($query_referencia, $horizonte) or die (mysql_error());
+		$referencia_compra = mysql_fetch_object($resultado_query_referencia)->referencia_compra;
+
+		$query_factura = "SELECT nombre_factura, usuario_u, fecha_hora FROM compra_factura cf LEFT JOIN usuarios u ON cf.id_usuario = u.id_u WHERE referencia_compra = '{$referencia_compra}'";
+		mysql_select_db($database_horizonte, $horizonte);
+		$resultado_query_factura = mysql_query($query_factura, $horizonte) or die (mysql_error());
+		$info_factura = mysql_fetch_object($resultado_query_factura);
+		
+		$class_btn = $info_factura->nombre_factura == "" ? "btn btn-danger btn-sm" : "btn btn-success btn-sm";
+
+		$row[8] = "<button type=\"button\" id=\"imprimir_factura_producto\" class=\"{$class_btn}\" onclick=\"verFacturaProducto('{$info_factura->nombre_factura}', '{$referencia_compra}', '{$info_factura->usuario_u}', '{$info_factura->fecha_hora}')\"><i class=\"fa fa-file-pdf-o\"></i></button>";
 
 		$output['aaData'][] = $row;	
     }     

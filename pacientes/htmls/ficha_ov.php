@@ -765,6 +765,7 @@
                                 <th align="center">STOCK</th>
                                 <th align="center">CADUCIDAD</th>
                                 <th align="center">BENEFICIO</th>
+                                <th align="center">PDF</th>
                               </tr>
                             </thead>
                             <tbody align="left">
@@ -794,6 +795,7 @@
                                 <th>
                                   <select id="beneficio_p" name="beneficio_p" class="form-control input-sm" style=""></select>
                                 </th>
+                                <th></th>
                               </tr>
                             </tfoot>
                           </table>

@@ -37,6 +37,7 @@
         <?php if ($_SERVER['REQUEST_URI'] == "/sigma/pacientes.php" || $_SERVER['REQUEST_URI'] == "/sigma/pacientes.php?nuevo-proveedor=true") : ?>
             <div id="modal_nuevo_cliente" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
             <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+            <div id="modal_ver_factura" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 
         <!--Stock-->
@@ -76,6 +77,7 @@
         <?php if ($_SERVER['REQUEST_URI'] == "/pacientes.php" || $_SERVER['REQUEST_URI'] == "/pacientes.php?nuevo-proveedor=true") : ?>
             <div id="modal_nuevo_cliente" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
             <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+            <div id="modal_ver_factura" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 
         <!--Stock-->

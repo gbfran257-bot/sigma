@@ -4186,6 +4186,8 @@ include_once 'recursos/datauser.php';
 						"bVisible": true,
 					}, {
 						"bVisible": true
+					}, {
+						"bVisible": true
 					}],
 					"sDom": '<"">r<""t><""S><"">',
 					deferRender: true,
@@ -6105,3 +6107,4 @@ if (isset($_GET['to_h'])) {
 <script src="./pacientes/js/getUsoCFDI.js"></script>
 <script src="./pacientes/js/getClientes.js"></script>
 <script src="./pacientes/js/clientesFacturables.js"></script>
+<script src="./pacientes/js/verFacturaProducto.js"></script>
