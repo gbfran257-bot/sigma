@@ -395,9 +395,6 @@ include_once 'recursos/datauser.php';
 
 		// Asignamos los eventos para el filtrado
 		setFiltradoConsultasHandler();
-
-		// Seleccionamos las consultas para evitar tener que dalr click al radio button siempre que entramos a la pagina
-		$("#radio2").click();
 	});
 
 	//El campo de busqueda edad solo acepta numeros y letras A y M
