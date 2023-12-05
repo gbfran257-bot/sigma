@@ -106,22 +106,38 @@
         <tfoot>
             <tr class="bg-primary">
                 <th></th>
-                <th></th>
-                <th></th>
+                <th>
+                    <input type="text" id="ref_transferencia" name="ref_transferencia" class="form-control form-control-sm" style="text-transform: uppercase;" placeholder="REF. DE TRANS.">
+                </th>
+                <th>
+                    <input type="text" id="ref_compra" name="ref_compra" class="form-control form-control-sm" style="text-transform: uppercase;" placeholder="REF. DE COMPRA">
+                </th>
                 <th>
                     <input type="text" id="nombre_generico" name="nombre_generico" class="form-control form-control-sm" style="text-transform: uppercase;" placeholder="NOMBRE GENÉRICO">
                 </th>
                 <th>
-                <input type="text" id="producto" name="producto" class="form-control form-control-sm" style="text-transform: uppercase;" placeholder="PRODUCTO">
+                    <input type="text" id="producto" name="producto" class="form-control form-control-sm" style="text-transform: uppercase;" placeholder="PRODUCTO">
+                </th>
+                <th>
+                    <input type="text" id="lote" name="lote" class="form-control form-control-sm" style="text-transform: uppercase;" placeholder="LOTE">
+                </th>
+                <th>
+                    <input type="text" id="sucursal_origen" name="sucursal_origen" class="form-control form-control-sm" style="text-transform: uppercase;" placeholder="S. ORIGEN">
+                </th>
+                <th>
+                    <input type="text" id="emisor" name="emisor" class="form-control form-control-sm" style="text-transform: uppercase;" placeholder="EMISOR">
                 </th>
                 <th></th>
                 <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th>
+                    <input type="text" id="sucursal_destino" name="sucursal_destino" class="form-control form-control-sm" style="text-transform: uppercase;" placeholder="S. DESTINO">
+                </th>
+                <th>
+                    <input type="text" id="proveedor" name="proveedor" class="form-control form-control-sm" style="text-transform: uppercase;" placeholder="PROVEEDOR">
+                </th>
+                <th>
+                    <input type="text" id="receptor" name="receptor" class="form-control form-control-sm" style="text-transform: uppercase;" placeholder="RECEPTOR">
+                </th>
                 <th></th>
             </tr>
         </tfoot>
