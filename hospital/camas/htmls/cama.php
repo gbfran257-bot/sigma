@@ -1,4 +1,4 @@
-<div class="modal-dialog" role="document" id="contenido_ficha_consulta">
+<div class="modal-dialog" role="document" id="contenido_ficha_consulta" style="width: 1000px;">
     <div class="modal-content animated flipInY">
       <div class="modal-header">
         <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close">

@@ -206,3 +206,6 @@ function ver_cama(id_e, nombre_e){
 	}});
 }
 </script>
+
+<script src="hospital/camas/js/verCama.js"></script>
+<script src="hospital/camas/js/actualizarCama.js"></script>

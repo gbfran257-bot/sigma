@@ -135,9 +135,10 @@ require("../../../Connections/horizonte.php");
             else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; }
         }
 		
+        $id_cama = $row[0];
 		$row[0]="<span>$hh</span>";
 		
-		$row[1] = "<button type='button' class='btn btn-link' id='$row[4]' onClick='verPaciente(this.id);'>$row[1]</button>";
+		$row[1] = "<button type='button' class='btn btn-link' id='{$id_cama}' onClick='verCama(this.id);'>$row[1]</button>";
         
         if($row[4] == 1){
             $row[4] = "OCUPADO";
