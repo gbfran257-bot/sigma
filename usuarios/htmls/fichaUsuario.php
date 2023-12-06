@@ -859,6 +859,10 @@ $id_del_user = $_SESSION['id'];
                       <label><input type="checkbox" name="p_45" class="chekito"> FORMATOS </label>
                       <input name="h_permisos[45]" type="hidden" value="0">
                     </td>
+                    <td>
+                      <label><input type="checkbox" name="p_48" class="chekito"> CATÁLOGOS </label>
+                      <input name="h_permisos[48]" type="hidden" value="0">
+                    </td>
                     <td class="hidden">
                       <label><input type="checkbox" name="p_46" class="chekito"> UNIDADES DE MEDIDA </label>
                       <input name="h_permisos[46]" type="hidden" value="0">
