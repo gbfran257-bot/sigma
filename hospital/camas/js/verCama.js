@@ -22,7 +22,8 @@ const verCama = (idCama) => {
                     $("#ubicacion_ca").val(response.success.ubicacion_ca);
                     $("#hora_ca").val();
                     $("#descripcion_ca").val(response.success.descripcion_ca);
-                    $("#btn_save_escuela").click((e) => actualizarCama(e));
+                    $("#btn_save_escuela").click((e) => actualizarCama(e, idCama));
+                    $("#form-escuela").append(`<input type="number" value="${idCama}" id="id_cama" name="id_cama" readonly hidden />`);
                 })
                 .catch(error => {
                     console.error(error);

@@ -16,6 +16,7 @@ const verFacturaProducto = (nombreFactura, referenciaCompra, usuario, fechaHora)
 			$('#modal_ver_factura').on('hidden.bs.modal', (e) => {
 				$("modal_ver_factura > .modal-content").remove();
 				$("#modal_ver_factura").empty();
+                $("#cancelar-agregar-cantidad-productos").click();
 			});
         }
     });
