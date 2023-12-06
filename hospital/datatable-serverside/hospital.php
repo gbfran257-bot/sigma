@@ -186,7 +186,7 @@ require("../../Connections/horizonte.php");
 		
 		$row[8] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='medicamentos($row[20],$row[21],$nombreP,$row[22],\"$estatus\");'><i class='fa fa-medkit' aria-hidden='true'></i></button></div>";
 		
-		$row[9] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='verSignosV($row[21], $row[21],0,$row[22],$row[22],0)'><i class='fa fa-eye' aria-hidden='true'></i></button></div>";
+		$row[9] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='verSignosV($row[21], $row[21],0,$row[22],$row[22],0,$row[20])'><i class='fa fa-eye' aria-hidden='true'></i></button></div>";
 		        
         // Se envia el id de venta concepto y el id del paciente y el estatus del hospitalizado
         $row[10] = "<div align='center'><button type='button' class='btn btn-primary btn-sm' onClick='diagnosticos($row[24],$row[21],\"$estatus\")'><i class='fa fa-list' aria-hidden='true'></i></button></div>";

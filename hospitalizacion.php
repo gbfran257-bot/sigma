@@ -1989,7 +1989,7 @@ function rhLab(idC,idP,n,idE){//alert(idC+' '+idP+' '+n+' '+idE);
 	});
 }
 var soloSV = false;
-function verSignosV(idP,idC,opc,concept,id_s,estat){
+function verSignosV(idP,idC,opc,concept,id_s,estat, id_h){
 	var datosCon = {idP:idP, idC:idC}
 	$.post('enfermeria/files-serverside/datosSV.php',datosCon).done(function(data){var datos=data.split(';*-');
 		$("#myModalx").load('consultas/htmls/ficha_consulta.php',function(response,status,xhr){ if(status=="success"){
@@ -2004,6 +2004,7 @@ function verSignosV(idP,idC,opc,concept,id_s,estat){
 			
 			$('#b_agregarSignosC').click(function(e) { tomar_sv(idP,2,idC, id_s); });
 
+			$('#print_SignosV').attr("id_h_sv", id_h);
 			$('#print_SignosV').click(function(e) { 
 				imprimirSV(idP,idC);
 			});
@@ -2073,7 +2074,7 @@ function imprimirSV(idP,idC){
 	var datosCon = {idP:idP, idC:idC}
 	$.post('enfermeria/files-serverside/datosSV.php',datosCon).done(function(data){
 		var datos=data.split(';*-');
-		window.open("hospital/genera/signos_vitales_reporte.php?idP="+idP+"&edad="+datos[1]+"&sexo="+datos[2]+"&id_u="+ $('#id_user').val(), '_blank');
+		window.open("hospital/genera/signos_vitales_reporte.php?idP="+idP+"&edad="+datos[1]+"&sexo="+datos[2]+"&id_u="+ $('#id_user').val()+"&id_h_sv="+$("#print_SignosV").attr("id_h_sv"), '_blank');
 	});
 }
 function diagnosticos(idC,idP,estatus){
