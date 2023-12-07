@@ -5,7 +5,7 @@ require("../../funciones/php/values.php");
  $idP = sqlValue($_POST["idP"], "int");
  $idU = sqlValue($_POST["idU"], "int");
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
- $idMedicoTratante = sqlValue($_POST["idM"], "int");
+ $idMedicoTratante = sqlValue($_POST["id_medico_t"], "int");
  $idCama = sqlValue($_POST["id_cama_h"], "int");
  $motivo = sqlValue($_POST["motivo_h"], "text");
  $id_consulta = sqlValue($_POST["id_vc"], "int");

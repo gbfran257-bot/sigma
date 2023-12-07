@@ -2576,7 +2576,7 @@ include_once 'recursos/datauser.php';
 											} else { // everything looks good!
 												e.preventDefault();
 												var datosP = $('#myModal1 #form-selecciona-cama').serialize();
-												// console.log('Datosp: ', datosP)
+												datosP += "&idP=" + idP + "&idU=" + $("#id_user").val() + "&id_vc=" + idC;
 
 												// Aqui ya se hospitaliza
 												$.post('consultas/files-serverside/check_hospitalizado.php', datosCC).done(function(data) {
@@ -2595,7 +2595,16 @@ include_once 'recursos/datauser.php';
 																	className: "hospitalizar_cancel-button"
 																}
 															},
-															type: "warning",
+															icon: "warning",
+														}).then(isConfirmed => {
+															if (isConfirmed) {
+																$.post("consultas/files-serverside/hospitalizar.php", datosP).done((data) => {
+																	if (data == 1) {
+																		swal("¡HECHO!", "Paciente hospitalizacion correctamente", "success");
+																		$("#myModal1").modal("hide");
+																	}
+																});
+															}
 														});
 													} else {
 														swal({
