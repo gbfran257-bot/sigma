@@ -236,7 +236,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                             <?php } ?>
                             <?php if ($permisos[44]) { ?> <li style="white-space:nowrap;"><a href="#"><i class="fa fa-hand-peace-o"></i> BENEFICIOS</a></li> <?php } ?>
                             <?php if ($permisos[45]) { ?><li><a href="formatos.php"><i class="fa fa-book"></i> FORMATOS</a></li> <?php } ?>
-                            <?php if ($permisos[46]) { ?>
+                            <?php if ($permisos[48]) { ?>
                                 <li>
                                     <a href="#"><i class="fa fa-list-alt"></i> CATÁLOGOS <span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level collapse">
