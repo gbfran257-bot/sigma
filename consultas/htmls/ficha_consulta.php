@@ -489,7 +489,7 @@ Sin embargo, en sentido estricto se suele denominar cardiopatía a las enfermeda
               <input name="id_DepartamentoSer" id="id_DepartamentoSer" type="hidden" value="4">
               <table id="grafiasSV" width="100%" class="table table-condensed table-bordered">
                 <tr>
-                  <td colspan="2" class="bg-info" align="center">GRÁFICAS DE LOS PRINCIPALES SIGNOS VITALES</td>
+                  <td colspan="2" class="bg-info" align="center" style="font-size: 2rem;">GRÁFICAS DE LOS PRINCIPALES SIGNOS VITALES</td>
                 </tr>
                 <tr>
                   <td width="50%" height="50%">

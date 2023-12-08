@@ -380,11 +380,11 @@ function cargar_todo_signos_vitales(idP,idC){
 			$('#graficaFC').sparkline(myvalues, {type: 'line', barColor: 'green', width:'3em', height:'2em', normalRangeMin:datosCH4[5], normalRangeMax:datosCH4[6], fillColor: false, maxSpotColor:'red', minSpotColor:'orange', highlightSpotColor:'gold'} );
 			var myvalues_1 = JSON.parse(datosCH4[29]);
 			var chart = c3.generate({ bindto: '#myChartFC',
-				data: { columns: [ myvalues_1 ] }, size: { height: h_g, width: w_g },
+				data: { columns: [ myvalues_1 ] , labels: true, }, size: { height: h_g, width: w_g },
 				regions: [ {axis: 'y', start: datosCH4[5], end: datosCH4[6], class: 'regionY'} ]
 			});
 			var chart1 = c3.generate({ bindto: '#myChart1',
-				data: { columns: [ myvalues_1 ] }, size: { height: h_g1, width: w_g1 },
+				data: { columns: [ myvalues_1 ], lables: true, }, size: { height: h_g1, width: w_g1 },
 				regions: [ {axis: 'y', start: datosCH4[5], end: datosCH4[6], class: 'regionY'} ]
 			});
 			
@@ -392,11 +392,11 @@ function cargar_todo_signos_vitales(idP,idC){
 			$('#graficaFR').sparkline(myvalues1, {type: 'line', barColor: 'green', width:'3em', height:'2em', normalRangeMin:datosCH4[8], normalRangeMax:datosCH4[9], fillColor: false, maxSpotColor:'red', minSpotColor:'orange', highlightSpotColor:'gold'} );
 			var myvalues1_1 = JSON.parse(datosCH4[28]); //alert(datosCH4[8]+';'+datosCH4[9]);
 			var chart = c3.generate({ bindto: '#myChartFR',
-				data: { columns: [ myvalues1_1 ] }, size: { height: h_g, width: w_g },
+				data: { columns: [ myvalues1_1 ], lables: true, }, size: { height: h_g, width: w_g },
 				regions: [ {axis: 'y', start: datosCH4[8], end: datosCH4[9], class: 'regionY'} ]
 			});
 			var chart2 = c3.generate({ bindto: '#myChart2',
-				data: { columns: [ myvalues1_1 ] }, size: { height: h_g1, width: w_g1 },
+				data: { columns: [ myvalues1_1 ], labels: true, }, size: { height: h_g1, width: w_g1 },
 				regions: [ {axis: 'y', start: datosCH4[8], end: datosCH4[9], class: 'regionY'} ]
 			});
 			
@@ -404,11 +404,11 @@ function cargar_todo_signos_vitales(idP,idC){
 			$('#graficaT').sparkline(myvalues2, {type: 'line', barColor: 'green', width:'3em', height:'2em', normalRangeMin:datosCH4[11], normalRangeMax:datosCH4[12], fillColor: false, maxSpotColor:'red', minSpotColor:'orange', highlightSpotColor:'gold'} );
 			var myvalues2_1 = JSON.parse(datosCH4[26]); //alert(myvalues2_1);
 			var chart = c3.generate({ bindto: '#myChartT1',
-				data: { columns: [ myvalues2_1 ] }, size: { height: h_g, width: w_g },
-				regions: [ {axis: 'y', start: datosCH4[11], end: datosCH4[12], class: 'regionY'} ]
+				data: { columns: [ myvalues2_1 ], labels: true }, size: { height: h_g, width: w_g },
+				regions: [ {axis: 'y', start: datosCH4[11], end: datosCH4[12], class: 'regionY'} ],
 			});
 			var chart3 = c3.generate({ bindto: '#myChart3',
-				data: { columns: [ myvalues2_1 ] }, size: { height: h_g1, width: w_g1 },
+				data: { columns: [ myvalues2_1 ], labels: true, }, size: { height: h_g1, width: w_g1 },
 				regions: [ {axis: 'y', start: datosCH4[11], end: datosCH4[12], class: 'regionY'} ]
 			});
 
@@ -416,11 +416,11 @@ function cargar_todo_signos_vitales(idP,idC){
 			$('#graficaTA').sparkline(myvalues3, {type: 'line', barColor: 'green', width:'3em', height:'2em', normalRangeMin:datosCH4[14], normalRangeMax:datosCH4[15], fillColor: false, maxSpotColor:'red', minSpotColor:'orange', highlightSpotColor:'gold'} );
 			var myvalues3_1 = JSON.parse(datosCH4[27]); //alert(myvalues2_1);
 			var chart = c3.generate({ bindto: '#myChartTA',
-				data: { columns: [ myvalues3_1 ] }, size: { height: h_g, width: w_g },
+				data: { columns: [ myvalues3_1 ], labels: true, }, size: { height: h_g, width: w_g },
 				regions: [ {axis: 'y', start: datosCH4[14], end: datosCH4[15], class: 'regionY'} ]
 			});
 			var chart4 = c3.generate({ bindto: '#myChart4',
-				data: { columns: [ myvalues3_1 ] }, size: { height: h_g1, width: w_g1 },
+				data: { columns: [ myvalues3_1 ], labels: true, }, size: { height: h_g1, width: w_g1 },
 				regions: [ {axis: 'y', start: datosCH4[14], end: datosCH4[15], class: 'regionY'} ]
 			});
 		
@@ -428,11 +428,11 @@ function cargar_todo_signos_vitales(idP,idC){
 			$('#graficaTemp').sparkline(myvalues4, {type: 'line', barColor: 'green', width:'3em', height:'2em', normalRangeMin:datosCH4[17], normalRangeMax:datosCH4[18], fillColor: false, maxSpotColor:'red', minSpotColor:'orange', highlightSpotColor:'gold'} );
 			var myvalues4_1 = JSON.parse(datosCH4[31]);
 			var chart = c3.generate({ bindto: '#myChartT',
-				data: { columns: [ myvalues4_1 ] }, size: { height: h_g, width: w_g },
+				data: { columns: [ myvalues4_1 ], labels: true, }, size: { height: h_g, width: w_g },
 				regions: [ {axis: 'y', start: 36.5, end: 37.5, class: 'regionY'} ]
 			});
 			var chart5 = c3.generate({ bindto: '#myChart5',
-				data: { columns: [ myvalues4_1 ] }, size: { height: h_g1, width: w_g1 },
+				data: { columns: [ myvalues4_1 ], labels: true, }, size: { height: h_g1, width: w_g1 },
 				regions: [ {axis: 'y', start: 36.5, end: 37.5, class: 'regionY'} ]
 			});
 			
@@ -440,7 +440,7 @@ function cargar_todo_signos_vitales(idP,idC){
 			$('#graficaPESO').sparkline(myvalues5, {type: 'line', barColor: 'green', width:'3em', height:'2em', fillColor: false, maxSpotColor:'red', minSpotColor:'orange', highlightSpotColor:'gold'} );
 			var myvalues5_1 = JSON.parse(datosCH4[32]);
 			var chart6 = c3.generate({ bindto: '#myChart6',
-				data: { columns: [ myvalues5_1 ] }, size: { height: h_g1, width: w_g1 },
+				data: { columns: [ myvalues5_1 ], labels: true, }, size: { height: h_g1, width: w_g1 },
 				//regions: [ {axis: 'y', start: 36.5, end: 37.5, class: 'regionY'} ]
 			});
 			
@@ -448,7 +448,7 @@ function cargar_todo_signos_vitales(idP,idC){
 			$('#graficaTALLA').sparkline(myvalues6, {type: 'line', barColor: 'green', width:'3em', height:'2em', fillColor: false, maxSpotColor:'red', minSpotColor:'orange', highlightSpotColor:'gold'} );
 			var myvalues6_1 = JSON.parse(datosCH4[33]);
 			var chart7 = c3.generate({ bindto: '#myChart7',
-				data: { columns: [ myvalues6_1 ] }, size: { height: h_g1, width: w_g1 },
+				data: { columns: [ myvalues6_1 ], labels: true, }, size: { height: h_g1, width: w_g1 },
 				//regions: [ {axis: 'y', start: 36.5, end: 37.5, class: 'regionY'} ]
 			});
 			
@@ -456,11 +456,11 @@ function cargar_todo_signos_vitales(idP,idC){
 			$('#graficaIMC').sparkline(myvalues7, {type: 'line', barColor: 'green', width:'3em', height:'2em', normalRangeMin:datosCH4[24], normalRangeMax:datosCH4[25], fillColor: false, maxSpotColor:'red', minSpotColor:'orange', highlightSpotColor:'gold'} );
 			var myvalues7_1 = JSON.parse(datosCH4[30]); 
 			var chart = c3.generate({ bindto: '#myChartIMC',
-				data: { columns: [ myvalues7_1 ] }, size: { height: h_g, width: w_g },
+				data: { columns: [ myvalues7_1 ], labels: true, }, size: { height: h_g, width: w_g },
 				regions: [ {axis: 'y', start: 18.50, end: 25, class: 'regionY'} ]
 			});
 			var chart8 = c3.generate({ bindto: '#myChart8',
-				data: { columns: [ myvalues7_1 ] }, size: { height: h_g1, width: w_g1 },
+				data: { columns: [ myvalues7_1 ], labels: true, }, size: { height: h_g1, width: w_g1 },
 				regions: [ {axis: 'y', start: 18.50, end: 25, class: 'regionY'} ]
 			});
 		});
