@@ -165,7 +165,7 @@ $(document).ready(function(e) {
 	$("#fechaA").on('changeDate', function(e) { oTableP.draw(); });
 });
 
-function verSignosV(idP,idC,opc,concept,id_s,estat){
+function verSignosV(idP,idC,opc,concept,id_s,estat, idH){
 	var datosCon = {idP:idP, idC:idC}
 	$.post('enfermeria/files-serverside/datosSV.php',datosCon).done(function(data){var datos=data.split(';*-');
 		$("#myModalx").load('consultas/htmls/ficha_consulta.php',function(response,status,xhr){ if(status=="success"){
@@ -179,7 +179,7 @@ function verSignosV(idP,idC,opc,concept,id_s,estat){
 			$('.escala_g').prop('disabled','disabled');
 			
 			$('#print_SignosV').click(function(e) { 
-				imprimirSV(idP,idC);
+				imprimirSV(idP,idC, idH);
 			});
 
 			$('#b_agregarSignosC').click(function(e) { tomar_sv(idP,2,idC, id_s); });
@@ -674,11 +674,11 @@ function checarEscala(id){//if($('#'+id).val()>0){ }else{}
 	$('#total_escala_g').text(x); $('.'+id).text($('#'+id).val());
 	if(x<1){$('#row_texto_puntuacion_g').addClass('hidden');}else{$('#row_texto_puntuacion_g').removeClass('hidden');}
 }
-function imprimirSV(idP,idC){
+function imprimirSV(idP,idC, idH){
 	var datosCon = {idP:idP, idC:idC}
 	$.post('enfermeria/files-serverside/datosSV.php',datosCon).done(function(data){
 		var datos=data.split(';*-');
-		window.open("hospital/genera/signos_vitales_reporte.php?idP="+idP+"&edad="+datos[1]+"&sexo="+datos[2]+"&id_u="+ $('#id_user').val(), '_blank');
+		window.open("hospital/genera/signos_vitales_reporte.php?idP="+idP+"&edad="+datos[1]+"&sexo="+datos[2]+"&id_u="+ $('#id_user').val()+"&id_h_sv="+idH, '_blank');
 	});
 }
 </script>
