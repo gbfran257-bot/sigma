@@ -138,7 +138,7 @@ require("../../funciones/php/values.php");
 		
     // Obtenemos el id_h_vc
     mysql_select_db($database_horizonte, $horizonte);
-    $query_idh = "SELECT id_h FROM HOSPITALIZACION WHERE id_consulta_vc_h = {$id_vc}";
+    $query_idh = "SELECT id_h FROM hospitalizacion WHERE id_consulta_vc_h = {$id_vc}";
     $resultado_query_idh = mysql_query($query_idh, $horizonte) or die(mysql_error());
     $idh = mysql_fetch_object($resultado_query_idh)->id_h;
 
