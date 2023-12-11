@@ -67,6 +67,18 @@
     <link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
     <link href="c3/c3.css" rel="stylesheet">
+
+	<!--Select2-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<script src="js/select2Gen.js"></script>
+
+	<style>
+		/* Estilo necesario para que se muestre el select2 en el modal */
+		.select2-container {
+			z-index: 9999;
+		}
+	</style>
 </head>
 <?php include_once 'partes/header.php'; ?>
 <!-- Contenido -->
@@ -1134,7 +1146,7 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 		},400); });
 		$('#salvarConsulta').click(function(e) { salvarConsulta(id_h, id_p, $("#tipoNotaMed").val(), nombre_p, id_s, tUser, tUser1); });
 		$('#print_SignosV').click(function(e) { 
-			imprimirSV(id_p,id_h);
+			imprimirSV(idP,idC, idC);
 		});
 	
 		$('#myModalx').modal('show'); $('#myModalx').on('shown.bs.modal', function (e) { });
@@ -1991,6 +2003,7 @@ function rhLab(idC,idP,n,idE){//alert(idC+' '+idP+' '+n+' '+idE);
 var soloSV = false;
 function verSignosV(idP,idC,opc,concept,id_s,estat, id_h){
 	var datosCon = {idP:idP, idC:idC}
+	const datosCC = { id_vc: idC };
 	$.post('enfermeria/files-serverside/datosSV.php',datosCon).done(function(data){var datos=data.split(';*-');
 		$("#myModalx").load('consultas/htmls/ficha_consulta.php',function(response,status,xhr){ if(status=="success"){
 			$('#titulo_modal').text('PACIENTE: '+datos[22]+' - EDAD: '+datos[1]+' - SEXO: '+datos[2]+' | FECHA: '+datos[24]);
@@ -2004,9 +2017,78 @@ function verSignosV(idP,idC,opc,concept,id_s,estat, id_h){
 			
 			$('#b_agregarSignosC').click(function(e) { tomar_sv(idP,2,idC, id_s); });
 
-			$('#print_SignosV').attr("id_h_sv", id_h);
+			// Se replica la funcionalidad para mostrar el modal que permite hospitalizar a un paciente
+			$('#hospitalizarP').click(function(e) {
+				$("#myModal1").load('consultas/htmls/selecciona_cama.php', function(response, status, xhr) {
+					if (status == "success") {
+						// $("#myModal1").attr('tabindex', 2);
+						$('#titulo_modal').text('SELECCIONA UNA CAMA DEL HOSPITAL');
+
+						$('#form-selecciona-cama').validator().on('submit', function(e) {
+							if (e.isDefaultPrevented()) { // handle the invalid form...
+							} else { // everything looks good!
+								e.preventDefault();
+								var datosP = $('#myModal1 #form-selecciona-cama').serialize();
+								datosP += "&idP=" + idP + "&idU=" + $("#id_user").val() + "&id_vc=" + idC;
+
+								// Aqui ya se hospitaliza
+								$.post('consultas/files-serverside/check_hospitalizado.php', datosCC).done(function(data) {
+									if (data < 1) {
+										swal({
+											title: "",
+											text: "¿Desea hospitalizar a éste paciente?",
+											buttons: {
+												confirm: {
+													text: "Hospitalizar",
+													closeModal: false,
+												},
+												cancel: {
+													text: "Cancelar",
+													visible: true,
+													className: "hospitalizar_cancel-button"
+												}
+											},
+											type: "warning",
+										}, (isConfirmed) => {
+											if (isConfirmed) {
+												setTimeout(() => {
+													$.post("consultas/files-serverside/hospitalizar.php", datosP).done((data) => {
+														if (data == 1) {
+															swal("¡HECHO!", "Paciente hospitalizacion correctamente", "success");
+															$("#myModal1").modal("hide");
+														}
+													});
+												}, 400);
+											}
+										});
+									} else {
+										swal({
+											title: "No se puede hospitalizar",
+											type: "error",
+											text: "El paciente ya se encuentra hospitalizado.",
+											timer: 1800,
+											buttons: false
+										});
+										$('#hospitalizarP').remove();
+									}
+								});
+							}
+						});
+
+						$('#myModal1').modal('show');
+						$('#myModal1').on('shown.bs.modal', function(e) {
+							$('#form-selecciona-cama').validator();
+						});
+						$('#myModal1').on('hidden.bs.modal', function(e) {
+							$("#myModal1 .modal-content").remove();
+							$("#myModal1").empty();
+						});
+					}
+				});
+			});
+
 			$('#print_SignosV').click(function(e) { 
-				imprimirSV(idP,idC);
+				imprimirSV(idP,idC, idC);
 			});
 			
 			//Cargamos los datos de los Signos Vitales y Cargamos los datos de Historia Clínica
@@ -2070,13 +2152,16 @@ function verHC(id_h, id_p, nombre_p, id_s, tUser, tUser1){
 		});
 	}});		
 }
-function imprimirSV(idP,idC){
-	var datosCon = {idP:idP, idC:idC}
-	$.post('enfermeria/files-serverside/datosSV.php',datosCon).done(function(data){
-		var datos=data.split(';*-');
-		window.open("hospital/genera/signos_vitales_reporte.php?idP="+idP+"&edad="+datos[1]+"&sexo="+datos[2]+"&id_u="+ $('#id_user').val()+"&id_h_sv="+$("#print_SignosV").attr("id_h_sv"), '_blank');
-	});
-}
+function imprimirSV(idP, idC) {
+		var datosCon = {
+			idP: idP,
+			idC: idC
+		}
+		$.post('enfermeria/files-serverside/datosSV.php', datosCon).done(function(data) {
+			var datos = data.split(';*-');
+			window.open("hospital/genera/signos_vitales_reporte.php?idP=" + idP + "&edad=" + datos[1] + "&sexo=" + datos[2] + "&id_u=" + $('#id_user').val() + "&idC=" + idC, '_blank');
+		});
+	}
 function diagnosticos(idC,idP,estatus){
 	$("#myModalx").load('hospital/htmls/diagnosticos.php',function(response,status,xhr){ if(status=="success"){
 

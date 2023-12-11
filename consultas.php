@@ -4413,7 +4413,7 @@ include_once 'recursos/datauser.php';
 		}
 		$.post('enfermeria/files-serverside/datosSV.php', datosCon).done(function(data) {
 			var datos = data.split(';*-');
-			window.open("hospital/genera/signos_vitales_reporte.php?idP=" + idP + "&edad=" + datos[1] + "&sexo=" + datos[2] + "&id_u=" + $('#id_user').val(), '_blank');
+			window.open("hospital/genera/signos_vitales_reporte.php?idP=" + idP + "&edad=" + datos[1] + "&sexo=" + datos[2] + "&id_u=" + $('#id_user').val() + "&idC=" + idC, '_blank');
 		});
 	}
 </script>

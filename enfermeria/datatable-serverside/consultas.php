@@ -132,8 +132,8 @@ require("../../funciones/php/values.php");
         { if ( $aColumns[$i] == "version" ) { /* Special output formatting for 'version' column */ $row[] = ($aRow[ $aColumns[$i] ]=="0") ? '-' : $aRow[ $aColumns[$i] ]; } else if ( $aColumns[$i] != ' ' ) { /* General output */ $row[] = $aRow[$i]; } }
 		$row1 = array();
         for ( $j=0 ; $j<count($aColumns) ; $j++ ) { if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; } else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; } }
-		$id_vc = $row[0];
-		$row[0]="<span>$hh</span>";
+		$id_vc = intval($row[0]);
+    $row[0]="<span>$hh</span>";
 		$row[10] = $row[10]." ".$row[16];//Nombre completo del médico
 		
     // Obtenemos el id_h_vc
@@ -142,15 +142,15 @@ require("../../funciones/php/values.php");
     $resultado_query_idh = mysql_query($query_idh, $horizonte) or die(mysql_error());
     $idh = mysql_fetch_object($resultado_query_idh)->id_h;
 
-		$row[6] = "<div align='center'><button type='button' class='btn btn-link btn-sm' id='$row[17]' lang='$row[12]' onClick='verSignosV(this.lang, this.id,0,\"$row[21]\",\"$row[21]\",0, \"{$idh}\")'>Tomar</button></div>";
-		$row[7] = "<div align='center'><button type='button' class='btn btn-link btn-sm' id='$row[17]' lang='$row[12]' onClick='verSignosV(this.lang, this.id,1,\"$row[21]\",\"$row[21]\",0, \"{$idh}\")'>Tomar</button></div>";
+		$row[6] = "<div align='center'><button type='button' class='btn btn-link btn-sm' id='$row[17]' lang='$row[12]' onClick='verSignosV(this.lang, this.id,0,\"$row[21]\",\"$row[21]\",0)'>Tomar</button></div>";
+		$row[7] = "<div align='center'><button type='button' class='btn btn-link btn-sm' id='$row[17]' lang='$row[12]' onClick='verSignosV(this.lang, this.id,1,\"$row[21]\",\"$row[21]\",0)'>Tomar</button></div>";
 		
 		//Si el paciente no tiene signos vitales enconces el ícono de SV sera un ? en caso de que si tenga el ícono será un info o alerta si tiene signos anormales
 		mysql_select_db($database_horizonte, $horizonte); $resultS = mysql_query("SELECT count(id_sv) from signos_vitales where id_paciente_sv = $row[12] ", $horizonte) or die (mysql_error()); $rowS = mysql_fetch_row($resultS);
 		mysql_select_db($database_horizonte, $horizonte); $resultS1 = mysql_query("SELECT DATE_FORMAT(fecha_sv,'%d/%c/%Y') from signos_vitales where id_paciente_sv = $row[12] order by id_sv desc", $horizonte) or die (mysql_error()); $rowS1 = mysql_fetch_row($resultS1);
     
       if($rowS[0]>0){
-        $row[6] = "<div align='center'><button type='button' class='btn btn-link btn-sm' id='$row[17]' lang='$row[12]' onClick='verSignosV(this.lang, this.id,0,\"$row[21]\",\"$row[21]\",1, \"{$idh}\")'>$rowS1[0]</button></div>";
+        $row[6] = "<div align='center'><button type='button' class='btn btn-link btn-sm' id='$row[17]' lang='$row[12]' onClick='verSignosV(this.lang, this.id,0,\"$row[21]\",\"$row[21]\",1)'>$rowS1[0]</button></div>";
       }
 
 
@@ -167,7 +167,7 @@ require("../../funciones/php/values.php");
 		mysql_select_db($database_horizonte, $horizonte); 
 		$resultH = mysql_query("SELECT temporal_hc from historia_clinica where id_paciente_hc = $row[12] ", $horizonte) or die (mysql_error()); $rowH = mysql_fetch_row($resultH);
 		if($rowH[0]==0){
-			$row[7] = "<div align='center'><button type='button' class='btn btn-link btn-sm' id='$row[17]' lang='$row[12]' onClick='verSignosV(this.lang, this.id,1,\"$row[21]\",\"$row[21]\",1, \"{$idh}\")'>$rowH2[0]</button></div>";
+			$row[7] = "<div align='center'><button type='button' class='btn btn-link btn-sm' id='$row[17]' lang='$row[12]' onClick='verSignosV(this.lang, this.id,1,\"$row[21]\",\"$row[21]\",1)'>$rowH2[0]</button></div>";
 		}
 		
 		if ($row[4] == "PENDIENTE"){}else if($row[4] == "ATENDIDA"){

@@ -7,7 +7,7 @@ if(strlen($_GET['idP']) && strlen($_GET['edad']) ){
   $idP = $_GET['idP'];
   $id_u = $_GET['id_u'];
   $sexo = $_GET['sexo'];
-  $id_h_sv = $_GET['id_h_sv'];
+  $idC = $_GET['idC'];
 }
 
 mysql_select_db($database_horizonte, $horizonte);
@@ -32,11 +32,10 @@ $nombreP= $rowtP[0];
 
 // Consultamos el diagnóstico y el médico tratante
 mysql_select_db($database_horizonte, $horizonte);
-$query_diagnostico_medico = "SELECT motivo_h, usuario_u FROM hospitalizacion h LEFT JOIN usuarios u ON h.id_usuario_h = u.id_u WHERE id_h = {$id_h_sv}";
+$query_diagnostico_medico = "SELECT motivo_h, usuario_u FROM hospitalizacion h LEFT JOIN usuarios u ON h.id_usuario_h = u.id_u WHERE id_consulta_vc_h = {$idC}";
 if (!$resultado_query_diagnostico_medico = mysql_query($query_diagnostico_medico, $horizonte)) {
   die(mysql_error());
 }
-
 $diagnostico_medico = mysql_fetch_object($resultado_query_diagnostico_medico);
 
 require('../../fpdf/fpdf.php');
@@ -83,12 +82,14 @@ $pdf->Cell(95,10,$rowtU[0],1,0,'C');
 $pdf->Cell(30,10,iconv("UTF-8", "windows-1252", 'FECHA IMPRESIÓN'),1,0,'C');
 $pdf->Cell(30,10,$now,1,1,'C');
 
-$pdf->SetX(20);
-$pdf->Cell(30,10, iconv("UTF-8", "windows-1252", "DIAGNÓSTICO") ,1,0,'C');
-$pdf->Cell(145,10,iconv("UTF-8", "windows-1252", $diagnostico_medico->motivo_h),1,1,'C');
-$pdf->SetX(20);
-$pdf->Cell(40,10, iconv("UTF-8", "windows-1252", "MÉDICO TRATANTE") ,1,0,'C');
-$pdf->Cell(135,10,iconv("UTF-8", "windows-1252", $diagnostico_medico->usuario_u),1,1,'C');
+if ((isset($diagnostico_medico->motivo_h) && !empty($diagnostico_medico->motivo_h)) && (isset($diagnostico_medico->usuario_u) && !empty($diagnostico_medico->usuario_u))) {
+  $pdf->SetX(20);
+  $pdf->Cell(30,10, iconv("UTF-8", "windows-1252", "DIAGNÓSTICO") ,1,0,'C');
+  $pdf->Cell(145,10,iconv("UTF-8", "windows-1252", $diagnostico_medico->motivo_h),1,1,'C');
+  $pdf->SetX(20);
+  $pdf->Cell(40,10, iconv("UTF-8", "windows-1252", "MÉDICO TRATANTE") ,1,0,'C');
+  $pdf->Cell(135,10,iconv("UTF-8", "windows-1252", $diagnostico_medico->usuario_u),1,1,'C');
+}
 
 $pdf->Ln(10);
 
@@ -107,22 +108,18 @@ $pdf->Cell(10,10,'OXI',1,1,'C');
 // $pdf->Cell(70,10,$id_h,0,1,'C');
 $total = 0;
 
-$signos_vitales = mysql_fetch_array($query);
-$num_signos_vitales = count($signos_vitales);
-$limite_signos_vitales = $num_signos_vitales > 10 ? 10 : $num_signos_vitales;
-
-for ($i = 0; $i < $limite_signos_vitales; $i++) {
+while ($fila = mysql_fetch_assoc($query)) {
   $pdf->SetX(10);
-  $pdf->Cell(30,10,$signos_vitales[0],1,0,'C');
-  $pdf->Cell(30,10,$signos_vitales[1],1,0,'C');
-  $pdf->Cell(20,10,$signos_vitales[2],1,0,'C');
-  $pdf->Cell(20,10,$signos_vitales[3],1,0,'C');
-  $pdf->Cell(15,10,$signos_vitales[4],1,0,'C');
-  $pdf->Cell(20,10,$signos_vitales[5],1,0,'C');
-  $pdf->Cell(15,10,$signos_vitales[6]."/".$fila['a_sv'],1,0,'C');
-  $pdf->Cell(15,10,$signos_vitales[7]."/".$fila['fc_sv'],1,0,'C');
-  $pdf->Cell(15,10,$signos_vitales[8],1,0,'C');
-  $pdf->Cell(10,10,$signos_vitales[9],1,1,'C');
+  $pdf->Cell(30,10,$fila['Fecha'],1,0,'C');
+  $pdf->Cell(30,10,$fila['usuario'],1,0,'C');
+  $pdf->Cell(20,10,$fila['peso_sv'],1,0,'C');
+  $pdf->Cell(20,10,$fila['talla_sv'],1,0,'C');
+  $pdf->Cell(15,10,$fila['imc_sv'],1,0,'C');
+  $pdf->Cell(20,10,$fila['cintura_sv'],1,0,'C');
+  $pdf->Cell(15,10,$fila['t_sv']."/".$fila['a_sv'],1,0,'C');
+  $pdf->Cell(15,10,$fila['fr_sv']."/".$fila['fc_sv'],1,0,'C');
+  $pdf->Cell(15,10,$fila['temperatura_sv'],1,0,'C');
+  $pdf->Cell(10,10,$fila['oximetria_sv'],1,1,'C');
 }
 
 $pdf->Output();
