@@ -62,6 +62,11 @@
         <?php if ($_SERVER['REQUEST_URI'] == "/sigma/pedidos.php") : ?>
             <div id="modal_impresion_reporte_pedidos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
+
+        <!--Inventario-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/sigma/inventario.php") : ?>
+            <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
     <?php else : ?>
         <!--Laboratorio-->
         <?php if ($_SERVER['REQUEST_URI'] == "/laboratorio.php") : ?>
@@ -101,6 +106,11 @@
         <!--Pedidos-->
         <?php if ($_SERVER['REQUEST_URI'] == "/pedidos.php") : ?>
             <div id="modal_impresion_reporte_pedidos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
+
+        <!--Inventario-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/inventario.php") : ?>
+            <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
     <?php endif; ?>
     </body>

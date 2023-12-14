@@ -169,13 +169,18 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                             <?php if ($permisos[36]) { ?> <li><a href="stock.php"><i class="fa fa-stack-exchange"></i> STOCK</a></li> <?php } ?>
                             
                             <!--Se agrega la opción de traspasos. Queda pendiente hacer la verificación del permiso requerido para visualizar esta opción-->
-                            <?php if (true) : ?>
+                            <?php if ($permisos[50]) : ?>
                                 <li><a href="transferencias.php"><i class="fa fa-exchange"></i> TRANSFERENCIAS</a></li>
                             <?php endif; ?>
 
                             <!--Se agrega la opción de pedido. Queda pendiente hacer la verificación del permiso requerido para visualizar esta opción-->
-                            <?php if (true) : ?>
+                            <?php if ($permisos[49]) : ?>
                                 <li><a href="pedidos.php"><i class="fa fa-shopping-cart"></i> PEDIDOS</a></li>
+                            <?php endif; ?>
+
+                            <!--Se agrega la opción de pedido. Queda pendiente hacer la verificación del permiso requerido para visualizar esta opción-->
+                            <?php if (true) : ?>
+                                <li><a href="inventario.php"><i class="fa fa-archive"></i> INVENTARIO</a></li>
                             <?php endif; ?>
 
                             <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>

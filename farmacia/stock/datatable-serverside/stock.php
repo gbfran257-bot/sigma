@@ -51,7 +51,7 @@ $sucu_user = $_SESSION['MM_Usersucu'];
                 if(count($listaID) > 0){
                     //RECORRE EL ARREGLO PARA FORMAR EL WHERE 
                     for ($i=0; $i < count($listaID); $i++) { 
-                        if ( $sWhere == "" ) { $sWhere = "WHERE s.usuario_registro = ".$_GET[idU]; } else { $sWhere .= " OR "; }
+                        if ( $sWhere == "" ) { $sWhere = "WHERE s.usuario_registro = ".$_GET['idU']; } else { $sWhere .= " OR "; }
                         $sWhere .= " s.id = ".$listaID[$i]['id'];
                     }
                 }else{

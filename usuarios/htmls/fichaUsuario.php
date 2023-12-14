@@ -797,7 +797,7 @@ $id_del_user = $_SESSION['id'];
               <table class="table-condensed">
               	<tr>
                     <td>
-                      <label><input type="checkbox" name="p_32" class="chekito"> PUNTO DE VENTA</label>
+                      <label><input type="checkbox" name="p_32" class="chekito"> COMPRAS</label>
                       <input name="h_permisos[32]" type="hidden" value="0">
                     </td>
                     <td>
@@ -813,12 +813,16 @@ $id_del_user = $_SESSION['id'];
                       <input name="h_permisos[35]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_36" class="chekito"> INVENTARIO</label>
+                      <label><input type="checkbox" name="p_36" class="chekito"> STOCK</label>
                       <input name="h_permisos[36]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_37" class="chekito"> TRASPASOS</label>
-                      <input name="h_permisos[37]" type="hidden" value="0">
+                      <label><input type="checkbox" name="p_50" class="chekito"> TRANSFERENCIAS</label>
+                      <input name="h_permisos[50]" type="hidden" value="0">
+                    </td>
+                    <td>
+                      <label><input type="checkbox" name="p_49" class="chekito"> PEDIDOS</label>
+                      <input name="h_permisos[49]" type="hidden" value="0">
                     </td>
                 </tr>
               </table>

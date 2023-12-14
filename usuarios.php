@@ -1259,7 +1259,7 @@ function verUsuario(idU, nombre_u, tempi_u){
 				if($(this).is(':checked')){$('#domingo_de1').val('08:00');$('#domingo_a1').val('14:00');$('#t_domingo').val(1); }
 				else{$('#domingo_de1').val('00:00');$('#domingo_a1').val('00:00');$('#t_domingo').val(0); } 
 			});
-			for(var it=0; it<49; it++){
+			for(var it=0; it<51; it++){
 				if(dato[55][it]==1){
 					$("input[name='h_permisos["+it+"]']").val(1);
 					$("input[name='p_"+it+"']").prop('checked', true);
