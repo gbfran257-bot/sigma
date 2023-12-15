@@ -418,8 +418,7 @@
                     ></a>
                 </div>
             <?php } ?>
-
-            <? if (true) : ?>
+            <?php if ($permisos[50]) : ?>
                 <div class="col-md-2">
                     <a href="transferencias.php"><img src="imagenes/menu/_transferencias.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"
                     id="farmacia_transferencias"
@@ -427,9 +426,9 @@
                     onmouseleave="returner(this.id);"
                     ></a>
                 </div>
-            <? endif; ?>
+            <?php endif; ?>
             
-            <? if (true) : ?>
+            <?php if ($permisos[49]) : ?>
                 <div class="col-md-2">
                     <a href="pedidos.php"><img src="imagenes/menu/_pedidos.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"
                     id="farmacia_pedidos"
@@ -437,7 +436,17 @@
                     onmouseleave="returner(this.id);"
                     ></a>
                 </div>
-            <? endif; ?>
+            <?php endif; ?>
+            
+            <?php if ($permisos[51]) : ?>
+                <div class="col-md-2">
+                    <a href="inventario.php"><img src="imagenes/menu/_inventario.png" class="img-responsive fadeInLeft wow menu" data-wow-delay="0.1s"
+                    id="farmacia_inventario"
+                    onmouseenter="cambiar(this.id);" 
+                    onmouseleave="returner(this.id);"
+                    ></a>
+                </div>
+            <?php endif; ?>
             
             <div class="col-md-2">
                 <img src="imagenes/ig/Inicio-01.png" class="img-responsive fadeInUp wow menu" data-wow-delay="0.3s" data-id="#inicio-menuPrincipal"
@@ -748,6 +757,7 @@
         'farmacia_pedidos':'pedidos_a.png',
         'farmacia_productos':'productos_a.png',
         'farmacia_medicamentos':'medicamentos_a.png',
+        'farmacia_inventario': 'inventario_a.png',
 
         //servicios
         'servicios_catalogos':'catalogos_a.png',
@@ -844,6 +854,7 @@
         'farmacia_pedidos':'_pedidos.png',
         'farmacia_productos':'Productos-01.png',
         'farmacia_medicamentos':'Medicamentos-01.png',
+        'farmacia_inventario': '_inventario.png',
 
          //Administracion
          'admin_corte_caja':'CorteCaja-01.png',

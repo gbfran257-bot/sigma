@@ -179,7 +179,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                             <?php endif; ?>
 
                             <!--Se agrega la opción de pedido. Queda pendiente hacer la verificación del permiso requerido para visualizar esta opción-->
-                            <?php if (true) : ?>
+                            <?php if ($permisos[51]) : ?>
                                 <li><a href="inventario.php"><i class="fa fa-archive"></i> INVENTARIO</a></li>
                             <?php endif; ?>
 
