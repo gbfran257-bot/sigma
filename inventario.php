@@ -117,7 +117,7 @@ include_once 'recursos/datauser.php';
 <script>
     $(document).ready(function(e) {
         //breadcrumb
-        $('#breadc').html('<li><a href="index.php">HOME</a></li><li>FARMACIA</li><li class="active"><strong>STOCK</strong></li>');
+        $('#breadc').html('<li><a href="index.php">HOME</a></li><li>FARMACIA</li><li class="active"><strong>INVENTARIO</strong></li>');
 
         $('#my_search').removeClass('hidden');
         $.fn.datepicker.defaults.autoclose = true;
