@@ -93,9 +93,9 @@ require("../../../funciones/php/values.php");
 	}else{
 		if($_GET['idConvenio']==0){//Sin convenios
 			if($urgencia==1){//Nocturno
-				$aColumns = array('e.concepto_to','e.codigo_barras_to', 'a.nombre_a', $precio_ur, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')' );
+				$aColumns = array('e.concepto_to','e.codigo_barras_to', 'a.nombre_a', $precio_ur, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote" );
 			}else{
-				$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', $precio_nor, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')' );
+				$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', $precio_nor, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote" );
 			}
 			// DB tables to use 
 			$aTables = array( 'conceptos e');
@@ -115,9 +115,9 @@ require("../../../funciones/php/values.php");
 		}
 		else{//Con algún convenio
 			if($urgencia==1){
-				$aColumns = array('c.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'acc.precio_urgencia_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')');
+				$aColumns = array('c.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'acc.precio_urgencia_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote");
 			}else{
-				$aColumns = array('c.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'acc.precio_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')');
+				$aColumns = array('c.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'acc.precio_ac','cv.convenio_cv', 'c.id_to', 'cv.id_cv', 'cv.id_cv', 'c.id_to', 'cb.id_cb', 'cb.usado_cb', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote");
 			}
 			// DB tables to use 
 			$aTables = array( 'conceptos_beneficios cb');
@@ -206,13 +206,13 @@ require("../../../funciones/php/values.php");
 			$busqueda = "%" . htmlentities($_GET['sSearch_' . $i]) . "%";
 
 			if ($i == 4) {
-				if (count($aColumns) == 10) {
+				if (count($aColumns) == 11) {
 					$sWhere .= $aColumns[7]." LIKE '".$busqueda."' ";
 				} else {
 					$sWhere .= $aColumns[11]." LIKE '".$busqueda."' ";
 				}
 			} elseif ($i == 5) {
-				if (count($aColumns) == 10) {
+				if (count($aColumns) == 11) {
 					$sWhere .= $aColumns[8]." LIKE '".$busqueda."' ";
 				} else {
 					$sWhere .= $aColumns[12]." LIKE '".$busqueda."' ";
