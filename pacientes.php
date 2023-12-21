@@ -4279,9 +4279,9 @@ include_once 'recursos/datauser.php';
 
 									// Agregamos la cantidad de productos seleccinados
 									$('.depende_pro').removeClass('hidden');
-									if (rowData[0][8] !== undefined) {
-										coveni = rowData[0][8];
-										ocu = rowData[0][9];
+									if (rowData[0][7] !== undefined) {
+										coveni = rowData[0][7];
+										ocu = 0;
 									}
 									subirProductoS(
 										idE,
@@ -4318,9 +4318,9 @@ include_once 'recursos/datauser.php';
 						return;
 					}
 
-					if (rowData[0][8] !== undefined) {
-						coveni = rowData[0][8];
-						ocu = rowData[0][9];
+					if (rowData[0][7] !== undefined) {
+						coveni = rowData[0][7];
+						ocu = 0;
 					}
 					subirProductoS(
 						idE,
