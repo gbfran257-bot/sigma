@@ -2189,7 +2189,9 @@ include_once 'recursos/datauser.php';
 
 	function buscar_medis(idC, idP) {
 		$('.hide_meds,#salirSGconsulta').addClass('hidden');
-		$('#tab_medis,#b_cancel_medis').removeClass('hidden');
+		$('#tab_medis,#b_cancel_medis,#select-almacen').removeClass('hidden');
+		$(".select2-container").show();
+		
 		window.setTimeout(function() {
 			$('#mi_tab_meds').click();
 		}, 300);
@@ -2209,9 +2211,12 @@ include_once 'recursos/datauser.php';
 			],
 			deferRender: true,
 			select: {
-				style: 'single'
+				style: 'single',
+				selector: 'td:not(:last-child)'
 			},
 			"aoColumns": [{
+				"bSortable": false
+			}, {
 				"bSortable": false
 			}, {
 				"bSortable": false
@@ -2230,7 +2235,12 @@ include_once 'recursos/datauser.php';
 			"bServerSide": true,
 			ordering: false,
 			"sDom": 'lrtS',
-			"sAjaxSource": "consultas/datatable-serverside/buscar_medicamentos.php",
+			"ajax": {
+				"url": "consultas/datatable-serverside/buscar_medicamentos.php",
+				"data": function(data) {
+					data.id_s = $("#select-almacen").val() || 0;
+				},
+			},
 			"oLanguage": {
 				"sLengthMenu": "MONSTRANDO _MENU_ records per page",
 				"sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS",
@@ -2405,7 +2415,9 @@ include_once 'recursos/datauser.php';
 
 		$('#b_cancel_medis').click(function(e) {
 			$('.hide_meds,#salirSGconsulta').removeClass('hidden');
-			$('#tab_medis,#b_cancel_medis').addClass('hidden');
+			$('#tab_medis,#b_cancel_medis,#select-almacen').addClass('hidden');
+			$("#select-almacen").val("").change();
+			$(".select2-container").hide();
 			window.setTimeout(function() {
 				$('#my_tb_re').click();
 			}, 300); //checarHayMedi(idP, idC);
@@ -3448,6 +3460,22 @@ include_once 'recursos/datauser.php';
 						$('#myModalx').on('hidden.bs.modal', function(e) {
 							$(".modal-content").remove();
 							$("#myModalx").empty();
+						});
+
+						// Cargamos los almacenes de los medicamentos
+						$("#select-almacen").select2({
+							placeholder: "Seleccione un almacen",
+							width: "200px",
+							ajax: {
+								url: "pedidos/files-serverside/sucursales.php",
+								dataType: "json",
+							}
+						});
+						$(".select2-container").hide();
+						$("#select-almacen").on("select2:select", (e) => {
+							$("#dataTableBMedicamentos").DataTable().ajax.params().id_s = $("#select-almacen").val();
+							console.log($("#dataTableBMedicamentos").DataTable().ajax.params);
+							$("#dataTableBMedicamentos").DataTable().ajax.reload();
 						});
 
 						// Asignamos las funciones a los botones de acciones de receta

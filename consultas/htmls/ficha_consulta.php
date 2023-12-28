@@ -55,6 +55,7 @@
                 </svg>
               </button>
             <?php endif; ?>
+            <select id="select-almacen" class="hidden"></select>
             <button type="button" data-loading-text="<i class='fa fa-circle-o-notch fa-spin' aria-hidden='true'></i> Procesando..." class="btn btn-primary btn-sm btns-consulta" id="salvarConsulta"><i class="fa fa-cloud" aria-hidden="true"></i> Guardar</button>
             <button type="button" class="btn btn-info btn-sm" id="hospitalizarP"><i class="fa fa-bed" aria-hidden="true"></i> </button>
 
@@ -1280,6 +1281,7 @@ Sin embargo, en sentido estricto se suele denominar cardiopatía a las enfermeda
                         <th align="center">PRESENTACIÓN</th>
                         <th align="center">CONCENTRACIÓN</th>
                         <th align="center">VÍA</th>
+                        <th align="center">PLM</th>
                       </tr>
                     </thead>
                     <tbody align="left">
@@ -1295,6 +1297,7 @@ Sin embargo, en sentido estricto se suele denominar cardiopatía a las enfermeda
                         <th><input type="text" name="tex3" id="tex3" class="form-control input-sm" style="width:99%;" placeholder="Buscar"></th>
                         <th><input type="text" name="tex4" id="tex4" class="form-control input-sm" style="width:99%;" placeholder="Buscar"></th>
                         <th><input type="text" name="tex5" id="tex5" class="form-control input-sm" style="width:99%;" placeholder="Buscar"></th>
+                        <th></th>
                       </tr>
                     </tfoot>
                   </table>
