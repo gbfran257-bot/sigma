@@ -2228,6 +2228,10 @@ include_once 'recursos/datauser.php';
 				"bSortable": false
 			}, {
 				"bSortable": false
+			}, {
+				"bSortable": false
+			}, {
+				"bSortable": false
 			}],
 			"iDisplayLength": 50,
 			"bLengthChange": false,

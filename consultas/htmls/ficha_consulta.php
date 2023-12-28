@@ -1281,6 +1281,8 @@ Sin embargo, en sentido estricto se suele denominar cardiopatía a las enfermeda
                         <th align="center">PRESENTACIÓN</th>
                         <th align="center">CONCENTRACIÓN</th>
                         <th align="center">VÍA</th>
+                        <th align="center">LOTE</th>
+                        <th align="center">EXISTENCIAS</th>
                         <th align="center">PLM</th>
                       </tr>
                     </thead>
@@ -1297,6 +1299,8 @@ Sin embargo, en sentido estricto se suele denominar cardiopatía a las enfermeda
                         <th><input type="text" name="tex3" id="tex3" class="form-control input-sm" style="width:99%;" placeholder="Buscar"></th>
                         <th><input type="text" name="tex4" id="tex4" class="form-control input-sm" style="width:99%;" placeholder="Buscar"></th>
                         <th><input type="text" name="tex5" id="tex5" class="form-control input-sm" style="width:99%;" placeholder="Buscar"></th>
+                        <th><input type="text" name="tex6" id="tex6" class="form-control input-sm" style="width:99%;" placeholder="Buscar"></th>
+                        <th><input type="text" name="tex7" id="tex7" class="form-control input-sm" style="width:99%;" placeholder="Buscar"></th>
                         <th></th>
                       </tr>
                     </tfoot>

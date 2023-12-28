@@ -1,15 +1,15 @@
 <?php
 require("../../Connections/horizonte.php");
-	$aColumns = array('c.id_to', 'c.concepto_to', 'm.nombre_generico_med','m.descripcion_med','m.cantidad_med', 'm.via_administracion_med', 'm.clave_med','c.id_to' );
+	$aColumns = array('c.id_to', 'c.concepto_to', 'm.nombre_generico_med','m.descripcion_med','m.cantidad_med', 'm.via_administracion_med', 's.Lote', 's.existencias', 'm.clave_med','c.id_to' );
      
     // DB tables to use 
-    $aTables = array( 'stock_has_bach s');
+    $aTables = array( 'conceptos c');
      
     // Indexed column (used for fast and accurate table cardinality) 
-    $sIndexColumn = "s.id";
+    $sIndexColumn = "c.id_to";
     
     // Joins   
-    $sJoin = 'left join conceptos c on s.id_Producto = c.id_to left join medicamentos m on m.id_med = c.id_medicamento_g';
+    $sJoin = 'left join stock_has_bach s on c.id_to = s.id_Producto left join medicamentos m on m.id_med = c.id_medicamento_g';
 	 
     // CONDITIONS 
     if ($_GET['id_s'] == 0) {
@@ -145,7 +145,7 @@ require("../../Connections/horizonte.php");
 
 		$row[1]="<div style='text-align:left;'>$row[1]</div>";
 
-        $row[6] = "<button onclick=\"window.open('https://www.medicamentosplm.com/Home/Busqueda?texto={$medicamento}', '_blank')\" class='btn btn-info'><i class='fa fa-info'></i></button>";
+        $row[8] = "<button onclick=\"window.open('https://www.medicamentosplm.com/Home/Busqueda?texto={$medicamento}', '_blank')\" class='btn btn-info'><i class='fa fa-info'></i></button>";
 		
 		$output['aaData'][] = $row;
 		
