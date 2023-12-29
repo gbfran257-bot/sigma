@@ -3,7 +3,7 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('v.id_vc','v.referencia_vc', 'concat(p.nombre_p," ", p.apaterno_p," ", p.amaterno_p)', 'concat(m.nombre_u," ", m.apaterno_u)', 'replace(e.concepto_to,"CONSULTA DE ","")', 'v.fecha_venta_vc', 's.clave_su', 'es.estatus_est', 'v.urgente_vc', 'p.id_p', 'm.id_u', 'v.fecha_venta_vc','p.amaterno_p', 'm.amaterno_u', 'v.id_vc', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%c/%Y %H:%m")', 'v.fechaEdo3_e', 'v.fecha_venta_vc', 'v.nota_interpretacion', 'es.estatus_est', 's.nombre_su', 's.id_su','o.motivo_c_ov','p.fNac_p','SUBSTRING(sx.cat_sexo, 1, 1)','concat(m.nombre_u," ", m.apaterno_u, " ", m.amaterno_u)', 'replace(e.concepto_to,"CONSULTA DE ","")','s.clave_su','v.urgente_vc','concat(nu.nombre_u, " ", nu.apaterno_u, " ", nu.amaterno_u)' );
+	$aColumns = array('v.id_vc','v.referencia_vc', 'concat_ws(" ", p.nombre_p, p.apaterno_p, p.amaterno_p)', 'concat(m.nombre_u," ", m.apaterno_u)', 'replace(e.concepto_to,"CONSULTA DE ","")', 'v.fecha_venta_vc', 's.clave_su', 'es.estatus_est', 'v.urgente_vc', 'p.id_p', 'm.id_u', 'v.fecha_venta_vc','p.amaterno_p', 'm.amaterno_u', 'v.id_vc', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%c/%Y %H:%m")', 'v.fechaEdo3_e', 'v.fecha_venta_vc', 'v.nota_interpretacion', 'es.estatus_est', 's.nombre_su', 's.id_su','o.motivo_c_ov','p.fNac_p','SUBSTRING(sx.cat_sexo, 1, 1)','concat(m.nombre_u," ", m.apaterno_u, " ", m.amaterno_u)', 'replace(e.concepto_to,"CONSULTA DE ","")','s.clave_su','v.urgente_vc','concat(nu.nombre_u, " ", nu.apaterno_u, " ", nu.amaterno_u)' );
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -178,7 +178,7 @@ require("../../funciones/php/values.php");
 		
 		$row[2] = $row[2];//Nombre completo del paciente
 		//$row[3] = $row[3]." ".$row[13];//Nombre completo del médico $row[1] = "$row[1]</span>";
-		$row[1] = "<span lang='$row[1]' style='text-decoration:underline; cursor:pointer; color:blue;' onClick='ver_ov(this.lang)'>$row[1]</span><br>$row[30] <br>$row[15]";
+		$row[1] = "<span lang='$row[1]' style='text-decoration:underline; cursor:pointer; color:blue;' onClick='ver_ov(this.lang)'>$row[1]</span><br>$row[29] <br>$row[15]";
 		$row[3] = $row[22];//Nombre completo del médico $row[1] = "$row[1]</span>";
 		$row[5] = "<div align='center'>$row[24]</div>";
 		$row[6] = $row[25];

@@ -3,16 +3,20 @@ require("../../Connections/horizonte.php");
 	$aColumns = array('c.id_to', 'c.concepto_to', 'm.nombre_generico_med','m.descripcion_med','m.cantidad_med', 'm.via_administracion_med', 'm.clave_med','c.id_to' );
      
     // DB tables to use 
-    $aTables = array( 'conceptos c');
+    $aTables = array( 'stock_has_bach s');
      
     // Indexed column (used for fast and accurate table cardinality) 
-    $sIndexColumn = "c.id_to";
-     
-	 // Joins   
-	$sJoin = 'left join medicamentos m on m.id_med = c.id_medicamento_g ';
+    $sIndexColumn = "s.id";
+    
+    // Joins   
+    $sJoin = 'left join conceptos c on s.id_Producto = c.id_to left join medicamentos m on m.id_med = c.id_medicamento_g';
 	 
     // CONDITIONS 
-    $sWhere = "WHERE c.id_area_to = 61 and c.id_departamento_to = 3 and c.id_tipo_concepto_to = 5 " ;
+    if ($_GET['id_s'] == 0) {
+        $sWhere = "WHERE c.id_area_to = 61 and c.id_departamento_to = 3 and c.id_tipo_concepto_to = 5 " ;
+    } else {
+        $sWhere = "WHERE s.id_stock = {$_GET['id_s']} and (c.id_area_to = 61 and c.id_departamento_to = 3 and c.id_tipo_concepto_to = 5) " ;
+    }
 
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;
@@ -136,7 +140,12 @@ require("../../Connections/horizonte.php");
         }
 			
 		$row[0]=$hh;
+
+        $medicamento = $row[1];
+
 		$row[1]="<div style='text-align:left;'>$row[1]</div>";
+
+        $row[6] = "<button onclick=\"window.open('https://www.medicamentosplm.com/Home/Busqueda?texto={$medicamento}', '_blank')\" class='btn btn-info'><i class='fa fa-info'></i></button>";
 		
 		$output['aaData'][] = $row;
 		
