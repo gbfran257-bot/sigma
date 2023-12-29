@@ -1,0 +1,1 @@
+ALTER TABLE `orden_venta` ADD `add_ref_hospital` TINYINT NOT NULL DEFAULT '0' COMMENT 'se usa para determinar si la referencia esta ligada a una referencia de hospital' ;

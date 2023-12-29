@@ -211,6 +211,8 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                             <?php if ($permisos[38]) { ?> <li style="white-space:nowrap;"><a href="usuarios.php"><i class="fa fa-users"></i> USUARIOS</a></li> <?php } ?>
                             <?php if ($permisos[39]) { ?> <li><a href="sucursales.php"><i class="fa fa-building"></i> SUCURSALES</a></li> <?php } ?>
                             <?php if ($permisos[40]) { ?> <li style="white-space:nowrap;"><a href="escuelas.php"><i class="fa fa-university"></i> ESCUELAS</a></li> <?php } ?>
+                            <?php if($permisos[39]){?><li class=""><a href="referencias_hospital.php" id="m_r_ref_hospital"><i class="fa fa-hospital-o"></i> REFERENCIAS HOSPITAL</a></li> <?php } ?>
+                            <?php if($permisos[39]){?><li class=""><a href="solicitudes_hospitalizacion.php" id="sol_hosp"><i class="fa fa-hospital-o"></i> SOLICITUDES HOSP.</a></li> <?php } ?>
 
                             <!--<li style="white-space:nowrap;"><a href="corte_caja_a.php"><i class="fa fa-dollar"></i> CORTE DE CAJA</a></li>-->
                             <?php if (substr($permisos, 41, 3) != "000") { ?>
