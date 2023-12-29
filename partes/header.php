@@ -86,6 +86,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                         </a>
                         <ul class="nav nav-second-level collapse">
                             <?php if ($permisos[8]) { ?> <li style="white-space:nowrap;"><a href="consultas.php"><i class="fa fa-user-md"></i> CONSULTAS MÉDICAS</a></li> <?php } ?>
+                            <?php if($permisos[8]){?> <li style="white-space:nowrap;"><a href="bitacora_consultas.php"><i class="fa fa-user-md"></i> BITÁCORA DE CONSULTAS</a></li> <?php }?>
                             <?php if ($permisos[9]) { ?> <li><a href="agenda_consultas.php"><i class="fa fa-calendar"></i> AGENDA CONSULTAS</a></li><?php } ?>
                             <li><a href="consulta_edades.php"><i class="fa fa-list-alt"></i> REPORTE EDADES</a></li>
                             <?php if ($permisos[10]) { ?> <li><a href="catalogo_consultas.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li> <?php } ?>
@@ -137,6 +138,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                             <?php if ($permisos[23]) { ?><li><a href="agenda_laboratorio.php"><i class="fa fa-calendar"></i> AGENDA LABORATORIO</a></li> <?php } ?>
                             <?php if ($permisos[24]) { ?> <li style="white-space:nowrap;"><a href="bases_lab.php"><i class="fa fa-sitemap"></i> BASES</a></li> <?php } ?>
                             <?php if ($permisos[25]) { ?> <li><a href="bitacora_lab.php"><i class="fa fa-list"></i> BITÁCORAS</a></li> <?php } ?>
+                            <?php if($permisos[25]){?> <li><a href="bitacora_afiliados.php"><i class="fa fa-list"></i> BITÁCORA DE AFILIADOS</a></li> <?php } ?>
                             <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>
                         <li><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
                             <?php if ($permisos[26]) { ?> <li><a href="catalogo_laboratorio.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li> <?php } ?>
@@ -163,6 +165,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                         </a>
                         <ul class="nav nav-second-level collapse">
                             <?php if ($permisos[32]) { ?> <li style="white-space:nowrap;"><a href="compras.php"><i class="fa fa-credit-card"></i> COMPRAS</a></li> <?php } ?>
+                            <?php if($permisos[32]){?> <li style="white-space:nowrap;"><a href="bitacora_ventas.php"><i class="fa fa-credit-card"></i> BITÁCORA DE VENTAS</a></li> <?php } ?>
                             <?php if ($permisos[33]) { ?> <li style="white-space:nowrap;"><a href="catalogo_medicamentos.php"><i class="fa fa-medkit"></i> MEDICAMENTOS</a></li> <?php } ?>
                             <?php if ($permisos[34]) { ?> <li><a href="#"><i class="fa fa-product-hunt"></i> PRODUCTOS</a></li> <?php } ?>
                             <?php if ($permisos[35]) { ?> <li style="white-space:nowrap;"><a href="#"><i class="fa fa-dollar"></i> CORTE DE CAJA</a></li> <?php } ?>
