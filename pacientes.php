@@ -152,7 +152,7 @@ include_once 'recursos/datauser.php';
 <div class="hidden" id="dpa_imprimir1"></div>
 <input name="aleatorio_ov_a" type="hidden" value="" id="aleatorio_ov_a" required>
 <input name="tempi" type="hidden" value="" id="tempi"> <input name="mi_histo" type="hidden" value="" id="mi_histo">
-<div id="div_tabla_pacientes" class="table-responsive" style="border:1px none red; vertical-align:top; margin-top:-9px;">
+<div id="div_tabla_pacientes" class="table-responsive" style="border:1px none #33447d; vertical-align:top; margin-top:-9px;">
 	<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" id="dataTablePrincipal" class="table table-hover table-striped dataTables-example dataTable table-condensed" role="grid" style="font-size: 1.2em;">
 		<thead id="cabecera_tBusquedaPrincipal">
 			<tr role="row" class="bg-primary">

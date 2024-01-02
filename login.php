@@ -47,13 +47,23 @@ $(document).ready(function() {
 		} }
 	});
 		
-	$('#tabla_container').height($('#referencia').height()-$('#header').height()-$('#footer').height());
+	$('#tabla_container').height($('#referencia').height()-$('#header_n').height()-$('#footer_n').height()-$('#header2').height()-$('#footer2').height()-40);
 	
 });
 </script>
 <style>
-	#header, #footer{
-		background-color: red;
+	#header2, #footer2{
+		background-color: #33447d;
+	}
+
+	#header_n, #footer_n{
+		background-color: #979798;
+		display: grid;
+		justify-content: center;
+		align-items: center;
+		max-height: 50px;
+		min-height: 50px;
+		
 	}
 </style>
 </head>
@@ -65,14 +75,20 @@ $(document).ready(function() {
 
 <div class="container-fluid" id="container" align="center" style="border:1px none red;">
 	
-	<div class="row bg-primary" id="header"> <div class="col-md-12" style=" height:40px;">
+	<div class="row bg-primary" id="header_n"> <div class="col-md-12" style=" height:50px;">
     	<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
           <tr> <td align="center" valign="middle">
           	<h5 class="visible-xs">SISTEMA INTEGRAL DE GESTIÓN MÉDICA AVANZADA</h5>
-            <h4 class="hidden-xs">SISTEMA INTEGRAL DE GESTIÓN MÉDICA AVANZADA</h4>
+            <h2 class="hidden-xs"><strong>SISTEMA INTEGRAL DE GESTIÓN MÉDICA AVANZADA</strong></h2>
           </td> </tr>
         </table>
     </div> </div>
+	<br>
+	<div class="row bg-primary" id="header2"> 
+		<div class="col-md-12" style=" height:25px;">
+        </div> 	
+	</div>
+
     <div class="row"> <div class="col-md-12">
     	<table id="tabla_container" border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
     	<tr>
@@ -102,7 +118,7 @@ $(document).ready(function() {
                           <div class="form-group">
                             <div class="col-sm-offset-0 col-sm-12">
                                 <div class="input-group margin-bottom-sm">
-                                  <span class="input-group-addon"><i class="fa fa-user-md fa-fw fa-lg"></i></span>
+                                  <span class="input-group-addon"><img src="imagenes/empresa/ICONO_USUARIO_CADIT.png" alt="" style="width:25px;"></span>
                                   <input  name="usuario" id="usuario" type="text" class="form-control input-lg" data-minlength="4" onKeyUp="conMayusculas(this); nick(this.value, this.name);" maxlength="20" placeholder="Usuario" required data-error="El nombre de usuario es obligatorio (mínimo 4 caracteres)">
                                 </div>
                                 <div class="help-block with-errors"></div>
@@ -111,7 +127,7 @@ $(document).ready(function() {
                           <div class="form-group">
                             <div class="col-sm-offset-0 col-sm-12">
                                 <div class="input-group margin-bottom-sm">
-                                  <span class="input-group-addon"><i class="fa fa-key fa-fw fa-lg"></i></span>
+                                  <span class="input-group-addon"><img src="imagenes/empresa/ICONO_CONTRASEÑA_CADIT.png" alt="" style="width:25px;"></span>
                                   <input name="contrasena" type="password" class="form-control input-lg" maxlength="20" id="contrasena" placeholder="Contraseña" required data-minlength="4" data-error="La contraseña es obligatoria (mínimo 4 caracteres)">
                                 </div>
                                 <div class="help-block with-errors"></div>
@@ -151,9 +167,12 @@ $(document).ready(function() {
     	</table>
     </div> </div>
         
-	<div id="footer" class="row bg-primary"><div class="col-md-12" style="height:30px;">
+	<div id="footer2" class="row bg-primary"><div class="col-md-12" style="height:25px;">
+    </div> </div>
+	<br>
+	<div id="footer_n" class="row bg-primary"><div class="col-md-12" style="height:40px;">
     	<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
-          <tr> <td align="center" valign="middle"><h6>&copy; GLOSS <?php echo date('Y'); ?>. TODOS LOS DERECHOS RESERVADOS. </h6></td> </tr>
+          <tr> <td align="center" valign="middle"><h5>&copy; GLOSS <?php echo date('Y'); ?>. TODOS LOS DERECHOS RESERVADOS. </h5></td> </tr>
         </table>
     </div> </div>
     
