@@ -88,25 +88,27 @@ require("../../funciones/php/values.php");
 	}
 	$md_cont .= '</table>';
 
+	$server_url = $_SERVER['SERVER_NAME'] == "localhost" ? "http://localhost/sigma" : "https://pruebascruzroja.preunisains.com";
+
 	mysql_select_db($database_horizonte, $horizonte); //Firma del médico que atiende
 	$resultMNE = mysql_query("SELECT id_do, ext_do from documentos where aleatorio_do = $idSuc and que_es_do = 'DOCUMENTO' and tipo_quien_do = 3 and firma_do = 1 order by id_do desc limit 1", $horizonte) or die (mysql_error());
 	$rowMNE = mysql_fetch_row($resultMNE); $nombreF1 = '../../usuarios/documentos/files/'.$rowMNE[0].'.'.$rowMNE[1];
 	if($rowMNE){
-		$encaNM = '<img src="usuarios/documentos/files/'.$rowMNE[0].'.'.$rowMNE[1].'" width="120" style="border:transparent;">';
+		$encaNM = '<img src="'.$server_url.'/usuarios/documentos/files/'.$rowMNE[0].'.'.$rowMNE[1].'" width="120" style="border:transparent;">';
 	}else{$encaNM = "";}
 
 	mysql_select_db($database_horizonte, $horizonte); //Logo uni del médico que atiende
 	$resultMNE2 = mysql_query("SELECT id_do, ext_do from documentos where id_quien_do = $idUniversidadU and que_es_do = 'LOGOTIPO' and tipo_quien_do = 5 order by id_do desc limit 1", $horizonte) or die (mysql_error());
 	$rowMNE2 = mysql_fetch_row($resultMNE2); $nombreF2 = '../../escuelas/logotipos/files/'.$rowMNE2[0].'.'.$rowMNE2[1];
 	if($rowMNE2){
-		$encaNM2 = '<img src="escuelas/logotipos/files/'.$rowMNE2[0].'.'.$rowMNE2[1].'" width="120" style="border:transparent;">';
+		$encaNM2 = '<img src="'.$server_url.'/escuelas/logotipos/files/'.$rowMNE2[0].'.'.$rowMNE2[1].'" width="120" style="border:transparent;">';
 	}else{$encaNM2 = "";}
 
 	mysql_select_db($database_horizonte, $horizonte); //Logo uni espe del médico que atiende
 	$resultMNE3 = mysql_query("SELECT id_do, ext_do from documentos where id_quien_do = $idUniversidadUE and que_es_do = 'LOGOTIPO' and tipo_quien_do = 5 order by id_do desc limit 1", $horizonte) or die (mysql_error());
 	$rowMNE3 = mysql_fetch_row($resultMNE3); $nombreF3 = '../../escuelas/logotipos/files/'.$rowMNE3[0].'.'.$rowMNE3[1];
 	if($rowMNE3){
-		$encaNM3 = '<img src="escuelas/logotipos/files/'.$rowMNE3[0].'.'.$rowMNE3[1].'" width="120" style="border:transparent;">';
+		$encaNM3 = '<img src="'.$server_url.'/escuelas/logotipos/files/'.$rowMNE3[0].'.'.$rowMNE3[1].'" width="120" style="border:transparent;">';
 	}else{$encaNM3 = "";}
 
 	mysql_select_db($database_horizonte, $horizonte);
@@ -132,7 +134,7 @@ require("../../funciones/php/values.php");
 	$resultMNE1 = mysql_query("SELECT id_do, ext_do from documentos where aleatorio_do = $idSucu and que_es_do = 'DOCUMENTO' and tipo_quien_do = 2 and perfil_do = 1 order by id_do desc limit 1", $horizonte) or die (mysql_error());
 	$rowMNE1 = mysql_fetch_row($resultMNE1); $nombreF4 = '../../sucursales/documentos/files/'.$rowMNE1[0].'.'.$rowMNE1[1];
 	if($rowMNE1){
-		$encaNM1 = '<img src="sucursales/documentos/files/'.$rowMNE1[0].'.'.$rowMNE1[1].'" width="120">';
+		$encaNM1 = '<img src="'.$server_url.'/sucursales/documentos/files/'.$rowMNE1[0].'.'.$rowMNE1[1].'" width="120">';
 	}else{$encaNM1 = "";}
 
 	//LOGOS SUCURSALES NUMERADOS 
@@ -169,7 +171,7 @@ require("../../funciones/php/values.php");
 		$rowLogo = mysql_fetch_row($resul_LogoS1); 
 		if($rowLogo){
 			$conPx = $l + 1;
-			$logo= '<img src="sucursales/documentos/files/'.$rowLogo[0].'.'.$rowLogo[1].'" width="'.$logosA[$l].'">';
+			$logo= '<img src="'.$server_url.'/sucursales/documentos/files/'.$rowLogo[0].'.'.$rowLogo[1].'" width="'.$logosA[$l].'">';
 		}else{
 			$logo = "";
 		}
@@ -180,7 +182,7 @@ require("../../funciones/php/values.php");
 
 	$nombreF5 = '../../imagenes/generales/logo_medicina.png';
 	if(file_exists($nombreF5)){
-		$logoMedicina = '<img src="imagenes/generales/logo_medicina.png" width="100" style="border:transparent;">';
+		$logoMedicina = '<img src="'.$server_url.'/imagenes/generales/logo_medicina.png" width="100" style="border:transparent;">';
 	}else{$logoMedicina = "";}
 	
 	mysql_select_db($database_horizonte, $horizonte);

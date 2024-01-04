@@ -3356,7 +3356,8 @@ include_once 'recursos/datauser.php';
 								table_default_styles: {
 									width: '100%'
 								},
-								relative_urls: true,
+								relative_urls: false,
+								remove_script_host: false,
 								image_advtab: true,
 								menubar: false,
 								plugin_preview_width: $('#referencia').width() * 0.8,
@@ -3407,7 +3408,8 @@ include_once 'recursos/datauser.php';
 								table_default_styles: {
 									width: '100%'
 								},
-								relative_urls: true,
+								relative_urls: false,
+								remove_script_host: false,
 								image_advtab: true,
 								menubar: false,
 								plugin_preview_width: $('#referencia').width() * 0.8,
@@ -3567,8 +3569,10 @@ include_once 'recursos/datauser.php';
 							try {
 								window.setTimeout(() => {
 									// Definimos las imágenes de los membretes
-									e = `<img src="<?php echo $_SERVER['DOCUMENT_ROOT']; ?>sigmacruzroja/${urlEncabezado}" width="770">`;
-									p = `<img src="<?php echo $_SERVER['DOCUMENT_ROOT']; ?>sigmacruzroja/${urlPiePagina}" width="760">`;
+									let server_url = window.location.host === "localhost" ? "<?php echo $_SERVER['DOCUMENT_ROOT']; ?>sigma/" : "https://pruebascruzroja.preunisains.com/";
+
+									e = `<img src="${server_url}${urlEncabezado}" width="770">`;
+									p = `<img src="${server_url}${urlPiePagina}" width="760">`;
 
 									// Definimos la configuración del documento
 									const configuracion = {
