@@ -2275,14 +2275,14 @@ include_once 'recursos/datauser.php';
 			var rowData = oTableBME.rows(indexes).data().toArray();
 
 			// Algoritmo para verificar los antagonismos al momento de seleccionar un medicamento para una receta
-			verificarAntagonismos(parseInt(rowData[0][7]), {
+			verificarAntagonismos(parseInt(rowData[0][9]), {
 					idC,
 					idU: parseInt($('#id_user').val()),
 					idP,
 				})
 				.then((casoVerificacion) => {
 					if (casoVerificacion === 1) {
-						return subirMED(rowData[0][7], idC, $('#id_user').val(), idP);
+						return subirMED(rowData[0][9], idC, $('#id_user').val(), idP);
 					}
 				})
 				.catch((error) => {
@@ -2294,14 +2294,14 @@ include_once 'recursos/datauser.php';
 				});
 
 			// Verificamos que el medicamento seleccionado no sea antagónico de alguno ya seleccionado
-			/* verificarTodosAntagonismos(nombreMedSel, nombresMedSel, medSelAnt).then(response => {
+			verificarTodosAntagonismos(nombreMedSel, nombresMedSel, medSelAnt).then(response => {
 				if (!response) {
 					// Verificamos que el medicamento seleccionado no tenga antagonismo con ninguno ya seleccionado o viceversa
-					const idMedicamentoSeleccionado = parseInt(rowData[0][7]);
+					const idMedicamentoSeleccionado = parseInt(rowData[0][9]);
 					const medicamentosYaSeleccionados = [];
 					$('#dataTableMS').children('tbody').children('tr').each((index, element) => medicamentosYaSeleccionados.push(element.querySelectorAll('td')[1].textContent));
 					verificarAntagonismosMedicamentos(idMedicamentoSeleccionado, medicamentosYaSeleccionados)
-						.then(result => subirMED(rowData[0][7], idC, $('#id_user').val(), idP))
+						.then(result => subirMED(rowData[0][9], idC, $('#id_user').val(), idP))
 						.catch(error => {
 							const pregunta = document.createElement('strong');
 							pregunta.textContent = '¿Deseas continuar?';
@@ -2338,7 +2338,7 @@ include_once 'recursos/datauser.php';
 										icon: 'success',
 										buttons: false,
 										timer: 1800
-									}).then(() => subirMED(rowData[0][7], idC, $('#id_user').val(), idP));
+									}).then(() => subirMED(rowData[0][9], idC, $('#id_user').val(), idP));
 								}
 
 								return swal({
@@ -2351,7 +2351,7 @@ include_once 'recursos/datauser.php';
 							});
 						});
 				}
-			}); */
+			});
 		});
 
 		var oTableSME;
