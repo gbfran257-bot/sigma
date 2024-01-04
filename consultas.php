@@ -3661,7 +3661,42 @@ include_once 'recursos/datauser.php';
 						});
 
 						$('#btn_imprimir_i').click(function(e) {
-							$('#impresion_inter').printElement();
+							// Ocultamos el modal de previsualización para mostrar el modal de la impresión
+							$("#myModal1").modal("hide");
+
+							try {
+								window.setTimeout(() => {
+									// Definimos las imágenes de los membretes
+									let server_url = window.location.host === "localhost" ? "<?php echo $_SERVER['DOCUMENT_ROOT']; ?>sigma/" : "https://pruebascruzroja.preunisains.com/";
+
+									e = `<img src="${server_url}${urlEncabezado}" width="770">`;
+									p = `<img src="${server_url}${urlPiePagina}" width="760">`;
+
+									// Definimos la configuración del documento
+									const configuracion = {
+										encL: escape(e),
+										pieL: escape(p),
+										id_c: escape(parseInt(x)),
+										id_s: escape($('#sucu_user').val()),
+									};
+
+									// Agregamos el contenido del modal de la impresión que nos va a permitir ver el documento
+									$("#myModalx").html('<div class="modal-dialog modal-lg" role="document"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4"></div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
+
+									// Cargamos el documento al modal de impresión
+									window.setTimeout(() => {
+										$("#body_modal4").load("consultas/htmls/frame_receta.php", configuracion, (response, status, xhr) => {
+											if (status === "success") {
+												$('#titulo_modal').text('IMPRIMIR RECETA MÉDICA');
+												$("#body_modal4").height($("#myModalx").height() - 180);
+												$('#myModalx').modal('show');
+											}
+										});
+									}, 100);
+								}, 1000);
+							} catch (error) {
+								swal("¡Ocurrió un error!", error.message, "error");
+							}
 						});
 
 						$('#myModal1').modal('show');
