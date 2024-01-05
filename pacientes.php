@@ -1942,8 +1942,10 @@ include_once 'recursos/datauser.php';
 						$("#input-titular-tarjeton").val(`${datosI[1]} ${datosI[2]} ${datosI[3]}`);
 						$("#titular-check").prop("checked", true);
 					} else {
-						getTitulares(idP);
-						setTimeout(() => $("#select-titular-tarjeton").val(datosI[76]), 100);
+						setTimeout(() => {
+							getTitulares(idP);
+							setTimeout(() => $("#select-titular-tarjeton").val(datosI[76]), 300);
+						}, 1000);
 					}
 
 					$("#titular-check").click(() => {
