@@ -2228,6 +2228,10 @@ include_once 'recursos/datauser.php';
 				"bSortable": false
 			}, {
 				"bSortable": false
+			}, {
+				"bSortable": false
+			}, {
+				"bSortable": false
 			}],
 			"iDisplayLength": 50,
 			"bLengthChange": false,
@@ -2271,14 +2275,14 @@ include_once 'recursos/datauser.php';
 			var rowData = oTableBME.rows(indexes).data().toArray();
 
 			// Algoritmo para verificar los antagonismos al momento de seleccionar un medicamento para una receta
-			verificarAntagonismos(parseInt(rowData[0][7]), {
+			verificarAntagonismos(parseInt(rowData[0][9]), {
 					idC,
 					idU: parseInt($('#id_user').val()),
 					idP,
 				})
 				.then((casoVerificacion) => {
 					if (casoVerificacion === 1) {
-						return subirMED(rowData[0][7], idC, $('#id_user').val(), idP);
+						return subirMED(rowData[0][9], idC, $('#id_user').val(), idP);
 					}
 				})
 				.catch((error) => {
@@ -2290,14 +2294,14 @@ include_once 'recursos/datauser.php';
 				});
 
 			// Verificamos que el medicamento seleccionado no sea antagónico de alguno ya seleccionado
-			/* verificarTodosAntagonismos(nombreMedSel, nombresMedSel, medSelAnt).then(response => {
+			verificarTodosAntagonismos(nombreMedSel, nombresMedSel, medSelAnt).then(response => {
 				if (!response) {
 					// Verificamos que el medicamento seleccionado no tenga antagonismo con ninguno ya seleccionado o viceversa
-					const idMedicamentoSeleccionado = parseInt(rowData[0][7]);
+					const idMedicamentoSeleccionado = parseInt(rowData[0][9]);
 					const medicamentosYaSeleccionados = [];
 					$('#dataTableMS').children('tbody').children('tr').each((index, element) => medicamentosYaSeleccionados.push(element.querySelectorAll('td')[1].textContent));
 					verificarAntagonismosMedicamentos(idMedicamentoSeleccionado, medicamentosYaSeleccionados)
-						.then(result => subirMED(rowData[0][7], idC, $('#id_user').val(), idP))
+						.then(result => subirMED(rowData[0][9], idC, $('#id_user').val(), idP))
 						.catch(error => {
 							const pregunta = document.createElement('strong');
 							pregunta.textContent = '¿Deseas continuar?';
@@ -2334,7 +2338,7 @@ include_once 'recursos/datauser.php';
 										icon: 'success',
 										buttons: false,
 										timer: 1800
-									}).then(() => subirMED(rowData[0][7], idC, $('#id_user').val(), idP));
+									}).then(() => subirMED(rowData[0][9], idC, $('#id_user').val(), idP));
 								}
 
 								return swal({
@@ -2347,7 +2351,7 @@ include_once 'recursos/datauser.php';
 							});
 						});
 				}
-			}); */
+			});
 		});
 
 		var oTableSME;
@@ -3352,7 +3356,8 @@ include_once 'recursos/datauser.php';
 								table_default_styles: {
 									width: '100%'
 								},
-								relative_urls: true,
+								relative_urls: false,
+								remove_script_host: false,
 								image_advtab: true,
 								menubar: false,
 								plugin_preview_width: $('#referencia').width() * 0.8,
@@ -3403,7 +3408,8 @@ include_once 'recursos/datauser.php';
 								table_default_styles: {
 									width: '100%'
 								},
-								relative_urls: true,
+								relative_urls: false,
+								remove_script_host: false,
 								image_advtab: true,
 								menubar: false,
 								plugin_preview_width: $('#referencia').width() * 0.8,
@@ -3563,8 +3569,10 @@ include_once 'recursos/datauser.php';
 							try {
 								window.setTimeout(() => {
 									// Definimos las imágenes de los membretes
-									e = `<img src="<?php echo $_SERVER['DOCUMENT_ROOT']; ?>sigmacruzroja/${urlEncabezado}" width="770">`;
-									p = `<img src="<?php echo $_SERVER['DOCUMENT_ROOT']; ?>sigmacruzroja/${urlPiePagina}" width="760">`;
+									let server_url = window.location.host === "localhost" ? "<?php echo $_SERVER['DOCUMENT_ROOT']; ?>sigma/" : "https://pruebascruzroja.preunisains.com/";
+
+									e = `<img src="${server_url}${urlEncabezado}" width="770">`;
+									p = `<img src="${server_url}${urlPiePagina}" width="760">`;
 
 									// Definimos la configuración del documento
 									const configuracion = {
@@ -3653,7 +3661,42 @@ include_once 'recursos/datauser.php';
 						});
 
 						$('#btn_imprimir_i').click(function(e) {
-							$('#impresion_inter').printElement();
+							// Ocultamos el modal de previsualización para mostrar el modal de la impresión
+							$("#myModal1").modal("hide");
+
+							try {
+								window.setTimeout(() => {
+									// Definimos las imágenes de los membretes
+									let server_url = window.location.host === "localhost" ? "<?php echo $_SERVER['DOCUMENT_ROOT']; ?>sigma/" : "https://pruebascruzroja.preunisains.com/";
+
+									e = `<img src="${server_url}${urlEncabezado}" width="770">`;
+									p = `<img src="${server_url}${urlPiePagina}" width="760">`;
+
+									// Definimos la configuración del documento
+									const configuracion = {
+										encL: escape(e),
+										pieL: escape(p),
+										id_c: escape(parseInt(x)),
+										id_s: escape($('#sucu_user').val()),
+									};
+
+									// Agregamos el contenido del modal de la impresión que nos va a permitir ver el documento
+									$("#myModalx").html('<div class="modal-dialog modal-lg" role="document"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4"></div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
+
+									// Cargamos el documento al modal de impresión
+									window.setTimeout(() => {
+										$("#body_modal4").load("consultas/htmls/frame_receta.php", configuracion, (response, status, xhr) => {
+											if (status === "success") {
+												$('#titulo_modal').text('IMPRIMIR RECETA MÉDICA');
+												$("#body_modal4").height($("#myModalx").height() - 180);
+												$('#myModalx').modal('show');
+											}
+										});
+									}, 100);
+								}, 1000);
+							} catch (error) {
+								swal("¡Ocurrió un error!", error.message, "error");
+							}
 						});
 
 						$('#myModal1').modal('show');

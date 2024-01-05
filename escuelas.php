@@ -115,7 +115,9 @@ function nueva_escuela(){
 				if (data==1){//si el paciente se Actualizó 
 					$('#clickme').click(); $('#myModal').modal('hide'); //$('#btn_cancel_registro').show(); //$btn.button('reset');
 					swal({ title: "", type: "success", text: "La escuela ha sido creada.", timer: 1800, showConfirmButton: false }); return;
-				} else{alert(data);}
+				} else{
+					swal("ERROR", data, "error");
+				}
 			});
 		  }
 		});
