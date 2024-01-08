@@ -96,7 +96,7 @@ $margen_p = $margenes->margen_p_cm;
 
 <!-- page define la hoja con los márgenes señalados -->
 <!-- <page backtop="3mm" backbottom="3mm" backleft="3mm" backright="3mm"> -->
-<page backtop="<?php echo ($margen_e / 100) * 15; ?>mm" backbottom="<?php echo ($margen_p / 100) * 15; ?>mm" backleft="3mm" backright="3mm">
+<page backtop="<?php echo $margen_e * 15; ?>mm" backbottom="<?php echo $margen_p * 15; ?>mm" backleft="3mm" backright="3mm">
     <page_header> <!-- Define el header de la hoja -->
         <table id="p_header">
             <tr class="fila">
