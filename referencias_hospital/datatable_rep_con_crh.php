@@ -17,7 +17,7 @@ require("../funciones/php/values.php");
 	$sJoin = 'left join orden_venta ov on ov.referencia_ov = vc.referencia_vc left join estatus e on e.id_est = vc.estatus_vc left join conceptos c on c.id_to = vc.id_concepto_es left join catalogo_tipo_conceptos tc on tc.id_tc = c.id_tipo_concepto_to LEFT JOIN rel_referencias_hospital rel ON rel.referencia_rrh = ov.referencia_ov ';
 
 	
-	$sWhere = "where rel.id_rh_rrh = " . $_GET['id_rh'];
+	$sWhere = "where rel.id_rh_rrh = " . $_GET['id_rh'] . " AND (ov.fecha_venta_ov BETWEEN '" . $_GET['min'] . "' AND '" . $_GET['max'] . "')";
 
 	
     /* Database connection information */
@@ -72,7 +72,7 @@ require("../funciones/php/values.php");
 		$sJoin
         $sWhere
         $sOrder
-        $sLimit"; 
+        $sLimit";
 
     $rResult = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
      

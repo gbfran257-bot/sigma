@@ -597,7 +597,7 @@ function ver_datos_ref(id_paciente,fecha_rh,id_rh,referencia_h,nom_paciente){
 					}, 100);
 				});
 				//
-				$('.tabla_reporte_conceptos').append('<div id="divRangoFechas_2" style="text-align:left;"> <table width="100%" border="0" cellpadding="4" cellspacing="2" style="color:black; float:left;"> <tr> <td width="10px">&nbsp; De &nbsp;</td> <td width="1%"> <input name="fechaDe_2" class="fechas form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd" style="width:100px;" type="text" id="fechaDe_2" value="<?php echo date("Y-m-d"); ?>" readonly > </td> <td width="10px">&nbsp; A &nbsp;</td> <td width="1%"> <input style="width:100px;" name="fechaA_2" type="text" class="fechas form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd" id="fechaA_2" value="<?php echo date("Y-m-d"); ?>" readonly> </td> <td id="rangosFechas_2">&nbsp; <input type="radio" class="rad" id="radio1_2" name="radio" /><label for="radio1_2">&nbsp; Hoy &nbsp;</label> <input type="radio" class="rad" id="radio2_2" name="radio" /><label for="radio2_2">&nbsp; Todos &nbsp;</label> </td> </tr> </table> </div>');
+				$('.tabla_reporte_conceptos').append('<div id="divRangoFechas_2" style="text-align:left;"> <table width="100%" border="0" cellpadding="4" cellspacing="2" style="color:black; float:left;"> <tr> <td width="10px">&nbsp; De &nbsp;</td> <td width="1%"> <input name="fechaDe_2" class="fechas form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd" style="width:100px;" type="text" id="fechaDe_2" value="<?php echo date("Y-m-d"); ?>" readonly > </td> <td width="10px">&nbsp; A &nbsp;</td> <td width="1%"> <input style="width:100px;" name="fechaA_2" type="text" class="fechas form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd" id="fechaA_2" value="<?php echo date("Y-m-d"); ?>" readonly> </td> <td id="rangosFechas_2">&nbsp; <input type="radio" class="rad" id="radio1_2" name="radio" /><label for="radio1_2">&nbsp; Hoy &nbsp;</label> <input type="radio" class="rad" id="radio2_2" name="radio" /><label for="radio2_2">&nbsp; Todos &nbsp;</label> <button type="button" class="btn btn-success btn-sm" id="btn_imprimir">Imprimir</button> </td> </tr> </table> </div>');
 
 				$('#radio1_2').click(function(e) {
 					$('#fechaDe_2').val('<?php echo date("Y-m-d"); ?>');
@@ -616,6 +616,11 @@ function ver_datos_ref(id_paciente,fecha_rh,id_rh,referencia_h,nom_paciente){
 				});
 				$("#fechaA_2").on('changeDate', function(e) {
 					oTableRep.draw();
+				});
+
+				$("#btn_imprimir").click(function(e){
+					var data_for_report = "id_rh="+id_rh+"&min="+$('#fechaDe_2').val()+"&max="+$('#fechaA_2').val();
+					window.open("referencias_hospital/htmls/rep_resumen_hospital.php?"+data_for_report, '_blank');
 				});
 				//
 

@@ -70,9 +70,9 @@
                                         FECHA&nbsp;
                                         </th>
                                         <th align="center">SUCURSAL</th>
-                                        <th align="center">SUBTOTAL</th>
-                                        <th align="center">CANTIDAD PAGADA</th>
                                         <th align="center">TOTAL</th>
+                                        <th align="center">CANTIDAD PAGADA</th>
+                                        <th align="center">TOTAL POR ORDEN</th>
                                     </tr>
                                     </thead>
                                     <tbody align="left">
