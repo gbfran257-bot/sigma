@@ -1361,6 +1361,10 @@ include_once 'recursos/datauser.php';
 				// Cargamos a los pacientes que son titulares
 				getTitulares();
 
+				//ocultamos el mapa de google y el marco negro
+				document.getElementById("gmaps").style.display = "none";
+				document.getElementById("gmaps2").style.display = "none";
+
 				$("#titular-check").click(() => {
 					if ($("#titular-check").is(":checked") && !verificarFormularioDatosTarjeton()) {
 						swal("¡Oops!", "Completa el formulario de datos personales para poder marcar al paciente como titular.", "info");
@@ -1782,6 +1786,10 @@ include_once 'recursos/datauser.php';
 		$("#myModal").load('pacientes/htmls/ficha_paciente.php', function(response, status, xhr) {
 			if (status == "success") {
 				let facturar_carga = true;
+
+				//ocultamos el mapa de google y el marco negro
+				document.getElementById("gmaps").style.display = "none";
+				document.getElementById("gmaps2").style.display = "none";
 
 				// Configuramos el agregar pacientes facturables
 				$("#nuevo_cliente").click(() => {

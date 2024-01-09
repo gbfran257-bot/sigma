@@ -199,8 +199,8 @@ function ver_ov(ref){
 		$.post('laboratorio/archivos_save_ajax/datos_ficha_ov.php', dato).done(function(data){ var datos = data.split('*}');
 			$('#titulo_modal').text('ORDEN DE VENTA '+ref+' | '+datos[0]+' | '+datos[1]);
 
-			// Agregamos el boton para ver el historial del estudio
-			$("#titulo_modal").append("<button type='button' id='ver_historial' class='btn btn-info'>Ver historial</button>");
+			// Agregamos el boton para ver el historial del estudio - se comenta mientras se adecua historial
+			/* $("#titulo_modal").append("<button type='button' id='ver_historial' class='btn btn-info'>Ver historial</button>"); */
 			$("#ver_historial").click(() => {
 				$("#modal_historial").load("laboratorio/htmls/modal_ver_historial.php", (response, status, xhr) => {
 					if (status !== "success") {
@@ -388,11 +388,11 @@ function procesar(a,b){//a es el id del paciente y b es el id del estudio en ven
 			$("#fecha_hora_creacion").text(response.info.fecha_hora);
 		})
 		.catch(error => {
-			swal({
+			/* swal({
 				type: "error",
 				title: "¡Ocurrió un error!",
 				text: error.message,
-			});
+			}); */
 		});
 
 		$('#myModal1').modal('show');
@@ -826,11 +826,11 @@ function realizar(a,b,n,id_s){//a es el id del paciente y b es el id del estudio
 			$("#fecha_hora").text(response.info.fecha_hora);
 		})
 		.catch(error => {
-			swal({
+			/* swal({
 				type: "error",
 				title: "¡Ocurrió un error!",
 				text: error.message,
-			});
+			}); */
 		});
 
 		$('#myModal3').modal('show');
@@ -1088,11 +1088,11 @@ function interpretar(a,b,n,id_s){//a es el id del paciente y b del estudio en vc
 			$("#fecha_hora").text(response.info.fecha_hora);
 		})
 		.catch(error => {
-			swal({
+			/* swal({
 				type: "error",
 				title: "¡Ocurrió un error!",
 				text: error.message
-			});
+			}); */
 		});
 
 		$('#myModal2').modal('show');
@@ -1240,11 +1240,11 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
 			$("#fecha_hora").text(response.info.fecha_hora);
 		})
 		.catch(error => {
-			swal({
+			/* swal({
 				type: "error",
 				title: "¡Ocurrió un error!",
 				text: error.message,
-			});
+			}); */
 		});
 
 		$('#myModal1').modal('show');

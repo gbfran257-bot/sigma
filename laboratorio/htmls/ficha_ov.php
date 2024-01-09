@@ -80,9 +80,9 @@
       <div class="modal-footer">
         <div class="form-group">
             <div class="col-sm-offset-0 col-sm-12 btn-container">
-                <button type='button' class="btn btn-success btn-sm ver-factura-btn-pdf d-none" onclick="ver_factura()">Ver Factura</button>
+                <!-- <button type='button' class="btn btn-success btn-sm ver-factura-btn-pdf d-none" onclick="ver_factura()">Ver Factura</button>
                 <button type='button' class="btn btn-success btn-sm ver-factura-btn d-none" onclick="ver_xml()">Ver XML</button>
-                <button type='button' class="btn btn-primary btn-sm facturar-btn" onclick="facturar()">Facturar</button>
+                <button type='button' class="btn btn-primary btn-sm facturar-btn" onclick="facturar()">Facturar</button> -->
                 <button type='button' class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
