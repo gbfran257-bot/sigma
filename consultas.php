@@ -2649,6 +2649,51 @@ include_once 'recursos/datauser.php';
 								});
 							});
 
+							$('#hospitalizarP2').click(function(e){
+								$("#myModal1").load('consultas/htmls/selecciona_cama.php', function(response, status, xhr){ if(status=="success"){
+									
+									var select_cama = $("#id_cama_h");
+									var select_medico = $("#id_medico_t");
+
+									select_cama.removeAttr("required");
+									select_medico.removeAttr("required");
+
+									select_cama.prop("disabled", true);
+									select_medico.prop("disabled", true);
+
+									$('#form-selecciona-cama').validator().on('submit', function (e) {
+
+										if (e.isDefaultPrevented()) { // handle the invalid form...
+										} else { // everything looks good!
+											e.preventDefault(); 
+											//var datosP = $('#myModal1 #form-selecciona-cama').serialize();
+
+											datosPrevios = { 
+												idP:idP, 
+												idU:$('#id_user').val(), 
+												id_vc:idC, 
+												motivo_h: $('#motivo_h').val()
+											}
+											$.post('consultas/files-serverside/insert_datos_prev_hosp.php',datosPrevios).done(function(data_dph){
+												if(data_dph==1){
+													swal({title:"¡Listo!",type:"success",text:"Se ha registrado la solicitud de hospitalización para el paciente " + datos[22], timer: 2000, showConfirmButton: false });
+													$('#myModal1').modal('hide');
+												}else if(data_dph==2){
+													swal({title:"Alerta!!",type:"warning",text:"Ya existe una petición para este paciente", timer: 2000, showConfirmButton: false });
+													$('#myModal1').modal('hide');
+												}
+											});
+
+										}
+
+									});
+
+									$('#myModal1').modal('show');
+									$('#myModal1').on('shown.bs.modal', function(e){ $('#form-selecciona-cama').validator(); });
+									$('#myModal1').on('hidden.bs.modal', function(e){ $("#myModal1 .modal-content").remove(); $("#myModal1").empty(); });
+								}});
+							});
+
 							$("#tipoNotaMed").load("consultas/files-serverside/tNotaMedica.php?x=" + $('#id_user').val(), function(response, status, xhr) {
 								if (status == "success") {
 									var datosT = {
