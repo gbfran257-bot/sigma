@@ -3536,7 +3536,7 @@ include_once 'recursos/datauser.php';
 		});
 	};
 
-	function imprimirNM(idPa, x) { //x=id del estudio, y es si se imprimen los encabe
+	function imprimirNM(idPa, x, idSucursalConsulta) { //x=id del estudio, y es si se imprimen los encabe
 		// Obtenemos el membrete para imprimir la nota médica correctamente
 		getMembrete(parseInt(x), tiposMembrete.notaMedica)
 			.then(response => {
@@ -3571,15 +3571,15 @@ include_once 'recursos/datauser.php';
 									// Definimos las imágenes de los membretes
 									let server_url = window.location.host === "localhost" ? "<?php echo $_SERVER['DOCUMENT_ROOT']; ?>sigma/" : "https://pruebascruzroja.preunisains.com/";
 
-									e = `<img src="${server_url}${urlEncabezado}" width="770">`;
-									p = `<img src="${server_url}${urlPiePagina}" width="760">`;
+									e = `${server_url}${urlEncabezado}`;
+									p = `${server_url}${urlPiePagina}`;
 
 									// Definimos la configuración del documento
 									const configuracion = {
 										encL: escape(e),
 										pieL: escape(p),
 										id_c: escape(parseInt(x)),
-										id_s: escape($('#sucu_user').val()),
+										id_s: idSucursalConsulta
 									};
 
 									// Agregamos el contenido del modal de la impresión que nos va a permitir ver el documento
@@ -3635,7 +3635,7 @@ include_once 'recursos/datauser.php';
 		`);
 	};
 
-	function imprimirRM(idPa, x) { //x=id del estudio, y es si se imprimen los encabe
+	function imprimirRM(idPa, x, idSucursalConsulta) { //x=id del estudio, y es si se imprimen los encabe
 		getMembrete(parseInt(x), tiposMembrete.receta)
 			.then(response => {
 				const urlEncabezado = response.url_encabezado;
@@ -3669,15 +3669,15 @@ include_once 'recursos/datauser.php';
 									// Definimos las imágenes de los membretes
 									let server_url = window.location.host === "localhost" ? "<?php echo $_SERVER['DOCUMENT_ROOT']; ?>sigma/" : "https://pruebascruzroja.preunisains.com/";
 
-									e = `<img src="${server_url}${urlEncabezado}" width="770">`;
-									p = `<img src="${server_url}${urlPiePagina}" width="760">`;
+									e = `${server_url}${urlEncabezado}`;
+									p = `${server_url}${urlPiePagina}`;
 
 									// Definimos la configuración del documento
 									const configuracion = {
 										encL: escape(e),
 										pieL: escape(p),
 										id_c: escape(parseInt(x)),
-										id_s: escape($('#sucu_user').val()),
+										id_s: idSucursalConsulta,
 									};
 
 									// Agregamos el contenido del modal de la impresión que nos va a permitir ver el documento

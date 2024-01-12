@@ -17,98 +17,48 @@ $margenes = $resultado_margenes->fetch_object();
 $margen_e = $margenes->margen_e_cm;
 $margen_p = $margenes->margen_p_cm;
 
+$header_footer_width = $print_size == "Letter" ? LETTER_SIZE_HEADER_FOOTER_WIDTH : HALF_LETTER_SIZE_HEADER_FOOTER_WIDTH;
 ?>
 
 <!-- IMPORTANTE: El contenido de la etiqueta style debe estar entre comentarios de HTML -->
 <style>
     <!--
-    #p_header {
-        padding: 10px 0;
-        border-top: 0px none;
-        border-bottom: 0px none;
-        width: 100%;
-    }
-
-    #p_header .fila #col_1 {
-        width: 100%
-    }
-
+    #p_header,
     #p_footer {
-        padding-top: 5px 0;
-        border-top: 2px none #46d;
+        border: 0px none;
+    }
+
+    table {
         width: 100%;
     }
 
-    #p_footer .fila td {
-        text-align: center;
-        width: 100%;
-    }
-
-    #p_footer .fila td span {
-        font-size: 10px;
-        color: #000;
-    }
-
-    #p_contenido {
-        margin-top: 0px;
-        width: 100% !important;
-    }
-
-    #p_contenido tr td {
-        padding-top: 0px;
-        text-align: justify;
-        width: ;
-    }
-
-    #p_contenido1 {
-        margin-top: 0px;
-        width: 10cm;
-        bottom: 0px;
-    }
-
-    #p_contenido1 tr td {
-        padding-top: 0px;
-        text-align: justify;
-        width: ;
-    }
-
-    #p_contenido2 {
-        margin-top: 0px;
-        width: 100%;
-    }
-
-    #p_contenido2 tr td {
-        padding-top: 0px;
-        text-align: justify;
-        width: ;
-    }
-
-    #tabla1 .fila4 #col_14 {
-        width: 100%;
-        border: 1px solid red;
-    }
-
-    #firmaDR img {
-        display: none;
+    p {
+        margin: 2px 0px;
+        padding: 0px;
+        text-align: justify !important;
     }
     -->
 </style>
 
 <!-- page define la hoja con los márgenes señalados -->
 <!-- <page backtop="3mm" backbottom="3mm" backleft="3mm" backright="3mm"> -->
-<page backtop="<?php echo $margen_e * 15; ?>mm" backbottom="<?php echo $margen_p * 15; ?>mm" backleft="3mm" backright="3mm">
-    <page_header> <!-- Define el header de la hoja -->
+<page backtop="<?php echo $margen_e * 8; ?>mm" backbottom="<?php echo $margen_p * 8; ?>mm" backleft="3mm" backright="3mm">
+<page_header> <!-- Define el header de la hoja -->
         <table id="p_header">
-            <tr class="fila">
-                <td id="col_1"><?php echo $_GET["encL"]; ?></td>
+            <tr>
+                <td>
+                    <img src="<?php echo $_GET['encL']; ?>" width="<?php echo $header_footer_width; ?>" height="<?php echo HEADER_FOOTER_HEIGHT; ?>" />
+                </td>
             </tr>
         </table>
     </page_header>
 
     <page_footer> <!-- Define el footer de la hoja -->
         <table id="p_footer">
-            <tr class="fila">
-                <td id="col_2"><?php echo $_GET["pieL"]; ?></td>
+            <tr>
+                <td>
+                    <img src="<?php echo $_GET['pieL']; ?>" width="<?php echo $header_footer_width; ?>" height="<?php echo HEADER_FOOTER_HEIGHT; ?>" />
+                </td>
             </tr>
         </table>
     </page_footer>
