@@ -28,6 +28,12 @@ $header_footer_width = $print_size == "Letter" ? LETTER_SIZE_HEADER_FOOTER_WIDTH
         border: 0px none;
     }
 
+    #p_header img,
+    #p_footer img {
+        width: <?php echo $header_footer_width; ?>;
+        height: <?php echo HEADER_FOOTER_HEIGHT; ?>;
+    }
+
     table {
         width: 100%;
     }
@@ -47,7 +53,7 @@ $header_footer_width = $print_size == "Letter" ? LETTER_SIZE_HEADER_FOOTER_WIDTH
         <table id="p_header">
             <tr>
                 <td>
-                    <img src="<?php echo $_GET['encL']; ?>" width="<?php echo $header_footer_width; ?>" height="<?php echo HEADER_FOOTER_HEIGHT; ?>" />
+                    <?php echo $_GET['encL']; ?>
                 </td>
             </tr>
         </table>
@@ -57,7 +63,7 @@ $header_footer_width = $print_size == "Letter" ? LETTER_SIZE_HEADER_FOOTER_WIDTH
         <table id="p_footer">
             <tr>
                 <td>
-                    <img src="<?php echo $_GET['pieL']; ?>" width="<?php echo $header_footer_width; ?>" height="<?php echo HEADER_FOOTER_HEIGHT; ?>" />
+                    <?php echo $_GET['pieL']; ?>
                 </td>
             </tr>
         </table>

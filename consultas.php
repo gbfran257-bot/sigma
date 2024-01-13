@@ -3571,8 +3571,8 @@ include_once 'recursos/datauser.php';
 									// Definimos las imágenes de los membretes
 									let server_url = window.location.host === "localhost" ? "<?php echo $_SERVER['DOCUMENT_ROOT']; ?>sigma/" : "https://pruebascruzroja.preunisains.com/";
 
-									e = `${server_url}${urlEncabezado}`;
-									p = `${server_url}${urlPiePagina}`;
+									e = `<img src=\"${server_url}${urlEncabezado}\" />`;
+									p = `<img src=\"${server_url}${urlPiePagina}\" />`;
 
 									// Definimos la configuración del documento
 									const configuracion = {
@@ -3669,8 +3669,8 @@ include_once 'recursos/datauser.php';
 									// Definimos las imágenes de los membretes
 									let server_url = window.location.host === "localhost" ? "<?php echo $_SERVER['DOCUMENT_ROOT']; ?>sigma/" : "https://pruebascruzroja.preunisains.com/";
 
-									e = `${server_url}${urlEncabezado}`;
-									p = `${server_url}${urlPiePagina}`;
+									e = `<img src=\"${server_url}${urlEncabezado}\" />`;
+									p = `<img src=\"${server_url}${urlPiePagina}\" />`;
 
 									// Definimos la configuración del documento
 									const configuracion = {
