@@ -58,6 +58,7 @@
             <select id="select-almacen" class="hidden"></select>
             <button type="button" data-loading-text="<i class='fa fa-circle-o-notch fa-spin' aria-hidden='true'></i> Procesando..." class="btn btn-primary btn-sm btns-consulta" id="salvarConsulta"><i class="fa fa-cloud" aria-hidden="true"></i> Guardar</button>
             <button type="button" class="btn btn-info btn-sm" id="hospitalizarP"><i class="fa fa-bed" aria-hidden="true"></i> </button>
+            <button type="button" class="btn btn-info btn-sm hidden" id="hospitalizarP2"><i class="fa fa-bed" aria-hidden="true"></i> </button>
 
             <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" id="salirSGconsulta">Salir</button>
             <button type="submit" class="btn btn-success btn-sm hidden" id="btn_guardar_sv" form="formSignosVitales">Guardar</button>

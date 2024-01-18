@@ -271,7 +271,7 @@
                     <div class="help-block with-errors"></div>
                     </div> </div>
                 </div>
-                <div class="row">
+                <div class="row" id="gmaps">
                     <div class="col-sm-12 col-xs-12">
                         <button onclick="calculaUbica();" type="button">Calcular Ubicación</button>
                     <div class="form-group">
@@ -283,7 +283,7 @@
                         <div class="col-sm-3 col-xs-3" align="left"> <span id="lon_us"></span> </div>
                     </div> </div>
                 </div>
-                <div class="row">
+                <div class="row" id="gmaps2">
                     <div class="col-sm-12" id="map" style="width:100%; height:300px; border:1px solid black;"></div>
                 </div>
             </div>
