@@ -3,7 +3,7 @@ require("../Connections/horizonte.php");
 require_once("../funciones/php/values.php");
 
 	$obligatorio = 0;
-	$aColumns = array('p.id_p', 'p.curp_p', 'nombre_completo_p', 'p.fNac_p', 'SUBSTRING(sx.cat_sexo, 1, 1)', 'p.tCelular_p', 's.clave_su', 'p.id_p', 'p.id_p', 'p.id_p', 's.nombre_su', 'p.id_p', 'p.id_p', 'p.id_p', 'p.id_p','p.nombre_p','p.apaterno_p','p.amaterno_p');
+	$aColumns = array('p.id_p', 'p.curp_p', 'nombre_completo_p', 'p.fNac_p', 'SUBSTRING(sx.cat_sexo, 1, 1)', 'p.tCelular_p', 's.clave_su', 'p.id_p', 'p.id_p', 'p.id_p', 's.nombre_su', 'p.id_p', 'p.id_p', 'p.id_p', 'p.id_p','p.nombre_p','p.apaterno_p','p.amaterno_p','p.vigente');
      
     // DB tables to use 
     $aTables = array( 'pacientes p');
@@ -202,6 +202,13 @@ require_once("../funciones/php/values.php");
 		$vars1 = $row[8].";]{".$row[2]." (".$rowRu[0].")";
  		
 		$id_pa = $row[0];
+
+        //datos necesarios para activar/desactivar pacientes
+		$vigente = $row[18];
+        $disabled = "";
+        if($row[18]==0){
+            $disabled = " disabled ";
+        }
 		
 		$row[0] = "<div style='text-align:center; text-decoration:underline;'><span lang='$vars1' onClick='historialPaciente(this.lang);' style='cursor:pointer;' >$rowRu[0]</span></div>";
 		
@@ -232,14 +239,19 @@ require_once("../funciones/php/values.php");
 		
 		$visitaP = '"'.$row[2].' - '.$row[3].' '.$se.'"';
 		
-		$row[2] = "<span id='$row[11]' onClick='verPaciente(this.id);' style='cursor:pointer; text-decoration:underline;' >$row[2]</span>";
+        //si el paciente no esta vigente no se muestra su informacion
+        if($row[18]==0){
+            $row[2] = "<span style='cursor:not-allowed; text-decoration:underline;' >$row[2]</span>";
+        }else{
+            $row[2] = "<span id='$row[11]' onClick='verPaciente(this.id);' style='cursor:pointer; text-decoration:underline;' >$row[2]</span>";
+        }
 		
 		$row[4] = "<div style='text-align:center;'>$row[4]</div>";
 		
 		$tituloSu = $row[10];
 		$row[6] = "<span title='$tituloSu'>$row[6]</span>";
 		
-		$row[8] = "<button onClick='nuevaVisita(this.id, $visitaP);' id='$row[9]' class='btn btn-info btn-sm' title=''><i class='fa fa-cart-plus' aria-hidden='true'></i> </button>";
+        $row[8] = "<button onClick='nuevaVisita(this.id, $visitaP);' id='$row[9]' class='btn btn-info btn-sm' title='' $disabled><i class='fa fa-cart-plus' aria-hidden='true'></i> </button>";
 		
 		$row[9] = "<button onClick='formatos(this.id, $nombreP)' id='$row[11]' class='btn btn-primary btn-sm' title=''><i class='fa fa-file-text-o' aria-hidden='true'></i> </button>";
 		
@@ -258,15 +270,22 @@ require_once("../funciones/php/values.php");
 			$rowMe1 = mysql_fetch_row($resultMe1);
 			
 			if($rowMe1[0] > $rowCf[2]){//Normal 1
-				$row[14] = "<div align='center'><button class='btn btn-success btn-sm' onClick='membresia($id_pa, $nombreP, 1, $mi_fecha_i, $mi_fecha_f)'><i class='fa fa-address-card' aria-hidden='true'></i> </button></div>";
+				$row[14] = "<div align='center'><button class='btn btn-success btn-sm' onClick='membresia($id_pa, $nombreP, 1, $mi_fecha_i, $mi_fecha_f)' $disabled><i class='fa fa-address-card' aria-hidden='true'></i> </button></div>";
 			}else if($rowMe1[0] > 0 and $rowMe1[0]<= $rowCf[2]){//Renovación 2
-				$row[14] = "<div align='center'><button class='btn btn-warning btn-sm' onClick='membresia($id_pa, $nombreP, 2, $costo_m, $periodo_m, $mi_fecha_r_i, $mi_fecha_r_f, $mi_fecha_r_i1, $mi_fecha_r_f1)'><i class='fa fa-address-card' aria-hidden='true'></i> </button></div>";
+				$row[14] = "<div align='center'><button class='btn btn-warning btn-sm' onClick='membresia($id_pa, $nombreP, 2, $costo_m, $periodo_m, $mi_fecha_r_i, $mi_fecha_r_f, $mi_fecha_r_i1, $mi_fecha_r_f1)' $disabled><i class='fa fa-address-card' aria-hidden='true'></i> </button></div>";
 			}else{//Vencida 3
-				$row[14] = "<div align='center'><button class='btn btn-danger btn-sm' onClick='membresia($id_pa, $nombreP, 3, $costo_m, $periodo_m, $mi_fecha_f)'><i class='fa fa-address-card' aria-hidden='true'></i> </button></div>";
+				$row[14] = "<div align='center'><button class='btn btn-danger btn-sm' onClick='membresia($id_pa, $nombreP, 3, $costo_m, $periodo_m, $mi_fecha_f)' $disabled><i class='fa fa-address-card' aria-hidden='true'></i> </button></div>";
 			}
 		}else{//Nunca ha tenido membresía 0
-			$row[14] = "<div align='center'><button class='btn btn-default btn-sm' onClick='membresia($id_pa, $nombreP, 0, $costo_m, $periodo_m)'><i class='fa fa-address-card' aria-hidden='true'></i> </button></div>";
+			$row[14] = "<div align='center'><button class='btn btn-default btn-sm' onClick='membresia($id_pa, $nombreP, 0, $costo_m, $periodo_m)' $disabled><i class='fa fa-address-card' aria-hidden='true'></i> </button></div>";
 		}
+
+        if($row[18]==1){
+            $row[15] = "<div align='center'><button class='btn btn-default btn-sm' style=' border: none;   padding: 0;' onClick='vigente_activ_desac($id_pa,$vigente)'><i class='fa fa-check-square-o' aria-hidden='true'></i> </button></div>";
+        }else if($row[18]==0){
+            $row[15] = "<div align='center'><button class='btn btn-default btn-sm' style=' border: none;   padding: 0;' onClick='vigente_activ_desac($id_pa,$vigente)'><i class='fa fa-square-o' aria-hidden='true'></i> </button></div>";
+        }
+        
 		$output['aaData'][] = $row;
 		
     }

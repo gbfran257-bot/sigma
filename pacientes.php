@@ -175,6 +175,7 @@ include_once 'recursos/datauser.php';
 				<th style="vertical-align:middle;">UBI</th>
 				<th style="vertical-align:middle;"><span title="EXPEDIENTE CLÍNICO ELECTRÓNICO">ECE</span></th>
 				<th style="vertical-align:middle;">MEMBRESÍA</th>
+				<th style="vertical-align:middle;">ACTIVAR/DESACTIVAR</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -195,6 +196,7 @@ include_once 'recursos/datauser.php';
 				<th><input type="text" id="input-sexo" name="input-sexo" class="form-control input-sm" placeholder="-SEXO-" style="width:65px" /></th>
 				<th><input type="text" id="input-tel" name="input-tel" class="form-control input-sm" placeholder="-TELÉFONO-" data-mask="(999) 999-9999" maxlength="12" style="width:105px" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th><input type="text" id="input-convenio" name="input-convenio" class="form-control input-sm" placeholder="-CONVENIO-" style="width:90px" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
+				<th></th>
 				<th></th>
 				<th></th>
 				<th></th>
@@ -1197,7 +1199,7 @@ include_once 'recursos/datauser.php';
 					"bVisible": true
 				},
 				{
-					"bVisible": false
+					"bVisible": true
 				}, {
 					"bVisible": false
 				}, {
@@ -6024,6 +6026,40 @@ include_once 'recursos/datauser.php';
 				});
 			}
 		});
+	}
+
+	function vigente_activ_desac(id_p,estado){
+	
+		if(estado==0){
+			swal({
+			title: "PACIENTE NO ACTIVO",
+			text: "¿Desea activar a este paciente?", type: "",
+			showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "Aceptar", closeOnConfirm: false, cancelButtonText: "Cancelar"
+			},
+			function(){
+				var datos = {id_p:id_p, estado:estado}
+				$.post('pacientes/files-serverside/vigente_paciente.php',datos).done(function(data){
+					if(data==1){ $('#clickme').click();
+						swal({ title: "¡CONFIRMACIÓN!", type: "success", text: "El paciente ha sido activado.", timer: 1800, showConfirmButton: false }); return;
+					}else{alert(data);}
+				});
+			});
+		}else{
+			swal({
+			title: "PACIENTE ACTIVO",
+			text: "¿Desea desactivar a este paciente?", type: "",
+			showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "Aceptar", closeOnConfirm: false, cancelButtonText: "Cancelar"
+			},
+			function(){
+				var datos = {id_p:id_p, estado:estado}
+				$.post('pacientes/files-serverside/vigente_paciente.php',datos).done(function(data){
+					if(data==1){ $('#clickme').click();
+						swal({ title: "¡CONFIRMACIÓN!", type: "success", text: "El paciente ha sido desactivado.", timer: 1800, showConfirmButton: false }); return;
+					}else{alert(data);}
+				});
+			});
+		}
+	
 	}
 
 	function guardar_cargo_desc(personal, tipo, temp, monto, motivo, area) {
