@@ -385,13 +385,14 @@ function nuevaCompra(){
 						"	</tr>";
 					
 			}
+				costoTotalDecimales = costoTotal.toFixed(2);
 				salida +="	<tr> "+
 						"		<td></td>"+
 						"		<td></td>"+
 						"		<td></td>"+
 						"		<td></td>"+
 						"		<td></td>"+
-						"		<td>$"+ costoTotal +"</td>"+
+						"		<td>$"+ costoTotalDecimales +"</td>"+
 						"	</tr> ";
 			$('#ResumenTable').html(salida);
 
