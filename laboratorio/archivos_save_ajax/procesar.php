@@ -23,7 +23,7 @@ if($checaPro == 1){//Cuando procesamos individualmente
 		$row_ax = mysql_fetch_row($result_ax);
 		
 		mysql_select_db($database_horizonte, $horizonte);
-		$consulta_a = "SELECT v.id_avr, v.id_valor_referencia_avr, v.valor_texto, v.para_sexo, v.para_edades, v.rango_edad1, v.rango_edad2, b1.id_b, v.tipo_edad from asignar_valor_referencia v left join bases b1 on b1.aleatorio_b = v.aleatorio_avr left join areas a on a.id_a = b1.id_area_b where v.para_sexo is not null and v.para_edades is not null and a.nombre_a = 'BACTERIOLOGIA' order by b1.id_b, v.tipo_edad asc ";
+		$consulta_a = "SELECT v.id_avr, v.id_valor_referencia_avr, v.valor_texto, v.para_sexo, v.para_edades, v.rango_edad1, v.rango_edad2, b1.id_b, v.tipo_edad from asignar_valor_referencia v left join bases b1 on b1.aleatorio_b = v.aleatorio_avr left join areas a on a.id_a = b1.id_area_b where v.para_sexo is not null and v.para_edades is not null and a.nombre_a = 'BACTERIOLOGIA' GROUP BY id_avr order by b1.id_b, v.tipo_edad asc ";
 		$query_a = mysql_query($consulta_a) or die (mysql_error());
 		while ($fila_a = mysql_fetch_array($query_a)) {
 			$idBase = $fila_a['id_b']; $id_valor_referencia = $fila_a['id_valor_referencia_avr'];
@@ -71,7 +71,7 @@ if($checaPro == 1){//Cuando procesamos individualmente
 		}else{$edadPmeses=0; $edadPdias=0;}
 		
 		mysql_select_db($database_horizonte, $horizonte);
-		$consulta = "SELECT v.id_avr, v.id_valor_referencia_avr, v.numero1_rango_avr, v.numero2_rango_avr, v.valor_maximo, v.valor_minimo, v.valor_estable_rmn, v.valor_variable_rmn, v.valor_texto, v.booleano, v.para_sexo, v.para_edades, v.rango_edad1, v.rango_edad2, b.id_base_ab, v.tipo_edad, v.valor_normal_nma, v.valor_r1_moderado, v.valor_r2_moderado, v.valor_alto_nma, v.valor_normal_nma_i, v.valor_r1_moderado_i, v.valor_r2_moderado_i, v.valor_alto_nma_i from asignar_valor_referencia v left join bases b1 on b1.aleatorio_b = v.aleatorio_avr left join asignar_bases b on b.id_base_ab = b1.id_b where v.para_sexo is not null and v.para_edades is not null and b.id_estudio_ab = $row[0] order by b.id_ab, v.tipo_edad asc ";
+		$consulta = "SELECT v.id_avr, v.id_valor_referencia_avr, v.numero1_rango_avr, v.numero2_rango_avr, v.valor_maximo, v.valor_minimo, v.valor_estable_rmn, v.valor_variable_rmn, v.valor_texto, v.booleano, v.para_sexo, v.para_edades, v.rango_edad1, v.rango_edad2, b.id_base_ab, v.tipo_edad, v.valor_normal_nma, v.valor_r1_moderado, v.valor_r2_moderado, v.valor_alto_nma, v.valor_normal_nma_i, v.valor_r1_moderado_i, v.valor_r2_moderado_i, v.valor_alto_nma_i from asignar_valor_referencia v left join bases b1 on b1.aleatorio_b = v.aleatorio_avr left join asignar_bases b on b.id_base_ab = b1.id_b where v.para_sexo is not null and v.para_edades is not null and b.id_estudio_ab = $row[0] GROUP BY id_avr order by b.id_ab, v.tipo_edad asc ";
 		$query = mysql_query($consulta) or die (mysql_error());
 		while ($fila = mysql_fetch_array($query)) {
 			
