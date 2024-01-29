@@ -706,11 +706,38 @@ function abonar(id_rh){
 	}); */
 
 	$("#myModal3").load("referencias_hospital/htmls/ficha_abonos_hosp.php",function(response,status,xhr){ if(status == "success"){
-		
+		var montoPagar = 0;
+		//cargamos formas de pago
 		$("#cat_form_pago").load('referencias_hospital/genera_formas_pago.php', function(data){
 			$("#cat_form_pago").val(data); 
 			$("#cat_form_pago").val(1);
 			$('#clickmeSe,#clickmeSmS,#clickmeHis').click();
+		});
+
+		//mostramos la cantidad a pagar en un span
+		$('#cant_abonada').keyup(function(e){
+			$("#monto_t_p").text($("#cant_abonada").val());
+		});
+
+		//restamos cantidad pagada menos cantidad que se debe
+		$("#pagaConP").keyup(function(e){
+			montoPagar = parseFloat($('#cant_abonada').val());
+
+			if( $(this).val() > parseFloat(montoPagar) ){
+				 $('#cambioP').val(redondear(parseFloat($('#pagaConP').val())-parseFloat(montoPagar),2) );
+			}else{
+				$('#cambioP').val('')
+			}
+		});
+
+		//OBTENEMOS TOTALES PARA MOSTRAR EN INPUT TEXTS
+		var dato = {id_rh:id_rh}
+		$.post('referencias_hospital/ref_total_abono.php', dato).done(function(data){ 
+			var datos = data.split('*}');
+
+			$("#totalOVP").val(datos[0]);
+			$("#saldoP").val(datos[2]);
+			$("#abonadoOVP").val(parseFloat(datos[3])+parseFloat(datos[1]));
 		});
 
 		//establecemos maximo de abono permitido
@@ -723,6 +750,7 @@ function abonar(id_rh){
 			miInput.attr("max", datos[2]);
 
 			$("#rh").val(datos[2]);
+			$("#total_maximo_pago").text(datos[2]);
 		});
 
 		$('#form-ficha_abonos').validator().on('submit', function (e) {
@@ -761,6 +789,7 @@ function abonar(id_rh){
 
 function liquidar(){
 	$("#cant_abonada").val( $("#rh").val() );
+	$("#monto_t_p").text($("#cant_abonada").val());
 }
 
 function ver_ov(ref){
