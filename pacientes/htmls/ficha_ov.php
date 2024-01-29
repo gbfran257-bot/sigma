@@ -113,7 +113,7 @@
 							</div>-->
 
                     <div class="col-sm-3 col-xs-3 text-info" align="center">
-                      ASOCIACIÓN M. $<span class="1total_c" id="1total_c">0.00</span><br>
+                      ASOCIACIÓN M. $<span class="1total_c1" id="1total_c1">0.00</span><br>
                       <div class="input-group">
                         <span class="input-group-addon bootstrap-touchspin-postfix">$</span>
                         <input type="text" class="form-control" id="pago_ov_c" name="pago_ov_c" placeholder="Su pago" style="text-align:right;" min="0" required onKeyUp="su_pago_a(this.value,this.id);">
@@ -977,53 +977,53 @@
                   </div>
                   <div class="col-sm-4 col-xs-4 depende_con1 hidden">
                     <div class="form-group" align="center">
-                      <label for="po_descuento_c">% Descuento</label>
+                      <label for="po_descuento_c1">% Descuento</label>
                       <div class="input-group">
-                        <input type="text" class="form-control desc_cargo_c" id="po_descuento_c" name="po_descuento_c" placeholder="0" style="text-align:right;" min="0" max="100" value="0" data-minlength="0" data-maxlength="100" onKeyUp="cargos_descuentos_c1(this.value,this.id);" onclick="alertaEliminarDescuentos('consultas', this);" oninput="pintarTablaResumen('consultas', 'porcentaje')">
+                        <input type="text" class="form-control desc_cargo_c1" id="po_descuento_c1" name="po_descuento_c1" placeholder="0" style="text-align:right;" min="0" max="100" value="0" data-minlength="0" data-maxlength="100" onKeyUp="cargos_descuentos_c1(this.value,this.id);" onclick="alertaEliminarDescuentos('consultas', this);" oninput="pintarTablaResumen('consultas', 'porcentaje')">
                         <span class="input-group-addon bootstrap-touchspin-postfix">%</span>
                       </div>
                     </div>
                   </div>
                   <div class="col-sm-4 col-xs-4 depende_con1 hidden">
                     <div class="form-group" align="center">
-                      <label for="da_descuento_c">$ Descuento</label>
+                      <label for="da_descuento_c1">$ Descuento</label>
                       <div class="input-group">
                         <span class="input-group-addon bootstrap-touchspin-postfix">$</span>
-                        <input type="text" class="form-control desc_cargo_c" id="da_descuento_c" name="da_descuento_c" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0" onKeyUp="cargos_descuentos_c1(this.value,this.id);" onclick="" oninput="pintarTablaResumen('consultas', 'directo')">
+                        <input type="text" class="form-control desc_cargo_c1" id="da_descuento_c1" name="da_descuento_c1" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0" onKeyUp="cargos_descuentos_c1(this.value,this.id);" onclick="" oninput="pintarTablaResumen('consultas', 'directo')">
                       </div>
                     </div>
                   </div>
                   <div class="col-sm-4 col-xs-4 depende_con1 hidden">
                     <div class="form-group" align="center">
-                      <label for="cargo_extra_c">Cargo extra</label>
+                      <label for="cargo_extra_c1">Cargo extra</label>
                       <div class="input-group">
                         <span class="input-group-addon bootstrap-touchspin-postfix">$</span>
-                        <input type="text" class="form-control desc_cargo_c" id="cargo_extra_c" name="cargo_extra_c" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0" onKeyUp="cargos_descuentos_c1(this.value,this.id);">
+                        <input type="text" class="form-control desc_cargo_c1" id="cargo_extra_c1" name="cargo_extra_c1" placeholder="0" style="text-align:right;" min="0" value="0" data-minlength="0" onKeyUp="cargos_descuentos_c1(this.value,this.id);">
                       </div>
                     </div>
                   </div>
                   <div class="col-sm-12 col-xs-12 depende_descuento_c1 hidden">
                     <div class="form-group">
-                      <label for="motivo_descuento_c">Motivo del descuento o del cargo extra</label>
-                      <input type="text" class="form-control" id="motivo_descuento_c" name="motivo_descuento_c" placeholder="Motivo del descuento o del cargo extra" oninput="actualizarConcepto('consultas', this);">
+                      <label for="motivo_descuento_c1">Motivo del descuento o del cargo extra</label>
+                      <input type="text" class="form-control" id="motivo_descuento_c1" name="motivo_descuento_c1" placeholder="Motivo del descuento o del cargo extra" oninput="actualizarConcepto('consultas', this);">
                     </div>
                   </div>
                   <div class="col-xs-12"></div>
                   <div class="col-sm-4 col-xs-4 depende_con1 hidden">
                     <div class="form-group" align="center">
-                      <label for="precio_c" class="text-info">Precio consultas</label>
+                      <label for="precio_c1" class="text-info">Precio consultas</label>
                       <div class="input-group">
                         <span class="input-group-addon bootstrap-touchspin-postfix">$</span>
-                        <input type="text" class="form-control" id="precio_c" name="precio_c" style="text-align:right;" readonly value="0">
+                        <input type="text" class="form-control" id="precio_c1" name="precio_c1" style="text-align:right;" readonly value="0">
                       </div>
                     </div>
                   </div>
                   <div class="col-sm-4 col-xs-4 depende_con1 hidden">
                     <div class="form-group" align="center">
-                      <label for="to_descuento_c" class="text-info">Total descuento</label>
+                      <label for="to_descuento_c1" class="text-info">Total descuento</label>
                       <div class="input-group">
                         <span class="input-group-addon bootstrap-touchspin-postfix">$</span>
-                        <input type="text" class="form-control" id="to_descuento_c" name="to_descuento_c" style="text-align:right;" readonly value="0">
+                        <input type="text" class="form-control" id="to_descuento_c1" name="to_descuento_c1" style="text-align:right;" readonly value="0">
                       </div>
                     </div>
                   </div>
@@ -1032,7 +1032,7 @@
                       <label for="total_s" class="text-danger">Total</label>
                       <div class="input-group">
                         <span class="input-group-addon bootstrap-touchspin-postfix">$</span>
-                        <input type="text" class="form-control" id="total_c" name="total_c" style="text-align:right;" readonly value="0">
+                        <input type="text" class="form-control" id="total_c1" name="total_c1" style="text-align:right;" readonly value="0">
                       </div>
                     </div>
                   </div>
