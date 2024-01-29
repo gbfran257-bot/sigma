@@ -152,13 +152,18 @@ require("../funciones/php/values.php");
         mysql_select_db($database_horizonte, $horizonte);
         $result_abono = mysql_query("SELECT SUM(cantidad_abonada_arh) FROM abonos_referencias_hospital WHERE id_rh_arh = $row[9]", $horizonte) or die (mysql_error());
         $datos_abono = mysql_fetch_row($result_abono);
+
+        //obtenemos los pagos de las referencias
+        mysql_select_db($database_horizonte, $horizonte);
+        $result_pagos_ov = mysql_query("SELECT SUM(pag.pago_pag) FROM pagos_ov pag LEFT JOIN rel_referencias_hospital rrh ON rrh.referencia_rrh = pag.referencia_pag WHERE rrh.id_rh_rrh = $row[9]", $horizonte) or die (mysql_error());
+        $datos_pagos_ov = mysql_fetch_row($result_pagos_ov);
 		
 		$row[0]=$conteo;
 
         $row[1] = "<button type='button' class='btn btn-xs btn-link' onClick='ver_datos_ref($row[7],\"$row[8]\",$row[9],\"$row[1]\",\"$row[2]\")'>$row[1]</button>";
 
-        $row[4] = $datos_grantotal[0] - $datos_pagos_ov[0];
-        $row[5] = $datos_abono[0];
+        $row[4] = $datos_grantotal[0];
+        $row[5] = $datos_abono[0] + $datos_pagos_ov[0];
         $row[3] = "$row[3] <br> $row[6]";
         $row[6] = ($datos_grantotal[0] - $datos_pagos_ov[0]) - $datos_abono[0];
 
