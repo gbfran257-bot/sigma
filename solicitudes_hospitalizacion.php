@@ -245,7 +245,7 @@ function insertar_reg_historial(id_rh,id_ov){
 													showConfirmButton: true, confirmButtonText: 'Hospitalizar', cancelButtonText: "Cancelar", closeOnConfirm: false,
 													},
 													function(){
-														var datosT = {idP:datos_obtenidos[1], idU:$('#id_user').val(), id_vc:datos_obtenidos[3], id_cama_h: $('#id_cama_h').val(), motivo_h: $('#motivo_h').val(),idM: $('#id_medico_t').val()} 
+														var datosT = {idP:datos_obtenidos[1], idU:$('#id_user').val(), id_vc:datos_obtenidos[3], id_cama_h: $('#id_cama_h').val(), motivo_h: $('#motivo_h').val(), id_medico_t: $('#id_medico_t').val()} 
 														$.post('consultas/files-serverside/hospitalizar.php',datosT).done(function(data){
                               
 															if(data==1){
