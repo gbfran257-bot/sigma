@@ -210,9 +210,17 @@ function egresar (id, id_cama) {
 	function(){
 		$.post('hospital/files-serverside/egresar.php', DATOS).done(function(data){
 			if(data==1){
-				// Actualiza el datatable
-				oTableP.draw();
-				swal({title:"",type:"success",text:"El paciente ha sido egresado.", timer: 2000, showConfirmButton: false });
+				//eliminamos el registro de la tabla datos_previos_hospitalizacion
+				var dato_idh = {id_h:id}
+				$.post('eliminar_reg_hosp_prev.php',dato_idh).done(function(data_idh){
+					if(data_idh==1){
+						// Actualiza el datatable
+						oTableP.draw();
+						swal({title:"",type:"success",text:"El paciente ha sido egresado.", timer: 2000, showConfirmButton: false });
+					}
+
+				});
+				
 			}else{alert(data);}
 		});
 	});

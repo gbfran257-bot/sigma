@@ -2679,7 +2679,7 @@ include_once 'recursos/datauser.php';
 													swal({title:"¡Listo!",type:"success",text:"Se ha registrado la solicitud de hospitalización para el paciente " + datos[22], timer: 2000, showConfirmButton: false });
 													$('#myModal1').modal('hide');
 												}else if(data_dph==2){
-													swal({title:"Alerta!!",type:"warning",text:"Ya existe una petición para este paciente", timer: 2000, showConfirmButton: false });
+													swal({title:"Alerta!!",type:"warning",text:"Ya existe(o existio) una petición para este paciente", timer: 2000, showConfirmButton: false });
 													$('#myModal1').modal('hide');
 												}
 											});
