@@ -262,9 +262,16 @@ function ver_datos_ref(id_paciente,fecha_rh,id_rh,referencia_h,nom_paciente){
 					"iDisplayLength": 5000,
 					paging: false,
 				});
+
+				setTimeout(() => {
+					$('#clickmeSe,#clickmeSmS').click();
+				}, 800);
+
 				$('#clickmeSe').click(function(e) {
 					total_abono(id_rh);
 					oTableSer.draw();
+					//ajustamos el tamaño de las columnas con la siguiente linea
+					oTableSer.columns.adjust().draw();
 				});
 
 				$('#t_ref').click(function(e) {//refrescamos la datatable
@@ -344,6 +351,7 @@ function ver_datos_ref(id_paciente,fecha_rh,id_rh,referencia_h,nom_paciente){
 				});
 				$('#clickmeSmS').click(function(e) {
 					oTableSerS.draw();
+					oTableSerS.columns.adjust().draw();
 				});
 				//HISTORIAL
 
@@ -389,6 +397,7 @@ function ver_datos_ref(id_paciente,fecha_rh,id_rh,referencia_h,nom_paciente){
 
 				$('#clickmeHis').click(function(e) {
 					oTableHis.draw();
+					oTableHis.columns.adjust().draw();
 				});
 
 				$('#t_his').click(function(e) {//refrescamos la datatable de historial
@@ -519,6 +528,7 @@ function ver_datos_ref(id_paciente,fecha_rh,id_rh,referencia_h,nom_paciente){
 
 				$('#clickmeAbo').click(function(e) {
 					oTableAbo.draw();
+					oTableAbo.columns.adjust().draw();
 				});
 
 				$('#t_abonos').click(function(e) {//refrescamos la datatable de historial
@@ -589,6 +599,7 @@ function ver_datos_ref(id_paciente,fecha_rh,id_rh,referencia_h,nom_paciente){
 
 				$('#clickmeRep').click(function(e) {
 					oTableRep.draw();
+					oTableRep.columns.adjust().draw();
 				});
 
 				$('#t_rep_con').click(function(e) {//refrescamos la datatable de historial
