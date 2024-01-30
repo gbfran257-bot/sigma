@@ -2419,16 +2419,16 @@ include_once 'recursos/datauser.php';
 								$('#beneficio_c').val(datos[4]);
 								$('.depende_consulta').removeClass('hidden');
 								$('#motivo_c').val(datos[5]);
-								$('#po_descuento_c1').val(datos[6]);
-								$('#da_descuento_c1').val(datos[7]);
-								$('#cargo_extra_c1').val(datos[8]);
+								$('#po_descuento_c').val(datos[6]);
+								$('#da_descuento_c').val(datos[7]);
+								$('#cargo_extra_c').val(datos[8]);
 								$('#motivo_descuento_c').val(datos[9]);
 								if (datos[6] > 0 || datos[7] > 0 || datos[8] > 0) {
 									$('.depende_descuento_c').removeClass('hidden');
 								}
-								$('#precio_c1').val(datos[10]);
-								$('#to_descuento_c1').val(datos[11]);
-								$('#total_c11').val(datos[12]);
+								$('#precio_c').val(datos[10]);
+								$('#to_descuento_c').val(datos[11]);
+								$('#total_c').val(datos[12]);
 								calcular_totales();
 								$('#medico_c').change(function(e) {
 									$('.depende_descuento_c').addClass('hidden');
@@ -2533,7 +2533,7 @@ include_once 'recursos/datauser.php';
 			oTableCo.on( 'select', function ( e, dt, type, indexes ) {
 				$('.depende_consulta').removeClass('hidden');
 				var rowData = oTableCo.rows( indexes ).data().toArray(); //alert(rowData[0][6]);
-				totales_consulta(rowData[0][3], $('#po_descuento_c1').val(),$('#da_descuento_c1').val(),$('#cargo_extra_c1').val());
+				totales_consulta(rowData[0][3], $('#po_descuento_c').val(),$('#da_descuento_c').val(),$('#cargo_extra_c').val());
 				calcular_totales(); $('#id_consulta_to').val(rowData[0][6]); //alert(rowData[0][12]);
 				subir_concepto(1, rowData[0][6], $('#beneficio_c').val(), idP, $('#aleatorio_ov').val(), $('#id_user').val(), $('#medico_c').val(),rowData[0][3]);
 			} )
@@ -3173,7 +3173,7 @@ include_once 'recursos/datauser.php';
 				});
 
 				$('#btn_liquidar_ov').click(function(e) {
-					$('#pago_ov_c').val(parseFloat($('#total_c11').val()) + parseFloat($('#total_s').val()));
+					$('#pago_ov_c').val(parseFloat($('#total_c1').val()) + parseFloat($('#total_s').val()));
 					$('#pago_ov_i').val($('#total_i').val());
 					$('#pago_ov_l').val($('#total_l').val());
 					$('#pago_ov_f').val($('#total_p').val());
@@ -3221,7 +3221,7 @@ include_once 'recursos/datauser.php';
 				oTableCo.on('select', function(e, dt, type, indexes) {
 						$('.depende_consulta').removeClass('hidden');
 						var rowData = oTableCo.rows(indexes).data().toArray(); //alert(rowData[0][6]);
-						totales_consulta(rowData[0][3], $('#po_descuento_c1').val(), $('#da_descuento_c1').val(), $('#cargo_extra_c1').val());
+						totales_consulta(rowData[0][3], $('#po_descuento_c').val(), $('#da_descuento_c').val(), $('#cargo_extra_c').val());
 						calcular_totales();
 						$('#id_consulta_to').val(rowData[0][6]); //alert(rowData[0][12]);
 						subir_concepto(1, rowData[0][6], $('#beneficio_c').val(), idP, $('#aleatorio_ov').val(), $('#id_user').val(), $('#medico_c').val(), rowData[0][3]);
@@ -5206,8 +5206,8 @@ include_once 'recursos/datauser.php';
 
 	function calcular_totales() {
 		$('#pago_ov_c, #pago_ov_i, #pago_ov_l, #pago_ov_f').val('');
-		if (parseFloat($('#cargo_extra_c1').val())) {
-			var cargo_extra = $('#cargo_extra_c1').val();
+		if (parseFloat($('#cargo_extra_c').val())) {
+			var cargo_extra = $('#cargo_extra_c').val();
 		} else {
 			var cargo_extra = 0;
 		}
@@ -5232,22 +5232,22 @@ include_once 'recursos/datauser.php';
 			var cargo_extra_p = 0;
 		}
 		if (parseFloat($('#cargo_extra_c1').val())) {
-			var cargo_extra_c1 = $('#cargo_extra_c1').val();
+			var cargo_extra_c = $('#cargo_extra_c1').val();
 		} else {
-			var cargo_extra_c1 = 0;
+			var cargo_extra_c = 0;
 		}
 
 		$('#total_i').val(parseFloat($('#precio_i').val()) + parseFloat(cargo_extra_i) - parseFloat($('#to_descuento_i').val()));
 		$('#total_l').val(parseFloat($('#precio_l').val()) + parseFloat(cargo_extra_l) - parseFloat($('#to_descuento_l').val()));
 		$('#total_s').val(parseFloat($('#precio_s').val()) + parseFloat(cargo_extra_s) - parseFloat($('#to_descuento_s').val()));
 		$('#total_p').val(parseFloat($('#precio_p').val()) + parseFloat(cargo_extra_p) - parseFloat($('#to_descuento_p').val()));
-		$('#total_c1').val(parseFloat($('#precio_c1').val()) + parseFloat(cargo_extra_c1) - parseFloat($('#to_descuento_c1').val()));
+		$('#total_c1').val(parseFloat($('#precio_c1').val()) + parseFloat(cargo_extra_c) - parseFloat($('#to_descuento_c1').val()));
 
 		$('.1total_i').text(parseFloat($('#precio_i').val()) + parseFloat(cargo_extra_i) - parseFloat($('#to_descuento_i').val()));
 		$('.1total_l').text(parseFloat($('#precio_l').val()) + parseFloat(cargo_extra_l) - parseFloat($('#to_descuento_l').val()));
 		$('.1total_p').text(parseFloat($('#precio_p').val()) + parseFloat(cargo_extra_p) - parseFloat($('#to_descuento_p').val()));
 		$('.1total_s').text();
-		$('.1total_c1').text(parseFloat($('#precio_c1').val()) + parseFloat(cargo_extra_c1) - parseFloat($('#to_descuento_c1').val()) + parseFloat($('#precio_s').val()) + parseFloat(cargo_extra_s) - parseFloat($('#to_descuento_s').val()));
+		$('.1total_c1').text(parseFloat($('#precio_c1').val()) + parseFloat(cargo_extra_c) - parseFloat($('#to_descuento_c1').val()) + parseFloat($('#precio_s').val()) + parseFloat(cargo_extra_s) - parseFloat($('#to_descuento_s').val()));
 
 		if ($('.1total_c1').text() < 0.0001) {
 			$('#pago_ov_c').val(0);
@@ -5274,13 +5274,13 @@ include_once 'recursos/datauser.php';
 		$('.total_laboratorio').text('$' + redondear($('#precio_l').val(), 2));
 		$('.total_servicios').text('$' + redondear($('#precio_s').val(), 2));
 		$('.total_productos').text('$' + redondear($('#precio_p').val(), 2));
-		$('.total_c1onsulta').text('$' + redondear($('#precio_c1').val(), 2));
+		$('.total_consulta').text('$' + redondear($('#precio_c1').val(), 2));
 		$('#subtotal_ov').text('$' + redondear(parseFloat($('#precio_i').val()) + parseFloat($('#precio_l').val()) + parseFloat($('#precio_s').val()) + parseFloat($('#precio_p').val()) + parseFloat($('#precio_c1').val()), 2));
-		$('#extras_ov').text('+ $' + redondear(parseFloat(cargo_extra) + parseFloat(cargo_extra_i) + parseFloat(cargo_extra_l) + parseFloat(cargo_extra_s) + parseFloat(cargo_extra_p) + parseFloat(cargo_extra_c1), 2));
+		$('#extras_ov').text('+ $' + redondear(parseFloat(cargo_extra) + parseFloat(cargo_extra_i) + parseFloat(cargo_extra_l) + parseFloat(cargo_extra_s) + parseFloat(cargo_extra_p) + parseFloat(cargo_extra_c), 2));
 		$('#descuento_ov').text('- $' + redondear(parseFloat($('#to_descuento_i').val()) + parseFloat($('#to_descuento_l').val()) + parseFloat($('#to_descuento_s').val()) + parseFloat($('#to_descuento_p').val()) + parseFloat($('#to_descuento_c1').val()), 2));
 		$('#iva_ov').text('+ $' + redondear($('#iva_ov_h').val(), 2));
-		$('#total_ov').text('$' + redondear(parseFloat($('#precio_c1').val()) + parseFloat($('#precio_i').val()) + parseFloat($('#precio_l').val()) + parseFloat($('#precio_s').val()) + parseFloat($('#precio_p').val()) + parseFloat(cargo_extra_c1) + parseFloat(cargo_extra_i) + parseFloat(cargo_extra_l) + parseFloat(cargo_extra_s) + parseFloat(cargo_extra_p) - parseFloat($('#to_descuento_c1').val()) - parseFloat($('#to_descuento_i').val()) - parseFloat($('#to_descuento_l').val()) - parseFloat($('#to_descuento_s').val()) - parseFloat($('#to_descuento_p').val()) + parseFloat($('#iva_ov_h').val()), 2));
-		$('#total_ov_h').val(redondear(parseFloat($('#precio_c1').val()) + parseFloat($('#precio_i').val()) + parseFloat($('#precio_l').val()) + parseFloat($('#precio_s').val()) + parseFloat($('#precio_p').val()) + parseFloat(cargo_extra_c1) + parseFloat(cargo_extra_i) + parseFloat(cargo_extra_l) + parseFloat(cargo_extra_s) + parseFloat(cargo_extra_p) - parseFloat($('#to_descuento_c1').val()) - parseFloat($('#to_descuento_i').val()) - parseFloat($('#to_descuento_l').val()) - parseFloat($('#to_descuento_s').val()) - parseFloat($('#to_descuento_p').val()) + parseFloat($('#iva_ov_h').val()), 2));
+		$('#total_ov').text('$' + redondear(parseFloat($('#precio_c1').val()) + parseFloat($('#precio_i').val()) + parseFloat($('#precio_l').val()) + parseFloat($('#precio_s').val()) + parseFloat($('#precio_p').val()) + parseFloat(cargo_extra_c) + parseFloat(cargo_extra_i) + parseFloat(cargo_extra_l) + parseFloat(cargo_extra_s) + parseFloat(cargo_extra_p) - parseFloat($('#to_descuento_c1').val()) - parseFloat($('#to_descuento_i').val()) - parseFloat($('#to_descuento_l').val()) - parseFloat($('#to_descuento_s').val()) - parseFloat($('#to_descuento_p').val()) + parseFloat($('#iva_ov_h').val()), 2));
+		$('#total_ov_h').val(redondear(parseFloat($('#precio_c1').val()) + parseFloat($('#precio_i').val()) + parseFloat($('#precio_l').val()) + parseFloat($('#precio_s').val()) + parseFloat($('#precio_p').val()) + parseFloat(cargo_extra_c) + parseFloat(cargo_extra_i) + parseFloat(cargo_extra_l) + parseFloat(cargo_extra_s) + parseFloat(cargo_extra_p) - parseFloat($('#to_descuento_c1').val()) - parseFloat($('#to_descuento_i').val()) - parseFloat($('#to_descuento_l').val()) - parseFloat($('#to_descuento_s').val()) - parseFloat($('#to_descuento_p').val()) + parseFloat($('#iva_ov_h').val()), 2));
 		//revisa la BD en busca de descuentos y los coloca en el resumen de orden de venta
 		var datos = {
 			no_temp_vc: $('#aleatorio_ov').val()
@@ -5540,7 +5540,7 @@ include_once 'recursos/datauser.php';
 		});
 	}
 
-	function totales_consulta(precio_c1, pd, dd, ce) { //alert(precio_c1+';'+pd+';'+dd+';'+ce);
+	function totales_consulta(precio_c, pd, dd, ce) { //alert(precio_c+';'+pd+';'+dd+';'+ce);
 		if ($('#hay_iva_ov').val() == 1) {
 			$('#cb_facturada_ov').click();
 		}
@@ -5554,20 +5554,20 @@ include_once 'recursos/datauser.php';
 		} else {
 			var cargo_extra = 0;
 		}
-		$('#precio_c1, #total_c1').val(precio_c1); //$('#to_descuento_c1, .desc_cargo').val(0);
+		$('#precio_c, #total_c').val(precio_c); //$('#to_descuento_c, .desc_cargo').val(0);
 		if (parseFloat(pd)) {
-			$('#to_descuento_c1').val((parseFloat($('#precio_c1').val()) * parseFloat(pd)) / 100);
+			$('#to_descuento_c').val((parseFloat($('#precio_c').val()) * parseFloat(pd)) / 100);
 		} else if (parseFloat(dd)) {
-			$('#to_descuento_c1').val(dd);
+			$('#to_descuento_c').val(dd);
 		} else {
-			$('#to_descuento_c1').val(0);
+			$('#to_descuento_c').val(0);
 		}
 		calcular_totales();
 	}
 
 	function reset_totales_consulta() {
 		bajar_concepto($('#id_consulta_to').val());
-		$('#precio_c1, #to_descuento_c1, #total_c1, .desc_cargo').val(0);
+		$('#precio_c, #to_descuento_c, #total_c, .desc_cargo').val(0);
 		$('#id_consulta_to').val('');
 		if ($('#hay_iva_ov').val() == 1) {
 			$('#cb_facturada_ov').click();
