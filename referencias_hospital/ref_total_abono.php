@@ -23,7 +23,9 @@ $saldo = ($dato_t[0] - $datos_pagos_ov[0]) - $dato_a[0];
 /* $total = $dato_t[0] - $datos_pagos_ov[0]; */
 
 $total = $dato_t[0];
+$sumatoria = $datos_pagos_ov[0] + $dato_a[0];
+$sumatoria = number_format($sumatoria, 2);
 
-echo number_format($total, 2).'*}'.number_format($dato_a[0], 2).'*}'.number_format($saldo, 2).'*}'.number_format($datos_pagos_ov[0], 2);
+echo number_format($total, 2).'*}'.number_format($dato_a[0], 2).'*}'.number_format($saldo, 2).'*}'.number_format($datos_pagos_ov[0], 2).'*}'.$sumatoria;
 
 ?>

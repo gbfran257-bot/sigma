@@ -748,7 +748,7 @@ function abonar(id_rh){
 
 			$("#totalOVP").val(datos[0]);
 			$("#saldoP").val(datos[2]);
-			$("#abonadoOVP").val(parseFloat(datos[3])+parseFloat(datos[1]));
+			$("#abonadoOVP").val(datos[4]);
 		});
 
 		//establecemos maximo de abono permitido
