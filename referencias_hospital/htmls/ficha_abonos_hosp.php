@@ -131,7 +131,7 @@
 					<div class="input-group">
 						<span class="input-group-addon bootstrap-touchspin-postfix">$</span>
 						<!-- <input type="text" class="form-control montoPagarP" id="pago_ov_c" name="pago_ov_c" placeholder="Su pago A.M." style="text-align:right;" min="0" required onKeyUp="su_pago_a(this.value,this.id);"> -->
-            <input type="number" min="1" step="0.01" class="form-control" id="cant_abonada" name="cant_abonada" placeholder="Cantidad" required>
+            <input type="number" min="0.00000000001" step="0.01" class="form-control" id="cant_abonada" name="cant_abonada" placeholder="Cantidad" required>
 					</div>
 				</td>
 			</tr>
