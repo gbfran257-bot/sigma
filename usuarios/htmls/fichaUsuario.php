@@ -228,7 +228,7 @@ $id_del_user = $_SESSION['id'];
                   	<div class="help-block with-errors"></div>
                 </div>
             </div>
-            <table width="100%" height="" border="0" cellspacing="0" cellpadding="0" class="table-condensed">
+            <table width="100%" height="" border="0" cellspacing="0" cellpadding="0" class="table-condensed" id="gmaps">
               <tr align="center">
                 <td nowrap width="50%">LATITUD <span id="p_latitud"></span></td>
                 <td nowrap width="50%">LONGITUD <span id="p_longitud"></span></td>

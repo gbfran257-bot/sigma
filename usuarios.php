@@ -304,6 +304,9 @@ function resetPass(idU, usr){
 
 function nuevoUsuario(){
 	$("#myModal").load('usuarios/htmls/fichaUsuario.php', function( response, status, xhr ){ if(status=="success"){ 
+		//ocultamos el mapa de google y el marco negro
+		document.getElementById("gmaps").style.display = "none";
+		
 		$(".insers").load('genera/inserciones.php', function( response, status, xhr ) { if ( status == "success" ) { } }); var datosF = {id:1}
 		tinymce.remove("#input"); tinymce.remove("#inputFI"); tinymce.remove("#input1");
 		//$('.i-checks').iCheck({checkboxClass:'icheckbox_square-green',radioClass:'iradio_square-green',});
@@ -785,6 +788,9 @@ function nuevoUsuario(){
 
 function verUsuario(idU, nombre_u, tempi_u){
 	$("#myModal1").load('usuarios/htmls/fichaUsuario.php?id_uu='+idU, function( response, status, xhr ){ if(status=="success"){
+		//ocultamos el mapa de google y el marco negro
+		document.getElementById("gmaps").style.display = "none";
+
 		$(".insers").load('genera/inserciones.php', function( response, status, xhr ) { if ( status == "success" ) { } }); var datosF = {id:1}
 		tinymce.remove("#input"); tinymce.remove("#input1"); tinymce.remove("#inputFI"); $('#btn_update_nota, #btn_update_receta, #btn_update_formato_i').hide();
 		$('#aleatorio_nmed, #aleatorio_rmed, #aleatorio_formai').val('');
