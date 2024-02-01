@@ -4,7 +4,7 @@
             <h3 class="modal-title" id="exampleModalLabel">¿Cuántos <?php echo $_POST['nombreProducto']; ?> deseas agregar?</h3>
         </div>
         <div class="modal-body" id="body-agregar-producto">
-            <input id="cantidad-productos" type="number" min="1" max="<?php echo htmlspecialchars($_POST['cantidadMaxima']) ?>" step="1" required placeholder="Cantidad" class="form-control" />
+            <input id="cantidad-productos" type="number" min="1" max="<?php echo htmlspecialchars($_POST['cantidadMaxima']) ?>" step="1" required placeholder="Cantidad" class="form-control" value="1" />
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" id="cancelar-agregar-cantidad-productos" data-dismiss="modal">Cancelar</button>

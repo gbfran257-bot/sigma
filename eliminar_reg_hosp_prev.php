@@ -16,6 +16,11 @@ $sql = "DELETE FROM datos_previos_hospitalizacion WHERE id_p_dph = ".$datos[0]."
 $update = mysql_query($sql, $horizonte);
 
 if($update){
+    //cambiamos el estado de la referencia hospitalaria
+    mysql_select_db($database_horizonte, $horizonte);
+    $sql2 = "UPDATE referencias_hospital SET estado_rh = 1 WHERE id_paciente_rh = ".$datos[0]." AND estado_rh = 0 ORDER BY fecha_rh ASC LIMIT 1";
+    $update2 = mysql_query($sql2, $horizonte);
+
     echo 1;
 }
 

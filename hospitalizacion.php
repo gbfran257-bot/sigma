@@ -210,7 +210,7 @@ function egresar (id, id_cama) {
 	function(){
 		$.post('hospital/files-serverside/egresar.php', DATOS).done(function(data){
 			if(data==1){
-				//eliminamos el registro de la tabla datos_previos_hospitalizacion
+				//eliminamos el registro de la tabla datos_previos_hospitalizacion y cambiamos del estado abierto a revision(referencia hospitalaria)
 				var dato_idh = {id_h:id}
 				$.post('eliminar_reg_hosp_prev.php',dato_idh).done(function(data_idh){
 					if(data_idh==1){
