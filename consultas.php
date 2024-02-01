@@ -191,6 +191,7 @@ include_once 'recursos/datauser.php';
 <?php include_once 'partes/footer.php'; ?>
 
 <script>
+	$.fn.dataTable.ext.errMode = 'none';
 	const tiposMembrete = {
 		notaMedica: "MEMBRETE NOTA MEDICA",
 		receta: "MEMBRETE RECETA MEDICA"
