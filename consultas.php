@@ -3619,6 +3619,9 @@ include_once 'recursos/datauser.php';
 									let server_url_base = window.location.href;
 									const server_url = server_url_base.substring(0, server_url_base.length - 13);
 
+									e = `<img src=\"${server_url}${urlEncabezado}\" />`;
+									p = `<img src=\"${server_url}${urlPiePagina}\" />`;
+
 									// Definimos la configuración del documento
 									const configuracion = {
 										encL: escape(e),
