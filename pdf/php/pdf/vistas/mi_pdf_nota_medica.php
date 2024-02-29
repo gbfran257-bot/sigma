@@ -8,6 +8,13 @@ if (!$resultado_interpretacion = mysqli_query($horizonte, $query_interpretacion)
 }
 $interpretacion = $resultado_interpretacion->fetch_object()->nota_interpretacion;
 
+$interpretacion_modificada = html_entity_decode($interpretacion);
+$interpretacion_modificada = str_replace(
+    array("Á", "É", "Í", "Ó", "Ú"),
+    array('A', 'É ', 'I', 'Ó ', 'U'),
+    $interpretacion_modificada
+);
+
 // Obtenemos los márgenes para el pdf
 $query_margenes = "SELECT margen_e_cm, margen_p_cm FROM sucursales WHERE id_su = $id_sucursal";
 if (!$resultado_margenes = mysqli_query($horizonte, $query_margenes)) {
@@ -69,6 +76,6 @@ $header_footer_width = $print_size == "Letter" ? LETTER_SIZE_HEADER_FOOTER_WIDTH
         </table>
     </page_footer>
     <!-- Define el cuerpo de la hoja -->
-    <?php echo $interpretacion; ?>
+    <?php echo $interpretacion_modificada; ?>
     <!-- Fin del cuerpo de la hoja -->
 </page>
