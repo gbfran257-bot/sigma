@@ -3234,9 +3234,16 @@ include_once 'recursos/datauser.php';
 										data1 = data1.replace(/{et_logo14}/gi, et_logo14);
 										data1 = data1.replace(/{et_logo15}/gi, et_logo15);
 
+
+
 										$('#notaMedicaC').val(data);
 										$('#indiF').val(data1);
 										//tinymce.get('indiF').setContent(data);
+
+										// Reemplazar el contenido del editor de texto enriquecido
+										tinymce.get('notaMedicaC').setContent(data);
+										// Añadir regla CSS para establecer el ancho máximo del editor
+										tinymce.get('notaMedicaC').getBody().style.maxWidth = "750px";
 									});
 								} else {
 									$('#notaMedicaC').val(datos[15]);
