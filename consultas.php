@@ -3234,9 +3234,16 @@ include_once 'recursos/datauser.php';
 										data1 = data1.replace(/{et_logo14}/gi, et_logo14);
 										data1 = data1.replace(/{et_logo15}/gi, et_logo15);
 
+
+
 										$('#notaMedicaC').val(data);
 										$('#indiF').val(data1);
 										//tinymce.get('indiF').setContent(data);
+
+										// Reemplazar el contenido del editor de texto enriquecido
+										tinymce.get('notaMedicaC').setContent(data);
+										// Añadir regla CSS para establecer el ancho máximo del editor
+										tinymce.get('notaMedicaC').getBody().style.maxWidth = "750px";
 									});
 								} else {
 									$('#notaMedicaC').val(datos[15]);
@@ -3582,89 +3589,103 @@ include_once 'recursos/datauser.php';
 		});
 	};
 
-	function imprimirNM(idPa, x, idSucursalConsulta) { //x=id del estudio, y es si se imprimen los encabe
-		// Obtenemos el membrete para imprimir la nota médica correctamente
-		getMembrete(parseInt(x), tiposMembrete.notaMedica)
-			.then(response => {
-				const urlEncabezado = response.url_encabezado;
-				const urlPiePagina = response.url_pie_pagina;
+	function imprimirNM(idPa, x, idSucursalConsulta) {
+    // Obtenemos el membrete para imprimir la nota médica correctamente
+    getMembrete(parseInt(x), tiposMembrete.notaMedica)
+        .then(response => {
+            const urlEncabezado = response.url_encabezado;
+            const urlPiePagina = response.url_pie_pagina;
 
-				$("#myModal1").load('imagen/htmls/imprimir.php', function(response, status, xhr) {
-					if (status == "success") {
-						$('#titulo_modal').text('IMPRESIÓN DE LA NOTA MÉDICA');
-						$("#myModal1").height($("#referencia").height() * 0.85);
-						var dato = {
-							idE: x,
-							idP: idPa,
-							idU: $('#id_user').val()
-						}
-						$.post('consultas/files-serverside/datosNotaMedica.php', dato).done(function(data) {
-							var datos = data.split(';*}-{'); //alert(data);
-							var res = datos[0].replace(/<p/g, "<div");
-							res = res.replace(/<\/p>/g, "</div>");
-							$("#impresion_inter").html(res);
+            $("#myModal1").load('imagen/htmls/imprimir.php', function(response, status, xhr) {
+                if (status == "success") {
+                    $('#titulo_modal').text('IMPRESIÓN DE LA NOTA MÉDICA O1');
+                    $("#myModal1").css({
+                        'height': ($("#referencia").height() * 0.85) + 'px',
+                        'margin-top': '2cm', // Ajuste del margen superior
+                        'margin-bottom': '2.5cm', // Ajuste del margen inferior
+                        'overflow-x': 'hidden' // Ocultar desbordamiento horizontal
+                    });
+                    var dato = {
+                        idE: x,
+                        idP: idPa,
+                        idU: $('#id_user').val()
+                    }
+                    $.post('consultas/files-serverside/datosNotaMedica.php', dato).done(function(data) {
+                        var datos = data.split(';*}-{'); //alert(data);
+                        var res = datos[0].replace(/<p/g, "<div");
+                        res = res.replace(/<\/p>/g, "</div>");
+                        $("#impresion_inter").html(res);
 
-							// Agregamos el encabezado y el pie de página
-							agregarMembrete("#impresion_inter", urlEncabezado, urlPiePagina);
-						});
+                        // Mover el contenido y ajustar el tamaño de la fuente
+                        $("#impresion_inter").css({
+                            'margin-left': '10px', // Mover 10px desde el borde izquierdo
+							'margin-right': '-10px',
+                            'font-size': '12px', // Tamaño de fuente más pequeño para ajustar el contenido
+                            'width': 'calc(100% - 40px)' // Ajustar el ancho para evitar que se corte en el lado derecho
+                        });
 
-						$('#btn_imprimir_i').click(function(e) {
-							// Ocultamos el modal de previsualización para mostrar el modal de la impresión
-							$("#myModal1").modal("hide");
+                        // Agregamos el encabezado y el pie de página
+                        agregarMembrete("#impresion_inter", urlEncabezado, urlPiePagina);
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
+                        swal("¡Error!", "No se pudieron cargar los datos de la nota médica.", "error");
+                    });
 
-							try {
-								window.setTimeout(() => {
-									// Definimos las imágenes de los membretes
-									/* let server_url = window.location.host === "localhost" ? "<?php echo $_SERVER['DOCUMENT_ROOT']; ?>temporal_sigma/" : "https://pruebascruzroja.preunisains.com/"; */
-									let server_url_base = window.location.href;
-									const server_url = server_url_base.substring(0, server_url_base.length - 13);
+                    $('#btn_imprimir_i').click(function(e) {
+                        // Ocultamos el modal de previsualización para mostrar el modal de la impresión
+                        $("#myModal1").modal("hide");
 
-									e = `<img src=\"${server_url}${urlEncabezado}\" />`;
-									p = `<img src=\"${server_url}${urlPiePagina}\" />`;
+                        try {
+                            window.setTimeout(() => {
+                                // Definimos las imágenes de los membretes
+                                let server_url_base = window.location.href;
+                                const server_url = server_url_base.substring(0, server_url_base.length - 13);
 
-									// Definimos la configuración del documento
-									const configuracion = {
-										encL: escape(e),
-										pieL: escape(p),
-										id_c: escape(parseInt(x)),
-										id_s: idSucursalConsulta
-									};
+                                e = `<img src=\"${server_url}${urlEncabezado}\" />`;
+                                p = `<img src=\"${server_url}${urlPiePagina}\" />`;
 
-									// Agregamos el contenido del modal de la impresión que nos va a permitir ver el documento
-									$("#myModalx").html('<div class="modal-dialog modal-lg" role="document"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4"></div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
+                                // Definimos la configuración del documento
+                                const configuracion = {
+                                    encL: escape(e),
+                                    pieL: escape(p),
+                                    id_c: escape(parseInt(x)),
+                                    id_s: idSucursalConsulta
+                                };
 
-									// Cargamos el documento al modal de impresión
-									window.setTimeout(() => {
-										$("#body_modal4").load("consultas/htmls/frame_nota.php", configuracion, (response, status, xhr) => {
-											if (status === "success") {
-												$('#titulo_modal').text('IMPRIMIR NOTA MÉDICA');
-												$("#body_modal4").height($("#myModalx").height() - 180);
-												$('#myModalx').modal('show');
-											}
-										});
-									}, 100);
-								}, 1000);
-							} catch (error) {
-								swal("¡Ocurrió un error!", error.message, "error");
-							}
-						});
+                                // Agregamos el contenido del modal de la impresión que nos va a permitir ver el documento
+                                $("#myModalx").html('<div class="modal-dialog modal-lg" role="document"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4">PRUEBA1</div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
 
-						$('#myModal1').modal('show');
-						$('#myModal1').on('shown.bs.modal', function(e) {});
-						$('#myModal1').on('hidden.bs.modal', function(e) {
-							$(".modal-content").remove();
-							$("#myModal1").empty();
-						});
-					}
-				});
-			}).catch(error => {
-				return swal({
-					icon: "error",
-					title: "¡Ocurrió un error!",
-					text: error.message
-				});
-			});
-	}
+                                // Cargamos el documento al modal de impresión
+                                window.setTimeout(() => {
+                                    $("#body_modal4").load("consultas/htmls/frame_nota.php", configuracion, (response, status, xhr) => {
+                                        if (status === "success") {
+                                            $('#titulo_modal').text('IMPRIMIR NOTA MÉDICA');
+                                            $("#body_modal4").height($("#myModalx").height() - 180);
+                                            $('#myModalx').modal('show');
+                                        }
+                                    });
+                                }, 100);
+                            }, 1000);
+                        } catch (error) {
+                            swal("¡Ocurrió un error!", error.message, "error");
+                        }
+                    });
+
+                    $('#myModal1').modal('show');
+                    $('#myModal1').on('hidden.bs.modal', function(e) {
+                        $(".modal-content").remove();
+                        $("#myModal1").empty();
+                    });
+                }
+            });
+        })
+        .catch(error => {
+            swal("¡Ocurrió un error!", error.message, "error");
+        });
+}
+
+
+
+
 
 	const agregarMembrete = (selector, urlEncabezado, urlPiePagina) => {
 		$(selector).prepend(`
