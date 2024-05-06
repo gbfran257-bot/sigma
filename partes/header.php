@@ -142,6 +142,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                             <!--<li><a href="#"><i class="fa fa-list-alt"></i> REPORTES</a></li>
                         <li><a href="#"><i class="fa fa-bar-chart-o"></i> ESTADÍSTICAS</a></li>-->
                             <?php if ($permisos[26]) { ?> <li><a href="catalogo_laboratorio.php"><i class="fa fa-list-ol"></i> CATÁLOGO</a></li> <?php } ?>
+                            <?php if ($permisos[26]){?> <li><a href="productividad_bases_lab.php"><i class="fa fa-list-alt"></i> P. BASES</a></li> <?php } ?>
 
                         </ul>
                     </li>
