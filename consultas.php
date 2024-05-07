@@ -31,6 +31,7 @@ include_once 'recursos/datauser.php';
 	<script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
 	<script src="DataTables-1.10.13/media/js/dataTables.bootstrap.min.js"></script>
 	<script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 	<script src="bootstrap-validator/js/validator.js"></script>
 	<!-- <script src="sweetalert/dist/sweetalert.min.js"></script> -->
 	<script src="chosen/chosen.jquery.js" type="text/javascript"></script>
@@ -58,6 +59,7 @@ include_once 'recursos/datauser.php';
 	<link href="DataTables-1.10.13/media/css/dataTables.bootstrap.min.css" rel="stylesheet">
 	<link href="DataTables-1.10.13/extensions/Scroller/css/scroller.bootstrap.min.css" rel="stylesheet">
 	<link href="DataTables-1.10.13/extensions/Select/css/select.bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
 	<link href="bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">
 	<!-- <link href="sweetalert/dist/sweetalert.css" rel="stylesheet"> -->
 	<link rel="stylesheet" href="chosen/chosen.css">

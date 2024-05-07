@@ -175,7 +175,7 @@ include_once 'recursos/datauser.php';
 				<th style="vertical-align:middle;">UBI</th>
 				<th style="vertical-align:middle;"><span title="EXPEDIENTE CLÍNICO ELECTRÓNICO">ECE</span></th>
 				<th style="vertical-align:middle;">MEMBRESÍA</th>
-				<th style="vertical-align:middle;">ACTIVAR/DESACTIVAR</th>
+				<th style="vertical-align:middle;">A/D</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -1168,7 +1168,7 @@ include_once 'recursos/datauser.php';
 			"aoColumns": [{
 					"bVisible": true
 				}, {
-					"bVisible": true
+					"bVisible": false
 				}, {
 					"bVisible": true
 				}, {
@@ -4790,7 +4790,8 @@ include_once 'recursos/datauser.php';
 			tipoConcepto: t,
 			id_con_bene: id_con_bene,
 			fechaC: $('#fichaNV').val() + ' ' + $('#horaNV').val(),
-			ocupado: ocup
+			ocupado: ocup,
+			cantidad: 1
 		}
 		$.post('pacientes/files-serverside/guardarEstudioNV.php', datosSENV).done(function(data) {
 			if (data == 1) {
@@ -4820,7 +4821,8 @@ include_once 'recursos/datauser.php';
 			id_con_bene: id_con_bene,
 			fechaC: $('#fichaNV').val() + ' ' + $('#horaNV').val(),
 			ocupado: ocup,
-			precio_original: po
+			precio_original: po,
+			cantidad:1
 		}
 		$.post('pacientes/files-serverside/guardarEstudioNV.php', datosSENV).done(function(data) {
 			if (data == 1) {
@@ -4849,7 +4851,8 @@ include_once 'recursos/datauser.php';
 			tipoConcepto: t,
 			id_con_bene: id_con_bene,
 			fechaC: $('#fichaNV').val() + ' ' + $('#horaNV').val(),
-			ocupado: ocup
+			ocupado: ocup,
+			cantidad:1
 		}
 		$.post('pacientes/files-serverside/guardarEstudioNV.php', datosSENV).done(function(data) {
 			if (data == 1) {
@@ -4879,7 +4882,8 @@ include_once 'recursos/datauser.php';
 			id_con_bene: id_con_bene,
 			fechaC: $('#fichaNV').val() + ' ' + $('#horaNV').val(),
 			ocupado: ocup,
-			honor: honor
+			honor: honor,
+			cantidad:1
 		}
 		$.post('pacientes/files-serverside/guardarEstudioNV.php', datosSENV).done(function(data) {
 			if (data == 1) {
