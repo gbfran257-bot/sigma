@@ -3,7 +3,7 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('v.id_vc', 'b.base_b', 'COUNT(b.id_b) AS suma','v.id_vc','b.precio_maquila_b','ac.cantidad_ac','a.nombre_a','u.unidad_un','b.id_b' );
+	$aColumns = array('v.id_vc', 'b.base_b', 'COUNT(b.id_b) AS suma','v.id_vc','b.precio_maquila_b','ac.cantidad_ac','a.nombre_a','ac.aleatorio_ac','b.id_b' );
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -102,6 +102,7 @@ require("../../funciones/php/values.php");
 
     $resultT = mysql_query("SELECT COUNT(b.id_b) FROM venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es LEFT JOIN asignar_bases ab ON ab.id_estudio_ab = e.id_to left JOIN bases b ON b.id_b = ab.id_base_ab where e.id_tipo_concepto_to = 3 and v.temporal_vc=0 and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' ", $horizonte) or die(mysql_error());
     $rowT = mysql_fetch_row($resultT);
+
         
     while ( $aRow = mysql_fetch_array( $rResult ) )
     {
@@ -117,7 +118,13 @@ require("../../funciones/php/values.php");
         $porce = round(($row[2]*100)/$rowT[0],4);
 		$row[3] = "<span>$porce %</span>";
         $row[4] = $row[4] * $row[2];
-        $row[5] = ($row[5] * $row[2]) . " " . $row[7];
+
+            //Obtenemos la unidad de medida de uno de los consumibles
+            mysql_select_db($database_horizonte, $horizonte);
+            $result_consumible = mysql_query("SELECT u.unidad_un FROM unidades u LEFT JOIN inventario i ON i.id_unidad_i = u.id_un LEFT JOIN asignar_consumibles ac ON ac.id_item_ac = i.id_i WHERE ac.aleatorio_ac = '$row[7]' LIMIT 1", $horizonte) or die (mysql_error());
+            $consumible = mysql_fetch_row($result_consumible);
+
+        $row[5] = ($row[5] * $row[2]) . " " . $consumible[0];
 
        /*  $resultPr = mysql_query("SELECT sum(b.precio_maquila_b) from asignar_bases ab ".
             "left join bases b on b.id_b = ab.id_base_ab where ab.aleatorio_ab='$row[4]'", $horizonte) or die(mysql_error());
