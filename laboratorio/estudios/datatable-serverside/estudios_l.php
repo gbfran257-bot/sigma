@@ -159,7 +159,7 @@ include_once '../../../recursos/utilities.php';
 		$row[0]="<span>$hh</span>";
 		
 		if($_GET['accesoU']==1 && $_GET['enExcel'] == 0){//globalisima
-			$row[1]= "<span class='text-info' style='cursor:pointer; text-decoration:underline;' lang='$row[15]' id='$row[13]' onClick='fichaEstudio(this.id, this.lang);'>$row[1]</span>";
+			$row[1]= "<span class='text-info' style='cursor:pointer; text-decoration:underline;' lang='$row[14]' id='$row[13]' onClick='fichaEstudio(this.id, this.lang);'>$row[1]</span>";
 			
             $row[6]="<input type='text' class='form-control input-sm precio_m_i' value='$row[6]' style='width:75px; text-align:right;' lang='$row[13]'>";
             $row[7]="<input type='text' class='form-control input-sm precio_m_u_i' value='$row[7]' style='width:75px; text-align:right;' lang='$row[13]'>";
