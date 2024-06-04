@@ -4,7 +4,8 @@ $(document).ready((e) => {
    /*  $("#generar_pedidos").click(() => imprimirReportePedidos()); */
    
    $('#generar_pedidos').click(function(e) { 
-        window.open("pedidos/html/reporte_stock.php?sucursal="+$("#sucursales-pedidos").val()+"&nombre="+$("#sucursales-pedidos").text()+"&id_usuario="+$('#id_user').val(), "_blank");
+    var sucursaltexto = $("#sucursales-pedidos option:selected").text();
+        window.open("pedidos/html/reporte_stock.php?sucursal="+$("#sucursales-pedidos").val()+"&nombre="+sucursaltexto+"&id_usuario="+$('#id_user').val(), "_blank");
     });
 
     initSelectSucursales();

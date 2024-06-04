@@ -21,7 +21,8 @@ $usuario = mysql_fetch_row($resultC);
 $pdf->Cell(0, 10, "REPORTE DE PEDIDO", 0, 1, 'C');
 
 $pdf->SetFont('Arial', '', 12);
-$pdf->Cell(0, 10, "SUCURSAL: ". substr($_GET['nombre'],13,100), 0, 1, 'L');
+//$pdf->Cell(0, 10, "SUCURSAL: ". substr($_GET['nombre'],13,100), 0, 1, 'L');
+$pdf->Cell(0, 10, "SUCURSAL: ". $_GET['nombre'], 0, 1, 'L');
 $pdf->Cell(90, 10, 'IMPRIMIO: ' . $usuario[0], 0, 0, 'L');
 $pdf->Cell(60, 10, 'FECHA: ' . date("Y-m-d"), 0, 1, 'L');
 // Añadir otro texto (Izquierda)
