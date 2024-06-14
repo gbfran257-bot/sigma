@@ -250,6 +250,12 @@ function procesar(a,b){//a es el id del paciente y b es el id del estudio en ven
 						var datoP = $('#form-procesar').serialize();
 						$.post('laboratorio/archivos_save_ajax/procesar.php', datoP).done(function(data) {
 							if(data==1){
+								//guardamos quien procesa
+								var datoProceso = {id_usuario:$('#id_user').val(), id_estudio:b}
+								$.post('laboratorio/archivos_save_ajax/guardarProcesoLab.php', datoProceso).done(function(dataProceso) {
+
+								});
+								//
 								$('#clickme').click(); $('#myModal1').modal('hide');
 								swal({title:"",type:"success",text:"¡El proceso se realizó correctamente!",timer:2500,showConfirmButton:false});
 							}else{alert(data);}
@@ -796,6 +802,7 @@ function interpretar(a,b,n,id_s){//a es el id del paciente y b del estudio en vc
 					if($('#name_area').val() != 'BACTERIOLOGIA'){
 						$.post('laboratorio/archivos_save_ajax/autorizado.php', datoP).done(function( data ) { 
 							if (data == 1){ 
+								guardarAutorizado(b,$('#id_user').val());
 								$('#clickme').click(); $('#myModal2').modal('hide');
 								swal({
 								  title: "", text: "EL ESTUDIO SE HA AUTORIZADO CORRECTAMENTE",
@@ -820,6 +827,7 @@ function interpretar(a,b,n,id_s){//a es el id del paciente y b del estudio en vc
 						
 						$.post('laboratorio/archivos_save_ajax/autorizado_bacter.php', datoP).done(function( data ) { 
 							if (data == 1){ 
+								guardarAutorizado(b,$('#id_user').val());
 								$('#clickme').click(); $('#myModal2').modal('hide');
 								swal({
 								  title: "", text: "EL ESTUDIO SE HA AUTORIZADO CORRECTAMENTE",
@@ -845,6 +853,7 @@ function interpretar(a,b,n,id_s){//a es el id del paciente y b del estudio en vc
 	
 					$.post('laboratorio/archivos_save_ajax/autorizado_notaLibre.php', datoP).done(function( data ) { 
 						if (data == 1){ 
+							guardarAutorizado(b,$('#id_user').val());
 							$('#clickme').click(); $('#myModal2').modal('hide');
 							swal({
 							  title: "", text: "EL ESTUDIO SE HA AUTORIZADO CORRECTAMENTE",
@@ -863,6 +872,15 @@ function interpretar(a,b,n,id_s){//a es el id del paciente y b del estudio en vc
 		$('#myModal2').on('shown.bs.modal', function(e){ $('#form-procesar').validator(); });
 		$('#myModal2').on('hidden.bs.modal', function(e){ tinymce.remove("#notaLibre"); $(".modal-content").remove(); $("#myModal2").empty(); });
 	} });
+}
+
+function guardarAutorizado(id_estudio, id_usuario){
+	var datosAutorizar = { id_estudio:id_estudio, id_usuario:id_usuario }
+
+	$.post('laboratorio/archivos_save_ajax/guardarAutorizadoLab.php', datosAutorizar).done(function(dataAutorizar) {
+
+	});
+
 }
 
 function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del estudio en vc en venta de conceptos
