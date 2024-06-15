@@ -1068,6 +1068,15 @@ function imprimir(a,b,n,x,id_s){//a =id paciente, b id estudio en vc, x es si se
 				var t="<img src='../usuarios/firmas/files/"+data+"."+miExtFi+"' height='90%'>"; $('#firmaDR').html(t); //alert(t);
 			});
 		}else{var t='';}//alert(membretDME);
+
+		//obtenemor firma de quien capturo o proceso
+		var miExtFi2 = datosP[40];
+		if(datosP[38]==1){ var datosG = {aleatorio:datosP[39]} //Para la firma
+			$.post('usuarios/files-serverside/datosFirma.php',datosG).done(function( data2 ){ 
+				var t="<img src='../usuarios/firmas/files/"+data2+"."+miExtFi2+"' height='90%'>"; $('#firmaDR2').html(t); //alert(t);
+			});
+		}else{var t='';}
+		//
 		
 		//Checamos si no tiene ninguna base el estudio poner formato libre
 		//alert(datosP[37]);

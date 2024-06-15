@@ -3,7 +3,7 @@ require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
 
 mysql_select_db($database_horizonte, $horizonte);
-$query_usuario = sprintf("SELECT variable_temporal_u, variable_temporal1_u, variable_temporal2_u FROM usuarios WHERE id_u = %s", $_GET["iduL"]);
+$query_usuario = sprintf("SELECT variable_temporal_u, variable_temporal1_u, variable_temporal2_u, variable_temporal5_u FROM usuarios WHERE id_u = %s", $_GET["iduL"]);
 $usuario = mysql_query($query_usuario, $horizonte) or die(mysql_error());
 $row_usuario = mysql_fetch_assoc($usuario);
 $totalRows_usuario = mysql_num_rows($usuario);
@@ -49,6 +49,7 @@ $rowR = mysql_fetch_row($resultR);
     <!-- Define el cuerpo de la hoja -->
     <?php echo $row_usuario['variable_temporal1_u']; ?><hr style="height:1px;">
 	<?php echo $row_usuario['variable_temporal_u']; ?> 
+    <?php echo $row_usuario['variable_temporal5_u']; ?>
     <?php echo $row_usuario['variable_temporal2_u']; ?>
     <!-- Fin del cuerpo de la hoja -->
 </page>

@@ -148,11 +148,66 @@ if($row8[0]>1){
 	</div>';
 
 if($row2[2]!=''){$myOBS = '<em>OBSERVACIONES: </em> '.$row2[2].'';}else{$myOBS='&nbsp;';}
- $tabla2 = '<table id="p_contenido2" width="100%" border="0" cellspacing="3" cellpadding="0"><tr><td colspan="2" height="40" valign="top">'.$myOBS.'</td></tr> <tr> <td width="400" height="100" valign="top"></td> <td id="firmaDR" align="center" height="110"> '.$myFirma.' </td> </tr> <tr> <td>&nbsp;</td> <td nowrap align="center">'.$row4d[6].' '.$quimicoAutoriza.'</td> </tr> <tr> <td nowrap></td> <td nowrap align="center"><span class="puestoDR"></span> CEDULA PROFESIONAL '.$row4d[3].'</td> </tr> </table>';
+/*  $tabla2 = '<table id="p_contenido2" width="100%" border="1" cellspacing="3" cellpadding="0"><tr> <td width="300" height="100" valign="top"></td> <td id="firmaDR" align="center" height="110"> '.$myFirma.' </td> </tr> <tr> <td>&nbsp;</td> <td nowrap align="center"> AUTORIZADO POR '.$row4d[6].' '.$quimicoAutoriza.'</td> </tr> <tr> <td nowrap></td> <td nowrap align="center"><span class="puestoDR"></span> CEDULA PROFESIONAL '.$row4d[3].'</td> </tr> </table>'; */
+$tabla2 = '<table id="p_contenido2" width="100%" border="0" cellspacing="3" cellpadding="0">
+            <tr>
+                <td width="400" height="90" valign="top"></td>
+                <td id="firmaDR" align="center" height="90"> '.$myFirma.' </td>
+            </tr>
+            <tr>
+                <td>AUTORIZADO POR:</td>
+                <td nowrap align="center">'.$row4d[6].' '.$quimicoAutoriza.'</td>
+            </tr>
+            <tr>
+                <td nowrap></td>
+                <td nowrap align="center"><span class="puestoDR"></span> CEDULA PROFESIONAL '.$row4d[3].'</td>
+            </tr>
+          </table>';
+
+ //obtenemos cuadro con firma de quien capturó el estudio
+mysql_select_db($database_horizonte, $horizonte);
+$queryDatosProceso = mysql_query("SELECT he.quien_proceso, u.nombre_u, u.apaterno_u, u.amaterno_u, u.cedulaProfesional_u, u.id_u, u.sexo_u, t.abreviacion_ti, u.firma_u, u.temporal_u FROM historial_estudios he LEFT JOIN usuarios u ON u.id_u = he.quien_proceso LEFT JOIN titulos t ON t.id_ti = u.id_titulo_u WHERE id_estudio = $idE ", $horizonte) or die (mysql_error());
+$resultadoProceso = mysql_fetch_row($queryDatosProceso);
+
+$temporalProceso = sqlValue($resultadoProceso[9], "text");
+
+$buscarFirma = mysql_query("SELECT count(id_do) from documentos where aleatorio_do = ".$temporalProceso." and firma_do = 1 ", $horizonte) or die (mysql_error());
+$resultadoFirma = mysql_fetch_row($buscarFirma);
+
+if($resultadoFirma[0]>0){
+	mysql_select_db($database_horizonte, $horizonte); 
+	$buscarExtension = mysql_query("SELECT ext_do, id_do from documentos where aleatorio_do = ".$temporalProceso." and firma_do = 1", $horizonte) or die (mysql_error());
+	$firmaCompleta = mysql_fetch_row($buscarExtension);
+	$myFirma2 = '<img src="../../../usuarios/documentos/files/'.$firmaCompleta[1].'.'.$firmaCompleta[0].'" height="100" width="" style=" border-style:none;">';
+ }else{
+	$myFirma2 = '';
+}
+
+/*  $tabla5 = '<table id="p_contenido2" width="100%" border="0" cellspacing="3" cellpadding="0"><tr><td colspan="2" height="40" valign="top">'.$myOBS.'</td></tr> <tr> <td width="400" height="100" valign="top"></td> <td id="firmaDR2" align="center" height="110"> '.$myFirma2.' </td> </tr> <tr> <td>&nbsp;</td> <td nowrap align="center">'.$resultadoProceso[7].' '.$resultadoProceso[1] . ' ' . $resultadoProceso[2] . ' ' . $resultadoProceso[3].'</td> </tr> <tr> <td nowrap></td> <td nowrap align="center"><span class="puestoDR"></span> CEDULA PROFESIONAL '.$resultadoProceso[4].'</td> </tr> </table>'; */
+
+$tabla5 = '<table id="p_contenido3" width="100%" border="0" cellspacing="3" cellpadding="0">
+    <tr>
+        <td colspan="2" height="30" valign="top">'.$myOBS.'</td>
+    </tr>
+    <tr>
+        <td width="400" height="90" valign="top"></td>
+        <td id="firmaDR2" align="center" height="90">'.$myFirma2.'</td>
+    </tr>
+    <tr>
+        <td>PROCESADO Y CAPTURADO POR:</td>
+        <td nowrap align="center">'.$resultadoProceso[7].' '.$resultadoProceso[1].' '.$resultadoProceso[2].' '.$resultadoProceso[3].'</td>
+    </tr>
+    <tr>
+        <td nowrap></td>
+        <td nowrap align="center"><span class="puestoDR"></span> CEDULA PROFESIONAL '.$resultadoProceso[4].'</td>
+    </tr>
+</table>';
+
+ //
 		
- $tabla = sqlValue($tabla, "text"); $tabla2 = sqlValue($tabla2, "text");
+ $tabla = sqlValue($tabla, "text"); $tabla2 = sqlValue($tabla2, "text"); $tabla5 = sqlValue($tabla5, "text");
  mysql_select_db($database_horizonte, $horizonte);
- $sqlX = "UPDATE usuarios SET variable_temporal1_u = $tabla, variable_temporal2_u = $tabla2 where id_u = $idU limit 1";
+ $sqlX = "UPDATE usuarios SET variable_temporal1_u = $tabla, variable_temporal2_u = $tabla2, variable_temporal5_u = $tabla5 where id_u = $idU limit 1";
  $updateX = mysql_query($sqlX, $horizonte) or die (mysql_error());
  
  mysql_select_db($database_horizonte, $horizonte);
@@ -165,7 +220,7 @@ if($row2[2]!=''){$myOBS = '<em>OBSERVACIONES: </em> '.$row2[2].'';}else{$myOBS='
  
  if(!$updateX){ echo $sqlX; }
  else{
-	 echo $row1[0].'. '.$row1[5].' '.$row1[4].'*}'.$row2[0].'*}'.$row3[0].'*}'.$row4[0].'*}'.$row5[0].'*}'.$row6[0].'*}'.$row4[0].'*}'.$areaE.'*}'.$row2[2].'*}'.$row1[3].'*}'.$row1[4].'*}'.$row1[5].'*}'.$row2[3].'*}'.$miMedico.'*}'.$quimicoAutoriza.'*}'.$row4d[3].'*}'.$lista1.'*}'.$lista.'*}'.$row4d[6].'*}'.$row2[6].'*}'.$nome.' DE '.$row7[0].'*}'.$row2[8].".png".'*}'.$row2[9].'*}'.$row2[10].'*}'.$row4d[7].'*}'.$row4d[8].'*}'.$rowDo[0].'*}'.$rowMNE[0].'*}'.$rowMNE[1].'*}'.$rowMNE[2].'*}'.$rowMNP[0].'*}'.$rowMNP[1].'*}'.$rowMNP[2].'*}'.$row2[11].'*}'.$ep.'*}'.$rowE[1].'*}'.$row2[13].'*}'.$rowC[0].'*}'.$row2[14].'*}'.$row2[15];
+	 echo $row1[0].'. '.$row1[5].' '.$row1[4].'*}'.$row2[0].'*}'.$row3[0].'*}'.$row4[0].'*}'.$row5[0].'*}'.$row6[0].'*}'.$row4[0].'*}'.$areaE.'*}'.$row2[2].'*}'.$row1[3].'*}'.$row1[4].'*}'.$row1[5].'*}'.$row2[3].'*}'.$miMedico.'*}'.$quimicoAutoriza.'*}'.$row4d[3].'*}'.$lista1.'*}'.$lista.'*}'.$row4d[6].'*}'.$row2[6].'*}'.$nome.' DE '.$row7[0].'*}'.$row2[8].".png".'*}'.$row2[9].'*}'.$row2[10].'*}'.$row4d[7].'*}'.$row4d[8].'*}'.$rowDo[0].'*}'.$rowMNE[0].'*}'.$rowMNE[1].'*}'.$rowMNE[2].'*}'.$rowMNP[0].'*}'.$rowMNP[1].'*}'.$rowMNP[2].'*}'.$row2[11].'*}'.$ep.'*}'.$rowE[1].'*}'.$row2[13].'*}'.$rowC[0].'*}'.$row2[14].'*}'.$row2[15].$resultadoProceso[8].'*}'.$resultadoProceso[9].'*}'.$firmaCompleta[0];
  }
 
 //Cerrar conexión a la Base de Datos
