@@ -190,16 +190,20 @@ $tabla5 = '<table id="p_contenido3" width="100%" border="0" cellspacing="3" cell
         <td colspan="2" height="30" valign="top">'.$myOBS.'</td>
     </tr>
     <tr>
-        <td width="400" height="90" valign="top"></td>
-        <td id="firmaDR2" align="center" height="90">'.$myFirma2.'</td>
+		<td id="firmaDR2" align="center" height="90">'.$myFirma2.'</td>
+		<td id="firmaDR2" align="center" height="90">'.$myFirma.'</td>
     </tr>
     <tr>
-        <td>PROCESADO Y CAPTURADO POR:</td>
-        <td nowrap align="center">'.$resultadoProceso[7].' '.$resultadoProceso[1].' '.$resultadoProceso[2].' '.$resultadoProceso[3].'</td>
+        <td nowrap align="center">PROCESADO Y CAPTURADO POR:</td>
+        <td nowrap align="center">AUTORIZADO POR</td>
     </tr>
     <tr>
-        <td nowrap></td>
-        <td nowrap align="center"><span class="puestoDR"></span> CEDULA PROFESIONAL '.$resultadoProceso[4].'</td>
+		<td nowrap align="center">'.$resultadoProceso[7].' '.$resultadoProceso[1].' '.$resultadoProceso[2].' '.$resultadoProceso[3].'</td>
+		<td nowrap align="center">'.$row4d[6].' '.$quimicoAutoriza.'</td>
+    </tr>
+    <tr>
+		<td nowrap align="center"><span class="puestoDR"></span> CEDULA PROFESIONAL '.$resultadoProceso[4].'</td>
+		<td nowrap align="center"><span class="puestoDR"></span> CEDULA PROFESIONAL '.$row4d[3].'</td>
     </tr>
 </table>';
 

@@ -50,7 +50,6 @@ $rowR = mysql_fetch_row($resultR);
     <?php echo $row_usuario['variable_temporal1_u']; ?><hr style="height:1px;">
 	<?php echo $row_usuario['variable_temporal_u']; ?> 
     <?php echo $row_usuario['variable_temporal5_u']; ?>
-    <?php echo $row_usuario['variable_temporal2_u']; ?>
     <!-- Fin del cuerpo de la hoja -->
 </page>
 <?php mysql_free_result($usuario);?>
