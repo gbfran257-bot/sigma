@@ -251,7 +251,7 @@ function procesar(a,b){//a es el id del paciente y b es el id del estudio en ven
 						$.post('laboratorio/archivos_save_ajax/procesar.php', datoP).done(function(data) {
 							if(data==1){
 								//guardamos quien procesa
-								var datoProceso = {id_usuario:$('#id_user').val(), id_estudio:b}
+								var datoProceso = {id_usuario:$('#id_user').val(), id_estudio:b, referencia:datosP[1],checaPro:$('#checaPro').val()}
 								$.post('laboratorio/archivos_save_ajax/guardarProcesoLab.php', datoProceso).done(function(dataProceso) {
 
 								});
