@@ -141,6 +141,15 @@ include_once 'recursos/datauser.php';
 			float: right;
 			padding-right: 15px;
 		}
+		.nvocampo{
+			float:right;
+			margin-right: 10px;
+			margin-top: 10px;
+			color:gray;
+		}
+		.nuevoscampos{
+			text-align: center;
+		}
 	</style>
 </head>
 <?php include_once 'partes/header.php';

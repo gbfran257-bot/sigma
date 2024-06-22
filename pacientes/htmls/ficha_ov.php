@@ -55,6 +55,11 @@
               <li role="presentation"><a href="#tServicios" aria-controls="tServicios" role="tab" data-toggle="tab">SERVICIOS</a></li>
               <li role="presentation"><a href="#tFarmacia" aria-controls="tFarmacia" role="tab" data-toggle="tab" id="t_farm">FARMACIA / INSUMOS</a></li>
               <li role="presentation"> <a href="#tResumen" aria-controls="tResumen" role="tab" data-toggle="tab">RESUMEN</a> </li>
+              <div class="nuevoscampos">
+              <input type="text" name="expediente_externo" id="expediente_externo" class="nvocampo"><label for="expediente_externo" class="nvocampo">EXPEDIENTE:</label>
+              <input type="text" name="folio_externo" id="folio_externo" class="nvocampo"><label for="folio_externo" class="nvocampo">FOLIO:</label>
+              </div>
+              
             </ul>
 
             <!-- Tab panes -->
