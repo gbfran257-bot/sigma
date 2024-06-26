@@ -113,15 +113,15 @@ $pdf->Cell(95, 5, 'NOMBRE Y FIRMA DE QUIEN ENTREGA', 0, 0, 'C');
 $pdf->Cell(95, 5, 'NOMBRE Y FIRMA DE QUIEN RECIBE', 0, 1, 'C');
 
 // Salto de línea
-if($elementos->numero <= 10){
+if($elementos->numero <= 11){
   $pdf->Ln(20);
 }else{
   $pdf->Ln(10);
 }
 
 
-$pdf->Cell(95, 5, $pdf->Line(20, $pdf->GetY(), 95, $pdf->GetY()), 0, 0, 'C');
-$pdf->Cell(95, 5, $pdf->Line(115, $pdf->GetY(), 190, $pdf->GetY()), 0, 1, 'C');
+$pdf->Line(20, $pdf->GetY(), 100, $pdf->GetY()); // Línea izquierda
+$pdf->Line(115, $pdf->GetY(), 195, $pdf->GetY()); // Línea derecha
 
 //TERMINA PRIMERA PARTE
 
@@ -133,8 +133,10 @@ $elementos = mysql_fetch_object($resultado_nElementos);
 
 if($elementos->numero > 13){
     $pdf->AddPage();
-}else if($elementos->numero <= 13){
+}else if($elementos->numero > 11){
     $pdf->SetY(145); 
+}else if($elementos->numero <= 11){
+    $pdf->SetY(160); 
 }
  
 // Establecer fuente y tamaño de texto
@@ -233,14 +235,14 @@ $pdf->Cell(95, 5, 'NOMBRE Y FIRMA DE QUIEN ENTREGA', 0, 0, 'C');
 $pdf->Cell(95, 5, 'NOMBRE Y FIRMA DE QUIEN RECIBE', 0, 1, 'C');
 
 // Salto de línea
-if($elementos->numero <= 10){
+if($elementos->numero <= 11){
   $pdf->Ln(20);
 }else{
   $pdf->Ln(10);
 }
 
-$pdf->Cell(95, 1, $pdf->Line(20, $pdf->GetY(), 95, $pdf->GetY()), 0, 0, 'C');
-$pdf->Cell(95, 1, $pdf->Line(115, $pdf->GetY(), 190, $pdf->GetY()), 0, 1, 'C');
+$pdf->Line(20, $pdf->GetY(), 100, $pdf->GetY()); // Línea izquierda
+$pdf->Line(115, $pdf->GetY(), 195, $pdf->GetY()); // Línea derecha
 
 
 // Generar el PDF y mostrarlo en el navegador
