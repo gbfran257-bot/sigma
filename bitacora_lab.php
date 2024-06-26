@@ -66,6 +66,11 @@
     <link href="jQuery-TE_v.1.4.0/jquery-te-1.4.0.css" rel="stylesheet">
     <link href="c3/c3.css" rel="stylesheet">
 </head>
+<style>
+	.formatoresultados{
+		font-size: 10px;
+	}
+</style>
 <?php include_once 'partes/header.php'; ?>
 <input name="c_total" type="hidden" value="" id="c_total">
 <input name="" type="hidden" value="" id="comi_total">
@@ -511,5 +516,9 @@ function pagar(ref, tot, sal, abo, pac, noTemp){
 		$('#myModal').on('shown.bs.modal', function (e) { $('#form-pagar').validator(); });
 		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
 	} }); //fin de load
+}
+
+function imprimirFormatoR(sucursal, id){
+	window.open("corte_caja/reportes/htmls/reporte_formato_resultados.php?sucursal="+sucursal+"&id="+id+"&atendio="+$('#id_user').val(), "_blank");
 }
 </script>

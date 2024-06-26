@@ -191,7 +191,7 @@
 		}
         $totalActual = $row[8];
 		
-		$koka = $koka.'';
+		$koka = $koka."<button class='btn btn-link formatoresultados' lang='$row[4]' id='$row[12]' onClick='imprimirFormatoR(this.lang, this.id);'>FORMATO RESULTADOS</button>";
 		
 		$row[6] = $koka;
 		
