@@ -1,6 +1,16 @@
 <?php
 require("../../../Connections/horizonte.php");
-	$aColumns = array('vc.id_vc' , 'a.nombre_a', 't.tipo_concepto_tc','CONCAT(concepto_to, " $", precio_vc, " x ", cantidad)', 'vc.precio_vc', 'precio_vc * cantidad', 'vc.id_vc', 'c.id_tipo_concepto_to', 'd.nombre_d',);
+
+    $resultRu = mysql_query("SELECT COUNT(*) FROM modificaciones_sigma WHERE nombre = 'ticket2' AND habilitado = 1 ", $horizonte) or die(mysql_error()); 
+    $rowRu = mysql_fetch_row($resultRu);
+
+    if($rowRu[0] <= 0){
+        $aColumns = array('vc.id_vc' , 'a.nombre_a', 't.tipo_concepto_tc','CONCAT(concepto_to, " $", precio_vc, " x ", cantidad)', 'vc.precio_vc', 'precio_vc * cantidad', 'vc.id_vc', 'c.id_tipo_concepto_to', 'd.nombre_d',);
+    }else{
+        $aColumns = array('vc.id_vc' , 'a.nombre_a', 't.tipo_concepto_tc','concepto_to', 'vc.precio_vc', 'precio_vc * cantidad', 'vc.id_vc', 'c.id_tipo_concepto_to', 'd.nombre_d',);
+    }
+
+
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos vc');
@@ -131,7 +141,13 @@ require("../../../Connections/horizonte.php");
 	
 		$row[0]="<div style='vertical-align:top'>$hh</div>";
 		//if($row[5]==''){$row[5]='PARTICULAR';}
-		$row[5]="<div align='right' style='white-space:nowrap;'>$ $row[5]</div>";
+        
+        if($rowRu[0] <= 0){
+            $row[5]="<div align='right' style='white-space:nowrap;'>$ $row[5]</div>";
+        }else{
+            $row[5] = " ";
+        }
+		
 		if($row[3]==''){$row[3]=$row[8];}
 		
 		$output['aaData'][] = $row;
