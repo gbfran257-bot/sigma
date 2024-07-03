@@ -26,7 +26,7 @@ require("../../funciones/php/values.php");
  $rowFP = mysql_fetch_row($resultFP);
  
  mysql_select_db($database_horizonte, $horizonte); 
- $resultP = mysql_query("SELECT nombre_p, apaterno_p, amaterno_p, rfc_p, calle_p, id_p, entidadFederativa_p, municipio_p, colonia_p, cp_p, fNac_p from pacientes where id_p = $rowR[1] limit 1", $horizonte) or die (mysql_error());
+ $resultP = mysql_query("SELECT nombre_p, apaterno_p, amaterno_p, rfc_p, calle_p, id_p, entidadFederativa_p, municipio_p, colonia_p, cp_p, fNac_p, DATE_FORMAT(fNac_p, '%d/%m/%Y') from pacientes where id_p = $rowR[1] limit 1", $horizonte) or die (mysql_error());
  $rowP = mysql_fetch_row($resultP);
  $idEstadoP = sqlValue($rowP[6], "int"); $idMunicipioP = sqlValue($rowP[7], "int"); $idColoniaP = sqlValue($rowP[8], "int");
  
@@ -64,11 +64,11 @@ if($anos<1){
  $resultU2 = mysql_query("SELECT nombre_u, apaterno_u, amaterno_u from venta_conceptos inner join usuarios on id_personal_medico_vc=id_u where referencia_vc='$rowR[0]' limit 1", $horizonte) or die (mysql_error()."99");
  $rowU2 = mysql_fetch_row($resultU2);
  
- $paciente = $rowP[0]." ".$rowP[1]." ".$rowP[2].".   EDAD: ".$rowP[10]; $adicionales = $rowR[9]+$rowR[13]+$rowR[14]+$rowR[15]+$rowR[23];
+ $paciente = $rowP[0]." ".$rowP[1]." ".$rowP[2].".   EDAD: ".$rowP[10] . " F. NAC: " . $rowP[11]; $adicionales = $rowR[9]+$rowR[13]+$rowR[14]+$rowR[15]+$rowR[23];
 
 //$rowR[7] = $rowR[5] - $rowR[6];
 		
-echo $fecha.";}".$rowR[0].";}".$paciente.";}".$adicionales.";}".$rowR[5].";}".$rowR[6].";}".$rowR[7].";}".$rowU[0]." ".$rowU[1]." ".$rowU[2].";}".$fecha.";}".$hora.";}".$adicionales.";}".$rowFP[0].";}".$rowR[11].";}".$rowP[3].";}".$direccionP.";}".$rowSu[0].";}".$rowSu[1].";}".$rowSu[2].";}".$rowSu[3].";}".$rowSu[4].";}".$rowSu[5].";}".$rowSu[6].";}".$rowSu[7].";}".$rowCof[0].";}".$rowR[17].";}".$rowLo[0].";}".$rowLo[1].";}".$rowLo[2].";}".$rowR[19].";}".$rowR[20].";}".$rowR[21].";}".$rowR[22].";}".$rowU2[0]." ".$rowU2[1]." ".$rowU2[2].";}".$rowU[3].";}".$rowR[24];
+echo $fecha.";}".$rowR[0].";}".$paciente.";}".$adicionales.";}".$rowR[5].";}".$rowR[6].";}".$rowR[7].";}".$rowU[0]." ".$rowU[1]." ".$rowU[2].";}"."$fecha '".";}".$hora.";}".$adicionales.";}".$rowFP[0].";}".$rowR[11].";}".$rowP[3].";}".$direccionP.";}".$rowSu[0].";}".$rowSu[1].";}".$rowSu[2].";}".$rowSu[3].";}".$rowSu[4].";}".$rowSu[5].";}".$rowSu[6].";}".$rowSu[7].";}".$rowCof[0].";}".$rowR[17].";}".$rowLo[0].";}".$rowLo[1].";}".$rowLo[2].";}".$rowR[19].";}".$rowR[20].";}".$rowR[21].";}".$rowR[22].";}".$rowU2[0]." ".$rowU2[1]." ".$rowU2[2].";}".$rowU[3].";}".$rowR[24];
 
  //Cerrar conexión a la Base de Datos
  mysql_close($horizonte);
