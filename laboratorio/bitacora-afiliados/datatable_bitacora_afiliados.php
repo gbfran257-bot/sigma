@@ -4,7 +4,7 @@ require("../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
 	$aColumns = array('ov.id_ov', 'ov.referencia_ov', 'DATE_FORMAT(ov.fecha_venta_ov,"%d/%m/%Y %H:%i:%s")', 'p.clave_t', 'p.tipo_trabajador', 'p.titular', 'CONCAT(p.nombre_p, " ", p.apaterno_p, " ", p.amaterno_p)',
-    'p.parentesco', 'p.departamento', 'p.puesto_p', 'ov.id_ov', 'ov.id_ov', 'p.paciente_titular');
+    'p.parentesco', 's.nombre_su', 'p.puesto_p', 'ov.id_ov', 'ov.id_ov', 'p.paciente_titular','ov.gran_total_ov', 'ov.id_ov', 'ov.id_ov');
      
     // DB tables to use 
     $aTables = array( 'orden_venta ov');
@@ -13,7 +13,7 @@ require("../../funciones/php/values.php");
     $sIndexColumn = "ov.id_ov";
      
 	 // Joins   
-	$sJoin = 'LEFT JOIN pacientes p ON p.id_p = ov.id_paciente_ov';
+	$sJoin = 'LEFT JOIN pacientes p ON p.id_p = ov.id_paciente_ov LEFT JOIN sucursales s ON s.id_su = ov.sucursal_ov';
 	
 	// $sWhere = "WHERE 1 = 1 ";
     mysql_select_db($database_horizonte, $horizonte); 
@@ -150,9 +150,9 @@ require("../../funciones/php/values.php");
        
         
         mysql_select_db($database_horizonte, $horizonte);
-		$result = mysql_query("SELECT vc.id_concepto_es, c.concepto_to, COUNT(concepto_to) FROM venta_conceptos vc LEFT JOIN conceptos c ON c.id_to = vc.id_concepto_es WHERE vc.referencia_vc = '$row[1]' AND (c.id_tipo_concepto_to = 3 OR c.id_tipo_concepto_to = 4) GROUP BY vc.id_concepto_es", $horizonte) or die (mysql_error());
+		$result = mysql_query("SELECT vc.id_concepto_es, c.concepto_to, COUNT(concepto_to), vc.precio_vc FROM venta_conceptos vc LEFT JOIN conceptos c ON c.id_to = vc.id_concepto_es WHERE vc.referencia_vc = '$row[1]' AND (c.id_tipo_concepto_to = 3 OR c.id_tipo_concepto_to = 4) GROUP BY vc.id_concepto_es", $horizonte) or die (mysql_error());
 		while ( $fila = mysql_fetch_row($result) ){
-			$cadena=$cadena.'<strong>'.$fila[2].'.</strong>&nbsp;&nbsp;'.$fila[1].'<br>';
+			$cadena=$cadena.'<strong>'.$fila[2].'.</strong>&nbsp;&nbsp;'.$fila[1].'&nbsp; - &nbsp;'.$fila[3].'<br>';
             if(isset($fila[2])){
                 $contador_productos+=1;
             }
@@ -180,6 +180,21 @@ require("../../funciones/php/values.php");
         $row[0] = $conteo;
         $row[10] = " ";
         $row[11] = $cadena;
+        $row[12] = $row[13];
+
+        //verificamos si hay pagos 
+        mysql_select_db($database_horizonte, $horizonte); 
+        $query_pagos = mysql_query("SELECT COUNT(pago_pag), SUM(pago_pag) FROM pagos_ov WHERE referencia_pag = '".$row[1]."'", $horizonte) or die (mysql_error());
+        $revisar_pagos = mysql_fetch_row($query_pagos);
+        
+        if($revisar_pagos[0]>=1){
+            $row[14] = $row[13] - $revisar_pagos[1];
+            $row[13] = $revisar_pagos[1];
+        }else{
+            $row[14] = $row[13];
+            $row[13] = "sin pagos";
+        }
+
 
         $cadena = "";
         $contador_productos = 0;

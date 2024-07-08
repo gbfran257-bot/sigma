@@ -95,12 +95,15 @@
     <th style="vertical-align:middle;">CLAVE</th>
     <th style="vertical-align:middle;">TIPO DE TRABAJADOR</th>
     <th style="vertical-align:middle;">TITULAR</th>
-    <th style="vertical-align:middle;">BENEFICIARIO</th>
+    <th style="vertical-align:middle;">PACIENTE</th>
     <th style="vertical-align:middle;">PARENTESCO</th>
     <th style="vertical-align:middle;">DEPARTAMENTO</th>
     <th style="vertical-align:middle;">CARGO</th>
     <th style="vertical-align:middle;">...</th>
     <th style="vertical-align:middle;">ESTUDIOS</th>
+    <th style="vertical-align:middle;">TOTAL</th>
+    <th style="vertical-align:middle;">ABONADO</th>
+    <th style="vertical-align:middle;">SALDO</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -109,6 +112,9 @@
             <th><input type="text" class="form-control input-sm" placeholder="Referencia"/></th>
             <th><!-- <input type="text" class="form-control input-sm" placeholder="-Abreviación-"/> --></th>
             <th><!-- <input type="text" class="form-control input-sm" placeholder="-Usuario-"/> --></th>
+            <th></th>
+            <th></th>
+            <th></th>
             <th></th>
             <th></th>
             <th></th>
@@ -148,11 +154,14 @@ $(document).ready(function(e) {
             {"bVisible":true}, 
             {"bVisible":true},
             {"bVisible":true}, 
+            {"bVisible":false}, 
+            {"bVisible":false}, 
+            {"bVisible":false}, 
             {"bVisible":true}, 
+            {"bVisible":false}, 
             {"bVisible":true}, 
-            {"bVisible":true}, 
-            {"bVisible":true}, 
-            {"bVisible":true}, 
+            {"bVisible":false}, 
+            {"bVisible":false}, 
             {"bVisible":true}, 
             {"bVisible":true}, 
             {"bVisible":true}, 
