@@ -104,6 +104,8 @@
     <th style="vertical-align:middle;">TOTAL</th>
     <th style="vertical-align:middle;">ABONADO</th>
     <th style="vertical-align:middle;">SALDO</th>
+    <th style="vertical-align:middle;">FOLIO</th>
+    <th style="vertical-align:middle;">EXPEDIENTE</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -112,6 +114,8 @@
             <th><input type="text" class="form-control input-sm" placeholder="Referencia"/></th>
             <th><!-- <input type="text" class="form-control input-sm" placeholder="-Abreviación-"/> --></th>
             <th><!-- <input type="text" class="form-control input-sm" placeholder="-Usuario-"/> --></th>
+            <th></th>
+            <th></th>
             <th></th>
             <th></th>
             <th></th>
@@ -162,6 +166,8 @@ $(document).ready(function(e) {
             {"bVisible":true}, 
             {"bVisible":false}, 
             {"bVisible":false}, 
+            {"bVisible":true}, 
+            {"bVisible":true}, 
             {"bVisible":true}, 
             {"bVisible":true}, 
             {"bVisible":true}, 

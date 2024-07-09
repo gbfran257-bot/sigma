@@ -3,8 +3,8 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('ov.id_ov', 'ov.referencia_ov', 'DATE_FORMAT(ov.fecha_venta_ov,"%d/%m/%Y %H:%i:%s")', 'p.clave_t', 'p.tipo_trabajador', 'p.titular', 'CONCAT(p.nombre_p, " ", p.apaterno_p, " ", p.amaterno_p)',
-    'p.parentesco', 's.nombre_su', 'p.puesto_p', 'ov.id_ov', 'ov.id_ov', 'p.paciente_titular','ov.gran_total_ov', 'ov.id_ov', 'ov.id_ov');
+	$aColumns = array('ov.id_ov', 'ov.referencia_ov', 'DATE_FORMAT(ov.fecha_venta_ov,"%d/%m/%Y %H:%i:%s")', 'p.clave_t', 'p.tipo_trabajador', 'p.titular', 'CONCAT_WS(" ", p.nombre_p, p.apaterno_p, p.amaterno_p)',
+    'p.parentesco', 's.nombre_su', 'p.puesto_p', 'ov.id_ov', 'ov.id_ov', 'p.paciente_titular','ov.gran_total_ov', 'ov.id_ov', 'ov.folio_externo', 'ov.expediente_externo', 'u.usuario_u');
      
     // DB tables to use 
     $aTables = array( 'orden_venta ov');
@@ -13,7 +13,7 @@ require("../../funciones/php/values.php");
     $sIndexColumn = "ov.id_ov";
      
 	 // Joins   
-	$sJoin = 'LEFT JOIN pacientes p ON p.id_p = ov.id_paciente_ov LEFT JOIN sucursales s ON s.id_su = ov.sucursal_ov';
+	$sJoin = 'LEFT JOIN pacientes p ON p.id_p = ov.id_paciente_ov LEFT JOIN sucursales s ON s.id_su = ov.sucursal_ov LEFT JOIN usuarios u ON u.id_u = ov.usuario_ov';
 	
 	// $sWhere = "WHERE 1 = 1 ";
     mysql_select_db($database_horizonte, $horizonte); 
@@ -147,7 +147,7 @@ require("../../funciones/php/values.php");
         $row[1] = "<button type='button' class='btn btn-xs btn-link' onClick='ver_datos_ref($row[7],\"$row[8]\",$row[9],\"$row[1]\",\"$row[2]\")'>$row[1]</button>";
         */
 
-       
+       $row[2] = $row[17] . '<br>' . $row[2];
         
         mysql_select_db($database_horizonte, $horizonte);
 		$result = mysql_query("SELECT vc.id_concepto_es, c.concepto_to, COUNT(concepto_to), vc.precio_vc FROM venta_conceptos vc LEFT JOIN conceptos c ON c.id_to = vc.id_concepto_es WHERE vc.referencia_vc = '$row[1]' AND (c.id_tipo_concepto_to = 3 OR c.id_tipo_concepto_to = 4) GROUP BY vc.id_concepto_es", $horizonte) or die (mysql_error());
