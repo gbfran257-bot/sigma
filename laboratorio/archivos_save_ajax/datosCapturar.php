@@ -130,7 +130,7 @@ if($row8[0]>1){
 		<table id="p_contenido1" width="15cm" border="0" cellspacing="4" cellpadding="0">
 			<tr> 
 				<td width="360">PACIENTE: '.$row1[0].'</td>
-				<td nowrap>EDAD: '.$row1[5].' SEXO: '.$row1[4].' </td>
+				<td nowrap>EDAD: '.$row1[5].' F. NAC: '.$row1[3].' SEXO: '.$row1[4].' </td>
 			</tr>
 			<tr>
 				<td class="myMedicoP">'.$miMedico.'</td>
