@@ -4905,7 +4905,7 @@ include_once 'recursos/datauser.php';
 		});
 	}
 
-	function subirProductoS(idE, noAleatorio, idP, idU, idConvenio, idSucursal, observaciones, departamento, p, t, id_con_bene, ocup, cantidad = 1) {
+	function subirProductoS(idE, noAleatorio, idP, idU, idConvenio, idSucursal, observaciones, departamento, p, t, id_con_bene, ocup, cantidad) {
 		var datosSENV = {
 			noAleatorio: noAleatorio,
 			idP: idP,
