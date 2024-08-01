@@ -233,7 +233,7 @@ include_once 'recursos/datauser.php';
 				}, {
 					"bVisible": true
 				}, {
-					"bVisible": true
+					"bVisible": false //especialidad
 				}, {
 					"bVisible": true
 				}, {
