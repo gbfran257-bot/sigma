@@ -57,8 +57,22 @@
             <?php endif; ?>
             <select id="select-almacen" class="hidden"></select>
             <button type="button" data-loading-text="<i class='fa fa-circle-o-notch fa-spin' aria-hidden='true'></i> Procesando..." class="btn btn-primary btn-sm btns-consulta" id="salvarConsulta"><i class="fa fa-cloud" aria-hidden="true"></i> Guardar</button>
-            <button type="button" class="btn btn-info btn-sm hidden" id="hospitalizarP"><i class="fa fa-bed" aria-hidden="true"></i> </button>
-            <button type="button" class="btn btn-info btn-sm" id="hospitalizarP2"><i class="fa fa-bed" aria-hidden="true"></i> </button>
+
+            <?php
+              require("../../Connections/horizonte.php");
+              require_once("../../funciones/php/values.php");
+
+              mysql_select_db($database_horizonte, $horizonte); 
+              $resultRu = mysql_query("SELECT COUNT(*) FROM modificaciones_sigma WHERE nombre = 'hospitalizacion' AND habilitado = 1 ", $horizonte) or die(mysql_error()); 
+              $rowRu = mysql_fetch_row($resultRu);
+              $visualizarT2 = $rowRu[0];
+
+            ?>
+            <?php if($visualizarT2 <= 0):  ?>
+              <button type="button" class="btn btn-info btn-sm" id="hospitalizarP"><i class="fa fa-bed" aria-hidden="true"></i> </button>
+            <?php else:  ?> <!-- TICKET SIN DATOS DE HOSPITALIZACION-->
+              <button type="button" class="btn btn-info btn-sm" id="hospitalizarP2"><i class="fa fa-bed" aria-hidden="true"></i> </button>
+            <?php endif; ?>
 
             <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" id="salirSGconsulta">Salir</button>
             <button type="submit" class="btn btn-success btn-sm hidden" id="btn_guardar_sv" form="formSignosVitales">Guardar</button>
