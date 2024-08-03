@@ -144,9 +144,9 @@ include_once 'recursos/datauser.php';
 				<th style="vertical-align:middle; white-space:nowrap;" nowrap>TIEMPO DE ESPERA</th>
 				<!-- <th style="vertical-align:middle;">RECETA</th> -->
 				<th style="vertical-align:middle;">CONVENIO</th>
-				<th style="vertical-align:middle;">ESTATUS</th>
-				<th style="vertical-align:middle;">NOTA</th>
-				<th style="vertical-align:middle;">RECETA</th>
+				<th data-priority="1" style="vertical-align:middle;">ESTATUS</th>
+				<th data-priority="2" style="vertical-align:middle;">NOTA</th>
+				<th data-priority="3" style="vertical-align:middle;">RECETA</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -233,7 +233,7 @@ include_once 'recursos/datauser.php';
 				}, {
 					"bVisible": true
 				}, {
-					"bVisible": true
+					"bVisible": false //especialidad
 				}, {
 					"bVisible": true
 				}, {

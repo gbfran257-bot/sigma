@@ -3778,7 +3778,7 @@ include_once 'recursos/datauser.php';
 
 				$('#forma_pago_ov').load('pacientes/files-serverside/formas_pago.php', function(response, status, xhr) {
 					if (status == "success") {
-
+						$('#forma_pago_ov').val('1');
 					}
 				});
 
