@@ -296,7 +296,7 @@
                     </div> </div>
                     <div class="col-sm-4 col-xs-4"> <div class="form-group">
                     <label for="rfc_fp">RFC</label>
-                    <input name="rfc_fp" type="text" class="form-control" id="rfc_fp" size="13" maxlength="13" placeholder="RFC" data-mask="aaaa999999www">
+                    <input name="rfc_fp" type="text" class="form-control" id="rfc_fp" size="13" maxlength="13" placeholder="RFC">
                     <div class="help-block with-errors"></div>
                     </div> </div>
                 </div>
