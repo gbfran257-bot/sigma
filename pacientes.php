@@ -6154,7 +6154,7 @@ include_once 'recursos/datauser.php';
 
 if (isset($_GET['to_h'])) {
 	echo 	'<script type="text/JavaScript"> 
-				$("#myModal4").addClass("modal-fullscreen");
+				
 				setTimeout(function(e){
 					nuevaVisita(' . htmlspecialchars($_GET['p']) . ',"' . htmlspecialchars_decode($_GET['n']) . '");
 				},300);
