@@ -3,7 +3,7 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('f.id_fo', 'f.nombre_fo', 'concat(u.nombre_u," ", u.apaterno_u)', 'DATE_FORMAT(f.fecha_nm,"%d/%c/%Y")', 'f.id_fo');
+	$aColumns = array('f.id_fo', 'f.nombre_fo', 'concat(u.nombre_u," ", u.apaterno_u)', 'DATE_FORMAT(f.fecha_nm,"%d/%c/%Y")', 'f.id_fo', 'f.id_fo', 'f.nombre_fo');
      
     // DB tables to use 
     $aTables = array( 'formatos f');
@@ -107,7 +107,9 @@ require("../../funciones/php/values.php");
 		
 		$row[0] = "<span>$hh</span>";
 		
-		$row[1] = "<span lang='$row[1]' onClick='ficha_formato(this.lang, $row[4])' style='cursor:pointer; text-decoration:underline;' class='text-info'>$row[1]</span>";
+		$row[1] = "<span lang='$row[1]' onClick='ficha_formato(this.lang, $row[5])' style='cursor:pointer; text-decoration:underline;' class='text-info'>$row[1]</span>";
+        $nombreformato = '"'.$row[6].'"';
+        $row[4]= "<button type='button' class='btn btn-xs btn-danger' onClick='eliminar_formato($row[4], $nombreformato)'><i class='fa fa-trash'></i></button>";
 		
 		$output['aaData'][] = $row;
     }
