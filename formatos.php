@@ -79,12 +79,14 @@
 	</th>
     <th style="vertical-align:middle;">USUARIO</th>
     <th style="vertical-align:middle;">FECHA</th>
+    <th style="vertical-align:middle;">ELIMINAR</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
         <tr class="bg-primary">
             <th></th>
             <th><input style="width: 99%" type="text" class="form-control input-sm" placeholder="-NOMBRE DEL FORMATO-"/></th>
+            <th></th>
             <th></th>
             <th></th>
         </tr>
@@ -107,7 +109,7 @@ $(document).ready(function(e) {
 		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
-			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}
+			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>i', deferRender: true, select: false, "processing": false, 
 		"sAjaxSource": "formatos/datatable-serverside/formatos.php",
@@ -228,4 +230,21 @@ function ficha_formato(nf, idf){
 }
 
 function insertAtCaret(text) { tinymce.get("input").execCommand('mceInsertContent', false, text); $('#inserta_algo').val(''); }
+
+function eliminar_formato(id_f, nombre_f){
+	swal({
+	  title: "FORMATO  "+nombre_f,
+	  text: "¿Estás seguro de ELIMINAR este formato?", type: "warning", showCancelButton: true, confirmButtonColor: "#DD6B55",
+	  confirmButtonText: "ELIMINAR", cancelButtonText: "Cancelar", closeOnConfirm: false
+	},
+	function(){
+	  	var dato = {id_f:id_f}
+		$.post('formatos/files-serverside/eliminar_formato.php',dato).done(function(data){
+			if(data==1){
+				$('#clickme').click(); swal({title:"",type:"",text:"El formato se elimino correctamente", timer: 1800, showConfirmButton: false});
+			}else{alert(data);}
+		});
+	});
+}
+
 </script>

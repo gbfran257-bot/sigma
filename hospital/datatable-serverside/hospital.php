@@ -144,6 +144,7 @@ require("../../Connections/horizonte.php");
         }
 		//calculando el valor de los íconos dependiendo del estatus del estudio
 		$nombreP = '"'.$row[1].'"';
+       $row[15] =  "<div align='center'><a href='pacientes.php?verformatos=true&id=$row[22]&nombre=$nombreP' target='_blank' class='btn btn-primary btn-sm'><i class='fa fa-file-text-o' aria-hidden='true'></i></a></div>";
 		
 		$row[0]=$hh;
         $row[2] = '<div align="center">'. $row[2]."<br>".$row[26].'</div>';
