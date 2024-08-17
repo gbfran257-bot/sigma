@@ -6160,6 +6160,16 @@ if (isset($_GET['to_h'])) {
 				},300);
 			</script>';
 }
+
+if (isset($_GET['verformatos'])) {
+	echo 	'<script type="text/JavaScript"> 
+				
+				setTimeout(function(e){
+					formatos(' . htmlspecialchars($_GET['id']) . ',' . htmlspecialchars_decode($_GET['nombre']) . ');
+				},300);
+			</script>';
+}
+
 ?>
 
 <script src="./pacientes/js/getRegimenesFiscales.js"></script>
