@@ -9,13 +9,13 @@ require("../../Connections/horizonte.php");
     $sIndexColumn = "c.id_to";
     
     // Joins   
-    $sJoin = 'left join stock_has_bach s on c.id_to = s.id_Producto left join medicamentos m on m.id_med = c.id_medicamento_g';
+    $sJoin = 'left join stock_has_bach s on c.id_to = s.id_Producto left join medicamentos m on m.id_med = c.id_medicamento_g LEFT JOIN stock st ON st.id = s.id_stock';
 	 
     // CONDITIONS 
     if ($_GET['id_s'] == 0) {
         $sWhere = "WHERE c.id_area_to = 61 and c.id_departamento_to = 3 and c.id_tipo_concepto_to = 5 " ;
     } else {
-        $sWhere = "WHERE s.id_stock = {$_GET['id_s']} and (c.id_area_to = 61 and c.id_departamento_to = 3 and c.id_tipo_concepto_to = 5) " ;
+        $sWhere = "WHERE st.id_su = {$_GET['id_s']} and (c.id_area_to = 61 and c.id_departamento_to = 3 and c.id_tipo_concepto_to = 5) " ;
     }
 
     /* Database connection information */
