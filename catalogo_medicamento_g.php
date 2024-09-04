@@ -212,18 +212,18 @@ function editar(id_um, unidad){0
 			 $('#desc_m').val(datosI[3]);
 			 $('#nivel_m').val(datosI[6]);
 			 $('#grupoMedico_m').val(datosI[7]);
-			 $('#via_administracion_m').val(datosI[15]);
-			 $('#contenido_m').val(datosI[16]);
+			 $('#via_administracion_m').val(datosI[22]);
+			 $('#contenido_m').val(datosI[15]);
 			 $('#generalidades_m').val(datosI[8]);
 			 $('#efectos_m').val(datosI[10]);
 			 $('#contradicciones_m').val(datosI[11]);
 			 $('#interacciones_m').val(datosI[12]);
 			 $('#indicaciones_m').val(datosI[13]);
 			 $('#via_admin_dosis_m').val(datosI[14]);
-			 $('#presentaciones_m').val(datosI[17]);
+			 $('#presentaciones_m').val(datosI[16]);
 
 			 select2ini("#via_administracion_m", "via_administracion.php", "SELECCIONE VIA ADMINISTRACIÓN");
-		     $("#via_administracion_m").html("<option value='"+datosI[15]+"' selected>"+datosI[15]+"</option>");
+		     $("#via_administracion_m").html("<option value='"+datosI[22]+"' selected>"+datosI[22]+"</option>");
 
 			$('#med_generico').validator().on('submit', function (e) {
 			  if (e.isDefaultPrevented()) { // handle the invalid form...
