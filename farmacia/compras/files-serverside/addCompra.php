@@ -41,6 +41,8 @@ $da = date('Ymd');
         $rowA = mysql_fetch_row($resultA);
         $sucu = $rowA[0];
 
+        //verificamos si existe la referencia en stock_has_bach antes de insertar un nuevo registro. 
+
         mysql_select_db($database_horizonte, $horizonte);
         $sql = "INSERT INTO `stock_has_bach` (`id`, `referencia_compra`, `id_stock`, `Lote`, `fecha_expiracion`, `id_Producto`, `costo_unitario`, `cantidad`, `estatus`, `existencias`, `contador`, `usuario_registro`, `fecha_update`, `fecha_registro`, id_proveedor) VALUES (NULL, $noRef, $sucu, $lote, $caducidad,  $idProducto, $costo, $cantidad, $estatus, $cantidad, $contador, $idU, $now, $now, '{$id_proveedor}') ";
         // echo $sql;
