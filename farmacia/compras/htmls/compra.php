@@ -26,7 +26,7 @@ $id_del_user = $_SESSION['id'];
         <!-- INICIO DE LOS CAMBIOS PARA EL FUNCIONAMIENTO DE LOS PROVEEDORES -->
             <div class="row">
                 <div class="form-group col-md-8 col-sm-8 text-primary">
-                    <label for="nota" class="bg-info" style="color:black;">NOTA: No repetir producto ni lote en una misma compra.</label> <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color:red;"></i>
+                    <label for="nota" class="bg-info" style="color:black;">NOTA: No repetir lote en una misma compra.</label> <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color:red;"></i>
                     <br>
                     <strong style="margin-right: 1rem;">Selecciona un proveedor para comenzar con la compra</strong> <button type="button" id="cambiar-proveedor" class="btn btn-warning btn-sm" style="display: none;"><i class="fa fa-pencil"></i></button> <br> <br>
                     <label for="select-proveedores" class="col-form-label">*PROVEEDOR</label>
@@ -107,7 +107,7 @@ $id_del_user = $_SESSION['id'];
             </div>
         </div>
         <div class="tab-pane tap-pane-primary hide" id="t_resumen" role="tabpanel" aria-labelledby="resumen-tab"><br>
-        <label for="nota" class="bg-info" style="color:black;">NOTA: No repetir producto ni lote en una misma compra.</label> <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color:red;"></i>
+        <label for="nota" class="bg-info" style="color:black;">NOTA: No repetir lote en una misma compra.</label> <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color:red;"></i>
             <table class="table table-hover">
                 <thead>
                     <th>#</th>

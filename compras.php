@@ -382,8 +382,8 @@ function nuevaCompra(){
 									COMPRA[index]['lote'] +
 						"		</td>"+
 						"		<td>" +
-									`<button id="editar-${COMPRA[index]['producto']}" type="button" class="btn btn-warning" style="margin-right: 5px;"><img src="./farmacia/compras/img/editar_icono.png"  width="15px" height="15px" /></button>`+
-									`<button id="eliminar-${COMPRA[index]['producto']}" type="button" class="btn btn-danger"><img src="./farmacia/compras/img/eliminar_icono.png" width="15px" height="15px" /></button>`+
+									`<button id="editar-${index}" type="button" class="btn btn-warning" style="margin-right: 5px;"><img src="./farmacia/compras/img/editar_icono.png"  width="15px" height="15px" /></button>`+
+									`<button id="eliminar-${index}" type="button" class="btn btn-danger"><img src="./farmacia/compras/img/eliminar_icono.png" width="15px" height="15px" /></button>`+
 						"		</td>" +
 						"		<td>"+
 									COMPRA[index]['total'] + 
@@ -405,7 +405,7 @@ function nuevaCompra(){
 
 			// Asignamos las funciones de editar y eliminar a todos los productos agregados al resumen
 			for (let index = 0; index < COMPRA.length; index++) {
-				$("#editar-" + COMPRA[index]['producto']).click(() => {
+				$("#editar-" + index).click(() => {
 					$("#compra-tab").click();
 					$("#producto").val(COMPRA[index]['producto']);
 					$("#producto").change();
@@ -422,7 +422,7 @@ function nuevaCompra(){
 					COMPRA['editado_reciente'] = index;
 				});
 
-				$("#eliminar-" + COMPRA[index]['producto']).click(() => {
+				$("#eliminar-" + index).click(() => {
 					swal({
 						type: "info",
 						title: "¡Atención!",
@@ -432,7 +432,8 @@ function nuevaCompra(){
 						confirmButtonText: "Eliminar"
 					}, (isConfirmed) => {
 						if (isConfirmed) {
-							COMPRA = COMPRA.filter((producto) => producto.producto !== COMPRA[index]['producto']);
+							//COMPRA = COMPRA.filter((producto) => producto.producto !== COMPRA[index]['producto']);
+							COMPRA.splice(index, 1); //Eliminamos del arreglo el item que tenga ese indice
 							COMPRA['eliminacion_reciente'] = true;
 							cont--;
 							$("#btn_agregar").click();
