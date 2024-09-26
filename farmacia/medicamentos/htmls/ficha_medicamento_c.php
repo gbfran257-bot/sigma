@@ -129,13 +129,27 @@
                   <p class="mensaje_select_multiple">Para agregar o quitar un medicamento manten presionada la tecla CONTROL</p>
                   <select title name='sinergias' class="form-control input-sm" id='sinergias' required multiple style="height: 10rem; width: 80rem;"></select>
                 </div>
+                <div class="col-md-3 col-sm-3 col-xs-3 col-lg-3 text-primary" align="right" id='s_seleccionados'>SINERGIAS SELECCIONADAS</div>
+                <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 text-nowrap">
+                  <select title name='sinergias_seleccionadas' class="form-control input-sm" id='sinergias_seleccionadas' multiple style="height: 10rem; width: 40rem;"></select>
+                </div>
               </div>
+              <!-- <div class="form-group">
+                <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2 text-primary" align="right">SINERGIAS SELECCIONADAS</div>
+                <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4 text-nowrap">
+                  <select title name='sinergias_seleccionadas' class="form-control input-sm" id='sinergias_seleccionadas' multiple style="height: 10rem; width: 80rem;"></select>
+                </div>
+              </div> -->
               <div class="form-group">
                 <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2 text-primary" align="right">* ANTAGONISMOS</div>
                 <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4 text-nowrap">
                   <input type="text" id="buscar_antagonismo" class="form-control" placeholder="buscar un medicamento" style="margin-bottom: 0.5rem;">
                   <p class="mensaje_select_multiple">Para agregar o quitar un medicamento manten presionada la tecla CONTROL</p>
                   <select title name='antagonismos' class="form-control input-sm" id='antagonismos' required multiple style="height: 10rem; width: 80rem;"></select>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-3 col-lg-3 text-primary" align="right" id='a_seleccionados'>ANTAGONISMOS SELECCIONADOS</div>
+                <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 text-nowrap">
+                  <select title name='antagonismos_seleccionados' class="form-control input-sm" id='antagonismos_seleccionados' multiple style="height: 10rem; width: 40rem;"></select>
                 </div>
               </div>
               <br>

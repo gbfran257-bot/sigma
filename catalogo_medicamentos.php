@@ -282,6 +282,11 @@ include_once 'recursos/datauser.php';
 	function nuevoEstudio() {
 		$("#myModalx").load("farmacia/medicamentos/htmls/ficha_medicamento_c.php", function(response, status, xhr) {
 			if (status == "success") {
+				//Escondemos campos de sinergia y antagonismo seleccionados
+				$('#sinergias_seleccionadas').addClass("hidden");
+				$('#antagonismos_seleccionados').addClass("hidden");
+				$('#s_seleccionados').addClass("hidden");
+				$('#a_seleccionados').addClass("hidden");
 				// Asignamos el evento de buscar al input de buscar sinergia y antagonismo
 				$('#buscar_sinergia').on('input', (e) => {
 					e.preventDefault();
@@ -497,6 +502,19 @@ include_once 'recursos/datauser.php';
 	function verMedicamento(id_medi, nombre_m, id_su) {
 		$("#myModalx").load("farmacia/medicamentos/htmls/ficha_medicamento_c.php", function(response, status, xhr) {
 			if (status == "success") {
+				//Quitamos elemento required de sinergias y antagonismos
+				$('#sinergias').removeAttr('required');
+				$('#antagonismos').removeAttr('required');
+				// Asignamos el evento de buscar al input de buscar sinergia y antagonismo
+				$('#buscar_sinergia').on('input', (e) => {
+					e.preventDefault();
+					buscarSinergiaAntagonismo('sinergia', e.target.value);
+				});
+				$('#buscar_antagonismo').on('input', (e) => {
+					e.preventDefault();
+					buscarSinergiaAntagonismo('antagonismo', e.target.value);
+				});
+				//-//
 				$('#id_user_reg_m').val($('#id_user').val());
 				$('#id_med_up').val(id_medi);
 				$('#medicamento_base').removeClass('hidden');
@@ -659,10 +677,45 @@ include_once 'recursos/datauser.php';
 						//$("#alerta_new_user").fadeTo(2000,500).slideUp(500,function(){ $("#alerta_new_user").slideUp(600); });
 					} else { // everything looks good!
 						e.preventDefault();
+						//-SINERGIAS Y ANTAGONISMOS//
+						const sinergias = $('#sinergias').val();
+						const antagonismos = $('#antagonismos').val();
+
+						const bodySinergiasAntagonismos = new FormData();
+						bodySinergiasAntagonismos.append('sinergias', JSON.stringify(sinergias));
+						bodySinergiasAntagonismos.append('antagonismos', JSON.stringify(antagonismos));
+						//-//
 						//var $btn = $('#btn_new_u').button('loading'); $('#btn_cancel_new_u').hide();
 						var datosP = $('#form-medicamento').serialize();
 						$.post('farmacia/medicamentos/files-serverside/updateMedicamento.php', datosP).done(function(data) {
 							if (data == 1) { //si el paciente se Actualizó 
+								//-SINERGIAS Y ANTAGONISMOS-//
+								fetch('farmacia/medicamentos/files-serverside/addSinergiasAntagonismos.php', {
+										method: 'post',
+										body: bodySinergiasAntagonismos
+									})
+									.then(response => response.json())
+									.then(data => {
+										if (data.ERROR) {
+											throw new Error(data.ERROR);
+										}
+										$('#clickme').click();
+										$('#myModalx').modal('hide');
+										swal({
+											title: "¡Listo!",
+											text: data.EXITO,
+											type: "success"
+										});
+									})
+									.catch(error => {
+										swal({
+											title: "Ocurrió un error",
+											text: error,
+											type: "error"
+										});
+									});
+								return;
+								//-//
 								$('#clickme').click();
 								$('#myModalx').modal('hide'); //$btn.button('reset'); $('#btn_cancel_new_u').show(); 
 								swal({
@@ -692,6 +745,8 @@ include_once 'recursos/datauser.php';
 
 			// Mostramos las sinergias y los antagonismos del medicamento seleccionado
 			cargarMedicamentosSinergiasAntagonismos(parseInt($('#id_med_up').val()));
+			// Obtenemos y cargamos los medicamentos genericos a los select de sinergias y antagonismos
+			cargarAllSinergiasAntagonismos();
 		});
 	}
 
