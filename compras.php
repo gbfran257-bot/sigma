@@ -279,6 +279,9 @@ const subirComprobanteFactura = (body) => {
 function nuevaCompra(){
 	$("#myModal").load('farmacia/compras/htmls/compra.php', function( response, status, xhr ){
 	if(status=="success"){ 
+		//Numero random para evitar duplicar las compras.
+		var generarIdRandom = Math.floor(Math.random() * 2000);
+		$("#id_compra_oculto").val(generarIdRandom);
 		var COMPRA = [];
 		COMPRA['eliminacion_reciente'] = false;
 		COMPRA['editado_reciente'] = null;
@@ -520,7 +523,7 @@ function nuevaCompra(){
 		$("#precioPublicoProd").click(() => actualizarPrecioPublico());
 
 		$('#btn_pagar').click(function(e){
-			var dato = { idU:$('#id_user').val(), datos:COMPRA }
+			var dato = { idU:$('#id_user').val(), datos:COMPRA, id_oculto:$('#id_compra_oculto').val() }
 			$.post('farmacia/compras/files-serverside/addCompra.php', dato).done(function( data ) {
 				if(data==1){
 					$('#myModal').modal('hide');

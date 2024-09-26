@@ -119,7 +119,7 @@ $id_del_user = $_SESSION['id'];
                 </tbody>
             </table>
         </div>
-
+        <input name="id_compra_oculto" type="hidden" value="" id="id_compra_oculto" required>
     </form>
   </div>
   <div class="modal-footer">
