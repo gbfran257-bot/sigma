@@ -129,7 +129,7 @@
                   <p class="mensaje_select_multiple">Para agregar o quitar un medicamento manten presionada la tecla CONTROL</p>
                   <select title name='sinergias' class="form-control input-sm" id='sinergias' required multiple style="height: 10rem; width: 80rem;"></select>
                 </div>
-                <div class="col-md-3 col-sm-3 col-xs-3 col-lg-3 text-primary" align="right" id='s_seleccionados'>SINERGIAS SELECCIONADAS</div>
+                <div class="col-md-3 col-sm-3 col-xs-3 col-lg-3 text-primary" align="right" id='s_seleccionados'>SINERGIAS SELECCIONADAS <br> <label style="color:#163515;">para eliminar, seleccionar en el</label> <br> <label style="color:#163515;">cuadro izquierdo y actualizar</label> </div>
                 <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 text-nowrap">
                   <select title name='sinergias_seleccionadas' class="form-control input-sm" id='sinergias_seleccionadas' multiple style="height: 10rem; width: 40rem;"></select>
                 </div>

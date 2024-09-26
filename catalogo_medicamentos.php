@@ -690,7 +690,7 @@ include_once 'recursos/datauser.php';
 						$.post('farmacia/medicamentos/files-serverside/updateMedicamento.php', datosP).done(function(data) {
 							if (data == 1) { //si el paciente se Actualizó 
 								//-SINERGIAS Y ANTAGONISMOS-//
-								fetch('farmacia/medicamentos/files-serverside/addSinergiasAntagonismos.php', {
+								fetch('farmacia/medicamentos/files-serverside/addSinergiasAntagonismos.php?id_med_com='+id_medi, {
 										method: 'post',
 										body: bodySinergiasAntagonismos
 									})
