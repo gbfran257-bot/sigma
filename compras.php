@@ -378,6 +378,9 @@ function nuevaCompra(){
 						"		<td>"+
 									COMPRA[index]['costo'] +
 						"		</td>"+
+						"		<td>"+
+									COMPRA[index]['lote'] +
+						"		</td>"+
 						"		<td>" +
 									`<button id="editar-${COMPRA[index]['producto']}" type="button" class="btn btn-warning" style="margin-right: 5px;"><img src="./farmacia/compras/img/editar_icono.png"  width="15px" height="15px" /></button>`+
 									`<button id="eliminar-${COMPRA[index]['producto']}" type="button" class="btn btn-danger"><img src="./farmacia/compras/img/eliminar_icono.png" width="15px" height="15px" /></button>`+
@@ -390,6 +393,7 @@ function nuevaCompra(){
 			}
 				costoTotalDecimales = costoTotal.toFixed(2);
 				salida +="	<tr> "+
+						"		<td></td>"+
 						"		<td></td>"+
 						"		<td></td>"+
 						"		<td></td>"+
