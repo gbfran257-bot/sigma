@@ -584,6 +584,11 @@ function actualizarMaxProd(){
 			return swal("¡Atencion!", "Escribe una cantidad valida", "info");
 		}
 
+		if (parseFloat($("#nuevo-maximo").val()) <= parseFloat($("#cantMin").attr('cant_min'))) {
+			$("#nuevo-maximo").focus();
+			return swal("¡Atencion!", "La cantidad debe ser mayor al minimo", "info");
+		}
+
 		var datosMax = {id:$("#producto").val(), max:$("#nuevo-maximo").val(), sucursal:$("#sucursal").val(), usuario:$('#id_user').val()}
 		$.post('farmacia/compras/files-serverside/nuevoMaximo.php', datosMax).done(function( data ) {
 			if(data==1){
@@ -607,6 +612,11 @@ function actualizarMinProd(){
 		if($("#nuevo-minimo").val() === ""){
 			$("#nuevo-minimo").focus();
 			return swal("¡Atencion!", "Escribe una cantidad valida", "info");
+		}
+
+		if (parseFloat($("#nuevo-minimo").val()) >= parseFloat($("#cantMax").attr('cant_max'))) {
+			$("#nuevo-minimo").focus();
+			return swal("¡Atencion!", "La cantidad debe ser menor al maximo", "info");
 		}
 
 		var datosMin = {id:$("#producto").val(), min:$("#nuevo-minimo").val(), sucursal:$("#sucursal").val(), usuario:$('#id_user').val()}
