@@ -9,6 +9,7 @@ $now = sqlValue(date('Y-m-d H:i:s'), "date");
 $fecha1="'".date('Y-m-d')." 00:00:00"."'";
 $fecha2="'".date('Y-m-d')." 23:59:59"."'";
 $da = date('Ymd');
+$id_oculto = sqlValue($_POST['id_oculto'],"int");
     
     //generamos la referencia
     mysql_select_db($database_horizonte, $horizonte);
@@ -41,18 +42,31 @@ $da = date('Ymd');
         $rowA = mysql_fetch_row($resultA);
         $sucu = $rowA[0];
 
+        //verificamos si existe el id_oculto en stock_has_bach antes de insertar un nuevo registro. 
         mysql_select_db($database_horizonte, $horizonte);
-        $sql = "INSERT INTO `stock_has_bach` (`id`, `referencia_compra`, `id_stock`, `Lote`, `fecha_expiracion`, `id_Producto`, `costo_unitario`, `cantidad`, `estatus`, `existencias`, `contador`, `usuario_registro`, `fecha_update`, `fecha_registro`, id_proveedor) VALUES (NULL, $noRef, $sucu, $lote, $caducidad,  $idProducto, $costo, $cantidad, $estatus, $cantidad, $contador, $idU, $now, $now, '{$id_proveedor}') ";
-        // echo $sql;
-        $result = mysql_query($sql, $horizonte) or die(mysql_error());
-    
+        $verificar_id_oculto = mysql_query("SELECT COUNT(*) FROM stock_has_bach WHERE lote = $lote AND id_oculto = $id_oculto");
+        $ejecutar_verif_id = mysql_fetch_row($verificar_id_oculto);
+        $existe_id_oculto = $ejecutar_verif_id[0];
 
-        if (!$result) {
-            echo $sql;
-            $hecho = 0;
-        } else{ 
-           $hecho = 1; 
+        if($existe_id_oculto == 0){
+
+            mysql_select_db($database_horizonte, $horizonte);
+            $sql = "INSERT INTO `stock_has_bach` (`id`, `referencia_compra`, `id_stock`, `Lote`, `fecha_expiracion`, `id_Producto`, `costo_unitario`, `cantidad`, `estatus`, `existencias`, `contador`, `usuario_registro`, `fecha_update`, `fecha_registro`, id_proveedor, id_oculto) VALUES (NULL, $noRef, $sucu, $lote, $caducidad,  $idProducto, $costo, $cantidad, $estatus, $cantidad, $contador, $idU, $now, $now, '{$id_proveedor}', $id_oculto)";
+            // echo $sql;
+            $result = mysql_query($sql, $horizonte) or die(mysql_error());
+        
+    
+            if (!$result) {
+                echo $sql;
+                $hecho = 0;
+            } else{ 
+               $hecho = 1; 
+            }
+
+        }else{
+            echo "Favor de revisar si la compra ya se genero";
         }
+
     }
 
     if ($hecho == 1) {

@@ -174,17 +174,17 @@ const cargarMedicamentosSinergiasAntagonismos = async (idMedicamento) => {
     );
     $(".mensaje_select_multiple").hide();
 
-    $("#sinergias").attr("disabled", true);
-    $("#sinergias").attr("required", false);
+    $("#sinergias_seleccionadas").attr("disabled", true);
+    $("#sinergias_seleccionadas").attr("required", false);
     $("#buscar_sinergia").hide();
     resultados.sinergias.forEach((sinergia) => {
-        $("#sinergias").append(`<option disabed>${sinergia}</option>`);
+        $("#sinergias_seleccionadas").append(`<option disabed>${sinergia}</option>`);
     });
 
-    $("#antagonismos").attr("disabled", true);
-    $("#antagonismos").attr("required", false);
+    $("#antagonismos_seleccionados").attr("disabled", true);
+    $("#antagonismos_seleccionados").attr("required", false);
     $("#buscar_antagonismo").hide();
     resultados.antagonismos.forEach((antagonismo) => {
-        $("#antagonismos").append(`<option disabed>${antagonismo}</option>`);
+        $("#antagonismos_seleccionados").append(`<option disabed>${antagonismo}</option>`);
     });
 };

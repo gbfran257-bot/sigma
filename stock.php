@@ -257,6 +257,7 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 			const body = new FormData();
 			body.append("id_t_t", localStorage.getItem("id_transferencia_temporal"));
 			body.append("id_u", $("#id_user").val());
+			body.append("existencias_producto", cantExis);
 
 			const respuesta = await fetch("farmacia/stock/files-serverside/transferencia.php", {
 				method: "POST",

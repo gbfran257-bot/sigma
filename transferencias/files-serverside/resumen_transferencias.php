@@ -17,7 +17,7 @@ try {
     $num_transferencias = mysqli_num_rows($resultado_query_datos_traspaso_temporal);
 
     // Obtenemos el precio unitario y el total
-    $query_datos_stock = "SELECT shb.id AS id, shb.costo_unitario AS precio_unitario, shb.costo_unitario * shb.cantidad AS total FROM stock_has_bach shb WHERE shb.referencia_traspaso_temporal = \"{$id_temporal}\"";
+    $query_datos_stock = "SELECT shb.id AS id, shb.costo_unitario AS precio_unitario, shb.costo_unitario * shb.cantidad AS total, shb.cantidad AS cant FROM stock_has_bach shb WHERE shb.referencia_traspaso_temporal = \"{$id_temporal}\"";
     $resultado_query_datos_stock = mysqli_query($horizonte, $query_datos_stock);
     $datos_stock = mysqli_fetch_all($resultado_query_datos_stock, MYSQLI_ASSOC);
 

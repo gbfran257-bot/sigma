@@ -279,6 +279,9 @@ const subirComprobanteFactura = (body) => {
 function nuevaCompra(){
 	$("#myModal").load('farmacia/compras/htmls/compra.php', function( response, status, xhr ){
 	if(status=="success"){ 
+		//Numero random para evitar duplicar las compras.
+		var generarIdRandom = Math.floor(Math.random() * 2000);
+		$("#id_compra_oculto").val(generarIdRandom);
 		var COMPRA = [];
 		COMPRA['eliminacion_reciente'] = false;
 		COMPRA['editado_reciente'] = null;
@@ -375,9 +378,12 @@ function nuevaCompra(){
 						"		<td>"+
 									COMPRA[index]['costo'] +
 						"		</td>"+
+						"		<td>"+
+									COMPRA[index]['lote'] +
+						"		</td>"+
 						"		<td>" +
-									`<button id="editar-${COMPRA[index]['producto']}" type="button" class="btn btn-warning" style="margin-right: 5px;"><img src="./farmacia/compras/img/editar_icono.png"  width="15px" height="15px" /></button>`+
-									`<button id="eliminar-${COMPRA[index]['producto']}" type="button" class="btn btn-danger"><img src="./farmacia/compras/img/eliminar_icono.png" width="15px" height="15px" /></button>`+
+									`<button id="editar-${index}" type="button" class="btn btn-warning" style="margin-right: 5px;"><img src="./farmacia/compras/img/editar_icono.png"  width="15px" height="15px" /></button>`+
+									`<button id="eliminar-${index}" type="button" class="btn btn-danger"><img src="./farmacia/compras/img/eliminar_icono.png" width="15px" height="15px" /></button>`+
 						"		</td>" +
 						"		<td>"+
 									COMPRA[index]['total'] + 
@@ -392,13 +398,14 @@ function nuevaCompra(){
 						"		<td></td>"+
 						"		<td></td>"+
 						"		<td></td>"+
+						"		<td></td>"+
 						"		<td>$"+ costoTotalDecimales +"</td>"+
 						"	</tr> ";
 			$('#ResumenTable').html(salida);
 
 			// Asignamos las funciones de editar y eliminar a todos los productos agregados al resumen
 			for (let index = 0; index < COMPRA.length; index++) {
-				$("#editar-" + COMPRA[index]['producto']).click(() => {
+				$("#editar-" + index).click(() => {
 					$("#compra-tab").click();
 					$("#producto").val(COMPRA[index]['producto']);
 					$("#producto").change();
@@ -415,7 +422,7 @@ function nuevaCompra(){
 					COMPRA['editado_reciente'] = index;
 				});
 
-				$("#eliminar-" + COMPRA[index]['producto']).click(() => {
+				$("#eliminar-" + index).click(() => {
 					swal({
 						type: "info",
 						title: "¡Atención!",
@@ -425,7 +432,8 @@ function nuevaCompra(){
 						confirmButtonText: "Eliminar"
 					}, (isConfirmed) => {
 						if (isConfirmed) {
-							COMPRA = COMPRA.filter((producto) => producto.producto !== COMPRA[index]['producto']);
+							//COMPRA = COMPRA.filter((producto) => producto.producto !== COMPRA[index]['producto']);
+							COMPRA.splice(index, 1); //Eliminamos del arreglo el item que tenga ese indice
 							COMPRA['eliminacion_reciente'] = true;
 							cont--;
 							$("#btn_agregar").click();
@@ -449,6 +457,7 @@ function nuevaCompra(){
 		$('#producto, #sucursal').change(function(e){
 			// Se ocultan los textos referentes al producto seleccionado cuando se guarda uno //
 			if (e.target.id === "producto" && $("#producto").val() === null) {
+				$('.ico-edit').addClass("hidden");
 				$("#productoName").text("");
 				$("#precioPublicoProd").text("");
 				$("#precioUltimaCompra").text("");
@@ -460,8 +469,11 @@ function nuevaCompra(){
 			var datoPro = { prod : $('#producto').val(), id_su : $('#sucursal').val()}
 			$.post('farmacia/compras/files-serverside/precioProd.php', datoPro).done(function( data ) {
 				var datos = data.split('}{[_}');
+				$('.ico-edit').removeClass("hidden");
 				$('#cantMax').text("Cantidad maxima de producto: "+datos[2]);
+				$('#cantMax').attr("cant_max", datos[2]);
 				$('#cantMin').text("Cantidad minima de producto: "+datos[3]);
+				$('#cantMin').attr("cant_min", datos[3]);
 				$('#productoName').text(datos[0]);
 				$('#precioPublicoProd').text("Precio público: $" + datos[1]);
 				$('#precioPublicoProd').attr("precio_actual", datos[1]);
@@ -519,8 +531,12 @@ function nuevaCompra(){
 
 		$("#precioPublicoProd").click(() => actualizarPrecioPublico());
 
+		//Para modificar los maximos y los minimos
+		$("#cantMax").click(() => actualizarMaxProd());
+		$("#cantMin").click(() => actualizarMinProd());
+
 		$('#btn_pagar').click(function(e){
-			var dato = { idU:$('#id_user').val(), datos:COMPRA }
+			var dato = { idU:$('#id_user').val(), datos:COMPRA, id_oculto:$('#id_compra_oculto').val() }
 			$.post('farmacia/compras/files-serverside/addCompra.php', dato).done(function( data ) {
 				if(data==1){
 					$('#myModal').modal('hide');
@@ -555,6 +571,66 @@ function nuevaCompra(){
 		$('#myModal').on('shown.bs.modal',function(e){});
 		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
 	}});
+}
+
+function actualizarMaxProd(){
+	var max_actual = $("#cantMax").attr("cant_max");
+	$("#cantMax").replaceWith('<input type="number" step="0.01" min="1" id="nuevo-maximo" class="form-control" />');
+	$("#nuevo-maximo").focus();
+	$("#nuevo-maximo").blur(() => {
+		
+		if($("#nuevo-maximo").val() === ""){
+			$("#nuevo-maximo").focus();
+			return swal("¡Atencion!", "Escribe una cantidad valida", "info");
+		}
+
+		if (parseFloat($("#nuevo-maximo").val()) <= parseFloat($("#cantMin").attr('cant_min'))) {
+			$("#nuevo-maximo").focus();
+			return swal("¡Atencion!", "La cantidad debe ser mayor al minimo", "info");
+		}
+
+		var datosMax = {id:$("#producto").val(), max:$("#nuevo-maximo").val(), sucursal:$("#sucursal").val(), usuario:$('#id_user').val()}
+		$.post('farmacia/compras/files-serverside/nuevoMaximo.php', datosMax).done(function( data ) {
+			if(data==1){
+				window.setTimeout(function(){
+					swal({title:"",type:"success",text:"¡Se ha establecido el maximo!",timer:1000,showConfirmButton:false});
+				},300);
+				$("#nuevo-maximo").replaceWith(`<label onclick="actualizarMaxProd()" id="cantMax" class="col-form-label" style="cursor: pointer;" cant_max="${$("#nuevo-maximo").val()}">Cantidad maxima de producto: ${$("#nuevo-maximo").val()}</label>`);
+			}else{alert(data);}
+		});
+
+	});
+
+}
+
+function actualizarMinProd(){
+	var min_actual = $("#cantMin").attr("cant_min");
+	$("#cantMin").replaceWith('<input type="number" step="0.01" min="1" id="nuevo-minimo" class="form-control" />');
+	$("#nuevo-minimo").focus();
+	$("#nuevo-minimo").blur(() => {
+		
+		if($("#nuevo-minimo").val() === ""){
+			$("#nuevo-minimo").focus();
+			return swal("¡Atencion!", "Escribe una cantidad valida", "info");
+		}
+
+		if (parseFloat($("#nuevo-minimo").val()) >= parseFloat($("#cantMax").attr('cant_max'))) {
+			$("#nuevo-minimo").focus();
+			return swal("¡Atencion!", "La cantidad debe ser menor al maximo", "info");
+		}
+
+		var datosMin = {id:$("#producto").val(), min:$("#nuevo-minimo").val(), sucursal:$("#sucursal").val(), usuario:$('#id_user').val()}
+		$.post('farmacia/compras/files-serverside/nuevoMinimo.php', datosMin).done(function( data ) {
+			if(data==1){
+				window.setTimeout(function(){
+					swal({title:"",type:"success",text:"¡Se ha establecido el minimo!",timer:1000,showConfirmButton:false});
+				},300);
+				$("#nuevo-minimo").replaceWith(`<label onclick="actualizarMinProd()" id="cantMin" class="col-form-label" style="cursor: pointer;" cant_min="${$("#nuevo-minimo").val()}">Cantidad minima de producto: ${$("#nuevo-minimo").val()}</label>`);
+			}else{alert(data);}
+		});
+
+	});
+
 }
 
 const actualizarPrecioPublico = () => {

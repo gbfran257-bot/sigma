@@ -26,6 +26,8 @@ $id_del_user = $_SESSION['id'];
         <!-- INICIO DE LOS CAMBIOS PARA EL FUNCIONAMIENTO DE LOS PROVEEDORES -->
             <div class="row">
                 <div class="form-group col-md-8 col-sm-8 text-primary">
+                    <label for="nota" class="bg-info" style="color:black;">NOTA: No repetir lote en una misma compra.</label> <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color:red;"></i>
+                    <br>
                     <strong style="margin-right: 1rem;">Selecciona un proveedor para comenzar con la compra</strong> <button type="button" id="cambiar-proveedor" class="btn btn-warning btn-sm" style="display: none;"><i class="fa fa-pencil"></i></button> <br> <br>
                     <label for="select-proveedores" class="col-form-label">*PROVEEDOR</label>
                     <div style="display:flex;">
@@ -56,10 +58,10 @@ $id_del_user = $_SESSION['id'];
                     </div> -->
                     <div class="form-group col-md-4 col-sm-4 text-primary">
                         <label  id='productoName'  class="col-form-label"></label> <br>
-                        <label style="cursor: pointer;" id="precioPublicoProd" class="col-form-label"></label> <br>
+                        <i class="fa fa-pencil-square-o hidden ico-edit" aria-hidden="true" style="color: black;"></i> <label style="cursor: pointer;" id="precioPublicoProd" class="col-form-label"></label> <br>
                         <label id="precioUltimaCompra" class="col-form-label"></label> <br>
-                        <label id="cantMax" class="col-form-label"></label> 
-                        <label id="cantMin" class="col-form-label"></label>
+                        <i class="fa fa-pencil-square-o hidden ico-edit" aria-hidden="true" style="color: black;"></i> <label id="cantMax" class="col-form-label" style="cursor: pointer;"></label> <br>
+                        <i class="fa fa-pencil-square-o hidden ico-edit" aria-hidden="true" style="color: black;"></i> <label id="cantMin" class="col-form-label" style="cursor: pointer;"></label>
                     </div>
                 </div>
 
@@ -105,12 +107,14 @@ $id_del_user = $_SESSION['id'];
             </div>
         </div>
         <div class="tab-pane tap-pane-primary hide" id="t_resumen" role="tabpanel" aria-labelledby="resumen-tab"><br>
+        <label for="nota" class="bg-info" style="color:black;">NOTA: No repetir lote en una misma compra.</label> <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color:red;"></i>
             <table class="table table-hover">
                 <thead>
                     <th>#</th>
                     <th>Producto</th>
                     <th>Cantidad</th>
                     <th>Precio unitario</th>
+                    <th>Lote</th>
                     <th>Acciones</th>
                     <th>Total</th>
                 </thead>
@@ -119,7 +123,7 @@ $id_del_user = $_SESSION['id'];
                 </tbody>
             </table>
         </div>
-
+        <input name="id_compra_oculto" type="hidden" value="" id="id_compra_oculto" required>
     </form>
   </div>
   <div class="modal-footer">
