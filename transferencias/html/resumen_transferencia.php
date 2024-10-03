@@ -20,7 +20,7 @@
                         <tr>
                             <td><?php echo $i + 1; ?></td>
                             <td><?php echo $transferencias[$i]['producto']; ?></td>
-                            <td><?php echo $transferencias[$i]['cantidad']; ?></td>
+                            <td><?php echo $datos_stock[$i]['cant']; ?></td>
                             <td>$<?php echo $datos_stock[$i]['precio_unitario']; ?></td>
                             <td><strong>$<?php echo $datos_stock[$i]['total']; ?></strong></td>
                         </tr>

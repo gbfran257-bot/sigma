@@ -3,6 +3,7 @@
 try {
     $id_transferencia_temporal = $_POST['id_t_t'];
     $id_usuario = intval($_POST['id_u']);
+    $existencias_producto = intval($_POST['existencias_producto']);
 
     require("../../../Connections/horizonte2.php");
 
@@ -18,7 +19,8 @@ try {
         $query_resta_stock = "UPDATE stock_has_bach shb
                               LEFT JOIN stock s ON shb.id_stock = s.id
                               SET existencias = existencias - {$transferencia_temporal['cantidad_transferir']}, fecha_update = NOW()
-                              WHERE shb.id_Producto = {$transferencia_temporal['id_producto']} AND Lote = '{$transferencia_temporal['lote']}' AND s.id_su = {$transferencia_temporal['id_sucursal_origen']}";
+                              WHERE shb.id_Producto = {$transferencia_temporal['id_producto']} AND Lote = '{$transferencia_temporal['lote']}' AND s.id_su = {$transferencia_temporal['id_sucursal_origen']} AND existencias = $existencias_producto";
+                              //echo $query_resta_stock;
         if (!$resultado_query_resta_stock = mysqli_query($horizonte, $query_resta_stock)) {
             throw new Exception(mysqli_error($horizonte));
         }
@@ -71,7 +73,7 @@ try {
                 throw new Exception(mysqli_error($horizonte));
             }
 
-            $fecha = date("Y-m-d H:i:s");
+            $fecha = date("Y-m-d");
             $referencia_compra = implode("", explode("-", $fecha));
             //Actualizamos la existencia del stock existente
             $query_suma_stock = "UPDATE stock_has_bach shb
