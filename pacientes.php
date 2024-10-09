@@ -4284,7 +4284,7 @@ include_once 'recursos/datauser.php';
 					$("body").append(rowData[0][0]);
 					const idE = $("body").children("span:last").attr("lang");
 					$("body").children("span:last").remove();
-					if (existenciaProducto > 1) {
+					if (existenciaProducto >= 1) {
 						$("#modal_agregar_cantidad_productos").load("pacientes/htmls/agregar-cantidad-productos.php", {
 							nombreProducto,
 							cantidadMaxima: parseInt(rowData[0][5]),
