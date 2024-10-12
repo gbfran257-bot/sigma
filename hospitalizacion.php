@@ -401,6 +401,25 @@ function suspender_medi(id_mh, medicamento, paciente){
 			} 
 		});
 }
+
+function verHistorialMed(id_mh){
+	$("#myModal1").load("hospital/htmls/medicamentos_suspendidos.php", function(response,status,xhr){ 
+		if(status == "success"){
+			var daTabla = {id_mh:id_mh, id_u:$('#id_user').val() }
+			$.post('hospital/datatable-serverside/medicamentos_suspendidos.php',daTabla).done(function( data ) { 
+				$('#tbodyContentMS').html(data);
+				$('#titulo_modal2').text('Registro de suspensión del medicamento');
+			});
+
+			$("#btn_aplicar").addClass("hidden");
+		
+			$('#myModal1').modal('show');
+			$('#myModal1').on('shown.bs.modal', function (e){ });
+			$('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
+		} 
+	});
+}
+
 function nuevo_medicamento(id_h, id_p, nombre_p, id_s){ $('#myModal2').modal('hide');
 	window.setTimeout(function(){
 		$("#myModal3").load('hospital/htmls/add_medicamento.php', function( response, status, xhr ){ if(status=="success"){

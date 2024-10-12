@@ -10,7 +10,7 @@
 
 			  <!-- Nav tabs -->
 			  <ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active"><a href="#t-asignados" aria-controls="t-asignados" role="tab" data-toggle="tab" id="tap-asignados">MEDICAMENTOS ASIGNADOS</a></li>
+				<li role="presentation" class="active"><a href="#t-asignados" aria-controls="t-asignados" role="tab" data-toggle="tab" id="tap-asignados">MEDICAMENTOS INDICADOS</a></li>
 				<li role="presentation"><a href="#t-aplicados" aria-controls="profile" role="tab" data-toggle="tab" id="tap-aplicados">MEDICAMENTOS APLICADOS</a></li>
 			  </ul>
 
