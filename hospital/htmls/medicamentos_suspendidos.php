@@ -13,6 +13,7 @@
                     <th>#</th>
                     <th>USUARIO</th>
                     <th>FECHA</th>
+                    <th>MOVIMIENTO</th>
                     <th>MOTIVO</th>
                 </tr>
             </thead>
@@ -21,6 +22,7 @@
             </tbody>
             <tfoot>
                 <tr>
+                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>

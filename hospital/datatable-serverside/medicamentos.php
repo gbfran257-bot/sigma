@@ -137,9 +137,9 @@ require("../../funciones/php/values.php");
         $nombre_p = '"'.$row[8].'"';
 
         if($row[14] == 19){
-            $row[5]= "<div align='center'><button onClick='suspender_medi($row[5],\"$row[2]\", $nombre_p)'  class='btn btn-danger btn-xs ver_nota'><i class='fa fa-ban' aria-hidden='true'></i> </button> <button onClick='verHistorialMed($row[5])'  class='btn btn-primary btn-xs ver_nota'><i class='fa fa-eye' aria-hidden='true'></i> </button> </div>";
+            $row[5]= "<div align='center'><button onClick='suspender_medi($row[5],\"$row[2]\", $nombre_p)'  class='btn btn-danger btn-xs ver_nota'><i class='fa fa-ban' aria-hidden='true'></i> </button> <button onClick='verHistorialMed($row[5])'  class='btn btn-success btn-xs ver_nota'><i class='fa fa-eye' aria-hidden='true'></i> </button> </div>";
         }else{
-            $row[5]= "<div align='center'><button onClick='suspender_medi($row[5],\"$row[2]\", $nombre_p)'  class='btn btn-primary btn-xs ver_nota'><i class='fa fa-ban' aria-hidden='true'></i> </button> <button onClick='verHistorialMed($row[5])'  class='btn btn-primary btn-xs ver_nota'><i class='fa fa-eye' aria-hidden='true'></i> </button> </div>";
+            $row[5]= "<div align='center'><button onClick='suspender_medi($row[5],\"$row[2]\", $nombre_p)'  class='btn btn-primary btn-xs ver_nota'><i class='fa fa-ban' aria-hidden='true'></i> </button> <button onClick='verHistorialMed($row[5])'  class='btn btn-success btn-xs ver_nota'><i class='fa fa-eye' aria-hidden='true'></i> </button> </div>";
         }
 
         if($row[13] == 16 || $row[14] == 19){

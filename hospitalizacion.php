@@ -364,7 +364,7 @@ function suspender_medi(id_mh, medicamento, paciente){
 					$('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
 				} });
 			}else if(data==2){ //el estatus es suspender 
-				$("#myModal1").load("hospital/htmls/medicamentos_suspendidos.php", function(response,status,xhr){ 
+				/* $("#myModal1").load("hospital/htmls/medicamentos_suspendidos.php", function(response,status,xhr){ 
 					if(status == "success"){
 						var daTabla = {id_mh:id_mh, id_u:$('#id_user').val() }
 						$.post('hospital/datatable-serverside/medicamentos_suspendidos.php',daTabla).done(function( data ) { 
@@ -395,7 +395,42 @@ function suspender_medi(id_mh, medicamento, paciente){
 						$('#myModal1').on('shown.bs.modal', function (e){ });
 						$('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
 					} 
-				});
+				}); */
+
+			$("#myModal1").load("hospital/htmls/reanudar_medi.php", function(response,status,xhr){ 
+				if(status == "success"){
+						var str = 'REANUDACIÓN DEL MEDICAMENTO ' + medicamento + 'AL PACIENTE '+ paciente ;
+					$('#titulo_modal1').text(str);
+
+					$('#form_cov').validator().on('submit', function (e) {
+					if (e.isDefaultPrevented()) { // handle the invalid form...
+					} else { // everything looks good!
+						e.preventDefault(); 
+						// $('#pacienteCancelOV').text(nombreP); $('#refCancelOV').text(refe);
+						swal({
+						title: "REANUDAR "+ medicamento +" DEL PACIENTE "+paciente, text: "¿Estás seguro de REANUDAR el medicamento?", type: "warning",
+						showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "Reanudar", 
+						cancelButtonText: "Cerrar", closeOnConfirm: false
+						},
+						function(){
+							var datReanu = {id_mh:id_mh, notaS: $("#m_reanudacion").val(), id_u:$('#id_user').val()}
+							$.post('hospital/files-serverside/reanudar_medi.php',datReanu).done(function( data ) { 
+								if (data==1){ window.setTimeout(function(){$('#clickmeMdtos').click(); $('#myModal1').modal('hide');},300);
+									swal({
+									title: "", type: "success", text: "El medicamento se ha reanudado", timer: 2000, showConfirmButton: false
+									}); return;
+								} else{alert(data);} 
+							});
+						});
+					}
+					});
+							
+					$('#myModal1').modal('show');
+					$('#myModal1').on('shown.bs.modal', function (e){ });
+					$('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
+				}
+			});
+
 			}else{
 				alert(data);
 			} 
