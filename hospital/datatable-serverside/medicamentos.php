@@ -4,7 +4,7 @@ require("../../funciones/php/values.php");
 
 	$idP = sqlValue($_GET["id_p"], "int");
 
-	$aColumns = array('m.id_mh', 'DATE_FORMAT(m.fecha_mh,"%d/%m/%Y")', 'mc.concepto_to', 'concat_ws(" ", t.abreviacion_ti, u.nombre_u, apaterno_u)', 'm.indicacion_mh','m.id_mh', 'm.id_hospitalizacion_mh', 'p.id_p', 'p.nombre_completo_p', 'o.sucursal_ov', 'm.id_mh', 'DATE_FORMAT(m.fecha_mh,"%H:%i:%s")','mc.precio_to','h.estatus_h','m.estatus_mh','u.cedulaProfesional_u');
+	$aColumns = array('m.id_mh', 'DATE_FORMAT(m.fecha_mh,"%d/%m/%Y")', 'mc.concepto_to', 'm.cantidad_texto_mh' ,'concat_ws(" ", t.abreviacion_ti, u.nombre_u, apaterno_u)', 'm.indicacion_mh','m.id_mh', 'm.id_hospitalizacion_mh', 'p.id_p', 'p.nombre_completo_p', 'o.sucursal_ov', 'm.id_mh', 'DATE_FORMAT(m.fecha_mh,"%H:%i:%s")','mc.precio_to','h.estatus_h','m.estatus_mh','u.cedulaProfesional_u');
      
     // DB tables to use 
     $aTables = array( 'medicamentos_hospital m');
@@ -132,24 +132,30 @@ require("../../funciones/php/values.php");
         }
 		$row[0] = "<div align='center'>$hh</div>";
 		
-		$row[1] = "<div align='center'>$row[1]<br>$row[11]</div>";
+		$row[1] = "<div align='center'>$row[1]<br>$row[12]</div>";
 
-        $nombre_p = '"'.$row[8].'"';
+        $nombre_p = '"'.$row[9].'"';
 
-        if($row[14] == 19){
-            $row[5]= "<div align='center'><button onClick='suspender_medi($row[5],\"$row[2]\", $nombre_p)'  class='btn btn-danger btn-xs ver_nota'><i class='fa fa-ban' aria-hidden='true'></i> </button> <button onClick='verHistorialMed($row[5])'  class='btn btn-success btn-xs ver_nota'><i class='fa fa-eye' aria-hidden='true'></i> </button> </div>";
+        if($row[15] == 19){
+            $row[6]= "<div align='center'><button onClick='suspender_medi($row[6],\"$row[2]\", $nombre_p)'  class='btn btn-danger btn-xs ver_nota'><i class='fa fa-ban' aria-hidden='true'></i> </button> <button onClick='verHistorialMed($row[6])'  class='btn btn-success btn-xs ver_nota'><i class='fa fa-eye' aria-hidden='true'></i> </button> </div>";
         }else{
-            $row[5]= "<div align='center'><button onClick='suspender_medi($row[5],\"$row[2]\", $nombre_p)'  class='btn btn-primary btn-xs ver_nota'><i class='fa fa-ban' aria-hidden='true'></i> </button> <button onClick='verHistorialMed($row[5])'  class='btn btn-success btn-xs ver_nota'><i class='fa fa-eye' aria-hidden='true'></i> </button> </div>";
+            $row[6]= "<div align='center'><button onClick='suspender_medi($row[6],\"$row[2]\", $nombre_p)'  class='btn btn-primary btn-xs ver_nota'><i class='fa fa-ban' aria-hidden='true'></i> </button> <button onClick='verHistorialMed($row[6])'  class='btn btn-success btn-xs ver_nota'><i class='fa fa-eye' aria-hidden='true'></i> </button> </div>";
         }
 
-        if($row[13] == 16 || $row[14] == 19){
-            $row[6] = "<div align='center'><button onClick='poner_medi(this.lang, $nombre_p)' id='$row[2]' lang='0]' class='btn btn-primary btn-xs ver_nota' disabled='true'><i class='fa fa-check' aria-hidden='true'></i> </button></div>";
+        if($row[14] == 16 || $row[15] == 19){
+            $row[7] = "<div align='center'><button onClick='poner_medi(this.lang, $nombre_p)' id='$row[2]' lang='0]' class='btn btn-primary btn-xs ver_nota' disabled='true'><i class='fa fa-check' aria-hidden='true'></i> </button></div>";
         }else{
-		    $row[6] = "<div align='center'><button onClick='poner_medi(this.lang, \"$row[2]\", $nombre_p)' lang='$row[10]' class='btn btn-primary btn-xs ver_nota'><i class='fa fa-check' aria-hidden='true'></i> </button></div>";
+		    $row[7] = "<div align='center'><button onClick='poner_medi(this.lang, \"$row[2]\", $nombre_p)' lang='$row[11]' class='btn btn-primary btn-xs ver_nota'><i class='fa fa-check' aria-hidden='true'></i> </button></div>";
         }
-        $row[7] = $row[12];
+        $row[8] = $row[13];
 
-        $row[3] = $row[3] . "<br>" . "Ced. Prof. " . $row[15];
+        $row[4] = $row[4] . "<br>" . "Ced. Prof. " . $row[16];
+
+        if($row[3] == ""){
+            $row[3] = "<p onClick='actualizarCantMed(".$row[11].", \"$row[3]\")' class='' style='cursor:pointer; text-decoration:underline;' id='editar_".$row[11]."'>Editar</p>";
+        }else{
+            $row[3] = "<p onClick='actualizarCantMed(".$row[11].", \"$row[3]\")' class='' style='cursor:pointer; text-decoration:underline;' id='editar_".$row[11]."'>".$row[3]."</p>";
+        }
 		
 		$output['aaData'][] = $row;
 		

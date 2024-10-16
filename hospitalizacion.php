@@ -237,7 +237,7 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 			var oTable = $('#dataTableMedicamentos').DataTable({
 				serverSide: true,"sScrollY": tam, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ){ }, scroller: false, responsive: true,
-				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{"bVisible": true } ],
+				"aoColumns": [ {"bVisible":false}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{"bVisible": true },{"bVisible": true } ],
 				"sDom": '<"filtro1Principal"><"data_tPrincipal"t><"infoPrincipal"S><"proc">',
 				deferRender: true, select: false, "processing": false, "sAjaxSource": "hospital/datatable-serverside/medicamentos.php?id_h="+id_h,
 				"fnServerParams": function(aoData, fnCallback){ },
@@ -288,7 +288,11 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 			});
 
 			$('#clickmeMdtosA, #tap-aplicados').click(function(e) { oTableA.draw(); }); window.setTimeout(function(){$('#clickmeMdtosA').click();},500);
-			
+				//Para la impresion de reportes
+				$('#btn_printMI').click(function(){ 
+					window.open("hospital/genera/mi_pdf_reporteMI.php?id_h="+id_h+"&id_p="+id_p+"&id_u="+ $('#id_user').val(), '_blank');
+				});
+
 				$('#btn_printMA').click(function(){ 
 					window.open("hospital/genera/mi_pdf_reporteMA.php?id_h="+id_h+"&nombre="+nombre_p+"&id_u="+ $('#id_user').val(), '_blank');
 				});
@@ -453,6 +457,31 @@ function verHistorialMed(id_mh){
 			$('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
 		} 
 	});
+}
+
+function actualizarCantMed(id,cantidad){
+	$("#editar_"+id).replaceWith('<input type="text" id="nueva-cantidad" class="form-control" />');
+	$("#nueva-cantidad").val(cantidad);
+	$("#nueva-cantidad").focus();
+	$("#nueva-cantidad").blur(() => {
+		
+		if($("#nueva-cantidad").val() === ""){
+			$("#nueva-cantidad").focus();
+			return swal("¡Atencion!", "Escribe una cantidad valida", "info");
+		}
+
+		var datosCant = {id:id, cantidad:$("#nueva-cantidad").val()}
+		$.post('hospital/files-serverside/editarCantidad.php', datosCant).done(function( data ) {
+			if(data==1){
+				window.setTimeout(function(){
+					swal({title:"",type:"success",text:"¡Se ha guardado la cantidad!",timer:1000,showConfirmButton:false});
+				},300);
+				$("#nueva-cantidad").replaceWith(`<p onClick='actualizarCantMed(`+id+`,"`+$("#nueva-cantidad").val()+`")' class='' style='cursor:pointer; text-decoration:underline;' id='editar_`+id+`'>${$("#nueva-cantidad").val()}</p>`);
+			}else{alert(data);}
+		});
+
+	});
+
 }
 
 function nuevo_medicamento(id_h, id_p, nombre_p, id_s){ $('#myModal2').modal('hide');
