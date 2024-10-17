@@ -172,6 +172,28 @@ while ($fila = mysql_fetch_assoc($datos)) {
     $indicacion2 = strtoupper($indicacion2);
     $medicamento = strtoupper($medicamento);
 
+    //salta condicional
+    if($contador == 8 || $contador > 9 && $contador % 9 == 0){
+        $pdf->Ln(15);
+
+        $pdf->cell(1);
+        $pdf->cell(189.5,0.1,'',1,1,'C');
+
+        $pdf->cell(1);
+        $pdf->cell(0.1,10,'',1,0,'C');
+        $pdf->cell(5,10,'#',0,0,'C');
+        $pdf->cell(0.1,10,'',1,0,'C');
+        $pdf->cell(25,10,'FECHA/HORA',0,0,'C');
+        $pdf->cell(0.1,10,'',1,0,'C');
+        $pdf->cell(100,10,utf8_decode('DESCRIPCIÓN DEL MEDICAMENTO'),0,0,'C');
+        $pdf->cell(0.1,10,'',1,0,'C');
+        $pdf->cell(59,10,utf8_decode('FIRMA DE AUTORIZACIÓN'),0,0,'C');
+        $pdf->cell(0.1,10,'',1,1,'C');
+
+        $pdf->cell(1);
+        $pdf->cell(189.5,0.1,'',1,1,'C');
+    }
+
     //DATOS
     $pdf->cell(1);
     $pdf->cell(0.1,5,'',1,0,'C');
@@ -179,9 +201,7 @@ while ($fila = mysql_fetch_assoc($datos)) {
     $pdf->cell(0.1,5,'',1,0,'C');
     $pdf->cell(25,5,'',0,0,'C');
     $pdf->cell(0.1,5,'',1,0,'C');
-    $pdf->setTextColor(255, 0, 0);
     $pdf->cell(100,5,utf8_decode($medicamento),1,0,'C');
-    $pdf->setTextColor(0, 0, 0);
     $pdf->cell(0.1,5,'',1,0,'C');
     $pdf->cell(59,5,'',0,0,'C');
     $pdf->cell(0.1,5,'',1,1,'C');
@@ -193,9 +213,7 @@ while ($fila = mysql_fetch_assoc($datos)) {
     $pdf->cell(25,5,'',0,0,'C');
     $pdf->cell(0.1,5,'',1,0,'C');
     $pdf->cell(20,5,'CANTIDAD:',0,0,'L');
-    $pdf->setTextColor(255, 0, 0);
     $pdf->cell(15,5,$cantidad,0,0,'L');
-    $pdf->setTextColor(0, 0, 0);
     $pdf->cell(65,5,utf8_decode('PERSONAL MÉDICO/CEDULA:'),0,0,'L');
     $pdf->cell(0.1,5,'',1,0,'C');
     $pdf->cell(59,5,'',0,0,'C');
@@ -205,13 +223,9 @@ while ($fila = mysql_fetch_assoc($datos)) {
     $pdf->cell(0.1,5,'',1,0,'C');
     $pdf->cell(5,5,$contador,0,0,'C');
     $pdf->cell(0.1,5,'',1,0,'C');
-    $pdf->setTextColor(255, 0, 0);
     $pdf->cell(25,5,$fecha,0,0,'C');
-    $pdf->setTextColor(0, 0, 0);
     $pdf->cell(0.1,5,'',1,0,'C');
-    $pdf->setTextColor(255, 0, 0);
     $pdf->cell(100,5,utf8_decode($nombre_doctor),1,0,'L');
-    $pdf->setTextColor(0, 0, 0);
     $pdf->cell(0.1,5,'',1,0,'C');
     $pdf->cell(59,5,'',0,0,'C');
     $pdf->cell(0.1,5,'',1,1,'C');
@@ -220,14 +234,10 @@ while ($fila = mysql_fetch_assoc($datos)) {
     $pdf->cell(0.1,5,'',1,0,'C');
     $pdf->cell(5,5,'',0,0,'C');
     $pdf->cell(0.1,5,'',1,0,'C');
-    $pdf->setTextColor(255, 0, 0);
     $pdf->cell(25,5,$hora,0,0,'C');
-    $pdf->setTextColor(0, 0, 0);
     $pdf->cell(0.1,5,'',1,0,'C');
     $pdf->cell(22,5,utf8_decode('INDICACIÓN:'),0,0,'L');
-    $pdf->setTextColor(255, 0, 0);
     $pdf->cell(78,5,utf8_decode($indicacion1),0,0,'L');
-    $pdf->setTextColor(0, 0, 0);
     $pdf->cell(0.1,5,'',1,0,'C');
     $pdf->cell(59,5,'_________________________',0,0,'C');
     $pdf->cell(0.1,5,'',1,1,'C');
@@ -238,9 +248,7 @@ while ($fila = mysql_fetch_assoc($datos)) {
     $pdf->cell(0.1,5,'',1,0,'C');
     $pdf->cell(25,5,'',0,0,'C');
     $pdf->cell(0.1,5,'',1,0,'C');
-    $pdf->setTextColor(255, 0, 0);
     $pdf->cell(100,5,utf8_decode($indicacion2),0,0,'L');
-    $pdf->setTextColor(0, 0, 0);
     $pdf->cell(0.1,5,'',1,0,'C');
     $pdf->cell(59,5,'',0,0,'C');
     $pdf->cell(0.1,5,'',1,1,'C');
@@ -250,8 +258,48 @@ while ($fila = mysql_fetch_assoc($datos)) {
 
     $contador++;
 }
+//restamos 1 al contador debido a la ultima iteracion
+$contador--;
+//SALTO condicional
+if($contador >= 16 && $contador % 16 == 0){
+    $pdf->Ln(14);
+}else{
+    $pdf->Ln(20);
+}
+//FIRMAS
+$pdf->cell(1);
+$pdf->cell(95,5,'________________________________________',0,0,'C');
+$pdf->cell(95,5,'________________________________________',0,1,'C');
+
+$pdf->cell(1);
+$pdf->cell(95,5,'NOMBRE DE QUIEN ENTREGA MAT Y MED',0,0,'C');
+$pdf->cell(95,5,'NOMBRE DE QUIEN RECIBE MAT Y MED',0,1,'C');
+
+$pdf->cell(1);
+$pdf->cell(95,5,'(NOMBRE COMPLETO Y FIRMA)',0,0,'C');
+$pdf->cell(95,5,'(NOMBRE COMPLETO Y FIRMA)',0,1,'C');
+
+//SALTO CONDICIONAL
+if($contador <= 5 || $contador >= 16 && $contador % 16 == 0){
+    $pdf->Ln(14);
+}elseif($contador <= 5 || $contador >= 15 && $contador % 15 == 0){
+    $pdf->Ln(20);
+}else{
+    $pdf->Ln(15);
+}
 
 
+$pdf->cell(1);
+$pdf->cell(95,5,'________________________________________',0,0,'C');
+$pdf->cell(95,5,'________________________________________',0,1,'C');
+
+$pdf->cell(1);
+$pdf->cell(95,5,'NOMBRE DEL VERIFICADOR',0,0,'C');
+$pdf->cell(95,5,'NOMBRE DE QUIEN SOLICITA',0,1,'C');
+
+$pdf->cell(1);
+$pdf->cell(95,5,'(NOMBRE COMPLETO Y FIRMA)',0,0,'C');
+$pdf->cell(95,5,'(NOMBRE COMPLETO Y FIRMA)',0,1,'C');
 
 $pdf->Output();
 ?>

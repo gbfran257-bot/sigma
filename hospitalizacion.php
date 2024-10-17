@@ -460,7 +460,7 @@ function verHistorialMed(id_mh){
 }
 
 function actualizarCantMed(id,cantidad){
-	$("#editar_"+id).replaceWith('<input type="text" id="nueva-cantidad" class="form-control" />');
+	$("#editar_"+id).replaceWith('<input type="number" step="0.1" id="nueva-cantidad" class="form-control" />');
 	$("#nueva-cantidad").val(cantidad);
 	$("#nueva-cantidad").focus();
 	$("#nueva-cantidad").blur(() => {
@@ -468,6 +468,11 @@ function actualizarCantMed(id,cantidad){
 		if($("#nueva-cantidad").val() === ""){
 			$("#nueva-cantidad").focus();
 			return swal("¡Atencion!", "Escribe una cantidad valida", "info");
+		}
+
+		if($("#nueva-cantidad").val() === "0"){
+			$("#nueva-cantidad").focus();
+			return swal("¡Atencion!", "La cantidad minima debe ser mayor a cero", "info");
 		}
 
 		var datosCant = {id:id, cantidad:$("#nueva-cantidad").val()}
