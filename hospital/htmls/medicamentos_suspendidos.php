@@ -13,7 +13,8 @@
                     <th>#</th>
                     <th>USUARIO</th>
                     <th>FECHA</th>
-                    <th>MEDICAMENTO</th>
+                    <th>MOVIMIENTO</th>
+                    <th>MOTIVO</th>
                 </tr>
             </thead>
             <tbody id="tbodyContentMS">
@@ -21,6 +22,7 @@
             </tbody>
             <tfoot>
                 <tr>
+                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>

@@ -10,7 +10,7 @@
 
 			  <!-- Nav tabs -->
 			  <ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active"><a href="#t-asignados" aria-controls="t-asignados" role="tab" data-toggle="tab" id="tap-asignados">MEDICAMENTOS ASIGNADOS</a></li>
+				<li role="presentation" class="active"><a href="#t-asignados" aria-controls="t-asignados" role="tab" data-toggle="tab" id="tap-asignados">MEDICAMENTOS INDICADOS</a></li>
 				<li role="presentation"><a href="#t-aplicados" aria-controls="profile" role="tab" data-toggle="tab" id="tap-aplicados">MEDICAMENTOS APLICADOS</a></li>
 			  </ul>
 
@@ -26,6 +26,7 @@
 							<th class="titulosTabs" align="center" width="" id="title_medicamento" nowrap>
 								<button type="button" class="btn btn-info btn-xs" id="btn_add_medicamento">MEDICAMENTO <i class='fa fa-plus' aria-hidden='true'></i></button>
 							</th>
+							<th class="titulosTabs" align="center" width="" nowrap>CANTIDAD</th>
 							<th class="titulosTabs" align="center" width="" nowrap>PERSONAL MÉDICO</th>
 							<th class="titulosTabs" align="center" width="" nowrap>INDICACIÓN</th>
 							<th class="titulosTabs" align="center" width="" nowrap>SUSPENDER</th>
@@ -38,13 +39,16 @@
 								<th></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-FECHA-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-MEDICAMENTO-" style="width: 99%"/></th>
+								<th></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-PERSONAL MÉDICO-" style="width: 99%"/></th>
+								<th></th>
 								<th></th>
 								<th></th>
 								<th></th>
 							</tr>
 						</tfoot>
 					</table>
+					<a href="#"type="button" class="btn btn-info " id="btn_printMI">IMPRIMIR</a>
 				</div>
 				<div role="tabpanel" class="tab-pane" id="t-aplicados">
 				<div id="printt">
