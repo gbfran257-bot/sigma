@@ -16,7 +16,7 @@ $(document).ready((e) => {
 const initSelectSucursales = () => {
     $("#sucursales-pedidos").select2({
         ajax: {
-            url: "pedidos/files-serverside/sucursales.php",
+            url: "pedidos/files-serverside/sucursales2.php",
             dataType: "json",
         },
     });
