@@ -2,7 +2,7 @@
 
 require("../../../Connections/horizonte2.php");
 
-$aColumns = array('s.id', 'c.concepto_to', 'g.nombre_generico_med', 's.existencias', 'mms.max_mm', 'mms.min_mm', 'CAST(mms.max_mm AS SIGNED) - CAST(s.existencias AS SIGNED)',);
+$aColumns = array('s.id', 'c.concepto_to', 'g.nombre_generico_med', 's.existencias', 'mms.max_mm', 'mms.min_mm', 'CAST(mms.max_mm AS SIGNED) - CAST(s.existencias AS SIGNED)', 's.id_Producto', 's.id_stock');
 
 $aTables = array('stock_has_bach s');
 
@@ -13,6 +13,9 @@ $sJoin = 'left join conceptos c on c.id_to = s.id_Producto left join stock s1 on
 $resultAU = mysqli_query($horizonte, "SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[idU]'") or die(mysqli_error($horizonte));
 $rowAU = mysqli_fetch_row($resultAU);
 $id_suc = intval($_GET['id_sucursal']);
+
+$query_sucursal = mysqli_query($horizonte, "SELECT id_su from stock where id = " . $id_suc) or die(mysqli_error($horizonte));
+$sucursal_data = mysqli_fetch_row($query_sucursal);
 
 $fecha = date("Y-m-d");
 switch ($rowAU[0]) {
@@ -83,12 +86,15 @@ for ($i = 0; $i < count($aColumns); $i++) {
 }
 
 /*  * SQL queries  * Get data to display */
+$sGroup = "group by s.id_Producto ORDER BY concepto_to";
+//$sGroup = "";
+
 $sQuery = "
         SELECT SQL_CALC_FOUND_ROWS " . str_replace(" , ", " ", implode(", ", $aColumns)) . "
         FROM   " . str_replace(" , ", " ", implode(", ", $aTables)) . "
 		$sJoin
         $sWhere
-        $sOrder
+        $sGroup
         $sLimit";
 
 $rResult = mysqli_query($gaSql['link'], $sQuery) or die(mysqli_error($gaSql['link']));
@@ -136,9 +142,27 @@ while ($aRow = mysqli_fetch_array($rResult)) {
         }
     }
 
-    $row[0] = $hh;
+        //revisamos existencias totales y omitimos registros
+        $resultado_suma = mysqli_query($horizonte, "SELECT SUM(existencias) FROM stock_has_bach WHERE id_Producto = ".$row[7]." AND id_stock = " . $row[8] ) or die(mysqli_error($horizonte));
+        $sumatoria = mysqli_fetch_row($resultado_suma);
 
-    $row[6] = "<td><span onclick=\"cambiarSurtir(this);\">{$row[6]}</span></td>";
+        $query_mm_s = mysqli_query($horizonte, "SELECT min_mm, max_mm FROM max_min_stock WHERE id_suc = ".$sucursal_data[0]." AND id_producto = " . $row[7] ) or die(mysqli_error($horizonte));
+        $resultados_mm_s = mysqli_fetch_row($query_mm_s);
+
+        $surtir = $resultados_mm_s[1] - $sumatoria[0];
+
+        if($surtir < 0){
+            $hh--;
+            continue;
+        }
+
+    $row[0] = $hh;
+    $row[3] = $sumatoria[0];
+
+    $row[4] = $resultados_mm_s[1];
+    $row[5] = $resultados_mm_s[0];
+
+    $row[6] = "<td><span onclick=\"cambiarSurtir(this);\">{$surtir}</span></td>";
 
     $output['aaData'][] = $row;
 }
