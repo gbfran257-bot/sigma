@@ -19,7 +19,7 @@ include_once '../../recursos/datauser.php';
 	 // Joins   
 	$sJoin = ' left join pagos_ov p on p.usuario_pag = u.id_u ';
 	 
-	$sWhere="WHERE p.usuario_pag = $id_user and p.pago_pag > 0 and fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' group by u.usuario_u order by u.usuario_u asc ";
+	$sWhere="WHERE p.usuario_pag = $id_user and p.pago_pag > 0 and fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' AND p.estatus_pag NOT IN(11) group by u.usuario_u order by u.usuario_u asc ";
     /* Database connection information */
     $gaSql['user']       = $username_horizonte; $gaSql['password']   = $password_horizonte; $gaSql['db']         = $database_horizonte; $gaSql['server']     = $hostname_horizonte;
  
@@ -129,8 +129,8 @@ include_once '../../recursos/datauser.php';
 		//Calculamos el número de pacientes por departamento
 		mysql_select_db($database_horizonte, $horizonte);
 		
-		$query_Recordset1 = "SELECT distinct(id_pag) FROM pagos_ov WHERE usuario_pag = $row[1] and fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' group by fecha_pag";	
-		$resultTC = mysql_query("SELECT SUM(pago_pag) from pagos_ov WHERE usuario_pag = $row[2] and fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());	
+		$query_Recordset1 = "SELECT distinct(id_pag) FROM pagos_ov WHERE usuario_pag = $row[1] and fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' AND estatus_pag NOT IN(11) group by fecha_pag";	
+		$resultTC = mysql_query("SELECT SUM(pago_pag) from pagos_ov WHERE usuario_pag = $row[2] and fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' AND estatus_pag NOT IN(11)", $horizonte) or die (mysql_error());	
 				
 		$Recordset1 = mysql_query($query_Recordset1, $horizonte) or die(mysql_error());
 		$row_Recordset1 = mysql_fetch_assoc($Recordset1);

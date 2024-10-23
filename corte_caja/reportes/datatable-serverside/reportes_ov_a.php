@@ -113,6 +113,8 @@
             $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
         }
     }
+    //Añadimos filtro de estatus al where
+    $sWhere = $sWhere . " AND ov.estatus_ov NOT IN(11)";
      
     /* * SQL queries * Get data to display */
     $sQuery = "

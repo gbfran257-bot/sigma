@@ -12,7 +12,7 @@ require("../../Connections/horizonte.php");
 	 // Joins   
 	$sJoin = ' left join pagos_ov p on p.usuario_pag = u.id_u ';
 	 
-	$sWhere="WHERE p.pago_pag > 0 and fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' group by u.usuario_u order by u.usuario_u asc ";
+	$sWhere="WHERE p.pago_pag > 0 and fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' AND p.estatus_pag NOT IN(11) group by u.usuario_u order by u.usuario_u asc ";
     /* Database connection information */
     $gaSql['user']       = $username_horizonte; $gaSql['password']   = $password_horizonte; $gaSql['db']         = $database_horizonte; $gaSql['server']     = $hostname_horizonte;
  
@@ -72,6 +72,7 @@ require("../../Connections/horizonte.php");
             $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
         }
     }
+
     /* * SQL queries * Get data to display */
     $sQuery = "
         SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."

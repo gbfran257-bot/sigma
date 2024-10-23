@@ -73,6 +73,10 @@ require("../../funciones/php/values.php");
             $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
         }
     }
+    
+    //Filtrar los cancelados
+    $sWhere = $sWhere . " AND o.estatus_ov NOT IN(11)";
+
     /* * SQL queries * Get data to display */
     $sQuery = "
         SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."
@@ -140,9 +144,9 @@ require("../../funciones/php/values.php");
 		// 	$totalRows_Recordset1a = mysql_num_rows($Recordset1a);
 		// 	$row[1] = $totalRows_Recordset1a;
         
-        $abonado = mysql_query("SELECT sum(p.pago_pag) from pagos_ov p left join orden_venta ov on p.referencia_pag = ov.referencia_ov WHERE p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
+        $abonado = mysql_query("SELECT sum(p.pago_pag) from pagos_ov p left join orden_venta ov on p.referencia_pag = ov.referencia_ov WHERE p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' AND p.estatus_pag NOT IN(11)", $horizonte) or die (mysql_error());
 			
-        $saldos = mysql_query("SELECT ov.referencia_ov from pagos_ov p left join orden_venta ov on p.referencia_pag = ov.referencia_ov WHERE p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' GROUP by ov.referencia_ov", $horizonte) or die (mysql_error());
+        $saldos = mysql_query("SELECT ov.referencia_ov from pagos_ov p left join orden_venta ov on p.referencia_pag = ov.referencia_ov WHERE p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' AND p.estatus_pag NOT IN(11) GROUP by ov.referencia_ov", $horizonte) or die (mysql_error());
         $saldoArray  = array();
         $contS = 0;
         $totalSaldo = 0;
@@ -151,7 +155,7 @@ require("../../funciones/php/values.php");
             $contS++;
         }
         for ($i=0; $i < count($saldoArray) ; $i++) { 
-            $cantidadS = mysql_query("SELECT sum(p.pago_pag), ov.gran_total_ov from pagos_ov p left join orden_venta ov on p.referencia_pag = ov.referencia_ov WHERE p.referencia_pag = '$saldoArray[$i]'", $horizonte) or die (mysql_error());
+            $cantidadS = mysql_query("SELECT sum(p.pago_pag), ov.gran_total_ov from pagos_ov p left join orden_venta ov on p.referencia_pag = ov.referencia_ov WHERE p.referencia_pag = '$saldoArray[$i]' AND p.estatus_pag NOT IN(11)", $horizonte) or die (mysql_error());
             $rowS = mysql_fetch_row($cantidadS);
             $resta = $rowS[1] - $rowS[0];
             $totalSaldo = $totalSaldo + $resta;

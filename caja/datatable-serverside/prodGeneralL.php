@@ -77,6 +77,10 @@ require("../../funciones/php/values.php");
     }
      
     /*  * Filtering * NOTE this does not match the built-in DataTables filtering which does it * word by word on any field. It's possible to do here, but concerned about efficiency * on very large tables, and MySQL's regex functionality is very limited */
+
+    
+    //Filtrar los cancelados
+    $sWhere = $sWhere . " AND v.estatus_vc NOT IN(11)";
      
     /*  * SQL queries  * Get data to display */
     $sQuery = "

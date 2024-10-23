@@ -126,22 +126,22 @@ require("../../funciones/php/values.php");
 		
 		if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
 			
-			$query_Recordset1 = "SELECT distinct(vc.id_paciente_vc) FROM pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE vc.temporal_vc != 1 and e.linea_c = '$row[0]' and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'";
+			$query_Recordset1 = "SELECT distinct(vc.id_paciente_vc) FROM pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE vc.temporal_vc != 1 and e.linea_c = '$row[0]' and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' AND p.estatus_pag NOT IN(11)";
 			$Recordset1 = mysql_query($query_Recordset1, $horizonte) or die(mysql_error());
 			$row_Recordset1 = mysql_fetch_assoc($Recordset1);
 			$totalRows_Recordset1 = mysql_num_rows($Recordset1);
 			$ali = $row[0];
 			$row[2] = $totalRows_Recordset1; 
 			
-			$query_Recordset1a = "SELECT distinct(vc.referencia_vc) FROM pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE vc.temporal_vc != 1 and e.linea_c = '$row[0]' and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'";
+			$query_Recordset1a = "SELECT distinct(vc.referencia_vc) FROM pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE vc.temporal_vc != 1 and e.linea_c = '$row[0]' and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' AND p.estatus_pag NOT IN(11)";
 			$Recordset1a = mysql_query($query_Recordset1a, $horizonte) or die(mysql_error());
 			$row_Recordset1a = mysql_fetch_assoc($Recordset1a);
 			$totalRows_Recordset1a = mysql_num_rows($Recordset1a);
 			$row[1] = $totalRows_Recordset1a;
 			
-			$resultTC = mysql_query("SELECT count(vc.id_vc) from venta_conceptos vc left join  conceptos c on c.id_to = vc.id_concepto_es left join orden_venta ov on ov.referencia_ov = vc.referencia_vc  WHERE vc.temporal_vc != 1 and c.linea_c = '$row[0]' and vc.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
+			$resultTC = mysql_query("SELECT count(vc.id_vc) from venta_conceptos vc left join  conceptos c on c.id_to = vc.id_concepto_es left join orden_venta ov on ov.referencia_ov = vc.referencia_vc  WHERE vc.temporal_vc != 1 and c.linea_c = '$row[0]' and vc.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' AND vc.estatus_vc NOT IN(11)", $horizonte) or die (mysql_error());
 			
-			$resultT = mysql_query("SELECT SUM(p.pago_pag) from pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE e.linea_c = '$row[0]' and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' and vc.temporal_vc != 1", $horizonte) or die (mysql_error()); //Sacamos cuanto es el total por departamento de las ventas de conceptos, pero no es la de los pagos
+			$resultT = mysql_query("SELECT SUM(p.pago_pag) from pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE e.linea_c = '$row[0]' and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' and vc.temporal_vc != 1 AND p.estatus_pag NOT IN(11)", $horizonte) or die (mysql_error()); //Sacamos cuanto es el total por departamento de las ventas de conceptos, pero no es la de los pagos
 			
 		}else{ }
 		
@@ -151,7 +151,7 @@ require("../../funciones/php/values.php");
 		$row[2] = $row[2]; 
         $row[3] = $rowTC[0];
 		
-		$resultTam = mysql_query("SELECT vc.precio_vc FROM venta_conceptos vc left join conceptos c on c.id_to = vc.id_concepto_es WHERE c.linea_c = '$row[0]' AND vc.temporal_vc = 0 and vc.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
+		$resultTam = mysql_query("SELECT vc.precio_vc FROM venta_conceptos vc left join conceptos c on c.id_to = vc.id_concepto_es WHERE c.linea_c = '$row[0]' AND vc.temporal_vc = 0 and vc.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' AND vc.estatus_vc NOT IN(11)", $horizonte) or die (mysql_error());
 		$totalAbonado =  0;
         $totalSaldo = 0;
         while ($filaAbonado = mysql_fetch_assoc($resultTam)) {
