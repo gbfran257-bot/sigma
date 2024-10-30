@@ -282,7 +282,7 @@ $sucu_user = $_SESSION['MM_Usersucu'];
         //fecha  de caducidad que viene de BD
         $fechaCadu = substr($row[4],0,10);
         //le restamos una mes a la fecha de caducidad para poder compararla
-        $Alertafecha = date('Y-m-d', strtotime($fechaCadu.'-1 month'));
+        /* $Alertafecha = date('Y-m-d', strtotime($fechaCadu.'-1 month'));
          //sacar la fecha actual
         $now = date('Y-m-d');
         $feCad = $row[4];
@@ -291,7 +291,22 @@ $sucu_user = $_SESSION['MM_Usersucu'];
             $row[4]= "<span class='btn btn-danger disabled' >".$fechaCadu."</span>";
         }else{
             $row[4]= $fechaCadu;
-        }
+        } */
+
+        $Alertafecha = date('Y-m-d', strtotime($fechaCadu.'-6 month'));
+        $Alertafecha2 = date('Y-m-d', strtotime($fechaCadu.'-11 month'));
+        $Alertafecha3 = date('Y-m-d', strtotime($fechaCadu.'-12 month'));
+        $now = date('Y-m-d');
+
+        if($Alertafecha3 >= $now){
+            $row[4]= "<span class='btn btn-success disabled' style='color:black;'>".$fechaCadu."</span>";
+       }else if($Alertafecha >= $now && $Alertafecha2 <= $now){
+            $row[4]= "<span class='btn btn-warning disabled' style='color:black;'>".$fechaCadu."</span>";
+       }else if($Alertafecha <= $now){
+            $row[4]= "<span class='btn btn-danger disabled' style='color:black;'>".$fechaCadu."</span>";
+       }else{
+            $row[4]= "<span>".$fechaCadu."</span>";
+       }
 
         //OBTENEMOS EL MAXIMO Y MINIMO
         mysql_select_db($database_horizonte, $horizonte); 
