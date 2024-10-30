@@ -67,8 +67,10 @@ if($anos<1){
  $paciente = $rowP[0]." ".$rowP[1]." ".$rowP[2].".   EDAD: ".$rowP[10] . " F. NAC: " . $rowP[11]; $adicionales = $rowR[9]+$rowR[13]+$rowR[14]+$rowR[15]+$rowR[23];
 
 //$rowR[7] = $rowR[5] - $rowR[6];
+//Referencia con fecha
+$ref_y_fecha = $rowR[0] . " ' " . $rowR[24];
 		
-echo $fecha.";}".$rowR[0].";}".$paciente.";}".$adicionales.";}".$rowR[5].";}".$rowR[6].";}".$rowR[7].";}".$rowU[0]." ".$rowU[1]." ".$rowU[2].";}"."$fecha '".";}".$hora.";}".$adicionales.";}".$rowFP[0].";}".$rowR[11].";}".$rowP[3].";}".$direccionP.";}".$rowSu[0].";}".$rowSu[1].";}".$rowSu[2].";}".$rowSu[3].";}".$rowSu[4].";}".$rowSu[5].";}".$rowSu[6].";}".$rowSu[7].";}".$rowCof[0].";}".$rowR[17].";}".$rowLo[0].";}".$rowLo[1].";}".$rowLo[2].";}".$rowR[19].";}".$rowR[20].";}".$rowR[21].";}".$rowR[22].";}".$rowU2[0]." ".$rowU2[1]." ".$rowU2[2].";}".$rowU[3].";}".$rowR[24];
+echo $fecha.";}".$ref_y_fecha.";}".$paciente.";}".$adicionales.";}".$rowR[5].";}".$rowR[6].";}".$rowR[7].";}".$rowU[0]." ".$rowU[1]." ".$rowU[2].";}"."$fecha '".";}".$hora.";}".$adicionales.";}".$rowFP[0].";}".$rowR[11].";}".$rowP[3].";}".$direccionP.";}".$rowSu[0].";}".$rowSu[1].";}".$rowSu[2].";}".$rowSu[3].";}".$rowSu[4].";}".$rowSu[5].";}".$rowSu[6].";}".$rowSu[7].";}".$rowCof[0].";}".$rowR[17].";}".$rowLo[0].";}".$rowLo[1].";}".$rowLo[2].";}".$rowR[19].";}".$rowR[20].";}".$rowR[21].";}".$rowR[22].";}".$rowU2[0]." ".$rowU2[1]." ".$rowU2[2].";}".$rowU[3].";}".$rowR[24];
 
  //Cerrar conexión a la Base de Datos
  mysql_close($horizonte);
