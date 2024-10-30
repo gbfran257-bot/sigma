@@ -1177,7 +1177,7 @@ include_once 'recursos/datauser.php';
 			"aoColumns": [{
 					"bVisible": true
 				}, {
-					"bVisible": false
+					"bVisible": true
 				}, {
 					"bVisible": true
 				}, {
