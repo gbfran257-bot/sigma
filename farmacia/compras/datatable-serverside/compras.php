@@ -142,7 +142,7 @@ require("../../../funciones/php/values.php");
        //fecha  de caducidad que viene de BD
         $fechaCadu = substr($row[7],0,10);
         //le restamos una mes a la fecha de caducidad para poder compararla
-        $Alertafecha = date('Y-m-d', strtotime($fechaCadu.'-1 month'));
+        /* $Alertafecha = date('Y-m-d', strtotime($fechaCadu.'-1 month'));
          //sacar la fecha actual
         $now = date('Y-m-d');
 
@@ -151,7 +151,31 @@ require("../../../funciones/php/values.php");
             $row[7]= "<span class='btn btn-danger disabled' >".$fechaCadu."</span>";
         }else{
             $row[7]= $fechaCadu;
-        }
+        } */
+
+        $Alertafecha = date('Y-m-d', strtotime($fechaCadu.'-6 month'));
+        $Alertafecha2 = date('Y-m-d', strtotime($fechaCadu.'-11 month'));
+        $Alertafecha3 = date('Y-m-d', strtotime($fechaCadu.'-12 month'));
+         //sacar la fecha actual
+        $now = date('Y-m-d');
+
+        //verificamos si la fecha actual supera a la fecha de caducidad que tiene un mes restado
+        /* if($now <= $Alertafecha){
+            $row[7]= "<span class='btn btn-danger disabled' >".$fechaCadu."</span>";
+        }else if($now <= $Alertafecha2){
+            $row[7]= "<span class='btn btn-info disabled' >".$fechaCadu."</span>";
+        }else{
+            $row[7]= "<span class='btn btn-success disabled' >".$fechaCadu."</span>";
+        } */
+       if($Alertafecha3 >= $now){
+            $row[7]= "<span class='btn btn-success disabled' style='color:black;'>".$fechaCadu."</span>";
+       }else if($Alertafecha >= $now && $Alertafecha2 <= $now){
+            $row[7]= "<span class='btn btn-warning disabled' style='color:black;'>".$fechaCadu."</span>";
+       }else if($Alertafecha <= $now){
+            $row[7]= "<span class='btn btn-danger disabled' style='color:black;'>".$fechaCadu."</span>";
+       }else{
+            $row[7]= "<span>".$fechaCadu."</span>";
+       }
 
        $query_factura_compra = "SELECT nombre_factura FROM compra_factura WHERE referencia_compra = '{$folio}'";
        $resultado_query_factura_compra = mysql_query($query_factura_compra, $horizonte) or die (mysql_error());
