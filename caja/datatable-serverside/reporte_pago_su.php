@@ -73,10 +73,6 @@ require("../../funciones/php/values.php");
             $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
         }
     }
-
-    //Filtrar los cancelados
-    $sWhere = $sWhere . " AND p.estatus_pag NOT IN(11)";
-
     /* * SQL queries * Get data to display */
     $sQuery = "
         SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."

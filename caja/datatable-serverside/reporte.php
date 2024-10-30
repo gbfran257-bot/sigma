@@ -126,23 +126,23 @@ require("../../funciones/php/values.php");
 		
 		if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
 			
-			$query_Recordset1 = "SELECT distinct(vc.id_paciente_vc) FROM pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE vc.temporal_vc != 1 and e.id_departamento_to = $row[1] and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' AND p.estatus_pag NOT IN(11)";
+			$query_Recordset1 = "SELECT distinct(vc.id_paciente_vc) FROM pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE vc.temporal_vc != 1 and e.id_departamento_to = $row[1] and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'";
 			$Recordset1 = mysql_query($query_Recordset1, $horizonte) or die(mysql_error());
 			$row_Recordset1 = mysql_fetch_assoc($Recordset1);
 			$totalRows_Recordset1 = mysql_num_rows($Recordset1);
 			$ali = $row[2];
 			$row[2] = $totalRows_Recordset1; 
 			
-			$query_Recordset1a = "SELECT distinct(vc.referencia_vc) FROM pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE vc.temporal_vc != 1 and e.id_departamento_to = $row[1] and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' AND p.estatus_pag NOT IN(11)";
+			$query_Recordset1a = "SELECT distinct(vc.referencia_vc) FROM pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE vc.temporal_vc != 1 and e.id_departamento_to = $row[1] and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'";
 			$Recordset1a = mysql_query($query_Recordset1a, $horizonte) or die(mysql_error());
 			$row_Recordset1a = mysql_fetch_assoc($Recordset1a);
 			$totalRows_Recordset1a = mysql_num_rows($Recordset1a);
 			$row[1] = $totalRows_Recordset1a;
 			
 			// $resultTC = mysql_query("SELECT count(vc.id_vc) from pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE temporal_vc != 1 and e.id_departamento_to = $ali and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
-            $resultTC = mysql_query("SELECT count(v.id_vc) FROM venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es WHERE temporal_vc = 0 and e.id_departamento_to = $ali and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' AND v.estatus_vc NOT IN(11)", $horizonte) or die (mysql_error());
+            $resultTC = mysql_query("SELECT count(v.id_vc) FROM venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es WHERE temporal_vc = 0 and e.id_departamento_to = $ali and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 			
-			$resultT = mysql_query("SELECT SUM(p.pago_pag) from pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE e.id_departamento_to = $row[3] and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' and vc.temporal_vc != 1 AND p.estatus_pag NOT IN(11)", $horizonte) or die (mysql_error()); //Sacamos cuanto es el total por departamento de las ventas de conceptos, pero no es la de los pagos
+			$resultT = mysql_query("SELECT SUM(p.pago_pag) from pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE e.id_departamento_to = $row[3] and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' and vc.temporal_vc != 1", $horizonte) or die (mysql_error()); //Sacamos cuanto es el total por departamento de las ventas de conceptos, pero no es la de los pagos
 			
 		}else{ }
 		
@@ -152,16 +152,16 @@ require("../../funciones/php/values.php");
 		
 		//if($rowT[0]==0){$row[0]="<span class='erase1'>$row[0]</span>";} 
 		
-		$resultTam = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 4 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' AND p.estatus_pag NOT IN(11)", $horizonte) or die (mysql_error());
+		$resultTam = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 4 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 		$rowTam = mysql_fetch_row($resultTam);
 		
-		$resultTim = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 2 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' AND p.estatus_pag NOT IN(11)", $horizonte) or die (mysql_error());
+		$resultTim = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 2 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 		$rowTim = mysql_fetch_row($resultTim);
 		
-		$resultTlb = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 1 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' AND p.estatus_pag NOT IN(11)", $horizonte) or die (mysql_error());
+		$resultTlb = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 1 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 		$rowTlb = mysql_fetch_row($resultTlb);
 		
-		$resultTfa = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 3 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' AND p.estatus_pag NOT IN(11)", $horizonte) or die (mysql_error());
+		$resultTfa = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 3 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 		$rowTfa = mysql_fetch_row($resultTfa);
 
 
@@ -177,7 +177,7 @@ require("../../funciones/php/values.php");
 		//Enfermería si es que hay conceptos de Enfermería
 
 
-        $saldos = mysql_query("SELECT ov.referencia_ov from pagos_ov p left join orden_venta ov on p.referencia_pag = ov.referencia_ov WHERE p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' AND p.estatus_pag NOT IN(11) group by ov.referencia_ov", $horizonte) or die (mysql_error());
+        $saldos = mysql_query("SELECT ov.referencia_ov from pagos_ov p left join orden_venta ov on p.referencia_pag = ov.referencia_ov WHERE p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' group by ov.referencia_ov", $horizonte) or die (mysql_error());
         $saldoArray  = array();
         $contS = 0;
         $dep = array();
@@ -199,7 +199,7 @@ require("../../funciones/php/values.php");
                     $precioS = 0;
                     $precioF = 0;
                     $precioI = 0;
-                    $cantidadS3 = mysql_query("SELECT ov.gran_total_ov, vc.precio_vc, vc.id_concepto_es from venta_conceptos vc left join pagos_ov p on p.referencia_pag = vc.referencia_vc left join orden_venta ov on p.referencia_pag = ov.referencia_ov WHERE vc.referencia_vc  = '$saldoArray[$i]' AND vc.estatus_vc NOT IN(11) group by vc.id_concepto_es ", $horizonte) or die (mysql_error());
+                    $cantidadS3 = mysql_query("SELECT ov.gran_total_ov, vc.precio_vc, vc.id_concepto_es from venta_conceptos vc left join pagos_ov p on p.referencia_pag = vc.referencia_vc left join orden_venta ov on p.referencia_pag = ov.referencia_ov WHERE vc.referencia_vc  = '$saldoArray[$i]' group by vc.id_concepto_es ", $horizonte) or die (mysql_error());
                     while ($conceptosF = mysql_fetch_assoc($cantidadS3)) {
                         $arrayCF[$ic] = $conceptosF['id_concepto_es'];
                         $arrayPF[$ic] = $conceptosF['precio_vc'];
@@ -207,7 +207,7 @@ require("../../funciones/php/values.php");
                     }
 
                     for ($a=0; $a < count($arrayCF); $a++) { 
-                        $queryD = mysql_query("SELECT c.id_departamento_to  from venta_conceptos vc left join conceptos c on c.id_to = vc.id_concepto_es  where vc.referencia_vc = '$saldoArray[$i]' AND c.id_to = $arrayCF[$a] AND vc.estatus_vc NOT IN(11)", $horizonte) or die (mysql_error());
+                        $queryD = mysql_query("SELECT c.id_departamento_to  from venta_conceptos vc left join conceptos c on c.id_to = vc.id_concepto_es  where vc.referencia_vc = '$saldoArray[$i]' AND c.id_to = $arrayCF[$a]", $horizonte) or die (mysql_error());
                         $rowd = mysql_fetch_row($queryD);
                         if($rowd[0] == 1){
                             $precioL =  $precioL + $arrayPF[$a];
@@ -224,22 +224,22 @@ require("../../funciones/php/values.php");
 
                     }
                      //saldo laboratorio
-                     $queryD1 = mysql_query("SELECT SUM(pago_pag) from pagos_ov where referencia_pag = '$saldoArray[$i]' AND departamento_pa = 1 AND estatus_pag NOT IN(11)", $horizonte) or die (mysql_error());
+                     $queryD1 = mysql_query("SELECT SUM(pago_pag) from pagos_ov where referencia_pag = '$saldoArray[$i]' AND departamento_pa = 1", $horizonte) or die (mysql_error());
                      $rowS1 = mysql_fetch_row($queryD1);
                      $resta1 = $precioL - $rowS1[0];
                      $totalSaldo1 = $totalSaldo1 + $resta1;
                       //saldo imagen
-                    $queryD2 = mysql_query("SELECT SUM(pago_pag) from pagos_ov where referencia_pag = '$saldoArray[$i]' AND departamento_pa = 2 AND estatus_pag NOT IN(11)", $horizonte) or die (mysql_error());
+                    $queryD2 = mysql_query("SELECT SUM(pago_pag) from pagos_ov where referencia_pag = '$saldoArray[$i]' AND departamento_pa = 2", $horizonte) or die (mysql_error());
                     $rowS2 = mysql_fetch_row($queryD2);
                     $resta2 = $precioI - $rowS2[0];
                     $totalSaldo2 = $totalSaldo2 + $resta2;
                     //saldo farmacia
-                    $queryD3 = mysql_query("SELECT SUM(pago_pag) from pagos_ov where referencia_pag = '$saldoArray[$i]' AND departamento_pa = 3 AND estatus_pag NOT IN(11)", $horizonte) or die (mysql_error());
+                    $queryD3 = mysql_query("SELECT SUM(pago_pag) from pagos_ov where referencia_pag = '$saldoArray[$i]' AND departamento_pa = 3", $horizonte) or die (mysql_error());
                     $rowS3 = mysql_fetch_row($queryD3);
                     $resta3 = $precioF - $rowS3[0];
                     $totalSaldo3 = $totalSaldo3 + $resta3;
                      //saldo asociasion
-                     $queryD4 = mysql_query("SELECT SUM(pago_pag) from pagos_ov where referencia_pag = '$saldoArray[$i]' AND departamento_pa = 4 AND estatus_pag NOT IN(11)", $horizonte) or die (mysql_error());
+                     $queryD4 = mysql_query("SELECT SUM(pago_pag) from pagos_ov where referencia_pag = '$saldoArray[$i]' AND departamento_pa = 4", $horizonte) or die (mysql_error());
                      $rowS4 = mysql_fetch_row($queryD4);
                      $resta4 = $precioS - $rowS4[0];
                      $totalSaldo4 = $totalSaldo4 + $resta4;
