@@ -108,7 +108,7 @@
 <!-- Contenido -->
 <div id="div_tabla_pacientes" class="table-responsive" style="border:1px none red; vertical-align:top; margin-top:0px; font-size: 1.2em;">
 <h3 align="center">REPORTE DE CAJA GENERAL 
-  <!-- <button type="button" class="btn btn-primary btn-sm" id="imprimirReporte">IMPRIMIR</button> -->
+  <button type="button" class="btn btn-primary btn-sm" id="imprimirReporte">IMPRIMIR</button>
 </h3>
 <table width="100%" height="94.5%" class="" border="0" cellpadding="0" cellspacing="0">
   <tr>
