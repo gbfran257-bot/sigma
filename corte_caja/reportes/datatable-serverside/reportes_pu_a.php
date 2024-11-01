@@ -12,7 +12,7 @@
     $sIndexColumn = "pa.id_pag";
      
 	 // Joins   hasta aqui
-	$sJoin = 'left join orden_venta ov on ov.referencia_ov = pa.referencia_pag left join pacientes p ON ov.id_paciente_ov = p.id_p left join usuarios u on u.id_u = ov.usuario_ov left join sucursales s on s.id_su = ov.sucursal_ov';
+	$sJoin = 'left join orden_venta ov on ov.referencia_ov = pa.referencia_pag left join pacientes p ON ov.id_paciente_ov = p.id_p left join usuarios u on u.id_u = pa.usuario_pag left join sucursales s on s.id_su = ov.sucursal_ov';
 	// left join conceptos to on to. =  left join departamentos d on d.id_d = pa.id_departamento_pag
 	 
     // CONDITIONS 
