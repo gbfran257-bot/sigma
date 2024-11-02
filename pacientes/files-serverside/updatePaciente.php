@@ -78,7 +78,7 @@ require("../../funciones/php/values.php");
  "email_p = $email, entidad_nacimiento_p = $entidadNacimiento, razon_social_p = $razon, calle_pf = $calleF, ".
  "entidadFederativa_pf = $estadoF, municipio_pf = $municipioF, ciudad_pf = $ciudadF, colonia_pf = $coloniaF, ".
  "cp_pf = $cpF, rfc_f_p = $rfcF, tSanguineo_p = $tSangreP, nombre_completo_p = $nombre_completo, ".
- "coordenadas_p = GeomFromText('POINT($latitud $longitud)'), email_pf = $email_pf, contactoEmergencia_p = $avisara, ".
+ "email_pf = $email_pf, contactoEmergencia_p = $avisara, ".
  "tEmergencia_p = $temergencia, facebook = $facebook, instagram = $instagram, ".
  "facturar = {$facturar}, proveedor = {$proveedor}, regimen_fiscal = {$regimen_fiscal}, uso_cfdi = '{$uso_cfdi}', puesto_p = '{$puesto_paciente}', titular = $titular, paciente_titular = $titular_tarjeton, parentesco = $parentesco, clave_t = $clave, tipo_trabajador = $tipo, departamento = $departamento where id_p = $idP limit 1 ";
   
