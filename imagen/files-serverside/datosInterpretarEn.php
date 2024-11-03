@@ -116,22 +116,20 @@ require("../../funciones/php/values.php");
 	$idPP = sqlValue($referenciaPacs, "text");
 	
 	//Seleccionamos el id del paciente en la tabla patient de la DB del ipacs
-	mysql_select_db($database_ipacs, $ipacs);
-	$resultP1 = mysql_query("SELECT pk from patient where pat_id = $idPP ", $ipacs) or die (mysql_error());
- 	$rowP1 = mysql_fetch_row($resultP1); $idPP1 = sqlValue($rowP1[0], "int");//Is id de patient $idPP
+	//mysql_select_db($database_ipacs, $ipacs);
+	$resultP1 = pg_query($ipacs, "SELECT pk from patient where pat_id = $idPP ");
+ 	$rowP1 = pg_fetch_row($resultP1); $idPP1 = sqlValue($rowP1[0], "int");
 	
 	//Seleccionamos el número de imágenes en el estudio completo de la DB del ipacs
-	mysql_select_db($database_ipacs, $ipacs);
-	$resultNI = mysql_query("SELECT num_instances from study where patient_fk = $idPP1 ", $ipacs) or die (mysql_error());
- 	$rowNI = mysql_fetch_row($resultNI); $ni = sqlValue($rowNI[0], "int");
+	$resultNI = pg_query($ipacs, "SELECT num_instances from study where patient_fk = $idPP1 ");
+	$rowNI = pg_fetch_row($resultNI); $ni = sqlValue($rowNI[0], "int");
 	
 	$i = 0; $j=0;
 	$lista = '';
 	
 	//Seleccionamos el study_iuid de la tabla de study del ipacs para pasarlo al osirix
-	mysql_select_db($database_ipacs, $ipacs);
 	$consulta = "SELECT i.sop_iuid as mi, s.series_iuid as ms, e.study_iuid as me from instance i left join series s on s.pk = i.series_fk left join study e on e.pk = s.study_fk left join patient p on p.pk = e.patient_fk where p.pk = $idPP1";
-	$query = mysql_query($consulta) or die (mysql_error());
+	$query = pg_query($ipacs, $consulta);
 	
 	mysql_select_db($database_horizonte, $horizonte);  
 	$resultW = mysql_query("SELECT nombre_u, apaterno_u, amaterno_u, titulo_u from usuarios where id_u = $idAnes limit 1 ", $horizonte) or die (mysql_error());
