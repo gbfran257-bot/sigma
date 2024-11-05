@@ -336,9 +336,16 @@ function realizar(a,b,n,id_s){//a es el id del paciente y b es el id del estudio
 		var datoP = {idP:a, idE:b}
 		$.post('laboratorio/archivos_save_ajax/datosCapturar.php', datoP).done(function(data){
 			var datosP = data.split('*}'); $('#name_area').val(datosP[36]);
-			$('#pacientePro').text(datosP[0]); $('#ordenPro').text(datosP[1]); $('#observacionPro').text(datosP[4]);
+			$('#pacientePro').text(datosP[0]); $('#ordenPro').text(datosP[1]); /* $('#observacionPro').text(datosP[4]); */
 			$('#estudiosPro').text(datosP[5]); $('#areaPro1').text(datosP[6]); $('#notaPro').val(datosP[8]); //alert(datosP[37]);
-			$("#fecha_hora").text(datosP[12])
+			//obtenemos fecha y hora del estudio y su nota de toma de muestra
+			var datosFechaToma = {idE:b}
+			$.post('laboratorio/archivos_save_ajax/datos_fecha_toma.php', datosFechaToma).done(function(dataFT){
+				var datosFT = dataFT.split('*}');
+				$("#fecha_hora").text(datosFT[0])
+				$("#observacionPro").text(datosFT[1]);
+			});
+			
 			//Checamos si no tiene ninguna base el estudio poner formato libre
 			if(datosP[37]>0){
 				if(datosP[36]!='BACTERIOLOGIA'){
@@ -653,9 +660,16 @@ function interpretar(a,b,n,id_s){//a es el id del paciente y b del estudio en vc
 			var datosP = data.split('*}'); $('#name_area').val(datosP[36]);
 			$('#titulo_modal').text('INTERPRETAR RESULTADOS | '+datosP[2]+' | '+datosP[1]+' | '+datosP[19]+' | '+datosP[13]);
 			
-			$('#pacientePro').text(datosP[0]); $('#ordenPro').text(datosP[1]); $('#observacionPro').text(datosP[4]);
+			$('#pacientePro').text(datosP[0]); $('#ordenPro').text(datosP[1]); /* $('#observacionPro').text(datosP[4]); */
 			$('#estudiosPro').text(datosP[5]); $('#areaPro1').text(datosP[6]); $('#notaPro').val(datosP[8]);
-			$("#fecha_hora").text(datosP[12])
+
+			//obtenemos fecha y hora del estudio y su nota de toma de muestra
+			var datosFechaToma = {idE:b}
+			$.post('laboratorio/archivos_save_ajax/datos_fecha_toma.php', datosFechaToma).done(function(dataFT){
+				var datosFT = dataFT.split('*}');
+				$("#fecha_hora").text(datosFT[0])
+				$("#observacionPro").text(datosFT[1]);
+			});
 			
 			//Checamos si no tiene ninguna base el estudio poner formato libre
 			//alert(datosP[37]);
@@ -900,7 +914,14 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
 				$("#sucursal_ocu, #sucursal_ocu1").val(id_s);
 			}});
 			$('#sucursal_ocu').change(function(e) { $('#sucursal_ocu1').val($(this).val()); });
-			$("#fecha_hora").text(datosP[12])
+			
+			//obtenemos fecha y hora del estudio y su nota de toma de muestra
+			var datosFechaToma = {idE:b}
+			$.post('laboratorio/archivos_save_ajax/datos_fecha_toma.php', datosFechaToma).done(function(dataFT){
+				var datosFT = dataFT.split('*}');
+				$("#fecha_hora").text(datosFT[0])
+				$("#observacionPro").text(datosFT[1]);
+			});
 			
 			//Checamos si no tiene ninguna base el estudio poner formato libre
 			//alert(datosP[37]);
