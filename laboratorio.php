@@ -238,6 +238,7 @@ function procesar(a,b){//a es el id del paciente y b es el id del estudio en ven
 			$('#estPro').text(datosP[2]); $('#areaPro').text(datosP[3]); $('#observacionPro').text(datosP[4]);
 			$('#estudiosPro').text(datosP[5]); $('#areaPro1').text(datosP[6]); $('#notaPro').val(datosP[8]); 
 			$('#checaPro').val(0); $('#notificacionPro').hide(); $('#refPro1').val(datosP[1]);
+			$("#fecha_hora_creacion").text(datosP[9]);
 			
 			if(datosP[5]>1){$('.variosEstu').show();$('#checaPro').val(0);}else{$('.variosEstu').hide();$('#checaPro').val(1); }
 			
@@ -337,6 +338,7 @@ function realizar(a,b,n,id_s){//a es el id del paciente y b es el id del estudio
 			var datosP = data.split('*}'); $('#name_area').val(datosP[36]);
 			$('#pacientePro').text(datosP[0]); $('#ordenPro').text(datosP[1]); $('#observacionPro').text(datosP[4]);
 			$('#estudiosPro').text(datosP[5]); $('#areaPro1').text(datosP[6]); $('#notaPro').val(datosP[8]); //alert(datosP[37]);
+			$("#fecha_hora").text(datosP[12])
 			//Checamos si no tiene ninguna base el estudio poner formato libre
 			if(datosP[37]>0){
 				if(datosP[36]!='BACTERIOLOGIA'){
@@ -653,6 +655,7 @@ function interpretar(a,b,n,id_s){//a es el id del paciente y b del estudio en vc
 			
 			$('#pacientePro').text(datosP[0]); $('#ordenPro').text(datosP[1]); $('#observacionPro').text(datosP[4]);
 			$('#estudiosPro').text(datosP[5]); $('#areaPro1').text(datosP[6]); $('#notaPro').val(datosP[8]);
+			$("#fecha_hora").text(datosP[12])
 			
 			//Checamos si no tiene ninguna base el estudio poner formato libre
 			//alert(datosP[37]);
@@ -897,6 +900,7 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
 				$("#sucursal_ocu, #sucursal_ocu1").val(id_s);
 			}});
 			$('#sucursal_ocu').change(function(e) { $('#sucursal_ocu1').val($(this).val()); });
+			$("#fecha_hora").text(datosP[12])
 			
 			//Checamos si no tiene ninguna base el estudio poner formato libre
 			//alert(datosP[37]);

@@ -31,8 +31,13 @@ $row5 = mysql_fetch_row($result5);
 mysql_select_db($database_horizonte, $horizonte);
 $result6 = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es where v.estatus_vc = 1 and v.referencia_vc = $ref and e.id_tipo_concepto_to = 3", $horizonte) or die (mysql_error());
 $row6 = mysql_fetch_row($result6);
+
+//agregamos datos faltantes
+mysql_select_db($database_horizonte, $horizonte);
+$result7 = mysql_query("SELECT DATE_FORMAT(fecha_venta_vc, '%d/%m/%Y %H:%i:%s') FROM venta_conceptos WHERE id_vc = $idE ", $horizonte) or die (mysql_error());
+$row7 = mysql_fetch_row($result7);
   
-echo $row1[0].' '.$row1[1].' '.$row1[2].'*}'.$row2[0].'*}'.$row3[0].'*}'.$row4[0].'*}'.$row5[0].'*}'.$row6[0].'*}'.$row4[0].'*}'.$areaE.'*}'.$row2[2];
+echo $row1[0].' '.$row1[1].' '.$row1[2].'*}'.$row2[0].'*}'.$row3[0].'*}'.$row4[0].'*}'.$row5[0].'*}'.$row6[0].'*}'.$row4[0].'*}'.$areaE.'*}'.$row2[2].'*}'.$row7[0];
 //Cerrar conexión a la Base de Datos
  mysql_close($horizonte);
 ?>
