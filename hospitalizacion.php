@@ -294,7 +294,7 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 				});
 
 				$('#btn_printMA').click(function(){ 
-					window.open("hospital/genera/mi_pdf_reporteMA.php?id_h="+id_h+"&nombre="+nombre_p+"&id_u="+ $('#id_user').val(), '_blank');
+					window.open("hospital/genera/mi_pdf_reporteMA.php?id_h="+id_h+"&id_p="+id_p+"&id_u="+ $('#id_user').val(), '_blank');
 				});
 			//para los fintros individuales por campo de texto
 			oTableA.columns().every( function () {

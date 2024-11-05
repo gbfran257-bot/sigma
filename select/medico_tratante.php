@@ -13,7 +13,7 @@ $page = filter_var($_POST['page'], FILTER_SANITIZE_STRING);
 $tamPag = 10; 
 
 /// Consulta por todos los pacientes
-$consulta = "select u.id_u as id, concat(u.nombre_u,' ',u.apaterno_u,' ',u.amaterno_u,' --',tu.nombre_tu) as text from usuarios u left join tipo_usuario tu on tu.id_tu = u.acceso_u where (u.acceso_u = 2 || u.acceso_u = 7 || u.acceso_u = 12)";
+$consulta = "select u.id_u as id, concat_ws(' ',u.nombre_u, u.apaterno_u, u.amaterno_u,' --',tu.nombre_tu) as text from usuarios u left join tipo_usuario tu on tu.id_tu = u.acceso_u where (u.acceso_u = 2 || u.acceso_u = 7 || u.acceso_u = 12)";
 /// Conteo de todos los pacientes
 $consultaTotal = "select count(*) as cuantos from usuarios u left join tipo_usuario tu on tu.id_tu = u.acceso_u where 1=1";
 
@@ -22,7 +22,7 @@ if(!empty($search)){
     $search = "%".$search."%"; /// se agrega comodín al inicio y al final
     $filtro = sprintf(" and (u.nombre_u like '%s' or ".
         "u.apaterno_u like '%s' or ".
-        "concat(u.nombre_u,' ',u.apaterno_u,' ',u.amaterno_u,' --',tu.nombre_tu) like '%s')",
+        "concat_ws(' ',u.nombre_u, u.apaterno_u, u.amaterno_u,' --',tu.nombre_tu) like '%s')",
         $search, $search, $search); /// un $search por cada %s
     $consultaTotal .= $filtro;
     $consulta .= $filtro;

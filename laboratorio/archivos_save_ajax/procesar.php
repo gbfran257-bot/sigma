@@ -42,7 +42,7 @@ if($checaPro == 1){//Cuando procesamos individualmente
 		};//Fin del WHILE
 	 }//Fin Bacteriología
  
-	$sql = "UPDATE venta_conceptos SET estatus_vc = 2, usuarioEdo2_e = $idU, fechaEdo2_e = $now, nota_radiologo_vc = $nota where id_vc = $idEvc ";
+	$sql = "UPDATE venta_conceptos SET estatus_vc = 2, usuarioEdo2_e = $idU, fechaEdo2_e = $now, nota_toma_muestra = $nota where id_vc = $idEvc ";
 	$update = mysql_query($sql, $horizonte);
 	
 	if (!$update) { echo $sql; }
@@ -258,7 +258,7 @@ if($checaPro == 1){//Cuando procesamos individualmente
 	$consultaM = "SELECT v.id_vc from venta_conceptos v left join conceptos c on c.id_to = v.id_concepto_es where v.referencia_vc = $ref and v.estatus_vc = 1 and c.id_tipo_concepto_to = 3 ";
 	$queryM = mysql_query($consultaM) or die (mysql_error());
 		
-	$sql = "UPDATE venta_conceptos v left join conceptos c on c.id_to = v.id_concepto_es SET v.estatus_vc = 2, v.usuarioEdo2_e = $idU, v.fechaEdo2_e = $now, v.nota_radiologo_vc = $nota where v.referencia_vc = $ref and v.estatus_vc = 1 and c.id_tipo_concepto_to = 3 ";
+	$sql = "UPDATE venta_conceptos v left join conceptos c on c.id_to = v.id_concepto_es SET v.estatus_vc = 2, v.usuarioEdo2_e = $idU, v.fechaEdo2_e = $now, v.nota_toma_muestra = $nota where v.referencia_vc = $ref and v.estatus_vc = 1 and c.id_tipo_concepto_to = 3 ";
 	
 	$update = mysql_query($sql, $horizonte);
 	

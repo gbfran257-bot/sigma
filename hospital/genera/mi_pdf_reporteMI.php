@@ -30,6 +30,24 @@ $medico_tratante = substr($getData2[1],0,25);
 $nombre_paciente = strtoupper($nombre_paciente);
 $diagnostico = strtoupper($diagnostico);
 $medico_tratante = strtoupper($medico_tratante);
+//Alergias
+$alergias = "";
+$aler = "";
+mysql_select_db($database_horizonte, $horizonte);
+$resultAl = mysql_query("SELECT alergia1_hc, alergia2_hc, alergia3_hc, alergia4_hc, alergia5_hc, alergia6_hc from historia_clinica where id_paciente_hc = $id_p order by id_hc DESC LIMIT 1", $horizonte) or die (mysql_error());
+$rowAl = mysql_fetch_row($resultAl);
+
+if($rowAl[0]=='' and $rowAl[1]=='' and $rowAl[2]=='' and $rowAl[3]=='' and $rowAl[4]=='' and $rowAl[5]==''){$alergias='NINGUNA';}
+else{
+    if($rowAl[0]!=''){$aler = $rowAl[0];}
+    if($rowAl[1]!=''){$aler = $aler.', '.$rowAl[1];}
+    if($rowAl[2]!=''){$aler = $aler.', '.$rowAl[2];}
+    if($rowAl[3]!=''){$aler = $aler.', '.$rowAl[3];}
+    if($rowAl[4]!=''){$aler = $aler.', '.$rowAl[4];}
+    if($rowAl[5]!=''){$aler = $aler.', '.$rowAl[5];}
+    if($aler[0]==', '){$alergias = substr($aler, 1);}else{$alergias = $aler;}
+}
+$alergias = substr($alergias, 0, 60);
 
 require('../../fpdf/fpdf.php');
 class PDF extends FPDF
@@ -112,10 +130,9 @@ $pdf->setTextColor(255, 0, 0);
 $pdf->cell(1);
 $pdf->cell(24,5,'ALERGIAS:',0,0,'L');
 
-$pdf->SetFont('Arial','',10);
+$pdf->cell(167,5,$alergias,0,1,'L');
 $pdf->setTextColor(0, 0, 0);
-
-$pdf->cell(167,5,'____________________________________________________________________________________',0,1,'L');
+$pdf->SetFont('Arial','',10);
 //fila 10
 
 $pdf->Ln(7);

@@ -21,8 +21,8 @@
 					<table width="100%" height="100%" border="0" id="dataTableMedicamentos" class="table-condensed table-striped table-bordered table-hover" style="overflow: hidden;">
 						<thead id="cabecera_tBusquedaMedicamentos" class="">
 						  <tr class="bg-primary" style="font-size: 1.1em;">
-							<th id="clickmeMdtos"class="titulosTabs"align="center" nowrap width="1px">#</th>
-							<th class="titulosTabs" align="center" width="">FECHA/HORA</th>
+							<th id="clickmeMdtos1"class="titulosTabs"align="center" nowrap width="1px">#</th>
+							<th id="clickmeMdtos" class="titulosTabs" align="center" width="">FECHA/HORA</th>
 							<th class="titulosTabs" align="center" width="" id="title_medicamento" nowrap>
 								<button type="button" class="btn btn-info btn-xs" id="btn_add_medicamento">MEDICAMENTO <i class='fa fa-plus' aria-hidden='true'></i></button>
 							</th>

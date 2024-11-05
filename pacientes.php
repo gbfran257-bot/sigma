@@ -200,6 +200,7 @@ include_once 'recursos/datauser.php';
 					<input type="text" id="input-nombre" name="input-nombre" class="form-control input-sm" placeholder="-NOMBRE PACIENTE-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" />
 					<input type="text" id="input-apaterno" name="input-apaterno" class="form-control input-sm" placeholder="-APELLIDO PATERNO-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" />
 					<input type="text" id="input-amaterno" name="input-amaterno" class="form-control input-sm" placeholder="-APELLIDO MATERNO-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" />
+					<button class="btn btn-info btn-sm" type="button" onClick="limpiar_campos();"><i class="fa fa-refresh" aria-hidden="true"></i></button>
 				</th>
 				<th><input type="text" id="input-edad" name="input-edad" class="form-control input-sm" placeholder="-EDAD-" oninput="conv_mayusc();" style="width:90px" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th><input type="text" id="input-sexo" name="input-sexo" class="form-control input-sm" placeholder="-SEXO-" style="width:65px" /></th>
@@ -6133,6 +6134,18 @@ include_once 'recursos/datauser.php';
 		}
 	};
 	// ---------- Fin de las funciones que permiten el comportamiento de mostrar y ocultar la tabla resumen de los apartados ----------//
+
+	function limpiar_campos(){
+		$("#input-folio").val("");
+		$("#input-nombre").val("");
+		$("#input-apaterno").val("");
+		$("#input-amaterno").val("");
+		$("#input-edad").val("");
+		$("#input-sexo").val("");
+		$("#input-telefono").val("");
+		$("#input-convenio").val("");
+		$("#btn-buscar").click();
+	}
 </script>
 
 <!-- Inicio de las funciones genéricas para el manejo de los resúmenes -->
