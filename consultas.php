@@ -2242,11 +2242,18 @@ include_once 'recursos/datauser.php';
 			"bServerSide": true,
 			ordering: false,
 			"sDom": 'lrtS',
-			"ajax": {
+			/* "ajax": {
 				"url": "consultas/datatable-serverside/buscar_medicamentos.php",
 				"data": function(data) {
 					data.id_s = $("#select-almacen").val() || 0;
 				},
+			}, */
+			"sAjaxSource": "consultas/datatable-serverside/buscar_medicamentos.php",
+			"fnServerParams": function(aoData, fnCallback) {
+				aoData.push({
+					"name": "id_s",
+					"value": $("#select-almacen").val() || 0
+				});
 			},
 			"oLanguage": {
 				"sLengthMenu": "MONSTRANDO _MENU_ records per page",
