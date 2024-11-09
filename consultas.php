@@ -3625,11 +3625,14 @@ include_once 'recursos/datauser.php';
 								window.setTimeout(() => {
 									// Definimos las imágenes de los membretes
 									/* let server_url = window.location.host === "localhost" ? "<?php echo $_SERVER['DOCUMENT_ROOT']; ?>temporal_sigma/" : "https://pruebascruzroja.preunisains.com/"; */
-									let server_url_base = window.location.href;
+									/* let server_url_base = window.location.href;
 									const server_url = server_url_base.substring(0, server_url_base.length - 13);
 
 									e = `<img src=\"${server_url}${urlEncabezado}\" />`;
-									p = `<img src=\"${server_url}${urlPiePagina}\" />`;
+									p = `<img src=\"${server_url}${urlPiePagina}\" />`; */
+
+									e = `<img src=\"../../../${urlEncabezado}\" />`;
+									p = `<img src=\"../../../${urlPiePagina}\" />`;
 
 									// Definimos la configuración del documento
 									const configuracion = {
@@ -3725,11 +3728,14 @@ include_once 'recursos/datauser.php';
 								window.setTimeout(() => {
 									// Definimos las imágenes de los membretes
 									/* let server_url = window.location.host === "localhost" ? "<?php echo $_SERVER['DOCUMENT_ROOT']; ?>temporal_sigma/" : "https://pruebascruzroja.preunisains.com/"; */
-									let server_url_base = window.location.href;
+									/* let server_url_base = window.location.href;
 									const server_url = server_url_base.substring(0, server_url_base.length - 13);
 
 									e = `<img src=\"${server_url}${urlEncabezado}\" />`;
-									p = `<img src=\"${server_url}${urlPiePagina}\" />`;
+									p = `<img src=\"${server_url}${urlPiePagina}\" />`; */
+
+									e = `<img src=\"../../../${urlEncabezado}\" />`;
+									p = `<img src=\"../../../${urlPiePagina}\" />`;
 
 									// Definimos la configuración del documento
 									const configuracion = {
