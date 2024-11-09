@@ -2242,11 +2242,18 @@ include_once 'recursos/datauser.php';
 			"bServerSide": true,
 			ordering: false,
 			"sDom": 'lrtS',
-			"ajax": {
+			/* "ajax": {
 				"url": "consultas/datatable-serverside/buscar_medicamentos.php",
 				"data": function(data) {
 					data.id_s = $("#select-almacen").val() || 0;
 				},
+			}, */
+			"sAjaxSource": "consultas/datatable-serverside/buscar_medicamentos.php",
+			"fnServerParams": function(aoData, fnCallback) {
+				aoData.push({
+					"name": "id_s",
+					"value": $("#select-almacen").val() || 0
+				});
 			},
 			"oLanguage": {
 				"sLengthMenu": "MONSTRANDO _MENU_ records per page",
@@ -3618,11 +3625,14 @@ include_once 'recursos/datauser.php';
 								window.setTimeout(() => {
 									// Definimos las imágenes de los membretes
 									/* let server_url = window.location.host === "localhost" ? "<?php echo $_SERVER['DOCUMENT_ROOT']; ?>temporal_sigma/" : "https://pruebascruzroja.preunisains.com/"; */
-									let server_url_base = window.location.href;
+									/* let server_url_base = window.location.href;
 									const server_url = server_url_base.substring(0, server_url_base.length - 13);
 
 									e = `<img src=\"${server_url}${urlEncabezado}\" />`;
-									p = `<img src=\"${server_url}${urlPiePagina}\" />`;
+									p = `<img src=\"${server_url}${urlPiePagina}\" />`; */
+
+									e = `<img src=\"../../../${urlEncabezado}\" />`;
+									p = `<img src=\"../../../${urlPiePagina}\" />`;
 
 									// Definimos la configuración del documento
 									const configuracion = {
@@ -3718,11 +3728,14 @@ include_once 'recursos/datauser.php';
 								window.setTimeout(() => {
 									// Definimos las imágenes de los membretes
 									/* let server_url = window.location.host === "localhost" ? "<?php echo $_SERVER['DOCUMENT_ROOT']; ?>temporal_sigma/" : "https://pruebascruzroja.preunisains.com/"; */
-									let server_url_base = window.location.href;
+									/* let server_url_base = window.location.href;
 									const server_url = server_url_base.substring(0, server_url_base.length - 13);
 
 									e = `<img src=\"${server_url}${urlEncabezado}\" />`;
-									p = `<img src=\"${server_url}${urlPiePagina}\" />`;
+									p = `<img src=\"${server_url}${urlPiePagina}\" />`; */
+
+									e = `<img src=\"../../../${urlEncabezado}\" />`;
+									p = `<img src=\"../../../${urlPiePagina}\" />`;
 
 									// Definimos la configuración del documento
 									const configuracion = {

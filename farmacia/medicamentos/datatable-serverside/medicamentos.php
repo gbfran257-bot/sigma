@@ -39,7 +39,7 @@ require("../../../Connections/horizonte.php");
     if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' ) { $sLimit = "LIMIT ".mysql_real_escape_string( $_GET['iDisplayStart'] ).", ". mysql_real_escape_string( $_GET['iDisplayLength'] ); }
      
     /* * Ordering */
-    $sOrder = "";
+    $sOrder = " ORDER BY g.nombre_generico_med ASC ";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
         $sOrder = "ORDER BY v.id_vc desc  ";
