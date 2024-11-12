@@ -3,7 +3,7 @@
 <?php
 	// consulta para horizonte
 	$obligatorio = 0;
-	$aColumns = array('pa.referencia_pag','pa.referencia_pag', 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'fp.forma_pago_fp','ov.subtotal_ov', 'SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov + ov.adicionales_p_ov)', 'ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv', 'ov.gran_total_ov', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'ov.gran_total_ov-SUM(pa.pago_pag)', 'p.amaterno_p', 'ov.no_temp_ov', 'ov.no_temp_ov', 'ov.sucursal_ov','DATE_FORMAT(ov.fecha_venta_ov,"%d/%m/%Y %H:%i")','pa.referencia_pag');
+	$aColumns = array('pa.referencia_pag','pa.referencia_pag', 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'fp.forma_pago_fp','ov.subtotal_ov', 'SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov + ov.adicionales_p_ov)', 'ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv', 'ov.gran_total_ov', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'ov.gran_total_ov-SUM(pa.pago_pag)', 'p.amaterno_p', 'ov.no_temp_ov', 'ov.no_temp_ov', 'ov.sucursal_ov','DATE_FORMAT(ov.fecha_venta_ov,"%d/%m/%Y %H:%i")','pa.referencia_pag','fp.id_fp');
      
     // DB tables to use 
     $aTables = array( 'orden_venta ov');
@@ -269,6 +269,19 @@
             $valor = $fila['resultado'];
         }
         $row[16] = $valor;
+
+        //obtenemos lista de metodos de pago
+        mysql_select_db($database_horizonte, $horizonte);
+        $consultaS2 = "SELECT id_fp as id, forma_pago_fp as nombre from catalogo_forma_pago order by nombre asc ";
+        $queryS2 = mysql_query($consultaS2) or die (mysql_error()); //echo '<option value="">'.'-SELECCIONAR-'.'</option>';
+        $sucs2 = '';
+        while ($fila2 = mysql_fetch_array($queryS2)){
+            if($row[21]==$fila2['id']){
+                $sucs2 = $sucs2.'<option selected value="'.$fila2['id'].'">'.$fila2['nombre'].'</option>';
+            }else{$sucs2 = $sucs2.'<option value="'.$fila2['id'].'">'.$fila2['nombre'].'</option>';}
+        };
+
+        $row[6]="<select lang='$row[20]' class='form-control input-sm cambiar_suc' style='width:100%;' onChange='cambiar_forma_pago(this.value, this.lang)'>$sucs2</select>";
 		
         $row[4]="<select lang='$row[17]' class='form-control input-sm cambiar_suc' style='width:100%;' onChange='cambiar_suc(this.value, this.lang)'>$sucs</select>";
 		$row[1] ="<span lang='$row[1]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[1]</span><br><span style='font-size:12px'>$row[19]</span>";		

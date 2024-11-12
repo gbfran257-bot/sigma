@@ -516,6 +516,24 @@ function cambiar_suc(val, temp){
 		});
 	});
 }
+
+//modificamos forma de pago
+function cambiar_forma_pago(id, referencia){
+	swal({
+	  title: "CAMBIAR FORMA DE PAGO",
+	  text: "¿Estás seguro de cambiar la forma de pago?", type: "",
+	  showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "Cambiar", closeOnConfirm: false, cancelButtonText: "Cancelar"
+	},
+	function(){
+		//var datos = {id_ns:val, tempo:temp, id_u: $('#id_user').val()}
+		var datosP = {referencia:referencia, pago:id}
+		$.post('corte_caja/reportes/datatable-serverside/modificar_tipo_pago.php',datosP).done(function(data){
+			if(data==1){ $('#clickme').click();
+				swal({ title: "¡CONFIRMACIÓN!", type: "success", text: "Se actualizo correctamente.", timer: 1800, showConfirmButton: false }); return;
+			}else{alert(data);}
+		});
+	});
+}
 	
 function pagar(ref, tot, sal, abo, pac, noTemp, indicador, tCo, tIm, tLab, tFar){
 	//alert(ref+";"+tot+";"+sal+";"+abo+";"+pac+";"+noTemp+";"+indicador+";"+tCo+";"+tIm+";"+tLab+";"+tFar);
