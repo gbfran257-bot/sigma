@@ -1041,4 +1041,26 @@ function select2ini(donde, url, ph){
 }
 function insertAtCaret(text) { tinymce.get("input").execCommand('mceInsertContent', false, text); $('#inserta_algo').val(''); }
 
+function updatePrecioSucursal(id_to){
+	swal({
+	  title: "MODIFICAR PRECIOS DE SUCURSAL "+$('#miSucursal option:selected').text(),
+	  text: "¿Estás seguro de modificar: "+$('#'+id_to).text()+'?', type: "",
+	  showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "Cambiar", closeOnConfirm: false, cancelButtonText: "Cancelar"
+	},
+	function(){
+		var datosMPS = {
+			id_to:id_to,
+			id_s:$('#miSucursal').val(),
+			id_u:$('#id_user').val(),
+			precio:$('#e_precio_'+id_to).val(),
+			precio_u:$('#e_precio_u_'+id_to).val()
+		}
+		$.post('laboratorio/estudios/files-serverside/updatePreciosSucursal.php',datosMPS).done(function(data_mps){
+			if(data_mps==1){ $('#clickme').click();
+				swal({ title: "¡CONFIRMACIÓN!", type: "success", text: "Se actualizo correctamente.", timer: 1800, showConfirmButton: false }); return;
+			}else{alert(data_mps);}
+		});
+	});
+}
+
 </script>
