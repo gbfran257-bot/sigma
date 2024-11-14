@@ -294,7 +294,7 @@ if($checaPro == 1){//Cuando procesamos individualmente
 					if($fila_a['para_sexo'] == 'HOMBRES Y MUJERES' and $fila_a['para_edades'] == 'TODAS LAS EDADES'){
 						mysql_select_db($database_horizonte, $horizonte);
 						 $sqlT_a = "INSERT INTO resultados_laboratorio (id_estudio_vc_rl, id_base_rl, id_valor_referencia_rl, valor_texto_rl, para_sexo_rl, para_edades_rl, rango_edad1_rl, rango_edad2_rl, tipo_valor_ref_rl, tipo_edad_rl)";
-						 $sqlT_a.= "VALUES ($idEvc, $idBase, $id_valor_referencia, $valor_texto, $para_sexo, $para_edades, $rango_edad1, $rango_edad2, $tipo_vr, 'a')";
+						 $sqlT_a.= "VALUES ($idM, $idBase, $id_valor_referencia, $valor_texto, $para_sexo, $para_edades, $rango_edad1, $rango_edad2, $tipo_vr, 'a')";
 						$updateT_a = mysql_query($sqlT_a, $horizonte) or die (mysql_error()); if(!$updateT_a){ echo $sqlT_a; }else{ }
 					}
 				};//Fin del WHILE
