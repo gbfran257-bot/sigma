@@ -25,7 +25,7 @@ $ocupado = filter_var($_POST['ocupado'], FILTER_SANITIZE_STRING);
 $tamPag = 10; 
 
 /// Consulta por todos los camas
-$consulta = "select id_ca as id, concat('[', no_ca, '] ', ubicacion_ca) as text, ocupado_ca as ocupado from camas ";
+$consulta = "select id_ca as id, concat('[', no_ca, '] ', descripcion_ca) as text, ocupado_ca as ocupado from camas ";
 
 /// Conteo de todos los camas
 $consultaTotal = "select count(*) as cuantos from camas ";
@@ -51,8 +51,8 @@ $consulta .= "and ";
 if(!empty($search)){
     $search = "%".$search."%"; /// se agrega comodín al inicio y al final
     $filtro = sprintf("(no_ca like '%s' or ".
-        "ubicacion_ca like '%s' or ".
-        "concat('[', no_ca, '] ', ubicacion_ca) like '%s')",
+        "descripcion_ca like '%s' or ".
+        "concat('[', no_ca, '] ', descripcion_ca) like '%s')",
         $search, $search, $search); /// un $search por cada %s
     $consultaTotal .= $filtro;
     $consulta .= $filtro;
