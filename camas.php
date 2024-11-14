@@ -89,7 +89,7 @@
 		IDENTIFICADOR DE CAMA <button type="button" onClick="nueva_cama();" class="btn-xs btn btn-default"><i class="fa fa-plus"></i></button>
 	</th>
     <th style="vertical-align:middle;" nowrap>ÁREA</th>
-    <th style="vertical-align:middle;">UBICACIÓN</th>
+    <th style="vertical-align:middle;">DESCRIPCIÓN</th>
     <th style="vertical-align:middle;">ESTATUS</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 

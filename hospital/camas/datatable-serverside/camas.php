@@ -1,7 +1,7 @@
 <?php
 require("../../../Connections/horizonte.php"); 
 	
-	$aColumns = array('c.id_ca', 'c.no_ca', 'a.nombre_a', 'c.ubicacion_ca', 'c.ocupado_ca');
+	$aColumns = array('c.id_ca', 'c.no_ca', 'a.nombre_a', 'c.descripcion_ca', 'c.ocupado_ca');
 	    
     // DB tables to use 
     $aTables = array( 'camas c');
