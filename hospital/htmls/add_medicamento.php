@@ -1,4 +1,4 @@
-<div class="modal-dialog modal-lg" role="document" id="contenido_ficha_usuario">
+<div class="modal-dialog modal-lg" role="document" id="contenido_ficha_usuario_addmed">
     <div class="modal-content animated flipInY">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
