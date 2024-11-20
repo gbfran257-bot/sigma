@@ -78,6 +78,9 @@
 		.select2-container {
 			z-index: 9999;
 		}
+		#contenido_ficha_usuario_addmed{
+			width:60%;
+		}
 	</style>
 </head>
 <?php include_once 'partes/header.php'; ?>

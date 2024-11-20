@@ -16,11 +16,14 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 	//Para el tipo TEXTO
 	if($fila['id_cvr']==1){
 		if($fila['r_valor_texto']!=$fila['valor_texto_rl']){
-			if( $i==1 or $i==2 or $i==3 or $i==7 or $i==8 or $i==14 or $i==15 or $i==16 or $i==17 or $i==18 or $i==19 or $i==20 and $i==21 or $i==22 or $i==23){
+			//condicion original
+			/* if( $i==1 or $i==2 or $i==3 or $i==7 or $i==8 or $i==14 or $i==15 or $i==16 or $i==17 or $i==18 or $i==19 or $i==20 and $i==21 or $i==22 or $i==23){
 				$asterix = '';
 			}else{
 				$asterix = '<strong>*</strong>'; $f++;
-			}
+			} */
+			//Solo colocamos el * para que se muestren todos los valores fuera de rango sin importar la base.
+			$asterix = '<strong>*</strong>'; $f++;
 		}	
 		else{$asterix = '';}
 		$tabla = $tabla.'
@@ -29,12 +32,12 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 		';
 		if($i==1 or $i==2 or $i==3 or $i==7 or $i==8 or $i==12 or $i==14){
 			$tabla=$tabla.'
-			<td align="center"> - </td>
+			<td align="center">'.$fila['valor_texto_rl'].'</td>
 			<td align="right" style="display:;"> - </td> </tr>
 			';
 		}else{
 			if($i==15 or $i==16 or $i==17 or $i==18 or $i==19 or $i==20 or $i==21 or $i==22 or $i==23){
-				$tabla=$tabla.'<td align="center"> - </td>';
+				$tabla=$tabla.'<td align="center">'.$fila['valor_texto_rl'].'</td>';
 			}else{$tabla=$tabla.'<td align="center">'.$fila['valor_texto_rl'].'</td>';}
 
 			$tabla=$tabla.'<td align="right" style="display:;"> '.$fila['abreviacion_un'].' </td>';

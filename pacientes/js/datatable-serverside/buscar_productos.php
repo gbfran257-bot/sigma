@@ -223,7 +223,24 @@ require("../../../funciones/php/values.php");
 
         }
     }
+
+	$agrupacion = "";
+	$ocultar_stock = "";
+
+	mysql_select_db($database_horizonte, $horizonte); 
+	$resultRu = mysql_query("SELECT COUNT(*) FROM modificaciones_sigma WHERE nombre = 'stock_cero' AND habilitado = 1 ", $horizonte) or die(mysql_error()); 
+	$rowRu = mysql_fetch_row($resultRu);
+	$visualizarS0 = $rowRu[0];
+
+	if($visualizarS0 > 0){
+		$agrupacion = "";
+		$ocultar_stock = " and s.existencias > 0";
+	}else{
+		$agrupacion = " GROUP by e.concepto_to asc";
+		$ocultar_stock = "";
+	}
      
+	$sWhere .= $ocultar_stock;
     /* * SQL queries * Get data to display */
     $sQuery = "
         SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."
@@ -231,7 +248,7 @@ require("../../../funciones/php/values.php");
 		$sJoin
         $sWhere
         $sOrder
-        $sLimit" . " GROUP by e.concepto_to asc";
+        $sLimit" . $agrupacion;
 		// echo $sQuery ;
      
     $rResult = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
