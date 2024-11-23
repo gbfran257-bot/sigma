@@ -79,7 +79,7 @@
 			z-index: 9999;
 		}
 		#contenido_ficha_usuario_addmed{
-			width:60%;
+			width:85%;
 		}
 	</style>
 </head>
