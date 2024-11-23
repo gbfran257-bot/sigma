@@ -20,15 +20,26 @@ $lote = sqlValue($datos[0], 'text');
 $caducidad = sqlValue($datos[1], 'date');
 $id_producto = sqlValue($datos[4], 'int');
 
+//verificamos si el producto ya fue agregado con anterioridad.
 mysql_select_db($database_horizonte, $horizonte);
-$qryAddRegistro = "INSERT INTO transferencia_temporal (id_temporal, producto, nombre_generico, lote, caducidad, cantidad_transferir, id_sucursal_origen, id_sucursal_destino, id_producto, fecha_transferencia, id_transferencia, id_usuario_receptor, fecha_recepcion) VALUES ($id_temporal, $producto, $nombre_generico, $lote, $caducidad, '1', $sucursal_origen, $sucursal_destino, $id_producto, $now, $id_transferencia, '0', '0000-00-00 00:00:00')";
-$update = mysql_query($qryAddRegistro, $horizonte) or die (mysql_error());
-	
-if(!$update) {
-    echo $sql; 
+$qryContador = mysql_query("SELECT COUNT(producto) FROM transferencia_temporal WHERE id_temporal = $id_temporal AND id_producto = $id_producto AND lote = $lote", $horizonte) or die(mysql_error());
+$contador = mysql_fetch_row($qryContador);
+
+if($contador[0]==0){
+    mysql_select_db($database_horizonte, $horizonte);
+    $qryAddRegistro = "INSERT INTO transferencia_temporal (id_temporal, producto, nombre_generico, lote, caducidad, cantidad_transferir, id_sucursal_origen, id_sucursal_destino, id_producto, fecha_transferencia, id_transferencia, id_usuario_receptor, fecha_recepcion) VALUES ($id_temporal, $producto, $nombre_generico, $lote, $caducidad, '1', $sucursal_origen, $sucursal_destino, $id_producto, $now, $id_transferencia, '0', '0000-00-00 00:00:00')";
+    $update = mysql_query($qryAddRegistro, $horizonte) or die (mysql_error());
+        
+    if(!$update) {
+        echo $sql; 
+    }else{
+        echo 1;
+    }
 }else{
-    echo 1;
+    echo 2;
 }
+
+
 
  //Cerrar conexión a la Base de Datos
  mysql_close($horizonte);

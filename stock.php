@@ -336,6 +336,9 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 				if(dataNuevoReg==1){
 					$("#dataTableProductosSeleccionados").DataTable().ajax.reload();
 					$("#btn_agregar_registro").addClass('hidden');
+				}else if(dataNuevoReg==2){
+					alert("Ya agregaste el producto con anterioridad");
+					$("#btn_agregar_registro").addClass('hidden');
 				}else{
 					alert(dataNuevoReg);
 				}
