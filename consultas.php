@@ -3949,9 +3949,12 @@ include_once 'recursos/datauser.php';
 				var res = res.replace(/src="img_cslta/g, 'src="../../../consultas/img_cslta');
 				var res = res.replace(/[?]\d{14}/g, '');
 
+				let server_url_base = window.location.href;
+				const server_url = server_url_base.substring(0, server_url_base.length - 13);
+
 				var str1 = tinyMCE.get('indiF').getContent();
-				var res1 = str1.replace('src="escuelas/logotipos/files/', 'src="../../../escuelas/logotipos/files/');
-				var res1 = res1.replace('src="imagenes/generales/', 'src="../../../imagenes/generales/');
+				var res1 = str1.replace('src="'+server_url+'escuelas/logotipos/files/', 'src="../../../escuelas/logotipos/files/');
+				var res1 = res1.replace('src="'+server_url+'imagenes/generales/', 'src="../../../imagenes/generales/');
 				var res1 = res1.replace(/src="img_cslta/g, 'src="../../../consultas/img_cslta');
 				var res1 = res1.replace(/[?]\d{14}/g, '');
 
