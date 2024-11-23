@@ -319,6 +319,37 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 				.catch(error => console.error(error));
 		});
 
+		$('#btn_agregar_registro').validator().on('click', function (e) {
+		  if (e.isDefaultPrevented()) { 
+			
+		  } else { 
+			e.preventDefault(); 
+
+			var datosNuevoReg = {
+				id_temporal:localStorage.getItem("id_transferencia_temporal"),
+				sucursal_origen:$("#sucursal-origen").val(),
+				sucursal_destino:$("#sucursal-destino").val(),
+				id_stock:idProd,
+				id_transferencia:localStorage.getItem("id_transferencia")
+			}
+			$.post('farmacia/stock/files-serverside/agregar_producto_seleccionado.php',datosNuevoReg).done(function(dataNuevoReg){
+				if(dataNuevoReg==1){
+					$("#dataTableProductosSeleccionados").DataTable().ajax.reload();
+					$("#btn_agregar_registro").addClass('hidden');
+				}else if(dataNuevoReg==2){
+					alert("Ya agregaste el producto con anterioridad");
+					$("#btn_agregar_registro").addClass('hidden');
+				}else{
+					alert(dataNuevoReg);
+				}
+			});
+		  }
+		});
+
+		$("#sucursal-destino").change(() => {
+			$("#btn_agregar_registro").removeClass('hidden');
+		});
+
 		$('#myModal').modal('show');
 		$('#myModal').on('shown.bs.modal',function(e){});
 		$('#myModal').on('hidden.bs.modal', function (e) {

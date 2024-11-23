@@ -31,7 +31,7 @@ require("../../funciones/php/values.php");
     if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' ) { $sLimit = "LIMIT ".mysql_real_escape_string( $_GET['iDisplayStart'] ).", ". mysql_real_escape_string( $_GET['iDisplayLength'] ); }
      
     /* * Ordering */
-    $sOrder = "";
+    $sOrder = "ORDER BY f.nombre_fo";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
         $sOrder = "ORDER BY  ";

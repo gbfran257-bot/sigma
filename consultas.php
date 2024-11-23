@@ -165,12 +165,18 @@ include_once 'recursos/datauser.php';
 				<th><input type="text" id="input-c-sexo" name="input-c-sexo" class="form-control" placeholder="-SEXO-" style="width:75px" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th><input type="text" id="input-c-medico" name="input-c-medico" class="form-control" placeholder="-MÉDICO-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th><input type="text" id="input-c-especialidad" name="input-c-especialidad" class="form-control" placeholder="-ESPECIALIDAD-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
-				<th></th>
+				<th><button class="btn btn-info btn-sm" type="button" onclick="limpiar_campos();"><i class="fa fa-refresh" aria-hidden="true"></i></button></th>
 				<th><input style="width:110px;" type="text" id="input-c-convenio" name="input-c-convenio" class="form-control" placeholder="-CONVENIO-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th><input style="width:100px;" type="text" id="input-c-estatus" name="input-c-estatus" class="form-control" placeholder="-ESTATUS-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
 				<th></th>
 				<th></th>
 				<!-- comienzan campos de relleno necesarios para la busqueda por boton -->
+				<th><input style="width:100px;" type="text" id="input-c-concepto" name="input-c-concepto" class="form-control" placeholder="-CONCEPTO-" onclick="clickHandlerLimpiarFiltros();" oninput="inputHandlerFiltrar();" /></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
 				<th></th>
 				<th></th>
 				<th></th>
@@ -272,7 +278,13 @@ include_once 'recursos/datauser.php';
 					"bVisible": false
 				}, {
 					"bVisible": false
-				}
+				},
+				{ "bVisible": false},
+				{ "bVisible": false},
+				{ "bVisible": false},
+				{ "bVisible": false},
+				{ "bVisible": false},
+				{ "bVisible": false} //concepto
 			],
 			"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>',
 			deferRender: true,
@@ -339,7 +351,7 @@ include_once 'recursos/datauser.php';
 		} ); */
 		});
 		//para la busqueda por boton
-		$()
+		//$()
 		$("#btn-buscar-c").click(function e() {
 			oTableP.columns().every(function() {
 				var that = this;
@@ -352,6 +364,7 @@ include_once 'recursos/datauser.php';
 				oTableP.column(22).search($('#input-c-motivo', this.footer()).val());
 				oTableP.column(23).search($('#input-c-edad', this.footer()).val());
 				oTableP.column(24).search($('#input-c-sexo', this.footer()).val());
+				oTableP.column(30).search($('#input-c-concepto', this.footer()).val());
 				oTableP.draw();
 			});
 		});
@@ -366,6 +379,7 @@ include_once 'recursos/datauser.php';
 			$('#input-c-especialidad', oTableP.column(7).footer()).val('');
 			$('#input-c-convenio', oTableP.column(9).footer()).val('');
 			$('#input-c-estatus', oTableP.column(10).footer()).val('');
+			$('#input-c-concepto', oTableP.column(13).footer()).val('');
 			$("#btn-buscar-c").click();
 		});
 
@@ -399,7 +413,13 @@ include_once 'recursos/datauser.php';
 
 		// Asignamos los eventos para el filtrado
 		setFiltradoConsultasHandler();
+
 	});
+
+	//funcion de boton que limpia los campos
+	function limpiar_campos(){
+		$("#top-search").click();
+	}
 
 	//El campo de busqueda edad solo acepta numeros y letras A y M
 	$('#input-c-edad').keypress(function(e) {
@@ -3929,9 +3949,12 @@ include_once 'recursos/datauser.php';
 				var res = res.replace(/src="img_cslta/g, 'src="../../../consultas/img_cslta');
 				var res = res.replace(/[?]\d{14}/g, '');
 
+				let server_url_base = window.location.href;
+				const server_url = server_url_base.substring(0, server_url_base.length - 13);
+
 				var str1 = tinyMCE.get('indiF').getContent();
-				var res1 = str1.replace('src="escuelas/logotipos/files/', 'src="../../../escuelas/logotipos/files/');
-				var res1 = res1.replace('src="imagenes/generales/', 'src="../../../imagenes/generales/');
+				var res1 = str1.replace('src="'+server_url+'escuelas/logotipos/files/', 'src="../../../escuelas/logotipos/files/');
+				var res1 = res1.replace('src="'+server_url+'imagenes/generales/', 'src="../../../imagenes/generales/');
 				var res1 = res1.replace(/src="img_cslta/g, 'src="../../../consultas/img_cslta');
 				var res1 = res1.replace(/[?]\d{14}/g, '');
 
