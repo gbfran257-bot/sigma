@@ -93,6 +93,7 @@ $id_del_user = $_SESSION['id'];
             </form>
         </div>
         <div class="modal-footer">
+        <button type="button" class="btn btn-success hidden" id="btn_agregar_registro">Agregar producto</button>
             <button type="submit" class="btn btn-success no_document no_nota no_receta no_forma_i" id="btn_trans">Tranferir</button>
             <!-- <button type="submit" class="btn btn-success hidden" form="form-registro" id="btn_pagar">Pagar</button> -->
             <button type="button" class="btn btn-warning no_document no_nota no_receta no_forma_i" data-dismiss="modal" id="btn_cancel_registro">Cancelar</button>
