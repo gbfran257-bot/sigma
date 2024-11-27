@@ -81,11 +81,11 @@
   <tr role="row" class="bg-primary">
     <th id="clickme" style="vertical-align:middle;">#</th>
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>PRODUCTO</th>
-    <th style="vertical-align:middle; white-space:nowrap;" nowrap>LOTE</th>
+    <th style="vertical-align:middle; white-space:nowrap;" nowrap>NOMBRE GENERICO</th>
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>SUCURSAL</th>
     <th style="vertical-align:middle;"><input type="checkbox" id="caducidad" value="" /> FECHA CADUCIDAD </th>
 	<th style="vertical-align:middle;">USUARIO REGISTRO</th>
-    <th style="vertical-align:middle;">FECHA ENTRADA</th>
+    <th style="vertical-align:middle;">LOTE</th>
     <th style="vertical-align:middle;">MAX</th>
 	<th style="vertical-align:middle;">MIN</th>
     <th style="vertical-align:middle;"><input type="checkbox" id="existencias" value="" /> EXIST LOTE  </th>
@@ -101,11 +101,11 @@
         <tr class="bg-primary">
             <th></th>
 			<th><input type="text" class="form-control input-sm" placeholder="Producto" /></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Lote" style="max-width:90px;"/></th>
+            <th><input type="text" class="form-control input-sm" placeholder="Nombre Generico" style="max-width:90px;"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="Sucursal" style="max-width:100px;"/></th>
 			<th></th>
 			<th><input type="text" class="form-control input-sm" placeholder="Usuario" style="max-width:100px;"/></th>
-			<th></th>
+			<th><input type="text" class="form-control input-sm" placeholder="Lote" style="max-width:100px;"/></th>
 			<th></th>
 			<th></th>
 			<th></th>
@@ -159,7 +159,7 @@ $(document).ready(function(e) {
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true}, {"bVisible":true},
 			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, 
-			{"bVisible":false}, {"bVisible":true}, {"bVisible":true},
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true},
 			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, 
 			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, 
 			{"bVisible":false}
@@ -209,7 +209,7 @@ $(document).ready(function(e) {
 	$('.filtro1Principal').addClass('hidden');
 
 	$('.infoPrincipal').append('<div id="divRangoFechas" style="text-align:left;"> <table width="100%" border="0" cellpadding="4" cellspacing="2" style="color:black; float:left;"> <tr> <td width="10px">De &nbsp;</td> <td width="1%"> <input name="fechaDe" class="fechas form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd" style="width:100px;" type="text" id="fechaDe" value="<?php echo date("Y-m-d"); ?>" readonly > </td> <td width="10px">&nbsp; A &nbsp;</td> <td width="1%"> <input style="width:100px;" name="fechaA" type="text" class="fechas form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd" id="fechaA" value="<?php echo date("Y-m-d"); ?>" readonly> </td> <td id="rangosFechas">&nbsp; <input type="radio" class="rad" id="radio1" name="radio" /><label for="radio1">&nbsp; Hoy &nbsp;</label> <input type="radio" class="rad" id="radio2" name="radio" /><label for="radio2">&nbsp; Todos &nbsp;</label> </td> <td>Sucursal: <select id="select-sucursal" class="form-control form-control-sm"></td> </tr> </table> </div>');
-	select2ini("#select-sucursal", "sucursales.php", "Selecciona una sucursal para ver su stock", 0, "400px");
+	select2ini("#select-sucursal", "sucursales-stock.php?id_u="+$('#id_user').val(), "Selecciona una sucursal para ver su stock", 0, "400px");
 	$("#select-sucursal").change((e) => {
 		const sucursal = $(e.target).children(":selected").text();
 		oTableP.search(sucursal).draw();

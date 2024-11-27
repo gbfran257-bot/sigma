@@ -25,6 +25,10 @@ $rowAU = mysql_fetch_row($resultAU); $id_suc = sqlValue($rowAU[1], "int");
 		default:
 			echo 'Ha ocurrido un error';
 	}
+
+	//agregamos ordenacion a los resultados
+	$consulta1 .= " ORDER BY nombre_su ASC";
+
 	mysql_select_db($database_horizonte, $horizonte);
 	$query1 = mysql_query($consulta1) or die (mysql_error());
 
