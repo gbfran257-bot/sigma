@@ -209,7 +209,7 @@ $(document).ready(function(e) {
 	$('.filtro1Principal').addClass('hidden');
 
 	$('.infoPrincipal').append('<div id="divRangoFechas" style="text-align:left;"> <table width="100%" border="0" cellpadding="4" cellspacing="2" style="color:black; float:left;"> <tr> <td width="10px">De &nbsp;</td> <td width="1%"> <input name="fechaDe" class="fechas form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd" style="width:100px;" type="text" id="fechaDe" value="<?php echo date("Y-m-d"); ?>" readonly > </td> <td width="10px">&nbsp; A &nbsp;</td> <td width="1%"> <input style="width:100px;" name="fechaA" type="text" class="fechas form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd" id="fechaA" value="<?php echo date("Y-m-d"); ?>" readonly> </td> <td id="rangosFechas">&nbsp; <input type="radio" class="rad" id="radio1" name="radio" /><label for="radio1">&nbsp; Hoy &nbsp;</label> <input type="radio" class="rad" id="radio2" name="radio" /><label for="radio2">&nbsp; Todos &nbsp;</label> </td> <td>Sucursal: <select id="select-sucursal" class="form-control form-control-sm"></td> </tr> </table> </div>');
-	select2ini("#select-sucursal", "sucursales.php", "Selecciona una sucursal para ver su stock", 0, "400px");
+	select2ini("#select-sucursal", "sucursales-stock.php?id_u="+$('#id_user').val(), "Selecciona una sucursal para ver su stock", 0, "400px");
 	$("#select-sucursal").change((e) => {
 		const sucursal = $(e.target).children(":selected").text();
 		oTableP.search(sucursal).draw();

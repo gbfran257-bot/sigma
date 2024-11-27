@@ -1284,7 +1284,7 @@ function verUsuario(idU, nombre_u, tempi_u){
 			});
 			$('#btn_asigna_sucu').click(function(e) {
 				if(!$(this).hasClass('disabled')){
-					var datos = {id_sucu:$('#sucursal_as').val(), id_u:$('#id_user').val(), tempo:tempo}
+					var datos = {id_sucu:$('#sucursal_as').val(), id_u:$('#id_user').val(), tempo:tempo, asignar_a:idU}
 					$.post('usuarios/files-serverside/asignarSucursal.php',datos).done(function( data ) {
 						if(data==1){//si el paciente se Actualizó 
 							$('#clickmeSu').click(); $('#btn_asigna_sucu').addClass('disabled'); $('#sucursal_as').val('');
