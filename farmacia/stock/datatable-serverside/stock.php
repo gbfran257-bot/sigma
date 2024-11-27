@@ -10,7 +10,7 @@ include_once '../../../recursos/utilities.php';
 $tipo_user = $_SESSION['MM_UserGroup'];
 $sucu_user = $_SESSION['MM_Usersucu'];
      
-    $aColumns = array('s.id', 'c.concepto_to', 's.Lote','su.nombre_su', 's.fecha_expiracion', 'u.usuario_u','DATE_FORMAT(s.fecha_update,"%d/%c/%Y %H:%i")','s.id_Producto','s.id_Producto','s.existencias','s.costo_unitario', 'c.precio_to', 's.id', 's.id', 's.id', 's.id','su.id_su','s.referencia_compra');
+    $aColumns = array('s.id', 'c.concepto_to', 'g.nombre_generico_med','su.nombre_su', 's.fecha_expiracion', 'u.usuario_u','s.Lote','s.id_Producto','s.id_Producto','s.existencias','s.costo_unitario', 'c.precio_to', 's.id', 's.id', 's.id', 's.id','su.id_su','s.referencia_compra','DATE_FORMAT(s.fecha_update,"%d/%c/%Y %H:%i")');
     // DB tables to use 
     $aTables = array( 'stock_has_bach s');
      
@@ -313,7 +313,7 @@ $sucu_user = $_SESSION['MM_Usersucu'];
         $min_max = mysql_query("SELECT max_mm, min_mm from max_min_stock where id_producto = $row[7] and id_suc = $row[16]",$horizonte) or die (mysql_error());
         $rowMM = mysql_fetch_row($min_max); 
 
-        $row[5] ="<span>$row[5] <br> $row[6]</span>";
+        $row[5] ="<span>$row[5] <br> $row[18]</span>";
         if(!empty($rowMM[0])){
             $row[7] = $rowMM[0];
             $row[8] = $rowMM[1];

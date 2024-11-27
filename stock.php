@@ -81,11 +81,11 @@
   <tr role="row" class="bg-primary">
     <th id="clickme" style="vertical-align:middle;">#</th>
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>PRODUCTO</th>
-    <th style="vertical-align:middle; white-space:nowrap;" nowrap>LOTE</th>
+    <th style="vertical-align:middle; white-space:nowrap;" nowrap>NOMBRE GENERICO</th>
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>SUCURSAL</th>
     <th style="vertical-align:middle;"><input type="checkbox" id="caducidad" value="" /> FECHA CADUCIDAD </th>
 	<th style="vertical-align:middle;">USUARIO REGISTRO</th>
-    <th style="vertical-align:middle;">FECHA ENTRADA</th>
+    <th style="vertical-align:middle;">LOTE</th>
     <th style="vertical-align:middle;">MAX</th>
 	<th style="vertical-align:middle;">MIN</th>
     <th style="vertical-align:middle;"><input type="checkbox" id="existencias" value="" /> EXIST LOTE  </th>
@@ -101,11 +101,11 @@
         <tr class="bg-primary">
             <th></th>
 			<th><input type="text" class="form-control input-sm" placeholder="Producto" /></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Lote" style="max-width:90px;"/></th>
+            <th><input type="text" class="form-control input-sm" placeholder="Nombre Generico" style="max-width:90px;"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="Sucursal" style="max-width:100px;"/></th>
 			<th></th>
 			<th><input type="text" class="form-control input-sm" placeholder="Usuario" style="max-width:100px;"/></th>
-			<th></th>
+			<th><input type="text" class="form-control input-sm" placeholder="Lote" style="max-width:100px;"/></th>
 			<th></th>
 			<th></th>
 			<th></th>
@@ -159,7 +159,7 @@ $(document).ready(function(e) {
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true}, {"bVisible":true},
 			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, 
-			{"bVisible":false}, {"bVisible":true}, {"bVisible":true},
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true},
 			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, 
 			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, 
 			{"bVisible":false}
