@@ -12,6 +12,9 @@ try {
     } else {
         $query_sucursales = "SELECT s.id AS id, su.nombre_su AS nombre FROM stock s LEFT JOIN sucursales su ON su.id_su = s.id_su";
     }
+
+    //agregamos ordenamiento
+    $query_sucursales .= " ORDER BY nombre_su ASC";
     
     $resultado_query_sucursales = mysqli_query($horizonte, $query_sucursales);
 
