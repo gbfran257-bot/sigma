@@ -80,7 +80,7 @@ include_once 'recursos/datauser.php';
     <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" id="dataTablePrincipal" class="table table-hover table-striped dataTables-example dataTable table-condensed" role="grid">
         <thead id="cabecera_tBusquedaPrincipal">
             <tr role="row" class="bg-primary">
-                <th id="clickme" style="vertical-align:middle;">#</th>
+                <th id="clickme" style="vertical-align:middle;">NOMBRE GENERICO</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>PRODUCTO</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>LOTE</th>
                 <th style="vertical-align:middle;"><input type="checkbox" id="caducidad" value="" /> FECHA CADUCIDAD </th>
@@ -97,7 +97,7 @@ include_once 'recursos/datauser.php';
         </tbody>
         <tfoot>
             <tr class="bg-primary">
-                <th></th>
+                <th><input type="text" class="form-control input-xs" placeholder="Nombre Generico" /></th>
                 <th style="width: 312px;"><input type="text" class="form-control input-xs" placeholder="Producto" /></th>
                 <th><input type="text" class="form-control input-xs" placeholder="Lote" /></th>
                 <th></th>

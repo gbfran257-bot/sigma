@@ -10,7 +10,7 @@ include_once '../../recursos/utilities.php';
 $tipo_user = $_SESSION['MM_UserGroup'];
 $sucu_user = $_SESSION['MM_Usersucu'];
 
-$aColumns = array('s.id', 'c.concepto_to', 's.Lote', 'su.nombre_su', 's.fecha_expiracion', 'u.usuario_u', 'DATE_FORMAT(s.fecha_update,"%d/%c/%Y %H:%i")', 's.id_Producto', 's.id_Producto', 's.existencias', 's.costo_unitario', 'c.precio_to', 's.id', 's.id', 's.id', 's.id', 'su.id_su', 's.referencia_compra');
+$aColumns = array('g.nombre_generico_med', 'c.concepto_to', 's.Lote', 'su.nombre_su', 's.fecha_expiracion', 'u.usuario_u', 'DATE_FORMAT(s.fecha_update,"%d/%c/%Y %H:%i")', 's.id_Producto', 's.id_Producto', 's.existencias', 's.costo_unitario', 'c.precio_to', 's.id', 's.id', 's.id', 's.id', 'su.id_su', 's.referencia_compra');
 // DB tables to use 
 $aTables = array('stock_has_bach s');
 
@@ -381,7 +381,8 @@ while ($aRow = mysql_fetch_array($rResult)) {
     $stock[6] = $row[9];
     $stock[7] = "<span class='btn btn-primary' onclick='transferencias($row[15], $existencias,$row[16],\"$row[1]\");' ><i class='fa fa-exchange'></i></span>";
 
-    $stock[0] = $hh;
+    //$stock[0] = $hh;
+    $stock[0] = $row[0];
 
     $output['aaData'][] = $stock;
 }
