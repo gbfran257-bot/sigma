@@ -49,9 +49,9 @@ $pdf->Cell(12, 10, 'SURTIR', 1, 1, 'L');
 } */
 
 $id_sucursal = $_GET['sucursal'];
-$fecha = date("Y-m-d");
+$fecha = date("Y-m-d 23:59:59");
 mysql_select_db($database_horizonte, $horizonte);
-$consulta = "SELECT s.id, c.concepto_to, g.nombre_generico_med, s.existencias, mms.max_mm, mms.min_mm, CAST(mms.max_mm AS SIGNED) - CAST(s.existencias AS SIGNED) as surtir, s.id_Producto, s.id_stock FROM stock_has_bach s left join conceptos c on c.id_to = s.id_Producto left join stock s1 on s1.id = s.id_stock left join usuarios u on u.id_u = s.usuario_registro left join sucursales su on su.id_su = s1.id_su left join medicamentos g on g.id_med = c.id_medicamento_g left join estatus es on es.id_est = s.estatus left join max_min_stock mms on mms.id_producto = s.id_Producto WHERE (s.fecha_update BETWEEN '2001-01-01' AND '$fecha') AND (s.es_traspaso = 0 AND s.id_stock = $id_sucursal) AND (existencias = 0 OR existencias < mms.min_mm) group by s.id_Producto ORDER BY concepto_to LIMIT 0, 500;";
+$consulta = "SELECT s.id, c.concepto_to, g.nombre_generico_med, s.existencias, mms.max_mm, mms.min_mm, CAST(mms.max_mm AS SIGNED) - CAST(s.existencias AS SIGNED) as surtir, s.id_Producto, s.id_stock FROM stock_has_bach s left join conceptos c on c.id_to = s.id_Producto left join stock s1 on s1.id = s.id_stock left join usuarios u on u.id_u = s.usuario_registro left join sucursales su on su.id_su = s1.id_su left join medicamentos g on g.id_med = c.id_medicamento_g left join estatus es on es.id_est = s.estatus left join max_min_stock mms on mms.id_producto = s.id_Producto WHERE (s.fecha_update BETWEEN '2001-01-01 00:00:00' AND '$fecha') AND (s.es_traspaso = 0 AND s.id_stock = $id_sucursal) AND (existencias = 0 OR existencias < mms.min_mm) group by s.id_Producto ORDER BY concepto_to LIMIT 0, 1000;";
 $ejecutar_query = mysql_query($consulta, $horizonte);
 
 //obtenemos id de sucursal

@@ -17,16 +17,16 @@ $id_suc = intval($_GET['id_sucursal']);
 $query_sucursal = mysqli_query($horizonte, "SELECT id_su from stock where id = " . $id_suc) or die(mysqli_error($horizonte));
 $sucursal_data = mysqli_fetch_row($query_sucursal);
 
-$fecha = date("Y-m-d");
+$fecha = date("Y-m-d 23:59:59");
 switch ($rowAU[0]) {
     case 0: //Solo vé lo suyo
-            $sWhere = "WHERE (s.fecha_update BETWEEN '2001-01-01' AND '$fecha' and s.usuario_registro = '$_GET[idU]') AND (s.es_traspaso = 0 AND s.id_stock = {$id_suc}) AND (existencias = 0 OR existencias < mms.min_mm)";
+            $sWhere = "WHERE (s.fecha_update BETWEEN '2001-01-01 00:00:00' AND '$fecha' and s.usuario_registro = '$_GET[idU]') AND (s.es_traspaso = 0 AND s.id_stock = {$id_suc}) AND (existencias = 0 OR existencias < mms.min_mm)";
         break;
     case 2: //Ve todo lo de su sucursal y lo suyo
-            $sWhere = "WHERE (s.fecha_update BETWEEN '2001-01-01' AND '$fecha' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]')) AND (s.es_traspaso = 0 AND s.id_stock = {$id_suc}) AND (existencias = 0 OR existencias < mms.min_mm)";
+            $sWhere = "WHERE (s.fecha_update BETWEEN '2001-01-01 00:00:00' AND '$fecha' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]')) AND (s.es_traspaso = 0 AND s.id_stock = {$id_suc}) AND (existencias = 0 OR existencias < mms.min_mm)";
         break;
     case 1: //Ve todo de todas las sucursales
-            $sWhere = "WHERE (s.fecha_update BETWEEN '2001-01-01' AND '$fecha') AND (s.es_traspaso = 0 AND s.id_stock = {$id_suc}) AND (existencias = 0 OR existencias < mms.min_mm)";
+            $sWhere = "WHERE (s.fecha_update BETWEEN '2001-01-01 00:00:00' AND '$fecha') AND (s.es_traspaso = 0 AND s.id_stock = {$id_suc}) AND (existencias = 0 OR existencias < mms.min_mm)";
         break;
     default:
         echo 'Ha ocurrido un error';
