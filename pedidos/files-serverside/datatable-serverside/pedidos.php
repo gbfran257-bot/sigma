@@ -2,7 +2,7 @@
 
 require("../../../Connections/horizonte2.php");
 
-$aColumns = array('s.id', 'c.concepto_to', 'g.nombre_generico_med', 's.existencias', 'mms.max_mm', 'mms.min_mm', 'CAST(mms.max_mm AS SIGNED) - CAST(s.existencias AS SIGNED)', 's.id_Producto', 's.id_stock');
+$aColumns = array('s.id', 'c.concepto_to', 'g.nombre_generico_med', 's.existencias', 'mms.max_mm', 'mms.min_mm', 'CAST(mms.max_mm AS SIGNED) - CAST(s.existencias AS SIGNED)', 's.id_Producto', 's.id_stock', 's.id_Producto');
 
 $aTables = array('stock_has_bach s');
 
@@ -163,6 +163,15 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     $row[5] = $resultados_mm_s[0];
 
     $row[6] = "<td><span onclick=\"cambiarSurtir(this);\">{$surtir}</span></td>";
+
+    //obtenemos el ultimo proveedor
+    $qry_ult_prov = mysqli_query($horizonte, "SELECT id_proveedor FROM stock_has_bach WHERE id_Producto = ".$row[9]." ORDER BY id DESC LIMIT 1") or die(mysqli_error($horizonte));
+    $u_proveedor = mysqli_fetch_row($qry_ult_prov);
+    //obtenemos el nombre del proveedor
+    $qry_prov = mysqli_query($horizonte, "SELECT CONCAT_WS(' ', nombre_p, apaterno_p, amaterno_p) FROM pacientes WHERE MD5(id_p) = '".$u_proveedor[0]."'") or die(mysqli_error($horizonte));
+    $p_proveedor = mysqli_fetch_row($qry_prov);
+
+    $row[7] = $p_proveedor[0];
 
     $output['aaData'][] = $row;
 }
