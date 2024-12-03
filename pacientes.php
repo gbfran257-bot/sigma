@@ -4085,6 +4085,7 @@ include_once 'recursos/datauser.php';
 				//fin filtros individuales por campo de texto
 				oTableCo1.on('select', function(e, dt, type, indexes) {
 					$('.depende_con1').removeClass('hidden');
+					$('#motivo_c1').prop('required',true);
 					var rowData = oTableCo1.rows(indexes).data().toArray(); //alert(rowData[0][6]); //alert(rowData[0][9]);
 					if (rowData[0][8] == undefined) {
 						var coveni = 0,
@@ -4677,6 +4678,7 @@ include_once 'recursos/datauser.php';
 		$.post('pacientes/files-serverside/eliminarItem.php', datosBINV).done(function(data) {
 			if (data == 1) {
 				$('#clickmeCo1,#clickmeCoS1').click();
+				$('#motivo_c1').prop('required',false);
 				var datos = {
 					aleatorio: $('#aleatorio_ov').val()
 				}
