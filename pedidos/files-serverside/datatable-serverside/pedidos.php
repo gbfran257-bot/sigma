@@ -165,7 +165,7 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     $row[6] = "<td><span onclick=\"cambiarSurtir(this);\">{$surtir}</span></td>";
 
     //obtenemos el ultimo proveedor
-    $qry_ult_prov = mysqli_query($horizonte, "SELECT id_proveedor FROM stock_has_bach WHERE id_Producto = ".$row[9]." ORDER BY id DESC LIMIT 1") or die(mysqli_error($horizonte));
+    $qry_ult_prov = mysqli_query($horizonte, "SELECT id_proveedor FROM stock_has_bach WHERE id_Producto = ".$row[9]." AND id_stock = " . $row[8] . " ORDER BY id DESC LIMIT 1") or die(mysqli_error($horizonte));
     $u_proveedor = mysqli_fetch_row($qry_ult_prov);
     //obtenemos el nombre del proveedor
     $qry_prov = mysqli_query($horizonte, "SELECT CONCAT_WS(' ', nombre_p, apaterno_p, amaterno_p) FROM pacientes WHERE MD5(id_p) = '".$u_proveedor[0]."'") or die(mysqli_error($horizonte));
