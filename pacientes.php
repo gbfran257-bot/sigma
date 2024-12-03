@@ -3593,6 +3593,7 @@ include_once 'recursos/datauser.php';
 				//fin filtros individuales por campo de texto
 				oTableEim.on('select', function(e, dt, type, indexes) {
 					$('.depende_img').removeClass('hidden');
+					$('#motivo_i').prop('required',true);
 					var rowData = oTableEim.rows(indexes).data().toArray(); //alert(rowData[0][6]); //alert(rowData[0][9]);
 					if (rowData[0][8] == undefined) {
 						var coveni = 0,
@@ -3762,6 +3763,7 @@ include_once 'recursos/datauser.php';
 
 				oTableEla.on('select', function(e, dt, type, indexes) {
 					$('.depende_lab').removeClass('hidden');
+					$('#motivo_l').prop('required',true);
 					var rowData = oTableEla.rows(indexes).data().toArray(); //alert(rowData[0][6]); //alert(rowData[0][9]);
 					/*if(rowData[0][8]==undefined){*/
 					var coveni = 0,
@@ -3925,6 +3927,7 @@ include_once 'recursos/datauser.php';
 				//fin filtros individuales por campo de texto
 				oTableSer.on('select', function(e, dt, type, indexes) {
 					$('.depende_ser').removeClass('hidden');
+					$('#motivo_s').prop('required',true);
 					var rowData = oTableSer.rows(indexes).data().toArray(); //alert(rowData[0][6]); //alert(rowData[0][9]);
 					if (rowData[0][8] == undefined) {
 						var coveni = 0,
@@ -4465,6 +4468,7 @@ include_once 'recursos/datauser.php';
 		$.post('pacientes/files-serverside/eliminarItem.php', datosBINV).done(function(data) {
 			if (data == 1) {
 				$('#clickmeEiS,#clickmeIm').click();
+				$('#motivo_i').prop('required',false);
 				//--inicio-- Despues de eliminar un item, procedemos a sumar el descuento y mostrarlo en el input
 				var datosi = {
 					aleatorio: $('#aleatorio_ov').val()
@@ -4544,6 +4548,7 @@ include_once 'recursos/datauser.php';
 		$.post('pacientes/files-serverside/eliminarItem.php', datosBINV).done(function(data) {
 			if (data == 1) {
 				$('#clickmeElS,#clickmeLa').click();
+				$('#motivo_l').prop('required',false);
 				//--inicio-- Despues de eliminar un item, procedemos a sumar el descuento y mostrarlo en el input
 				var datosi = {
 					aleatorio: $('#aleatorio_ov').val()
@@ -4622,6 +4627,7 @@ include_once 'recursos/datauser.php';
 		$.post('pacientes/files-serverside/eliminarItem.php', datosBINV).done(function(data) {
 			if (data == 1) {
 				$('#clickmeSmS,#clickmeSe').click();
+				$('#motivo_s').prop('required',false);
 				var datos = {
 					aleatorio: $('#aleatorio_ov').val()
 				}
