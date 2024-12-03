@@ -92,7 +92,7 @@
     <th id="clickme" style="vertical-align:middle;">#</th>
     <th style="vertical-align:middle;" nowrap>PACIENTE</th>
     <th style="vertical-align:middle;">INGRESO</th>
-    <th style="vertical-align:middle;">UBICACIÓN</th>
+    <th style="vertical-align:middle;">DESC. CAMA</th>
     <th style="vertical-align:middle;">TRATANTE</th>
 	<th style="vertical-align:middle;">NOTAS_E</th>
     <th style="vertical-align:middle;">NOTAS_M</th>
@@ -112,7 +112,7 @@
             <th></th>
             <th><input type="text" class="form-control input-sm" placeholder="Paciente"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="Fecha ingreso"/></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Ubicación" style="width: 90%;"/></th>
+            <th><input type="text" class="form-control input-sm" placeholder="Desc. Cama" style="width: 90%;"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="Médico tratante" style="width: 100%;"/></th>
             <th></th>
 			<th></th>
