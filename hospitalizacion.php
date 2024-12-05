@@ -92,7 +92,7 @@
     <th id="clickme" style="vertical-align:middle;">#</th>
     <th style="vertical-align:middle;" nowrap>PACIENTE</th>
     <th style="vertical-align:middle;">INGRESO</th>
-    <th style="vertical-align:middle;">UBICACIÓN</th>
+    <th style="vertical-align:middle;">DESC. CAMA</th>
     <th style="vertical-align:middle;">TRATANTE</th>
 	<th style="vertical-align:middle;">NOTAS_E</th>
     <th style="vertical-align:middle;">NOTAS_M</th>
@@ -112,7 +112,7 @@
             <th></th>
             <th><input type="text" class="form-control input-sm" placeholder="Paciente"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="Fecha ingreso"/></th>
-            <th><input type="text" class="form-control input-sm" placeholder="Ubicación" style="width: 90%;"/></th>
+            <th><input type="text" class="form-control input-sm" placeholder="Desc. Cama" style="width: 90%;"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="Médico tratante" style="width: 100%;"/></th>
             <th></th>
 			<th></th>
@@ -268,18 +268,20 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 				serverSide: true,"sScrollY": tam, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 				scroller: false, responsive: true,
 				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ){
-					var iTotal = 0;
+					var iTotal = 0, iAdicionales = 0;
 						for(var i=iStart ; i<iEnd ; i++){ 
 							iTotal += aaData[ aiDisplay[i] ][6]*1;
+							iAdicionales += aaData[ aiDisplay[i] ][8]*1;
 						}
 
 						/* Modify the footer row to match what we want */
 						var nCells = nRow.getElementsByTagName('th');
-						console.log(iTotal);
+						//console.log(iTotal);
 						nCells[4].innerHTML = "Total: $" + redondear(parseFloat(iTotal * 100)/100,2);
+						nCells[6].innerHTML = "$" + redondear(parseFloat(iAdicionales * 100)/100,2);
 						
 				 },
-				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": false }, {"bVisible":false },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
+				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": false }, {"bVisible":false },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
 				"sDom": '<"filtro1Principal"><"data_tPrincipal"t><"infoPrincipal"S><"proc">',
 				deferRender: true, select: false, "processing": false, "sAjaxSource": "hospital/datatable-serverside/medicamentosA.php?id_h="+id_h,
 				"fnServerParams": function(aoData, fnCallback){ },
@@ -490,6 +492,15 @@ function actualizarCantMed(id,cantidad){
 
 	});
 
+}
+
+function agregarAdicionalesMA(check,id_mah){
+		var datosAdles = {check:check, id_mah:id_mah}
+		$.post('hospital/files-serverside/agregar_precio_adicional.php', datosAdles).done(function(dataAd){
+			if(dataAd==1){
+				window.setTimeout(function(){$('#clickmeMdtosA').click();},150);
+			}
+		});
 }
 
 function nuevo_medicamento(id_h, id_p, nombre_p, id_s){ $('#myModal2').modal('hide');

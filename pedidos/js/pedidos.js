@@ -1,7 +1,6 @@
 $(document).ready((e) => {
     $('#breadc').html('<li><a href="index.php">HOME</a></li><li>FARMACIA</li><li class="active"><strong>PEDIDOS</strong></li><br><select style="width: 500px !important;" class="form-control" id="sucursales-pedidos"><option selected>-SELECCIONAR-</option></select><button id="generar_pedidos" class="btn btn-warning btn-sm" style="margin-left: 01rem;">Generar pedido</button>');
 	$('#my_search').removeClass('hidden'); $.fn.datepicker.defaults.autoclose = true;
-   /*  $("#generar_pedidos").click(() => imprimirReportePedidos()); */
    
    $('#generar_pedidos').click(function(e) { 
     var sucursaltexto = $("#sucursales-pedidos option:selected").text();
@@ -38,6 +37,8 @@ const initDataTablePrincipal = () => {
         responsive: true,
         "aoColumns": [
             {
+                "bVisible": true,
+            }, {
                 "bVisible": true,
             }, {
                 "bVisible": true,

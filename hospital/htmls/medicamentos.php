@@ -62,6 +62,8 @@
 							<th class="" align="center" width="" nowrap>APLICÓ</th>
 							<th class="" align="center" width="" nowrap>FECHA/HORA</th>
 							<th class="" align="center" width="" nowrap>PRECIO</th>
+							<th class="" align="center" width="" nowrap>*</th>
+							<th class="" align="center" width="" nowrap>ADICIONALES</th>
 						  </tr>
 						</thead> <tbody id="conten" > <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 						<tfoot>
@@ -72,6 +74,8 @@
 								<th></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-APLICÓ-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-FECHA/HORA-" style="width: 99%"/></th>
+								<th><input type="hidden" class="sCalculo" /></th>
+								<th><input type="hidden" class="" /></th>
 								<th><input type="hidden" class="sCalculo" /></th>
 							</tr>
 						</tfoot>

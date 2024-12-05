@@ -4,7 +4,7 @@ require("../../funciones/php/values.php");
 
 	$idP = sqlValue($_GET["id_p"], "int");
 
-	$aColumns = array('m.id_mah', 'mc.concepto_to', 'm.id_mah', 'm.id_mah', 'concat(t.abreviacion_ti," ",u.nombre_u," ",apaterno_u)', 'DATE_FORMAT(m.fecha_mah,"%d/%m/%Y")', 'm.id_mah', 'DATE_FORMAT(m.fecha_mah,"%H:%i:%s")','mc.precio_to');
+	$aColumns = array('m.id_mah', 'mc.concepto_to', 'm.id_mah', 'm.id_mah', 'concat(t.abreviacion_ti," ",u.nombre_u," ",apaterno_u)', 'DATE_FORMAT(m.fecha_mah,"%d/%m/%Y")', 'm.id_mah', 'DATE_FORMAT(m.fecha_mah,"%H:%i:%s")','mc.precio_to','m.check_adicional');
      
     // DB tables to use 
     $aTables = array( 'medicamentos_aplicados_hospi m');
@@ -134,9 +134,14 @@ require("../../funciones/php/values.php");
 		
 		$row[5] = "<div align='center'>$row[5]<br>$row[7]</div>";
         $row[6] = $row[8];
-		
-		//$nombre_p = '"'.$row[7].'"';
-										
+
+        if($row[9]==0){
+            $row[7] = "<div align='center'><input type='checkbox' lang='0' id='cbox_adicionales' name='cbox_adicionales' value='' onclick='agregarAdicionalesMA(this.lang, $row[2]);' /></div>";
+            $row[8] = "0";
+        }else if($row[9]==1){
+            $row[7] = "<div align='center'><input type='checkbox' lang='1' id='cbox_adicionales' name='cbox_adicionales' value='' onclick='agregarAdicionalesMA(this.lang, $row[2]);' checked/></div>";
+            $row[8] = $row[8];
+        }
 		//$row[5] = "<div align='center'><button onClick='poner_medi(this.lang)' lang='$row[9]' class='btn btn-primary btn-xs ver_nota'><i class='fa fa-check' aria-hidden='true'></i> </button></div>";
 		
 		$output['aaData'][] = $row;
