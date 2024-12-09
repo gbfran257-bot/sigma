@@ -278,7 +278,7 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 						var nCells = nRow.getElementsByTagName('th');
 						//console.log(iTotal);
 						nCells[5].innerHTML = "Total: $" + redondear(parseFloat(iTotal * 100)/100,2);
-						nCells[6].innerHTML = "$" + redondear(parseFloat(iAdicionales * 100)/100,2);
+						nCells[7].innerHTML = "$" + redondear(parseFloat(iAdicionales * 100)/100,2);
 						
 				 },
 				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": false }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
