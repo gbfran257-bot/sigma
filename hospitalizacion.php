@@ -277,11 +277,11 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 						/* Modify the footer row to match what we want */
 						var nCells = nRow.getElementsByTagName('th');
 						//console.log(iTotal);
-						nCells[4].innerHTML = "Total: $" + redondear(parseFloat(iTotal * 100)/100,2);
+						nCells[5].innerHTML = "Total: $" + redondear(parseFloat(iTotal * 100)/100,2);
 						nCells[6].innerHTML = "$" + redondear(parseFloat(iAdicionales * 100)/100,2);
 						
 				 },
-				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": false }, {"bVisible":false },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
+				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": false }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
 				"sDom": '<"filtro1Principal"><"data_tPrincipal"t><"infoPrincipal"S><"proc">',
 				deferRender: true, select: false, "processing": false, "sAjaxSource": "hospital/datatable-serverside/medicamentosA.php?id_h="+id_h,
 				"fnServerParams": function(aoData, fnCallback){ },
@@ -299,7 +299,7 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 				});
 
 				$('#btn_printMA').click(function(){ 
-					window.open("hospital/genera/mi_pdf_reporteMA.php?id_h="+id_h+"&id_p="+id_p+"&id_u="+ $('#id_user').val(), '_blank');
+					window.open("hospital/genera/mi_pdf_reporteMA1.php?id_h="+id_h+"&id_p="+id_p+"&id_u="+ $('#id_user').val(), '_blank');
 				});
 			//para los fintros individuales por campo de texto
 			oTableA.columns().every( function () {
