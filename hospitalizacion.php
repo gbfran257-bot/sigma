@@ -304,7 +304,35 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 			//para los fintros individuales por campo de texto
 			oTableA.columns().every( function () {
 				var that = this; $('input',this.footer()).on('keyup change', function (){ if(that.search() !== this.value){ that .search( this.value ) .draw(); } } );
-			}); //fin filtros individuales por campo de texto
+			}); 
+			//fin filtros individuales por campo de texto
+
+			var oTableAR = $('#dataTableMedicamentosAR').DataTable({
+				serverSide: true,"sScrollY": tam, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
+				scroller: false, responsive: true,
+				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ){
+						
+				 },
+				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": false }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": false },{ "bVisible": false },{ "bVisible": true } ],
+				"sDom": '<"filtro1Principal"><"data_tPrincipal"t><"infoPrincipal"S><"proc">',
+				deferRender: true, select: false, "processing": false, "sAjaxSource": "hospital/datatable-serverside/medicamentosAR.php?id_h="+id_h,
+				"fnServerParams": function(aoData, fnCallback){ },
+				"oLanguage": {
+					"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
+					"sInfo": "MEDICAMENTOS FILTRADOS: _END_","sInfoEmpty":"NINGÚN MEDICAMENTO FILTRADO.","sInfoFiltered":" TOTAL DE MEDICAMENTOS: _MAX_", "sSearch": "",
+					"oPaginate": { "sNext": "<span class='paginacionPrincipal'>Siguiente</span>", "sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;" }
+				},"iDisplayLength": 500, paging: true, "bDestroy" : true
+			});
+
+			
+			$('#clickmeMdtosAR, #tap-aplicados-r').click(function(e) { oTableAR.draw(); }); window.setTimeout(function(){$('#clickmeMdtosAR').click();},500);
+
+			//para los fintros individuales por campo de texto
+			oTableAR.columns().every( function () {
+				var that = this; $('input',this.footer()).on('keyup change', function (){ if(that.search() !== this.value){ that .search( this.value ) .draw(); } } );
+			}); 
+			//fin filtros individuales por campo de texto
+
 		},200);
 		
 		$('#myModal2').modal('show'); $('#myModal2').on('shown.bs.modal', function (e){});
