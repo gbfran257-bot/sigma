@@ -4,7 +4,7 @@ require("../../funciones/php/values.php");
 
 	$idP = sqlValue($_GET["id_p"], "int");
 
-	$aColumns = array('m.id_mah', 'mc.concepto_to', 'm.id_mah', 'm.id_mah', 'concat(t.abreviacion_ti," ",u.nombre_u," ",apaterno_u)', 'DATE_FORMAT(m.fecha_mah,"%d/%m/%Y")', 'm.id_mah', 'DATE_FORMAT(m.fecha_mah,"%H:%i:%s")','mc.precio_to','m.check_adicional','m1.indicacion_mh','smh.nota_s');
+	$aColumns = array('m.id_mah', 'mc.concepto_to', 'm.id_mah', 'm.id_mah', 'concat(t.abreviacion_ti," ",u.nombre_u," ",apaterno_u)', 'DATE_FORMAT(m.fecha_mah,"%d/%m/%Y")', 'm.id_mah', 'DATE_FORMAT(m.fecha_mah,"%H:%i:%s")','mc.precio_to','m.check_adicional','m1.indicacion_mh','m1.nota_medica_mh');
      
     // DB tables to use 
     $aTables = array( 'medicamentos_aplicados_hospi m');
