@@ -12,6 +12,7 @@
 			  <ul class="nav nav-tabs" role="tablist">
 				<li role="presentation" class="active"><a href="#t-asignados" aria-controls="t-asignados" role="tab" data-toggle="tab" id="tap-asignados">MEDICAMENTOS INDICADOS</a></li>
 				<li role="presentation"><a href="#t-aplicados" aria-controls="profile" role="tab" data-toggle="tab" id="tap-aplicados">MEDICAMENTOS APLICADOS</a></li>
+				<li role="presentation"><a href="#t-aplicados-r" aria-controls="profile" role="tab" data-toggle="tab" id="tap-aplicados-r">MEDICAMENTOS APLICADOS REACCIONES</a></li>
 			  </ul>
 
 			  <!-- Tab panes -->
@@ -51,37 +52,71 @@
 					<a href="#"type="button" class="btn btn-info " id="btn_printMI">IMPRIMIR</a>
 				</div>
 				<div role="tabpanel" class="tab-pane" id="t-aplicados">
-				<div id="printt">
-					<table width="100%" height="100%" border="0" id="dataTableMedicamentosA" class="table-condensed table-striped table-bordered table-hover" style="overflow: hidden;">
-						<thead id="cabecera_tBusquedaMedicamentosA" class="">
-						  <tr class="bg-primary" style="font-size: 1.1em;">
-							<th id="clickmeMdtosA"class="titulosTabs"align="center" nowrap width="1px">#</th>
-							<th class="" align="center" width="">MEDICAMENTO</th>
-							<th class="" align="center" width="" nowrap>PRESENTACIÓN</th>
-							<th class="" align="center" width="" nowrap>INDICACIÓN</th>
-							<th class="" align="center" width="" nowrap>APLICÓ</th>
-							<th class="" align="center" width="" nowrap>FECHA/HORA</th>
-							<th class="" align="center" width="" nowrap>PRECIO</th>
-							<th class="" align="center" width="" nowrap>*</th>
-							<th class="" align="center" width="" nowrap>ADICIONALES</th>
-						  </tr>
-						</thead> <tbody id="conten" > <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
-						<tfoot>
-							<tr>
-								<th></th>
-								<th><input type="text" class="form-control input-sm" placeholder="-MEDICAMENTO-" style="width: 99%"/></th>
-								<th><input type="text" class="form-control input-sm" placeholder="-PRESENTACIÓN-" style="width: 99%"/></th>
-								<th></th>
-								<th><input type="text" class="form-control input-sm" placeholder="-APLICÓ-" style="width: 99%"/></th>
-								<th><input type="text" class="form-control input-sm" placeholder="-FECHA/HORA-" style="width: 99%"/></th>
-								<th><input type="hidden" class="sCalculo" /></th>
-								<th><input type="hidden" class="" /></th>
-								<th><input type="hidden" class="sCalculo" /></th>
+					<div id="printt">
+						<table width="100%" height="100%" border="0" id="dataTableMedicamentosA" class="table-condensed table-striped table-bordered table-hover" style="overflow: hidden;">
+							<thead id="cabecera_tBusquedaMedicamentosA" class="">
+							<tr class="bg-primary" style="font-size: 1.1em;">
+								<th id="clickmeMdtosA"class="titulosTabs"align="center" nowrap width="1px">#</th>
+								<th class="" align="center" width="">MEDICAMENTO</th>
+								<th class="" align="center" width="" nowrap>PRESENTACIÓN</th>
+								<th class="" align="center" width="" nowrap>INDICACIÓN</th>
+								<th class="" align="center" width="" nowrap>APLICÓ</th>
+								<th class="" align="center" width="" nowrap>FECHA/HORA</th>
+								<th class="" align="center" width="" nowrap>PRECIO</th>
+								<th class="" align="center" width="" nowrap>*</th>
+								<th class="" align="center" width="" nowrap>ADICIONALES</th>
 							</tr>
-						</tfoot>
-					</table>
+							</thead> <tbody id="conten" > <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
+							<tfoot>
+								<tr>
+									<th></th>
+									<th><input type="text" class="form-control input-sm" placeholder="-MEDICAMENTO-" style="width: 99%"/></th>
+									<th><input type="text" class="form-control input-sm" placeholder="-PRESENTACIÓN-" style="width: 99%"/></th>
+									<th></th>
+									<th><input type="text" class="form-control input-sm" placeholder="-APLICÓ-" style="width: 99%"/></th>
+									<th><input type="text" class="form-control input-sm" placeholder="-FECHA/HORA-" style="width: 99%"/></th>
+									<th><input type="hidden" class="sCalculo" /></th>
+									<th><input type="hidden" class="" /></th>
+									<th><input type="hidden" class="sCalculo" /></th>
+								</tr>
+							</tfoot>
+						</table>
 					</div>
 					<a href="#"type="button" class="btn btn-info " id="btn_printMA">IMPRIMIR</a>
+				</div>
+				<!-- Medicamentos aplicados reacciones -->
+				<div role="tabpanel" class="tab-pane" id="t-aplicados-r">
+					<div id="printt1">
+						<table width="100%" height="100%" border="0" id="dataTableMedicamentosAR" class="table-condensed table-striped table-bordered table-hover" style="overflow: hidden;">
+							<thead id="cabecera_tBusquedaMedicamentosAR" class="">
+							<tr class="bg-primary" style="font-size: 1.1em;">
+								<th id="clickmeMdtosAR"class="titulosTabs"align="center" nowrap width="1px">#</th>
+								<th class="" align="center" width="">MEDICAMENTO</th>
+								<th class="" align="center" width="" nowrap>PRESENTACIÓN</th>
+								<th class="" align="center" width="" nowrap>INDICACIÓN</th>
+								<th class="" align="center" width="" nowrap>APLICÓ</th>
+								<th class="" align="center" width="" nowrap>FECHA/HORA</th>
+								<th class="" align="center" width="" nowrap>PRECIO</th>
+								<th class="" align="center" width="" nowrap>*</th>
+								<th class="" align="center" width="" nowrap>REACCIONES</th>
+							</tr>
+							</thead> <tbody id="conten" > <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
+							<tfoot>
+								<tr>
+									<th></th>
+									<th><input type="text" class="form-control input-sm" placeholder="-MEDICAMENTO-" style="width: 99%"/></th>
+									<th><input type="text" class="form-control input-sm" placeholder="-PRESENTACIÓN-" style="width: 99%"/></th>
+									<th></th>
+									<th><input type="text" class="form-control input-sm" placeholder="-APLICÓ-" style="width: 99%"/></th>
+									<th><input type="text" class="form-control input-sm" placeholder="-FECHA/HORA-" style="width: 99%"/></th>
+									<th><input type="hidden" class="sCalculo" /></th>
+									<th><input type="hidden" class="" /></th>
+									<th><input type="hidden" class="sCalculo" /></th>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+					<a href="#"type="button" class="btn btn-info " id="btn_printMAR">IMPRIMIR</a>
 				</div>
 				
 			  </div>

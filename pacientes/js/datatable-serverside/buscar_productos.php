@@ -71,16 +71,16 @@ require("../../../funciones/php/values.php");
 
 	if($con_membresia>0){//Tiene membresía vigente
 		if($urgencia==1){//Nocturno
-			$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', 'e.precio_mu', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote");
+			$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', 'e.precio_mu', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote", "med.nombre_generico_med");
 		}else{
-			$aColumns = array('e.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'e.precio_m', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote");
+			$aColumns = array('e.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'e.precio_m', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote", "med.nombre_generico_med");
 		}
 		// DB tables to use 
 		$aTables = array( 'conceptos e');
 		// Indexed column (used for fast and accurate table cardinality) 
 		$sIndexColumn = "e.id_to";
 		 // Joins   
-		$sJoin = 'left join areas a on a.id_a = e.id_area_to left join convenios c on c.id_cv = e.id_convenio_to left join stock_has_bach s on s.id_Producto = e.id_to left join stock s1 on s.id_stock = s1.id';
+		$sJoin = 'left join areas a on a.id_a = e.id_area_to left join convenios c on c.id_cv = e.id_convenio_to left join stock_has_bach s on s.id_Producto = e.id_to left join stock s1 on s.id_stock = s1.id left join medicamentos med on med.id_med = e.id_medicamento_g';
 		// CONDITIONS
 		$lista = '0';
 		mysql_select_db($database_horizonte, $horizonte);
@@ -93,16 +93,16 @@ require("../../../funciones/php/values.php");
 	}else{
 		if($_GET['idConvenio']==0){//Sin convenios
 			if($urgencia==1){//Nocturno
-				$aColumns = array('e.concepto_to','e.codigo_barras_to', 'a.nombre_a', $precio_ur, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote" );
+				$aColumns = array('e.concepto_to','e.codigo_barras_to', 'a.nombre_a', $precio_ur, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote", "med.nombre_generico_med" );
 			}else{
-				$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', $precio_nor, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote" );
+				$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', $precio_nor, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote", "med.nombre_generico_med"	);
 			}
 			// DB tables to use 
 			$aTables = array( 'conceptos e');
 			// Indexed column (used for fast and accurate table cardinality) 
 			$sIndexColumn = "e.id_to";
 			 // Joins   
-			$sJoin = 'left join areas a on a.id_a = e.id_area_to left join convenios c on c.id_cv = e.id_convenio_to left join stock_has_bach s on s.id_Producto = e.id_to left join stock s1 on s.id_stock = s1.id';
+			$sJoin = 'left join areas a on a.id_a = e.id_area_to left join convenios c on c.id_cv = e.id_convenio_to left join stock_has_bach s on s.id_Producto = e.id_to left join stock s1 on s.id_stock = s1.id left join medicamentos med on med.id_med = e.id_medicamento_g';
 			// CONDITIONS
 			$lista = '0';
 			mysql_select_db($database_horizonte, $horizonte);
@@ -124,7 +124,7 @@ require("../../../funciones/php/values.php");
 			// Indexed column (used for fast and accurate table cardinality) 
 			$sIndexColumn = "cb.id_cb";
 			 // Joins   
-			$sJoin = 'left join convenios_paciente cp on cp.id_cvp = cb.id_convenio_paciente_cb left join convenios cv on cv.id_cv = cp.id_convenio_cvp left join asigna_conceptos_convenios acc on acc.id_ac = cb.id_concepto_convenio_cb left join conceptos c on c.id_to = acc.id_concepto_ac left join areas a on a.id_a = c.id_area_to left join stock_has_bach s on s.id_Producto = e.id_to left join stock s1 on s.id_stock = s1.id';
+			$sJoin = 'left join convenios_paciente cp on cp.id_cvp = cb.id_convenio_paciente_cb left join convenios cv on cv.id_cv = cp.id_convenio_cvp left join asigna_conceptos_convenios acc on acc.id_ac = cb.id_concepto_convenio_cb left join conceptos c on c.id_to = acc.id_concepto_ac left join areas a on a.id_a = c.id_area_to left join stock_has_bach s on s.id_Producto = e.id_to left join stock s1 on s.id_stock = s1.id left join medicamentos med on med.id_med = c.id_medicamento_g';
 			// CONDITIONS
 			$lista = '0';
 			mysql_select_db($database_horizonte, $horizonte);
@@ -343,6 +343,8 @@ require("../../../funciones/php/values.php");
 		$class_btn = $info_factura->nombre_factura == "" ? "btn btn-danger btn-sm" : "btn btn-success btn-sm";
 
 		$row[8] = "<button type=\"button\" id=\"imprimir_factura_producto\" class=\"{$class_btn}\" onclick=\"verFacturaProducto('{$info_factura->nombre_factura}', '{$referencia_compra}', '{$info_factura->usuario_u}', '{$info_factura->fecha_hora}')\"><i class=\"fa fa-file-pdf-o\"></i></button>";
+
+		$row[9] = $row[11];
 
 		$output['aaData'][] = $row;	
     }     
