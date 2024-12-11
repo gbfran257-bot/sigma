@@ -771,6 +771,7 @@
                                 <th align="center">CADUCIDAD</th>
                                 <th align="center">BENEFICIO</th>
                                 <th align="center">PDF</th>
+                                <th align="center">GENERICO</th>
                               </tr>
                             </thead>
                             <tbody align="left">
