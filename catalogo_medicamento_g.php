@@ -165,6 +165,20 @@ function nuevo_medicamento(){
 		$('#id_usr_reg').val($('#id_user').val()); $('#alerta_new_user').hide();
 		$('#titulo_modal').text('CREAR UN NUEVO MEDICAMENTO');
 		select2ini("#via_administracion_m", "via_administracion.php", "SELECCIONE VIA ADMINISTRACIÓN");
+
+		$("#min_stock").blur(() => {
+			if ( parseFloat($("#min_stock").val()) >= parseFloat($("#max_stock").val()) && parseFloat($("#max_stock").val()) != 0 ){
+				$("#min_stock").focus();
+				return swal("¡Atencion!", "La cantidad debe ser menor al maximo", "info");
+			}
+		});
+
+		$("#max_stock").blur(() => {
+			if ( parseFloat($("#max_stock").val()) <= parseFloat($("#min_stock").val()) && parseFloat($("#min_stock").val()) != 0 ){
+				$("#max_stock").focus();
+				return swal("¡Atencion!", "La cantidad debe ser mayor al minimo", "info");
+			}
+		});
 		
 		$('#med_generico').validator().on('submit', function (e) {
 		  if (e.isDefaultPrevented()) { // handle the invalid form...
@@ -200,6 +214,20 @@ function editar(id_um, unidad){0
 		$('#id_unidad_m').val(id_um);
 		$('#btn_save_mg').addClass('hidden');
 		$('#btn_update_carrera').removeClass('hidden');
+
+		$("#min_stock").blur(() => {
+			if ( parseFloat($("#min_stock").val()) >= parseFloat($("#max_stock").val()) && parseFloat($("#max_stock").val()) != 0 ){
+				$("#min_stock").focus();
+				return swal("¡Atencion!", "La cantidad debe ser menor al maximo", "info");
+			}
+		});
+
+		$("#max_stock").blur(() => {
+			if ( parseFloat($("#max_stock").val()) <= parseFloat($("#min_stock").val()) && parseFloat($("#min_stock").val()) != 0 ){
+				$("#max_stock").focus();
+				return swal("¡Atencion!", "La cantidad debe ser mayor al minimo", "info");
+			}
+		});
 		
 		var datos ={id_um:id_um}
 		$.post('catalogos/medicamento_generico/files-serverside/ficha_medicamento.php',datos).done(function(data1){
@@ -221,6 +249,9 @@ function editar(id_um, unidad){0
 			 $('#indicaciones_m').val(datosI[13]);
 			 $('#via_admin_dosis_m').val(datosI[14]);
 			 $('#presentaciones_m').val(datosI[16]);
+			 //para el max_min stock
+			 $('#min_stock').val(datosI[23]);
+			 $('#max_stock').val(datosI[24]);
 
 			 select2ini("#via_administracion_m", "via_administracion.php", "SELECCIONE VIA ADMINISTRACIÓN");
 		     $("#via_administracion_m").html("<option value='"+datosI[22]+"' selected>"+datosI[22]+"</option>");
@@ -237,7 +268,7 @@ function editar(id_um, unidad){0
 					if (data==1){//si el paciente se Actualizó 
 						$('#clickme').click(); $('#myModal').modal('hide'); 
 						swal({
-						  title: "¡CONFIRMACIÓN!", type: "success", text: "La unidad de medida se ha actualizado.",
+						  title: "¡CONFIRMACIÓN!", type: "success", text: "El medicamento se ha actualizado.",
 						  timer: 1900, showConfirmButton: false
 						}); return;
 					} else{alert(data);}
