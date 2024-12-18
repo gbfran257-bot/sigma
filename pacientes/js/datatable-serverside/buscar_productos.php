@@ -206,16 +206,22 @@ require("../../../funciones/php/values.php");
 			$busqueda = "%" . htmlentities($_GET['sSearch_' . $i]) . "%";
 
 			if ($i == 4) {
-				if (count($aColumns) == 11) {
+				if (count($aColumns) == 12) {
 					$sWhere .= $aColumns[7]." LIKE '".$busqueda."' ";
 				} else {
 					$sWhere .= $aColumns[11]." LIKE '".$busqueda."' ";
 				}
 			} elseif ($i == 5) {
-				if (count($aColumns) == 11) {
+				if (count($aColumns) == 12) {
 					$sWhere .= $aColumns[8]." LIKE '".$busqueda."' ";
 				} else {
-					$sWhere .= $aColumns[12]." LIKE '".$busqueda."' ";
+					$sWhere .= $aColumns[11]." LIKE '".$busqueda."' ";
+				}
+			}else if($i == 9){
+				if (count($aColumns) == 12) {
+					$sWhere .= $aColumns[11]." LIKE '".$busqueda."' ";
+				} else {
+					$sWhere .= $aColumns[11]." LIKE '".$busqueda."' ";
 				}
 			} else {
 				$sWhere .= $aColumns[$i]." LIKE '".$busqueda."' ";
