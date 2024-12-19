@@ -20,6 +20,8 @@
 							<th class="titulosTabs" align="center" width="" nowrap>VÍA</th>
 							<th class="titulosTabs" align="center" width="" nowrap>NIVEL</th>
 							<th class="titulosTabs" align="center" width="" nowrap>GRUPO</th>
+							<th class="titulosTabs" align="center" width="" nowrap>LOTE</th>
+							<th class="titulosTabs" align="center" width="" nowrap>CADUCIDAD</th>
 						  </tr>
 						</thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 						<tfoot style="display:;">
@@ -31,6 +33,8 @@
 								<th><input type="text" class="form-control input-sm" placeholder="-VÍA-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-NIVEL-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-GRUPO-" style="width: 99%"/></th>
+								<th><input type="text" class="form-control input-sm" placeholder="-LOTE-" style="width: 99%"/></th>
+								<th><input type="text" class="form-control input-sm" placeholder="-CADUCIDAD-" style="width: 99%"/></th>
 							</tr>
 						</tfoot>
 					</table>
@@ -41,6 +45,7 @@
 					<br><div class="text-info">INDICACIONES:</div>
 					<textarea style="resize: none;" class="form-control" id="indicacion_m" name="indicacion_m" rows="4"></textarea>
 					<input type="hidden" id="id_medi" name="id_medi"/>
+					<input type="hidden" id="id_stock_pivote" name="id_stock_pivote"/>
 		  		</td>
 		    </tr>
 		  </table>
