@@ -85,7 +85,16 @@ require("../../funciones/php/values.php");
         {
             if ( $sWhere == "" ) { $sWhere = "WHERE "; }
             else { $sWhere .= " AND "; }
-            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+
+            $busqueda = "%" . htmlentities($_GET['sSearch_' . $i]) . "%";
+
+            if($i == 7){
+                $sWhere .= $aColumns[9]." LIKE '".$busqueda."' ";
+            }else if($i == 8){
+                $sWhere .= $aColumns[10]." LIKE '".$busqueda."' ";
+            }else {
+                $sWhere .= $aColumns[$i]." LIKE '".$busqueda."' ";
+            }
         }
     }
      
