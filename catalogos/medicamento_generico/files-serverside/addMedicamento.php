@@ -20,15 +20,18 @@ if(empty($_POST['interacciones_m'])){$interacciones =  "NULL";}else{$interaccion
 if(empty($_POST['indicaciones_m'])){$indicaciones =  "NULL";}else{$indicaciones = mb_strtoupper(sqlValue($_POST["indicaciones_m"], "text"));}
 if(empty($_POST['via_admin_dosis_m'])){$via_admin_dosis =  "NULL";}else{$via_admin_dosis = mb_strtoupper(sqlValue($_POST["via_admin_dosis_m"], "text"));}
 if(empty($_POST['presentaciones_m'])){$presentaciones =  "NULL";}else{$presentaciones = mb_strtoupper(sqlValue($_POST["presentaciones_m"], "text"));}
+//max_min stock
+if(empty($_POST['min_stock'])){$min_stock = 0;}else{$min_stock = mb_strtoupper(sqlValue($_POST["min_stock"], "int"));}
+if(empty($_POST['max_stock'])){$max_stock = 0;}else{$max_stock = mb_strtoupper(sqlValue($_POST["max_stock"], "int"));}
  
 $now = sqlValue(date('Y-m-d H:i:s'), "date");
 $noTemp = sqlValue(date('Y-m-d-H-i-s'), "date");
 
     mysql_select_db($database_horizonte, $horizonte);
  	
-    $sql = "INSERT INTO medicamentos (clave_med, nombre_generico_med, descripcion_med, cantidad_med, presentacion_med, nivel_med, grupo_med, generalidades_med, riesgo_embarazo_med, efectos_adversos_med, contraindicaciones_precauciones_med, interacciones_med, indicaciones_med, via_administracion_dosis_med, via_administracion_med, contenido_med, presentaciones_med, fecha_med) VALUES "; 
+    $sql = "INSERT INTO medicamentos (clave_med, nombre_generico_med, descripcion_med, cantidad_med, presentacion_med, nivel_med, grupo_med, generalidades_med, riesgo_embarazo_med, efectos_adversos_med, contraindicaciones_precauciones_med, interacciones_med, indicaciones_med, via_administracion_dosis_med, via_administracion_med, contenido_med, presentaciones_med, fecha_med, m_min_stock, m_max_stock) VALUES "; 
     
-    $sql .= "($clave_m, $nombre, $descripcion, $cantidad, $presentacion, $nivel, $gMedico, $generalidades, $rEmbarazo, $efectos, $contradicciones, $interacciones, $indicaciones, $via_admin_dosis, $via_admin, $contenido, $presentaciones, $now)";
+    $sql .= "($clave_m, $nombre, $descripcion, $cantidad, $presentacion, $nivel, $gMedico, $generalidades, $rEmbarazo, $efectos, $contradicciones, $interacciones, $indicaciones, $via_admin_dosis, $via_admin, $contenido, $presentaciones, $now, $min_stock, $max_stock)";
 
     $update = mysql_query($sql, $horizonte) or die (mysql_error());
 

@@ -114,6 +114,16 @@
                 </div>
               </div>
             </div>
+            <div class="col-md-12">
+                <div class="form-group col-md-3">
+                  <label class="control-label" for="" >Minimo Stock</label>
+                  <input type="number" class="form-control" style="margin-top:10px;" name="min_stock" id="min_stock" required value="" min="1">
+                </div>
+                <div class="form-group col-md-3">
+                  <label class="control-label" for="" >Maximo Stock</label>
+                  <input type="number" class="form-control" style="margin-top:10px;" name="max_stock" id="max_stock" required value="" min="1">
+                </div>
+            </div>
           </form>
 	    </div>
       <div class="modal-footer">

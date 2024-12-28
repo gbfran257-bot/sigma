@@ -79,7 +79,7 @@
 			z-index: 9999;
 		}
 		#contenido_ficha_usuario_addmed{
-			width:85%;
+			width:90%;
 		}
 	</style>
 </head>
@@ -262,7 +262,7 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 				$('#btn_add_medicamento').addClass('hide');
 				$('#title_medicamento').html('MEDICAMENTO');
 			}
-			$('#btn_add_medicamento').click(function(e){ nuevo_medicamento(id_h, id_p, nombre_p, id_s); });
+			$('#btn_add_medicamento').click(function(e){ nuevo_medicamento(id_h, id_p, nombre_p, id_s, $("#select-sucursal-u").val()); });
 			
 			var oTableA = $('#dataTableMedicamentosA').DataTable({
 				serverSide: true,"sScrollY": tam, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
@@ -333,6 +333,15 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 			}); 
 			//fin filtros individuales por campo de texto
 
+			//Cargamos sucursales
+			$('#select-sucursal-u').load('hospital/files-serverside/getSucursales.php?id_u='+$('#id_user').val(),function(response,status,xhr){if(status=="success"){
+				
+			}});
+
+			$("#select-sucursal-u").change(function(e) {
+				$('#btn_add_medicamento').removeClass('hidden');
+			});
+
 		},200);
 		
 		$('#myModal2').modal('show'); $('#myModal2').on('shown.bs.modal', function (e){});
@@ -356,7 +365,7 @@ function poner_medi(id_mh,med,paciente){
 						$('#clickmeMdtos').click();
 						swal({ title: "", type: "success", text: "El medicamento ha sido aplicado al paciente.", timer: 1800, showConfirmButton: false });
 				}else if(data==2){
-					swal({ title: "", type: "error", text: "El medicamento no cuenta con existencias.", timer: 1800, showConfirmButton: false });
+					swal({ title: "", type: "error", text: "El medicamento no cuenta con existencias de ese lote.", timer: 1800, showConfirmButton: false });
 				}else{
 					alert(data);
 				} 
@@ -531,7 +540,7 @@ function agregarAdicionalesMA(check,id_mah){
 		});
 }
 
-function nuevo_medicamento(id_h, id_p, nombre_p, id_s){ $('#myModal2').modal('hide');
+function nuevo_medicamento(id_h, id_p, nombre_p, id_s, id_su_user){ $('#myModal2').modal('hide');
 	window.setTimeout(function(){
 		$("#myModal3").load('hospital/htmls/add_medicamento.php', function( response, status, xhr ){ if(status=="success"){
 			$('#titulo_modal').text('AGREGAR MEDICAMENTO PARA EL PACIENTE '+nombre_p);
@@ -541,10 +550,12 @@ function nuevo_medicamento(id_h, id_p, nombre_p, id_s){ $('#myModal2').modal('hi
 				var oTable = $('#dataTableMeds').DataTable({
 					serverSide: true,"sScrollY": tam, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 					"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ){ }, scroller: false, responsive: true,
-					"aoColumns": [ {"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true} ],
+					"aoColumns": [ {"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true} ],
 					"sDom": '<"filtro1Principal"><"data_tPrincipal"t><"infoPrincipal"S><"proc">',
 					deferRender: true, select: { style: 'single' }, "processing": false, "sAjaxSource": "hospital/datatable-serverside/buscar_medicamentos.php",
-					"fnServerParams": function(aoData, fnCallback){ },
+					"fnServerParams": function(aoData, fnCallback){ 
+						aoData.push( {"name": "id_su", "value": id_su_user } );
+					 },
 					"oLanguage": {
 						"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
 						"sInfo": "MEDICAMENTOS FILTRADOS: _END_", "sInfoEmpty": "NINGÚN MEDICAMENTO FILTRADO.", "sInfoFiltered": " TOTAL DE MEDICAMENTOS: _MAX_",
@@ -562,16 +573,16 @@ function nuevo_medicamento(id_h, id_p, nombre_p, id_s){ $('#myModal2').modal('hi
 				
 				oTable.on('select', function(e, dt, type, indexes){
 					$('#mis_indis').removeClass('hidden'); $('#btn_save_medi').removeClass('disabled');
-					var rowData = oTable.rows( indexes ).data().toArray(); $('#id_medi').val(rowData[0][7]); //alert(rowData[0][7]);
-					var datosN = {id_m:rowData[0][7]}
+					var rowData = oTable.rows( indexes ).data().toArray(); $('#id_medi').val(rowData[0][0]); $('#id_stock_pivote').val(rowData[0][11]);
+					var datosN = {id_m:rowData[0][0]}
 					$.post('hospital/files-serverside/indicacion_medic.php',datosN).done(function(data){ $('#indicacion_m').val(data); });
 				}).on( 'deselect', function ( e, dt, type, indexes ){
-					$('#mis_indis').addClass('hidden'); $('#btn_save_medi').addClass('disabled'); $('#indicacion_m').val(''); $('#id_medi').val('');
+					$('#mis_indis').addClass('hidden'); $('#btn_save_medi').addClass('disabled'); $('#indicacion_m').val(''); $('#id_medi').val(''); $('#id_stock_pivote').val('');
 				});
 				
 				$('#btn_save_medi').click(function(e){
 					$('#btn_save_medi').addClass('disabled');
-					if($('#id_medi').val()!=''){ guardar_add_medi(id_h, id_p, $('#id_medi').val(), $('#indicacion_m').val()); }
+					if($('#id_medi').val()!=''){ guardar_add_medi(id_h, id_p, $('#id_medi').val(), $('#indicacion_m').val(), $('#id_stock_pivote').val()); }
 				});
 			},300);
 
@@ -582,8 +593,8 @@ function nuevo_medicamento(id_h, id_p, nombre_p, id_s){ $('#myModal2').modal('hi
 		}});
 	},300);
 }
-function guardar_add_medi(id_h, id_p, id_m, indicacion){
-	var datos = {id_h:id_h, id_p:id_p, id_m:id_m, indicacion:indicacion, id_u:$('#id_user').val()}
+function guardar_add_medi(id_h, id_p, id_m, indicacion, stock_pivote){
+	var datos = {id_h:id_h, id_p:id_p, id_m:id_m, indicacion:indicacion, id_u:$('#id_user').val(), stock_pivote:stock_pivote}
 	$.post('hospital/files-serverside/asignar_medi.php',datos).done(function(data){
 		if(data==1){
 			$('#myModal3').modal('hide');

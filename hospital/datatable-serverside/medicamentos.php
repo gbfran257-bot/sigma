@@ -35,7 +35,7 @@ require("../../funciones/php/values.php");
     }
      
     /* * Ordering */
-    $sOrder = "";
+    $sOrder = "GROUP BY m.fecha_mh order by m.fecha_mh ASC";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
         $sOrder = "ORDER BY  ";

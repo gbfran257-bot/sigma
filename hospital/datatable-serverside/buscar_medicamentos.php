@@ -2,9 +2,15 @@
 require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
 
-	$idP = sqlValue($_GET["id_p"], "int");
+	$id_su = sqlValue($_GET["id_su"], "int");
 
-	$aColumns = array('m.id_to', 'm1.nombre_generico_med', 'm.concepto_to', 'm1.cantidad_med', 'm1.via_administracion_med', 'm1.nivel_med', 'm1.grupo_med', 'm.id_to', 'm.id_to');
+    //obtenemos el id del stock
+    mysql_select_db($database_horizonte, $horizonte);
+    $result_s = mysql_query("SELECT id FROM stock WHERE id_su = $id_su", $horizonte) or die (mysql_error());
+    $row_s = mysql_fetch_row($result_s);
+    $id_stock = $row_s[0];
+
+	$aColumns = array('m.id_to', 'm1.nombre_generico_med', 'm.concepto_to', 'm1.cantidad_med', 'm1.via_administracion_med', 'm1.nivel_med', 'm1.grupo_med', 'm.id_to', 'm.id_to', 'shb.Lote', 'DATE_FORMAT(shb.fecha_expiracion,"%d/%m/%Y")', 'shb.id');
      
     // DB tables to use 
     $aTables = array( 'conceptos m');
@@ -13,10 +19,10 @@ require("../../funciones/php/values.php");
     $sIndexColumn = "m.id_to";
      
 	 // Joins   hasta aqui
-	$sJoin = 'left join medicamentos m1 on m1.id_med = m.id_medicamento_g';
+	$sJoin = 'left join medicamentos m1 on m1.id_med = m.id_medicamento_g LEFT JOIN stock_has_bach shb ON shb.id_Producto = m.id_to';
 	 
     // CONDITIONS
-	$sWhere = "where m.id_tipo_concepto_to = 5";	
+	$sWhere = "where m.id_tipo_concepto_to = 5  AND shb.id_stock = $id_stock AND shb.existencias > 0";	
 	
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;
@@ -79,7 +85,16 @@ require("../../funciones/php/values.php");
         {
             if ( $sWhere == "" ) { $sWhere = "WHERE "; }
             else { $sWhere .= " AND "; }
-            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+
+            $busqueda = "%" . htmlentities($_GET['sSearch_' . $i]) . "%";
+
+            if($i == 7){
+                $sWhere .= $aColumns[9]." LIKE '".$busqueda."' ";
+            }else if($i == 8){
+                $sWhere .= $aColumns[10]." LIKE '".$busqueda."' ";
+            }else {
+                $sWhere .= $aColumns[$i]." LIKE '".$busqueda."' ";
+            }
         }
     }
      
@@ -134,12 +149,15 @@ require("../../funciones/php/values.php");
             if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; }
             else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; }
         }
-		$row[0] = "<div align='center'>$hh</div>";
+		//$row[0] = "<div align='center'>$hh</div>";
 		
 		//$nombre_p = '"'.$row[7].'"';
 										
 		//$row[4] = "<div align='center'><button onClick='ver_nota($row[5], $row[6], $nombre_p, $row[8], $row[4])' lang='$row[4]' class='btn btn-primary btn-xs ver_nota'><i class='fa fa-eye' aria-hidden='true'></i> </button></div>";
 		
+        $row[7] = $row[9];
+        $row[8] = $row[10];
+
 		$output['aaData'][] = $row;
 		
     }

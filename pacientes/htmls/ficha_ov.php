@@ -802,6 +802,7 @@
                                   <select id="beneficio_p" name="beneficio_p" class="form-control input-sm" style=""></select>
                                 </th>
                                 <th></th>
+                                <th><input type="text" name="te7" class="form-control input-sm" style="width:99%;" placeholder="GENERICO"></th>
                               </tr>
                             </tfoot>
                           </table>

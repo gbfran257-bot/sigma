@@ -25,9 +25,12 @@ if(empty($_POST['indicaciones_m'])){$indicaciones =  "NULL";}else{$indicaciones 
 if(empty($_POST['via_admin_dosis_m'])){$via_admin_dosis =  "NULL";}else{$via_admin_dosis = mb_strtoupper(sqlValue($_POST["via_admin_dosis_m"], "text"));}
 if(empty($_POST['presentaciones_m'])){$presentaciones =  "NULL";}else{$presentaciones = mb_strtoupper(sqlValue($_POST["presentaciones_m"], "text"));}
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
+ //max_min stock
+if(empty($_POST['min_stock'])){$min_stock = 0;}else{$min_stock = mb_strtoupper(sqlValue($_POST["min_stock"], "int"));}
+if(empty($_POST['max_stock'])){$max_stock = 0;}else{$max_stock = mb_strtoupper(sqlValue($_POST["max_stock"], "int"));}
 
  mysql_select_db($database_horizonte, $horizonte);
- $sql = "UPDATE medicamentos set clave_med = $clave_m, nombre_generico_med = $nombre, descripcion_med = $descripcion, cantidad_med = $cantidad, presentacion_med = $presentacion, nivel_med = $nivel, grupo_med = $gMedico, generalidades_med = $generalidades, riesgo_embarazo_med = $rEmbarazo, efectos_adversos_med = $efectos, contraindicaciones_precauciones_med = $contradicciones, interacciones_med = $interacciones, indicaciones_med = $indicaciones, via_administracion_dosis_med = $via_admin_dosis, via_administracion_med = $via_admin, contenido_med = $contenido, presentaciones_med = $presentaciones,fecha_med =$now where id_med = $idP limit 1";
+ $sql = "UPDATE medicamentos set clave_med = $clave_m, nombre_generico_med = $nombre, descripcion_med = $descripcion, cantidad_med = $cantidad, presentacion_med = $presentacion, nivel_med = $nivel, grupo_med = $gMedico, generalidades_med = $generalidades, riesgo_embarazo_med = $rEmbarazo, efectos_adversos_med = $efectos, contraindicaciones_precauciones_med = $contradicciones, interacciones_med = $interacciones, indicaciones_med = $indicaciones, via_administracion_dosis_med = $via_admin_dosis, via_administracion_med = $via_admin, contenido_med = $contenido, presentaciones_med = $presentaciones,fecha_med =$now, m_min_stock = $min_stock, m_max_stock = $max_stock where id_med = $idP limit 1";
 // echo($sql);
  $update = mysql_query($sql, $horizonte) or die (mysql_error());    
 	
