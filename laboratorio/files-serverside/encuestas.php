@@ -1,7 +1,7 @@
 <?php
 require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
-header('Content-Type: text/html; charset=UTF-8');
+header('Content-Type: application/json; charset=utf-8');
 //reciimos variables por get
 $idPaciente = sqlValue($_GET["idPaciente"], "int");
 $idEncuesta = sqlValue($_GET["idEncuesta"], "int");
