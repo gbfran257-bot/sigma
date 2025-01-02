@@ -1,6 +1,7 @@
 <?php
 require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
+header('Content-Type: text/html; charset=UTF-8');
 //reciimos variables por get
 $idPaciente = sqlValue($_GET["idPaciente"], "int");
 $idEncuesta = sqlValue($_GET["idEncuesta"], "int");
@@ -19,7 +20,7 @@ $id = mysql_fetch_row($buscarId);
 if($id[0] > 0){
     //Obtenemos nombre de paciente
     mysql_select_db($database_horizonte, $horizonte);
-    $buscarNombre = mysql_query("SELECT CONCAT_WS(' ', nombre_p, amaterno_p, apaterno_p) FROM pacientes WHERE id_p = " . $idPaciente, $horizonte) or die (mysql_error());
+    $buscarNombre = mysql_query("SELECT CONCAT_WS(' ', nombre_p, apaterno_p, amaterno_p) FROM pacientes WHERE id_p = " . $idPaciente, $horizonte) or die (mysql_error());
     $nombre = mysql_fetch_row($buscarNombre);
     $jUserName = $nombre[0];
     //Buscamos si existe encuesta
@@ -38,6 +39,10 @@ if($id[0] > 0){
         mysql_select_db($database_horizonte, $horizonte);
         $modificarEnlacePdf = "UPDATE venta_conceptos SET nota_radiologo_vc = $enlacePdf WHERE id_vc = ". $ultId[0] ." LIMIT 1"; 
         $ejecutarModEnlace = mysql_query($modificarEnlacePdf, $horizonte) or die (mysql_error());
+        //agregamos respuesta si se ejecuta la consulta
+        if($ejecutarModEnlace){
+            $operationResponse = 1;
+        }
     }
 }else{
     $jUserExist = 0;
@@ -54,7 +59,7 @@ $array = array(
 );
 
 
-echo json_encode($array);
+echo json_encode($array, JSON_UNESCAPED_UNICODE);
 
  //Cerrar conexión a la Base de Datos
  mysql_close($horizonte);
