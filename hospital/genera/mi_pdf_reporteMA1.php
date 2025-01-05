@@ -144,7 +144,7 @@ $pdf->cell(189.5,0.1,'',1,1,'C');
 
 //consulta
 mysql_select_db($database_horizonte, $horizonte); 
-$datos = mysql_query("SELECT m.id_mah, mc.concepto_to, m.id_mah, m.id_mah, CONCAT_WS(' ', u.usuario_u, u.apaterno_u, u.amaterno_u, u.cedulaProfesional_u) as aplico, DATE_FORMAT(m.fecha_mah,'%d/%m/%Y') as Fecha, m.id_mah, DATE_FORMAT(m.fecha_mah,'%H:%i:%s') as minutos ,mc.precio_to, m1.indicacion_mh, DATE_FORMAT(m.fecha_mah,'%d/%m/%Y') as fecha, DATE_FORMAT(m.fecha_mah,'%H:%i:%s') as hora  from medicamentos_aplicados_hospi m left join medicamentos_hospital m1 on m1.id_mh = m.id_medicamento_hospital_mah left join conceptos mc on mc.id_to = m1.id_medicamento_mh left join usuarios u on u.id_u = m.id_usuario_mah left join titulos t on t.id_ti = u.id_titulo_u WHERE  m1.id_hospitalizacion_mh = " . $id_h . " ORDER BY m.fecha_mah ASC ",$horizonte) or die (mysql_error());
+$datos = mysql_query("SELECT m.id_mah, mc.concepto_to, m.id_mah, m.id_mah, CONCAT_WS(' ', u.usuario_u, u.apaterno_u, u.amaterno_u, u.cedulaProfesional_u) as aplico, DATE_FORMAT(m.fecha_mah,'%d/%m/%Y') as Fecha, m.id_mah, DATE_FORMAT(m.fecha_mah,'%H:%i:%s') as minutos ,mc.precio_to, m1.indicacion_mh, DATE_FORMAT(m.fecha_mah,'%d/%m/%Y') as fecha, DATE_FORMAT(m.fecha_mah,'%H:%i:%s') as hora, shb.Lote AS lote, DATE_FORMAT(shb.fecha_expiracion,'%d/%m/%Y') AS expiracion from medicamentos_aplicados_hospi m left join medicamentos_hospital m1 on m1.id_mh = m.id_medicamento_hospital_mah left join conceptos mc on mc.id_to = m1.id_medicamento_mh left join usuarios u on u.id_u = m.id_usuario_mah left join titulos t on t.id_ti = u.id_titulo_u LEFT JOIN stock_has_bach shb ON shb.id = m.id_stock WHERE  m1.id_hospitalizacion_mh = " . $id_h . " ORDER BY m.fecha_mah ASC ",$horizonte) or die (mysql_error());
 
 //contador
 $contador = 1;
@@ -156,11 +156,13 @@ while ($fila = mysql_fetch_assoc($datos)) {
     //$cantidad = $fila['cantidad'];
     $fecha = $fila['fecha'];
     $hora = $fila['hora'];
+    $lote = $fila['lote'];
+    $expiracion = $fila['expiracion'];
     //condiciones
     
     $nombre_doctor = substr($nombre_doctor, 0, 40);
     $medicamento = substr($medicamento, 0, 40);
-    $cantidad = substr($cantidad, 0, 7);
+    //$cantidad = substr($cantidad, 0, 7);
     $indicacion1 = substr($indicacion1, 0, 67);
 
     // Texto mayusculas
@@ -216,7 +218,7 @@ while ($fila = mysql_fetch_assoc($datos)) {
     $pdf->cell(0.1,5,'',1,0,'C');
     $pdf->cell(25,5,$hora,0,0,'C');
     $pdf->cell(0.1,5,'',1,0,'C');
-    $pdf->cell(159,5,utf8_decode('LOTE: ') . '12345' . utf8_decode(' CADUCIDAD: ') . '22/DIC/24',0,0,'L');
+    $pdf->cell(159,5,utf8_decode('LOTE: ') . utf8_decode($lote) . utf8_decode(' CADUCIDAD: ') . utf8_decode($expiracion),0,0,'L');
     $pdf->cell(0.1,5,'',1,0,'C');
     $pdf->cell(0.1,5,'',1,1,'C');
     //
