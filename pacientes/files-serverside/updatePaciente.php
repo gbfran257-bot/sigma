@@ -88,6 +88,11 @@ require("../../funciones/php/values.php");
 $rep ="UPDATE documentos set aleatorio_do = $idP, id_quien_do  = $idP where aleatorio_do = $idP";
 $re = mysql_query($rep, $horizonte) or die (mysql_error());
 
+//guardamos la informacion en la tabla de proveedores
+mysql_select_db($database_horizonte, $horizonte);
+$add_proveedor ="INSERT INTO proveedores (nombre_pr, clave_pr) VALUES ($nombre_completo, MD5($idP))";
+$exec_add = mysql_query($add_proveedor, $horizonte) or die (mysql_error());
+
  if(!$update){echo $sql;} else{ echo 1; }
 
  //Cerrar conexión a la Base de Datos

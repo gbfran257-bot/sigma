@@ -2,7 +2,7 @@
 require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
      
-    $aColumns = array('s.id', 's.referencia_compra','g.nombre_generico_med', 'c.concepto_to', 's.Lote','su.nombre_su',  's.cantidad', 's.fecha_expiracion', 's.costo_unitario','CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%H:%i:%s"))');
+    $aColumns = array('s.id', 's.referencia_compra','g.nombre_generico_med', 'c.concepto_to', 's.Lote','su.nombre_su',  's.cantidad', 's.fecha_expiracion', 's.costo_unitario','CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 'pr.nombre_pr', 'pr.nombre_pr');
     // DB tables to use 
     $aTables = array( 'stock_has_bach s');
      
@@ -10,7 +10,7 @@ require("../../../funciones/php/values.php");
     $sIndexColumn = "s.id";
      
 	 // Joins   
-	$sJoin = 'left join conceptos c on c.id_to = s.id_Producto left join stock s1 on s1.id = s.id_stock left join usuarios u on u.id_u = s.usuario_registro left join sucursales su on su.id_su = s1.id_su left join medicamentos g on g.id_med = c.id_medicamento_g left join estatus es on es.id_est = s.estatus';
+	$sJoin = 'left join conceptos c on c.id_to = s.id_Producto left join stock s1 on s1.id = s.id_stock left join usuarios u on u.id_u = s.usuario_registro left join sucursales su on su.id_su = s1.id_su left join medicamentos g on g.id_med = c.id_medicamento_g left join estatus es on es.id_est = s.estatus left join proveedores pr on pr.clave_pr = s.id_proveedor';
 
     mysql_select_db($database_horizonte, $horizonte); 
 	$resultAU = mysql_query("SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[idU]'",$horizonte) or die (mysql_error());
@@ -83,7 +83,13 @@ require("../../../funciones/php/values.php");
         if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' )
         {
             if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " AND "; }
-            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+
+            $busqueda = "%" . htmlentities($_GET['sSearch_' . $i]) . "%";
+            if($i == 9){
+                $sWhere .= $aColumns[11]." LIKE '".$busqueda."' ";
+            } else {
+                $sWhere .= $aColumns[$i]." LIKE '".$busqueda."' ";
+            }
         }
     }
      
@@ -189,14 +195,10 @@ require("../../../funciones/php/values.php");
        $usuario_responsable = $info_usuario->usuario == "" ? $_GET['idU'] : $info_usuario->usuario;
        $fecha_hora = $info_usuario->fecha_hora;
        $row[10] = "<button type='button' onclick='verFacturaCompra({$id_stock}, \"{$folio}\", this, {$facturado}, \"{$nombre_factura}\", \"{$usuario_responsable}\", \"{$fecha_hora}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
-		
+       
        $row[1] = "<span>{$folio}<br>{$row[9]}</span>";
-
-       // Consultamos el proveedor del producto
-       $query_proveedor_producto = "SELECT nombre_p AS proveedor FROM pacientes p LEFT JOIN stock_has_bach shb ON MD5(p.id_p) = shb.id_proveedor WHERE shb.id = {$id_stock}";
-       $resultado_query_proovedor_producto = mysql_query($query_proveedor_producto, $horizonte) or die (mysql_error());
-       $proveedor = mysql_fetch_object($resultado_query_proovedor_producto)->proveedor;
-       $row[9] = $proveedor == "" || $proveedor == null ? "Sin proveedor" : $proveedor;
+       
+       $row[9] = $row[11];
 
 		$output['aaData'][] = $row;
     }
