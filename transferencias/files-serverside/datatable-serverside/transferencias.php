@@ -3,13 +3,13 @@
 require("../../../Connections/horizonte2.php");
 require("../../../funciones/php/values.php");
 
-$aColumns = array('s.id', 'tt.id_transferencia', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', 's.id', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 's.fecha_expiracion', 'su.nombre_su', 's.id', 's.id', 's.id_Producto');
+$aColumns = array('s.id', 'tt.id_transferencia', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', 's.id', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 's.fecha_expiracion', 'pr.nombre_pr', 's.id', 's.id', 's.id_Producto');
 
 $aTables = array('stock_has_bach s');
 
 $sIndexColumn = "s.id";
 
-$sJoin = 'left join transferencia_temporal tt on s.referencia_traspaso_temporal = tt.id_temporal left join conceptos c on c.id_to = s.id_Producto left join stock s1 on s1.id = s.id_stock left join usuarios u on u.id_u = s.usuario_registro left join sucursales su on su.id_su = s1.id_su left join medicamentos g on g.id_med = c.id_medicamento_g';
+$sJoin = 'left join transferencia_temporal tt on s.referencia_traspaso_temporal = tt.id_temporal left join conceptos c on c.id_to = s.id_Producto left join stock s1 on s1.id = s.id_stock left join usuarios u on u.id_u = s.usuario_registro left join sucursales su on su.id_su = s1.id_su left join medicamentos g on g.id_med = c.id_medicamento_g left join proveedores pr on pr.clave_pr = s.id_proveedor';
 
 $resultAU = mysqli_query($horizonte, "SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[idU]'") or die(mysqli_error($horizonte));
 $rowAU = mysqli_fetch_row($resultAU);
@@ -90,7 +90,12 @@ for ($i = 0; $i < count($aColumns); $i++) {
         } else {
             $sWhere .= " AND ";
         }
-        $sWhere .= $aColumns[$i] . " LIKE '%" . mysqli_real_escape_string($gaSql['link'], $_GET['sSearch_' . $i]) . "%' ";
+        $busqueda = "%" . htmlentities($_GET['sSearch_' . $i]) . "%";
+        if($i == 11){
+            $sWhere .= $aColumns[10]." LIKE '".$busqueda."' ";
+        } else {
+            $sWhere .= $aColumns[$i]." LIKE '".$busqueda."' ";
+        }
     }
 }
 
@@ -196,12 +201,6 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     $resultado_query_sucursal_origen = mysqli_query($horizonte, $query_datos_transferencia_temporal) or die(mysqli_error($horizonte));
     $row[6] = $resultado_query_sucursal_origen->fetch_object()->sucursal_origen;
 
-    // Consultamos el proveedor del producto
-    $query_proveedor_producto = "SELECT nombre_p AS proveedor FROM pacientes p LEFT JOIN stock_has_bach shb ON MD5(p.id_p) = shb.id_proveedor WHERE shb.id = {$id_stock}";
-    $resultado_query_proovedor_producto = mysqli_query($horizonte, $query_proveedor_producto) or die(mysqli_error($horizonte));
-    $proveedor = mysqli_fetch_object($resultado_query_proovedor_producto)->proveedor;
-    $row[11] = $proveedor == "" || $proveedor == null ? "Sin proveedor" : $proveedor;
-
     $referencia = $row[2];
     $query_factura_compra = "SELECT nombre_factura FROM compra_factura WHERE referencia_compra = '{$referencia}'";
     $resultado_query_factura_compra = mysqli_query($horizonte, $query_factura_compra) or die(mysqli_error($horizonte));
@@ -226,7 +225,7 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     } else {
         $row[12] = "<span>{$usuario_receptor}<br>{$receptor->fecha_recepcion}</span>";
     }
-
+    $row[11] = $row[10];
     $row[1] = "<a role=\"button\" onclick=\"verReporteEntregaTransferencia('{$folio}', '{$usuario_receptor}', $_GET[idU], '{$row[7]}');\">{$folio}</a>";
 
     $output['aaData'][] = $row;
