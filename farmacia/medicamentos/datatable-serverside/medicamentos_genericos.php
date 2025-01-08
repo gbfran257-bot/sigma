@@ -2,7 +2,7 @@
 require("../../../Connections/horizonte.php"); 
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('m.nombre_generico_med', 'm.descripcion_med', 'm.cantidad_med', 'm.grupo_med', 'm.nivel_med', 'm.riesgo_embarazo_med', 'm.presentacion_med', 'm.via_administracion_med', 'm.via_administracion_dosis_med', 'm.generalidades_med', 'm.interacciones_med', 'm.efectos_adversos_med', 'm.contraindicaciones_precauciones_med', 'r.texto_cre', 'm.id_med');
+	$aColumns = array('m.nombre_generico_med', 'm.descripcion_med', 'm.cantidad_med', 'm.grupo_med', 'm.nivel_med', 'm.riesgo_embarazo_med', 'm.presentaciones_med', 'm.via_administracion_med', 'm.via_administracion_dosis_med', 'm.generalidades_med', 'm.interacciones_med', 'm.efectos_adversos_med', 'm.contraindicaciones_precauciones_med', 'r.texto_cre', 'm.id_med');
      
     // DB tables to use 
     $aTables = array( 'medicamentos m');
