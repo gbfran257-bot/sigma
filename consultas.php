@@ -3943,52 +3943,56 @@ include_once 'recursos/datauser.php';
 				type: "warning",
 				timer: null,
 			})
-			.then(() => {
-				var str = tinyMCE.get('notaMedicaC').getContent();
-				var res = str.replace('src="usuarios/firmas/', 'src="../../usuarios/firmas/');
-				var res = res.replace(/src="img_cslta/g, 'src="../../../consultas/img_cslta');
-				var res = res.replace(/[?]\d{14}/g, '');
-
-				let server_url_base = window.location.href;
-				const server_url = server_url_base.substring(0, server_url_base.length - 13);
-
-				var str1 = tinyMCE.get('indiF').getContent();
-				var res1 = str1.replace('src="'+server_url+'escuelas/logotipos/files/', 'src="../../../escuelas/logotipos/files/');
-				var res1 = res1.replace('src="'+server_url+'imagenes/generales/', 'src="../../../imagenes/generales/');
-				var res1 = res1.replace(/src="img_cslta/g, 'src="../../../consultas/img_cslta');
-				var res1 = res1.replace(/[?]\d{14}/g, '');
-
-				var datosGC = {
-					idC: idC,
-					idU: $('#id_user').val(),
-					indiF: res1,
-					notaDictamen: res,
-					idP: idP
-				}
-				$.post('consultas/files-serverside/finalizarConsulta.php', datosGC).done(function(data) {
-					var datag = data.split(';{}');
-					if (datag[0] == 1) {
-						$('#myModalx').modal('hide');
-						swal({
-							title: "",
-							type: "success",
-							text: "LA CONSULTA SE HA FINALIZAO CORRECTAMENTE",
-							timer: 2500,
-							buttons: false
-						});
-						$('#clickme').click(); //window.setTimeout(function(){atenderC(idP, idC, 3, id_s, id_s);},700);
-
-						$('.miMedi').each(function(index, element) { //alert($(this).prop('lang'));
-							var datoM = {
-								idM: $(this).prop('lang'),
-								indiM: $(this).val()
-							}
-							$.post('consultas/files-serverside/guardarIndiccionesM.php', datoM).done(function(data) {});
-						});
-					} else {
-						alert(data);
+			.then((willFinish) => {
+				if(willFinish){
+					var str = tinyMCE.get('notaMedicaC').getContent();
+					var res = str.replace('src="usuarios/firmas/', 'src="../../usuarios/firmas/');
+					var res = res.replace(/src="img_cslta/g, 'src="../../../consultas/img_cslta');
+					var res = res.replace(/[?]\d{14}/g, '');
+	
+					let server_url_base = window.location.href;
+					const server_url = server_url_base.substring(0, server_url_base.length - 13);
+	
+					var str1 = tinyMCE.get('indiF').getContent();
+					var res1 = str1.replace('src="'+server_url+'escuelas/logotipos/files/', 'src="../../../escuelas/logotipos/files/');
+					var res1 = res1.replace('src="'+server_url+'imagenes/generales/', 'src="../../../imagenes/generales/');
+					var res1 = res1.replace(/src="img_cslta/g, 'src="../../../consultas/img_cslta');
+					var res1 = res1.replace(/[?]\d{14}/g, '');
+	
+					var datosGC = {
+						idC: idC,
+						idU: $('#id_user').val(),
+						indiF: res1,
+						notaDictamen: res,
+						idP: idP
 					}
-				});
+					$.post('consultas/files-serverside/finalizarConsulta.php', datosGC).done(function(data) {
+						var datag = data.split(';{}');
+						if (datag[0] == 1) {
+							$('#myModalx').modal('hide');
+							swal({
+								title: "",
+								type: "success",
+								text: "LA CONSULTA SE HA FINALIZAO CORRECTAMENTE",
+								timer: 2500,
+								buttons: false
+							});
+							$('#clickme').click(); //window.setTimeout(function(){atenderC(idP, idC, 3, id_s, id_s);},700);
+	
+							$('.miMedi').each(function(index, element) { //alert($(this).prop('lang'));
+								var datoM = {
+									idM: $(this).prop('lang'),
+									indiM: $(this).val()
+								}
+								$.post('consultas/files-serverside/guardarIndiccionesM.php', datoM).done(function(data) {});
+							});
+						} else {
+							alert(data);
+						}
+					});
+				}else{
+					alert("La consulta no se finalizo");
+				}
 			});
 	}
 
