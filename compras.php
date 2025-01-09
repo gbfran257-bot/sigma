@@ -463,6 +463,7 @@ function nuevaCompra(){
 				$("#precioUltimaCompra").text("");
 				$("#cantMax").text("");
 				$("#cantMin").text("");
+				$("#codigoBarras").text("");
 				return ;
 			}
 
@@ -474,6 +475,8 @@ function nuevaCompra(){
 				$('#cantMax').attr("cant_max", datos[2]);
 				$('#cantMin').text("Cantidad minima de producto: "+datos[3]);
 				$('#cantMin').attr("cant_min", datos[3]);
+				$('#codigoBarras').text("Cod. barras: "+datos[5]);
+				$('#codigoBarras').attr("codigo", datos[5]);
 				$('#productoName').text(datos[0]);
 				$('#precioPublicoProd').text("Precio público: $" + datos[1]);
 				$('#precioPublicoProd').attr("precio_actual", datos[1]);
@@ -534,6 +537,9 @@ function nuevaCompra(){
 		//Para modificar los maximos y los minimos
 		$("#cantMax").click(() => actualizarMaxProd());
 		$("#cantMin").click(() => actualizarMinProd());
+
+		//Para actualizar el codigo de barras
+		$("#codigoBarras").click(() => actualizarCodigoBarras());
 
 		$('#btn_pagar').click(function(e){
 			var dato = { idU:$('#id_user').val(), datos:COMPRA, id_oculto:$('#id_compra_oculto').val() }
@@ -631,6 +637,25 @@ function actualizarMinProd(){
 
 	});
 
+}
+
+function actualizarCodigoBarras(){
+	var codigo_actual = $("#codigoBarras").attr("codigo");
+	$("#codigoBarras").replaceWith(`<input type="text" id="nuevo-codigo" class="form-control" value ="${codigo_actual}" />`);
+	$("#nuevo-codigo").focus();
+	$("#nuevo-codigo").blur(() => {
+		
+		var datosCodigo = {id:$("#producto").val(), codigo:$("#nuevo-codigo").val()}
+		$.post('farmacia/compras/files-serverside/nuevoCodigo.php', datosCodigo).done(function( data ) {
+			if(data==1){
+				window.setTimeout(function(){
+					swal({title:"",type:"success",text:"¡Se ha guardado el codigo!",timer:1000,showConfirmButton:false});
+				},300);
+				$("#nuevo-codigo").replaceWith(`<label onclick="actualizarCodigoBarras()" id="codigoBarras" class="col-form-label" style="cursor: pointer;" codigo=${$("#nuevo-codigo").val()}>Cod. Barras: ${$("#nuevo-codigo").val()}</label>`);
+			}else{alert(data);}
+		});
+
+	});
 }
 
 const actualizarPrecioPublico = () => {
