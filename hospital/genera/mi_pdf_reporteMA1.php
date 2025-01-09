@@ -172,7 +172,7 @@ while ($fila = mysql_fetch_assoc($datos)) {
 
     //salta condicional
     if($contador == 10 || $contador > 11 && $contador % 11 == 0){
-        $pdf->Ln(30);
+        $pdf->Ln(40);
 
         $pdf->cell(1);
         $pdf->cell(189.5,0.1,'',1,1,'C');
@@ -239,6 +239,47 @@ while ($fila = mysql_fetch_assoc($datos)) {
 }
 //restamos 1 al contador debido a la ultima iteracion
 $contador--;
+
+//SALTO condicional
+if($contador >= 19 && $contador % 19 == 0){
+    $pdf->Ln(10);
+}else{
+    $pdf->Ln(20);
+}
+//FIRMAS
+$pdf->cell(1);
+$pdf->cell(95,5,'________________________________________',0,0,'C');
+$pdf->cell(95,5,'________________________________________',0,1,'C');
+
+$pdf->cell(1);
+$pdf->cell(95,5,utf8_decode('NOMBRE DEL MÉDICO QUE INDICA'),0,0,'C');
+$pdf->cell(95,5,'NOMBRE DE LA ENFERMERA QUE APLICA',0,1,'C');
+
+$pdf->cell(1);
+$pdf->cell(95,5,'(NOMBRE COMPLETO Y FIRMA)',0,0,'C');
+$pdf->cell(95,5,'(NOMBRE COMPLETO Y FIRMA)',0,1,'C');
+
+//SALTO CONDICIONAL
+if($contador <= 7 || $contador >= 16 && $contador % 16 == 0){
+    $pdf->Ln(14);
+}elseif($contador <= 7 || $contador >= 15 && $contador % 15 == 0){
+    $pdf->Ln(20);
+}else{
+    $pdf->Ln(15);
+}
+
+
+$pdf->cell(1);
+$pdf->cell(95,5,'________________________________________',0,1,'C');
+// $pdf->cell(95,5,'________________________________________',0,1,'C');
+
+$pdf->cell(1);
+$pdf->cell(95,5,'NOMBRE DEL VERIFICADOR',0,1,'C');
+// $pdf->cell(95,5,'NOMBRE DE QUIEN SOLICITA',0,1,'C');
+
+$pdf->cell(1);
+$pdf->cell(95,5,'(NOMBRE COMPLETO Y FIRMA)',0,1,'C');
+// $pdf->cell(95,5,'(NOMBRE COMPLETO Y FIRMA)',0,1,'C');
 
 $pdf->Output();
 ?>
