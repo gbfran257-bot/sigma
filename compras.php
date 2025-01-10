@@ -90,6 +90,7 @@
     <th style="vertical-align:middle;">COSTO UNITARIO</th>
 	<th style="vertical-align:middle;" nowrap>PROVEEDOR</th>
 	<th style="vertical-align:middle;" nowrap>PDF</th>
+	<th style="vertical-align:middle;" nowrap>FOLIO</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -105,6 +106,7 @@
             <th></th>
             <th><input type="text" class="form-control input-sm" placeholder="Proveedor" style="max-width:100px;"/></th>
 			<th></th>
+			<th><input type="text" class="form-control input-sm" placeholder="Folio" style="max-width:100px;"/></th>
         </tr>
     </tfoot>
 </table>
@@ -135,6 +137,7 @@ $(document).ready(function(e) {
 		"aoColumns": [
 			{"bVisible":true},{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
 			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},{"bVisible":true},{"bVisible":true}, {"bVisible":true},
+			{"bVisible":true},
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
