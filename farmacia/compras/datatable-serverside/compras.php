@@ -2,7 +2,7 @@
 require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
      
-    $aColumns = array('s.id', 's.referencia_compra','g.nombre_generico_med', 'c.concepto_to', 's.Lote','su.nombre_su',  's.cantidad', 's.fecha_expiracion', 's.costo_unitario','CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 'pr.nombre_pr', 'pr.nombre_pr');
+    $aColumns = array('s.id', 's.referencia_compra','g.nombre_generico_med', 'c.concepto_to', 's.Lote','su.nombre_su',  's.cantidad', 's.fecha_expiracion', 's.costo_unitario','CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 'pr.nombre_pr', 'pr.nombre_pr', 's.folio');
     // DB tables to use 
     $aTables = array( 'stock_has_bach s');
      
@@ -87,6 +87,8 @@ require("../../../funciones/php/values.php");
             $busqueda = "%" . htmlentities($_GET['sSearch_' . $i]) . "%";
             if($i == 9){
                 $sWhere .= $aColumns[11]." LIKE '".$busqueda."' ";
+            }else if($i == 11){
+                $sWhere .= $aColumns[12]." LIKE '".$busqueda."' ";
             } else {
                 $sWhere .= $aColumns[$i]." LIKE '".$busqueda."' ";
             }
@@ -199,6 +201,7 @@ require("../../../funciones/php/values.php");
        $row[1] = "<span>{$folio}<br>{$row[9]}</span>";
        
        $row[9] = $row[11];
+       $row[11] = $row[12];
 
 		$output['aaData'][] = $row;
     }

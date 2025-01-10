@@ -90,6 +90,7 @@
     <th style="vertical-align:middle;">COSTO UNITARIO</th>
 	<th style="vertical-align:middle;" nowrap>PROVEEDOR</th>
 	<th style="vertical-align:middle;" nowrap>PDF</th>
+	<th style="vertical-align:middle;" nowrap>FOLIO</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -105,6 +106,7 @@
             <th></th>
             <th><input type="text" class="form-control input-sm" placeholder="Proveedor" style="max-width:100px;"/></th>
 			<th></th>
+			<th><input type="text" class="form-control input-sm" placeholder="Folio" style="max-width:100px;"/></th>
         </tr>
     </tfoot>
 </table>
@@ -135,6 +137,7 @@ $(document).ready(function(e) {
 		"aoColumns": [
 			{"bVisible":true},{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
 			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},{"bVisible":true},{"bVisible":true}, {"bVisible":true},
+			{"bVisible":true},
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
@@ -309,7 +312,7 @@ function nuevaCompra(){
 
 		$('#btn_agregar').click(function(e){
 			// Verificamos que el formulario este completo
-			if (($("#producto").val() === null || $("#select-proveedores").val() === "" || $("#costoU").val() === "" || $("#cantidad").val() === "" || $("#lote").val() === "" || $("#caducidad").val() === "") && !COMPRA['eliminacion_reciente']) {
+			if (($("#producto").val() === null || $("#select-proveedores").val() === "" || $("#costoU").val() === "" || $("#cantidad").val() === "" || $("#lote").val() === "" || $("#folio").val() === "" || $("#caducidad").val() === "") && !COMPRA['eliminacion_reciente']) {
 				return swal("¡Oops!", "Completa los datos del formulario para continuar.", "info");
 			}
 
@@ -320,6 +323,7 @@ function nuevaCompra(){
 				var costo = $('#costoU').val();
 				var cantidad = $('#cantidad').val();
 				var lote = $('#lote').val();
+				var folio = $('#folio').val();
 				var sucursal = $('#sucursal').val();
 				var caducidad = $('#caducidad').val();
 				var estatus = $('#estatus').val();
@@ -334,6 +338,7 @@ function nuevaCompra(){
 						"costo":costo,
 						"cantidad":cantidad,
 						"lote":lote,
+						"folio":folio,
 						"sucursal":sucursal,
 						"caducidad":caducidad,
 						"estatus":estatus,
@@ -347,6 +352,7 @@ function nuevaCompra(){
 						"costo":costo,
 						"cantidad":cantidad,
 						"lote":lote,
+						"folio":folio,
 						"sucursal":sucursal,
 						"caducidad":caducidad,
 						"estatus":estatus,
@@ -412,6 +418,7 @@ function nuevaCompra(){
 					$("#costoU").val(COMPRA[index]['costo']);
 					$("#cantidad").val(COMPRA[index]['cantidad']);
 					$("#lote").val(COMPRA[index]['lote']);
+					$("#folio").val(COMPRA[index]['folio']);
 					$("#sucursal").val(COMPRA[index]['sucursal']);
 					$("#sucursal").change();
 					$("#caducidad").val(COMPRA[index]['caducidad']);
@@ -445,6 +452,7 @@ function nuevaCompra(){
 			$('#costoU').val(0);
 			$('#cantidad').val(0);
 			$('#lote').val('');
+			$('#folio').val('');
 			$('#caducidad').val('');
 			console.log(COMPRA);
 
@@ -463,6 +471,7 @@ function nuevaCompra(){
 				$("#precioUltimaCompra").text("");
 				$("#cantMax").text("");
 				$("#cantMin").text("");
+				$("#codigoBarras").text("");
 				return ;
 			}
 
@@ -474,6 +483,8 @@ function nuevaCompra(){
 				$('#cantMax').attr("cant_max", datos[2]);
 				$('#cantMin').text("Cantidad minima de producto: "+datos[3]);
 				$('#cantMin').attr("cant_min", datos[3]);
+				$('#codigoBarras').text("Cod. barras: "+datos[5]);
+				$('#codigoBarras').attr("codigo", datos[5]);
 				$('#productoName').text(datos[0]);
 				$('#precioPublicoProd').text("Precio público: $" + datos[1]);
 				$('#precioPublicoProd').attr("precio_actual", datos[1]);
@@ -534,6 +545,9 @@ function nuevaCompra(){
 		//Para modificar los maximos y los minimos
 		$("#cantMax").click(() => actualizarMaxProd());
 		$("#cantMin").click(() => actualizarMinProd());
+
+		//Para actualizar el codigo de barras
+		$("#codigoBarras").click(() => actualizarCodigoBarras());
 
 		$('#btn_pagar').click(function(e){
 			var dato = { idU:$('#id_user').val(), datos:COMPRA, id_oculto:$('#id_compra_oculto').val() }
@@ -631,6 +645,25 @@ function actualizarMinProd(){
 
 	});
 
+}
+
+function actualizarCodigoBarras(){
+	var codigo_actual = $("#codigoBarras").attr("codigo");
+	$("#codigoBarras").replaceWith(`<input type="text" id="nuevo-codigo" class="form-control" value ="${codigo_actual}" />`);
+	$("#nuevo-codigo").focus();
+	$("#nuevo-codigo").blur(() => {
+		
+		var datosCodigo = {id:$("#producto").val(), codigo:$("#nuevo-codigo").val()}
+		$.post('farmacia/compras/files-serverside/nuevoCodigo.php', datosCodigo).done(function( data ) {
+			if(data==1){
+				window.setTimeout(function(){
+					swal({title:"",type:"success",text:"¡Se ha guardado el codigo!",timer:1000,showConfirmButton:false});
+				},300);
+				$("#nuevo-codigo").replaceWith(`<label onclick="actualizarCodigoBarras()" id="codigoBarras" class="col-form-label" style="cursor: pointer;" codigo=${$("#nuevo-codigo").val()}>Cod. Barras: ${$("#nuevo-codigo").val()}</label>`);
+			}else{alert(data);}
+		});
+
+	});
 }
 
 const actualizarPrecioPublico = () => {

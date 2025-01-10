@@ -330,6 +330,8 @@ include_once 'recursos/datauser.php';
 						"bVisible": true
 					}, {
 						"bVisible": true
+					}, {
+						"bVisible": true
 					}],
 					"sDom": '<"filtro1Principal">r<"data_tPrincipal"t><"infoPrincipal"S><"proc">',
 					deferRender: true,
@@ -337,7 +339,7 @@ include_once 'recursos/datauser.php';
 						style: 'single'
 					},
 					"processing": false,
-					"sAjaxSource": "farmacia/medicamentos/datatable-serverside/medicamentos_genericos.php",
+					"sAjaxSource": "farmacia/medicamentos/datatable-serverside/medicamentos_genericos2.php",
 					"fnServerParams": function(aoData, fnCallback) {
 						var acceso = $('#acc_user').val();
 						var idU = $('#id_user').val();
@@ -542,6 +544,8 @@ include_once 'recursos/datauser.php';
 						"bVisible": true
 					}, {
 						"bVisible": true
+					}, {
+						"bVisible": true
 					}],
 					"sDom": '<"filtro1Principal">r<"data_tPrincipal"t><"infoPrincipal"S><"proc">',
 					deferRender: true,
@@ -549,7 +553,7 @@ include_once 'recursos/datauser.php';
 						style: 'single'
 					},
 					"processing": false,
-					"sAjaxSource": "farmacia/medicamentos/datatable-serverside/medicamentos_genericos.php",
+					"sAjaxSource": "farmacia/medicamentos/datatable-serverside/medicamentos_genericos2.php",
 					"fnServerParams": function(aoData, fnCallback) {
 						var acceso = $('#acc_user').val();
 						var idU = $('#id_user').val();

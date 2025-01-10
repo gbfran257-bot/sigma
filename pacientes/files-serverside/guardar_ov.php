@@ -134,9 +134,15 @@ require("../../funciones/php/values.php");
 		$esProd = mysql_fetch_row($farm);
 
 		if($esProd[0] != ''){
+			//obtenemos las cantidad del concepto en la ov para restar del stock
+			mysql_select_db($database_horizonte, $horizonte);
+			$cantidad_concepto = mysql_query("SELECT cantidad FROM venta_conceptos WHERE id_concepto_es = $idConcepto AND no_temp_vc = $aleatorio", $horizonte) or die (mysql_error());
+			$cantidad_numero = mysql_fetch_row($cantidad_concepto);
+			$total_restar = $cantidad_numero[0];
+
 			//verificamos si tiene existencias 
 			mysql_select_db($database_horizonte, $horizonte);
-			$ext = "SELECT s.id, s.existencias from stock_has_bach s left join conceptos c  on c.id_to = s.id_Producto left join stock  s1 on s1.id = s.id_stock where s.id_Producto = $idConcepto AND s1.id_su = $id_sucu order by s.id DESC";
+			$ext = "SELECT s.id, s.existencias from stock_has_bach s left join conceptos c  on c.id_to = s.id_Producto left join stock  s1 on s1.id = s.id_stock where s.id_Producto = $idConcepto AND s1.id_su = $id_sucu AND s.existencias >= $total_restar order by s.id DESC";
 			$existen = mysql_query($ext, $horizonte) or die (mysql_error());
 			while ($stock = mysql_fetch_assoc($existen)){
 				if($stock['existencias'] >= 1 ){
@@ -151,12 +157,6 @@ require("../../funciones/php/values.php");
 			}
 
 			if($banderaExistencias){
-				//obtenemos las cantidad del concepto en la ov para restar del stock
-				mysql_select_db($database_horizonte, $horizonte);
-				$cantidad_concepto = mysql_query("SELECT cantidad FROM venta_conceptos WHERE id_concepto_es = $idConcepto AND no_temp_vc = $aleatorio", $horizonte) or die (mysql_error());
-				$cantidad_numero = mysql_fetch_row($cantidad_concepto);
-				$total_restar = $cantidad_numero[0];
-
 				mysql_select_db($database_horizonte, $horizonte);
 				$menos = "UPDATE stock_has_bach SET existencias = (existencias -$total_restar) where id = $idExistencias";
 				$resta_existencias = mysql_query($menos, $horizonte) or die (mysql_error());

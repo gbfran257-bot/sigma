@@ -29,6 +29,7 @@ $id_oculto = sqlValue($_POST['id_oculto'],"int");
 
     for ($i=0; $i < count($compras); $i++) { 
         $lote = sqlValue($compras[$i]['lote'],"text");
+        $folio = sqlValue($compras[$i]['folio'],"text");
         $idProducto = $compras[$i]['producto'];
         $costo = $compras[$i]['costo'];
         $cantidad = $compras[$i]['cantidad'];
@@ -51,7 +52,7 @@ $id_oculto = sqlValue($_POST['id_oculto'],"int");
         if($existe_id_oculto == 0){
 
             mysql_select_db($database_horizonte, $horizonte);
-            $sql = "INSERT INTO `stock_has_bach` (`id`, `referencia_compra`, `id_stock`, `Lote`, `fecha_expiracion`, `id_Producto`, `costo_unitario`, `cantidad`, `estatus`, `existencias`, `contador`, `usuario_registro`, `fecha_update`, `fecha_registro`, id_proveedor, id_oculto) VALUES (NULL, $noRef, $sucu, $lote, $caducidad,  $idProducto, $costo, $cantidad, $estatus, $cantidad, $contador, $idU, $now, $now, '{$id_proveedor}', $id_oculto)";
+            $sql = "INSERT INTO `stock_has_bach` (`id`, `referencia_compra`, `id_stock`, `Lote`, `fecha_expiracion`, `id_Producto`, `costo_unitario`, `cantidad`, `estatus`, `existencias`, `contador`, `usuario_registro`, `fecha_update`, `fecha_registro`, id_proveedor, id_oculto, folio) VALUES (NULL, $noRef, $sucu, $lote, $caducidad,  $idProducto, $costo, $cantidad, $estatus, $cantidad, $contador, $idU, $now, $now, '{$id_proveedor}', $id_oculto, $folio)";
             // echo $sql;
             $result = mysql_query($sql, $horizonte) or die(mysql_error());
         

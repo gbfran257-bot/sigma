@@ -8,7 +8,7 @@ $idProd = sqlValue($_POST['prod'],"int");
 
 
 mysql_select_db($database_horizonte, $horizonte);
-$resultR = mysql_query("SELECT concepto_to, precio_to from conceptos where id_to = $idProd ", $horizonte) or die(mysql_error());
+$resultR = mysql_query("SELECT concepto_to, precio_to, codigo_barras_to from conceptos where id_to = $idProd ", $horizonte) or die(mysql_error());
 $rowR = mysql_fetch_row($resultR);
 
 
@@ -21,5 +21,5 @@ mysql_select_db($database_horizonte, $horizonte);
 $resultado_precio_medicamento_ultima_compra = mysql_query("SELECT costo_unitario FROM stock_has_bach WHERE id_Producto = {$idProd} ORDER BY id DESC LIMIT 1", $horizonte) or die(mysql_error());
 $precio_medicamento = mysql_fetch_object($resultado_precio_medicamento_ultima_compra);
 
-echo $rowR[0]."}{[_}".$rowR[1]."}{[_}".$rowR1[0]."}{[_}".$rowR1[1] . "}{[_}" . $precio_medicamento->costo_unitario;
+echo $rowR[0]."}{[_}".$rowR[1]."}{[_}".$rowR1[0]."}{[_}".$rowR1[1] . "}{[_}" . $precio_medicamento->costo_unitario . "}{[_}" . $rowR[2];
 ?>

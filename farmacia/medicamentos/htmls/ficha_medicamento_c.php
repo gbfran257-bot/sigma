@@ -33,7 +33,8 @@
                   <th style="vertical-align:middle;">DESCRIPCIÓN</th>
                   <th style="vertical-align:middle;">CANTIDAD</th>
                   <th style="vertical-align:middle;">GRUPO</th>
-                  <th style="vertical-align:middle;">NIVEL</th>
+                  <th style="vertical-align:middle;">VIA ADMIN.</th>
+                  <th style="vertical-align:middle;">CONTENIDO</th>
                 </tr>
               </thead>
               <tbody>
@@ -47,7 +48,8 @@
                   <th><input name="sdes" id="sdes" type="text" class="form-control input-sm" placeholder="Descripción" /></th>
                   <th><input name="scan" id="scan" type="text" class="form-control input-sm" placeholder="Cantidad" /></th>
                   <th><input name="sgru" id="sgru" type="text" class="form-control input-sm" placeholder="Grupo" /></th>
-                  <th><input name="sniv" id="sniv" type="text" class="form-control input-sm" placeholder="Nivel" /></th>
+                  <th><input name="sniv" id="sniv" type="text" class="form-control input-sm" placeholder="Via" /></th>
+                  <th><input name="sniv" id="sniv" type="text" class="form-control input-sm" placeholder="Contenido" /></th>
                 </tr>
               </tfoot>
             </table>
