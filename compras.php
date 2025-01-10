@@ -309,7 +309,7 @@ function nuevaCompra(){
 
 		$('#btn_agregar').click(function(e){
 			// Verificamos que el formulario este completo
-			if (($("#producto").val() === null || $("#select-proveedores").val() === "" || $("#costoU").val() === "" || $("#cantidad").val() === "" || $("#lote").val() === "" || $("#caducidad").val() === "") && !COMPRA['eliminacion_reciente']) {
+			if (($("#producto").val() === null || $("#select-proveedores").val() === "" || $("#costoU").val() === "" || $("#cantidad").val() === "" || $("#lote").val() === "" || $("#folio").val() === "" || $("#caducidad").val() === "") && !COMPRA['eliminacion_reciente']) {
 				return swal("¡Oops!", "Completa los datos del formulario para continuar.", "info");
 			}
 
@@ -320,6 +320,7 @@ function nuevaCompra(){
 				var costo = $('#costoU').val();
 				var cantidad = $('#cantidad').val();
 				var lote = $('#lote').val();
+				var folio = $('#folio').val();
 				var sucursal = $('#sucursal').val();
 				var caducidad = $('#caducidad').val();
 				var estatus = $('#estatus').val();
@@ -334,6 +335,7 @@ function nuevaCompra(){
 						"costo":costo,
 						"cantidad":cantidad,
 						"lote":lote,
+						"folio":folio,
 						"sucursal":sucursal,
 						"caducidad":caducidad,
 						"estatus":estatus,
@@ -347,6 +349,7 @@ function nuevaCompra(){
 						"costo":costo,
 						"cantidad":cantidad,
 						"lote":lote,
+						"folio":folio,
 						"sucursal":sucursal,
 						"caducidad":caducidad,
 						"estatus":estatus,
@@ -412,6 +415,7 @@ function nuevaCompra(){
 					$("#costoU").val(COMPRA[index]['costo']);
 					$("#cantidad").val(COMPRA[index]['cantidad']);
 					$("#lote").val(COMPRA[index]['lote']);
+					$("#folio").val(COMPRA[index]['folio']);
 					$("#sucursal").val(COMPRA[index]['sucursal']);
 					$("#sucursal").change();
 					$("#caducidad").val(COMPRA[index]['caducidad']);
@@ -445,6 +449,7 @@ function nuevaCompra(){
 			$('#costoU').val(0);
 			$('#cantidad').val(0);
 			$('#lote').val('');
+			$('#folio').val('');
 			$('#caducidad').val('');
 			console.log(COMPRA);
 

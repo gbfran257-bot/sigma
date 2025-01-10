@@ -105,6 +105,14 @@ $id_del_user = $_SESSION['id'];
                         <div class="help-block with-errors"></div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="form-group col-md-4 col-sm-4 text-primary">
+                        <label for="folio" class="col-form-label">*FOLIO</label>
+                        <input name="folio" id="folio" type="text" class="form-control form-control-sm" placeholder="folio">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="tab-pane tap-pane-primary hide" id="t_resumen" role="tabpanel" aria-labelledby="resumen-tab"><br>
