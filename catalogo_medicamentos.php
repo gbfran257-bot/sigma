@@ -620,6 +620,34 @@ include_once 'recursos/datauser.php';
 					});
 				$('.ocul').removeClass('hidden');
 
+				$('#btnNewMedGenerico').click(function(e) {
+					$('#t-medicamento').removeClass('hidden');
+					$('#link-tab-3').click();
+				});
+
+				$('#med_generico').validator().on('submit', function(e) {
+					if (e.isDefaultPrevented()) { // handle the invalid form...
+					} else { // everything looks good!
+						e.preventDefault();
+						var datosPG = $('#med_generico').serialize();
+						$.post('farmacia/medicamentos/files-serverside/addMedicamentosGenerico.php', datosPG).done(function(data) {
+							if (data == 1) { //si el paciente se Actualizó 
+								$('#clickme').click(); //$('#myModalx').modal('hide'); //$btn.button('reset'); $('#btn_cancel_new_u').show(); 
+								swal({
+									title: "¡CONFIRMACIÓN!",
+									type: "success",
+									text: "El medicamento se ha creado satisfactoriamente",
+									timer: 1800,
+									showConfirmButton: false
+								});
+								return;
+							} else {
+								alert(data);
+							}
+						});
+					}
+				});
+
 				var datosM = {
 					id_medi: id_medi,
 					id_su: id_su
