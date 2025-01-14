@@ -398,6 +398,7 @@ include_once 'recursos/datauser.php';
 						$('#id_mg').val(rowData[0][14]);
 						$('#form-medicamento').validator('update');
 						$('#tex_base').text(rowData[0][0]);
+						$('#tex_farmaceutico').text(rowData[0][1]);
 					})
 					.on('deselect', function(e, dt, type, indexes) {
 						$('.ocul').addClass('hidden');
@@ -612,6 +613,7 @@ include_once 'recursos/datauser.php';
 						$('#id_mg').val(rowData[0][14]);
 						$('#form-medicamento').validator('update');
 						$('#tex_base').text(rowData[0][0]);
+						$('#tex_farmaceutico').text(rowData[0][1]);
 					})
 					.on('deselect', function(e, dt, type, indexes) {
 						$('.ocul').addClass('hidden');
@@ -689,7 +691,7 @@ include_once 'recursos/datauser.php';
 					$('#codigo_b_m').val(datos[20]);
 					$('#form-medicamento').validator('update');
 					$('#tex_base').text(datos[0]);
-
+					$('#tex_farmaceutico').text(datos[1]);
 				});
 
 				$("#miSucursalNS").change(function() {
