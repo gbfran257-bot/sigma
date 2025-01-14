@@ -624,7 +624,7 @@ include_once 'recursos/datauser.php';
 					id_medi: id_medi,
 					id_su: id_su
 				}
-				$.post('farmacia/medicamentos/files-serverside/infoMedicamentos.php', datosM).done(function(data) {
+				$.post('farmacia/medicamentos/files-serverside/infoMedicamentos2.php', datosM).done(function(data) {
 					var datos = data.split('}{[_}');
 
 					$("#miSucursalNS").load('pacientes/genera/genera_sucursales_ov.php?idU=' + $('#id_user').val(), function(response, status, xhr) {
