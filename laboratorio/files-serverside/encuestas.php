@@ -37,7 +37,7 @@ if($id[0] > 0){
         $ultId = mysql_fetch_row($buscarUltId);
         //insertamos el enlace del pdf en un campo exixtente(para no crear mas campos)
         mysql_select_db($database_horizonte, $horizonte);
-        $modificarEnlacePdf = "UPDATE venta_conceptos SET nota_radiologo_vc = $enlacePdf WHERE id_vc = ". $ultId[0] ." LIMIT 1"; 
+        $modificarEnlacePdf = "UPDATE venta_conceptos SET nota_radiologo_vc = $enlacePdf, estatus_vc = 8 WHERE id_vc = ". $ultId[0] ." LIMIT 1"; 
         $ejecutarModEnlace = mysql_query($modificarEnlacePdf, $horizonte) or die (mysql_error());
         //agregamos respuesta si se ejecuta la consulta
         if($ejecutarModEnlace){

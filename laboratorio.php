@@ -1241,7 +1241,11 @@ function imprimir(a,b,n,x,id_s){//a =id paciente, b id estudio en vc, x es si se
 		$('#myModalx').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModalx").empty(); });	
 	});
 }//Fin imprimir
-function visualizar(x){ var x1=x; x='laboratorio/takeArchivos/pdf/'+x+'.pdf'; 
+function visualizar(x){ 
+	var x1=x;
+	if(x.length <= 10){ //el numero 10 es tentativo, si la longitud de x(id_vc) es larga, lo toma como un enlace externo.
+		x='laboratorio/takeArchivos/pdf/'+x+'.pdf'; 
+	} 
 	$("#myModalx").load('laboratorio/htmls/visualizar_pdf.php', function( response, status, xhr ) { if ( status == "success" ) {
 		$('#registroModalLabel').text('ARCHIVO PDF DEL RESULTADO');
 		$('a.media').media({width:$("#myModalx").width()*0.9, height:$("#myModalx").height()*0.75, src:x});
