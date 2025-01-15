@@ -201,6 +201,8 @@ require("../../Connections/horizonte.php");
         $nombrePget = utf8_encode($row[1]);
         $row[14]= "<div align='center'><a href='pacientes.php?to_h=true&p=$row[21]&n=$nombrePget' target='_blank' class='btn btn-primary btn-sm'><i class='fa fa-cart-plus' aria-hidden='true'></i></a></div>";
 
+        $row[3] = "<span style='text-decoration:underline; cursor:pointer; color:blue;' onclick='modificar_cama($row[23],$row[20])'>$row[3]</span>";
+
         // $row[13] = $aRow;
 							
 		$output['aaData'][] = $row;
