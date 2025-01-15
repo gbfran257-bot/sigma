@@ -12,18 +12,18 @@
         <form action="" method="post" name="form-selecciona-cama" id="form-selecciona-cama" target="_self" style="height:100%;">
         	<div class="row">
                 <div class="form-group col-md-6 col-sm-6 text-primary">
-                    <label for="id_cama_h" class="col-form-label">* CAMA</label>
+                    <label for="id_cama_h" class="col-form-label" id="text_cama">* CAMA</label>
                     <select name="id_cama_h" id="id_cama_h" class="form-control form-control-sm" required> </select>
                     <div class="help-block with-errors"></div>
                 </div>
-                <div class="form-group col-md-6 col-sm-6 text-primary">
+                <div class="form-group col-md-6 col-sm-6 text-primary" id="id_div_medtratante">
                     <label for="id_medico_t" class="col-form-label">* MEDICO TRATANTE</label>
                     <select name="id_medico_t" id="id_medico_t" class="form-control form-control-sm" required> </select>
                     <div class="help-block with-errors"></div>
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-md-12 col-sm-12 text-primary">
+                <div class="form-group col-md-12 col-sm-12 text-primary" id="id_div_motivo">
                     <label for="motivo_h" class="col-form-label">* MOTIVO</label>
                     <textarea name="motivo_h" id="motivo_h" type="text" class="form-control form-control-sm" placeholder="Identificador de la cama" required></textarea>
                     <div class="help-block with-errors"></div>

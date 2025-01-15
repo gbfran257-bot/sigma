@@ -29,9 +29,9 @@
             <table width="100%" border="0" cellpadding="0" cellspacing="0" id="dataTableM" class="table table-hover table-striped dataTable table-condensed">
               <thead id="cabecera_tBusquedaM">
                 <tr role="row" class="bg-success">
-                  <th id="clickmeM" style="vertical-align:middle;">MEDICAMENTO GENÉRICO</th>
-                  <th style="vertical-align:middle;">DESCRIPCIÓN</th>
-                  <th style="vertical-align:middle;">CANTIDAD</th>
+                  <th id="clickmeM" style="vertical-align:middle;">NOMBRE GENÉRICO</th>
+                  <th style="vertical-align:middle;">FORMA FARMACÉUTICA</th>
+                  <th style="vertical-align:middle;">PRESENTACIÓN</th>
                   <th style="vertical-align:middle;">GRUPO</th>
                   <th style="vertical-align:middle;">VIA ADMIN.</th>
                   <th style="vertical-align:middle;">CONTENIDO</th>
@@ -56,8 +56,12 @@
             <!-- Table -->
             <form class="form-horizontal ocul hidden" id="form-medicamento"> <input name="id_med_up" id="id_med_up" type="hidden" value="">
               <div class="form-group" id="medicamento_base">
-                <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2 text-primary" align="right">MEDICAMENTO BASE: </div>
+                <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2 text-primary" align="right">NOMBRE GENÉRICO: </div>
                 <div class="col-md-10 col-sm-10 col-xs-10 col-lg-10" id="tex_base"></div>
+              </div>
+              <div class="form-group" id="forma_farmaceutica">
+                <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2 text-primary" align="right">FORMA FARMACÉUTICA: </div>
+                <div class="col-md-10 col-sm-10 col-xs-10 col-lg-10" id="tex_farmaceutico"></div>
               </div>
               <div class="form-group">
                 <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2 text-primary" align="right">PRESENTACIÓN: </div>

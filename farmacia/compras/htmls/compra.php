@@ -43,7 +43,7 @@ $id_del_user = $_SESSION['id'];
             <div class="row" id="div-compra-container" style="display: none; padding-left: 1.5rem;">
                 <div class="row">
                     <div class="form-group col-md-8 col-sm-8 text-primary">
-                        <label for="producto" class="col-form-label">*PRODUCTO</label>
+                        <label for="producto" class="col-form-label">*PRODUCTO O CÓDIGO DE BARRAS</label>
                         <div style="display:flex;">
                             <select class="form-control form-control-sm" name="producto" id="producto"></select>
                             <button style="margin-left:10px;" class="btn btn-primary btn-xs" id="redirect-nuevo-medicamento"><i class="fa fa-plus"></i> Producto</button>

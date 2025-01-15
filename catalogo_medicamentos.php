@@ -398,6 +398,7 @@ include_once 'recursos/datauser.php';
 						$('#id_mg').val(rowData[0][14]);
 						$('#form-medicamento').validator('update');
 						$('#tex_base').text(rowData[0][0]);
+						$('#tex_farmaceutico').text(rowData[0][1]);
 					})
 					.on('deselect', function(e, dt, type, indexes) {
 						$('.ocul').addClass('hidden');
@@ -612,6 +613,7 @@ include_once 'recursos/datauser.php';
 						$('#id_mg').val(rowData[0][14]);
 						$('#form-medicamento').validator('update');
 						$('#tex_base').text(rowData[0][0]);
+						$('#tex_farmaceutico').text(rowData[0][1]);
 					})
 					.on('deselect', function(e, dt, type, indexes) {
 						$('.ocul').addClass('hidden');
@@ -620,11 +622,39 @@ include_once 'recursos/datauser.php';
 					});
 				$('.ocul').removeClass('hidden');
 
+				$('#btnNewMedGenerico').click(function(e) {
+					$('#t-medicamento').removeClass('hidden');
+					$('#link-tab-3').click();
+				});
+
+				$('#med_generico').validator().on('submit', function(e) {
+					if (e.isDefaultPrevented()) { // handle the invalid form...
+					} else { // everything looks good!
+						e.preventDefault();
+						var datosPG = $('#med_generico').serialize();
+						$.post('farmacia/medicamentos/files-serverside/addMedicamentosGenerico.php', datosPG).done(function(data) {
+							if (data == 1) { //si el paciente se Actualizó 
+								$('#clickme').click(); //$('#myModalx').modal('hide'); //$btn.button('reset'); $('#btn_cancel_new_u').show(); 
+								swal({
+									title: "¡CONFIRMACIÓN!",
+									type: "success",
+									text: "El medicamento se ha creado satisfactoriamente",
+									timer: 1800,
+									showConfirmButton: false
+								});
+								return;
+							} else {
+								alert(data);
+							}
+						});
+					}
+				});
+
 				var datosM = {
 					id_medi: id_medi,
 					id_su: id_su
 				}
-				$.post('farmacia/medicamentos/files-serverside/infoMedicamentos.php', datosM).done(function(data) {
+				$.post('farmacia/medicamentos/files-serverside/infoMedicamentos2.php', datosM).done(function(data) {
 					var datos = data.split('}{[_}');
 
 					$("#miSucursalNS").load('pacientes/genera/genera_sucursales_ov.php?idU=' + $('#id_user').val(), function(response, status, xhr) {
@@ -661,7 +691,7 @@ include_once 'recursos/datauser.php';
 					$('#codigo_b_m').val(datos[20]);
 					$('#form-medicamento').validator('update');
 					$('#tex_base').text(datos[0]);
-
+					$('#tex_farmaceutico').text(datos[1]);
 				});
 
 				$("#miSucursalNS").change(function() {

@@ -452,7 +452,7 @@ function nuevaCompra(){
 			$('#costoU').val(0);
 			$('#cantidad').val(0);
 			$('#lote').val('');
-			$('#folio').val('');
+			$('#folio').prop('disabled','disabled');
 			$('#caducidad').val('');
 			console.log(COMPRA);
 

@@ -2382,5 +2382,52 @@ function dxPrimario(idDX,idC){ var datosDXP = {idDX:idDX,idC:idC}
 	});
 }
 
+function modificar_cama(id_cama_h, id_h){
+	$("#myModal1").load('consultas/htmls/selecciona_cama.php', function(response, status, xhr) {
+		if (status == "success") {
+
+			$("#text_cama").text("NUEVA CAMA*");
+
+			$("#id_div_medtratante").addClass("hidden");
+			$("#id_div_motivo").addClass("hidden");
+
+			$("#id_medico_t").prop('required', false);
+			$("#motivo_h").prop('required', false);
+
+			$('#form-selecciona-cama').validator().on('submit', function (e) {
+				if (e.isDefaultPrevented()) { // handle the invalid form...
+				} else { // everything looks good!
+					e.preventDefault(); 
+					// $('#pacienteCancelOV').text(nombreP); $('#refCancelOV').text(refe);
+					swal({
+					title: "MODIFICACIÓN DE CAMA", text: "¿Estás seguro de modificar la cama?", type: "warning",
+					showCancelButton: true, confirmButtonColor: "#e2b92d", confirmButtonText: "Modificar", 
+					cancelButtonText: "Cerrar", closeOnConfirm: false
+					},
+					function(){
+					var datosModCama = {id_cama_h:id_cama_h, id_h:id_h, id_cama_nueva:$("#id_cama_h").val()}
+						$.post('hospital/files-serverside/modificar_cama.php',datosModCama).done(function( dataModCama ) { 
+							if (dataModCama==1){ window.setTimeout(function(){$('#clickme').click(); $('#myModal1').modal('hide');},300);
+								swal({
+								title: "", type: "success", text: "La cama se ha modificado", timer: 2000, showConfirmButton: false
+								}); return;
+							} else{alert(dataModCama);} 
+						});
+					});
+				}
+			});
+
+			$('#myModal1').modal('show');
+			$('#myModal1').on('shown.bs.modal', function(e) {
+				$('#form-selecciona-cama').validator();
+			});
+			$('#myModal1').on('hidden.bs.modal', function(e) {
+				$("#myModal1 .modal-content").remove();
+				$("#myModal1").empty();
+			});
+		}
+	});
+}
+
 
 </script>
