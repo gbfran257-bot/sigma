@@ -143,7 +143,20 @@ require("../../../Connections/horizonte.php");
             $row[12]= 0;
         }
         //campo modificable de precio p
-        $row[9]="<div style='display: flex; align-items: center;'><input type='text' class='form-control input-sm' value='$row[9]' style='width:70px; text-align:right;' id='precio_$row[18]'><button onclick='updatePrecios($row[18]);' id='' class='btn btn-info btn-xs' title=''><i class='fa fa-pencil' aria-hidden='true'></i></button></div>";
+        $row[9]="<div style='display: flex; align-items: center;'><input type='number' class='form-control input-sm' value='$row[9]' style='width:70px; text-align:right;' id='precio_$row[18]'><button onclick='updatePrecios($row[18]);' id='' class='btn btn-info btn-xs' title=''><i class='fa fa-pencil' aria-hidden='true'></i></button></div>";
+
+        if(isset($_GET['idSu']) && $_GET['idSu'] != ""){     
+            mysql_select_db($database_horizonte, $horizonte);
+            $query_mmstock = mysql_query("SELECT min_mm, max_mm from max_min_stock where id_suc = ". $_GET['idSu'] . " and id_producto = " . $row[18], $horizonte) or die (mysql_error());
+            $mmstock = mysql_fetch_row($query_mmstock);
+            $minimo = $mmstock[0];
+            $maximo = $mmstock[1];
+        }else{
+            $minimo = 0;
+            $maximo = 0;
+        }
+
+        $row[14] = "<div style='display: flex; align-items: center;'><input type='number' class='form-control input-sm' value='$minimo' style='width:70px; text-align:right;' id='minimo_$row[18]' placeholder='MIN' min=1><input type='number' class='form-control input-sm' value='$maximo' style='width:70px; text-align:right;' id='maximo_$row[18]' placeholder='MAX' min=1><button onclick='updateMaxMin($row[18]);' id='' class='btn btn-info btn-xs' title=''><i class='fa fa-pencil' aria-hidden='true'></i></button></div>";
 		
 		$output['aaData'][] = $row;
     }
