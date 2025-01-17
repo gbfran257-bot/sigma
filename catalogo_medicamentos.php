@@ -804,6 +804,27 @@ include_once 'recursos/datauser.php';
 			placeholder: ph
 		});
 	}
+
+	function updatePrecios(id_to){
+	swal({
+	  title: "MODIFICAR PRECIOS DE SUCURSAL "+$('#miSucursal option:selected').text(),
+	  text: "¿Estás seguro de modificar: "+$('#'+id_to).text()+'?', type: "",
+	  showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "Cambiar", closeOnConfirm: false, cancelButtonText: "Cancelar"
+	},
+	function(){
+		var datosMPS = {
+			id_to:id_to,
+			id_s:$('#miSucursal').val(),
+			precio:$('#precio_'+id_to).val()
+		}
+		$.post('farmacia/compras/files-serverside/updatePreciosCatalogoM.php',datosMPS).done(function(data_mps){
+			if(data_mps==1){ /* $('#clickme').click(); */
+				swal({ title: "¡CONFIRMACIÓN!", type: "success", text: "Se actualizo correctamente.", timer: 800, showConfirmButton: false }); return;
+			}else{alert(data_mps);}
+		});
+	});
+}
+
 </script>
 
 

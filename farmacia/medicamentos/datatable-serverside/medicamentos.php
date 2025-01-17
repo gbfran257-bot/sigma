@@ -142,7 +142,8 @@ require("../../../Connections/horizonte.php");
         }else{
             $row[12]= 0;
         }
-       
+        //campo modificable de precio p
+        $row[9]="<div style='display: flex; align-items: center;'><input type='text' class='form-control input-sm' value='$row[9]' style='width:70px; text-align:right;' id='precio_$row[18]'><button onclick='updatePrecios($row[18]);' id='' class='btn btn-info btn-xs' title=''><i class='fa fa-pencil' aria-hidden='true'></i></button></div>";
 		
 		$output['aaData'][] = $row;
     }
