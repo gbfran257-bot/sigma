@@ -99,6 +99,7 @@ include_once 'recursos/datauser.php';
 				<th style="vertical-align:middle; white-space:nowrap;" nowrap>PRECIO M</th>
 				<th style="vertical-align:middle; white-space:nowrap;" nowrap>EXISTENCIAS</th>
 				<th style="vertical-align:middle; white-space:nowrap;" nowrap>LÍNEA</th>
+				<th style="vertical-align:middle; white-space:nowrap;" nowrap>MAX_MIN</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -122,6 +123,7 @@ include_once 'recursos/datauser.php';
 				<th></th>
 				<th></th>
 				<th><input type="text" class="form-control input-sm" placeholder="Línea" style="max-width:100px;" /></th>
+				<th></th>
 			</tr>
 		</tfoot>
 	</table>
@@ -170,6 +172,8 @@ include_once 'recursos/datauser.php';
 					"bVisible": true
 				},
 				{
+					"bVisible": true
+				}, {
 					"bVisible": true
 				}, {
 					"bVisible": true
@@ -804,6 +808,49 @@ include_once 'recursos/datauser.php';
 			placeholder: ph
 		});
 	}
+
+	function updatePrecios(id_to){
+	swal({
+	  title: "MODIFICAR PRECIOS DE SUCURSAL "+$('#miSucursal option:selected').text(),
+	  text: "¿Estás seguro de modificar: "+$('#'+id_to).text()+'?', type: "",
+	  showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "Cambiar", closeOnConfirm: false, cancelButtonText: "Cancelar"
+	},
+	function(){
+		var datosMPS = {
+			id_to:id_to,
+			id_s:$('#miSucursal').val(),
+			precio:$('#precio_'+id_to).val()
+		}
+		$.post('farmacia/compras/files-serverside/updatePreciosCatalogoM.php',datosMPS).done(function(data_mps){
+			if(data_mps==1){ /* $('#clickme').click(); */
+				swal({ title: "¡CONFIRMACIÓN!", type: "success", text: "Se actualizo correctamente.", timer: 800, showConfirmButton: false }); return;
+			}else{alert(data_mps);}
+		});
+	});
+}
+
+function updateMaxMin(id_to){
+	swal({
+	  title: "MODIFICAR MAX/MIN DE SUCURSAL "+$('#miSucursal option:selected').text(),
+	  text: "¿Estás seguro de modificar: "+$('#'+id_to).text()+'?', type: "",
+	  showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "Cambiar", closeOnConfirm: false, cancelButtonText: "Cancelar"
+	},
+	function(){
+		var datosMPS2 = {
+			id:id_to,
+			sucursal:$('#miSucursal').val(),
+			min:$('#minimo_'+id_to).val(),
+			max:$('#maximo_'+id_to).val(),
+			usuario:$('#id_user').val()
+		}
+		$.post('farmacia/compras/files-serverside/updateMaximoMinimoCatalogo.php',datosMPS2).done(function(data_mps2){
+			if(data_mps2==1){ /* $('#clickme').click(); */
+				swal({ title: "¡CONFIRMACIÓN!", type: "success", text: "Se actualizo correctamente.", timer: 800, showConfirmButton: false }); return;
+			}else{alert(data_mps2);}
+		});
+	});
+}
+
 </script>
 
 
