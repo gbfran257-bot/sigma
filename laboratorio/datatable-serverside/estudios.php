@@ -15,7 +15,7 @@ $tipo_user = $_SESSION['MM_UserGroup'];
 $sucu_user = $_SESSION['MM_Usersucu'];
     /* Array of database columns which should be read and sent back to DataTables. Use a space where * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('v.id_vc', 'p.nombre_completo_p', 'v.referencia_vc', 'e.concepto_to', 'es.estatus_est', 'a.nombre_a','s.clave_su', 'p.amaterno_p', 'p.id_p', 'v.id_vc', 'v.contador_vc', 'e.id_area_to', 'a.nombre_a','s.nombre_su','s.id_su', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%m/%Y %H:%i")', 'au.usuario_u', 'DATE_FORMAT(v.fechaEdo4_e,"%d/%m/%Y %H:%i")', 'v.nota_radiologo_vc' );
+	$aColumns = array('v.id_vc', 'p.nombre_completo_p', 'v.referencia_vc', 'e.concepto_to', 'es.estatus_est', 'a.nombre_a','s.clave_su', 'p.amaterno_p', 'p.id_p', 'v.id_vc', 'v.contador_vc', 'e.id_area_to', 'a.nombre_a','s.nombre_su','s.id_su', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%m/%Y %H:%i")', 'au.usuario_u', 'DATE_FORMAT(v.fechaEdo4_e,"%d/%m/%Y %H:%i")', 'v.nota_radiologo_vc', 'o.id_ov' );
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -229,6 +229,10 @@ $sucu_user = $_SESSION['MM_Usersucu'];
 		$row[6] = "<span name='a-$row[0]' id='a-$row[0]' style='text-align:;' title='$row[13]'>$row[6]</span>";
 		
 		$row[2] = "<span lang='$row[2]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[2]</span><br>$row[15]";
+
+        if(substr($row[3], 0, 12) == 'CUESTIONARIO'){
+            $row[3] = $row[3] . "<br>" . "CODIGO: " . $row[19];
+        }
 		
 		$output['aaData'][] = $row;
     }
