@@ -319,7 +319,8 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 				.catch(error => console.error(error));
 		});
 
-		$('#btn_agregar_registro').validator().on('click', function (e) {
+		//Se comenta funcion que agrega item desde al boton de agregar producto, para hacerlo funcional debemos localizar el id de la tabla stock_has_bach para guardarlo en transferencia_temporal.
+		/* $('#btn_agregar_registro').validator().on('click', function (e) {
 		  if (e.isDefaultPrevented()) { 
 			
 		  } else { 
@@ -344,11 +345,11 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 				}
 			});
 		  }
-		});
+		}); 
 
 		$("#sucursal-destino").change(() => {
 			$("#btn_agregar_registro").removeClass('hidden');
-		});
+		}); */
 
 		$('#myModal').modal('show');
 		$('#myModal').on('shown.bs.modal',function(e){});
