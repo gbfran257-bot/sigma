@@ -26,7 +26,7 @@ try {
     if ($existe_transferencia_producto == 1) {
         $query = "UPDATE transferencia_temporal SET cantidad_transferir = {$cantidad_transferir}, id_sucursal_destino = {$id_sucursal_destino} WHERE id_temporal = '{$id_transferencia_temporal}' AND id_producto = {$id_producto_seleccionado}";
     } else {
-        $query = "INSERT INTO transferencia_temporal VALUES('{$id_transferencia_temporal}', '{$nombre_producto_seleccionado}', '{$producto_seleccionado->nombre_generico}', '{$producto_seleccionado->lote}', '{$producto_seleccionado->caducidad}', {$cantidad_transferir}, {$id_sucursal_origen}, {$id_sucursal_destino}, {$id_producto_seleccionado}, '{$fecha}', '{$id_transferencia}', 0, '0000-00-00 00:00:00')";
+        $query = "INSERT INTO transferencia_temporal VALUES('{$id_transferencia_temporal}', '{$nombre_producto_seleccionado}', '{$producto_seleccionado->nombre_generico}', '{$producto_seleccionado->lote}', '{$producto_seleccionado->caducidad}', {$cantidad_transferir}, {$id_sucursal_origen}, {$id_sucursal_destino}, {$id_producto_seleccionado}, '{$fecha}', '{$id_transferencia}', 0, '0000-00-00 00:00:00', {$producto_seleccionado->id_stock_hb})";
     }
 
     if (!$resultado_query = mysqli_query($horizonte, $query)) {

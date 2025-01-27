@@ -19,7 +19,7 @@ try {
         $query_resta_stock = "UPDATE stock_has_bach shb
                               LEFT JOIN stock s ON shb.id_stock = s.id
                               SET existencias = existencias - {$transferencia_temporal['cantidad_transferir']}, fecha_update = NOW()
-                              WHERE shb.id_Producto = {$transferencia_temporal['id_producto']} AND Lote = '{$transferencia_temporal['lote']}' AND s.id_su = {$transferencia_temporal['id_sucursal_origen']} AND existencias = $existencias_producto";
+                              WHERE shb.id_Producto = {$transferencia_temporal['id_producto']} AND Lote = '{$transferencia_temporal['lote']}' AND s.id_su = {$transferencia_temporal['id_sucursal_origen']} AND shb.id = {$transferencia_temporal['id_stock_has_bach']}";
                               //echo $query_resta_stock;
         if (!$resultado_query_resta_stock = mysqli_query($horizonte, $query_resta_stock)) {
             throw new Exception(mysqli_error($horizonte));
