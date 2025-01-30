@@ -1,6 +1,6 @@
 <?php
 require("../../Connections/horizonte.php");
-	$aColumns = array('vc.id_vc', 'DATE_FORMAT(vc.fecha_venta_vc,"%d/%c/%Y")', 'c.concepto_to', 'concat(u.nombre_u," ",u.apaterno_u)', 'vc.id_vc', 'c.id_tipo_concepto_to','p.nombre_completo_p','vc.no_temp_vc','vc.referencia_vc','vc.referencia_vc','u.amaterno_u', 'vc.id_vc', 'vc.id_vc', 'vc.id_paciente_vc');
+	$aColumns = array('vc.id_vc', 'DATE_FORMAT(vc.fecha_venta_vc,"%d/%c/%Y")', 'c.concepto_to', 'concat(u.nombre_u," ",u.apaterno_u)', 'vc.id_vc', 'c.id_tipo_concepto_to','p.nombre_completo_p','vc.no_temp_vc','vc.referencia_vc','vc.referencia_vc','u.amaterno_u', 'vc.id_vc', 'vc.id_vc', 'vc.id_paciente_vc', 'vc.id_vc');
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos vc');
@@ -135,7 +135,7 @@ require("../../Connections/horizonte.php");
 		$miRef = substr($row[8], 2); $miRef = str_replace("-","",$miRef);
 		$x3='"'.$miRef.'"'; $id_estud = '"'.$row[2].'"';
 		
-		$row[2]="<div align='left' lang='$_GET[idCo]' name='$_GET[aleatorio]' onClick='rhLab(this.lang,$row[13],$id_estud,$row[0],$x,$x1,$x2,$x3,1)' class='$row[11] histol'><span style='cursor:pointer;'>$row[2]</span></div>";
+		$row[2]="<div align='left' lang='$row[14]' name='$_GET[aleatorio]' onClick='rhLab(this.lang,$row[13],$id_estud,$row[0],$x,$x1,$x2,$x3,1)' class='$row[11] histol'><span style='cursor:pointer;'>$row[2]</span></div>";
 		
 		$row[0]=$hh;
 		$row[3] = $row[3].' '.$row[10];

@@ -4463,7 +4463,11 @@ include_once 'recursos/datauser.php';
 		$.post('consultas/files-serverside/datosLab.php', datosL).done(function(dataL) {
 			var datoL = dataL.split('{;}');
 			if (datoL[1] == 8) { // Es pdf
-				var x = 'laboratorio/takeArchivos/pdf/' + idE + '.pdf';
+				if(datoL[5] == 0){ // si se retorna 0 significa que no es un estudio de cuestionario.
+					var x = 'laboratorio/takeArchivos/pdf/' + idE + '.pdf';
+				}else{
+					var x = datoL[4];
+				} 
 				$("#tHLab").load('laboratorio/htmls/miPDF.php #tablaMiPDF', function(response, status, xhr) {
 					if (status == "success") {
 						$('a.media').media({
