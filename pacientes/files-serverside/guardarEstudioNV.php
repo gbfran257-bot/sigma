@@ -22,6 +22,8 @@ require("../../funciones/php/values.php");
 
  // Obtenemos la cantidad a agregar del producto
  $cantidad = intval(htmlentities($_POST["cantidad"], ENT_QUOTES, "utf'8"));
+ //obtenemos el id de la tabla stock_has_bach del medicamento
+ $id_shb = sqlValue($_POST["id_shb"], "int");
 
  $idConvenio = sqlValue($_POST["idConvenio"], "int");
  if($_POST["idConvenio"]==''){$idConvenio=0;}
@@ -94,11 +96,11 @@ require("../../funciones/php/values.php");
 						}
 					} else {
 						mysql_select_db($database_horizonte, $horizonte); 
-						$sql="INSERT INTO venta_conceptos(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios,cantidad)";
-						$sql.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio,  $idU, $fechaC, $id_con_bene, $cantidad)";
+						$sql="INSERT INTO venta_conceptos(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios,cantidad,id_vc_shb)";
+						$sql.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio,  $idU, $fechaC, $id_con_bene, $cantidad, $id_shb)";
 						
-						$sql_1="INSERT INTO venta_conceptos_1(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios,cantidad)";
-						$sql_1.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio, $idU, $fechaC, $id_con_bene, $cantidad)";
+						$sql_1="INSERT INTO venta_conceptos_1(no_temp_vc,id_paciente_vc,id_usuario_vc,id_personal_medico_vc,id_concepto_es,id_convenio_vc,observaciones_vc,fecha_venta_vc,precio_vc,usuarioEdo1_e,fechaEdo1_e,id_conceptos_beneficios,cantidad,id_vc_shb)";
+						$sql_1.="VALUES ($noTemp, $idP, $idU, $idMedico, $idE, $idConvenio, $observaciones, $fechaC, $precio, $idU, $fechaC, $id_con_bene, $cantidad, $id_shb)";
 							
 						$update = mysql_query($sql, $horizonte) or die (mysql_error());
 						if (!$update) { echo $sql; }else{ 
