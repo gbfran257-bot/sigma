@@ -4324,7 +4324,8 @@ include_once 'recursos/datauser.php';
 										5,
 										coveni,
 										ocu,
-										cantidadAgregar
+										cantidadAgregar,
+										rowData[0][12]
 									);
 									$('.desc_cargo_p').change(function(e) {
 										nota_desc_cargo_p();
@@ -4916,7 +4917,7 @@ include_once 'recursos/datauser.php';
 		});
 	}
 
-	function subirProductoS(idE, noAleatorio, idP, idU, idConvenio, idSucursal, observaciones, departamento, p, t, id_con_bene, ocup, cantidad) {
+	function subirProductoS(idE, noAleatorio, idP, idU, idConvenio, idSucursal, observaciones, departamento, p, t, id_con_bene, ocup, cantidad, id_stock_has_bach) {
 		var datosSENV = {
 			noAleatorio: noAleatorio,
 			idP: idP,
@@ -4933,6 +4934,7 @@ include_once 'recursos/datauser.php';
 			fechaC: $('#fichaNV').val() + ' ' + $('#horaNV').val(),
 			ocupado: ocup,
 			cantidad,
+			id_shb:id_stock_has_bach
 		}
 		$.post('pacientes/files-serverside/guardarEstudioNV.php', datosSENV).done(function(data) {
 			if (data == 1) {

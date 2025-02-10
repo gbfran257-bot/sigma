@@ -57,7 +57,7 @@ require("../../../funciones/php/values.php");
     if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' ) { $sLimit = "LIMIT ".mysql_real_escape_string( $_GET['iDisplayStart'] ).", ". mysql_real_escape_string( $_GET['iDisplayLength'] ); }
      
     /* * Ordering */
-    $sOrder = "order by s.id desc";
+    $sOrder = "GROUP BY s.id order by s.id DESC";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
         $sOrder = "ORDER BY v.id_vc desc  ";

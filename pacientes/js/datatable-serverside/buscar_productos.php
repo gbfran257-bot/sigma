@@ -71,9 +71,9 @@ require("../../../funciones/php/values.php");
 
 	if($con_membresia>0){//Tiene membresía vigente
 		if($urgencia==1){//Nocturno
-			$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', 'e.precio_mu', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote", "med.nombre_generico_med");
+			$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', 'e.precio_mu', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote", "med.nombre_generico_med", "s.id");
 		}else{
-			$aColumns = array('e.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'e.precio_m', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote", "med.nombre_generico_med");
+			$aColumns = array('e.concepto_to', 'e.codigo_barras_to', 'a.nombre_a', 'e.precio_m', 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote", "med.nombre_generico_med", "s.id");
 		}
 		// DB tables to use 
 		$aTables = array( 'conceptos e');
@@ -93,9 +93,9 @@ require("../../../funciones/php/values.php");
 	}else{
 		if($_GET['idConvenio']==0){//Sin convenios
 			if($urgencia==1){//Nocturno
-				$aColumns = array('e.concepto_to','e.codigo_barras_to', 'a.nombre_a', $precio_ur, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote", "med.nombre_generico_med" );
+				$aColumns = array('e.concepto_to','e.codigo_barras_to', 'a.nombre_a', $precio_ur, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote", "med.nombre_generico_med", "s.id" );
 			}else{
-				$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', $precio_nor, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote", "med.nombre_generico_med"	);
+				$aColumns = array('e.concepto_to', 'e.codigo_barras_to','a.nombre_a', $precio_nor, 'c.convenio_cv', 'e.id_to', 'c.id_cv', 's.Lote', 's.existencias', 'DATE_FORMAT(fecha_expiracion, \'%d-%m-%Y\')', "s.Lote", "med.nombre_generico_med", "s.id"	);
 			}
 			// DB tables to use 
 			$aTables = array( 'conceptos e');
