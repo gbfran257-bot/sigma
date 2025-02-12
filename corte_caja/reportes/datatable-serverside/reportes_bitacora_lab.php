@@ -3,7 +3,7 @@
 <?php
 	// consulta para horizonte
 	$obligatorio = 0; 
-	$aColumns = array('pa.referencia_pag','pa.referencia_pag' , 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u','concat(v.contador_vc," ",c.concepto_to)','ov.muestras_ov', 'ov.gran_total_ov', 'ov.id_ov', 'ov.gran_total_ov', 'ov.id_ov', 'ov.id_ov', 'tipo_tabulador_su', 's.id_su', 'p_tabulador_l_su');
+	$aColumns = array('pa.referencia_pag','pa.referencia_pag' , 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u','concat(v.contador_vc," ",c.concepto_to)','ov.muestras_ov', 'ov.gran_total_ov', 'ov.id_ov', 'ov.gran_total_ov', 'ov.id_ov', 'ov.id_ov', 'tipo_tabulador_su', 's.id_su', 'p_tabulador_l_su', 'p.id_p', 'ov.id_ov');
      
     // DB tables to use 
     $aTables = array( 'orden_venta ov');
@@ -179,7 +179,7 @@
 		
 		$nombreP = '"'.$row[2].'"';
 		$row[0] = $hh;
-		
+        $row[2] = "<button style='border: none; background: transparent; padding: 5; cursor: pointer;'> <i class='fa fa-envelope-open' aria-hidden='true' style='color: #04a9f4;' onClick='imprimirSobre($row[16],\"$row[1]\",$row[17]);';></i> </button>" . $row[2];      
 		$refi = sqlValue($row[1], "text");
 		
 		$contX = 0; $koka = '';
