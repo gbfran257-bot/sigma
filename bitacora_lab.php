@@ -521,4 +521,8 @@ function pagar(ref, tot, sal, abo, pac, noTemp){
 function imprimirFormatoR(sucursal, id){
 	window.open("corte_caja/reportes/htmls/reporte_formato_resultados.php?sucursal="+sucursal+"&id="+id+"&atendio="+$('#id_user').val(), "_blank");
 }
+
+function imprimirSobre(id_p, referencia, ov){
+	window.open("corte_caja/reportes/files-serverside/impresionSobre.php?id_p="+id_p+"&referencia="+referencia+"&ov="+ov, "_blank");
+}
 </script>
