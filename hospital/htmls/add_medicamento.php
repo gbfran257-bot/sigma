@@ -18,7 +18,7 @@
 							<th class="titulosTabs" align="center" width="" nowrap>COMERCIAL</th>
 							<th class="titulosTabs" align="center" width="" nowrap>CANTIDAD</th>
 							<th class="titulosTabs" align="center" width="" nowrap>VÍA</th>
-							<th class="titulosTabs" align="center" width="" nowrap>NIVEL</th>
+							<th class="titulosTabs" align="center" width="" nowrap>COD. BARRAS</th>
 							<th class="titulosTabs" align="center" width="" nowrap>GRUPO</th>
 							<th class="titulosTabs" align="center" width="" nowrap>LOTE</th>
 							<th class="titulosTabs" align="center" width="" nowrap>CADUCIDAD</th>
@@ -31,7 +31,7 @@
 								<th><input type="text" class="form-control input-sm" placeholder="-COMERCIAL-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-CANTIDAD-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-VÍA-" style="width: 99%"/></th>
-								<th><input type="text" class="form-control input-sm" placeholder="-NIVEL-" style="width: 99%"/></th>
+								<th><input type="text" class="form-control input-sm" placeholder="-CODIGO-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-GRUPO-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-LOTE-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-CADUCIDAD-" style="width: 99%"/></th>

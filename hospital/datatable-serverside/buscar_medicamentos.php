@@ -10,7 +10,7 @@ require("../../funciones/php/values.php");
     $row_s = mysql_fetch_row($result_s);
     $id_stock = $row_s[0];
 
-	$aColumns = array('m.id_to', 'm1.nombre_generico_med', 'm.concepto_to', 'm1.cantidad_med', 'm1.via_administracion_med', 'm1.nivel_med', 'm1.grupo_med', 'm.id_to', 'm.id_to', 'shb.Lote', 'DATE_FORMAT(shb.fecha_expiracion,"%d/%m/%Y")', 'shb.id');
+	$aColumns = array('m.id_to', 'm1.nombre_generico_med', 'm.concepto_to', 'm1.cantidad_med', 'm1.via_administracion_med', 'm.codigo_barras_to', 'm1.grupo_med', 'm.id_to', 'm.id_to', 'shb.Lote', 'DATE_FORMAT(shb.fecha_expiracion,"%d/%m/%Y")', 'shb.id');
      
     // DB tables to use 
     $aTables = array( 'conceptos m');
