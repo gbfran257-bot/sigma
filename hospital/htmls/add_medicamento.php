@@ -55,7 +55,7 @@
         <div class="col-sm-offset-0 col-sm-12">
           <div class="checkbox">
             <button type="button" class="btn btn-success btn-sm disabled" id="btn_save_medi">GUARDAR</button>
-			<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" id="btn_cancel">CANCELAR</button>
+			<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" id="btn_cancel">REGRESAR</button>
           </div>
         </div>
         </div>

@@ -597,7 +597,7 @@ function guardar_add_medi(id_h, id_p, id_m, indicacion, stock_pivote){
 	var datos = {id_h:id_h, id_p:id_p, id_m:id_m, indicacion:indicacion, id_u:$('#id_user').val(), stock_pivote:stock_pivote}
 	$.post('hospital/files-serverside/asignar_medi.php',datos).done(function(data){
 		if(data==1){
-			$('#myModal3').modal('hide');
+			/* $('#myModal3').modal('hide'); */
 			swal({ title: "", type: "success", text: "El medicamento ha sido asignado al paciente.", timer: 1800, showConfirmButton: false }); return;
 		}else{alert(data);}
 	});
