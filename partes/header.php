@@ -169,6 +169,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                             <?php if ($permisos[32]) { ?> <li style="white-space:nowrap;"><a href="compras.php"><i class="fa fa-credit-card"></i> COMPRAS</a></li> <?php } ?>
                             <?php if($permisos[32]){?> <li style="white-space:nowrap;"><a href="bitacora_ventas.php"><i class="fa fa-credit-card"></i> BITÁCORA DE VENTAS</a></li> <?php } ?>
                             <?php if ($permisos[33]) { ?> <li style="white-space:nowrap;"><a href="catalogo_medicamentos.php"><i class="fa fa-medkit"></i> MEDICAMENTOS</a></li> <?php } ?>
+                            <?php if ($permisos[33]) { ?> <li style="white-space:nowrap;"><a href="catalogo_controlados.php"><i class="fa fa-medkit"></i> MEDICAMENTOS CONTROLADOS</a></li> <?php } ?>
                             <?php if ($permisos[34]) { ?> <li><a href="#"><i class="fa fa-product-hunt"></i> PRODUCTOS</a></li> <?php } ?>
                             <?php if ($permisos[35]) { ?> <li style="white-space:nowrap;"><a href="#"><i class="fa fa-dollar"></i> CORTE DE CAJA</a></li> <?php } ?>
                             <?php if ($permisos[36]) { ?> <li><a href="stock.php"><i class="fa fa-stack-exchange"></i> STOCK</a></li> <?php } ?>
