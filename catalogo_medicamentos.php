@@ -696,6 +696,10 @@ include_once 'recursos/datauser.php';
 					$('#form-medicamento').validator('update');
 					$('#tex_base').text(datos[0]);
 					$('#tex_farmaceutico').text(datos[1]);
+
+					if(datos[26]=="1"){
+						$('#optSelectSi').attr('selected',true);
+					}
 				});
 
 				$("#miSucursalNS").change(function() {

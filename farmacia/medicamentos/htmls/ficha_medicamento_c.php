@@ -158,6 +158,15 @@
                   <select title name='antagonismos_seleccionados' class="form-control input-sm" id='antagonismos_seleccionados' multiple style="height: 10rem; width: 40rem;"></select>
                 </div>
               </div>
+              <div class="form-group">
+                <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2 text-primary" align="right">* MEDICAMENTO CONTROLADO</div>
+                <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                  <select name='medControlado' class="form-control input-sm" id='medControlado' required>
+                    <option value="0" name="optSelectNo" id="optSelectNo">No</option>
+                    <option value="1" name="optSelectSi" id="optSelectSi">Si</option>
+                  </select>
+                </div>
+              </div>
               <br>
               <input name="tamHcanvas" id="tamHcanvas" type="hidden" value="">
               <input name="id_mg" id="id_mg" type="hidden" value="">
