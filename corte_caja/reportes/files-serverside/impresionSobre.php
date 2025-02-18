@@ -47,13 +47,13 @@ $pdf->AddPage();
 // Establecer la fuente (Arial, Negrita, Tamaño 16)
 $pdf->SetFont('Arial', '', 10);
 
-$pdf->setY(45);
+$pdf->setY(40);
 $pdf->Cell(190, 5, utf8_decode("PACIENTE: $paciente[0]"), 0, 1, 'L');
 $pdf->Cell(190, 5, utf8_decode("F. NAC: $paciente[1]    EDAD: $paciente[2] AÑOS    SEXO: $paciente[3]"), 0, 1, 'L');
 $pdf->Cell(190, 5, utf8_decode("MÉDICO: $doctor[0]"), 0, 1, 'L');
 $pdf->Cell(190, 5, utf8_decode("FECHA Y HORA DE IMPRESIÓN: " . date("Y-m-d H:i:s")), 0, 1, 'L');
 
-$pdf->setY(115);
+$pdf->setY(110);
 $pdf->Cell(190, 5, utf8_decode("SUCURSAL: $sucursal[0]"), 0, 1, 'L');
 $pdf->Cell(190, 5, utf8_decode("DIRECCION: $sucursal[1]"), 0, 1, 'L');
 $pdf->Cell(190, 5, utf8_decode("CORREO: $sucursal[2]    TELEFONO: $sucursal[3]"), 0, 1, 'L');
