@@ -18,7 +18,7 @@
 							<th class="titulosTabs" align="center" width="" nowrap>COMERCIAL</th>
 							<th class="titulosTabs" align="center" width="" nowrap>CANTIDAD</th>
 							<th class="titulosTabs" align="center" width="" nowrap>VÍA</th>
-							<th class="titulosTabs" align="center" width="" nowrap>NIVEL</th>
+							<th class="titulosTabs" align="center" width="" nowrap>COD. BARRAS</th>
 							<th class="titulosTabs" align="center" width="" nowrap>GRUPO</th>
 							<th class="titulosTabs" align="center" width="" nowrap>LOTE</th>
 							<th class="titulosTabs" align="center" width="" nowrap>CADUCIDAD</th>
@@ -31,7 +31,7 @@
 								<th><input type="text" class="form-control input-sm" placeholder="-COMERCIAL-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-CANTIDAD-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-VÍA-" style="width: 99%"/></th>
-								<th><input type="text" class="form-control input-sm" placeholder="-NIVEL-" style="width: 99%"/></th>
+								<th><input type="text" class="form-control input-sm" placeholder="-CODIGO-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-GRUPO-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-LOTE-" style="width: 99%"/></th>
 								<th><input type="text" class="form-control input-sm" placeholder="-CADUCIDAD-" style="width: 99%"/></th>
@@ -55,7 +55,7 @@
         <div class="col-sm-offset-0 col-sm-12">
           <div class="checkbox">
             <button type="button" class="btn btn-success btn-sm disabled" id="btn_save_medi">GUARDAR</button>
-			<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" id="btn_cancel">CANCELAR</button>
+			<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" id="btn_cancel">REGRESAR</button>
           </div>
         </div>
         </div>

@@ -4327,6 +4327,21 @@ include_once 'recursos/datauser.php';
 										cantidadAgregar,
 										rowData[0][12]
 									);
+
+									//funcion que nos permite verificar si existen medicamentos controlados agregados a la ov
+									window.setTimeout(function() {											
+										var datosVerifMed = {noTemp: $('#aleatorio_ov').val()}
+										$.post('pacientes/files-serverside/verificarMedControlados.php', datosVerifMed).done(function(dataVerifMed) {
+											if(dataVerifMed>=1){
+												$('#medContDoctor').prop('required',true);
+												$('#medContCedula').prop('required',true);
+											}else if(dataVerifMed<=0){
+												$('#medContDoctor').prop('required',false);
+												$('#medContCedula').prop('required',false);
+											}
+										});
+									}, 500);
+
 									$('.desc_cargo_p').change(function(e) {
 										nota_desc_cargo_p();
 									});
@@ -4789,6 +4804,21 @@ include_once 'recursos/datauser.php';
 						pintarTablaResumen('productos', 'normal');
 					}
 				});
+
+				//funcion que nos permite verificar si existen medicamentos controlados agregados a la ov
+				window.setTimeout(function() {											
+					var datosVerifMed = {noTemp: $('#aleatorio_ov').val()}
+					$.post('pacientes/files-serverside/verificarMedControlados.php', datosVerifMed).done(function(dataVerifMed) {
+						if(dataVerifMed>=1){
+							$('#medContDoctor').prop('required',true);
+							$('#medContCedula').prop('required',true);
+						}else if(dataVerifMed<=0){
+							$('#medContDoctor').prop('required',false);
+							$('#medContCedula').prop('required',false);
+						}
+					});
+				}, 500);
+
 			} else {
 				alert(data);
 			}

@@ -896,6 +896,19 @@
                   </div>
                 </div>
 
+              <div class="col-sm-12 col-xs-12" style="padding-top: 5px;">
+                <div class="form-group">
+                  <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2 text-primary" align="right">* NOMBRE DOCTOR</div>
+                  <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">
+                    <input type="text" class="form-control" id="medContDoctor" name="medContDoctor" style="text-align:left;">
+                  </div>
+                  <div class="col-md-1 col-sm-1 col-xs-1 col-lg-1 text-primary" align="right">* CEDULA</div>
+                  <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">
+                    <input type="text" class="form-control" id="medContCedula" name="medContCedula" style="text-align:left;">
+                  </div>
+                </div>
+              </div>
+
                 <!-- Inicio resumen de productos -->
                 <div class="col-sm-12 col-xs-12" id="resumen_individual">
                   <span id="resumen_individual_titulo" class="resumen_productos_titulo" estado='hidden' onclick="showTablaDescuentos('productos');">Resumen de los descuentos <strong id="resumen_flecha_icono" class="flecha_icono_productos">↓</strong></span>

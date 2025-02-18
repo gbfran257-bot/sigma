@@ -151,7 +151,7 @@ while ($aRow = mysqli_fetch_array($rResult)) {
 
         $surtir = $resultados_mm_s[1] - $sumatoria[0];
 
-        if($surtir < 0){
+        if($surtir <= 0){
             $hh--;
             continue;
         }

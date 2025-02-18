@@ -15,6 +15,8 @@ require("../../../funciones/php/values.php");
  $id_medi = sqlValue($_POST["id_med_up"], "int");
  $max = sqlValue($_POST["max_p"], "int");
  $min = sqlValue($_POST["min_p"], "int");
+
+ $medicamento_controlado = sqlValue($_POST["medControlado"], "int");
  
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
  $sat = sqlValue($_POST["sat"], "text");
@@ -26,11 +28,11 @@ require("../../../funciones/php/values.php");
 		$precio_nor = $_POST['miSucursalNS'].'_precio'; $precio_ur = $_POST['miSucursalNS'].'_precio_u';
 		
 		mysql_select_db($database_horizonte, $horizonte);
- 		$sql = "UPDATE conceptos set concepto_to = $nombre_c, $precio_nor = $precio_p, $precio_ur = $precio_p, id_medicamento_g = $id_mg, precio_to = $precio_p, precio_urgencia_to = $precio_p, precio1_to = $precio_m, precio_urgencia1_to = $precio_m, precio_h = $precio_h, precio_hu = $precio_h, costo_maquila_to = $costo, codigo_barras_to = $codigo_b, descripcion_to = $dosis, precio_m = $precio_m, precio_mu = $precio_m, costo_maquila_u_to = $costo, linea_c = $linea, sat_c = $sat where id_to = $id_medi limit 1";
+ 		$sql = "UPDATE conceptos set concepto_to = $nombre_c, $precio_nor = $precio_p, $precio_ur = $precio_p, id_medicamento_g = $id_mg, precio_to = $precio_p, precio_urgencia_to = $precio_p, precio1_to = $precio_m, precio_urgencia1_to = $precio_m, precio_h = $precio_h, precio_hu = $precio_h, costo_maquila_to = $costo, codigo_barras_to = $codigo_b, descripcion_to = $dosis, precio_m = $precio_m, precio_mu = $precio_m, costo_maquila_u_to = $costo, linea_c = $linea, sat_c = $sat, medicamento_controlado = $medicamento_controlado where id_to = $id_medi limit 1";
  
 	}else{
 		mysql_select_db($database_horizonte, $horizonte);
- 		$sql = "UPDATE conceptos set concepto_to = $nombre_c, precio_to = $precio_p, precio_urgencia_to = $precio_p, id_medicamento_g = $id_mg, precio1_to = $precio_m, precio_urgencia1_to = $precio_m, precio_h = $precio_h, precio_hu = $precio_h, costo_maquila_to = $costo, codigo_barras_to = $codigo_b, descripcion_to = $dosis, precio_m = $precio_m, precio_mu = $precio_m, costo_maquila_u_to = $costo, linea_c = $linea, sat_c = $sat where id_to = $id_medi limit 1";
+ 		$sql = "UPDATE conceptos set concepto_to = $nombre_c, precio_to = $precio_p, precio_urgencia_to = $precio_p, id_medicamento_g = $id_mg, precio1_to = $precio_m, precio_urgencia1_to = $precio_m, precio_h = $precio_h, precio_hu = $precio_h, costo_maquila_to = $costo, codigo_barras_to = $codigo_b, descripcion_to = $dosis, precio_m = $precio_m, precio_mu = $precio_m, costo_maquila_u_to = $costo, linea_c = $linea, sat_c = $sat, medicamento_controlado = $medicamento_controlado where id_to = $id_medi limit 1";
 	}
 	  
  $update = mysql_query($sql, $horizonte) or die (mysql_error());
