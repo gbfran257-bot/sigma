@@ -62,9 +62,9 @@ $sucu_user = $_SESSION['MM_Usersucu'];
             }else{
                 if(isset($_GET['exi']) && $_GET['exi'] == 'SI'){
                     if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-                        $sWhere="WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]' AND s.existencias > 0";
+                        $sWhere="WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]' AND s.existencias > 0 ";
                     }else{
-                        $sWhere = "where s.usuario_registro = '$_GET[idU]' AND s.existencias > 0";
+                        $sWhere = "where s.usuario_registro = '$_GET[idU]' AND s.existencias > 0 ";
                     }
                 }else{
                     if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
@@ -115,9 +115,9 @@ $sucu_user = $_SESSION['MM_Usersucu'];
             }else{
                 if(isset($_GET['exi']) && $_GET['exi'] == 'SI'){
                     if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-                        $sWhere="WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') AND s.existencias > 0";
+                        $sWhere="WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') AND s.existencias > 0 ";
                     }else{
-                        $sWhere = "WHERE (s1.id_su = $id_suc or s.usuario_registro = $_GET[idU]) AND s.existencias > 0";
+                        $sWhere = "WHERE (s1.id_su = $id_suc or s.usuario_registro = $_GET[idU]) AND s.existencias > 0 ";
                     }
                 }else{
                     if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
@@ -167,7 +167,7 @@ $sucu_user = $_SESSION['MM_Usersucu'];
             }else{
                 if(isset($_GET['exi']) && $_GET['exi'] == 'SI'){
                     if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-                        $sWhere="WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' AND s.existencias > 0";
+                        $sWhere="WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' AND s.existencias > 0 ";
                     }else{
                     $sWhere = "WHERE s.existencias > 0 ";
                     }

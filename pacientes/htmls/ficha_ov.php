@@ -19,6 +19,9 @@
         <div id="alerta1" class="alert alert-warning">
           <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Favor de revisar el formulario, es necesario poner el pago.
         </div>
+        <div id="alerta2" class="alert alert-warning">
+          <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Favor de revisar el formulario, es necesario llenar los datos de la receta y el pago.
+        </div>
 
         <input name="id_usr_reg" type="hidden" value="" id="id_usr_reg">
         <input name="id_usr_update" type="hidden" value="x" id="id_usr_update">
@@ -896,7 +899,7 @@
                   </div>
                 </div>
 
-              <div class="col-sm-12 col-xs-12" style="padding-top: 5px;">
+              <div class="col-sm-12 col-xs-12 grupoControlado hidden" style="padding-top: 5px;">
                 <div class="form-group">
                   <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2 text-primary" align="right">* NOMBRE DOCTOR</div>
                   <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">
