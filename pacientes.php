@@ -2386,7 +2386,7 @@ include_once 'recursos/datauser.php';
 					$.fn.datepicker.defaults.autoclose = true;
 					var nv = new Date();
 					var k = 0;
-					$('#alerta1, #alerta_me, #alerta_me1').hide();
+					$('#alerta1, #alerta_me, #alerta_me1, #alerta2').hide();
 					$('#aleatorio_ov, #aleatorio_ov_a').val(temp);
 					$('#id_paciente_ov').val(id_p);
 					$('#titulo_modal').text('NUEVA VISITA - ' + name_p);
@@ -2928,6 +2928,7 @@ include_once 'recursos/datauser.php';
 						$('#form-2').validator();
 						$('#form-2 input').keyup(function(e) {
 							$('#alerta1').hide();
+							$('#alerta2').hide();
 						});
 					});
 					$('#myModal4').on('hidden.bs.modal', function(e) {
@@ -3106,7 +3107,7 @@ include_once 'recursos/datauser.php';
 
 				$('#titulo_modal').text('NUEVA VISITA - ' + nombreP);
 				$('#id_usr_reg').val($('#id_user').val());
-				$('#alerta1, #alerta_me, #alerta_me1').hide();
+				$('#alerta1, #alerta_me, #alerta_me1, #alerta2').hide();
 				$('#id_sucu').val(<?PHP echo $id_sucursal_u; ?>);
 
 				$("#beneficio_c,#beneficio_i,#beneficio_l,#beneficio_s,#beneficio_p,#beneficio_c1").load("pacientes/genera/beneficiosP.php?idP=" + idP, function(response, status, xhr) {});
@@ -3268,9 +3269,15 @@ include_once 'recursos/datauser.php';
 
 				$('#form-2').validator().on('submit', function(e) {
 					if (e.isDefaultPrevented()) { // handle the invalid form...
-						$("#alerta1").fadeTo(2000, 500).slideUp(500, function() {
-							$("#alerta1").slideUp(600);
-						});
+						if($("#medContDoctor").attr('required') === 'required'){
+							$("#alerta2").fadeTo(2000, 500).slideUp(500, function() {
+								$("#alerta2").slideUp(600);
+							});
+						}else{
+							$("#alerta1").fadeTo(2000, 500).slideUp(500, function() {
+								$("#alerta1").slideUp(600);
+							});
+						}
 					} else { // everything looks good!
 						e.preventDefault();
 						var datosP = $('#myModal4 #form-2').serialize();
@@ -4335,6 +4342,7 @@ include_once 'recursos/datauser.php';
 											if(dataVerifMed>=1){
 												$('#medContDoctor').prop('required',true);
 												$('#medContCedula').prop('required',true);
+												$('.grupoControlado').removeClass('hidden');
 											}else if(dataVerifMed<=0){
 												$('#medContDoctor').prop('required',false);
 												$('#medContCedula').prop('required',false);
@@ -4465,6 +4473,7 @@ include_once 'recursos/datauser.php';
 					$('#form-2').validator();
 					$('#form-2 input').keyup(function(e) {
 						$('#alerta1').hide();
+						$('#alerta2').hide();
 					});
 					window.setTimeout(function() {
 						$('#clickmeCo1, #clickmeCoS1').click()
@@ -4815,6 +4824,7 @@ include_once 'recursos/datauser.php';
 						}else if(dataVerifMed<=0){
 							$('#medContDoctor').prop('required',false);
 							$('#medContCedula').prop('required',false);
+							$('.grupoControlado').addClass('hidden');
 						}
 					});
 				}, 500);

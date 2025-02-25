@@ -12,7 +12,7 @@ require("../../funciones/php/values.php");
     $sIndexColumn = "vc.id_vc";
      
 	 // Joins   
-	$sJoin = 'LEFT JOIN conceptos c ON c.id_to = vc.id_concepto_es LEFT JOIN orden_venta ov ON ov.referencia_ov = vc.referencia_vc LEFT JOIN stock_has_bach shb ON shb.id_Producto = c.id_to LEFT JOIN medicamentos m ON m.id_med = c.id_medicamento_g LEFT JOIN catalogo_lineas_cr cl ON cl.nombre_l COLLATE latin1_spanish_ci = c.linea_c COLLATE latin1_spanish_ci';
+	$sJoin = 'LEFT JOIN conceptos c ON c.id_to = vc.id_concepto_es LEFT JOIN orden_venta ov ON ov.referencia_ov = vc.referencia_vc LEFT JOIN stock_has_bach shb ON shb.id = vc.id_vc_shb LEFT JOIN medicamentos m ON m.id_med = c.id_medicamento_g LEFT JOIN catalogo_lineas_cr cl ON cl.nombre_l COLLATE latin1_spanish_ci = c.linea_c COLLATE latin1_spanish_ci';
 	
 	 $sWhere = "WHERE c.medicamento_controlado = 1 AND ov.no_temp_ov IS NOT NULL AND ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'";
    /*  mysql_select_db($database_horizonte, $horizonte); 
