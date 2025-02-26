@@ -1111,7 +1111,7 @@ function imprimir(a,b,n,x,id_s){//a =id paciente, b id estudio en vc, x es si se
 				switch(n){
 					case "BIOMETRIA HEMATICA":
 						$.post('laboratorio/files-serverside/imprimirResultadosBH.php?idE='+b+'&idU='+$('#id_user').val()+'&firmaU='+t, {_:$.now()} ).done(function(data){ 
-							var pus = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s, _:$.now()}
+							var pus = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s, _:$.now(), id_vc:b}
 							
 							$("#myModalx").html('<div class="modal-dialog modal-lg" role="document"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4"></div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
 						   window.setTimeout(function(){
@@ -1124,7 +1124,7 @@ function imprimir(a,b,n,x,id_s){//a =id paciente, b id estudio en vc, x es si se
 					break;
 					case "EXAMEN GENERAL DE ORINA":
 						$.post('laboratorio/files-serverside/imprimirResultadosEGO.php?idE='+b+'&idU='+$('#id_user').val()).done(function(data){
-							var pus = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s}
+							var pus = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s, id_vc:b}
 							
 							$("#myModalx").html('<div class="modal-dialog modal-lg" role="document"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4"></div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
 						   window.setTimeout(function(){
@@ -1137,7 +1137,7 @@ function imprimir(a,b,n,x,id_s){//a =id paciente, b id estudio en vc, x es si se
 					break;
 					case 'COPROLOGICO':
 						$.post('laboratorio/files-serverside/imprimirResultadosCoprologico.php?idE='+b+'&idU='+$('#id_user').val()).done(function(data){ 
-							var pus = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s}
+							var pus = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s, id_vc:b}
 							
 							$("#myModalx").html('<div class="modal-dialog modal-lg" role="document"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4"></div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
 						   window.setTimeout(function(){
@@ -1150,7 +1150,7 @@ function imprimir(a,b,n,x,id_s){//a =id paciente, b id estudio en vc, x es si se
 					break;
 					case 'COPROPARASITOSCOPICO UNICO':
 						$.post('laboratorio/files-serverside/imprimirResultadosCoproparasitoscopio1.php?idE='+b+'&idU='+$('#id_user').val()).done(function(data){ 
-							var pus = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s}
+							var pus = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s, id_vc:b}
 							
 							$("#myModalx").html('<div class="modal-dialog modal-lg" role="document"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4"></div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
 						   window.setTimeout(function(){
@@ -1163,7 +1163,7 @@ function imprimir(a,b,n,x,id_s){//a =id paciente, b id estudio en vc, x es si se
 					break;
 					case 'COPROPARASITOSCOPICO (2M)':				
 						$.post('laboratorio/files-serverside/imprimirResultadosCoproparasitoscopio2.php?idE='+b+'&idU='+$('#id_user').val()).done(function(data){ 
-							var pus = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s}
+							var pus = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s, id_vc:b}
 							
 							$("#myModalx").html('<div class="modal-dialog modal-lg" role="document"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4"></div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
 						   window.setTimeout(function(){
@@ -1176,7 +1176,7 @@ function imprimir(a,b,n,x,id_s){//a =id paciente, b id estudio en vc, x es si se
 					break;
 					case 'COPROPARASITOSCOPICO SERIADO':
 						$.post('laboratorio/files-serverside/imprimirResultadosCoproparasitoscopio3.php?idE='+b+'&idU='+$('#id_user').val()).done(function(data){ 
-							var pus = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s}
+							var pus = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s, id_vc:b}
 							
 							$("#myModalx").html('<div class="modal-dialog modal-lg" role="document"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4"></div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
 						   window.setTimeout(function(){
@@ -1189,7 +1189,7 @@ function imprimir(a,b,n,x,id_s){//a =id paciente, b id estudio en vc, x es si se
 					break;
 					case 'COPROPARASITOSCOPIO (3)':
 						$.post('laboratorio/files-serverside/imprimirResultadosCoproparasitoscopio3.php?idE='+b+'&idU='+$('#id_user').val()).done(function(data){ 
-							var pus = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s}
+							var pus = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s, id_vc:b}
 							
 							 $("#myModalx").html('<div class="modal-dialog modal-lg" role="document"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4"></div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
 						   window.setTimeout(function(){
@@ -1202,7 +1202,7 @@ function imprimir(a,b,n,x,id_s){//a =id paciente, b id estudio en vc, x es si se
 					break;
 					default:
 						$.post('laboratorio/files-serverside/imprimirResultadosPDF.php?idE='+b+'&idU='+$('#id_user').val()).done(function(data){
-						   var pusha = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s}
+						   var pusha = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s, id_vc:b}
 						   $("#myModalx").html('<div class="modal-dialog modal-lg" role="document"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4"></div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
 						   window.setTimeout(function(){
 							$("#body_modal4").load('laboratorio/htmls/frame_pdf.php',pusha,function(response,status,xhr){if(status=="success"){
@@ -1214,7 +1214,7 @@ function imprimir(a,b,n,x,id_s){//a =id paciente, b id estudio en vc, x es si se
 				}
 			}else{
 				$.post('laboratorio/files-serverside/imprimirResultadosBacter.php?idE='+b+'&idU='+$('#id_user').val()).done(function(data){
-				   var pusha = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s}
+				   var pusha = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s, id_vc:b}
 				   $("#myModalx").html('<div class="modal-dialog modal-lg" role="document"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4"></div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
 				   window.setTimeout(function(){
 					$("#body_modal4").load('laboratorio/htmls/frame_pdf.php',pusha,function(response,status,xhr){if(status=="success"){
@@ -1226,7 +1226,7 @@ function imprimir(a,b,n,x,id_s){//a =id paciente, b id estudio en vc, x es si se
 			}
 		}else{
 			$.post('laboratorio/files-serverside/imprimirResultadosPDFlibre.php?idE='+b+'&idU='+$('#id_user').val()).done(function(data){
-			   var pusha = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s}
+			   var pusha = {encL:escape(membretDME),pieL:escape(membretDMP),iduL:escape($('#id_user').val()),firmaL:t,id_s:id_s, id_vc:b}
 			   $("#myModalx").html('<div class="modal-dialog modal-lg" role="document"><div class="modal-content animated flipInY"><div class="modal-header"> <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="modal-title"><strong><span id="titulo_modal"></span> </strong></h4> </div> <div class="modal-body"> <div id="body_modal4"></div> </div><div class="modal-footer"> <div class="form-group"> <div class="col-sm-offset-0 col-sm-12"> <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Salir</button> </div> </div> </div> </div></div>');
 			   window.setTimeout(function(){
 				$("#body_modal4").load('laboratorio/htmls/frame_pdf.php',pusha,function(response,status,xhr){if(status=="success"){

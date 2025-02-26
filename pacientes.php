@@ -1910,7 +1910,7 @@ include_once 'recursos/datauser.php';
 						}
 					});
 
-					$('#titulo_modal').text('FICHA DEL PACIENTE ' + datosI[1] + ' ' + datosI[2] + ' ' + datosI[3] + '. REGISTRADO POR ' + datosI[40] + ' ' + datosI[41]);
+					$('#titulo_modal').text('FICHA DEL PACIENTE ' + datosI[1] + ' ' + datosI[2] + ' ' + datosI[3] + '. REGISTRADO POR ' + datosI[40] + ' ' + datosI[41] + '. CLAVE: ' + idP);
 
 					var fechaN1 = datosI[20].split('/');
 					var fxD = fechaN1[0],
