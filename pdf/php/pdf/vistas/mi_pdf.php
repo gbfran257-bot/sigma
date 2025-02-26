@@ -13,6 +13,27 @@ $id_s = sqlValue($_GET["id_s"], "int");
 mysql_select_db($database_horizonte, $horizonte);
 $resultR = mysql_query("SELECT margen_e_la, margen_p_la from sucursales where id_su = $id_s", $horizonte) or die (mysql_error());
 $rowR = mysql_fetch_row($resultR);
+
+//Guardamos la informacion del estudio en la tabla estudios_sistema_externo para usar con la aplicacion que lista los estudios al paciente
+$id_vc = sqlValue($_GET['id_vc'], "int");
+$vt = sqlValue($row_usuario['variable_temporal_u'], "text");
+$vt1 = sqlValue($row_usuario['variable_temporal1_u'], "text");
+$vt5 = sqlValue($row_usuario['variable_temporal5_u'], "text");
+
+mysql_select_db($database_horizonte, $horizonte);
+$contar_registros = mysql_query("SELECT COUNT(id_vc_ese) FROM estudios_sistema_externo WHERE id_vc_ese = $id_vc", $horizonte) or die (mysql_error());
+$registros = mysql_fetch_row($contar_registros);
+
+if($registros[0] == 0){
+    mysql_select_db($database_horizonte, $horizonte);
+    $sqlAddreg = "INSERT INTO estudios_sistema_externo (id_vc_ese, id_su_ese, variable_temporal_u_ese, variable_temporal1_u_ese, variable_temporal5_u_ese) VALUES ($id_vc, $id_s, $vt, $vt1, $vt5);";
+    $agregarReg = mysql_query($sqlAddreg, $horizonte) or die (mysql_error());
+}else if($registros[0] == 1){
+    mysql_select_db($database_horizonte, $horizonte);
+    $sqlActualizarReg = "UPDATE estudios_sistema_externo SET id_su_ese = $id_s, variable_temporal_u_ese = $vt, variable_temporal1_u_ese = $vt1, variable_temporal5_u_ese = $vt5 WHERE id_vc_ese = $id_vc LIMIT 1";
+    $actualizarReg = mysql_query($sqlActualizarReg, $horizonte) or die (mysql_error());   
+}
+//
  
 ?>
 
