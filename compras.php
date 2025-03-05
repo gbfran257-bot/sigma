@@ -83,7 +83,15 @@
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>REFERENCIA</th>
     <th style="vertical-align:middle; white-space:nowrap;" nowrap>MED. GENERICO</th>
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>PRODUCTO</th>
-    <th style="vertical-align:middle; white-space:nowrap;" nowrap> LOTE</th>
+	<th style="vertical-align:middle;">
+		<select id="s_colores" name="s_colores" style="color:black;">
+			<option value="0">Todos</option>
+			<option value="1">Verde</option>
+			<option value="2">Amarillo</option>
+			<option value="3">Rojo</option>
+			<option value="4">Negro</option>
+		</select>
+	</th>
     <th style="vertical-align:middle;">SUCURSAL</th>
     <th style="vertical-align:middle;">CANTIDAD ENTRANTE</th>
     <th style="vertical-align:middle;">FECHA CADUCIDAD</th>
@@ -148,6 +156,7 @@ $(document).ready(function(e) {
 			var de = $('#fechaDe').val()+' 00:00:00';
 			var a = $('#fechaA').val()+' 23:59:59';
 			var idU = $('#id_user').val(); 
+			var s_colores = $('#s_colores').val();
 			// var de = $("#miSucursal").val();
 			
 			aoData.push( {"name": "nombre", "value": nombre } );
@@ -155,6 +164,7 @@ $(document).ready(function(e) {
 			aoData.push(  {"name": "min", "value": de } ); 
 			aoData.push(  {"name": "max", "value": a } ); 
 			aoData.push(  {"name": "idU", "value": idU } );
+			aoData.push(  {"name": "s_colores", "value": s_colores } );
 			// aoData.push({"name": "idSu", "value": de });
 		},
 		"oLanguage": {
@@ -190,6 +200,10 @@ $(document).ready(function(e) {
 	$('#radio2').click(function(e){
 		$('#fechaDe').val('2000-01-01'); $('#fechaA').val('<?php echo date("Y-m-d"); ?>'); oTableP.draw();
 	});
+
+	$('#s_colores').click(function(e) {
+		oTableP.draw();
+    });
 	
 	$('#fechaDe').on('changeDate', function(e) { oTableP.draw(); });
 	$("#fechaA").on('changeDate', function(e) { oTableP.draw(); });
