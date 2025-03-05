@@ -25,6 +25,24 @@ $resultAU = mysql_query("SELECT multisucursal_u, idSucursal_u from usuarios wher
 $rowAU = mysql_fetch_row($resultAU);
 $id_suc = sqlValue($rowAU[1], "int");
 
+$todos = "";
+$verde = " AND fecha_expiracion >= CURDATE() + INTERVAL 12 MONTH ";
+$amarillo = " AND fecha_expiracion > CURDATE() + INTERVAL 6 MONTH AND fecha_expiracion <= CURDATE() + INTERVAL 11 MONTH ";
+$rojo = " AND fecha_expiracion > CURDATE() + INTERVAL 15 DAY AND fecha_expiracion <= CURDATE() + INTERVAL 6 MONTH ";
+$negro = " AND fecha_expiracion <= CURDATE() + INTERVAL 15 DAY ";
+
+if(isset($_GET['s_colores']) && $_GET['s_colores'] == 0){
+    $condicion_fecha = $todos;
+}else if(isset($_GET['s_colores']) && $_GET['s_colores'] == 1){
+    $condicion_fecha = $verde;
+}else if(isset($_GET['s_colores']) && $_GET['s_colores'] == 2){
+    $condicion_fecha = $amarillo;
+}else if(isset($_GET['s_colores']) && $_GET['s_colores'] == 3){
+    $condicion_fecha = $rojo;
+}else if(isset($_GET['s_colores']) && $_GET['s_colores'] == 4){
+    $condicion_fecha = $negro;
+}
+
 switch ($rowAU[0]) {
     case 0: //Solo vé lo suyo
         if (isset($_GET['cad']) && $_GET['cad'] == 'SI') {
@@ -67,15 +85,15 @@ switch ($rowAU[0]) {
         } else {
             if (isset($_GET['exi']) && $_GET['exi'] == 'SI') {
                 if (isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != '') {
-                    $sWhere = "WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]' AND s.existencias > 0";
+                    $sWhere = "WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]' AND s.existencias > 0 $condicion_fecha";
                 } else {
-                    $sWhere = "where s.usuario_registro = '$_GET[idU]' AND s.existencias > 0";
+                    $sWhere = "where s.usuario_registro = '$_GET[idU]' AND s.existencias > 0 $condicion_fecha";
                 }
             } else {
                 if (isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != '') {
-                    $sWhere = "WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]'";
+                    $sWhere = "WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]' $condicion_fecha";
                 } else {
-                    $sWhere = "where s.usuario_registro = '$_GET[idU]'";
+                    $sWhere = "where s.usuario_registro = '$_GET[idU]' $condicion_fecha";
                 }
             }
         }
@@ -124,15 +142,15 @@ switch ($rowAU[0]) {
         } else {
             if (isset($_GET['exi']) && $_GET['exi'] == 'SI') {
                 if (isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != '') {
-                    $sWhere = "WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') AND s.existencias > 0";
+                    $sWhere = "WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') AND s.existencias > 0 $condicion_fecha";
                 } else {
-                    $sWhere = "WHERE (s1.id_su = $id_suc or s.usuario_registro = $_GET[idU]) AND s.existencias > 0";
+                    $sWhere = "WHERE (s1.id_su = $id_suc or s.usuario_registro = $_GET[idU]) AND s.existencias > 0 $condicion_fecha";
                 }
             } else {
                 if (isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != '') {
-                    $sWhere = "WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') ";
+                    $sWhere = "WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') $condicion_fecha";
                 } else {
-                    $sWhere = "WHERE s1.id_su = $id_suc or s.usuario_registro = $_GET[idU]";
+                    $sWhere = "WHERE s1.id_su = $id_suc or s.usuario_registro = $_GET[idU] $condicion_fecha";
                 }
             }
         }
@@ -178,15 +196,15 @@ switch ($rowAU[0]) {
         } else {
             if (isset($_GET['exi']) && $_GET['exi'] == 'SI') {
                 if (isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != '') {
-                    $sWhere = "WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' AND s.existencias > 0";
+                    $sWhere = "WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' AND s.existencias > 0 $condicion_fecha";
                 } else {
-                    $sWhere = "WHERE s.existencias > 0 ";
+                    $sWhere = "WHERE s.existencias > 0 $condicion_fecha";
                 }
             } else {
                 if (isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != '') {
-                    $sWhere = "WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]'";
+                    $sWhere = "WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' $condicion_fecha";
                 } else {
-                    $sWhere = "WHERE 1 = 1 ";
+                    $sWhere = "WHERE 1 = 1 $condicion_fecha";
                 }
             }
         }
