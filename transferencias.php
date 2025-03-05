@@ -86,7 +86,15 @@
                 <th id="clickme" style="vertical-align:middle;">REF. DE TRANS.</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>REF. DE<br>COMPRA</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>MED. GENERICO</th>
-                <th style="vertical-align:middle; white-space:nowrap;" nowrap>PRODUCTO</th>
+                <th style="vertical-align:middle;">
+                    <select id="s_colores" name="s_colores" style="color:black;">
+                        <option value="0">Todos</option>
+                        <option value="1">Verde</option>
+                        <option value="2">Amarillo</option>
+                        <option value="3">Rojo</option>
+                        <option value="4">Negro</option>
+                    </select>
+                </th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap> LOTE</th>
                 <th style="vertical-align:middle;">SUCURSAL ORIGEN</th>
                 <th style="vertical-align:middle;">EMISOR</th>
