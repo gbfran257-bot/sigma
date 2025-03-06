@@ -19,8 +19,8 @@ require("../../../funciones/php/values.php");
  
  if($rowC1[0]<1){
 	 mysql_select_db($database_horizonte, $horizonte); 
-	 $sql="INSERT INTO asignar_consumibles(aleatorio_ac,id_item_ac,usuario_ac,fecha_ac)";
-	 $sql.= "VALUES ($noTemp, $idI, $idU, $now)";
+	 $sql="INSERT INTO asignar_consumibles(aleatorio_ac,id_item_ac,usuario_ac,fecha_ac,precio_ac)";
+	 $sql.= "VALUES ($noTemp, $idI, $idU, $now, 0)";
 	 $update = mysql_query($sql, $horizonte) or die (mysql_error());	
 	 if (!$update) { echo $sql; }else{ echo 1; }
  }else{echo 1;}
