@@ -218,10 +218,10 @@ $sucu_user = $_SESSION['MM_Usersucu'];
     if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' ) { $sLimit = "LIMIT ".mysql_real_escape_string( $_GET['iDisplayStart'] ).", ". mysql_real_escape_string( $_GET['iDisplayLength'] ); }
      
     /* * Ordering */
-    $sOrder = "order by c.concepto_to asc";
+    $sOrder = "order by c.concepto_to asc, s.fecha_expiracion ASC ";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
-        $sOrder = "ORDER BY c.concepto_to asc  ";
+        $sOrder = "ORDER BY c.concepto_to asc, s.fecha_expiracion ASC ";
         for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ ) { if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" ) { $sOrder .= $aColumns[ intval( $_GET['iSortCol_'.$i] ) ]." ".mysql_real_escape_string( $_GET['sSortDir_'.$i] ) .", "; } }
          
         $sOrder = substr_replace( $sOrder, "", -2 );
