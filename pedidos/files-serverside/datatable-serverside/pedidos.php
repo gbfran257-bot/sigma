@@ -162,7 +162,8 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     $row[4] = $resultados_mm_s[1];
     $row[5] = $resultados_mm_s[0];
 
-    $row[6] = "<td><span onclick=\"cambiarSurtir(this);\">{$surtir}</span></td>";
+    //comentamos esta funcion debido a que el reporte de pedidos se modificó y ya no tomaba los valos guardados. 
+    /* $row[6] = "<td><span onclick=\"cambiarSurtir(this);\">{$surtir}</span></td>"; */
 
     //obtenemos el ultimo proveedor
     $qry_ult_prov = mysqli_query($horizonte, "SELECT pr.nombre_pr FROM stock_has_bach s left join proveedores pr on pr.clave_pr = s.id_proveedor WHERE s.id_Producto = ".$row[9]." AND s.id_stock = " . $row[8] . " ORDER BY s.id DESC LIMIT 1") or die(mysqli_error($horizonte));
