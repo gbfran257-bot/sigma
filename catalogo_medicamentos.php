@@ -99,7 +99,7 @@ include_once 'recursos/datauser.php';
 				<th style="vertical-align:middle; white-space:nowrap;" nowrap>PRECIO M</th>
 				<th style="vertical-align:middle; white-space:nowrap;" nowrap>EXISTENCIAS</th>
 				<th style="vertical-align:middle; white-space:nowrap;" nowrap>LÍNEA</th>
-				<th style="vertical-align:middle; white-space:nowrap;" nowrap>MAX_MIN</th>
+				<th style="vertical-align:middle; white-space:nowrap;" nowrap>MIN_MAX</th>
 			</tr>
 		</thead>
 		<tbody>
