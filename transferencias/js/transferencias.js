@@ -57,6 +57,7 @@ const initDataTablePrincipal = () => {
             const date = new Date();
             const fechaMin = $('#fechaDe').val() === undefined ? `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` : $('#fechaDe').val();
             const fechaMax = $('#fechaA').val() === undefined ? `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` : $('#fechaA').val();
+            var s_colores = $('#s_colores').val();
 			aoData.push({
                 "name": "nombre",
                 "value": $('#top-search').val()
@@ -77,6 +78,7 @@ const initDataTablePrincipal = () => {
                 "name": "idU",
                 "value": $('#id_user').val()
             });
+            aoData.push(  {"name": "s_colores", "value": s_colores } );
 		},
         "oLanguage": {
 			"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
@@ -130,4 +132,8 @@ const initDataTablePrincipal = () => {
 	
 	$('#fechaDe').on('changeDate', (e) => tablaPrincipal.draw());
 	$("#fechaA").on('changeDate', (e) => tablaPrincipal.draw());
+
+    $('#s_colores').click(function(e) {
+		tablaPrincipal.draw();
+    });
 };

@@ -15,27 +15,45 @@ require("../../../funciones/php/values.php");
     mysql_select_db($database_horizonte, $horizonte); 
 	$resultAU = mysql_query("SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[idU]'",$horizonte) or die (mysql_error());
 	$rowAU = mysql_fetch_row($resultAU); $id_suc = sqlValue($rowAU[1], "int");
+
+    $todos = "";
+    $verde = " AND fecha_expiracion >= CURDATE() + INTERVAL 12 MONTH ";
+    $amarillo = " AND fecha_expiracion > CURDATE() + INTERVAL 6 MONTH AND fecha_expiracion <= CURDATE() + INTERVAL 11 MONTH ";
+    $rojo = " AND fecha_expiracion > CURDATE() + INTERVAL 15 DAY AND fecha_expiracion <= CURDATE() + INTERVAL 6 MONTH ";
+    $negro = " AND fecha_expiracion <= CURDATE() + INTERVAL 15 DAY ";
+
+    if(isset($_GET['s_colores']) && $_GET['s_colores'] == 0){
+        $condicion_fecha = $todos;
+    }else if(isset($_GET['s_colores']) && $_GET['s_colores'] == 1){
+        $condicion_fecha = $verde;
+    }else if(isset($_GET['s_colores']) && $_GET['s_colores'] == 2){
+        $condicion_fecha = $amarillo;
+    }else if(isset($_GET['s_colores']) && $_GET['s_colores'] == 3){
+        $condicion_fecha = $rojo;
+    }else if(isset($_GET['s_colores']) && $_GET['s_colores'] == 4){
+        $condicion_fecha = $negro;
+    }
 	
     switch($rowAU[0]){
 		case 0://Solo vé lo suyo
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-			  $sWhere="WHERE (s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]') AND s.es_traspaso = 0";
+			  $sWhere="WHERE (s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]') AND s.es_traspaso = 0 $condicion_fecha ";
 			}else{
-			  $sWhere = "where s.usuario_registro = '$_GET[idU]' AND s.es_traspaso = 0";
+			  $sWhere = "where s.usuario_registro = '$_GET[idU]' AND s.es_traspaso = 0 $condicion_fecha ";
 			}
 		break;
 		case 2://Ve todo lo de su sucursal y lo suyo
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-			  $sWhere="WHERE (s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]')) AND s.es_traspaso = 0";
+			  $sWhere="WHERE (s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]')) AND s.es_traspaso = 0 $condicion_fecha ";
 			}else{
-			  $sWhere = "WHERE (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') AND s.es_traspaso = 0";
+			  $sWhere = "WHERE (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') AND s.es_traspaso = 0 $condicion_fecha ";
 			}
 		break;
 		case 1://Ve todo de todas las sucursales
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-			  $sWhere="WHERE (s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]') AND s.es_traspaso = 0";
+			  $sWhere="WHERE (s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]') AND s.es_traspaso = 0 $condicion_fecha";
 			}else{
-			  $sWhere = "WHERE 1 = 1 AND s.es_traspaso = 0";
+			  $sWhere = "WHERE 1 = 1 AND s.es_traspaso = 0 $condicion_fecha ";
 			}
 		break;
 		default:
@@ -161,29 +179,23 @@ require("../../../funciones/php/values.php");
             $row[7]= $fechaCadu;
         } */
 
+        $Alertafecha0 = date('Y-m-d', strtotime($fechaCadu.'-15 day'));
         $Alertafecha = date('Y-m-d', strtotime($fechaCadu.'-6 month'));
         $Alertafecha2 = date('Y-m-d', strtotime($fechaCadu.'-11 month'));
         $Alertafecha3 = date('Y-m-d', strtotime($fechaCadu.'-12 month'));
-         //sacar la fecha actual
         $now = date('Y-m-d');
 
-        //verificamos si la fecha actual supera a la fecha de caducidad que tiene un mes restado
-        /* if($now <= $Alertafecha){
-            $row[7]= "<span class='btn btn-danger disabled' >".$fechaCadu."</span>";
-        }else if($now <= $Alertafecha2){
-            $row[7]= "<span class='btn btn-info disabled' >".$fechaCadu."</span>";
+        if($Alertafecha3 >= $now){
+            $row[4]= "<span class='btn btn-success disabled' style='color:black;'>".$fechaCadu."</span>";
+        }else if($Alertafecha >= $now && $Alertafecha2 <= $now){
+            $row[4]= "<span class='btn btn-warning disabled' style='color:black;'>".$fechaCadu."</span>";
+        }else if($Alertafecha0 > $now && $Alertafecha <= $now){
+            $row[4]= "<span class='btn btn-danger disabled' style='color:black;'>".$fechaCadu."</span>";
+        }else if($Alertafecha0 <= $now){
+            $row[4]= "<span class='btn disabled' style='color:white; background-color:black'>".$fechaCadu."</span>";
         }else{
-            $row[7]= "<span class='btn btn-success disabled' >".$fechaCadu."</span>";
-        } */
-       if($Alertafecha3 >= $now){
-            $row[7]= "<span class='btn btn-success disabled' style='color:black;'>".$fechaCadu."</span>";
-       }else if($Alertafecha >= $now && $Alertafecha2 <= $now){
-            $row[7]= "<span class='btn btn-warning disabled' style='color:black;'>".$fechaCadu."</span>";
-       }else if($Alertafecha <= $now){
-            $row[7]= "<span class='btn btn-danger disabled' style='color:black;'>".$fechaCadu."</span>";
-       }else{
-            $row[7]= "<span>".$fechaCadu."</span>";
-       }
+            $row[4]= "<span>".$fechaCadu."</span>";
+        }
 
        $query_factura_compra = "SELECT nombre_factura FROM compra_factura WHERE referencia_compra = '{$folio}'";
        $resultado_query_factura_compra = mysql_query($query_factura_compra, $horizonte) or die (mysql_error());

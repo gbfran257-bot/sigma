@@ -584,6 +584,29 @@ function nuevo_medicamento(id_h, id_p, nombre_p, id_s, id_su_user){ $('#myModal2
 					$('#btn_save_medi').addClass('disabled');
 					if($('#id_medi').val()!=''){ guardar_add_medi(id_h, id_p, $('#id_medi').val(), $('#indicacion_m').val(), $('#id_stock_pivote').val()); }
 				});
+				//insertamos tabla de medicamentos seleccionados
+				var oTableSeleccionados = $('#datatable_seleccionados').DataTable({
+					serverSide: true,"sScrollY": "200", ordering: false, searching: false, scrollCollapse: false, "scrollX": true,
+					"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
+					"aoColumns":[ {"bVisible":true}, {"bVisible":true }, {"bVisible":true }, {"bVisible":true } ],
+					"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
+					deferRender: true, select: false, "processing": false, 
+					"sAjaxSource": "hospital/datatable-serverside/buscar_med_seleccionados.php",
+					"fnServerParams": function (aoData, fnCallback) { 
+						aoData.push( {"name": "id_p", "value": id_p } );
+						aoData.push( {"name": "id_h", "value": id_h } );
+						aoData.push( {"name": "id_su", "value": id_su_user } );
+					},
+					"oLanguage": {
+						"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
+						"sInfo": "SERVICIOS FILTRADOS: _END_",
+						"sInfoEmpty": "NINGÚN SERVICIO FILTRADO.", "sInfoFiltered": " TOTAL DE SERVICIOS: _MAX_", "sSearch": "",
+						"oPaginate": { "sNext": "<span class='paginacionPrincipal'>Siguiente</span>", "sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;" }
+					},"iDisplayLength": 20, paging: true,
+				});
+
+				$('#clickmeSelecc').click(function(e) { oTableSeleccionados.draw(); });
+				//
 			},300);
 
 			$('#myModal3').modal('show'); $('#myModal3').on('shown.bs.modal', function (e){});
@@ -598,6 +621,7 @@ function guardar_add_medi(id_h, id_p, id_m, indicacion, stock_pivote){
 	$.post('hospital/files-serverside/asignar_medi.php',datos).done(function(data){
 		if(data==1){
 			/* $('#myModal3').modal('hide'); */
+			$("#clickmeSelecc").click();
 			swal({ title: "", type: "success", text: "El medicamento ha sido asignado al paciente.", timer: 1800, showConfirmButton: false }); return;
 		}else{alert(data);}
 	});

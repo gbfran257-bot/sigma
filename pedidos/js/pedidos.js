@@ -32,7 +32,22 @@ const initDataTablePrincipal = () => {
         searching: true,
         scrollCollapse: false,
         "scrollX": true,
-        "fnFooterCallback": (nRow, aaData, iStart, iEnd, aiDisplay) => {  },
+        "fnFooterCallback": (nRow, aaData, iStart, iEnd, aiDisplay) => { 
+            var existencias = 0, maximos = 0, minimos = 0, surtir = 0;
+            for(var i=iStart ; i<iEnd ; i++){ 
+                if (aaData[aiDisplay[i]] && aaData[aiDisplay[i]].length > 4) {
+                   existencias += aaData[ aiDisplay[i] ][3]*1;
+                   maximos += aaData[ aiDisplay[i] ][4]*1;
+                   minimos += aaData[ aiDisplay[i] ][5]*1;
+                   surtir += aaData[ aiDisplay[i] ][6]*1;
+                }
+                var nCells = nRow.getElementsByTagName('th');
+                nCells[3].innerHTML = redondear(parseFloat(existencias * 100)/100,2);
+                nCells[4].innerHTML = redondear(parseFloat(maximos * 100)/100,2);
+                nCells[5].innerHTML = redondear(parseFloat(minimos * 100)/100,2);
+                nCells[6].innerHTML = redondear(parseFloat(surtir * 100)/100,2);
+         }
+        },
         scroller: false,
         responsive: true,
         "aoColumns": [

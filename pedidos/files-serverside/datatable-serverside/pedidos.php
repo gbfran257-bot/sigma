@@ -2,13 +2,13 @@
 
 require("../../../Connections/horizonte2.php");
 
-$aColumns = array('s.id', 'c.concepto_to', 'g.nombre_generico_med', 's.existencias', 'mms.max_mm', 'mms.min_mm', 'CAST(mms.max_mm AS SIGNED) - CAST(s.existencias AS SIGNED)', 's.id_Producto', 's.id_stock', 's.id_Producto');
+$aColumns = array('s.id', 'c.concepto_to', 'g.nombre_generico_med', 's.existencias', 'mms.max_mm', 'mms.min_mm', 'CAST(mms.max_mm AS SIGNED) - CAST(s.existencias AS SIGNED)', 's.id_Producto', 's.id_stock', 's.id_Producto','pr.nombre_pr');
 
 $aTables = array('stock_has_bach s');
 
 $sIndexColumn = "s.id";
 
-$sJoin = 'left join conceptos c on c.id_to = s.id_Producto left join stock s1 on s1.id = s.id_stock left join usuarios u on u.id_u = s.usuario_registro left join sucursales su on su.id_su = s1.id_su left join medicamentos g on g.id_med = c.id_medicamento_g left join estatus es on es.id_est = s.estatus left join max_min_stock mms on mms.id_producto = s.id_Producto';
+$sJoin = 'left join conceptos c on c.id_to = s.id_Producto left join stock s1 on s1.id = s.id_stock left join usuarios u on u.id_u = s.usuario_registro left join sucursales su on su.id_su = s1.id_su left join medicamentos g on g.id_med = c.id_medicamento_g left join estatus es on es.id_est = s.estatus left join max_min_stock mms on mms.id_producto = s.id_Producto left join proveedores pr on pr.clave_pr = s.id_proveedor';
 
 $resultAU = mysqli_query($horizonte, "SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[idU]'") or die(mysqli_error($horizonte));
 $rowAU = mysqli_fetch_row($resultAU);
@@ -81,7 +81,14 @@ for ($i = 0; $i < count($aColumns); $i++) {
         } else {
             $sWhere .= " AND ";
         }
-        $sWhere .= $aColumns[$i] . " LIKE '%" . mysqli_real_escape_string($gaSql['link'], $_GET['sSearch_' . $i]) . "%' ";
+        //buscamos datos en row[10] en caso que el usuario busque en la columna que muestra datos del row[7]
+        if($i == 7){
+            $sWhere .= $aColumns[10] . " LIKE '%" . mysqli_real_escape_string($gaSql['link'], $_GET['sSearch_' . $i]) . "%' ";
+        } else {
+            $sWhere .= $aColumns[$i] . " LIKE '%" . mysqli_real_escape_string($gaSql['link'], $_GET['sSearch_' . $i]) . "%' ";
+        }
+        //
+        
     }
 }
 
@@ -162,7 +169,8 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     $row[4] = $resultados_mm_s[1];
     $row[5] = $resultados_mm_s[0];
 
-    $row[6] = "<td><span onclick=\"cambiarSurtir(this);\">{$surtir}</span></td>";
+    //comentamos esta funcion debido a que el reporte de pedidos se modificó y ya no tomaba los valos guardados. 
+    /* $row[6] = "<td><span onclick=\"cambiarSurtir(this);\">{$surtir}</span></td>"; */
 
     //obtenemos el ultimo proveedor
     $qry_ult_prov = mysqli_query($horizonte, "SELECT pr.nombre_pr FROM stock_has_bach s left join proveedores pr on pr.clave_pr = s.id_proveedor WHERE s.id_Producto = ".$row[9]." AND s.id_stock = " . $row[8] . " ORDER BY s.id DESC LIMIT 1") or die(mysqli_error($horizonte));

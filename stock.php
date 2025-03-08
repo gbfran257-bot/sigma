@@ -83,7 +83,15 @@
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>PRODUCTO</th>
     <th style="vertical-align:middle; white-space:nowrap;" nowrap>NOMBRE GENERICO</th>
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>SUCURSAL</th>
-    <th style="vertical-align:middle;"><input type="checkbox" id="caducidad" value="" /> FECHA CADUCIDAD </th>
+    <th style="vertical-align:middle;">
+		<select id="s_colores" name="s_colores" style="color:black;">
+			<option value="0">Todos</option>
+			<option value="1">Verde</option>
+			<option value="2">Amarillo</option>
+			<option value="3">Rojo</option>
+			<option value="4">Negro</option>
+		</select>
+	</th>
 	<th style="vertical-align:middle;">USUARIO REGISTRO</th>
     <th style="vertical-align:middle;">LOTE</th>
     <th style="vertical-align:middle;">MAX</th>
@@ -175,6 +183,7 @@ $(document).ready(function(e) {
 			var idU = $('#id_user').val(); 
 			var cad = $('#caducidad').val();
 			var exi = $('#existencias').val();
+			var s_colores = $('#s_colores').val();
 			
 			aoData.push( {"name": "nombre", "value": nombre } );
 			aoData.push(  {"name": "accesoU", "value": acceso } );
@@ -183,6 +192,7 @@ $(document).ready(function(e) {
 			aoData.push(  {"name": "idU", "value": idU } );
 			aoData.push(  {"name": "cad", "value": cad } );
 			aoData.push(  {"name": "exi", "value": exi } );
+			aoData.push(  {"name": "s_colores", "value": s_colores } );
 		},
 		"oLanguage": {
 			"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
@@ -226,6 +236,10 @@ $(document).ready(function(e) {
 
 	$('#caducidad').click(function(e) {
         if($(this).prop('checked')==true){ $(this).val('SI'); }else{$(this).val('NO');}
+		oTableP.draw();
+    });
+
+	$('#s_colores').click(function(e) {
 		oTableP.draw();
     });
 
