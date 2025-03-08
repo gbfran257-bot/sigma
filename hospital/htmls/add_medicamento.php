@@ -49,6 +49,28 @@
 		  		</td>
 		    </tr>
 		  </table>
+
+		  <div class="text-info"><strong>Medicamentos seleccionados.</strong></div>
+		<div class="tabla_seleccionados">
+			<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" id="datatable_seleccionados" class="table table-hover table-striped dataTables-example dataTable table-condensed" role="grid"> 
+				<thead id="cabecera_tBusquedaPrincipal">
+					<tr role="row" class="bg-primary">
+						<th id="clickmeSelecc" style="vertical-align:middle;">#</th>
+						<th style="vertical-align:middle;">Genérico</th>
+						<th style="vertical-align:middle;" class="text-center">Comercial</th>
+						<th style="vertical-align:middle;" class="text-center">Indicaciones</th>
+					</tr>
+				</thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
+				<!-- <tfoot>
+					<tr class="bg-primary">
+						<th></th>
+						<th><input type="text" class="form-control input-sm" placeholder="FORMA PAGO"/></th>
+						<th></th>
+					</tr>
+				</tfoot> -->
+			</table>
+		</div>
+
 	</div>
       <div class="modal-footer">
       	<div class="form-group">
