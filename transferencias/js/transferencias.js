@@ -133,7 +133,7 @@ const initDataTablePrincipal = () => {
 	$('#fechaDe').on('changeDate', (e) => tablaPrincipal.draw());
 	$("#fechaA").on('changeDate', (e) => tablaPrincipal.draw());
 
-    $('#s_colores').click(function(e) {
+    $("#s_colores").change((e) => {
 		tablaPrincipal.draw();
     });
 };
