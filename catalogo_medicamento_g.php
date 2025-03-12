@@ -158,6 +158,8 @@ $(document).ready(function(e) {
         $('#dataTablePrincipal_filter input').val($(this).val()); $('#dataTablePrincipal_filter input').keyup();
     }).focus();
 	$('.filtro1Principal').addClass('hidden');
+	$('.infoPrincipal').append('<div id="divSucursales" style="text-align:left;"> <table width="100%" border="0" cellpadding="4" cellspacing="2" style="color:black; float:left;"> <tr> <td>Sucursal: <select id="select-sucursal" class="form-control form-control-sm"></td> </tr> </table> </div>');
+	select2ini_s("#select-sucursal", "sucursales-stock.php?id_u="+$('#id_user').val(), "Selecciona una sucursal para ver su stock", 0, "400px");
 });
 
 function nuevo_medicamento(){
@@ -165,6 +167,15 @@ function nuevo_medicamento(){
 		$('#id_usr_reg').val($('#id_user').val()); $('#alerta_new_user').hide();
 		$('#titulo_modal').text('CREAR UN NUEVO MEDICAMENTO');
 		select2ini("#via_administracion_m", "via_administracion.php", "SELECCIONE VIA ADMINISTRACIÓN");
+
+		if ($("#select-sucursal").val() == null || $("#select-sucursal").val() === '') {
+			$("#min_stock").prop("disabled", true);
+			$("#max_stock").prop("disabled", true);
+			$("#aviso_sucursal").prop("hidden", false);
+			/* $("#min_stock").attr('placeholder', 'Sucursal no elegida'); */
+			/* $("#max_stock").attr('placeholder', 'Sucursal no elegida'); */
+		}
+
 
 		$("#min_stock").blur(() => {
 			if ( parseFloat($("#min_stock").val()) >= parseFloat($("#max_stock").val()) && parseFloat($("#max_stock").val()) != 0 ){
@@ -186,7 +197,9 @@ function nuevo_medicamento(){
 		  } else { // everything looks good!
 			e.preventDefault(); 
 			var $btn = $('#btn_new_u').button('loading'); $('#btn_cancel_new_u').hide();
-			var datosP = $('#myModal #med_generico').serialize();
+			var datosP = $('#myModal #med_generico').serializeArray();
+			datosP.push({ name: "id_sucursal", value: $('#select-sucursal').val() });
+			datosP.push({ name: "id_usuario", value: $('#id_user').val() });
 			$.post('catalogos/medicamento_generico/files-serverside/addMedicamento.php',datosP).done(function( data ) {
 				if (data==1){//si el paciente se Actualizó 
 					$('#clickme').click(); $btn.button('reset'); $('#btn_cancel_new_u').show(); $('#myModal').modal('hide'); 
@@ -215,6 +228,12 @@ function editar(id_um, unidad){0
 		$('#btn_save_mg').addClass('hidden');
 		$('#btn_update_carrera').removeClass('hidden');
 
+		if ($("#select-sucursal").val() == null || $("#select-sucursal").val() === '') {
+			$("#min_stock").prop("disabled", true);
+			$("#max_stock").prop("disabled", true);
+			$("#aviso_sucursal").prop("hidden", false);
+		}
+
 		$("#min_stock").blur(() => {
 			if ( parseFloat($("#min_stock").val()) >= parseFloat($("#max_stock").val()) && parseFloat($("#max_stock").val()) != 0 ){
 				$("#min_stock").focus();
@@ -229,7 +248,7 @@ function editar(id_um, unidad){0
 			}
 		});
 		
-		var datos ={id_um:id_um}
+		var datos ={id_um:id_um, id_sucursal:$("#select-sucursal").val()}
 		$.post('catalogos/medicamento_generico/files-serverside/ficha_medicamento.php',datos).done(function(data1){
 			var datosI = data1.split('*}');
 			 $('#clv_m').val(datosI[1]);
@@ -250,8 +269,8 @@ function editar(id_um, unidad){0
 			 $('#via_admin_dosis_m').val(datosI[14]);
 			 $('#presentaciones_m').val(datosI[16]);
 			 //para el max_min stock
-			 $('#min_stock').val(datosI[23]);
-			 $('#max_stock').val(datosI[24]);
+			 $('#min_stock').val(datosI[25]);
+			 $('#max_stock').val(datosI[26]);
 
 			 select2ini("#via_administracion_m", "via_administracion.php", "SELECCIONE VIA ADMINISTRACIÓN");
 		     $("#via_administracion_m").html("<option value='"+datosI[22]+"' selected>"+datosI[22]+"</option>");
@@ -264,6 +283,8 @@ function editar(id_um, unidad){0
 				
 				var datosP = $('#myModal #med_generico').serialize();
 					datosP +="&idm="+id_um;
+					datosP +="&id_sucursal="+$("#select-sucursal").val();
+					datosP +="&id_usuario="+$('#id_user').val();
 				$.post('catalogos/medicamento_generico/files-serverside/update_medicamento.php',datosP).done(function( data ) {
 					if (data==1){//si el paciente se Actualizó 
 						$('#clickme').click(); $('#myModal').modal('hide'); 
@@ -330,24 +351,46 @@ function delete_medicamento(id_p, nombre_p){
 }
 
 	function select2ini(donde, url, ph){
-    $(donde).select2({
-        language: "es",
-        width: "180px",
-        allowClear: true,
-        ajax: {
-            url: 'select/'+url,
-            type: "post",
-            data: function (params) {
-                var query = {
-                    search: params.term,
-                    page: params.page || 1
-                };
-                return query;
-            }
-        },
-        placeholder: ph
-    });
-}
+		$(donde).select2({
+			language: "es",
+			width: "180px",
+			allowClear: true,
+			ajax: {
+				url: 'select/'+url,
+				type: "post",
+				data: function (params) {
+					var query = {
+						search: params.term,
+						page: params.page || 1
+					};
+					return query;
+				}
+			},
+			placeholder: ph
+		});
+	}
+
+	function select2ini_s(donde, url, ph, id_su, width = "off"){
+		$(donde).select2({
+			language: "es",
+			width: width,
+			allowClear: true,
+			ajax: {
+				url: 'select/'+url,
+				type: "post",
+				data: function (params) {
+					var query = {
+						search: params.term,
+						page: params.page || 1,
+						idSu: id_su
+					};
+					return query;
+				}
+			},
+			placeholder: ph
+		});
+	}
+
 
 
 </script>

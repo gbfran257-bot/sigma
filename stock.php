@@ -239,7 +239,7 @@ $(document).ready(function(e) {
 		oTableP.draw();
     });
 
-	$('#s_colores').click(function(e) {
+	$("#s_colores").change((e) => {
 		oTableP.draw();
     });
 

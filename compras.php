@@ -201,7 +201,7 @@ $(document).ready(function(e) {
 		$('#fechaDe').val('2000-01-01'); $('#fechaA').val('<?php echo date("Y-m-d"); ?>'); oTableP.draw();
 	});
 
-	$('#s_colores').click(function(e) {
+	$("#s_colores").change((e) => {
 		oTableP.draw();
     });
 	

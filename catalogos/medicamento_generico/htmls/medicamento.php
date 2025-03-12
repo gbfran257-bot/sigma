@@ -9,6 +9,7 @@
       <div class="modal-body">
         <form action=""id="med_generico">
             <div class="col-md-12">
+              <label id="aviso_sucursal" name="aviso_sucursal" style="color:red;" hidden>No se selecciono ninguna sucursal</label>
               <div class="col-md-12">
                 <div class="form-group col-md-3">
                   <label class="control-label" for="inputWarning1">*Nombre generico </label>

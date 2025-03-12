@@ -303,7 +303,7 @@ include_once 'recursos/datauser.php';
             oTableP.draw();
         });
 
-        $('#s_colores').click(function(e) {
+        $("#s_colores").change((e) => {
             oTableP.draw();
         });
 
