@@ -10,6 +10,10 @@ require("../../../funciones/php/values.php");
  $now = sqlValue(date('Y-m-d H:i:s'), "date");
  $id_usuario = sqlValue($_POST["id_usuario"], "int");
 
+ if($min_stock >= $max_stock){
+    $max_stock = $min_stock + 1;
+ }
+
      //Verificamos si existe registro en max_min_generico
     mysql_select_db($database_horizonte, $horizonte);
     $qry_count = mysql_query("SELECT COUNT(id_mmg) FROM max_min_generico WHERE id_suc_mmg = $id_sucursal AND id_generico_mmg = $idP", $horizonte) or die (mysql_error());
