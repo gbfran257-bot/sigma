@@ -128,6 +128,7 @@ require("../../../funciones/php/values.php");
                                             WHERE s.id_su = $id_sucursal AND m.id_med = $id_generico AND shb.existencias > 0", $horizonte) or die (mysql_error());
             $datos_shb = mysql_fetch_row($qry_datos_shb);
 
+            $row[1] = "<span id='' onclick='verTotales($id_sucursal, $id_generico);' style='cursor:pointer; text-decoration:underline;'>$row[1]</span>";
             /* $row[2] = $datos_generico[0]; */
             $row[2] = "<input type='number' class='form-control input-sm' value='$datos_generico[0]' style='width:75px; text-align:right;' lang='$id_generico' id='minimo_$id_generico'>";
             /* $row[3] = $datos_generico[1]; */

@@ -201,6 +201,48 @@ $(document).ready(function(e) {
 		}
 	}
 
+	function verTotales(id_sucursal, id_generico) {
+		$("#myModal4").load('farmacia/stock/htmls/ficha_totales.php', function(response, status, xhr) {
+
+			if(status == "success"){
+
+				var oTableTotales = $('#dataTableTotales').DataTable({
+					serverSide: true,"sScrollY": 500, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
+					"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
+					"aoColumns":[ {"bVisible":true}, 
+								{"bVisible":true }, 
+								{"bVisible":true }, 
+								{"bVisible":true }, 
+								{ "bVisible": true }],
+					"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
+					deferRender: true, select: false, "processing": false, 
+					"sAjaxSource": "farmacia/stock/datatable-serverside/stock_generico_totales.php",
+					"fnServerParams": function (aoData, fnCallback) { 
+						
+						aoData.push( {"name": "id_sucursal", "value": id_sucursal } );
+						aoData.push( {"name": "id_generico", "value": id_generico } );
+					},
+					"oLanguage": {
+						"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
+						"sInfo": "SERVICIOS FILTRADOS: _END_",
+						"sInfoEmpty": "NINGÚN SERVICIO FILTRADO.", "sInfoFiltered": " TOTAL DE SERVICIOS: _MAX_", "sSearch": "",
+						"oPaginate": { "sNext": "<span class='paginacionPrincipal'>Siguiente</span>", "sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;" }
+					},"iDisplayLength": 500, paging: true,
+				});
+				$('.filtro1Principal').addClass('hidden');
+
+				$('#myModal4').modal('show');
+					$('#myModal4').on('shown.bs.modal', function(e) {});
+					$('#myModal4').on('hidden.bs.modal', function(e) {
+						$("#myModal4 .modal-content").remove();
+						$("#myModal4").empty();
+				});
+			}
+
+
+		});
+	}
+
 
 
 
