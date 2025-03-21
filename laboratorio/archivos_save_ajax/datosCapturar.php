@@ -171,6 +171,14 @@ $resultadoProceso = mysql_fetch_row($queryDatosProceso);
 
 $temporalProceso = sqlValue($resultadoProceso[9], "text");
 
+//Obtenemos hora de quien proceso y autorizo
+mysql_select_db($database_horizonte, $horizonte);
+$queryfechayhora = mysql_query("SELECT DATE_FORMAT(fechaEdo2_e, '%d/%m/%Y %H:%i:%s'), DATE_FORMAT(fechaEdo4_e, '%d/%m/%Y %H:%i:%s') FROM venta_conceptos WHERE id_vc = $idE", $horizonte) or die (mysql_error());
+$resultadofechayhora = mysql_fetch_row($queryfechayhora);
+
+$fyh_procesa = $resultadofechayhora[0];
+$fyh_autoriza = $resultadofechayhora[1];
+
 $buscarFirma = mysql_query("SELECT count(id_do) from documentos where aleatorio_do = ".$temporalProceso." and firma_do = 1 ", $horizonte) or die (mysql_error());
 $resultadoFirma = mysql_fetch_row($buscarFirma);
 
@@ -204,6 +212,10 @@ $tabla5 = '<table id="p_contenido3" width="100%" border="0" cellspacing="3" cell
     <tr>
 		<td nowrap align="center"><span class="puestoDR"></span> CEDULA PROFESIONAL '.$resultadoProceso[4].'</td>
 		<td nowrap align="center"><span class="puestoDR"></span> CEDULA PROFESIONAL '.$row4d[3].'</td>
+    </tr>
+    <tr>
+		<td nowrap align="center"><span class="horas"></span>'.$fyh_procesa.'</td>
+		<td nowrap align="center"><span class="horas"></span>'.$fyh_autoriza.'</td>
     </tr>
 </table>';
 
