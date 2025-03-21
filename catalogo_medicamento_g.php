@@ -305,7 +305,7 @@ function editar(id_um, unidad){0
 }
 function delete_medicamento(id_p, nombre_p){
         swal({
-          title: "ELIMINAR PROFESION: "+nombre_p, text: "¿Estás seguro de eliminar esta profesion?", type: "warning", showCancelButton: true,
+          title: "ELIMINAR MEDICAMENTO: "+nombre_p, text: "¿Estás seguro de eliminar este medicamento?", type: "warning", showCancelButton: true,
           confirmButtonColor: "#DD6B55", confirmButtonText: "Eliminar", cancelButtonText: "Cancelar", closeOnConfirm: false
         },
         function(){
@@ -313,7 +313,7 @@ function delete_medicamento(id_p, nombre_p){
             var datos = {_token:token, id_p:id_p, nombre_p:nombre_p}
             $.post('catalogos/medicamento_generico/files-serverside/eliminar_medicamento.php',datos).done(function( data ) { if (data==1){
                 $('#myModalx').modal('hide'); $('#clickme,#clickmeMem,#clickmeFo,#clickmeDo').click();
-                swal({ title: "", type: "success", text: "La Profesión se ha eliminado.", timer: 1800, showConfirmButton: false }); return;
+                swal({ title: "", type: "success", text: "El medicamento se ha eliminado.", timer: 1800, showConfirmButton: false }); return;
             } else{alert(data);} });
         });
     }
