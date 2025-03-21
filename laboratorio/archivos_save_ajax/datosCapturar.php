@@ -9,7 +9,7 @@ require("../../funciones/php/values.php");
  $row1 = mysql_fetch_row($result1);
 
  mysql_select_db($database_horizonte, $horizonte);
- $result2 = mysql_query("SELECT v.referencia_vc, v.id_concepto_es, v.nota_radiologo_vc, DATE_FORMAT(v.fecha_venta_vc,'%d/%c/%Y'), v.usuarioEdo4_e, v.id_personal_medico_vc, s.nombre_su, v.contador_vc, v.usuarioEdo4_e, s.id_su, concat(s.id_su,'.',s.id_su), c.id_tipo_concepto_to, s.no_temp_su, a.nombre_a, v.interpretacion_vc, s.clave_su from venta_conceptos v left join orden_venta o on o.referencia_ov = v.referencia_vc left join conceptos c on c.id_to = v.id_concepto_es left join sucursales s on s.id_su = o.sucursal_ov left join areas a on a.id_a = c.id_area_to where v.id_vc = $idE ", $horizonte) or die (mysql_error());
+ $result2 = mysql_query("SELECT v.referencia_vc, v.id_concepto_es, v.nota_radiologo_vc, DATE_FORMAT(v.fecha_venta_vc,'%d/%c/%Y %H:%i:%s'), v.usuarioEdo4_e, v.id_personal_medico_vc, s.nombre_su, v.contador_vc, v.usuarioEdo4_e, s.id_su, concat(s.id_su,'.',s.id_su), c.id_tipo_concepto_to, s.no_temp_su, a.nombre_a, v.interpretacion_vc, s.clave_su from venta_conceptos v left join orden_venta o on o.referencia_ov = v.referencia_vc left join conceptos c on c.id_to = v.id_concepto_es left join sucursales s on s.id_su = o.sucursal_ov left join areas a on a.id_a = c.id_area_to where v.id_vc = $idE ", $horizonte) or die (mysql_error());
  $row2 = mysql_fetch_row($result2); $id_suc = sqlValue($row2[9], "int"); $ale_suc = sqlValue($row2[12], "text");
  
  	mysql_select_db($database_horizonte, $horizonte);
