@@ -370,6 +370,7 @@ function delete_medicamento(id_p, nombre_p){
 					"sAjaxSource": "farmacia/stock/datatable-serverside/comerciales_asignados_a_generico.php",
 					"fnServerParams": function (aoData, fnCallback) { 
 						aoData.push( {"name": "id_generico", "value": id_generico } );
+						aoData.push( {"name": "id_sucursal", "value": $('#select-sucursal').val() } );
 					},
 					"oLanguage": {
 						"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 

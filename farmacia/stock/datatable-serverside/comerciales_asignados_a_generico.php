@@ -4,6 +4,7 @@ require("../../../funciones/php/values.php");
 
     //variables
     $id_generico = sqlValue($_GET["id_generico"], "int");
+    $id_sucursal = sqlValue($_GET["id_sucursal"], "int");
     
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
@@ -111,7 +112,7 @@ require("../../../funciones/php/values.php");
         for ( $j=0 ; $j<count($aColumns) ; $j++ ) { if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; } else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; } }
 
 		//datos aqui 
-        $row[3] = '<select name="meds_genericos" id="meds_genericos" class="form-control" style="margin-top:10px;"></select>';
+        $row[3] = "<a href='catalogo_medicamentos.php?mod=true&suc=$id_sucursal&id_to=$row[0]&nombre=$row[1]' target='_blank' class='btn btn-primary btn-sm'><i class='fa fa-cart-plus' aria-hidden='true'></i></a>";
 
 		$output['aaData'][] = $row;
     }
