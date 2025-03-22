@@ -305,7 +305,7 @@ function editar(id_um, unidad){0
 }
 function delete_medicamento(id_p, nombre_p){
         swal({
-          title: "ELIMINAR PROFESION: "+nombre_p, text: "¿Estás seguro de eliminar esta profesion?", type: "warning", showCancelButton: true,
+          title: "ELIMINAR MEDICAMENTO: "+nombre_p, text: "¿Estás seguro de eliminar este medicamento?", type: "warning", showCancelButton: true,
           confirmButtonColor: "#DD6B55", confirmButtonText: "Eliminar", cancelButtonText: "Cancelar", closeOnConfirm: false
         },
         function(){
@@ -313,8 +313,10 @@ function delete_medicamento(id_p, nombre_p){
             var datos = {_token:token, id_p:id_p, nombre_p:nombre_p}
             $.post('catalogos/medicamento_generico/files-serverside/eliminar_medicamento.php',datos).done(function( data ) { if (data==1){
                 $('#myModalx').modal('hide'); $('#clickme,#clickmeMem,#clickmeFo,#clickmeDo').click();
-                swal({ title: "", type: "success", text: "La Profesión se ha eliminado.", timer: 1800, showConfirmButton: false }); return;
-            } else{alert(data);} });
+                swal({ title: "", type: "success", text: "El medicamento se ha eliminado.", timer: 1800, showConfirmButton: false }); return;
+            }else if(data==2){
+				swal({ title: "", type: "warning", text: "El medicamento tiene medicamentos comerciales asignados", timer: 1800, showConfirmButton: false }); return;
+			}else{alert(data);} });
         });
     }
 
@@ -350,6 +352,52 @@ function delete_medicamento(id_p, nombre_p){
 	}});
 }
 
+	function verComerciales(id_generico) {
+		$("#myModal1").load('farmacia/stock/htmls/ficha_comerciales.php', function(response, status, xhr) {
+			if(status == "success"){
+				window.setTimeout(function(){
+					if ($("#select-sucursal").val() == null || $("#select-sucursal").val() === '') {
+						$("#aviso_sucursal").prop("hidden", false);
+						$('.botons_change_gen').removeAttr('href');
+					}
+				},400);
+				var oTableTotales = $('#dataTableTotales').DataTable({
+					serverSide: true,"sScrollY": 500, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
+					"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
+					"aoColumns":[ {"bVisible":true}, 
+								{"bVisible":true }, 
+								{"bVisible":true }, 
+								{ "bVisible": true }],
+					"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
+					deferRender: true, select: false, "processing": false, 
+					"sAjaxSource": "farmacia/stock/datatable-serverside/comerciales_asignados_a_generico.php",
+					"fnServerParams": function (aoData, fnCallback) { 
+						aoData.push( {"name": "id_generico", "value": id_generico } );
+						aoData.push( {"name": "id_sucursal", "value": $('#select-sucursal').val() } );
+					},
+					"oLanguage": {
+						"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
+						"sInfo": "SERVICIOS FILTRADOS: _END_",
+						"sInfoEmpty": "NINGÚN SERVICIO FILTRADO.", "sInfoFiltered": " TOTAL DE SERVICIOS: _MAX_", "sSearch": "",
+						"oPaginate": { "sNext": "<span class='paginacionPrincipal'>Siguiente</span>", "sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;" }
+					},"iDisplayLength": 500, paging: true,
+				});
+				$('.filtro1Principal').addClass('hidden');
+
+				
+
+				$('#myModal1').modal('show');
+					$('#myModal1').on('shown.bs.modal', function(e) {});
+					$('#myModal1').on('hidden.bs.modal', function(e) {
+						$("#myModal1 .modal-content").remove();
+						$("#myModal1").empty();
+				});
+			}
+
+
+		});
+	}
+
 	function select2ini(donde, url, ph){
 		$(donde).select2({
 			language: "es",
@@ -369,6 +417,26 @@ function delete_medicamento(id_p, nombre_p){
 			placeholder: ph
 		});
 	}
+
+	/* function select2ini_c(donde, url, ph){
+		$(donde).select2({
+			language: "es",
+			width: "180px",
+			allowClear: true,
+			ajax: {
+				url: 'select/'+url,
+				type: "post",
+				data: function (params) {
+					var query = {
+						search: params.term,
+						page: params.page || 1
+					};
+					return query;
+				}
+			},
+			placeholder: ph
+		});
+	} */
 
 	function select2ini_s(donde, url, ph, id_su, width = "off"){
 		$(donde).select2({

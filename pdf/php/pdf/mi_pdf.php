@@ -11,7 +11,7 @@
     require_once(dirname(__FILE__).'/../html2pdf.class.php');
     /* Las lineas siguientes siempre serán las mismas A mi parecer no hay mucho que explicar. Se explican por sí solas :D */
     try{
-        $html2pdf = new HTML2PDF('P', 'A4', 'es', true, 'UTF-8', 3); //Configura la hoja
+        $html2pdf = new HTML2PDF('P', array(215.9, 279.4), 'es', true, 'UTF-8', 3); //Configura la hoja
         $html2pdf->pdf->SetDisplayMode('fullwidth'); //Ver otros parámetros para SetDisplaMode
         $html2pdf->writeHTML($content); //Se escribe el contenido 
         $html2pdf->Output('estudio '.date('H:i:s').'.pdf'); //Nombre default del PDF

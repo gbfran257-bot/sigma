@@ -860,3 +860,18 @@ function updateMaxMin(id_to){
 
 <script src="farmacia/medicamentos/js/sinergiasAntagonismos.js"></script>
 <script src="farmacia/medicamentos/js/buscarSinergiaAntagonismo.js"></script>
+
+<?php include_once 'partes/header.php';
+
+if (isset($_GET['mod'])) {
+	echo 	'<script type="text/JavaScript"> 
+				
+				setTimeout(function(e){
+				$("#miSucursal").val('.htmlspecialchars($_GET['suc']).');
+					verMedicamento(' . htmlspecialchars($_GET['id_to']) . ',"' . htmlspecialchars_decode($_GET['nombre']) . '",' .  htmlspecialchars($_GET['suc']) . ');
+				},400);
+			</script>';
+}
+
+
+?>
