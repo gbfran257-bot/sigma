@@ -356,8 +356,11 @@ function delete_medicamento(id_p, nombre_p){
 		$("#myModal1").load('farmacia/stock/htmls/ficha_comerciales.php', function(response, status, xhr) {
 			if(status == "success"){
 				window.setTimeout(function(){
-					select2ini("#meds_genericos", "med_genericos.php", "SELECCIONE MED GENERICO");
-				},700);
+					if ($("#select-sucursal").val() == null || $("#select-sucursal").val() === '') {
+						$("#aviso_sucursal").prop("hidden", false);
+						$('.botons_change_gen').removeAttr('href');
+					}
+				},400);
 				var oTableTotales = $('#dataTableTotales').DataTable({
 					serverSide: true,"sScrollY": 500, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 					"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,

@@ -2,10 +2,10 @@
     <div class="modal-content animated flipInY">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title"><strong><span id="titulo_modal">Totales</span></strong></h4>
+            <h4 class="modal-title"><strong><span id="titulo_modal">MODIFICACION DE MEDICAMENTO GENERICO</span></strong></h4>
         </div>
         <div class="modal-body" id="contenido_tabi">
-    
+        <label id="aviso_sucursal" name="aviso_sucursal" style="color:red;" hidden>No se selecciono ninguna sucursal</label>
             <table width="100%" height="100%" border="0" id="dataTableTotales" class="table-condensed table-striped table-bordered table-hover" style="overflow: hidden;">
                 <thead id="cabecera_tBusquedaMedicamentos" class="">
                 <tr class="bg-primary" style="font-size: 1.1em;">

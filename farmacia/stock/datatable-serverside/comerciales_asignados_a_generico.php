@@ -112,7 +112,7 @@ require("../../../funciones/php/values.php");
         for ( $j=0 ; $j<count($aColumns) ; $j++ ) { if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; } else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; } }
 
 		//datos aqui 
-        $row[3] = "<a href='catalogo_medicamentos.php?mod=true&suc=$id_sucursal&id_to=$row[0]&nombre=$row[1]' target='_blank' class='btn btn-primary btn-sm'><i class='fa fa-cart-plus' aria-hidden='true'></i></a>";
+        $row[3] = "<a href='catalogo_medicamentos.php?mod=true&suc=$id_sucursal&id_to=$row[0]&nombre=$row[1]' target='_blank' class='btn btn-primary btn-sm botons_change_gen'><i class='fa fa-refresh' aria-hidden='true'></i></a>";
 
 		$output['aaData'][] = $row;
     }
