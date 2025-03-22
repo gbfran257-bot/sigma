@@ -111,7 +111,7 @@ require("../../../funciones/php/values.php");
         for ( $j=0 ; $j<count($aColumns) ; $j++ ) { if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; } else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; } }
 
 		//datos aqui 
-        $row[0] = $hh+=1;
+        $row[3] = '<select name="meds_genericos" id="meds_genericos" class="form-control" style="margin-top:10px;"></select>';
 
 		$output['aaData'][] = $row;
     }

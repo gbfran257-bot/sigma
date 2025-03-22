@@ -354,7 +354,6 @@ function delete_medicamento(id_p, nombre_p){
 
 	function verComerciales(id_generico) {
 		$("#myModal4").load('farmacia/stock/htmls/ficha_comerciales.php', function(response, status, xhr) {
-
 			if(status == "success"){
 
 				var oTableTotales = $('#dataTableTotales').DataTable({
@@ -379,6 +378,10 @@ function delete_medicamento(id_p, nombre_p){
 				});
 				$('.filtro1Principal').addClass('hidden');
 
+				window.setTimeout(function(){
+					select2ini_c("#meds_genericos", "med_genericos.php", "SELECCIONE MED GENERICO");
+				},700);
+
 				$('#myModal4').modal('show');
 					$('#myModal4').on('shown.bs.modal', function(e) {});
 					$('#myModal4').on('hidden.bs.modal', function(e) {
@@ -392,6 +395,25 @@ function delete_medicamento(id_p, nombre_p){
 	}
 
 	function select2ini(donde, url, ph){
+		$(donde).select2({
+			language: "es",
+			width: "180px",
+			allowClear: true,
+			ajax: {
+				url: 'select/'+url,
+				type: "post",
+				data: function (params) {
+					var query = {
+						search: params.term,
+						page: params.page || 1
+					};
+					return query;
+				}
+			},
+			placeholder: ph
+		});
+	}
+	function select2ini_c(donde, url, ph){
 		$(donde).select2({
 			language: "es",
 			width: "180px",
