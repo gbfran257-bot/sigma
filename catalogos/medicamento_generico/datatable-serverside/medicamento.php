@@ -106,7 +106,7 @@ require("../../../funciones/php/values.php");
 		$nombreU = '"'.$row[1].'"';
 		
 		$row[2] = "<button type='button' class='btn btn-xs btn-link' onClick='editar($row[7], $nombreU)'>$row[2]</button>";
-		$row[7]= "<button type='button' class='btn btn-xs btn-danger' onClick='delete_medicamento($row[7], $nombreU)'><i class='fa fa-trash'></i></button>";
+		$row[7]= "<button type='button' class='btn btn-xs btn-danger' onClick='delete_medicamento($row[7], $nombreU)'><i class='fa fa-trash'></i></button> <button type='button' class='btn btn-xs btn-warning' onClick='verComerciales($row[7])'><i class='fa fa-search'></i></button>";
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );
