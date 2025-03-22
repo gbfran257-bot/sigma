@@ -24,7 +24,7 @@ $consultaTotal = "select count(*) as cuantos from medicamentos where 1=1";
 if(!empty($search)){
     $search = "%".$search."%"; /// se agrega comodín al inicio y al final
     // $filtro = sprintf(" and (c.concepto_to like '%s')",
-    $filtro = sprintf(" and (concepto like '%s')",
+    $filtro = sprintf(" and (nombre_generico_med like '%s')",
         $search); /// un $search por cada %s
     $consultaTotal .= $filtro;
     $consulta .= $filtro;

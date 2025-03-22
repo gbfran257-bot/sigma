@@ -353,9 +353,11 @@ function delete_medicamento(id_p, nombre_p){
 }
 
 	function verComerciales(id_generico) {
-		$("#myModal4").load('farmacia/stock/htmls/ficha_comerciales.php', function(response, status, xhr) {
+		$("#myModal1").load('farmacia/stock/htmls/ficha_comerciales.php', function(response, status, xhr) {
 			if(status == "success"){
-
+				window.setTimeout(function(){
+					select2ini("#meds_genericos", "med_genericos.php", "SELECCIONE MED GENERICO");
+				},700);
 				var oTableTotales = $('#dataTableTotales').DataTable({
 					serverSide: true,"sScrollY": 500, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 					"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
@@ -378,15 +380,13 @@ function delete_medicamento(id_p, nombre_p){
 				});
 				$('.filtro1Principal').addClass('hidden');
 
-				window.setTimeout(function(){
-					select2ini_c("#meds_genericos", "med_genericos.php", "SELECCIONE MED GENERICO");
-				},700);
+				
 
-				$('#myModal4').modal('show');
-					$('#myModal4').on('shown.bs.modal', function(e) {});
-					$('#myModal4').on('hidden.bs.modal', function(e) {
-						$("#myModal4 .modal-content").remove();
-						$("#myModal4").empty();
+				$('#myModal1').modal('show');
+					$('#myModal1').on('shown.bs.modal', function(e) {});
+					$('#myModal1').on('hidden.bs.modal', function(e) {
+						$("#myModal1 .modal-content").remove();
+						$("#myModal1").empty();
 				});
 			}
 
@@ -413,7 +413,8 @@ function delete_medicamento(id_p, nombre_p){
 			placeholder: ph
 		});
 	}
-	function select2ini_c(donde, url, ph){
+
+	/* function select2ini_c(donde, url, ph){
 		$(donde).select2({
 			language: "es",
 			width: "180px",
@@ -431,7 +432,7 @@ function delete_medicamento(id_p, nombre_p){
 			},
 			placeholder: ph
 		});
-	}
+	} */
 
 	function select2ini_s(donde, url, ph, id_su, width = "off"){
 		$(donde).select2({
