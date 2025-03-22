@@ -314,7 +314,9 @@ function delete_medicamento(id_p, nombre_p){
             $.post('catalogos/medicamento_generico/files-serverside/eliminar_medicamento.php',datos).done(function( data ) { if (data==1){
                 $('#myModalx').modal('hide'); $('#clickme,#clickmeMem,#clickmeFo,#clickmeDo').click();
                 swal({ title: "", type: "success", text: "El medicamento se ha eliminado.", timer: 1800, showConfirmButton: false }); return;
-            } else{alert(data);} });
+            }else if(data==2){
+				swal({ title: "", type: "warning", text: "El medicamento tiene medicamentos comerciales asignados", timer: 1800, showConfirmButton: false }); return;
+			}else{alert(data);} });
         });
     }
 
