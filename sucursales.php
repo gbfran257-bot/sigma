@@ -1389,14 +1389,22 @@ function nuevaSucursal(){
 			  if (e.isDefaultPrevented()) { // handle the invalid form...
 				$("#alerta_form").fadeTo(2000,500).slideUp(500,function(){ $("#alerta_form").slideUp(600); });
 			  } else { // everything looks good!
+
 				e.preventDefault(); 
-				var datosP = $('#myModal #form-registro').serialize();
-				$.post('sucursales/files-serverside/addSucursal.php',datosP).done(function( data ) {
-					if (data==1){//si el paciente se Actualizó 
-						$('#clickme').click(); $('#myModal').modal('hide');
-						swal({title:"",type:"success",text:"La sucursal ha sido creada.",timer:1800,showConfirmButton:false});return;
-					} else{alert(data);}
-				});
+
+				//revisamos si existe imagen de membretes cargada
+				if($('#membrete_en3').css('background-image') === 'none' || $('#membrete_pi3').css('background-image') === 'none'){
+					swal({ title: "", type: "warning", text: "No se han cargado membretes de laboratorio", timer: 1800, showConfirmButton: false }); return;
+				}else{
+					var datosP = $('#myModal #form-registro').serialize();
+					$.post('sucursales/files-serverside/addSucursal.php',datosP).done(function( data ) {
+						if (data==1){
+							$('#clickme').click(); $('#myModal').modal('hide');
+							swal({title:"",type:"success",text:"La sucursal ha sido creada.",timer:1800,showConfirmButton:false});return;
+						} else{alert(data);}
+					});
+				}
+
 			  }
 			});
 
