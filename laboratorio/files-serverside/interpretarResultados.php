@@ -47,8 +47,8 @@ while ($fila = mysql_fetch_array($query)) {//$fila['convenio_cv'];
 		if($fila['base_b']=='GRUPO SANGUINEO' or $fila['base_b']=='FACTOR RH'){
 
 		}else{
-			if($filita!=$bol){
-				$fondoRojo = 'bg-danger';
+			if($fila['r_boleano_rl']!=$fila['boleano_rl']){
+				$fondoRojo = 'color:red;';
 			}else{
 				$fondoRojo = '';
 			} 
@@ -58,7 +58,7 @@ while ($fila = mysql_fetch_array($query)) {//$fila['convenio_cv'];
 		<td>'.$fila['base_b'].'</td>
 		<td align="">'.$fila['tipo_cvr'].'</td>
 		<td align="center">
-			<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm '.$fondoRojo.'" required>
+			<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 			  <option value="">-SELECCIONAR</option>
 			  '.$filita.'
 			</select>

@@ -959,7 +959,7 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
 							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio3.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
 						break;
 						default:
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultados.php?idE='+b, function(response,status,xhr){/* if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} */ });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultados.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido select").attr("disabled", true);} });
 					}
 				}else{
 					$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosBacter.php?idE='+b,function(response,status,xhr){if(status == "success") {

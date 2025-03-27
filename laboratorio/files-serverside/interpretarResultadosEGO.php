@@ -15,6 +15,11 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 	
 	//Para el tipo TEXTO
 	if($fila['id_cvr']==1){
+		if($fila['base_b']=='GRUPO SANGUINEO' or $fila['base_b']=='FACTOR RH'){
+			if($fila['r_valor_texto']!=$fila['valor_texto_rl']){$fondoRojo = ''; }else{$fondoRojo = '';}
+		}else{
+			if($fila['r_valor_texto']!=$fila['valor_texto_rl']){$fondoRojo = 'color:red;';} else{$fondoRojo = '';}
+		}
 		$tabla = $tabla.'
 		<tr> 
 		<td>'.$name1[0].'</td>
@@ -22,7 +27,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 		<td align="center">';
 			if($name1[0]=='ASPECTO'){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 						if($fila['r_valor_texto']=='TRANSPARENTE'){$tabla = $tabla.'<option value="TRANSPARENTE" selected>TRANSPARENTE</option>';}else{$tabla = $tabla.'<option value="TRANSPARENTE">TRANSPARENTE</option>';}
 				  		if($fila['r_valor_texto']=='LIGERAMENTE TURBIO'){$tabla = $tabla.'<option value="LIGERAMENTE TURBIO" selected>LIGERAMENTE TURBIO</option>';}else{$tabla = $tabla.'<option value="LIGERAMENTE TURBIO">LIGERAMENTE TURBIO</option>';}
@@ -32,7 +37,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 				';
 			}else if($name1[0]=='COLOR'){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 						if($fila['r_valor_texto']=='AMARILLO'){$tabla = $tabla.'<option value="AMARILLO" selected>AMARILLO</option>';}else{$tabla = $tabla.'<option value="AMARILLO">AMARILLO</option>';}
 						if($fila['r_valor_texto']=='AMARILLO CLARO'){$tabla = $tabla.'<option value="AMARILLO CLARO" selected>AMARILLO CLARO</option>';}else{$tabla = $tabla.'<option value="AMARILLO CLARO">AMARILLO CLARO</option>';}
@@ -48,7 +53,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 			}
 			else if($name1[0]=='OLOR'){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 						if($fila['r_valor_texto']=='NORMAL'){$tabla = $tabla.'<option value="NORMAL" selected>NORMAL</option>';}else{$tabla = $tabla.'<option value="NORMAL">NORMAL</option>';}
 						if($fila['r_valor_texto']=='FETIDO'){$tabla = $tabla.'<option value="FETIDO" selected>FETIDO</option>';}else{$tabla = $tabla.'<option value="FETIDO">FETIDO</option>';}
@@ -57,7 +62,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 			}
 			else if($name1[0]=='GLUCOSA'){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 						if($fila['r_valor_texto']=='NEGATIVO'){$tabla = $tabla.'<option value="NEGATIVO" selected>NEGATIVO</option>';}else{$tabla = $tabla.'<option value="NEGATIVO">NEGATIVO</option>';}
 						if($fila['r_valor_texto']=='50.0'){$tabla = $tabla.'<option value="50.0" selected>50.0</option>';}else{$tabla = $tabla.'<option value="50.0">50.0</option>';}
@@ -71,7 +76,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 			}
 			else if($name1[0]=='BILIRRUBINA'){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 						if($fila['r_valor_texto']=='NEGATIVO'){$tabla = $tabla.'<option value="NEGATIVO" selected>NEGATIVO</option>';}else{$tabla = $tabla.'<option value="NEGATIVO">NEGATIVO</option>';}
 						if($fila['r_valor_texto']=='ESCASO'){$tabla = $tabla.'<option value="ESCASO" selected>ESCASO</option>';}else{$tabla = $tabla.'<option value="ESCASO">ESCASO</option>';}
@@ -89,7 +94,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 			}
 			else if($name1[0]=='CETONAS'){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 						if($fila['r_valor_texto']=='NEGATIVO'){$tabla = $tabla.'<option value="NEGATIVO" selected>NEGATIVO</option>';}else{$tabla = $tabla.'<option value="NEGATIVO">NEGATIVO</option>';}
 						if($fila['r_valor_texto']=='ESCASO'){$tabla = $tabla.'<option value="ESCASO" selected>ESCASO</option>';}else{$tabla = $tabla.'<option value="ESCASO">ESCASO</option>';}
@@ -109,7 +114,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 			}
 			else if($name1[0]=='DENSIDAD'){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 						if($fila['r_valor_texto']=='1.000'){$tabla = $tabla.'<option value="1.000" selected>1.000</option>';}else{$tabla = $tabla.'<option value="1.000">1.000</option>';}
 						if($fila['r_valor_texto']=='1.005'){$tabla = $tabla.'<option value="1.005" selected>1.005</option>';}else{$tabla = $tabla.'<option value="1.005">1.005</option>';}
@@ -179,7 +184,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 			}
 			else if($name1[0]=='UROBILINOGENO'){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 						if($fila['r_valor_texto']=='NORMAL'){$tabla = $tabla.'<option value="NORMAL" selected>NORMAL</option>';}else{$tabla = $tabla.'<option value="NORMAL">NORMAL</option>';}
 						if($fila['r_valor_texto']=='ESCASO'){$tabla = $tabla.'<option value="ESCASO" selected>ESCASO</option>';}else{$tabla = $tabla.'<option value="ESCASO">ESCASO</option>';}
@@ -200,7 +205,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 			}
 			else if($name1[0]=='LEUCOCITOS' and $i ==13){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 						if($fila['r_valor_texto']=='NEGATIVO'){$tabla = $tabla.'<option value="NEGATIVO" selected>NEGATIVO</option>';}else{$tabla = $tabla.'<option value="NEGATIVO">NEGATIVO</option>';}
 						if($fila['r_valor_texto']=='15.0'){$tabla = $tabla.'<option value="15.0" selected>15.0</option>';}else{$tabla = $tabla.'<option value="15.0">15.0</option>';}
@@ -213,7 +218,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 			}
 			else if($name1[0]=='SEDIMENTO'){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 						if($fila['r_valor_texto']=='NULO'){$tabla = $tabla.'<option value="NULO" selected>NULO</option>';}else{$tabla = $tabla.'<option value="NULO">NULO</option>';}
 						if($fila['r_valor_texto']=='ESCASO'){$tabla = $tabla.'<option value="ESCASO" selected>ESCASO</option>';}else{$tabla = $tabla.'<option value="ESCASO">ESCASO</option>';}
@@ -228,7 +233,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 			}
 			else if($name1[0]=='CELULAS EPITELIALES'){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 						if($fila['r_valor_texto']=='NEGATIVO'){$tabla = $tabla.'<option value="NEGATIVO" selected>NEGATIVO</option>';}else{$tabla = $tabla.'<option value="NEGATIVO">NEGATIVO</option>';}
 						if($fila['r_valor_texto']=='ESCASO'){$tabla = $tabla.'<option value="ESCASO" selected>ESCASO</option>';}else{$tabla = $tabla.'<option value="ESCASO">ESCASO</option>';}
@@ -243,7 +248,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 			}
 			else if($name1[0]=='CELULAS RENALES'){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 				  		if($fila['r_valor_texto']=='NEGATIVO'){$tabla = $tabla.'<option value="NEGATIVO" selected>NEGATIVO</option>';}else{$tabla = $tabla.'<option value="NEGATIVO">NEGATIVO</option>';}
 						if($fila['r_valor_texto']=='ESCASO'){$tabla = $tabla.'<option value="ESCASO" selected>ESCASO</option>';}else{$tabla = $tabla.'<option value="ESCASO">ESCASO</option>';}
@@ -258,7 +263,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 			}
 			else if($name1[0]=='FILAMENTO DE MUCINA'){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 				  		if($fila['r_valor_texto']=='NEGATIVO'){$tabla = $tabla.'<option value="NEGATIVO" selected>NEGATIVO</option>';}else{$tabla = $tabla.'<option value="NEGATIVO">NEGATIVO</option>';}
 						if($fila['r_valor_texto']=='ESCASO'){$tabla = $tabla.'<option value="ESCASO" selected>ESCASO</option>';}else{$tabla = $tabla.'<option value="ESCASO">ESCASO</option>';}
@@ -273,7 +278,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 			}
 			else if($name1[0]=='LEVADURAS'){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 				  		if($fila['r_valor_texto']=='NEGATIVO'){$tabla = $tabla.'<option value="NEGATIVO" selected>NEGATIVO</option>';}else{$tabla = $tabla.'<option value="NEGATIVO">NEGATIVO</option>';}
 						if($fila['r_valor_texto']=='ESCASO'){$tabla = $tabla.'<option value="ESCASO" selected>ESCASO</option>';}else{$tabla = $tabla.'<option value="ESCASO">ESCASO</option>';}
@@ -288,7 +293,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 			}
 			else if($name1[0]=='CILINDROS'){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 						if($fila['r_valor_texto']=='NEGATIVO'){$tabla = $tabla.'<option value="NEGATIVO" selected>NEGATIVO</option>';}else{$tabla = $tabla.'<option value="NEGATIVO">NEGATIVO</option>';}
 						if($fila['r_valor_texto']=='0 - 1'){$tabla = $tabla.'<option value="0 - 1" selected>0 - 1</option>';}else{$tabla = $tabla.'<option value="0 - 1">0 - 1</option>';}
@@ -299,11 +304,11 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 				';
 			}
 			else if($name1[0]=='ERITROCITOS'){
-				$tabla = $tabla.'<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$fila['r_valor_texto'].'"onKeyUp="conMayusculas(this);">';
+				$tabla = $tabla.'<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center; '.$fondoRojo.'" value="'.$fila['r_valor_texto'].'"onKeyUp="conMayusculas(this);">';
 			}
 			else if($name1[0]=='BACTERIAS'){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 				  		if($fila['r_valor_texto']=='NEGATIVO'){$tabla = $tabla.'<option value="NEGATIVO" selected>NEGATIVO</option>';}else{$tabla = $tabla.'<option value="NEGATIVO">NEGATIVO</option>';}
 						if($fila['r_valor_texto']=='ESCASO'){$tabla = $tabla.'<option value="ESCASO" selected>ESCASO</option>';}else{$tabla = $tabla.'<option value="ESCASO">ESCASO</option>';}
@@ -317,11 +322,11 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 				';
 			}
 			else if($name1[0]=='LEUCOCITOS'){
-				$tabla = $tabla.'<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$fila['r_valor_texto'].'"onKeyUp="conMayusculas(this);">';
+				$tabla = $tabla.'<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center; '.$fondoRojo.'" value="'.$fila['r_valor_texto'].'"onKeyUp="conMayusculas(this);">';
 			}
 			else if($name1[0]=='CRISTALES'){
 				$tabla = $tabla.'
-					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+					<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 				  		<option value="">-SELECCIONAR</option>';
 				  		if($fila['r_valor_texto']=='NEGATIVO'){$tabla = $tabla.'<option value="NEGATIVO" selected>NEGATIVO</option>';}else{$tabla = $tabla.'<option value="NEGATIVO">NEGATIVO</option>';}
 						if($fila['r_valor_texto']=='ESCASO'){$tabla = $tabla.'<option value="ESCASO" selected>ESCASO</option>';}else{$tabla = $tabla.'<option value="ESCASO">ESCASO</option>';}
@@ -336,7 +341,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 			}
 			else{
 				$tabla = $tabla.'
-					<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$fila['r_valor_texto'].'"onKeyUp="conMayusculas(this);">
+					<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center; '.$fondoRojo.'" value="'.$fila['r_valor_texto'].'"onKeyUp="conMayusculas(this);">
 				';
 			}
 		$tabla = $tabla.'</td>
@@ -394,12 +399,23 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 		}else{
 			$filita = '<option value="1">POSITIVO</option><option value="0" selected>NEGATIVO</option>';
 		}
+
+		if($fila['base_b']=='GRUPO SANGUINEO' or $fila['base_b']=='FACTOR RH'){
+
+		}else{
+			if($fila['r_boleano_rl']!=$fila['boleano_rl']){
+				$fondoRojo = 'color:red;';
+			}else{
+				$fondoRojo = '';
+			} 
+		}
+
 		$tabla = $tabla.'
 		<tr> 
 		<td>'.$name1[0].'</td>
 		<td align="">'.$fila['tipo_cvr'].'</td>
 		<td align="center">
-			<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+			<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 			  <option value="">-SELECCIONAR</option>
 			  '.$filita.'
 			</select>
