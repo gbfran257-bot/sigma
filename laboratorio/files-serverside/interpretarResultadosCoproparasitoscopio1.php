@@ -15,12 +15,17 @@ while ($fila = mysql_fetch_array($query)) {
 	
 	//Para el tipo TEXTO
 	if($fila['id_cvr']==1){
+		if($fila['base_b']=='GRUPO SANGUINEO' or $fila['base_b']=='FACTOR RH'){
+			if($fila['r_valor_texto']!=$fila['valor_texto_rl']){$fondoRojo = ''; }else{$fondoRojo = '';}
+		}else{
+			if($fila['r_valor_texto']!=$fila['valor_texto_rl']){$fondoRojo = 'bg-danger';} else{$fondoRojo = '';}
+		}
 		$tabla = $tabla.'
 		<tr> 
 		<td align="left">'.$name1[0].'</td>
 		<td>'.$fila['tipo_cvr'].'</td>
 		<td>
-			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$fila['r_valor_texto'].'"onKeyUp="conMayusculas(this);">
+			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm '.$fondoRojo.'" required style="text-align:center;" value="'.$fila['r_valor_texto'].'"onKeyUp="conMayusculas(this);">
 		</td>
 		<td align="center">'.$fila['valor_texto_rl'].'</td>
 		<td align="right"> '.$fila['abreviacion_un'].' </td> </tr>
@@ -40,12 +45,22 @@ while ($fila = mysql_fetch_array($query)) {
 		}else{
 			$filita = '<option value="1">POSITIVO</option><option value="0" selected>NEGATIVO</option>';
 		}
+
+		if($fila['base_b']=='GRUPO SANGUINEO' or $fila['base_b']=='FACTOR RH'){
+			$fondoRojo = '';
+		}else{
+			if($fila['r_boleano_rl']!=$fila['boleano_rl']){
+				$fondoRojo = 'color:red;';
+			}else{
+				$fondoRojo = '';
+			} 
+		}
 		$tabla = $tabla.'
 		<tr> 
 		<td align="left">'.$name1[0].'</td>
 		<td>'.$fila['tipo_cvr'].'</td>
 		<td>
-			<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+			<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required style="'.$fondoRojo.'">
 			  <option value="">-SELECCIONAR</option>
 			  '.$filita.'
 			</select>
@@ -58,12 +73,17 @@ while ($fila = mysql_fetch_array($query)) {
 	
 	//Para el tipo RANGO
 	if($fila['id_cvr']==3){
+		if($fila['r_rango_rl'] < $fila['numero1_rango_rl'] || $fila['r_rango_rl'] > $fila['numero2_rango_rl']){
+			$fondoRojo = "bg-danger";
+		}else{
+			$fondoRojo = "";
+		}
 		$tabla = $tabla.'
 		<tr> 
 		<td align="left">'.$name1[0].'</td>
 		<td>'.$fila['tipo_cvr'].'</td>
 		<td>
-			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$fila['r_rango_rl'].'">
+			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm '.$fondoRojo.'" required style="text-align:center;" value="'.$fila['r_rango_rl'].'">
 		</td>
 		<td>
 			<table width="" border="0" cellspacing="1" cellpadding="2">
@@ -86,12 +106,17 @@ while ($fila = mysql_fetch_array($query)) {
 	
 	//Para el tipo VALOR MAXIMO
 	if($fila['id_cvr']==5){
+		if($fila['r_vmaximo_rl'] > $fila['valor_maximo_rl']){
+			$fondoRojo = 'bg-danger'; 
+		}else{
+			$fondoRojo = '';
+		}
 		$tabla = $tabla.'
 		<tr> 
 		<td align="left">'.$name1[0].'</td>
 		<td>'.$fila['tipo_cvr'].'</td>
 		<td>
-		<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$fila['r_vmaximo_rl'].'">
+		<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm '.$fondoRojo.'" required style="text-align:center;" value="'.$fila['r_vmaximo_rl'].'">
 		</td>
 		<td align="center"> '.$fila['valor_maximo_rl'].' </td>
 		<td align="right"> '.$fila['abreviacion_un'].' </td> </tr>
@@ -101,12 +126,17 @@ while ($fila = mysql_fetch_array($query)) {
 	
 	//Para el tipo VALOR MINIMO
 	if($fila['id_cvr']==6){
+		if($fila['r_vminimo_rl'] < $fila['valor_minimo_rl']){
+			$fondoRojo = 'bg-danger';
+		}else{
+			$fondoRojo = '';
+		}
 		$tabla = $tabla.'
 		<tr> 
 		<td align="left">'.$name1[0].'</td>
 		<td>'.$fila['tipo_cvr'].'</td>
 		<td>
-		<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$fila['r_vminimo_rl'].'">
+		<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm '.$fondoRojo.'" required style="text-align:center;" value="'.$fila['r_vminimo_rl'].'">
 		</td>
 		<td align="center"> '.$fila['valor_minimo_rl'].' </td>
 		<td align="right"> '.$fila['abreviacion_un'].' </td> </tr>
@@ -116,12 +146,17 @@ while ($fila = mysql_fetch_array($query)) {
 	
 	//Para el tipo RANGO +-
 	if($fila['id_cvr']==7){
+		if( $fila['r_valor_estable_rl'] < ($fila['valor_estable_rl']-$fila['valor_variable_rl']) or $fila['r_valor_estable_rl'] > ($fila['valor_estable_rl']+$fila['valor_variable_rl']) ){
+			$fondoRojo = 'bg-danger';
+		}else{
+			$fondoRojo = '';
+		}
 		$tabla = $tabla.'
 		<tr> 
 		<td align="left">'.$name1[0].'</td>
 		<td>'.$fila['tipo_cvr'].'</td>
 		<td>
-			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$fila['r_valor_estable_rl'].'">
+			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm '.$fondoRojo.'" required style="text-align:center;" value="'.$fila['r_valor_estable_rl'].'">
 		</td>
 		<td>
 			<table width="" border="0" cellspacing="1" cellpadding="2">
@@ -143,12 +178,17 @@ while ($fila = mysql_fetch_array($query)) {
 	
 	//Para el tipo NORMAL,MODERADO,ALTO
 	if($fila['id_cvr']==8){
+		if( $fila['r_valor_nma_rl'] > ($fila['r_valor_r1_moderado']) or $fila['r_valor_nma_rl'] > ($fila['r_valor_alto']) ){
+			$fondoRojo = "bg-danger";
+		}else{
+			$fondoRojo = "";
+		}
 		$tabla = $tabla.'
 		<tr> 
 		<td align="left">'.$name1[0].'</td>
 		<td>'.$fila['tipo_cvr'].'</td>
 		<td>
-			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$fila['r_valor_nma_rl'].'">
+			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm '.$fondoRojo.'" required style="text-align:center;" value="'.$fila['r_valor_nma_rl'].'">
 		</td>
 		<td>
 			<table width="" border="0" cellspacing="0" cellpadding="2" style="text-align:left;">
