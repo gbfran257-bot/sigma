@@ -45,7 +45,7 @@ while ($fila = mysql_fetch_array($query)) {//$fila['convenio_cv'];
 		}
 
 		if($fila['base_b']=='GRUPO SANGUINEO' or $fila['base_b']=='FACTOR RH'){
-
+			$fondoRojo = '';
 		}else{
 			if($fila['r_boleano_rl']!=$fila['boleano_rl']){
 				$fondoRojo = 'color:red;';
