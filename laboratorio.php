@@ -938,7 +938,7 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
 					//comentamos el codigo que deshabilita los inputs de resultados debido a que interferia con la clase bg-danger y se mostraba el input en gris
 					switch(n){
 						case 'BIOMETRIA HEMATICA':
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosBH.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosBH.php?idE='+b, function(response,status,xhr){/* if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} */ });
 						break;
 						case 'EXAMEN GENERAL DE ORINA':
 							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosEGO.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
