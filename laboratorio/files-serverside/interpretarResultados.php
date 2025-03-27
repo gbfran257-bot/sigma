@@ -43,12 +43,22 @@ while ($fila = mysql_fetch_array($query)) {//$fila['convenio_cv'];
 		}else{
 			$filita = '<option value="1">POSITIVO</option><option value="0" selected>NEGATIVO</option>';
 		}
+
+		if($fila['base_b']=='GRUPO SANGUINEO' or $fila['base_b']=='FACTOR RH'){
+
+		}else{
+			if($filita!=$bol){
+				$fondoRojo = 'bg-danger';
+			}else{
+				$fondoRojo = '';
+			} 
+		}
 		$tabla = $tabla.'
 		<tr> 
 		<td>'.$fila['base_b'].'</td>
 		<td align="">'.$fila['tipo_cvr'].'</td>
 		<td align="center">
-			<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm" required>
+			<select name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" class="form-control input-sm '.$fondoRojo.'" required>
 			  <option value="">-SELECCIONAR</option>
 			  '.$filita.'
 			</select>
@@ -94,12 +104,17 @@ while ($fila = mysql_fetch_array($query)) {//$fila['convenio_cv'];
 	
 	//Para el tipo VALOR MAXIMO
 	if($fila['id_cvr']==5){
+		if($fila['r_vmaximo_rl'] > $fila['valor_maximo_rl']){
+			$fondoRojo = 'bg-danger'; 
+		}else{
+			$fondoRojo = '';
+		}
 		$tabla = $tabla.'
 		<tr> 
 		<td>'.$fila['base_b'].'</td>
 		<td align="">'.$fila['tipo_cvr'].'</td>
 		<td align="center">
-		<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$fila['r_vmaximo_rl'].'">
+		<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm '.$fondoRojo.'" required style="text-align:center;" value="'.$fila['r_vmaximo_rl'].'">
 		</td>
 		<td align="center"> '.$fila['valor_maximo_rl'].' </td>
 		<td align="right"> '.$fila['abreviacion_un'].' </td> </tr>
@@ -124,12 +139,17 @@ while ($fila = mysql_fetch_array($query)) {//$fila['convenio_cv'];
 	
 	//Para el tipo RANGO +-
 	if($fila['id_cvr']==7){
+		if( $fila['r_valor_estable_rl'] < ($fila['valor_estable_rl']-$fila['valor_variable_rl']) or $fila['r_valor_estable_rl'] > ($fila['valor_estable_rl']+$fila['valor_variable_rl']) ){
+			$fondoRojo = 'bg-danger';
+		}else{
+			$fondoRojo = '';
+		}
 		$tabla = $tabla.'
 		<tr> 
 		<td>'.$fila['base_b'].'</td>
 		<td align="">'.$fila['tipo_cvr'].'</td>
 		<td align="center">
-			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$fila['r_valor_estable_rl'].'">
+			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm '.$fondoRojo.'" required style="text-align:center;" value="'.$fila['r_valor_estable_rl'].'">
 		</td>
 		<td align="center">
 			<table width="" border="0" cellspacing="1" cellpadding="2" style="float:">
