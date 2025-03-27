@@ -944,7 +944,7 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
 							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosEGO.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
 						break;
 						case 'COPROLOGICO':
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoprologico.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoprologico.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido select").attr("disabled", true);} });
 						break;
 						case 'COPROPARASITOSCOPICO UNICO':
 							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio1.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });

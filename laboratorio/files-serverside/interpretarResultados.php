@@ -124,12 +124,17 @@ while ($fila = mysql_fetch_array($query)) {//$fila['convenio_cv'];
 	
 	//Para el tipo VALOR MINIMO
 	if($fila['id_cvr']==6){
+		if($fila['r_vminimo_rl'] < $fila['valor_minimo_rl']){
+			$fondoRojo = 'bg-danger';
+		}else{
+			$fondoRojo = '';
+		}
 		$tabla = $tabla.'
 		<tr> 
 		<td>'.$fila['base_b'].'</td>
 		<td align="">'.$fila['tipo_cvr'].'</td>
 		<td align="center">
-		<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$fila['r_vminimo_rl'].'">
+		<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm '.$fondoRojo.'" required style="text-align:center;" value="'.$fila['r_vminimo_rl'].'">
 		</td>
 		<td align="center"> '.$fila['valor_minimo_rl'].' </td>
 		<td align="right"> '.$fila['abreviacion_un'].' </td> </tr>
