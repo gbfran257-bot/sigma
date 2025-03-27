@@ -950,7 +950,7 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
 							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio1.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido select").attr("disabled", true);} });
 						break;
 						case 'COPROPARASITOSCOPICO (2M)':
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio2.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio2.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido select").attr("disabled", true);} });
 						break;
 						case 'COPROPARASITOSCOPICO SERIADO':
 							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio3.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
