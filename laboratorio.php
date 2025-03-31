@@ -904,6 +904,13 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
 	$("#myModal1").load('laboratorio/htmls/capturar.php', function(response, status, xhr){ if(status == "success"){
 		$('#cargaPDF').hide(); $('#idPacientePro').val(a); $('#idEstudioPro').val(b); $('#tr_sucursalex').removeClass('hidden');
 		$('#btn_capturar_e, #btn_reiniciar_e').remove(); $('#btn_imprimir_e').removeClass('hidden');
+
+		//evitamos que el usuario pueda escribir sobre los inputs de los resultaados
+		window.setTimeout(function(){
+			$("#p_contenido :input").on('keydown', function(e){
+				e.preventDefault();
+			});
+		},600);
 		
 		var datoP = {idP:a, idE:b}
 		$.post('laboratorio/archivos_save_ajax/datosCapturar.php', datoP).done(function( data ) { 
@@ -928,30 +935,31 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
 			if(datosP[37]>0 || datosP[36]=='BACTERIOLOGIA'){
 				if(datosP[36]!='BACTERIOLOGIA'){
 					//aquí hacer que cuando sea la bh cambie de archivo para imprimir los resultados
+					//comentamos el codigo que deshabilita los inputs de resultados debido a que interferia con la clase bg-danger y se mostraba el input en gris
 					switch(n){
 						case 'BIOMETRIA HEMATICA':
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosBH.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosBH.php?idE='+b, function(response,status,xhr){/* if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} */ });
 						break;
 						case 'EXAMEN GENERAL DE ORINA':
 							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosEGO.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
 						break;
 						case 'COPROLOGICO':
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoprologico.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoprologico.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido select").attr("disabled", true);} });
 						break;
 						case 'COPROPARASITOSCOPICO UNICO':
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio1.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio1.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido select").attr("disabled", true);} });
 						break;
 						case 'COPROPARASITOSCOPICO (2M)':
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio2.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio2.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido select").attr("disabled", true);} });
 						break;
 						case 'COPROPARASITOSCOPICO SERIADO':
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio3.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio3.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido select").attr("disabled", true);} });
 						break;
 						case 'COPROPARASITOSCOPIO (3)':
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio3.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosCoproparasitoscopio3.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido select").attr("disabled", true);} });
 						break;
 						default:
-							$("#misResultados").load('laboratorio/files-serverside/interpretarResultados.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido :input").attr("disabled", true);} });
+							$("#misResultados").load('laboratorio/files-serverside/interpretarResultados.php?idE='+b, function(response,status,xhr){if ( status == "success" ) {$("#p_contenido select").attr("disabled", true);} });
 					}
 				}else{
 					$("#misResultados").load('laboratorio/files-serverside/interpretarResultadosBacter.php?idE='+b,function(response,status,xhr){if(status == "success") {

@@ -642,267 +642,315 @@ $id_del_user = $_SESSION['id'];
         </div>
         <div class="tab-pane tap-pane-primary" id="t_permisos" role="tabpanel" aria-labelledby="permisos-tab"><br>
 		  <div class="panel panel-info">
-              <div class="panel-heading">RECEPCIÓN</div>
+              <div class="panel-heading">
+                RECEPCIÓN
+                <div class="">
+                  <input type="checkbox" name="permisos_recepcion" id="permisos_recepcion">
+                  <label for="permisos_recepcion">Aplicar permisos</label>
+                </div>
+              </div>
               <!--<div class="panel-body text-primary">El usuario tiene acceso a</div> -->
               <table class="table-condensed">
               	<tr>
                 	<td>
-                      <label><input type="checkbox" name="p_0" class="chekito"> PACIENTES</label>
+                      <label><input type="checkbox" name="p_0"  id="p_0" class="chekito"> PACIENTES</label>
                       <input name="h_permisos[0]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_1" class="chekito"> ÓRDENES DE VENTA</label>
+                      <label><input type="checkbox" name="p_1" id="p_1" class="chekito"> ÓRDENES DE VENTA</label>
                       <input name="h_permisos[1]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_2" class="chekito"> ÓRDENES AGENDADAS</label>
+                      <label><input type="checkbox" name="p_2" id="p_2" class="chekito"> ÓRDENES AGENDADAS</label>
                       <input name="h_permisos[2]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_3" class="chekito"> PAGOS</label>
+                      <label><input type="checkbox" name="p_3" id="p_3" class="chekito"> PAGOS</label>
                       <input name="h_permisos[3]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_4" class="chekito"> RESUMEN</label>
+                      <label><input type="checkbox" name="p_4" id="p_4" class="chekito"> RESUMEN</label>
                       <input name="h_permisos[4]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_5" class="chekito"> AGENDA</label>
+                      <label><input type="checkbox" name="p_5" id="p_5" class="chekito"> AGENDA</label>
                       <input name="h_permisos[5]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_6" class="chekito"> MEMBRESÍAS</label>
+                      <label><input type="checkbox" name="p_6" id="p_6" class="chekito"> MEMBRESÍAS</label>
                       <input name="h_permisos[6]" type="hidden" value="0">
                     </td>
                 </tr>
               </table>
           </div>
           <div class="panel panel-info">
-              <div class="panel-heading">CONSULTAS</div>
+              <div class="panel-heading">
+                CONSULTAS
+                <div class="">
+                  <input type="checkbox" name="permisos_consultas" id="permisos_consultas">
+                  <label for="permisos_consultas">Aplicar permisos</label>
+                </div>
+              </div>
               <table class="table-condensed">
               	<tr>
                 	<td>
-                      <label><input type="checkbox" name="p_8" class="chekito"> CONSULTAS MÉDICAS</label>
+                      <label><input type="checkbox" name="p_8" id="p_8" class="chekito"> CONSULTAS MÉDICAS</label>
                       <input name="h_permisos[8]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_9" class="chekito"> AGENDA CONSULTAS</label>
+                      <label><input type="checkbox" name="p_9" id="p_9" class="chekito"> AGENDA CONSULTAS</label>
                       <input name="h_permisos[9]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_10" class="chekito"> CATÁLOGO</label>
+                      <label><input type="checkbox" name="p_10" id="p_10" class="chekito"> CATÁLOGO</label>
                       <input name="h_permisos[10]" type="hidden" value="0">
                     </td>
                 </tr>
               </table>
           </div>
           <div class="panel panel-info">
-              <div class="panel-heading">HOSPITAL</div>
+              <div class="panel-heading">
+                HOSPITAL
+                <div class="">
+                  <input type="checkbox" name="permisos_hospital" id="permisos_hospital">
+                  <label for="permisos_hospital">Aplicar permisos</label>
+                </div>
+              </div>
               <table class="table-condensed">
               	<tr>
                     <td>
-                      <label><input type="checkbox" name="p_12" class="chekito"> ENFERMERÍA</label>
+                      <label><input type="checkbox" name="p_12" id="p_12" class="chekito"> ENFERMERÍA</label>
                       <input name="h_permisos[12]" type="hidden" value="0">
                     </td>
                 	<td>
-                      <label><input type="checkbox" name="p_13" class="chekito"> HOSPITALIZACIÓN</label>
+                      <label><input type="checkbox" name="p_13" id="p_13" class="chekito"> HOSPITALIZACIÓN</label>
                       <input name="h_permisos[13]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_14" class="chekito"> CAMAS</label>
+                      <label><input type="checkbox" name="p_14" id="p_14" class="chekito"> CAMAS</label>
                       <input name="h_permisos[14]" type="hidden" value="0">
                     </td>
                 </tr>
               </table>
           </div>
           <div class="panel panel-info">
-              <div class="panel-heading">IMAGEN</div>
+              <div class="panel-heading">
+                IMAGEN
+                <div class="">
+                  <input type="checkbox" name="permisos_imagen" id="permisos_imagen">
+                  <label for="permisos_imagen">Aplicar permisos</label>
+                </div>
+              </div>
               <table class="table-condensed">
               	<tr>
                 	<td>
-                      <label><input type="checkbox" name="p_15" class="chekito"> IMAGENOLOGÍA</label>
+                      <label><input type="checkbox" name="p_15" id="p_15" class="chekito"> IMAGENOLOGÍA</label>
                       <input name="h_permisos[15]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_16" class="chekito"> AGENDA IMGEN</label>
+                      <label><input type="checkbox" name="p_16" id="p_16" class="chekito"> AGENDA IMGEN</label>
                       <input name="h_permisos[16]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_17" class="chekito"> ENDOSCOPÍA</label>
+                      <label><input type="checkbox" name="p_17" id="p_17" class="chekito"> ENDOSCOPÍA</label>
                       <input name="h_permisos[17]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_18" class="chekito"> ULTRASONIDO</label>
+                      <label><input type="checkbox" name="p_18" id="p_18" class="chekito"> ULTRASONIDO</label>
                       <input name="h_permisos[18]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_19" class="chekito"> COLPOSCOPÍA</label>
+                      <label><input type="checkbox" name="p_19" id="p_19" class="chekito"> COLPOSCOPÍA</label>
                       <input name="h_permisos[19]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_20" class="chekito"> CATÁLOGO</label>
+                      <label><input type="checkbox" name="p_20" id="p_20" class="chekito"> CATÁLOGO</label>
                       <input name="h_permisos[20]" type="hidden" value="0">
                     </td>
                 </tr>
               </table>
           </div>
           <div class="panel panel-info">
-              <div class="panel-heading">LABORATORIO</div>
+              <div class="panel-heading">
+                LABORATORIO
+                <div class="">
+                  <input type="checkbox" name="permisos_laboratorio" id="permisos_laboratorio">
+                  <label for="permisos_laboratorio">Aplicar permisos</label>
+                </div>
+              </div>
               <table class="table-condensed">
               	<tr>
                 	<td>
-                      <label><input type="checkbox" name="p_22" class="chekito"> ESTUDIOS</label>
+                      <label><input type="checkbox" name="p_22" id="p_22" class="chekito"> ESTUDIOS</label>
                       <input name="h_permisos[22]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_23" class="chekito"> AGENDA LABORATORIO</label>
+                      <label><input type="checkbox" name="p_23" id="p_23" class="chekito"> AGENDA LABORATORIO</label>
                       <input name="h_permisos[23]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_24" class="chekito"> BASES</label>
+                      <label><input type="checkbox" name="p_24" id="p_24" class="chekito"> BASES</label>
                       <input name="h_permisos[24]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_25" class="chekito"> BITÁCORAS</label>
+                      <label><input type="checkbox" name="p_25" id="p_25" class="chekito"> BITÁCORAS</label>
                       <input name="h_permisos[25]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_26" class="chekito"> CATÁLOGO</label>
+                      <label><input type="checkbox" name="p_26" id="p_26" class="chekito"> CATÁLOGO</label>
                       <input name="h_permisos[26]" type="hidden" value="0">
                     </td>
                 </tr>
               </table>
           </div>
           <div class="panel panel-info">
-              <div class="panel-heading">SERVICIOS</div>
+              <div class="panel-heading">
+                SERVICIOS
+                <div class="">
+                  <input type="checkbox" name="permisos_servicios" id="permisos_servicios">
+                  <label for="permisos_servicios">Aplicar permisos</label>
+                </div>
+              </div>
               <table class="table-condensed">
               	<tr>
                 	<td>
-                      <label><input type="checkbox" name="p_28" class="chekito"> SERVICIOS MÉDICOS</label>
+                      <label><input type="checkbox" name="p_28" id="p_28" class="chekito"> SERVICIOS MÉDICOS</label>
                       <input name="h_permisos[28]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_29" class="chekito"> AGENDA LABORATORIO</label>
+                      <label><input type="checkbox" name="p_29" id="p_29" class="chekito"> AGENDA LABORATORIO</label>
                       <input name="h_permisos[29]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_30" class="chekito"> CATÁLOGO</label>
+                      <label><input type="checkbox" name="p_30" id="p_30" class="chekito"> CATÁLOGO</label>
                       <input name="h_permisos[30]" type="hidden" value="0">
                     </td>
                 </tr>
               </table>
           </div>
           <div class="panel panel-info">
-              <div class="panel-heading">FARMACIA</div>
+              <div class="panel-heading">
+                FARMACIA
+                <div class="">
+                  <input type="checkbox" name="permisos_farmacia" id="permisos_farmacia">
+                  <label for="permisos_farmacia">Aplicar permisos</label>
+                </div>
+              </div>
               <table class="table-condensed">
               	<tr>
                     <td>
-                      <label><input type="checkbox" name="p_32" class="chekito"> COMPRAS</label>
+                      <label><input type="checkbox" name="p_32" id="p_32" class="chekito"> COMPRAS</label>
                       <input name="h_permisos[32]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_33" class="chekito"> MEDIC  AMENTOS</label>
+                      <label><input type="checkbox" name="p_33" id="p_33" class="chekito"> MEDIC  AMENTOS</label>
                       <input name="h_permisos[33]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_34" class="chekito"> PRODUCTOS</label>
+                      <label><input type="checkbox" name="p_34" id="p_34" class="chekito"> PRODUCTOS</label>
                       <input name="h_permisos[34]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_35" class="chekito"> CORTE DE CAJA</label>
+                      <label><input type="checkbox" name="p_35" id="p_35" class="chekito"> CORTE DE CAJA</label>
                       <input name="h_permisos[35]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_36" class="chekito"> STOCK</label>
+                      <label><input type="checkbox" name="p_36" id="p_36" class="chekito"> STOCK</label>
                       <input name="h_permisos[36]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_50" class="chekito"> TRANSFERENCIAS</label>
+                      <label><input type="checkbox" name="p_50" id="p_50" class="chekito"> TRANSFERENCIAS</label>
                       <input name="h_permisos[50]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_49" class="chekito"> PEDIDOS</label>
+                      <label><input type="checkbox" name="p_49" id="p_49" class="chekito"> PEDIDOS</label>
                       <input name="h_permisos[49]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_51" class="chekito"> INVENTARIO</label>
+                      <label><input type="checkbox" name="p_51" id="p_51" class="chekito"> INVENTARIO</label>
                       <input name="h_permisos[51]" type="hidden" value="0">
                     </td>
                 </tr>
               </table>
           </div>
           <div class="panel panel-info">
-              <div class="panel-heading">ADMINISTRACIÓN</div>
+              <div class="panel-heading">
+                ADMINISTRACIÓN
+                <div class="">
+                  <input type="checkbox" name="permisos_administracion" id="permisos_administracion">
+                  <label for="permisos_administracion">Aplicar permisos</label>
+                </div>
+              </div>
               <table class="table-condensed">
               	<tr>
                 	<td>
-                      <label><input type="checkbox" name="p_38" class="chekito"> USUARIOS</label>
+                      <label><input type="checkbox" name="p_38" id="p_38" class="chekito"> USUARIOS</label>
                       <input name="h_permisos[38]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_39" class="chekito"> SUCURSALES</label>
+                      <label><input type="checkbox" name="p_39" id="p_39" class="chekito"> SUCURSALES</label>
                       <input name="h_permisos[39]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_40" class="chekito"> ESCUELAS </label>
+                      <label><input type="checkbox" name="p_40" id="p_40" class="chekito"> ESCUELAS </label>
                       <input name="h_permisos[40]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_41" class="chekito"> ÓRDENES DE VENTA</label>
+                      <label><input type="checkbox" name="p_41" id="p_41" class="chekito"> ÓRDENES DE VENTA</label>
                       <input name="h_permisos[41]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_42" class="chekito"> PAGOS</label>
+                      <label><input type="checkbox" name="p_42" id="p_42" class="chekito"> PAGOS</label>
                       <input name="h_permisos[42]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_43" class="chekito"> CORTE DE CAJA</label>
+                      <label><input type="checkbox" name="p_43" id="p_43" class="chekito"> CORTE DE CAJA</label>
                       <input name="h_permisos[43]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_44" class="chekito"> BENEFICIOS</label>
+                      <label><input type="checkbox" name="p_44" id="p_44" class="chekito"> BENEFICIOS</label>
                       <input name="h_permisos[44]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_45" class="chekito"> FORMATOS </label>
+                      <label><input type="checkbox" name="p_45" id="p_45" class="chekito"> FORMATOS </label>
                       <input name="h_permisos[45]" type="hidden" value="0">
                     </td>
                     <td>
-                      <label><input type="checkbox" name="p_48" class="chekito"> CATÁLOGOS </label>
+                      <label><input type="checkbox" name="p_48" id="p_48" class="chekito"> CATÁLOGOS </label>
                       <input name="h_permisos[48]" type="hidden" value="0">
                     </td>
                     <td class="hidden">
-                      <label><input type="checkbox" name="p_46" class="chekito"> UNIDADES DE MEDIDA </label>
+                      <label><input type="checkbox" name="p_46" id="p_46" class="chekito"> UNIDADES DE MEDIDA </label>
                       <input name="h_permisos[46]" type="hidden" value="0">
                     </td>
                     <td class="hidden">
-                      <label><input type="checkbox" name="p_47" class="chekito"> CONFIGURACIÓN</label>
+                      <label><input type="checkbox" name="p_47" id="p_47" class="chekito"> CONFIGURACIÓN</label>
                       <input name="h_permisos[47]" type="hidden" value="0">
                     </td>
                 </tr>
                 <tr>
                   <td>
-                    <label><input type="checkbox" name="p_7" class="chekito"> P. RECEPCIÓN</label>
+                    <label><input type="checkbox" name="p_7" id="p_7" class="chekito"> P. RECEPCIÓN</label>
                     <input name="h_permisos[7]" type="hidden" value="0">
                   </td>
                   <td>
-                    <label><input type="checkbox" name="p_11" class="chekito"> P. CONSULTAS</label>
+                    <label><input type="checkbox" name="p_11" id="p_11" class="chekito"> P. CONSULTAS</label>
                     <input name="h_permisos[11]" type="hidden" value="0">
                   </td>
                   <td>
-                    <label><input type="checkbox" name="p_21" class="chekito"> P. IMAGEN</label>
+                    <label><input type="checkbox" name="p_21" id="p_21" class="chekito"> P. IMAGEN</label>
                     <input name="h_permisos[21]" type="hidden" value="0">
                   </td>
                   <td>
-                    <label><input type="checkbox" name="p_27" class="chekito"> P. LABORATORIO</label>
+                    <label><input type="checkbox" name="p_27" id="p_27" class="chekito"> P. LABORATORIO</label>
                     <input name="h_permisos[27]" type="hidden" value="0">
                   </td>
                   <td>
-                    <label><input type="checkbox" name="p_31" class="chekito"> P. SERVICIOS</label>
+                    <label><input type="checkbox" name="p_31" id="p_31" class="chekito"> P. SERVICIOS</label>
                     <input name="h_permisos[31]" type="hidden" value="0">
                   </td>
                   <td>
-                    <label><input type="checkbox" name="p_37" class="chekito"> P. FARMACIA</label>
+                    <label><input type="checkbox" name="p_37" id="p_37" class="chekito"> P. FARMACIA</label>
                     <input name="h_permisos[37]" type="hidden" value="0">
                   </td>
                 </tr>

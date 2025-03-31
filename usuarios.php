@@ -77,6 +77,12 @@
 		.select2-dropdown{
 			z-index: 9999;
 		}
+		.panel-heading {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
     </style>
 </head>
 <?php include_once 'partes/header.php';?>
@@ -783,6 +789,160 @@ function nuevoUsuario(){
 			$('#form-registro').validator();
 		});
 		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
+
+		//checkbox para seleccionar todos los permisos
+		$('#permisos_recepcion').change(function() {
+			if ($(this).is(':checked')) {
+				$('#p_0').prop('checked', true);
+				$('#p_1').prop('checked', true);
+				$('#p_2').prop('checked', true);
+				$('#p_3').prop('checked', true);
+				$('#p_4').prop('checked', true);
+				$('#p_5').prop('checked', true);
+				$('#p_6').prop('checked', true);
+			} else {
+				$('#p_0').prop('checked', false);
+				$('#p_1').prop('checked', false);
+				$('#p_2').prop('checked', false);
+				$('#p_3').prop('checked', false);
+				$('#p_4').prop('checked', false);
+				$('#p_5').prop('checked', false);
+				$('#p_6').prop('checked', false);
+			}
+		});
+
+		$('#permisos_consultas').change(function() {
+			if ($(this).is(':checked')) {
+				$('#p_8').prop('checked', true);
+				$('#p_9').prop('checked', true);
+				$('#p_10').prop('checked', true);
+			} else {
+				$('#p_8').prop('checked', false);
+				$('#p_9').prop('checked', false);
+				$('#p_10').prop('checked', false);
+			}
+		});
+
+		$('#permisos_hospital').change(function() {
+			if ($(this).is(':checked')) {
+				$('#p_12').prop('checked', true);
+				$('#p_13').prop('checked', true);
+				$('#p_14').prop('checked', true);
+			} else {
+				$('#p_12').prop('checked', false);
+				$('#p_13').prop('checked', false);
+				$('#p_14').prop('checked', false);
+			}
+		});
+
+		$('#permisos_imagen').change(function() {
+			if ($(this).is(':checked')) {
+				$('#p_15').prop('checked', true);
+				$('#p_16').prop('checked', true);
+				$('#p_17').prop('checked', true);
+				$('#p_18').prop('checked', true);
+				$('#p_19').prop('checked', true);
+				$('#p_20').prop('checked', true);
+			} else {
+				$('#p_15').prop('checked', false);
+				$('#p_16').prop('checked', false);
+				$('#p_17').prop('checked', false);
+				$('#p_18').prop('checked', false);
+				$('#p_19').prop('checked', false);
+				$('#p_20').prop('checked', false);
+			}
+		});
+
+		$('#permisos_laboratorio').change(function() {
+			if ($(this).is(':checked')) {
+				$('#p_22').prop('checked', true);
+				$('#p_23').prop('checked', true);
+				$('#p_24').prop('checked', true);
+				$('#p_25').prop('checked', true);
+				$('#p_26').prop('checked', true);
+			} else {
+				$('#p_22').prop('checked', false);
+				$('#p_23').prop('checked', false);
+				$('#p_24').prop('checked', false);
+				$('#p_25').prop('checked', false);
+				$('#p_26').prop('checked', false);
+			}
+		});
+
+		$('#permisos_servicios').change(function() {
+			if ($(this).is(':checked')) {
+				$('#p_28').prop('checked', true);
+				$('#p_29').prop('checked', true);
+				$('#p_30').prop('checked', true);
+			} else {
+				$('#p_28').prop('checked', false);
+				$('#p_29').prop('checked', false);
+				$('#p_30').prop('checked', false);
+			}
+		});
+
+		$('#permisos_farmacia').change(function() {
+			if ($(this).is(':checked')) {
+				$('#p_32').prop('checked', true);
+				$('#p_33').prop('checked', true);
+				$('#p_34').prop('checked', true);
+				$('#p_35').prop('checked', true);
+				$('#p_36').prop('checked', true);
+				$('#p_50').prop('checked', true);
+				$('#p_49').prop('checked', true);
+				$('#p_51').prop('checked', true);
+			} else {
+				$('#p_32').prop('checked', false);
+				$('#p_33').prop('checked', false);
+				$('#p_34').prop('checked', false);
+				$('#p_35').prop('checked', false);
+				$('#p_36').prop('checked', false);
+				$('#p_50').prop('checked', false);
+				$('#p_49').prop('checked', false);
+				$('#p_51').prop('checked', false);
+			}
+		});
+
+		$('#permisos_administracion').change(function() {
+			if ($(this).is(':checked')) {
+				$('#p_38').prop('checked', true);
+				$('#p_39').prop('checked', true);
+				$('#p_40').prop('checked', true);
+				$('#p_41').prop('checked', true);
+				$('#p_42').prop('checked', true);
+				$('#p_43').prop('checked', true);
+				$('#p_44').prop('checked', true);
+				$('#p_45').prop('checked', true);
+				$('#p_48').prop('checked', true);
+				$('#p_46').prop('checked', true);
+				$('#p_47').prop('checked', true);
+				$('#p_7').prop('checked', true);
+				$('#p_11').prop('checked', true);
+				$('#p_21').prop('checked', true);
+				$('#p_27').prop('checked', true);
+				$('#p_31').prop('checked', true);
+				$('#p_37').prop('checked', true);
+			} else {
+				$('#p_38').prop('checked', false);
+				$('#p_39').prop('checked', false);
+				$('#p_40').prop('checked', false);
+				$('#p_41').prop('checked', false);
+				$('#p_42').prop('checked', false);
+				$('#p_43').prop('checked', false);
+				$('#p_44').prop('checked', false);
+				$('#p_45').prop('checked', false);
+				$('#p_48').prop('checked', false);
+				$('#p_46').prop('checked', false);
+				$('#p_47').prop('checked', false);
+				$('#p_7').prop('checked', false);
+				$('#p_11').prop('checked', false);
+				$('#p_21').prop('checked', false);
+				$('#p_27').prop('checked', false);
+				$('#p_31').prop('checked', false);
+				$('#p_37').prop('checked', false);
+			}
+		});
+		//
 	}});
 }
 
@@ -1360,6 +1520,226 @@ function verUsuario(idU, nombre_u, tempi_u){
 		$('#myModal1').modal('show');
 		$('#myModal1').on('shown.bs.modal',function(e){ $('#form-registro').validator(); });
 		$('#myModal1').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal1").empty(); });
+
+			//checkbox para seleccionar todos los permisos
+			$('#permisos_recepcion').change(function() {
+			if ($(this).is(':checked')) {
+				$('#p_0').prop('checked', true);
+				$('#p_1').prop('checked', true);
+				$('#p_2').prop('checked', true);
+				$('#p_3').prop('checked', true);
+				$('#p_4').prop('checked', true);
+				$('#p_5').prop('checked', true);
+				$('#p_6').prop('checked', true);
+				for(var it=0; it<7; it++){
+					$("input[name='h_permisos["+it+"]']").val(1);
+				}
+			} else {
+				$('#p_0').prop('checked', false);
+				$('#p_1').prop('checked', false);
+				$('#p_2').prop('checked', false);
+				$('#p_3').prop('checked', false);
+				$('#p_4').prop('checked', false);
+				$('#p_5').prop('checked', false);
+				$('#p_6').prop('checked', false);
+				for(var it=0; it<7; it++){
+					$("input[name='h_permisos["+it+"]']").val(0);
+				}
+			}
+		});
+
+		$('#permisos_consultas').change(function() {
+			if ($(this).is(':checked')) {
+				$('#p_8').prop('checked', true);
+				$('#p_9').prop('checked', true);
+				$('#p_10').prop('checked', true);
+				for(var it=8; it<11; it++){
+					$("input[name='h_permisos["+it+"]']").val(1);
+				}
+			} else {
+				$('#p_8').prop('checked', false);
+				$('#p_9').prop('checked', false);
+				$('#p_10').prop('checked', false);
+				for(var it=8; it<11; it++){
+					$("input[name='h_permisos["+it+"]']").val(0);
+				}
+			}
+		});
+
+		$('#permisos_hospital').change(function() {
+			if ($(this).is(':checked')) {
+				$('#p_12').prop('checked', true);
+				$('#p_13').prop('checked', true);
+				$('#p_14').prop('checked', true);
+				for(var it=12; it<15; it++){
+					$("input[name='h_permisos["+it+"]']").val(1);
+				}
+			} else {
+				$('#p_12').prop('checked', false);
+				$('#p_13').prop('checked', false);
+				$('#p_14').prop('checked', false);
+				for(var it=12; it<15; it++){
+					$("input[name='h_permisos["+it+"]']").val(0);
+				}
+			}
+		});
+
+		$('#permisos_imagen').change(function() {
+			if ($(this).is(':checked')) {
+				$('#p_15').prop('checked', true);
+				$('#p_16').prop('checked', true);
+				$('#p_17').prop('checked', true);
+				$('#p_18').prop('checked', true);
+				$('#p_19').prop('checked', true);
+				$('#p_20').prop('checked', true);
+				for(var it=15; it<21; it++){
+					$("input[name='h_permisos["+it+"]']").val(1);
+				}
+			} else {
+				$('#p_15').prop('checked', false);
+				$('#p_16').prop('checked', false);
+				$('#p_17').prop('checked', false);
+				$('#p_18').prop('checked', false);
+				$('#p_19').prop('checked', false);
+				$('#p_20').prop('checked', false);
+				for(var it=15; it<21; it++){
+					$("input[name='h_permisos["+it+"]']").val(0);
+				}
+			}
+		});
+
+		$('#permisos_laboratorio').change(function() {
+			if ($(this).is(':checked')) {
+				$('#p_22').prop('checked', true);
+				$('#p_23').prop('checked', true);
+				$('#p_24').prop('checked', true);
+				$('#p_25').prop('checked', true);
+				$('#p_26').prop('checked', true);
+				for(var it=22; it<27; it++){
+					$("input[name='h_permisos["+it+"]']").val(1);
+				}
+			} else {
+				$('#p_22').prop('checked', false);
+				$('#p_23').prop('checked', false);
+				$('#p_24').prop('checked', false);
+				$('#p_25').prop('checked', false);
+				$('#p_26').prop('checked', false);
+				for(var it=22; it<27; it++){
+					$("input[name='h_permisos["+it+"]']").val(0);
+				}
+			}
+		});
+
+		$('#permisos_servicios').change(function() {
+			if ($(this).is(':checked')) {
+				$('#p_28').prop('checked', true);
+				$('#p_29').prop('checked', true);
+				$('#p_30').prop('checked', true);
+				for(var it=28; it<31; it++){
+					$("input[name='h_permisos["+it+"]']").val(1);
+				}
+			} else {
+				$('#p_28').prop('checked', false);
+				$('#p_29').prop('checked', false);
+				$('#p_30').prop('checked', false);
+				for(var it=28; it<31; it++){
+					$("input[name='h_permisos["+it+"]']").val(0);
+				}
+			}
+		});
+
+		$('#permisos_farmacia').change(function() {
+			if ($(this).is(':checked')) {
+				$('#p_32').prop('checked', true);
+				$('#p_33').prop('checked', true);
+				$('#p_34').prop('checked', true);
+				$('#p_35').prop('checked', true);
+				$('#p_36').prop('checked', true);
+				$('#p_50').prop('checked', true);
+				$('#p_49').prop('checked', true);
+				$('#p_51').prop('checked', true);
+				$("input[name='h_permisos[50]']").val(1);
+				$("input[name='h_permisos[49]']").val(1);
+				$("input[name='h_permisos[51]']").val(1);
+				for(var it=32; it<37; it++){
+					$("input[name='h_permisos["+it+"]']").val(1);
+				}
+			} else {
+				$('#p_32').prop('checked', false);
+				$('#p_33').prop('checked', false);
+				$('#p_34').prop('checked', false);
+				$('#p_35').prop('checked', false);
+				$('#p_36').prop('checked', false);
+				$('#p_50').prop('checked', false);
+				$('#p_49').prop('checked', false);
+				$('#p_51').prop('checked', false);
+				$("input[name='h_permisos[50]']").val(0);
+				$("input[name='h_permisos[49]']").val(0);
+				$("input[name='h_permisos[51]']").val(0);
+				for(var it=32; it<37; it++){
+					$("input[name='h_permisos["+it+"]']").val(0);
+				}
+			}
+		});
+
+		$('#permisos_administracion').change(function() {
+			if ($(this).is(':checked')) {
+				$('#p_38').prop('checked', true);
+				$('#p_39').prop('checked', true);
+				$('#p_40').prop('checked', true);
+				$('#p_41').prop('checked', true);
+				$('#p_42').prop('checked', true);
+				$('#p_43').prop('checked', true);
+				$('#p_44').prop('checked', true);
+				$('#p_45').prop('checked', true);
+				$('#p_48').prop('checked', true);
+				$('#p_46').prop('checked', true);
+				$('#p_47').prop('checked', true);
+				$('#p_7').prop('checked', true);
+				$('#p_11').prop('checked', true);
+				$('#p_21').prop('checked', true);
+				$('#p_27').prop('checked', true);
+				$('#p_31').prop('checked', true);
+				$('#p_37').prop('checked', true);
+				$("input[name='h_permisos[7]']").val(1);
+				$("input[name='h_permisos[11]']").val(1);
+				$("input[name='h_permisos[21]']").val(1);
+				$("input[name='h_permisos[27]']").val(1);
+				$("input[name='h_permisos[31]']").val(1);
+				$("input[name='h_permisos[37]']").val(1);
+				for(var it=38; it<49; it++){
+					$("input[name='h_permisos["+it+"]']").val(1);
+				}
+			} else {
+				$('#p_38').prop('checked', false);
+				$('#p_39').prop('checked', false);
+				$('#p_40').prop('checked', false);
+				$('#p_41').prop('checked', false);
+				$('#p_42').prop('checked', false);
+				$('#p_43').prop('checked', false);
+				$('#p_44').prop('checked', false);
+				$('#p_45').prop('checked', false);
+				$('#p_48').prop('checked', false);
+				$('#p_46').prop('checked', false);
+				$('#p_47').prop('checked', false);
+				$('#p_7').prop('checked', false);
+				$('#p_11').prop('checked', false);
+				$('#p_21').prop('checked', false);
+				$('#p_27').prop('checked', false);
+				$('#p_31').prop('checked', false);
+				$('#p_37').prop('checked', false);
+				$("input[name='h_permisos[7]']").val(0);
+				$("input[name='h_permisos[11]']").val(0);
+				$("input[name='h_permisos[21]']").val(0);
+				$("input[name='h_permisos[27]']").val(0);
+				$("input[name='h_permisos[31]']").val(0);
+				$("input[name='h_permisos[37]']").val(0);
+				for(var it=38; it<49; it++){
+					$("input[name='h_permisos["+it+"]']").val(0);
+				}
+			}
+		});
+		//
 	}});
 }
 

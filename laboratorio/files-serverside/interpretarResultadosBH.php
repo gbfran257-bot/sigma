@@ -38,12 +38,12 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 	
 	//Para el tipo RANGO
 	if($fila['id_cvr']==3){
-		if($fila['r_rango_rl'] < $fila['numero1_rango_rl'] or $fila['r_rango_rl'] > $fila['numero2_rango_rl']){$asterix = '<strong>*</strong>';}else{$asterix = '';}
+		if($fila['r_rango_rl'] < $fila['numero1_rango_rl'] or $fila['r_rango_rl'] > $fila['numero2_rango_rl']){ $asterix = '<strong>*</strong>'; $fondoRojo = 'bg-danger'; }else{$asterix = ''; $fondoRojo = '';}
 		if($fila['base_b']=='PLAQUETAS'){
 		$tabla = $tabla.'
 		<tr> <td nowrap style="font-weight:bold;">'.$fila['base_b'].'</td>
 		<td align="right" nowrap>
-			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$fila['r_rango_rl'].'">
+			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm '.$fondoRojo.'" required style="text-align:center;" value="'.$fila['r_rango_rl'].'">
 		</td>
 		<td align="center">
 			<table width="" border="0" cellspacing="1" cellpadding="2">
@@ -63,15 +63,15 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 		<td align="right">';
 		if($i == 2){
 			$tabla = $tabla.'
-			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$htc.'">';
+			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm '.$fondoRojo.'" required style="text-align:center;" value="'.$htc.'">';
 		}
 		else if($i == 5){
 			$tabla = $tabla.'
-			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$mch.'">';
+			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm '.$fondoRojo.'" required style="text-align:center;" value="'.$mch.'">';
 		}
 		else if($i == 6){
 			$tabla = $tabla.'
-			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$mchc.'">';
+			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm '.$fondoRojo.'" required style="text-align:center;" value="'.$mchc.'">';
 		}
 		else if($i == 15){
 			$tabla = $tabla.'
@@ -79,7 +79,7 @@ while ($fila = mysql_fetch_array($query)) { $i++;
 		}
 		else if($i < 9){
 			$tabla = $tabla.'
-			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm" required style="text-align:center;" value="'.$fila['r_rango_rl'].'">';
+			<input name="'.$fila['id_rl'].'" id="'.$fila['id_rl'].'" lang ="'.$fila['id_cvr'].'" type="text" class="form-control input-sm '.$fondoRojo.'" required style="text-align:center;" value="'.$fila['r_rango_rl'].'">';
 		}
 		else{
 			$tabla = $tabla.'
