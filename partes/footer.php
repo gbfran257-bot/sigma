@@ -31,6 +31,7 @@
         <!--Consultas-->
         <?php if ($_SERVER['REQUEST_URI'] == "/sigma/consultas.php" || strpos($_SERVER['REQUEST_URI'], "/consultas.php") !== false) : ?>
             <div id="visualizar_medicamento_sinergias" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+            <div id="modal_ver_archivos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 
         <!--Pacientes-->
