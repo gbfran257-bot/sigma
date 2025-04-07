@@ -673,7 +673,7 @@ function notasMedicasEnfermeria(id_h, id_p, nombre_p, id_s, estatus,tUser){
 	}});
 }
 function notasMedicas(id_h, id_p, nombre_p, id_s, estatus,tUser){
-	$("#myModal").load('hospital/htmls/notas.php', function( response, status, xhr ){ if(status=="success"){
+	$("#myModal").load('hospital/htmls/notas_medicas.php', function( response, status, xhr ){ if(status=="success"){
 		$('#titulo_modal').text('NOTAS DE HOSPITAL PARA EL PACIENTE '+nombre_p);
 		
 		window.setTimeout(function(){
@@ -681,7 +681,7 @@ function notasMedicas(id_h, id_p, nombre_p, id_s, estatus,tUser){
 			var oTable = $('#dataTableNotas').DataTable({
 				serverSide: true,"sScrollY": tam, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ){ }, scroller: false, responsive: true,
-				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true } ],
+				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
 				"sDom": '<"filtro1Principal"><"data_tPrincipal"t><"infoPrincipal"S><"proc">',
 				deferRender: true, select: false, "processing": false, "sAjaxSource": "hospital/datatable-serverside/notas.php?id_h="+id_h,
 				"fnServerParams": function(aoData, fnCallback){
@@ -700,7 +700,8 @@ function notasMedicas(id_h, id_p, nombre_p, id_s, estatus,tUser){
 			});
 
 			// $('#clickmeFmts').click(function(e) { oTable.draw(); }); window.setTimeout(function(){$('#clickmeFmts').click();},500);
-
+			$('#clickmeFmts').click(function(e) { oTable.draw(); });
+			
 			//para los fintros individuales por campo de texto
 			oTable.columns().every( function () {
 				var that = this;
@@ -2450,6 +2451,92 @@ function modificar_cama(id_cama_h, id_h){
 				$("#myModal1").empty();
 			});
 		}
+	});
+}
+
+function verArchivos(id_consulta,if_exist_file) {
+ 
+	$("#modal_ver_archivos").load("consultas/htmls/cargar_archivo.php", {
+		if_exist_file,
+		id_consulta
+	}, (response, status, xhr) => {
+		if (status === "success") {
+			// Función para enviar la imagen
+			$("#archivo_consultas").on("change", (e) => {
+				const archivo = e.target.files[0];
+				const body = new FormData();
+				body.append("archivo_consultas", archivo);
+				body.append("id_consulta", id_consulta);
+				body.append("archivo_existe", if_exist_file);
+				subirArchivosConsultas(body);
+			});
+		
+			$("img.media_archivo_consultas").media({
+				width: 100 + "%",
+				height: "600px",
+				src: "./hospital/archivos_notas_medicas/" + if_exist_file,
+			});
+
+			// Comportamiento del modal
+			$('#modal_ver_archivos').modal('show');
+			$('#modal_ver_archivos').on('hidden.bs.modal', (e) => {
+				/* $(".modal-content").remove(); */
+				$("#modal_ver_archivos").empty();
+			});
+		}
+	});
+
+}
+
+const subirArchivosConsultas = (body) => {
+	fetch("hospital/files-serverside/subir_archivos_notasmedicas.php", {
+	method: "POST",
+	body,
+	})
+	.then(response => response.json())
+	.then(respuesta => {
+		if (respuesta.error) {
+			throw new Error(respuesta.error);
+		}
+		
+		swal({
+			title: "¡CONFIRMACIÓN!",
+			text: "Se ha guardado el archivo.",
+			timer: 2500,
+			buttons: false
+		});
+
+		$('#modal_ver_archivos').modal('hide');
+		$("#clickmeFmts").click();
+	})
+	.catch(error => console.error(error));
+};
+
+function eliminarArchivoConsultas(id_consulta){
+	swal({
+		title: "", text: "¿Eliminar archivo?", showCancelButton: true, confirmButtonColor: "#DD6B55", type:"warning",
+		showConfirmButton: true, confirmButtonText: 'Eliminar', cancelButtonText: "Cancelar", closeOnConfirm: false,
+	},
+	function(){
+			//eliminamos el archivo
+			var datos = { id_consulta:id_consulta }
+			$.post('hospital/files-serverside/eliminar_archivo_notasmedicas.php', datos).done(function(data) {
+				if (data == 1) { 
+					swal({
+					title: "¡CONFIRMACIÓN!",
+					type: "success",
+					text: "Archivo eliminado",
+					timer: 1000,
+					showConfirmButton: false
+				});
+				$('#modal_ver_archivos').modal('hide');
+				$("#clickmeFmts").click();
+				return;
+				} else {
+					alert(data);
+				}
+			});
+			//fin eliminar
 	});
 }
 

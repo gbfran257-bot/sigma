@@ -4,7 +4,7 @@ require("../../funciones/php/values.php");
 
 	$idP = sqlValue($_GET["id_p"], "int");
 
-	$aColumns = array('n.id_nh', 'DATE_FORMAT(n.fecha_nh,"%d/%m/%Y %H:%i:%s")', 'nm.nombre_nm', 'concat(t.abreviacion_ti," ",u.nombre_u," ",apaterno_u)', 'n.id_nh', 'n.id_hospitalizacion_nh', 'p.id_p', 'p.nombre_completo_p', 'o.sucursal_ov','usuario_nh');
+	$aColumns = array('n.id_nh', 'DATE_FORMAT(n.fecha_nh,"%d/%m/%Y %H:%i:%s")', 'nm.nombre_nm', 'concat(t.abreviacion_ti," ",u.nombre_u," ",apaterno_u)', 'n.id_nh', 'n.id_hospitalizacion_nh', 'p.id_p', 'p.nombre_completo_p', 'o.sucursal_ov','usuario_nh', 'n.archivo_notas_medicas');
      
     // DB tables to use 
     $aTables = array( 'notas_de_hospital n');
@@ -150,6 +150,14 @@ require("../../funciones/php/values.php");
         }else{
             $row[5] = "<div align='center'><button onClick='editar_nota($id_h,$row[6],$nombre_p, $row[8], $idNota, \"$tUser\",\"$estatus\")' lang='' class='btn btn-primary btn-xs ver_nota'><i class='fa fa-pencil' aria-hidden='true'></i> </button></div>";
         }
+
+        if($row[10]!=='0'){
+            $estilo_boton = "btn-info";
+        }else{
+            $estilo_boton = "btn-danger";
+        }
+
+        $row[6] = "<button onClick='verArchivos($idNota,\"$row[10]\")' class='btn $estilo_boton btn-xs' id='btnCargarArch' name='btnCargarArch' type='button'> <i class='fa fa-file-pdf-o' aria-hidden='true'></i> </button>";
 		$output['aaData'][] = $row;
 		
     }

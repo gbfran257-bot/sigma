@@ -68,6 +68,11 @@
         <?php if ($_SERVER['REQUEST_URI'] == "/sigma/inventario.php") : ?>
             <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
+
+        <!--hospitalizacion-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/hospitalizacion.php" || strpos($_SERVER['REQUEST_URI'], "/hospitalizacion.php") !== false) : ?>
+            <div id="modal_ver_archivos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
     <?php else : ?>
         <!--Laboratorio-->
         <?php if ($_SERVER['REQUEST_URI'] == "/laboratorio.php" || strpos($_SERVER['REQUEST_URI'], "/laboratorio.php") !== false) : ?>
@@ -77,6 +82,7 @@
         <!--Consultas-->
         <?php if ($_SERVER['REQUEST_URI'] == "/consultas.php" || strpos($_SERVER['REQUEST_URI'], "/consultas.php") !== false) : ?>
             <div id="visualizar_medicamento_sinergias" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+            <div id="modal_ver_archivos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 
         <!--Pacientes-->
@@ -112,6 +118,11 @@
         <!--Inventario-->
         <?php if ($_SERVER['REQUEST_URI'] == "/inventario.php") : ?>
             <div id="modal_agregar_cantidad_productos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
+
+        <!--hospitalizacion-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/hospitalizacion.php" || strpos($_SERVER['REQUEST_URI'], "/hospitalizacion.php") !== false) : ?>
+            <div id="modal_ver_archivos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
     <?php endif; ?>
     </body>
