@@ -78,7 +78,7 @@
 <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" id="dataTablePrincipal" class="table table-hover table-striped dataTables-example dataTable table-condensed" role="grid"> 
 <thead id="cabecera_tBusquedaPrincipal">
   <tr role="row" class="bg-primary">
-    <th id="clickme" style="vertical-align:middle;">#</th>
+    <th id="clickme" style="vertical-align:middle;">ID</th>
 	<th style="vertical-align:middle;">CLAVE</th>
     <th style="vertical-align:middle;">
     	<button type="button" class="btn btn-sm btn-primary" onClick="nuevo_medicamento();">
@@ -86,9 +86,9 @@
         </button>
     </th>
     <th style="vertical-align:middle;">DESCRIPCIÓN</th>
-	<th style="vertical-align:middle;">NIVEL</th>
-	<th style="vertical-align:middle;">GRUPO</th>
-	<th style="vertical-align:middle;">INDICACIONES</th>
+	<th style="vertical-align:middle;">MIN</th>
+	<th style="vertical-align:middle;">MAX</th>
+	<!-- <th style="vertical-align:middle;">INDICACIONES</th> -->
 	<th style="vertical-align:middle;">ELIMINAR</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
@@ -98,9 +98,9 @@
             <th><input type="text" class="form-control input-sm" placeholder="-CLAVE-"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="-NOMBRE-"/></th>
 			<th></th>
-			<th><input type="text" class="form-control input-sm" placeholder="-NIVEL-"/></th>
-			<th><input type="text" class="form-control input-sm" placeholder="-GRUPO-"/></th>
 			<th></th>
+			<th></th>
+			<!-- <th></th> -->
             <th></th>
         </tr>
     </tfoot>
@@ -122,7 +122,7 @@ $(document).ready(function(e) {
 		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [ 
-			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true},{"bVisible":true}
+			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}
 			],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
@@ -130,7 +130,9 @@ $(document).ready(function(e) {
 		"fnServerParams": function (aoData, fnCallback) { 
 			var nombre = $('#top-search').val();
 			var acceso = $('#acc_user').val(); var idU = $('#id_user').val();
-			
+			var sucursal = $("#select-sucursal").val();
+
+			aoData.push( {"name": "id_sucursal", "value": sucursal } );
 			aoData.push( {"name": "nombre", "value": nombre } );
 			aoData.push(  {"name": "accesoU", "value": acceso } );
 			aoData.push(  {"name": "idU", "value": idU } );
@@ -160,6 +162,10 @@ $(document).ready(function(e) {
 	$('.filtro1Principal').addClass('hidden');
 	$('.infoPrincipal').append('<div id="divSucursales" style="text-align:left;"> <table width="100%" border="0" cellpadding="4" cellspacing="2" style="color:black; float:left;"> <tr> <td>Sucursal: <select id="select-sucursal" class="form-control form-control-sm"></td> </tr> </table> </div>');
 	select2ini_s("#select-sucursal", "sucursales-stock.php?id_u="+$('#id_user').val(), "Selecciona una sucursal para ver su stock", 0, "400px");
+
+	$("#select-sucursal").change((e) => {
+		oTableP.draw();
+    });
 });
 
 function nuevo_medicamento(){
@@ -457,6 +463,30 @@ function delete_medicamento(id_p, nombre_p){
 			},
 			placeholder: ph
 		});
+	}
+
+	function updateMinMax(id_sucursal, id_generico){
+		
+		if($("#minimo_"+id_generico).val() !== '' && $("#maximo_"+id_generico).val() !== ''){
+
+			var datos = { min_stock:$("#minimo_"+id_generico).val(), max_stock:$("#maximo_"+id_generico).val(), id_sucursal:id_sucursal, idm:id_generico, id_usuario:$('#id_user').val() }
+
+			$.post('catalogos/medicamento_generico/files-serverside/update_max_min_mmg.php', datos).done(function(data) {
+				if (data == 1) { 
+					swal({
+						title: "¡CONFIRMACIÓN!",
+						type: "success",
+						text: "Datos guardados",
+						timer: 1000,
+						showConfirmButton: false
+					});
+					return;
+				} else {
+					alert(data);
+				}
+			});
+
+		}
 	}
 
 

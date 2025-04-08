@@ -132,7 +132,7 @@ require("../../../funciones/php/values.php");
             /* $row[2] = $datos_generico[0]; */
             $row[2] = "<input type='number' class='form-control input-sm' value='$datos_generico[0]' style='width:75px; text-align:right;' lang='$id_generico' id='minimo_$id_generico'>";
             /* $row[3] = $datos_generico[1]; */
-            $row[3] = "<input type='number' class='form-control input-sm' value='$datos_generico[1]' style='width:75px; text-align:right;' lang='$id_generico' id='maximo_$id_generico'> <button onclick='updateMinMax($id_sucursal, $id_generico);' class='btn btn-info btn-xs'><i class='fa fa-pencil' aria-hidden='true'></i></button>";
+            $row[3] = "<input type='number' class='form-control input-sm' value='$datos_generico[1]' style='width:75px; text-align:right;' lang='$id_generico' id='maximo_$id_generico'> <button onclick='updateMinMax($id_sucursal, $id_generico);' class='btn btn-info btn-xs'><i class='fa fa-floppy-o' aria-hidden='true'></i></button>";
             $row[4] = $datos_shb[0];
 
         }else{
