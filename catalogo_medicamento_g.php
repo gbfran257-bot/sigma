@@ -489,6 +489,29 @@ function delete_medicamento(id_p, nombre_p){
 		}
 	}
 
+	function updateNameMedic(id){
+		if($("#input_medic_"+id).val() !== '' && $("#input_medic_"+id).val() !== ' '){
+			var datos = {
+				id:id,
+				medicamento:$("#input_medic_"+id).val()
+			}
+			$.post('catalogos/medicamento_generico/files-serverside/update_name_medic.php', datos).done(function(data) {
+				if (data == 1) { 
+					swal({
+						title: "¡CONFIRMACIÓN!",
+						type: "success",
+						text: "Datos guardados",
+						timer: 1000,
+						showConfirmButton: false
+					});
+					return;
+				} else {
+					alert(data);
+				}
+			});
+		}
+	}
+
 
 
 </script>

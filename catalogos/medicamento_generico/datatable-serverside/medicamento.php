@@ -117,9 +117,9 @@ require("../../../funciones/php/values.php");
         $qry_datos_generico = mysql_query("SELECT min_mmg, max_mmg FROM max_min_generico WHERE id_suc_mmg = $id_sucursal AND id_generico_mmg = $id_generico", $horizonte) or die (mysql_error());
         $datos_generico = mysql_fetch_row($qry_datos_generico);
 		
-		$row[2] = "<button type='button' class='btn btn-xs btn-link' onClick='editar($row[6], $nombreU)'>$row[2]</button>";
-        $row[4] = "<input type='number' class='form-control input-sm' value='$datos_generico[0]' style='width:75px; text-align:right;' lang='$id_generico' id='minimo_$id_generico'>";
-        $row[5] = "<input type='number' class='form-control input-sm' value='$datos_generico[1]' style='width:75px; text-align:right;' lang='$id_generico' id='maximo_$id_generico'> <button onclick='updateMinMax($id_sucursal, $id_generico);' class='btn btn-info btn-xs'><i class='fa fa-floppy-o' aria-hidden='true'></i></button>";
+		$row[2] = "<input type='text' class='form-control input-sm' value='$row[2]' style='width:230px; text-align:left;' id='input_medic_$row[0]'> <button onclick='updateNameMedic($row[0]);' class='btn btn-info btn-xs'><i class='fa fa-floppy-o' aria-hidden='true'></i></button> <button type='button' class='btn btn-info btn-xs' onClick='editar($row[6], $nombreU)'><i class='fa fa-pencil' aria-hidden='true'></i></button>";
+        $row[4] = "<input type='number' class='form-control input-sm' value='$datos_generico[0]' style='width:70px; text-align:right;' lang='$id_generico' id='minimo_$id_generico'>";
+        $row[5] = "<input type='number' class='form-control input-sm' value='$datos_generico[1]' style='width:70px; text-align:right;' lang='$id_generico' id='maximo_$id_generico'> <button onclick='updateMinMax($id_sucursal, $id_generico);' class='btn btn-info btn-xs'><i class='fa fa-floppy-o' aria-hidden='true'></i></button>";
 		$row[6]= "<button type='button' class='btn btn-xs btn-danger' onClick='delete_medicamento($row[6], $nombreU)'><i class='fa fa-trash'></i></button> <button type='button' class='btn btn-xs btn-warning' onClick='verComerciales($row[6])'><i class='fa fa-search'></i></button>";
 
         }else{
