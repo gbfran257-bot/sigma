@@ -29,7 +29,7 @@ try {
         $query_existencia_stock = "SELECT *
                                    FROM stock_has_bach shb
                                    LEFT JOIN stock s ON shb.id_stock = s.id
-                                   WHERE shb.id_Producto = {$transferencia_temporal['id_producto']} AND Lote = '{$transferencia_temporal['lote']}' AND s.id_su = {$transferencia_temporal['id_sucursal_destino']}";
+                                   WHERE shb.id_Producto = {$transferencia_temporal['id_producto']} AND shb.Lote = '{$transferencia_temporal['lote']}' AND s.id_su = {$transferencia_temporal['id_sucursal_destino']} AND fecha_expiracion = '{$transferencia_temporal['caducidad']}' ORDER BY existencias DESC LIMIT 1";
         if (!$resultado_existencia_stock = mysqli_query($horizonte, $query_existencia_stock)) {
             throw new Exception(mysqli_error($horizonte));
         }
@@ -41,7 +41,7 @@ try {
             $query_stock_origen = "SELECT *
                                    FROM stock_has_bach shb
                                    LEFT JOIN stock s ON shb.id_stock = s.id
-                                   WHERE shb.id_Producto = {$transferencia_temporal['id_producto']} AND Lote = '{$transferencia_temporal['lote']}' AND s.id_su = {$transferencia_temporal['id_sucursal_origen']}";
+                                   WHERE shb.id_Producto = {$transferencia_temporal['id_producto']} AND shb.Lote = '{$transferencia_temporal['lote']}' AND s.id_su = {$transferencia_temporal['id_sucursal_origen']} AND shb.id = {$transferencia_temporal['id_stock_has_bach']}";
 
             if (!$resultado_stock_origen = mysqli_query($horizonte, $query_stock_origen)) {
                 throw new Exception(mysqli_error($horizonte));
@@ -63,11 +63,22 @@ try {
                 throw new Exception(mysqli_error($horizonte));
             }
         } else {
+            //obtenemos el id de stock_has_bach a donde vamos a transferir
+            $query_id_shb = "SELECT shb.id AS id_shb
+                                   FROM stock_has_bach shb
+                                   LEFT JOIN stock s ON shb.id_stock = s.id
+                                   WHERE shb.id_Producto = {$transferencia_temporal['id_producto']} AND shb.Lote = '{$transferencia_temporal['lote']}' AND s.id_su = {$transferencia_temporal['id_sucursal_destino']} AND fecha_expiracion = '{$transferencia_temporal['caducidad']}' ORDER BY existencias DESC LIMIT 1";
+
+            if (!$resultado_id_shb = mysqli_query($horizonte, $query_id_shb)) {
+                throw new Exception(mysqli_error($horizonte));
+            }
+
+            $id_shb = mysqli_fetch_all($resultado_id_shb, MYSQLI_ASSOC)[0];
             //Actualizamos la existencia del stock existente
             $query_suma_stock = "UPDATE stock_has_bach shb
                                  LEFT JOIN stock s ON shb.id_stock = s.id
                                  SET existencias = existencias + {$transferencia_temporal['cantidad_transferir']}, fecha_update = NOW(), contador = contador + 1, cantidad = {$transferencia_temporal['cantidad_transferir']}, es_traspaso = 1
-                                 WHERE shb.id_Producto = {$transferencia_temporal['id_producto']} AND Lote = '{$transferencia_temporal['lote']}' AND s.id_su = {$transferencia_temporal['id_sucursal_destino']}";
+                                 WHERE shb.id_Producto = {$transferencia_temporal['id_producto']} AND shb.Lote = '{$transferencia_temporal['lote']}' AND s.id_su = {$transferencia_temporal['id_sucursal_destino']} AND shb.id = {$id_shb['id_shb']}";
 
             if (!$resultado_query_suma = mysqli_query($horizonte, $query_suma_stock)) {
                 throw new Exception(mysqli_error($horizonte));
@@ -79,7 +90,7 @@ try {
             $query_suma_stock = "UPDATE stock_has_bach shb
                                  LEFT JOIN stock s ON shb.id_stock = s.id
                                  SET referencia_compra = CONCAT('{$referencia_compra}', '-' ,contador)
-                                 WHERE shb.id_Producto = {$transferencia_temporal['id_producto']} AND Lote = '{$transferencia_temporal['lote']}' AND s.id_su = {$transferencia_temporal['id_sucursal_destino']}";
+                                 WHERE shb.id_Producto = {$transferencia_temporal['id_producto']} AND shb.Lote = '{$transferencia_temporal['lote']}' AND s.id_su = {$transferencia_temporal['id_sucursal_destino']} AND shb.id = {$id_shb['id_shb']}";
 
             if (!$resultado_query_suma = mysqli_query($horizonte, $query_suma_stock)) {
                 throw new Exception(mysqli_error($horizonte));
