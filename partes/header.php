@@ -256,6 +256,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                                     <a href="#"><i class="fa fa-list-alt"></i> CATÁLOGOS <span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level collapse">
                                         <li><a href="catalogo_areas.php"><i class="fa fa-thermometer-half"></i> ÁREAS</a></li>
+                                        <li><a href="catalogo_consumibles.php"><i class="fa fa-thermometer-half"></i> CONSUMIBLES</a></li>
                                         <li><a href="unidades_medida.php"><i class="fa fa-thermometer-half"></i> UNIDADES DE MEDIDA</a></li>
                                         <li><a href="catalogo_bases_referencias.php"><i class="fa fa-thermometer-half"></i> REFERENCIAS DE BASES LAB</a></li>
                                         <li><a href="catalogo_profesiones.php"><i class="fa fa-briefcase"></i> PROFESIONES</a></li>
