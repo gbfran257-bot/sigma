@@ -2,7 +2,7 @@
 require("../../Connections/horizonte.php"); 
     /* Array of database columns which should be read and sent back to DataTables. Use a space where * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('h.id_h', 'p.nombre_completo_p', 'DATE_FORMAT(h.fecha_inicio_h,"%d/%m/%Y %H:%i:%s")', 'c.descripcion_ca', 'concat_ws(" ",m.nombre_u, m.apaterno_u, m.amaterno_u)', 'h.id_h','h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'es.estatus_est', 'DATE_FORMAT(h.fecha_fin_h,"%d/%m/%Y %H:%i:%s")', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'es.id_est', 'h.id_h', 'h.id_h', 'p.id_p', 'o.sucursal_ov', 'h.id_cama_h', 'h.id_consulta_vc_h', 'u1.usuario_u', 'u.usuario_u');
+	$aColumns = array('h.id_h', 'p.nombre_completo_p', 'DATE_FORMAT(h.fecha_inicio_h,"%d/%m/%Y %H:%i:%s")', 'c.descripcion_ca', 'concat_ws(" ",m.nombre_u, m.apaterno_u, m.amaterno_u)', 'h.id_h','h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'es.estatus_est', 'DATE_FORMAT(h.fecha_fin_h,"%d/%m/%Y %H:%i:%s")', 'h.id_h', 'h.id_h', 'h.id_h', 'h.id_h', 'es.id_est', 'h.id_h', 'h.id_h', 'p.id_p', 'o.sucursal_ov', 'h.id_cama_h', 'h.id_consulta_vc_h', 'u1.usuario_u', 'u.usuario_u', 'h.archivo_encuesta_hospital');
      
     // DB tables to use 
     $aTables = array( 'hospitalizacion h');
@@ -199,7 +199,14 @@ require("../../Connections/horizonte.php");
             $row[13] = '<div align="center">'.$row[13].'<br>'.$row[25].'</div>';
         }
         $nombrePget = utf8_encode($row[1]);
-        $row[14]= "<div align='center'><a href='pacientes.php?to_h=true&p=$row[21]&n=$nombrePget' target='_blank' class='btn btn-primary btn-sm'><i class='fa fa-cart-plus' aria-hidden='true'></i></a></div>";
+
+        if($row[27]!=='0'){
+            $estilo_boton = "btn-info";
+        }else{
+            $estilo_boton = "btn-danger";
+        }
+
+        $row[14]= "<div align='center'><button onClick='verArchivosEncuestas($row[20],\"$row[27]\")' class='btn $estilo_boton btn-sm' id='btnCargarArch' name='btnCargarArch' type='button'> <i class='fa fa-file-pdf-o' aria-hidden='true'></i> </button><a href='pacientes.php?to_h=true&p=$row[21]&n=$nombrePget' target='_blank' class='btn btn-primary btn-sm'><i class='fa fa-cart-plus' aria-hidden='true'></i></a></div>";
 
         $row[3] = "<span style='text-decoration:underline; cursor:pointer; color:blue;' onclick='modificar_cama($row[23],$row[20])'>$row[3]</span>";
 

@@ -12,7 +12,7 @@
     <meta name="description" content="SISTEMA DE EXPEDIENTE CLÍNICO ELECTRÓNICO">
     <meta name="author" content="ING JESUS DIAZ CONTRERAS">
     
-    <title>SISTEMA - ÁREAS </title>
+    <title>SISTEMA - STOCK GENERICO </title>
     
     <link rel="shortcut icon" href="imagenes/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="imagenes/favicon.ico" type="image/x-icon">

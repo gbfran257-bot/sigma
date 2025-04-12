@@ -170,6 +170,11 @@ include_once '../../../recursos/utilities.php';
 			$row[3]="<input type='text' class='form-control input-sm dias_i' value='$row[3]' style='width:40px; text-align:right;' lang='$row[13]'>";
 			$row[4]="<input type='text' class='form-control input-sm precio_p_i' value='$r8' style='width:75px; text-align:right;' lang='$row[13]'>";
 			$row[5]="<input type='text' class='form-control input-sm precio_p_u_i' value='$r9' style='width:75px; text-align:right;' lang='$row[13]'>";
+            //hacemos la suma de la productividad
+            mysql_select_db($database_horizonte, $horizonte);
+            $getProductividad = mysql_query("SELECT SUM(b.precio_maquila_b)+c.c_costo FROM asignar_bases ab LEFT JOIN bases b ON b.id_b = ab.id_base_ab LEFT JOIN conceptos c ON c.aleatorio_c = ab.aleatorio_ab WHERE c.id_to = ".$row[13], $horizonte) or die (mysql_error());
+            $runGetProd = mysql_fetch_row($getProductividad);
+            $row[13] = $runGetProd[0];
 			
 		}else{ 
             $row[1]="<span id='$row[6]'>$row[1]</span>"; 
@@ -179,6 +184,7 @@ include_once '../../../recursos/utilities.php';
             $row[9]=$row[5];
             $row[4]=$r8;
             $row[5]=$r9;
+            $row[13] = "";
         }
 		
 		$row[10]="<div align='center'>$row[10]<br>$row[15]</div>";

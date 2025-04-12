@@ -4584,6 +4584,106 @@ include_once 'recursos/datauser.php';
 			window.open("hospital/genera/signos_vitales_reporte.php?idP=" + idP + "&edad=" + datos[1] + "&sexo=" + datos[2] + "&id_u=" + $('#id_user').val() + "&idC=" + idC, '_blank');
 		});
 	}
+
+	function verArchivos(id_consulta,if_exist_file) {
+
+		$("#modal_ver_archivos").load("consultas/htmls/cargar_archivo.php", {
+			if_exist_file,
+			id_consulta
+		}, (response, status, xhr) => {
+			if (status === "success") {
+				// Función para enviar la imagen
+				$("#archivo_consultas").on("change", (e) => {
+					const archivo = e.target.files[0];
+					const body = new FormData();
+					body.append("archivo_consultas", archivo);
+					body.append("id_consulta", id_consulta);
+					body.append("archivo_existe", if_exist_file);
+					subirArchivosConsultas(body);
+				});
+			
+				$("img.media_archivo_consultas").media({
+					width: 100 + "%",
+					height: "600px",
+					src: "./consultas/archivos_consultas/" + if_exist_file,
+				});
+
+				// Comportamiento del modal
+				$('#modal_ver_archivos').modal('show');
+				$('#modal_ver_archivos').on('hidden.bs.modal', (e) => {
+					$(".modal-content").remove();
+					$("#modal_ver_archivos").empty();
+				});
+			}
+		});
+
+	}
+
+	const subirArchivosConsultas = (body) => {
+	fetch("consultas/files-serverside/subir_archivos_consultas.php", {
+		method: "POST",
+		body,
+	})
+		.then(response => response.json())
+		.then(respuesta => {
+			if (respuesta.error) {
+				throw new Error(respuesta.error);
+			}
+			
+			swal({
+				title: "¡CONFIRMACIÓN!",
+				text: "Se ha guardado el archivo.",
+				timer: 2500,
+				buttons: false
+			});
+
+			$('#modal_ver_archivos').modal('hide');
+			$("#clickme").click();
+		})
+		.catch(error => console.error(error));
+};
+
+function eliminarArchivoConsultas(id_consulta){
+
+	return swal({
+		title: "¿Eliminar archivo?",
+		text: "Eliminar",
+		buttons: {
+			cancel: {
+				text: "Cancelar",
+				visible: true
+			},
+			confirm: {
+				text: "Eliminar",
+				className: ""
+			}
+		},
+	}).then((isConfirmed) => {
+		if (isConfirmed) {
+			//eliminamos el archivo
+			var datos = { id_consulta:id_consulta }
+			$.post('consultas/files-serverside/eliminar_archivo_consultas.php', datos).done(function(data) {
+				if (data == 1) { 
+					swal({
+					title: "¡CONFIRMACIÓN!",
+					type: "success",
+					text: "Archivo eliminado",
+					timer: 1000,
+					showConfirmButton: false
+				});
+				$('#modal_ver_archivos').modal('hide');
+				$("#clickme").click();
+				return;
+				} else {
+					alert(data);
+				}
+			});
+			//fin eliminar
+		}
+	});
+
+}
+
 </script>
 
 <!-- Inicio de las funciones que permiten el filtrado de pacientes -->
