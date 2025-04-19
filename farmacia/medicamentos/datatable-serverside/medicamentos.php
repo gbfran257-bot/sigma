@@ -102,7 +102,6 @@ require("../../../Connections/horizonte.php");
         "iTotalDisplayRecords" => $iFilteredTotal,
         "aaData" => array()
     );
-	$hh=0;
 
     
     
@@ -110,7 +109,6 @@ require("../../../Connections/horizonte.php");
     $id_su = $_GET['idSu'];
     while ( $aRow = mysql_fetch_array( $rResult ) )
     {       
-		$hh++;
         $row = array();
         for ( $i=0 ; $i<count($aColumns) ; $i++ )
         { if ( $aColumns[$i] == "version" ) { /* Special output formatting for 'version' column */ $row[] = ($aRow[ $aColumns[$i] ]=="0") ? '-' : $aRow[ $aColumns[$i] ]; } else if ( $aColumns[$i] != ' ' ) { /* General output */ $row[] = $aRow[$i]; } }
@@ -132,7 +130,7 @@ require("../../../Connections/horizonte.php");
          $aExistencia = mysql_fetch_array($existencia);
          $existencias = $aExistencia[0];
 		
-		$row[0]="<span>$hh</span>";
+		$row[0]="<span>$row[0]</span>";
 		
 		$nombreP = '"'.$row[2].'"';
 		
