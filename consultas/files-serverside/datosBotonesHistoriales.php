@@ -13,7 +13,8 @@ $resultUSG = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join
 $rowUSG = mysql_fetch_row($resultUSG);
 
 mysql_select_db($database_horizonte, $horizonte); //Para IMG
-$resultIMG = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join conceptos c on c.id_to = v.id_concepto_es where v.id_paciente_vc = $idP and c.id_tipo_concepto_to = 4 and v.estatus_vc >= 5 and c.id_area_to not in (29,58,85)", $horizonte) or die (mysql_error());
+//$resultIMG = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join conceptos c on c.id_to = v.id_concepto_es where v.id_paciente_vc = $idP and c.id_tipo_concepto_to = 4 and v.estatus_vc >= 5 and c.id_area_to not in (29,58,85)", $horizonte) or die (mysql_error());
+$resultIMG = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join conceptos c on c.id_to = v.id_concepto_es where v.id_paciente_vc = $idP and c.id_tipo_concepto_to = 4 and c.id_area_to not in (29,58,85)", $horizonte) or die (mysql_error());
 $rowIMG = mysql_fetch_row($resultIMG);
 
 mysql_select_db($database_horizonte, $horizonte); //Para ENDO

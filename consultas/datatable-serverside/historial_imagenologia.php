@@ -13,7 +13,8 @@ require("../../Connections/ipacs.php");
 	$sJoin = 'left join conceptos c on c.id_to = vc.id_concepto_es left join catalogo_tipo_conceptos t on t.id_tc = c.id_tipo_concepto_to left join pacientes p on p.id_p = vc.id_paciente_vc left join usuarios u on u.id_u = vc.usuarioEdo4_e';
 	 
     // CONDITIONS 
-    $sWhere="WHERE vc.id_paciente_vc = '$_GET[aleatorio]' and c.id_tipo_concepto_to = 4 and vc.estatus_vc >= 5 and c.id_area_to not in (29,58,85) ";
+    //$sWhere="WHERE vc.id_paciente_vc = '$_GET[aleatorio]' and c.id_tipo_concepto_to = 4 and vc.estatus_vc >= 5 and c.id_area_to not in (29,58,85) ";
+    $sWhere="WHERE vc.id_paciente_vc = '$_GET[aleatorio]' and c.id_tipo_concepto_to = 4 and c.id_area_to not in (29,58,85) ";
 
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;

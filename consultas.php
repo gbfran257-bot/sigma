@@ -4439,7 +4439,8 @@ include_once 'recursos/datauser.php';
 			koby = myL1[0].split(':8888');
 		var link_1 = koby[0] + koby[1]; //alert(myL1[0]);
 		var mi_refer = mi_refer1.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
-		window.open('http://' + koby[0] + ':8080/oviyam2/viewer.html?patientID=' + mi_refer);
+		//window.open('http://' + koby[0] + ':8080/oviyam2/viewer.html?patientID=' + mi_refer);
+		window.open('http://' + koby[0] + ':8888/viewer.html?patientID=' + mi_refer);
 	}
 
 	function miImg(idM, opc) {
