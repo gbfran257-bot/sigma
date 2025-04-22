@@ -60,6 +60,11 @@
         <th>TOTAL COBRO</th>
         <th>COMISION</th>
         <th>TOTAL CADIT($)</th>
+		<th>EFECTIVO</th>
+		<th>TARJETA DEBITO</th>
+		<th>TARJETA CREDITO</th>
+		<th>TRANSFERENCIA</th>
+		<th>CHEQUE</th>
         <!-- <th>PAGO</th> -->
       </tr>
     </thead>
@@ -71,6 +76,12 @@
 			<th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
 			<th><input type="hidden" class="sCalculo" /></th>
+			<th><input type="hidden" class="sCalculo" /></th>
+			<th><input type="hidden" class="sCalculo" /></th>
+			<th><input type="hidden" class="sCalculo" /></th>
+			<th><input type="hidden" class="sCalculo" /></th>
+			<th><input type="hidden" class="sCalculo" /></th>
+
 			<!-- <th><input type="hidden" class="sCalculo" /></th> -->
             
 		</tr>
@@ -124,18 +135,30 @@ $(document).ready(function(e) {
 			$('.opcTable').css('float','left'); $('span.DataTables_sort_icon').remove();
 			
 			var iTotal = 0, iComision=0, iIngreso = 0, iVisitas = 0;
+			var iEfectivo = 0, iDebito = 0, iCredito = 0, iTransferencia = 0, iCheque = 0;
             for ( var i=iStart ; i<iEnd ; i++ )
             {
 				        iVisitas  += aaData[ aiDisplay[i] ][1]*1;
-                iTotal    += aaData[ aiDisplay[i] ][2]*1;
+                		iTotal    += aaData[ aiDisplay[i] ][2]*1;
 				        iComision += aaData[ aiDisplay[i] ][3]*1;
 				        iIngreso  += aaData[ aiDisplay[i] ][4]*1;
+						iEfectivo += aaData[ aiDisplay[i] ][5]*1;
+						iDebito += aaData[ aiDisplay[i] ][6]*1;
+						iCredito += aaData[ aiDisplay[i] ][7]*1;
+						iTransferencia += aaData[ aiDisplay[i] ][8]*1;
+						iCheque += aaData[ aiDisplay[i] ][9]*1;
             }
             var nCells = nRow.getElementsByTagName('th');
-			      nCells[1].innerHTML = parseInt(iVisitas  * 100)/100;
+			nCells[1].innerHTML = parseInt(iVisitas  * 100)/100;
             nCells[2].innerHTML = parseInt(iTotal    * 100)/100;
-			      nCells[3].innerHTML = parseInt(iComision * 100)/100;
-			      nCells[4].innerHTML = '$'+parseInt(iIngreso  * 100)/100;
+			nCells[3].innerHTML = parseInt(iComision * 100)/100;
+			nCells[4].innerHTML = '$'+parseInt(iIngreso  * 100)/100;
+			nCells[5].innerHTML = '$'+parseInt(iEfectivo  * 100)/100;
+			nCells[6].innerHTML = '$'+parseInt(iDebito  * 100)/100;
+			nCells[7].innerHTML = '$'+parseInt(iCredito  * 100)/100;
+			nCells[8].innerHTML = '$'+parseInt(iTransferencia  * 100)/100;
+			nCells[9].innerHTML = '$'+parseInt(iCheque  * 100)/100;
+			
 			
 			window.setTimeout(function(){$('.erase1').each(function(index, element){ $(this).parent().parent().remove(); });},200);
         },
@@ -144,7 +167,9 @@ $(document).ready(function(e) {
 		"bStateSave": false, "bInfo": false, "bFilter": true, ordering: false,
 		"aoColumnDefs": [ 
 			{"bSortable":false, "aTargets":[0]}, {"bVisible": true,"aTargets": [ 1 ] }, {"bVisible": true,"aTargets": [ 2 ] },
-			{"bVisible": true,"aTargets": [ 3 ] }, {"bVisible": true,"aTargets": [ 4 ] }
+			{"bVisible": true,"aTargets": [ 3 ] }, {"bVisible": true,"aTargets": [ 4 ] }, {"bVisible": true,"aTargets": [ 5 ] },
+			{"bVisible": true,"aTargets": [ 6 ] }, {"bVisible": true,"aTargets": [ 7 ] }, {"bVisible": true,"aTargets": [ 8 ] },
+			{"bVisible": true,"aTargets": [ 9 ] }
 		],
 		"aaSorting": [[1, "desc"]], "iDisplayLength": 500000000000000, "bLengthChange": false,
 		"bProcessing": false, "bServerSide": true,

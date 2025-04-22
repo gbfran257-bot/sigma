@@ -2,7 +2,7 @@
 require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
 
-	$aColumns = array('s.nombre_su', 'COUNT(p.id_pag)', 'SUM(p.pago_pag)', 's.p_tabulador_l_su', 'p.id_pag', 'p.id_pag', 'p.id_pag', 'p.id_pag' );
+	$aColumns = array('s.nombre_su', 'COUNT(p.id_pag)', 'SUM(p.pago_pag)', 's.p_tabulador_l_su', 'p.id_pag', 'p.id_pag', 'p.id_pag', 'p.id_pag', 's.id_su', 'p.id_pag' );
      
     // DB tables to use 
     $aTables = array('pagos_ov p');
@@ -13,7 +13,7 @@ require("../../funciones/php/values.php");
 	// Joins   
 	$sJoin = 'left join orden_venta ov on ov.referencia_ov = p.referencia_pag left join sucursales s on s.id_su = ov.sucursal_ov';
 
-	$sWhere ="WHERE p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'";
+	$sWhere ="WHERE (p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]') AND s.id_su IS NOT NULL";
     /* Database connection information */
     $gaSql['user'] = $username_horizonte; $gaSql['password'] = $password_horizonte; 
 	$gaSql['db']   = $database_horizonte; $gaSql['server']   = $hostname_horizonte;
@@ -125,6 +125,37 @@ require("../../funciones/php/values.php");
         $totalActual =$row[2];
         $row[3] = intval(($totalActual*(1-($row[3]*0.01)))*100)/100;
         $row[4] = $totalActual - $row[3];
+
+        mysql_select_db($database_horizonte, $horizonte); //PAGOS EN EFECTIVO
+        $result1 = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p LEFT JOIN orden_venta ov ON ov.referencia_ov = p.referencia_pag WHERE ov.sucursal_ov = $row[8] AND p.forma_pago_pag = 1 AND (p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]')", $horizonte) or die (mysql_error());
+        $row1 = mysql_fetch_row($result1); 
+        if($row1[0]==""){$row1[0]=0;}
+
+        mysql_select_db($database_horizonte, $horizonte); //PAGOS EN TARJETA DEBITO
+        $result2 = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p LEFT JOIN orden_venta ov ON ov.referencia_ov = p.referencia_pag WHERE ov.sucursal_ov = $row[8] AND p.forma_pago_pag = 5 AND (p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]')", $horizonte) or die (mysql_error());
+        $row2 = mysql_fetch_row($result2); 
+        if($row2[0]==""){$row2[0]=0;}
+
+        mysql_select_db($database_horizonte, $horizonte); //PAGOS EN TARJETA CREDITO
+        $result5 = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p LEFT JOIN orden_venta ov ON ov.referencia_ov = p.referencia_pag WHERE ov.sucursal_ov = $row[8] AND p.forma_pago_pag = 2 AND (p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]')", $horizonte) or die (mysql_error());
+        $row5 = mysql_fetch_row($result5); 
+        if($row5[0]==""){$row5[0]=0;}
+
+        mysql_select_db($database_horizonte, $horizonte); //PAGOS EN TRANSFERENCIA
+        $result3 = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p LEFT JOIN orden_venta ov ON ov.referencia_ov = p.referencia_pag WHERE ov.sucursal_ov = $row[8] AND p.forma_pago_pag = 3 AND (p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]')", $horizonte) or die (mysql_error());
+        $row3 = mysql_fetch_row($result3); 
+        if($row3[0]==""){$row3[0]=0;}
+
+        mysql_select_db($database_horizonte, $horizonte); //PAGOS EN CHEQUE
+        $result4 = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p LEFT JOIN orden_venta ov ON ov.referencia_ov = p.referencia_pag WHERE ov.sucursal_ov = $row[8] AND p.forma_pago_pag = 4 AND (p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]')", $horizonte) or die (mysql_error());
+        $row4 = mysql_fetch_row($result4); 
+        if($row4[0]==""){$row4[0]=0;}
+
+        $row[5]="$row1[0]";
+        $row[6]="$row2[0]";
+        $row[7]="$row5[0]";
+        $row[8]="$row3[0]";
+        $row[9]="$row4[0]";
 				
 		$output['aaData'][] = $row;
     }
