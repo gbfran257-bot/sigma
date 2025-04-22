@@ -2803,6 +2803,7 @@ include_once 'recursos/datauser.php';
 											et_logo13 = datosTe[73],
 											et_logo14 = datosTe[74],
 											et_logo15 = datosTe[75];
+											et_oximetria = datosTe[76];
 
 										$("#tipoNotaMed").change(function(e) { //alert('Cambia');
 											var datos = {
@@ -2881,6 +2882,7 @@ include_once 'recursos/datauser.php';
 												data = data.replace(/{et_logo13}/gi, et_logo13);
 												data = data.replace(/{et_logo14}/gi, et_logo14);
 												data = data.replace(/{et_logo15}/gi, et_logo15);
+												data = data.replace(/{et_oximetria}/gi, et_oximetria);
 												tinymce.get('notaMedicaC').setContent(data);
 												//$('#tabs_nnm #tabs-1n .jqte_editor').html(data);
 											});

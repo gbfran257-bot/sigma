@@ -246,7 +246,7 @@ require("../../funciones/php/values.php");
 	"and t1.tipo_tg = 1 left join tabla_glasgow t2 on t2.valor_tg = s.r_verbal and t2.tipo_tg = 2 left join tabla_glasgow t3 on t3.valor_tg = s.r_motriz and t3.tipo_tg = 3 ".
 	"where s.id_paciente_sv = $idP order by s.id_sv desc limit 1", $horizonte) or die (mysql_error());
  	$row1s = mysql_fetch_row($result1s);
-	if($row1s[5] != NULL or $row1s[5] != ''){ $oxi_sv = 'OXIMETRÍA DE PULSO ('.$row1s[5].' % SaO2)';} else{$oxi_sv = '';}
+	if($row1s[5] != NULL or $row1s[5] != ''){ $oxi_sv = 'OXIMETRÍA DE PULSO ('.$row1s[5].' % SaO2)'; $oxi_sv1 = $row1s[5].' % SaO2'; } else{$oxi_sv = ''; $oxi_sv1 = '';}
 	
 	if($row1s[9]!=0 or $row1s[9]!=NULL){  $aocu = 'ABERTURA OCULAR: '.$row1s[6]; }else{$aocu = '';}
 	if($row1s[10]!=0 or $row1s[10]!=NULL){  $rverb = ', RESPUESTA VERBAL: '.$row1s[7]; }else{$rverb = '';}
@@ -553,7 +553,7 @@ require("../../funciones/php/values.php");
 		$row[4].'-{]'.$rowM[7].'-{]'.$rowVC[1].'-{]'.$rowVC[2].' '.$rowVC[3].'-{]'.$mes.'-{]'.$myFirma.'-{]'.$rowFrts[0].'-{]'.$rowVC[4].'-{]'.$row1s[0].
 		'-{]'.$row1s[1].'-{]'.$row1s[3].'-{]'.$row1s[2].'-{]'.$row1s[4].' ºC'.'-{]'.$rowVC[5].'-{]'.$rowVC[6].'-{]'.$rowVC[7].' '.$rowVC[8].'-{]'.$encaNM.
 		'-{]'.$encaNM1.'-{]'.$encaNM2.'-{]'.$encaNM3.'-{]'.$logoMedicina.'-{]'.$rowVC[10].'-{]'.$rowVC[11].'-{]'.$rowVC_1[0].'-{]'.$lista.'-{]'.$lista1.
-		'-{]'.$historia.'-{]'.$ahf.'-{]'.$apnp.'-{]'.$app.'-{]'.$ago.'-{]'.$feNac .'-{]'. $dx_cont .'-{]'.$md_cont .'-{]'.$row1s[15].'-{]'.$logosA1[0].'-{]'.$logosA1[1] .'-{]'. $logosA1[2] .'-{]'.$logosA1[3] .'-{]'.$logosA1[4].'-{]'.$logosA1[5].'-{]'.$logosA1[6] .'-{]'. $logosA1[7] .'-{]'.$logosA1[8] .'-{]'.$logosA1[9].'-{]'.$logosA1[10].'-{]'.$logosA1[11] .'-{]'. $logosA1[12] .'-{]'.$logosA1[13] .'-{]'.$logosA1[14];
+		'-{]'.$historia.'-{]'.$ahf.'-{]'.$apnp.'-{]'.$app.'-{]'.$ago.'-{]'.$feNac .'-{]'. $dx_cont .'-{]'.$md_cont .'-{]'.$row1s[15].'-{]'.$logosA1[0].'-{]'.$logosA1[1] .'-{]'. $logosA1[2] .'-{]'.$logosA1[3] .'-{]'.$logosA1[4].'-{]'.$logosA1[5].'-{]'.$logosA1[6] .'-{]'. $logosA1[7] .'-{]'.$logosA1[8] .'-{]'.$logosA1[9].'-{]'.$logosA1[10].'-{]'.$logosA1[11] .'-{]'. $logosA1[12] .'-{]'.$logosA1[13] .'-{]'.$logosA1[14] .'-{]'. $oxi_sv1;
 	
 	echo $datos;
  	//Cerrar conexión a la Base de Datos
