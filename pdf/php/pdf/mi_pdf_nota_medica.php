@@ -4,10 +4,10 @@
   $query_tamaño_impresion = "SELECT tamano_h_cm FROM sucursales WHERE id_su = {$id_sucursal}";
   require_once "../../../Connections/horizonte2.php";
   $resultado = mysqli_query($horizonte, $query_tamaño_impresion) or die(mysqli_error($horizonte));
-  $print_size = mysqli_fetch_object($resultado)->tamano_h_cm == 1 ? "Letter" : "A5";
+  $print_size = mysqli_fetch_object($resultado)->tamano_h_cm == 1 ? "Letter" : "A4";
   define("LETTER_SIZE_HEADER_FOOTER_WIDTH", 785); // Width del header y del footer para una impresión tamaño carta
   define("HALF_LETTER_SIZE_HEADER_FOOTER_WIDTH", 525); // Width del header y del footer para una impresión tamaño carta
-  define("HEADER_FOOTER_HEIGHT", 80);
+  define("HEADER_FOOTER_HEIGHT", 100);
 	//ob_start guardará en un búfer lo que esté en la ruta del include.
   include(dirname(__FILE__).'/vistas/mi_pdf_nota_medica.php');
   //echo $_POST["cuerpoL"];
