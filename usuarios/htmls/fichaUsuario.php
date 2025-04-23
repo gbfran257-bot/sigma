@@ -197,6 +197,16 @@ $id_del_user = $_SESSION['id'];
                 	<div class="help-block with-errors"></div>
                 </div>
             </div>
+            <div class="row">
+                <div class="form-group col-md-3 col-sm-3 text-primary">
+                	<label for="notasP" class="col-form-label">EQUIPO QX</label>
+                  <select name='selectEquipoQx' class="form-control input-sm" id='selectEquipoQx' required>
+                    <option value="0" name="optSelectNo" id="optSelectNo">No</option>
+                    <option value="1" name="optSelectSi" id="optSelectSi">Si</option>
+                  </select>
+                	<div class="help-block with-errors"></div>
+                </div>
+            </div>
         </div>
         <div class="tab-pane tap-pane-primary" id="t_direccion" role="tabpanel" aria-labelledby="direccion-tab"><br>
         	<div class="row">

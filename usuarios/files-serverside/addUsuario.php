@@ -37,7 +37,7 @@ require("../../funciones/php/values.php");
  $escolaridad = sqlValue($_POST["escolaridadP"], "int");
  $universidad = sqlValue($_POST["universidadU"], "int");
  $universidadE = sqlValue($_POST["universidadEU"], "int");
- 
+ $equipo_qx = sqlValue($_POST["selectEquipoQx"], "int");
  $profesion = sqlValue($_POST["profesionUsuario"], "int");
  
  $titulo = sqlValue($_POST["cTituloU"], "int");
@@ -103,8 +103,8 @@ if(empty($permisos))
 	$permisos = $pp;
 
  mysql_select_db($database_horizonte, $horizonte); //foto_u, firma_u, $foto, $firmaU, idOcupacion_u, $ocupacion, 
- $sql = "INSERT INTO usuarios(temporal_u, coordenadas_u, idUsuarioR_u, nombre_u, apaterno_u, amaterno_u, sexo_u, nacionalidad_u, fNac_u, curp_u, rfc_u, idSucursal_u, acceso_u, usuario_u, contrasena_u, notas_u, tCelular_u, tSanguineo_u, entidadFederativa_u, municipio_u, colonia_u, calle_u, cp_u, tParticular_u, tTrabajo_u, extensionTt_u, contactoEmergencia_u, tEmergencia_u, email_u, idDepartamento_u, idArea_u, idPuesto_u, idEscolaridad_u, idProfesion_u, titulo_u, cedulaProfesional_u, especialidad_u, cedulaProfesionalE_u, horario_e_lu, horario_s_lu, horario_e_ma, horario_s_ma, horario_e_mi, horario_s_mi, horario_e_ju, horario_s_ju, horario_e_vi, horario_s_vi, horario_e_sa, horario_s_sa, horario_e_do, horario_s_do, fecha_ingreso_u, universidad_u, multisucursal_u, estatus_laboral_u, estatus_escolar_u, id_titulo_u, permisos_u, universidad_e_u)";
- $sql.= "VALUES ($temporal, GEOMFROMTEXT('POINT($latitud $longitud)'), $idUsuario, $nombre, $apaterno, $amaterno, $idSexo, $nacionalidad, $fechaNacimiento, $curp, $rfc, $idSucursal, $tipoUsuario, $username, $hashed_password, $notas, $tCelular, $tsanguineoP, $estado, $municipio, $colonia, $calle, $cp, $tParticular, $telefonoTrabajo, $extensionTT, $avisarA, $telefonoE, $email, $departamento, $area, $puesto, $escolaridad, $profesion, $titulo, $cedula, $especialidad, $cedula1, $horario_lu_e, $horario_lu_s, $horario_ma_e, $horario_ma_s, $horario_mi_e, $horario_mi_s, $horario_ju_e, $horario_ju_s, $horario_vi_e, $horario_vi_s, $horario_sa_e, $horario_sa_s, $horario_do_e, $horario_do_s, $now, $universidad, $tipo_acceso, $estatus_laboral, $estatus_escolar, $titulo, $permisos, $universidadE)";
+ $sql = "INSERT INTO usuarios(temporal_u, coordenadas_u, idUsuarioR_u, nombre_u, apaterno_u, amaterno_u, sexo_u, nacionalidad_u, fNac_u, curp_u, rfc_u, idSucursal_u, acceso_u, usuario_u, contrasena_u, notas_u, tCelular_u, tSanguineo_u, entidadFederativa_u, municipio_u, colonia_u, calle_u, cp_u, tParticular_u, tTrabajo_u, extensionTt_u, contactoEmergencia_u, tEmergencia_u, email_u, idDepartamento_u, idArea_u, idPuesto_u, idEscolaridad_u, idProfesion_u, titulo_u, cedulaProfesional_u, especialidad_u, cedulaProfesionalE_u, horario_e_lu, horario_s_lu, horario_e_ma, horario_s_ma, horario_e_mi, horario_s_mi, horario_e_ju, horario_s_ju, horario_e_vi, horario_s_vi, horario_e_sa, horario_s_sa, horario_e_do, horario_s_do, fecha_ingreso_u, universidad_u, multisucursal_u, estatus_laboral_u, estatus_escolar_u, id_titulo_u, permisos_u, universidad_e_u, equipo_qx)";
+ $sql.= "VALUES ($temporal, GEOMFROMTEXT('POINT($latitud $longitud)'), $idUsuario, $nombre, $apaterno, $amaterno, $idSexo, $nacionalidad, $fechaNacimiento, $curp, $rfc, $idSucursal, $tipoUsuario, $username, $hashed_password, $notas, $tCelular, $tsanguineoP, $estado, $municipio, $colonia, $calle, $cp, $tParticular, $telefonoTrabajo, $extensionTT, $avisarA, $telefonoE, $email, $departamento, $area, $puesto, $escolaridad, $profesion, $titulo, $cedula, $especialidad, $cedula1, $horario_lu_e, $horario_lu_s, $horario_ma_e, $horario_ma_s, $horario_mi_e, $horario_mi_s, $horario_ju_e, $horario_ju_s, $horario_vi_e, $horario_vi_s, $horario_sa_e, $horario_sa_s, $horario_do_e, $horario_do_s, $now, $universidad, $tipo_acceso, $estatus_laboral, $estatus_escolar, $titulo, $permisos, $universidadE, $equipo_qx)";
   //echo $sql;
 $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	
