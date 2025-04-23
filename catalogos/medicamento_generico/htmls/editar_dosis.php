@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="form-group col-md-8 col-sm-8 text-primary col-md-offset-2">
                     <label for="input_dosis" class="col-form-label rec-requeridos">* DOSIS</label>
-                    <input name="input_dosis" id="input_dosis" type="text" class="form-control form-control-sm" placeholder="Escribe aqui la dósis" required>
+                    <input name="input_dosis" id="input_dosis" type="text" class="form-control form-control-sm" placeholder="Escribe aqui la dósis" style="width: 600px; height: 50px;" required>
                     <div class="help-block with-errors"></div>
                 </div>
             </div>
