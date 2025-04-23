@@ -262,6 +262,8 @@ include_once 'recursos/datauser.php';
 		</div>
 	</div>
 </div>
+<!-- modal de equipo qx -->
+<?php include_once 'pacientes/htmls/ficha_equipo_qx.php'; ?>
 <!-- incluimos el modal de modificacion precio  estudio->imagen->lab -->
 <?php include_once 'pacientes/htmls/ficha_modificacion_precios_d.php'; ?>
 <?php include_once 'pacientes/htmls/ficha_modificacion_precios_lab.php'; ?>
@@ -6198,6 +6200,259 @@ include_once 'recursos/datauser.php';
 		$("#input-convenio").val("");
 		$("#btn-buscar").click();
 	}
+
+	function mostrar_equipo_qx(id_consulta){
+		$("#modal-qx").modal("show");
+		//busacamos usuarios marcados como qx
+		if ($.fn.DataTable.isDataTable('#dataTableUsuariosQx')) {
+    		$('#dataTableUsuariosQx').DataTable().clear().destroy();
+		}
+
+		var oTableQx = $('#dataTableUsuariosQx').DataTable({
+					serverSide: true,
+					"sScrollY": 100,
+					ordering: false,
+					searching: true,
+					scrollCollapse: false,
+					"scrollX": true,
+					"fnFooterCallback": function(nRow, aaData, iStart, iEnd, aiDisplay) {
+
+					},
+					scroller: false,
+					responsive: true,
+					"aoColumns": [
+						{ "bVisible": true }, 
+						{ "bVisible": true }, 
+						{ "bVisible": true }, 
+						{ "bVisible": true }
+					],
+					"sDom": '<"">r<""t><""S><"">',
+					deferRender: true,
+					select: {
+						style: 'single'
+					},
+					"processing": false,
+					"sAjaxSource": "pacientes/datatable-serverside/buscar_equipo_qx.php",
+					"fnServerParams": function(aoData, fnCallback) {
+						aoData.push({
+							"name": "id_consulta",
+							"value": id_consulta
+						});
+					},
+					"oLanguage": {
+						"sLengthMenu": "MONSTRANDO _MENU_ records per page",
+						"sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS",
+						"sInfo": "CONSULTAS FILTRADAS: _END_",
+						"sInfoEmpty": "NINGUNA CONSULTA FILTRADA.",
+						"sInfoFiltered": " TOTAL DE CONSULTAS: _MAX_",
+						"sSearch": "",
+						"oPaginate": {
+							"sNext": "<span class='paginacionPrincipal'>Siguiente</span>",
+							"sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;"
+						}
+					},
+					"iDisplayLength": 5000,
+					paging: false,
+				});
+				$('#clickmeQx').click(function(e) {
+					oTableQx.draw();
+				});
+				window.setTimeout(function() {
+					$('#clickmeQx').click();
+				}, 500);
+				//para los fintros individuales por campo de texto
+				oTableQx.columns().every(function() {
+					var that = this;
+					$('input', this.footer()).on('keyup change', function() {
+						if (that.search() !== this.value) {
+							that.search(this.value).draw();
+						}
+					});
+				});
+				//fin filtros individuales por campo de texto
+				var id_usuario = 0;
+				oTableQx.off('select').on('select', function(e, dt, type, indexes) {
+					var rowDataQx = oTableQx.rows(indexes).data().toArray(); 
+					id_usuario = rowDataQx[0][0];
+					$('#clickmeConceptosU').click();
+				});
+
+		//mostramos los conceptos del usuario seleccionado
+		//este codigo elimina la instancia de datatable para evitar mensaje de error
+		if ($.fn.DataTable.isDataTable('#dataTableConceptosUsuario')) {
+    		$('#dataTableConceptosUsuario').DataTable().clear().destroy();
+		}
+
+		var oTableConceptosUsuario = $('#dataTableConceptosUsuario').DataTable({
+					serverSide: true,
+					"sScrollY": 100,
+					ordering: false,
+					searching: true,
+					scrollCollapse: false,
+					"scrollX": true,
+					"fnFooterCallback": function(nRow, aaData, iStart, iEnd, aiDisplay) {
+
+					},
+					scroller: false,
+					responsive: true,
+					"aoColumns": [
+						{ "bVisible": true }, 
+						{ "bVisible": true }, 
+						{ "bVisible": true }, 
+						{ "bVisible": true }, 
+						{ "bVisible": true }
+					],
+					"sDom": '<"">r<""t><""S><"">',
+					deferRender: true,
+					select: {
+						style: 'single'
+					},
+					"processing": false,
+					"sAjaxSource": "pacientes/datatable-serverside/buscar_conceptos_usuario.php",
+					"fnServerParams": function(aoData, fnCallback) {
+						aoData.push({
+							"name": "id_usuario",
+							"value": id_usuario
+						});
+					},
+					"oLanguage": {
+						"sLengthMenu": "MONSTRANDO _MENU_ records per page",
+						"sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS",
+						"sInfo": "CONSULTAS FILTRADAS: _END_",
+						"sInfoEmpty": "NINGUNA CONSULTA FILTRADA.",
+						"sInfoFiltered": " TOTAL DE CONSULTAS: _MAX_",
+						"sSearch": "",
+						"oPaginate": {
+							"sNext": "<span class='paginacionPrincipal'>Siguiente</span>",
+							"sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;"
+						}
+					},
+					"iDisplayLength": 5000,
+					paging: false,
+				});
+				$('#clickmeConceptosU').click(function(e) {
+					oTableConceptosUsuario.draw();
+				});
+				window.setTimeout(function() {
+					$('#clickmeConceptosU').click();
+				}, 500);
+				//para los fintros individuales por campo de texto
+				oTableConceptosUsuario.columns().every(function() {
+					var that = this;
+					$('input', this.footer()).on('keyup change', function() {
+						if (that.search() !== this.value) {
+							that.search(this.value).draw();
+						}
+					});
+				});
+				//fin filtros individuales por campo de texto
+				oTableConceptosUsuario.off('select').on('select', function(e, dt, type, indexes) {
+					var rowDataCU = oTableConceptosUsuario.rows(indexes).data().toArray(); 
+					agregar_concepto_usuario(id_consulta, rowDataCU[0][4], rowDataCU[0][3], rowDataCU[0][0]);
+					id_usuario = 0;
+					$('#clickmeConceptosU').click();
+					$('#clickmeQxSeleccionados').click();
+					$('#clickmeQx').click();
+					//alert(rowData[0][1]);
+				});
+
+		/* conceptos señeccionados */
+		if ($.fn.DataTable.isDataTable('#dataTableConcSeleccionados')) {
+    		$('#dataTableConcSeleccionados').DataTable().clear().destroy();
+		}
+
+		var oTableQxSeleccionados = $('#dataTableConcSeleccionados').DataTable({
+					serverSide: true,
+					"sScrollY": 100,
+					ordering: false,
+					searching: true,
+					scrollCollapse: false,
+					"scrollX": true,
+					"fnFooterCallback": function(nRow, aaData, iStart, iEnd, aiDisplay) {
+
+					},
+					scroller: false,
+					responsive: true,
+					"aoColumns": [
+						{ "bVisible": true }, 
+						{ "bVisible": true }, 
+						{ "bVisible": true }, 
+						{ "bVisible": true }, 
+						{ "bVisible": true }
+					],
+					"sDom": '<"">r<""t><""S><"">',
+					deferRender: true,
+					select: {
+						style: 'single'
+					},
+					"processing": false,
+					"sAjaxSource": "pacientes/datatable-serverside/conceptos_qx_seleccionados.php",
+					"fnServerParams": function(aoData, fnCallback) {
+						aoData.push({
+							"name": "id_consulta",
+							"value": id_consulta
+						});
+					},
+					"oLanguage": {
+						"sLengthMenu": "MONSTRANDO _MENU_ records per page",
+						"sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS",
+						"sInfo": "CONSULTAS FILTRADAS: _END_",
+						"sInfoEmpty": "NINGUNA CONSULTA FILTRADA.",
+						"sInfoFiltered": " TOTAL DE CONSULTAS: _MAX_",
+						"sSearch": "",
+						"oPaginate": {
+							"sNext": "<span class='paginacionPrincipal'>Siguiente</span>",
+							"sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;"
+						}
+					},
+					"iDisplayLength": 5000,
+					paging: false,
+				});
+				$('#clickmeQxSeleccionados').click(function(e) {
+					oTableQxSeleccionados.draw();
+				});
+				window.setTimeout(function() {
+					$('#clickmeQxSeleccionados').click();
+				}, 500);
+				//
+	}
+
+	function agregar_concepto_usuario(id_consulta, usuario, precio, concepto){
+		var datosAddC = {
+			id_consulta:id_consulta,
+			usuario:usuario,
+			precio:precio,
+			concepto:concepto
+		}
+		$.post('pacientes/files-serverside/agregar_concepto_usuario.php', datosAddC).done(function(dataAddC) {});
+	}
+
+	function delete_qx_seleccionado(id_pqx){
+		var datosDelPqx = {
+			id_pqx:id_pqx
+		}
+		$.post('pacientes/files-serverside/delete_qx_seleccionado.php', datosDelPqx).done(function(dataDelPqx) {
+			if(dataDelPqx == 1){
+				$('#clickmeQx').click();
+				$('#clickmeQxSeleccionados').click();
+			}
+		});
+	}
+
+	function update_qx_precio(id_pqx){
+		if($("#precioQx_"+id_pqx).val() !== ''){
+			var datosUpdPqx = {
+				id_pqx:id_pqx,
+				precio:$("#precioQx_"+id_pqx).val()
+			}
+			$.post('pacientes/files-serverside/update_qx_precio.php', datosUpdPqx).done(function(dataUpdPqx) {
+				if(dataUpdPqx == 1){
+					$('#clickmeQxSeleccionados').click();
+				}
+			});
+		}
+	}
+
 </script>
 
 <!-- Inicio de las funciones genéricas para el manejo de los resúmenes -->

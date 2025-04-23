@@ -29,6 +29,7 @@
 	echo '<option value="{ET_DIAGNOSTICO_PACIENTE}">DIAGNOSTICOS DEL PACIENTE</option>';
 	echo '<option value="{ET_MEDICAMENTOS_PACIENTE}">MEDICAMENTO DEL PACIENTE</option>';
 	echo '<option value="{et_destroxtis}">DESTROXTIS</option>';
+	echo '<option value="{et_oximetria}">OXIMETRIA</option>';
 	echo '<option value="{et_referencia}">NÚMERO DE REFERENCIA</option>';
 	echo '<option value="{et_muestra}">MUESTRA(S) DEL ESTUDIO</option>';
 	echo '<option value="{et_metodo}">MÉTODO(S) DEL ESTUDIO</option>';

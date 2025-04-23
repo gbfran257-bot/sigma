@@ -1156,7 +1156,7 @@ function verUsuario(idU, nombre_u, tempi_u){
 		
 		var dato_p = {id_u:idU, tempo:tempo}
 		$.post('usuarios/files-serverside/fichaUsuario.php',dato_p).done(function(data){ var dato = data.split(';-}{');
-			$('#nombreP').val(dato[0]); $('#apaternoP').val(dato[1]); $('#amaternoP').val(dato[2]); $('#nacionalidadP').val(dato[24]);
+			$('#nombreP').val(dato[0]); $('#apaternoP').val(dato[1]); $('#amaternoP').val(dato[2]); $('#nacionalidadP').val(dato[24]); $("#selectEquipoQx").val(dato[57]);
 			$("#sexoP").load('usuarios/files-serverside/genera_sexos.php',function(response,status,xhr){if(status == "success"){
 				$(this).val(dato[16]);
 			}});
