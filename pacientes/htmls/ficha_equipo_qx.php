@@ -48,7 +48,36 @@
                                             <th align="center" width="50%">CONCEPTO</th>
                                             <th align="center" width="20%">ÁREA</th>
                                             <th align="center" width="4%">PRECIO</th>
-                                            <th align="center" width="4%">ACCIONES</th>
+                                            <th align="center" width="4%">ID U</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody align="left">
+                                            <tr>
+                                                <td class="dataTables_empty">Cargando datos del servidor</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot align="center">
+                                            <tr>
+                                                <th></th>
+                                                <th><input type="text" class="form-control input-sm" style="width:99%;" placeholder="Buscar"></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    <table width="100%" cellspacing="0" id="dataTableConcSeleccionados" height="100%" border="0" cellpadding="0" class="table table-striped table-hover table-bordered table-responsive">
+                                        <thead id="my_head">
+                                        <tr class="bg-info">
+                                            <th align="center" id="clickmeQxSeleccionados">ID</th>
+                                            <th align="center">MÉDICO</th>
+                                            <th align="center">CONCEPTO</th>
+                                            <th align="center">PRECIO</th>
+                                            <th align="center">MOD/ELIMINAR</th>
                                         </tr>
                                         </thead>
                                         <tbody align="left">
@@ -75,7 +104,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-					<button type="submit" class="btn btn-primary">Guardar cambios</button>
+					<!-- <button type="submit" class="btn btn-primary">Guardar cambios</button> -->
 				</div>
 			</form>
 		</div>

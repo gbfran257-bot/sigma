@@ -133,7 +133,7 @@ require("../../../Connections/horizonte.php");
         $row[4] = "<a onclick='modifica_precio($row[7])'>".$row[4]."</a>";
         $row[5] = "<a onclick='modifica_precio($row[7])'>".$row[5]."</a>";
 		if($row[6]==''){
-            $row[6]='PARTICULAR' . "<button type='button' class='btn btn-xs btn-info' onClick='mostrar_equipo_qx($row[8]);'><i class='fa fa-user-circle' aria-hidden='true'></i></button>";
+            $row[6]='PARTICULAR' . " <button type='button' class='btn btn-xs btn-info' onClick='mostrar_equipo_qx($row[8]);'><i class='fa fa-user-circle' aria-hidden='true'></i></button>";
         }
 		
 		$row[7] = "<div align='center'><button type='button' class='btn btn-xs btn-danger' onClick='borrarItemNVC1(this.id);' id='$row[8]'><i class='fa fa-trash' aria-hidden='true'></i></button></div>";

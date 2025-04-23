@@ -26,7 +26,17 @@ require("../../funciones/php/values.php");
         }
     }
     if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " AND "; }
-	$sWhere.=" equipo_qx = 1 GROUP BY u.id_u ORDER BY u.nombre_u ASC ";
+
+    //obtenemos la lista de los usuarios que ya han sido agregados
+    $lista = '0';
+    mysql_select_db($database_horizonte, $horizonte);
+    $qry_lista="SELECT usuario_pqx FROM personal_equipo_qx WHERE id_consulta_pqx = $_GET[id_consulta]";
+    $getLista = mysql_query($qry_lista) or die (mysql_error());
+    while ($fila = mysql_fetch_array($getLista)) {
+        $lista = $lista.','.$fila['usuario_pqx'];
+    };
+
+	$sWhere.=" equipo_qx = 1 AND u.id_u NOT IN($lista) GROUP BY u.id_u ORDER BY u.nombre_u ASC ";
 	
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;

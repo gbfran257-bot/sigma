@@ -71,7 +71,7 @@ require("../../funciones/php/values.php");
         FROM   ".str_replace(" , ", " ", implode(", ", $aTables))."
 		$sJoin
         $sWhere
-        $sOrder
+        $sOrder ORDER BY c.concepto_to ASC
         $sLimit";
 
     $rResult = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());

@@ -6271,10 +6271,9 @@ include_once 'recursos/datauser.php';
 				});
 				//fin filtros individuales por campo de texto
 				var id_usuario = 0;
-				oTableQx.on('select', function(e, dt, type, indexes) {
-					var rowData = oTableQx.rows(indexes).data().toArray(); 
-					//alert(rowData[0][1]);
-					id_usuario = rowData[0][0]
+				oTableQx.off('select').on('select', function(e, dt, type, indexes) {
+					var rowDataQx = oTableQx.rows(indexes).data().toArray(); 
+					id_usuario = rowDataQx[0][0];
 					$('#clickmeConceptosU').click();
 				});
 
@@ -6347,11 +6346,74 @@ include_once 'recursos/datauser.php';
 					});
 				});
 				//fin filtros individuales por campo de texto
-				oTableConceptosUsuario.on('select', function(e, dt, type, indexes) {
-					var rowData = oTableConceptosUsuario.rows(indexes).data().toArray(); 
-					agregar_concepto_usuario(id_consulta, rowData[0][4], rowData[0][3], rowData[0][0]);
+				oTableConceptosUsuario.off('select').on('select', function(e, dt, type, indexes) {
+					var rowDataCU = oTableConceptosUsuario.rows(indexes).data().toArray(); 
+					agregar_concepto_usuario(id_consulta, rowDataCU[0][4], rowDataCU[0][3], rowDataCU[0][0]);
+					id_usuario = 0;
+					$('#clickmeConceptosU').click();
+					$('#clickmeQxSeleccionados').click();
+					$('#clickmeQx').click();
 					//alert(rowData[0][1]);
 				});
+
+		/* conceptos señeccionados */
+		if ($.fn.DataTable.isDataTable('#dataTableConcSeleccionados')) {
+    		$('#dataTableConcSeleccionados').DataTable().clear().destroy();
+		}
+
+		var oTableQxSeleccionados = $('#dataTableConcSeleccionados').DataTable({
+					serverSide: true,
+					"sScrollY": 100,
+					ordering: false,
+					searching: true,
+					scrollCollapse: false,
+					"scrollX": true,
+					"fnFooterCallback": function(nRow, aaData, iStart, iEnd, aiDisplay) {
+
+					},
+					scroller: false,
+					responsive: true,
+					"aoColumns": [
+						{ "bVisible": true }, 
+						{ "bVisible": true }, 
+						{ "bVisible": true }, 
+						{ "bVisible": true }, 
+						{ "bVisible": true }
+					],
+					"sDom": '<"">r<""t><""S><"">',
+					deferRender: true,
+					select: {
+						style: 'single'
+					},
+					"processing": false,
+					"sAjaxSource": "pacientes/datatable-serverside/conceptos_qx_seleccionados.php",
+					"fnServerParams": function(aoData, fnCallback) {
+						aoData.push({
+							"name": "id_consulta",
+							"value": id_consulta
+						});
+					},
+					"oLanguage": {
+						"sLengthMenu": "MONSTRANDO _MENU_ records per page",
+						"sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS",
+						"sInfo": "CONSULTAS FILTRADAS: _END_",
+						"sInfoEmpty": "NINGUNA CONSULTA FILTRADA.",
+						"sInfoFiltered": " TOTAL DE CONSULTAS: _MAX_",
+						"sSearch": "",
+						"oPaginate": {
+							"sNext": "<span class='paginacionPrincipal'>Siguiente</span>",
+							"sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;"
+						}
+					},
+					"iDisplayLength": 5000,
+					paging: false,
+				});
+				$('#clickmeQxSeleccionados').click(function(e) {
+					oTableQxSeleccionados.draw();
+				});
+				window.setTimeout(function() {
+					$('#clickmeQxSeleccionados').click();
+				}, 500);
 				//
 	}
 
@@ -6362,9 +6424,33 @@ include_once 'recursos/datauser.php';
 			precio:precio,
 			concepto:concepto
 		}
-		$.post('pacientes/files-serverside/agregar_concepto_usuario.php', datosAddC).done(function(dataAddC) {
-			
+		$.post('pacientes/files-serverside/agregar_concepto_usuario.php', datosAddC).done(function(dataAddC) {});
+	}
+
+	function delete_qx_seleccionado(id_pqx){
+		var datosDelPqx = {
+			id_pqx:id_pqx
+		}
+		$.post('pacientes/files-serverside/delete_qx_seleccionado.php', datosDelPqx).done(function(dataDelPqx) {
+			if(dataDelPqx == 1){
+				$('#clickmeQx').click();
+				$('#clickmeQxSeleccionados').click();
+			}
 		});
+	}
+
+	function update_qx_precio(id_pqx){
+		if($("#precioQx_"+id_pqx).val() !== ''){
+			var datosUpdPqx = {
+				id_pqx:id_pqx,
+				precio:$("#precioQx_"+id_pqx).val()
+			}
+			$.post('pacientes/files-serverside/update_qx_precio.php', datosUpdPqx).done(function(dataUpdPqx) {
+				if(dataUpdPqx == 1){
+					$('#clickmeQxSeleccionados').click();
+				}
+			});
+		}
 	}
 
 </script>
