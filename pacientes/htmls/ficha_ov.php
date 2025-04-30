@@ -35,6 +35,9 @@
         <input name="id_consulta_to" type="hidden" value="" id="id_consulta_to" required>
 
         <input name="aleatorio_ov" type="hidden" value="" id="aleatorio_ov" required>
+        <input name="editando_orden_abierta" type="hidden" value="0" id="editando_orden_abierta" required>
+        <input name="no_temp_ov_abierta" type="hidden" value="0" id="no_temp_ov_abierta" required>
+        <input name="referencia_ov_abierta" type="hidden" value="0" id="referencia_ov_abierta" required>
         <input name="iva_ov_h" type="hidden" value="0" id="iva_ov_h">
         <input name="total_ov_h" type="hidden" value="0" id="total_ov_h">
         <input name="hay_iva_ov" type="hidden" value="0" id="hay_iva_ov">

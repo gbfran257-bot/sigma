@@ -6453,6 +6453,40 @@ include_once 'recursos/datauser.php';
 		}
 	}
 
+	function abrir_ov(no_temp_ov,id_p,nombre_edad,referencia){
+		$("#myModal2").modal("hide");
+		window.setTimeout(function() {
+			nuevaVisita(id_p, nombre_edad);
+		}, 500);
+
+		window.setTimeout(function() {
+			$("#aleatorio_ov").val(no_temp_ov);
+			$("#aleatorio_ov_a").val(no_temp_ov);
+			$("#editando_orden_abierta").val(1);
+			$("#no_temp_ov_abierta").val(no_temp_ov);
+			$("#referencia_ov_abierta").val(referencia);
+
+			//mostramos inputs ocultos
+			$('.depende_con1').removeClass('hidden');
+			$('.depende_img').removeClass('hidden');
+			$('.depende_lab').removeClass('hidden');
+			$('.depende_ser').removeClass('hidden');
+
+			//usamos las funciones de borrado de items para recalcular los totales
+			//consultas
+			borrarItemNVC1(0);
+			//imagen
+			borrarItemNV(0);
+			//laboratorio
+			borrarItemNVL(0);
+			//servicios
+			borrarItemNVS(0);
+			//farmacia
+			borrarItemNVP(0);
+			//fin
+		}, 900);
+	}
+
 </script>
 
 <!-- Inicio de las funciones genéricas para el manejo de los resúmenes -->

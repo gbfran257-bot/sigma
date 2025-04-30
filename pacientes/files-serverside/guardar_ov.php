@@ -71,6 +71,11 @@ require("../../funciones/php/values.php");
  $pago_ov_i = sqlValue($_POST["pago_ov_i"], "double");
  $pago_ov_l = sqlValue($_POST["pago_ov_l"], "double");
  $pago_ov_f = sqlValue($_POST["pago_ov_f"], "double"); 
+
+ //Datos para la orden de venta abierta
+ $no_temp_ov_abierta = sqlValue($_POST["no_temp_ov_abierta"], "text");
+ $referencia_ov_abierta = sqlValue($_POST["referencia_ov_abierta"], "text");
+ $editando_orden_abierta = sqlValue($_POST["editando_orden_abierta"], "int");
  
  $contador = 0; $noRef=0;
  
@@ -93,12 +98,21 @@ require("../../funciones/php/values.php");
  	$rowRG = mysql_fetch_row($resultRG); //echo sqlValue($rowRG[0], "int");
 	$porciones = explode("-", sqlValue($rowRG[1], "text")); $a = $rowRG[0]+1; $contador = $a; $noRef = $porciones[0]."-".$a; $noRef=$noRef."'";
  }
-  
- mysql_select_db($database_horizonte, $horizonte);
- $sql = "INSERT INTO orden_venta(total_c, subtotal_ov, gran_total_ov, sub_total_c, usuario_ov, id_paciente_ov, fecha_venta_ov, adicionales_c_ov, p_desc_cta, desc_d_cta, t_desc_cta, motivo_c_ov, medico_c_ov, referencia_ov, contador_ov, sucursal_ov, no_temp_ov, total_ei, total_el, total_s, sub_total_i, sub_total_l, sub_total_s, adicionales_ei_ov, adicionales_el_ov, adicionales_s_ov, medico_ei_ov, medico_el_ov, personal_s_ov, observaciones_i_ov, observaciones_l_ov, observaciones_s_ov, p_desc_img, desc_d_img, t_desc_img, p_desc_lab, desc_d_lab, t_desc_lab, p_desc_serv, desc_d_serv, t_desc_serv, iva_ov, total_p, sub_total_p, adicionales_p_ov, p_desc_pro, desc_d_pro, t_desc_pro, motivo_desc_c_ov, motivo_desc_i_ov, motivo_desc_l_ov, motivo_desc_s_ov, motivo_desc_f_ov, folio_externo, expediente_externo, doctor, cedula) VALUES ($total_consulta, $subtotal, $total_ov, $precio_consulta, $idU, $id_paciente, $now, $cargo_extra_consulta, $porcentaje_descuento_consulta, $descuento_directo_consulta, $total_descuento_consulta, $motivo_consulta, $id_medico_consulta, ".$noRef.", $contador, $id_sucu, $aleatorio, $total_imagen, $total_laboratorio, $total_servicios, $precio_imagen, $precio_laboratorio, $precio_servicios, $cargo_extra_imagen, $cargo_extra_laboratorio, $cargo_extra_servicios, $id_medico_imagen, $id_medico_laboratorio, $id_medico_servicios, $motivo_imagen, $motivo_laboratorio, $motivo_servicios, $porcentaje_descuento_imagen, $descuento_directo_imagen, $total_descuento_imagen, $porcentaje_descuento_laboratorio, $descuento_directo_laboratorio, $total_descuento_laboratorio, $porcentaje_descuento_servicios, $descuento_directo_servicios, $total_descuento_servicios, $iva_ov, $total_productos, $precio_productos, $cargo_extra_productos, $porcentaje_descuento_productos, $descuento_directo_productos, $total_descuento_productos, $motivo_extras_consulta,$motivo_extras_imagen,$motivo_extras_lab,$motivo_extras_servicios,$motivo_extras_farmacia, $folio_externo, $expediente_externo, $doctor, $cedula)";
-   
- $update = mysql_query($sql, $horizonte) or die (mysql_error());
-	
+
+ //Si se trata de una orden de venta nueva
+ if($editando_orden_abierta == 0){
+
+	mysql_select_db($database_horizonte, $horizonte);
+	$sql = "INSERT INTO orden_venta(total_c, subtotal_ov, gran_total_ov, sub_total_c, usuario_ov, id_paciente_ov, fecha_venta_ov, adicionales_c_ov, p_desc_cta, desc_d_cta, t_desc_cta, motivo_c_ov, medico_c_ov, referencia_ov, contador_ov, sucursal_ov, no_temp_ov, total_ei, total_el, total_s, sub_total_i, sub_total_l, sub_total_s, adicionales_ei_ov, adicionales_el_ov, adicionales_s_ov, medico_ei_ov, medico_el_ov, personal_s_ov, observaciones_i_ov, observaciones_l_ov, observaciones_s_ov, p_desc_img, desc_d_img, t_desc_img, p_desc_lab, desc_d_lab, t_desc_lab, p_desc_serv, desc_d_serv, t_desc_serv, iva_ov, total_p, sub_total_p, adicionales_p_ov, p_desc_pro, desc_d_pro, t_desc_pro, motivo_desc_c_ov, motivo_desc_i_ov, motivo_desc_l_ov, motivo_desc_s_ov, motivo_desc_f_ov, folio_externo, expediente_externo, doctor, cedula) VALUES ($total_consulta, $subtotal, $total_ov, $precio_consulta, $idU, $id_paciente, $now, $cargo_extra_consulta, $porcentaje_descuento_consulta, $descuento_directo_consulta, $total_descuento_consulta, $motivo_consulta, $id_medico_consulta, ".$noRef.", $contador, $id_sucu, $aleatorio, $total_imagen, $total_laboratorio, $total_servicios, $precio_imagen, $precio_laboratorio, $precio_servicios, $cargo_extra_imagen, $cargo_extra_laboratorio, $cargo_extra_servicios, $id_medico_imagen, $id_medico_laboratorio, $id_medico_servicios, $motivo_imagen, $motivo_laboratorio, $motivo_servicios, $porcentaje_descuento_imagen, $descuento_directo_imagen, $total_descuento_imagen, $porcentaje_descuento_laboratorio, $descuento_directo_laboratorio, $total_descuento_laboratorio, $porcentaje_descuento_servicios, $descuento_directo_servicios, $total_descuento_servicios, $iva_ov, $total_productos, $precio_productos, $cargo_extra_productos, $porcentaje_descuento_productos, $descuento_directo_productos, $total_descuento_productos, $motivo_extras_consulta,$motivo_extras_imagen,$motivo_extras_lab,$motivo_extras_servicios,$motivo_extras_farmacia, $folio_externo, $expediente_externo, $doctor, $cedula)";  
+	$update = mysql_query($sql, $horizonte) or die (mysql_error());
+
+ }else if($editando_orden_abierta == 1){
+	//Si estamos editando la orden de venta
+	mysql_select_db($database_horizonte, $horizonte);
+	$sql = "UPDATE orden_venta SET total_c = $total_consulta, subtotal_ov = $subtotal, gran_total_ov = $total_ov, sub_total_c = $precio_consulta, adicionales_c_ov = $cargo_extra_consulta, p_desc_cta = $porcentaje_descuento_consulta, desc_d_cta = $descuento_directo_consulta, t_desc_cta = $total_descuento_consulta, motivo_c_ov = $motivo_consulta, medico_c_ov = $id_medico_consulta, total_ei = $total_imagen, total_el = $total_laboratorio, total_s = $total_servicios, sub_total_i = $precio_imagen, sub_total_l = $precio_laboratorio, sub_total_s = $precio_servicios, adicionales_ei_ov = $cargo_extra_imagen, adicionales_el_ov = $cargo_extra_laboratorio, adicionales_s_ov = $cargo_extra_servicios, medico_ei_ov = $id_medico_imagen, medico_el_ov = $id_medico_laboratorio, personal_s_ov = $id_medico_servicios, observaciones_i_ov = $motivo_imagen, observaciones_l_ov = $motivo_laboratorio, observaciones_s_ov = $motivo_servicios, p_desc_img = $porcentaje_descuento_imagen, desc_d_img = $descuento_directo_imagen, t_desc_img = $total_descuento_imagen, p_desc_lab = $porcentaje_descuento_laboratorio, desc_d_lab = $descuento_directo_laboratorio, t_desc_lab = $total_descuento_laboratorio, p_desc_serv = $porcentaje_descuento_servicios, desc_d_serv = $descuento_directo_servicios, t_desc_serv = $total_descuento_servicios, iva_ov = $iva_ov, total_p = $total_productos, sub_total_p = $precio_productos, adicionales_p_ov = $cargo_extra_productos, p_desc_pro = $porcentaje_descuento_productos, desc_d_pro = $descuento_directo_productos, t_desc_pro = $total_descuento_productos, motivo_desc_c_ov = $motivo_extras_consulta, motivo_desc_i_ov = $motivo_extras_imagen, motivo_desc_l_ov = $motivo_extras_lab, motivo_desc_s_ov = $motivo_extras_servicios, motivo_desc_f_ov = $motivo_extras_farmacia, folio_externo = $folio_externo, expediente_externo = $expediente_externo, doctor = $doctor, cedula = $cedula WHERE no_temp_ov = $no_temp_ov_abierta";
+	$update = mysql_query($sql, $horizonte) or die (mysql_error());
+ }
+  	
  if (!$update) {echo $sql;}
  else{ 
 	mysql_select_db($database_horizonte, $horizonte);
@@ -116,7 +130,15 @@ require("../../funciones/php/values.php");
 		$refi = "-".$c; 
 		$referencia = sqlValue($rowR4[0], "text").sqlValue($refi, "text");
 		$referencia = sqlValue(str_replace("'","",$referencia), "text");$referenciaOV = sqlValue($rowR4[0], "text");
-		$sql1 = "UPDATE venta_conceptos SET temporal_vc = 0, referencia_vc = $referenciaOV, contador_vc = $c where id_vc = $id";
+
+		//Si se trata de una orden de venta nueva
+ 		if($editando_orden_abierta == 0){
+			 $sql1 = "UPDATE venta_conceptos SET temporal_vc = 0, referencia_vc = $referenciaOV, contador_vc = $c where id_vc = $id";
+		}else if($editando_orden_abierta == 1){
+			//Si estamos editando la orden de venta
+			$sql1 = "UPDATE venta_conceptos SET temporal_vc = 0, referencia_vc = $referencia_ov_abierta, contador_vc = $c where id_vc = $id";
+		}
+
 		//Ahora actualizamos la fecha de usado del concepto del beneficio dle paciente
 		$sqlCB = "UPDATE conceptos_beneficios SET usado_cb = 1, fecha_usado_cb = $now where id_cb = $idCB limit 1";
  
@@ -187,7 +209,7 @@ require("../../funciones/php/values.php");
 		mysql_select_db($database_horizonte, $horizonte); $insertarF3 = mysql_query($sqlF3, $horizonte) or die (mysql_error()); $conti++;
 	}
 	 
-	if($conti == 0){
+	if($conti == 0 && $editando_orden_abierta == 0){
 		$sqlF4 = "INSERT INTO pagos_ov(pago_pag, usuario_pag, fecha_pag, referencia_pag, no_temp_pag, forma_pago_pag, departamento_pa) VALUES ('0', $idU, $now, $la_refe, $aleatorio, $forma_pago_ov,'1') ";
 		mysql_select_db($database_horizonte, $horizonte); $insertarF4 = mysql_query($sqlF4, $horizonte) or die (mysql_error());
 	}
