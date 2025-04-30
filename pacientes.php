@@ -3284,7 +3284,8 @@ include_once 'recursos/datauser.php';
 						e.preventDefault();
 						var datosP = $('#myModal4 #form-2').serialize();
 						var con_ov = {
-							noTemp: $('#aleatorio_ov').val()
+							noTemp: $('#aleatorio_ov').val(),
+							editando_ov: $('#editando_orden_abierta').val()
 						}
 						$.post('pacientes/files-serverside/conceptos_ov.php', con_ov).done(function(data) {
 							if (data != 1) {
@@ -6455,6 +6456,7 @@ include_once 'recursos/datauser.php';
 
 	function abrir_ov(no_temp_ov,id_p,nombre_edad,referencia){
 		$("#myModal2").modal("hide");
+
 		window.setTimeout(function() {
 			nuevaVisita(id_p, nombre_edad);
 		}, 500);
@@ -6472,6 +6474,11 @@ include_once 'recursos/datauser.php';
 			$('.depende_lab').removeClass('hidden');
 			$('.depende_ser').removeClass('hidden');
 
+
+
+		}, 1000);
+
+		window.setTimeout(function() {
 			//usamos las funciones de borrado de items para recalcular los totales
 			//consultas
 			borrarItemNVC1(0);
@@ -6484,7 +6491,67 @@ include_once 'recursos/datauser.php';
 			//farmacia
 			borrarItemNVP(0);
 			//fin
-		}, 900);
+		}, 1600);
+
+		window.setTimeout(function() {
+			var datos = {
+				aleatorio:no_temp_ov
+			}
+			$.post('pacientes/files-serverside/get_data_ov_abierta.php', datos, function(dataOVA) {
+				$("#sucursal_fi_p").val(dataOVA[0]);
+
+				if(dataOVA[1] !== null){
+					$('#medico_i').val(dataOVA[1]).trigger('chosen:updated').trigger('change');
+				}
+
+				if(dataOVA[2] !== null){
+					$('#medico_l').val(dataOVA[2]).trigger('chosen:updated').trigger('change');
+				}
+
+				if(dataOVA[3] !== null){
+					$('#medico_s').val(dataOVA[3]).trigger('chosen:updated').trigger('change');
+				}
+
+				if(dataOVA[4] !== null){
+					$('#folio_externo').val(dataOVA[4]);
+				}
+
+				if(dataOVA[5] !== null){
+					$('#expediente_externo').val(dataOVA[5]);
+				}
+
+				if(dataOVA[6] !== null){
+					$('#motivo_c1').val(dataOVA[6]);
+				}
+
+				if(dataOVA[7] !== null){
+					$('#motivo_i').val(dataOVA[7]);
+				}
+
+				if(dataOVA[8] !== null){
+					$('#motivo_l').val(dataOVA[8]);
+				}
+
+				if(dataOVA[9] !== null){
+					$('#motivo_s').val(dataOVA[9]);
+				}
+
+				/* window.setTimeout(function() {
+					$("#clickmeCo1").click();
+					$("#clickmeCoS1").click();
+					$("#clickmeIm").click();
+					$("#clickmeEiS").click();
+					$("#clickmeLa").click();
+					$("#clickmeElS").click();
+					$("#clickmeSe").click();
+					$("#clickmeSmS").click();
+					$("#clickmePr").click();
+					$("#clickmePS").click();
+				}, 500); */
+				
+			}, "json");
+		}, 2000);
+		
 	}
 
 </script>
