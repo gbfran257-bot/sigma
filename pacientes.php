@@ -3185,12 +3185,20 @@ include_once 'recursos/datauser.php';
 					$('#mi_id_convenio').val($(this).val())
 				});
 
+				//en caso de que se este editando una orden de venta, colocamos ceros en los pagos para evitar crear registros.
 				$('#btn_liquidar_ov').click(function(e) {
-					$('#pago_ov_c').val(parseFloat($('#total_c1').val()) + parseFloat($('#total_s').val()));
-					$('#pago_ov_i').val($('#total_i').val());
-					$('#pago_ov_l').val($('#total_l').val());
-					$('#pago_ov_f').val($('#total_p').val());
-					$('#form-2').validator('update');
+					if ($("#editando_orden_abierta").val() == 1 ){
+						$('#pago_ov_c').val(0);
+						$('#pago_ov_i').val(0);
+						$('#pago_ov_l').val(0);
+						$('#pago_ov_f').val(0);
+					}else{						
+						$('#pago_ov_c').val(parseFloat($('#total_c1').val()) + parseFloat($('#total_s').val()));
+						$('#pago_ov_i').val($('#total_i').val());
+						$('#pago_ov_l').val($('#total_l').val());
+						$('#pago_ov_f').val($('#total_p').val());
+						$('#form-2').validator('update');
+					}
 				});
 
 				$('#medico_c').load('pacientes/genera/medicos_consulta.php', function(response, status, xhr) {
@@ -5874,6 +5882,8 @@ include_once 'recursos/datauser.php';
 							"name": "zaldazos",
 							"value": zaldazos
 						});
+						var acceso = $('#acc_user').val();
+						aoData.push(  {"name": "accesoU", "value": acceso } );
 					},
 					"sDom": '<"filtroCt"><"infoCt"><"data_tCt"t>',
 					"aLengthMenu": [
@@ -6536,6 +6546,18 @@ include_once 'recursos/datauser.php';
 					$('#motivo_s').val(dataOVA[9]);
 				}
 
+				$('#pago_ov_c').prop('disabled', true);
+				$('#pago_ov_c').val(0);
+
+				$('#pago_ov_i').prop('disabled', true);
+				$('#pago_ov_i').val(0);
+
+				$('#pago_ov_l').prop('disabled', true);
+				$('#pago_ov_l').val(0);
+
+				$('#pago_ov_f').prop('disabled', true);
+				$('#pago_ov_f').val(0);
+				
 				/* window.setTimeout(function() {
 					$("#clickmeCo1").click();
 					$("#clickmeCoS1").click();

@@ -3,7 +3,7 @@ require("../../Connections/horizonte.php");
 require_once("../../funciones/php/values.php");
 
 	$obligatorio = 0; $id_pa = sqlValue($_GET['idPac'], "int");
-	$aColumns = array('v.id_vc', 'v.id_vc', 'pa.referencia_pag', 'u.usuario_u','v.id_vc', 'ov.gran_total_ov', 'v.id_vc', 'v.id_vc', 'ov.gran_total_ov-sum(pa.pago_pag)', 'ov.iva_ov', 'v.id_vc', 'v.id_vc', 'ov.id_ov', 'u.nombre_u', 'u.apaterno_u', 'u.amaterno_u', 'p.nombre_p', 'p.apaterno_p', 'p.amaterno_p', 'ov.no_temp_ov', 'pa.referencia_pag', 'p.id_p', 'p.fNac_p');
+	$aColumns = array('v.id_vc', 'v.id_vc', 'pa.referencia_pag', 'u.usuario_u','v.id_vc', 'ov.gran_total_ov', 'v.id_vc', 'v.id_vc', 'ov.gran_total_ov-sum(pa.pago_pag)', 'ov.iva_ov', 'v.id_vc', 'v.id_vc', 'ov.id_ov', 'u.nombre_u', 'u.apaterno_u', 'u.amaterno_u', 'p.nombre_p', 'p.apaterno_p', 'p.amaterno_p', 'ov.no_temp_ov', 'pa.referencia_pag', 'p.id_p', 'p.fNac_p', 'ov.fecha_venta_ov');
      
     // DB tables to use
     $aTables = array( 'orden_venta ov');
@@ -181,7 +181,13 @@ require_once("../../funciones/php/values.php");
 		
 		$nombreU = $row[13].' '.$row[14].' '.$row[15];
 		
-		$row[3] = "<span title='$nombreU'> <a type='button' class='btn btn-link btn-xs' onclick='abrir_ov(\"$row[19]\",$row[21],\"$edad_p\",\"$row[20]\")'>$row[3]</a> </span>";
+        //Habilitamos la ov abierta solo a los administradores y solo cuando la ov tenga un maximo de 3 meses desde que fue creada.
+        $fecha_cierre = date('Y-m-d', strtotime($row[23].'-3 month'));
+        $now = date('Y-m-d');
+
+        if($_GET['accesoU']==1 && $fecha_cierre <= $now){
+            $row[3] = "<span title='$nombreU'> <a type='button' class='btn btn-link btn-xs' onclick='abrir_ov(\"$row[19]\",$row[21],\"$edad_p\",\"$row[20]\")'>$row[3]</a> </span>";
+        }
 					
 		$row[4] = "<div style='text-align:center;'>$tRu</div>";
 		
