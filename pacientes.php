@@ -6576,6 +6576,92 @@ include_once 'recursos/datauser.php';
 		
 	}
 
+	function modificar_pagos(referencia){
+		$("#myModal2").modal("hide");
+
+		window.setTimeout(function() {
+			$("#myModal2").load("pacientes/htmls/modificar_pagos_ov_a.php", function(response, status, xhr) {
+				if (status == "success") {
+					
+					var hH = $('#referencia').height() - 250;
+					var oTableHV = $('#dataTableModPagos').DataTable({
+						"fnFooterCallback": function(nRow, aaData, iStart, iEnd, aiDisplay) {},
+						"bProcessing": false,
+						"bDestroy": true,
+						"bAutoWidth": false,
+						"sScrollY": hH,
+						"bScrollCollapse": false,
+						"bSort": false,
+						"bStateSave": false,
+						"bInfo": false,
+						"bFilter": false,
+						"aaSorting": [
+							[1, "asc"]
+						],
+						"paging": false,
+						ordering: false,
+						"bJQueryUI": false,
+						"aoColumns": [{
+								"bSortable": false
+							}, {
+								"bSortable": false
+							}, {
+								"bSortable": false
+							}, {
+								"bSortable": false
+							},
+							{
+								"bSortable": false
+							}, {
+								"bSortable": false
+							}, {
+								"bSortable": false
+							}, {
+								"bSortable": false
+							}
+						],
+						"iDisplayLength": 500,
+						"bLengthChange": false,
+						"bServerSide": true,
+						"sAjaxSource": "pacientes/datatable-serverside/historial_pagos_realizados.php",
+						"fnServerParams": function(aoData, fnCallback) {
+							aoData.push({
+								"name": "referencia",
+								"value": referencia
+							});
+						},
+						"sDom": '<"filtroCt"><"infoCt"><"data_tCt"t>',
+						"aLengthMenu": [
+							[10, 25, 50, 100, -1],
+							[10, 25, 50, 100, "Todos"]
+						],
+						"oLanguage": {
+							"sLengthMenu": "MONSTRANDO _MENU_ records per page",
+							"sZeroRecords": "EL PACIENTE NO CUENTA CON HISTORIAL DE VISITAS",
+							"sInfo": "MOSTRADOS: _END_",
+							"sInfoEmpty": "MOSTRADOS: 0",
+							"sInfoFiltered": "<br/>VISITAS: _MAX_",
+							"sSearch": "BUSCAR"
+						}
+					});
+			
+
+
+					$('#myModal2').modal('show');
+					$('#myModal2').on('shown.bs.modal', function(e) {});
+					$('#myModal2').on('hidden.bs.modal', function(e) {
+						$("#myModal2").empty();
+					});
+				}
+			}); //fin de load
+		}, 500);
+
+	}
+
+	function modificarAbono(id){
+		alert($("#abono_"+id).val());
+	}
+
 </script>
 
 <!-- Inicio de las funciones genéricas para el manejo de los resúmenes -->
