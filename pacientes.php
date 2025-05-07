@@ -6664,11 +6664,13 @@ include_once 'recursos/datauser.php';
 	}
 
 	function modificarAbono(id){
-		if($("#motivo_"+id).val() !== '' && $("#abono_"+id).val() > 0){
+		if($("#motivo_"+id).val() !== '' && $("#abono_"+id).val() !== ''){
 			//alert($("#abono_"+id).val());
 			var datosMP = {
 				id:id,
-				pago:$("#abono_"+id).val()
+				pago:$("#abono_"+id).val(),
+				id_u: $('#id_user').val(),
+				motivo:$("#motivo_"+id).val()
 			}
 
 			$.post('pacientes/files-serverside/modifica_pagos.php', datosMP).done(function(dataMP) {
