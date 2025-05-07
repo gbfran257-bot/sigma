@@ -4501,7 +4501,8 @@ include_once 'recursos/datauser.php';
 
 	function borrarItemNV(idConcepto) { //Imagen
 		var datosBINV = {
-			idConcepto: idConcepto
+			idConcepto: idConcepto,
+			id_u: $('#id_user').val()
 		}
 		$.post('pacientes/files-serverside/eliminarItem.php', datosBINV).done(function(data) {
 			if (data == 1) {
@@ -4581,7 +4582,8 @@ include_once 'recursos/datauser.php';
 
 	function borrarItemNVL(idConcepto) {
 		var datosBINV = {
-			idConcepto: idConcepto
+			idConcepto: idConcepto,
+			id_u: $('#id_user').val()
 		}
 		$.post('pacientes/files-serverside/eliminarItem.php', datosBINV).done(function(data) {
 			if (data == 1) {
@@ -4660,7 +4662,8 @@ include_once 'recursos/datauser.php';
 
 	function borrarItemNVS(idConcepto) {
 		var datosBINV = {
-			idConcepto: idConcepto
+			idConcepto: idConcepto,
+			id_u: $('#id_user').val()
 		}
 		$.post('pacientes/files-serverside/eliminarItem.php', datosBINV).done(function(data) {
 			if (data == 1) {
@@ -4717,7 +4720,8 @@ include_once 'recursos/datauser.php';
 
 	function borrarItemNVC1(idConcepto) {
 		var datosBINV = {
-			idConcepto: idConcepto
+			idConcepto: idConcepto,
+			id_u: $('#id_user').val()
 		}
 		$.post('pacientes/files-serverside/eliminarItem.php', datosBINV).done(function(data) {
 			if (data == 1) {
@@ -4776,7 +4780,8 @@ include_once 'recursos/datauser.php';
 
 	function borrarItemNVP(idConcepto) {
 		var datosBINV = {
-			idConcepto: idConcepto
+			idConcepto: idConcepto,
+			id_u: $('#id_user').val()
 		}
 		$.post('pacientes/files-serverside/eliminarItem.php', datosBINV).done(function(data) {
 			if (data == 1) {
@@ -6659,7 +6664,28 @@ include_once 'recursos/datauser.php';
 	}
 
 	function modificarAbono(id){
-		alert($("#abono_"+id).val());
+		if($("#motivo_"+id).val() !== '' && $("#abono_"+id).val() > 0){
+			//alert($("#abono_"+id).val());
+			var datosMP = {
+				id:id,
+				pago:$("#abono_"+id).val()
+			}
+
+			$.post('pacientes/files-serverside/modifica_pagos.php', datosMP).done(function(dataMP) {
+				if (dataMP == 1) { 
+					swal({
+					title: "¡CONFIRMACIÓN!",
+					type: "success",
+					text: "Datos guardados",
+					timer: 1000,
+					showConfirmButton: false
+				});
+				return;
+				} else {
+					alert(data);
+				}
+			});
+		}
 	}
 
 </script>

@@ -237,8 +237,8 @@ require_once("../../funciones/php/values.php");
             $row[6] = $rowTabo[0];
         }
 		
-		$row[7] = $row[5]-$row[6];
-		
+		//$row[7] = $row[5]-$row[6];
+		$row[7] = $row[5]-$rowTabo[0];
         
 		
 		if($row[7]>0){ $row[7] = "<span class='text-danger'>$row[7]</span>"; }else{}
