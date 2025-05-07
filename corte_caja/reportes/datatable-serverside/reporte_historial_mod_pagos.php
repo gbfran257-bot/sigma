@@ -2,7 +2,7 @@
 require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
      
-    $aColumns = array('hmp.id_hmp', 'hmp.referencia_hmp', 'hmp.tipo_mov_hmp', 'c.concepto_to', 'hmp.abono_anterior_hmp', 'hmp.abono_nuevo_hmp', 'u.usuario_u', 'd.nombre_d', 'hmp.total_concepto_hmp', 'DATE_FORMAT(hmp.fecha_hmp,"%d/%m/%Y %H:%i:%s")');
+    $aColumns = array('hmp.id_hmp', 'hmp.referencia_hmp', 'hmp.tipo_mov_hmp', 'c.concepto_to', 'hmp.abono_anterior_hmp', 'hmp.abono_nuevo_hmp', 'u.usuario_u', 'd.nombre_d', ', s.nombre_su', 'hmp.total_concepto_hmp', 'DATE_FORMAT(hmp.fecha_hmp,"%d/%m/%Y %H:%i:%s")');
     // DB tables to use 
     $aTables = array( 'historial_mod_pagos hmp');
      
@@ -10,7 +10,7 @@ require("../../../funciones/php/values.php");
     $sIndexColumn = "hmp.id_hmp";
      
 	 // Joins   
-	$sJoin = 'LEFT JOIN conceptos c ON c.id_to = hmp.concepto_hmp LEFT JOIN usuarios u ON u.id_u = hmp.usuario_hmp LEFT JOIN departamentos d ON d.id_d = hmp.departamento_hmp';
+	$sJoin = 'LEFT JOIN conceptos c ON c.id_to = hmp.concepto_hmp LEFT JOIN usuarios u ON u.id_u = hmp.usuario_hmp LEFT JOIN departamentos d ON d.id_d = hmp.departamento_hmp LEFT JOIN orden_venta ov ON ov.referencia_ov = hmp.referencia_hmp LEFT JOIN sucursales s ON s.id_su = ov.sucursal_ov';
 	
     if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
         $sWhere="WHERE (hmp.fecha_hmp BETWEEN '$_GET[min]' AND '$_GET[max]')";
@@ -129,9 +129,9 @@ require("../../../funciones/php/values.php");
             $row[2] = "ABONO MODIFICADO";
         }
 
-        $row[3] = "$row[3] <br> $row[8]";
+        $row[3] = "$row[3] <br> $row[9]";
 
-        $row[6] = "$row[6] <br> $row[9]";
+        $row[6] = "$row[6] <br> $row[10]";
 
 		$output['aaData'][] = $row;
     }
