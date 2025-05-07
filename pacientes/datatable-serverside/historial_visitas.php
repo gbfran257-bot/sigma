@@ -231,7 +231,7 @@ require_once("../../funciones/php/values.php");
 		//$row[2] = "<button type='button' class='btn btn-link btn-xs' onClick='ver_ov($id_pa, $nombreP, $no_refe, $no_temp);'>$row[2]</button>";
 		$row[2] = "<a type='button' class='btn btn-link btn-xs' onclick='forzarImpresion(\"$row[19]\")'>$row[2]</a>";
 		
-        if($_GET['accesoU']==1 && $fecha_cierre <= $now && ($row[5]-$rowTabo[0]) < 0){
+        if($_GET['accesoU']==1 && $fecha_cierre <= $now){
 		    $row[6] = "<span> <a type='button' class='btn btn-link btn-xs' onclick='modificar_pagos(\"$row[20]\")'>$rowTabo[0]</a> </span>";
         }else{
             $row[6] = $rowTabo[0];

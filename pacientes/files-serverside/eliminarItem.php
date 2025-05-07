@@ -17,15 +17,16 @@ if($idConcepto == 0){
 	if($qry_get_count[0] > 0){
 		//buscamos la informacion que se insertara en la tabla historial_mod_pagos
 		mysql_select_db($database_horizonte, $horizonte);
-		$qry_search = mysql_query("SELECT referencia_vc, id_concepto_es, precio_vc FROM venta_conceptos WHERE temporal_vc = 0 AND referencia_vc IS NOT NULL AND id_vc = $idConcepto", $horizonte) or die (mysql_error());
+		$qry_search = mysql_query("SELECT vc.referencia_vc, vc.id_concepto_es, vc.precio_vc, c.id_departamento_to FROM venta_conceptos vc LEFT JOIN conceptos c ON c.id_to = vc.id_concepto_es WHERE temporal_vc = 0 AND referencia_vc IS NOT NULL AND id_vc = $idConcepto", $horizonte) or die (mysql_error());
 		$get_qry_search = mysql_fetch_row($qry_search);
 
 		$referencia_vc = sqlValue($get_qry_search[0], "text");
 		$id_concepto_es = sqlValue($get_qry_search[1], "int");
 		$precio_vc = sqlValue($get_qry_search[2], "double");
+		$id_departamento_to = sqlValue($get_qry_search[3], "int");
 		//insertamos los datos
 		mysql_select_db($database_horizonte, $horizonte);
-		$query_add_hmp = "INSERT INTO historial_mod_pagos (referencia_hmp, tipo_mov_hmp, concepto_hmp, total_concepto_hmp, usuario_hmp, fecha_hmp) VALUES ($referencia_vc, 0, $id_concepto_es, $precio_vc, $id_u, $now)"; 
+		$query_add_hmp = "INSERT INTO historial_mod_pagos (referencia_hmp, tipo_mov_hmp, concepto_hmp, total_concepto_hmp, usuario_hmp, fecha_hmp, departamento_hmp) VALUES ($referencia_vc, 0, $id_concepto_es, $precio_vc, $id_u, $now, $id_departamento_to)"; 
 		$execute_query_hmp = mysql_query($query_add_hmp, $horizonte) or die (mysql_error());
 	}
 

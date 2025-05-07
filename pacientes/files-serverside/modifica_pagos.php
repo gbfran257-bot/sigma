@@ -10,14 +10,15 @@
 
     //buscamos la informacion que se insertara en la tabla historial_mod_pagos
     mysql_select_db($database_horizonte, $horizonte);
-    $qry_search = mysql_query("SELECT pago_pag, referencia_pag FROM pagos_ov WHERE id_pag = $id", $horizonte) or die (mysql_error());
+    $qry_search = mysql_query("SELECT pago_pag, referencia_pag, departamento_pa FROM pagos_ov WHERE id_pag = $id", $horizonte) or die (mysql_error());
     $get_qry_search = mysql_fetch_row($qry_search);
 
     $pago_pag = sqlValue($get_qry_search[0], "double");
     $referencia_pag = sqlValue($get_qry_search[1], "text");
+    $departamento_pa = sqlValue($get_qry_search[2], "int");
     //insertamos los datos
     mysql_select_db($database_horizonte, $horizonte);
-    $query_add_hmp = "INSERT INTO historial_mod_pagos (referencia_hmp, tipo_mov_hmp, abono_anterior_hmp, abono_nuevo_hmp, usuario_hmp, fecha_hmp, motivo_modificacion_hmp) VALUES ($referencia_pag, 1, $pago_pag, $pago, $id_u, $now, $motivo)"; 
+    $query_add_hmp = "INSERT INTO historial_mod_pagos (referencia_hmp, tipo_mov_hmp, abono_anterior_hmp, abono_nuevo_hmp, usuario_hmp, fecha_hmp, motivo_modificacion_hmp, departamento_hmp) VALUES ($referencia_pag, 1, $pago_pag, $pago, $id_u, $now, $motivo, $departamento_pa)"; 
     $execute_query_hmp = mysql_query($query_add_hmp, $horizonte) or die (mysql_error());
 
     //Actualizamos datos de la tabla pagos_ov
