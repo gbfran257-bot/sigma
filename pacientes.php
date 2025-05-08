@@ -6474,39 +6474,21 @@ include_once 'recursos/datauser.php';
 
 		window.setTimeout(function() {
 			nuevaVisita(id_p, nombre_edad);
-		}, 500);
+		}, 300);
 
 		window.setTimeout(function() {
+			//cargamos informacion a los inputs ocultos
 			$("#aleatorio_ov").val(no_temp_ov);
 			$("#aleatorio_ov_a").val(no_temp_ov);
 			$("#editando_orden_abierta").val(1);
 			$("#no_temp_ov_abierta").val(no_temp_ov);
 			$("#referencia_ov_abierta").val(referencia);
-
-			//mostramos inputs ocultos
+			//mostramos inputs ocultos que desglozan precios y descuentos
 			$('.depende_con1').removeClass('hidden');
 			$('.depende_img').removeClass('hidden');
 			$('.depende_lab').removeClass('hidden');
 			$('.depende_ser').removeClass('hidden');
-
-
-
-		}, 1000);
-
-		window.setTimeout(function() {
-			//usamos las funciones de borrado de items para recalcular los totales
-			//consultas
-			borrarItemNVC1(0);
-			//imagen
-			borrarItemNV(0);
-			//laboratorio
-			borrarItemNVL(0);
-			//servicios
-			borrarItemNVS(0);
-			//farmacia
-			borrarItemNVP(0);
-			//fin
-		}, 1600);
+		}, 700);
 
 		window.setTimeout(function() {
 			var datos = {
@@ -6577,7 +6559,37 @@ include_once 'recursos/datauser.php';
 				}, 500); */
 				
 			}, "json");
+		}, 1100);
+
+		//usamos las funciones de borrado de items para recalcular los totales
+		window.setTimeout(function() {
+			//consultas
+			borrarItemNVC1(0);
+		}, 1400);
+
+		window.setTimeout(function() {
+			//imagen
+			borrarItemNV(0);
+		}, 1600);
+
+		window.setTimeout(function() {
+			//laboratorio
+			borrarItemNVL(0);
+		}, 1800);
+
+		window.setTimeout(function() {
+			//servicios
+			borrarItemNVS(0);
 		}, 2000);
+
+		window.setTimeout(function() {
+			//farmacia
+			borrarItemNVP(0);
+		}, 2200);
+
+		window.setTimeout(function() {
+			$('#titulo_modal').text('NUEVA VISITA - ' + nombre_edad + ' - LISTO PARA EDITAR');
+		}, 2500);
 		
 	}
 
