@@ -182,10 +182,10 @@ require_once("../../funciones/php/values.php");
 		$nombreU = $row[13].' '.$row[14].' '.$row[15];
 		
         //Habilitamos la ov abierta solo a los administradores y solo cuando la ov tenga un maximo de 3 meses desde que fue creada.
-        $fecha_cierre = date('Y-m-d', strtotime($row[23].'-3 month'));
+        $fecha_cierre = date('Y-m-d', strtotime($row[23].'+3 month'));
         $now = date('Y-m-d');
 
-        if($_GET['accesoU']==1 && $fecha_cierre <= $now){
+        if($_GET['accesoU']==1 && $fecha_cierre >= $now){
             $row[3] = "<span title='$nombreU'> <a type='button' class='btn btn-link btn-xs' onclick='abrir_ov(\"$row[19]\",$row[21],\"$edad_p\",\"$row[20]\")'>$row[3]</a> </span>";
         }
 					
@@ -231,7 +231,7 @@ require_once("../../funciones/php/values.php");
 		//$row[2] = "<button type='button' class='btn btn-link btn-xs' onClick='ver_ov($id_pa, $nombreP, $no_refe, $no_temp);'>$row[2]</button>";
 		$row[2] = "<a type='button' class='btn btn-link btn-xs' onclick='forzarImpresion(\"$row[19]\")'>$row[2]</a>";
 		
-        if($_GET['accesoU']==1 && $fecha_cierre <= $now){
+        if($_GET['accesoU']==1 && $fecha_cierre >= $now){
 		    $row[6] = "<span> <a type='button' class='btn btn-link btn-xs' onclick='modificar_pagos(\"$row[20]\")'>$rowTabo[0]</a> </span>";
         }else{
             $row[6] = $rowTabo[0];
