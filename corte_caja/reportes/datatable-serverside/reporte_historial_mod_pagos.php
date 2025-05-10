@@ -2,7 +2,7 @@
 require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
      
-    $aColumns = array('hmp.id_hmp', 'hmp.referencia_hmp', 'hmp.tipo_mov_hmp', 'c.concepto_to', 'hmp.abono_anterior_hmp', 'hmp.abono_nuevo_hmp', 'u.usuario_u', 'd.nombre_d', ', s.nombre_su', 'hmp.total_concepto_hmp', 'DATE_FORMAT(hmp.fecha_hmp,"%d/%m/%Y %H:%i:%s")');
+    $aColumns = array('hmp.id_hmp', 'hmp.referencia_hmp', 'hmp.tipo_mov_hmp', 'c.concepto_to', 'motivo_modificacion_hmp', 'hmp.abono_anterior_hmp', 'hmp.abono_nuevo_hmp', 'u.usuario_u', 'd.nombre_d', ', s.nombre_su', 'hmp.total_concepto_hmp', 'DATE_FORMAT(hmp.fecha_hmp,"%d/%m/%Y %H:%i:%s")');
     // DB tables to use 
     $aTables = array( 'historial_mod_pagos hmp');
      
@@ -129,9 +129,9 @@ require("../../../funciones/php/values.php");
             $row[2] = "ABONO MODIFICADO";
         }
 
-        $row[3] = "$row[3] <br> $row[9]";
+        $row[3] = "$row[3] <br> $row[10]";
 
-        $row[6] = "$row[6] <br> $row[10]";
+        $row[7] = "$row[7] <br> $row[11]";
 
 		$output['aaData'][] = $row;
     }

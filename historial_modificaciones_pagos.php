@@ -83,6 +83,7 @@
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>REFERENCIA</th>
     <th style="vertical-align:middle; white-space:nowrap;" nowrap>MOVIMIENTO</th>
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>CONCEPTO</th>
+	<th style="vertical-align:middle; white-space:nowrap;" nowrap>MOTIVO</th>
     <th style="vertical-align:middle;">ABONO ANTERIOR</th>
     <th style="vertical-align:middle;">ABONO NUEVO</th>
     <th style="vertical-align:middle;">USUARIO</th>
@@ -96,6 +97,7 @@
 			<th><input type="text" class="form-control input-sm" placeholder="Referencia" style="max-width:90px;"/></th>
             <th></th>
             <th><input type="text" class="form-control input-sm" placeholder="Concepto" style="max-width:90px;"/></th>
+            <th></th>
             <th></th>
             <th></th>
             <th></th>
@@ -123,7 +125,8 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
 			{"bVisible":true},{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
-			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},{"bVisible":true}
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},{"bVisible":true},
+            {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
