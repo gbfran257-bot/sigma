@@ -4,6 +4,7 @@ require("../../funciones/php/values.php");
 
 $idConcepto = sqlValue($_POST["idConcepto"], "int");
 $id_u = sqlValue($_POST["id_u"], "int");
+$motivoE = sqlValue($_POST["motivoE"], "text");
 $now = sqlValue(date('Y-m-d H:i:s'), "date");
 
 if($idConcepto == 0){
@@ -26,7 +27,7 @@ if($idConcepto == 0){
 		$id_departamento_to = sqlValue($get_qry_search[3], "int");
 		//insertamos los datos
 		mysql_select_db($database_horizonte, $horizonte);
-		$query_add_hmp = "INSERT INTO historial_mod_pagos (referencia_hmp, tipo_mov_hmp, concepto_hmp, total_concepto_hmp, usuario_hmp, fecha_hmp, departamento_hmp) VALUES ($referencia_vc, 0, $id_concepto_es, $precio_vc, $id_u, $now, $id_departamento_to)"; 
+		$query_add_hmp = "INSERT INTO historial_mod_pagos (referencia_hmp, tipo_mov_hmp, concepto_hmp, total_concepto_hmp, usuario_hmp, fecha_hmp, departamento_hmp, motivo_modificacion_hmp) VALUES ($referencia_vc, 0, $id_concepto_es, $precio_vc, $id_u, $now, $id_departamento_to, $motivoE)"; 
 		$execute_query_hmp = mysql_query($query_add_hmp, $horizonte) or die (mysql_error());
 	}
 
