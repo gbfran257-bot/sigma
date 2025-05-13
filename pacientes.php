@@ -4500,7 +4500,7 @@ include_once 'recursos/datauser.php';
 	}
 
 	function borrarItemNV(idConcepto) { //Imagen
-		if($("#editando_orden_abierta").val() == 0 || $("#motivo_eliminacion_i").val().trim().length >= 5){
+		if($("#editando_orden_abierta").val() == 0 || $("#motivo_eliminacion_i").val().trim().length >= 5 || idConcepto == 0){
 			var datosBINV = {
 				idConcepto: idConcepto,
 				id_u: $('#id_user').val(),
@@ -4589,7 +4589,7 @@ include_once 'recursos/datauser.php';
 	}
 
 	function borrarItemNVL(idConcepto) {
-		if($("#editando_orden_abierta").val() == 0 || $("#motivo_eliminacion_l").val().trim().length >= 5){
+		if($("#editando_orden_abierta").val() == 0 || $("#motivo_eliminacion_l").val().trim().length >= 5 || idConcepto == 0){
 			var datosBINV = {
 				idConcepto: idConcepto,
 				id_u: $('#id_user').val(),
@@ -4677,7 +4677,7 @@ include_once 'recursos/datauser.php';
 	}
 
 	function borrarItemNVS(idConcepto) {
-		if($("#editando_orden_abierta").val() == 0 || $("#motivo_eliminacion_s").val().trim().length >= 5){
+		if($("#editando_orden_abierta").val() == 0 || $("#motivo_eliminacion_s").val().trim().length >= 5 || idConcepto == 0){
 			var datosBINV = {
 				idConcepto: idConcepto,
 				id_u: $('#id_user').val(),
@@ -4743,7 +4743,7 @@ include_once 'recursos/datauser.php';
 	}
 
 	function borrarItemNVC1(idConcepto) {
-		if($("#editando_orden_abierta").val() == 0 || $("#motivo_eliminacion_c").val().trim().length >= 5){
+		if($("#editando_orden_abierta").val() == 0 || $("#motivo_eliminacion_c").val().trim().length >= 5 || idConcepto == 0){
 			var datosBINV = {
 				idConcepto: idConcepto,
 				id_u: $('#id_user').val(),
@@ -4812,7 +4812,7 @@ include_once 'recursos/datauser.php';
 	}
 
 	function borrarItemNVP(idConcepto) {
-		if($("#editando_orden_abierta").val() == 0 || $("#motivo_eliminacion_f").val().trim().length >= 5){
+		if($("#editando_orden_abierta").val() == 0 || $("#motivo_eliminacion_f").val().trim().length >= 5 || idConcepto == 0){
 			var datosBINV = {
 				idConcepto: idConcepto,
 				id_u: $('#id_user').val(),
