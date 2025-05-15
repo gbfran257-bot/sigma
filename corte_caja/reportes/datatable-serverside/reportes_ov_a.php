@@ -284,7 +284,13 @@
         $row[6]="<select lang='$row[20]' class='form-control input-sm cambiar_suc' style='width:100%;' onChange='cambiar_forma_pago(this.value, this.lang)'>$sucs2</select>";
 		
         $row[4]="<select lang='$row[17]' class='form-control input-sm cambiar_suc' style='width:100%;' onChange='cambiar_suc(this.value, this.lang)'>$sucs</select>";
-		$row[1] ="<span lang='$row[1]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[1]</span><br><span style='font-size:12px'>$row[19]</span>";		
+		$row[1] ="<span lang='$row[1]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[1]</span><br><span style='font-size:12px'>$row[19]</span>";
+
+        //otenememos los cargos extra por separado debido a que los cargos aumentaban por error de la query y el uso de los joins.
+        mysql_select_db($database_horizonte, $horizonte);
+        $getCargosE = mysql_query("SELECT SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov + ov.adicionales_p_ov) from orden_venta ov WHERE ov.referencia_ov = $refi ", $horizonte) or die (mysql_error());
+        $cargosE = mysql_fetch_row($getCargosE);
+        $row[8] = $cargosE[0];		
 			
         $output['aaData'][] = $row;
     }
