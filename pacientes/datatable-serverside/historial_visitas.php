@@ -3,7 +3,7 @@ require("../../Connections/horizonte.php");
 require_once("../../funciones/php/values.php");
 
 	$obligatorio = 0; $id_pa = sqlValue($_GET['idPac'], "int");
-	$aColumns = array('v.id_vc', 'v.id_vc', 'pa.referencia_pag', 'u.usuario_u','v.id_vc', 'ov.gran_total_ov', 'v.id_vc', 'v.id_vc', 'ov.gran_total_ov-sum(pa.pago_pag)', 'ov.iva_ov', 'v.id_vc', 'v.id_vc', 'ov.id_ov', 'u.nombre_u', 'u.apaterno_u', 'u.amaterno_u', 'p.nombre_p', 'p.apaterno_p', 'p.amaterno_p', 'ov.no_temp_ov', 'pa.referencia_pag');
+	$aColumns = array('v.id_vc', 'v.id_vc', 'pa.referencia_pag', 'u.usuario_u','v.id_vc', 'ov.gran_total_ov', 'v.id_vc', 'v.id_vc', 'ov.gran_total_ov-sum(pa.pago_pag)', 'ov.iva_ov', 'v.id_vc', 'v.id_vc', 'ov.id_ov', 'u.nombre_u', 'u.apaterno_u', 'u.amaterno_u', 'p.nombre_p', 'p.apaterno_p', 'p.amaterno_p', 'ov.no_temp_ov', 'pa.referencia_pag', 'p.id_p', 'p.fNac_p', 'ov.fecha_venta_ov');
      
     // DB tables to use
     $aTables = array( 'orden_venta ov');
@@ -149,6 +149,29 @@ require_once("../../funciones/php/values.php");
 		mysql_select_db($database_horizonte, $horizonte); 
 		$resultRu1 = mysql_query("SELECT count(v.id_vc) from venta_conceptos v left join conceptos c on c.id_to = v.id_concepto_es where v.referencia_vc = '$row[2]' and c.id_tipo_concepto_to in (6,7) and v.precio_vc = 0.00 ", $horizonte) or die(mysql_error()); 
 		$rowRu1 = mysql_fetch_row($resultRu1);
+
+        //buscamos edad del paciente
+        $edad_p = "";
+        $fecha1 = new DateTime($row[22]); 
+        $fecha2 = new DateTime(date("Y-m-d H:i:s")); 
+        $fecha = $fecha1->diff($fecha2);
+        $anos=$fecha->y; 
+        $meses=$fecha->m; 
+        $dias=$fecha->d; 
+        $horas=$fecha->h; 
+        $minutos=$fecha->i; 
+        $segundos=$fecha->s;
+        if($anos>0){$edad_p=$anos." AÑOS";}
+        if($anos<1){
+            if($meses<=2 and $meses>=1){$edad_p=$meses." MES(ES) ".$dias." DÍA(S)";}
+            if($meses>=3){$edad_p=$meses." MES(ES) ";}
+            if($meses==0){$edad_p=$dias." DÍA(S)";}
+            if($meses==0 and $dias<=1){$edad_p=$dias." DÍA(S) ".$horas." HORA(S)";}
+            if($meses==0 and $dias<1){$edad_p=$horas." HORA(S) ".$minutos." MINUTO(S)";}
+        } 
+        if($anos>150 or $anos<0){$edad_p="DESCONOCIDA";}
+        $edad_p = "$row[16] $row[17] $row[18] $edad_p";
+        //
 		
 		$tRu = $rowRu[0] - $rowRu1[0]; //echo $rowRu[0].'---'.$rowRu1[0].'---'.$feff.';';
 		
@@ -158,7 +181,13 @@ require_once("../../funciones/php/values.php");
 		
 		$nombreU = $row[13].' '.$row[14].' '.$row[15];
 		
-		$row[3] = "<span title='$nombreU'>$row[3]</span>";
+        //Habilitamos la ov abierta solo a los administradores y solo cuando la ov tenga un maximo de 3 meses desde que fue creada.
+        $fecha_cierre = date('Y-m-d', strtotime($row[23].'+3 month'));
+        $now = date('Y-m-d');
+
+        if($_GET['accesoU']==1 && $fecha_cierre >= $now){
+            $row[3] = "<span title='$nombreU'> <a type='button' class='btn btn-link btn-xs' onclick='abrir_ov(\"$row[19]\",$row[21],\"$edad_p\",\"$row[20]\")'>$row[3]</a> </span>";
+        }
 					
 		$row[4] = "<div style='text-align:center;'>$tRu</div>";
 		
@@ -202,9 +231,15 @@ require_once("../../funciones/php/values.php");
 		//$row[2] = "<button type='button' class='btn btn-link btn-xs' onClick='ver_ov($id_pa, $nombreP, $no_refe, $no_temp);'>$row[2]</button>";
 		$row[2] = "<a type='button' class='btn btn-link btn-xs' onclick='forzarImpresion(\"$row[19]\")'>$row[2]</a>";
 		
-		$row[6] = $rowTabo[0];
+        if($_GET['accesoU']==1 && $fecha_cierre >= $now){
+		    $row[6] = "<span> <a type='button' class='btn btn-link btn-xs' onclick='modificar_pagos(\"$row[20]\")'>$rowTabo[0]</a> </span>";
+        }else{
+            $row[6] = $rowTabo[0];
+        }
 		
-		$row[7] = $row[5]-$row[6];
+		//$row[7] = $row[5]-$row[6];
+		$row[7] = $row[5]-$rowTabo[0];
+        
 		
 		if($row[7]>0){ $row[7] = "<span class='text-danger'>$row[7]</span>"; }else{}
 			

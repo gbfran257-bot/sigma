@@ -35,6 +35,9 @@
         <input name="id_consulta_to" type="hidden" value="" id="id_consulta_to" required>
 
         <input name="aleatorio_ov" type="hidden" value="" id="aleatorio_ov" required>
+        <input name="editando_orden_abierta" type="hidden" value="0" id="editando_orden_abierta" required>
+        <input name="no_temp_ov_abierta" type="hidden" value="0" id="no_temp_ov_abierta" required>
+        <input name="referencia_ov_abierta" type="hidden" value="0" id="referencia_ov_abierta" required>
         <input name="iva_ov_h" type="hidden" value="0" id="iva_ov_h">
         <input name="total_ov_h" type="hidden" value="0" id="total_ov_h">
         <input name="hay_iva_ov" type="hidden" value="0" id="hay_iva_ov">
@@ -278,6 +281,12 @@
                       </tr>
                     </table>
                   </div>
+                  <div class="col-sm-12 col-xs-12 motivo_eliminacion hidden" style="padding-top: 5px;">
+                    <div class="form-group">
+                      <label for="motivo_eliminacion_i" class="text-info">Motivo de la eliminación</label>
+                      <input type="text" class="form-control" id="motivo_eliminacion_i" name="motivo_eliminacion_i" placeholder="Al menos cinco caracteres">
+                    </div>
+                  </div>
                   <div class="col-sm-12 col-xs-12 depende_img hidden" style="padding-top: 5px;">
                     <div class="form-group">
                       <label for="motivo_i" class="text-info">Motivo de los estudios</label>
@@ -504,6 +513,12 @@
                       </tr>
                     </table>
                   </div>
+                  <div class="col-sm-12 col-xs-12 motivo_eliminacion hidden" style="padding-top: 5px;">
+                    <div class="form-group">
+                      <label for="motivo_eliminacion_l" class="text-info">Motivo de la eliminación</label>
+                      <input type="text" class="form-control" id="motivo_eliminacion_l" name="motivo_eliminacion_l" placeholder="Al menos cinco caracteres">
+                    </div>
+                  </div>
                   <div class="col-sm-12 col-xs-12 depende_lab hidden" style="padding-top: 5px;">
                     <div class="form-group">
                       <label for="motivo_l" class="text-info">Motivo de los estudios</label>
@@ -661,6 +676,12 @@
                         </td>
                       </tr>
                     </table>
+                  </div>
+                  <div class="col-sm-12 col-xs-12 motivo_eliminacion hidden" style="padding-top: 5px;">
+                    <div class="form-group">
+                      <label for="motivo_eliminacion_s" class="text-info">Motivo de la eliminación</label>
+                      <input type="text" class="form-control" id="motivo_eliminacion_s" name="motivo_eliminacion_s" placeholder="Al menos cinco caracteres">
+                    </div>
                   </div>
                   <div class="col-sm-12 col-xs-12 depende_ser hidden" style="padding-top: 5px;">
                     <div class="form-group">
@@ -846,6 +867,12 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col-sm-12 col-xs-12 motivo_eliminacion hidden" style="padding-top: 5px;">
+                    <div class="form-group">
+                      <label for="motivo_eliminacion_f" class="text-info">Motivo de la eliminación</label>
+                      <input type="text" class="form-control" id="motivo_eliminacion_f" name="motivo_eliminacion_f" placeholder="Al menos cinco caracteres">
+                    </div>
+                  </div>
                   <div class="col-sm-4 col-xs-4 depende_pro hidden">
                     <div class="form-group" align="center">
                       <label for="da_descuento_p">$ Descuento</label>
@@ -991,6 +1018,12 @@
                         </td>
                       </tr>
                     </table>
+                  </div>
+                  <div class="col-sm-12 col-xs-12 motivo_eliminacion hidden" style="padding-top: 5px;">
+                    <div class="form-group">
+                      <label for="motivo_eliminacion_c" class="text-info">Motivo de la eliminación</label>
+                      <input type="text" class="form-control" id="motivo_eliminacion_c" name="motivo_eliminacion_c" placeholder="Al menos cinco caracteres">
+                    </div>
                   </div>
                   <div class="col-sm-12 col-xs-12 depende_con1 hidden" style="padding-top: 5px;">
                     <div class="form-group">

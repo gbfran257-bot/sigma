@@ -257,6 +257,13 @@
         }else{
             $row[16]="<span lang='$row[22]' class='btn btn-danger' onClick='autorizar(this.lang,\"$ref\")'><i class='fa fa-clock-o' aria-hidden='true'></i></span>";
         }
+
+        //otenememos los cargos extra por separado debido a que los cargos aumentaban por error de la query y el uso de los joins.
+        mysql_select_db($database_horizonte, $horizonte);
+        $getCargosE = mysql_query("SELECT SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov + ov.adicionales_p_ov) from orden_venta_del ov WHERE ov.referencia_ov = $refi ", $horizonte) or die (mysql_error());
+        $cargosE = mysql_fetch_row($getCargosE);
+        $row[8] = $cargosE[0];	
+
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );

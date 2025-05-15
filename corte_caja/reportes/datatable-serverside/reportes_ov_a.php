@@ -11,6 +11,7 @@
     // Indexed column (used for fast and accurate table cardinality) 
     $sIndexColumn = "ov.referencia_ov";
      
+    $group2 = "";
 	 // Joins   hasta aqui
 	$sJoin = 'left join pacientes p ON ov.id_paciente_ov = p.id_p left join pagos_ov pa on ov.referencia_ov = pa.referencia_pag left join usuarios u on u.id_u = ov.usuario_ov left join sucursales s on s.id_su = ov.sucursal_ov left join catalogo_forma_pago fp on fp.id_fp = pa.forma_pago_pag';
 	// left join conceptos to on to. =  left join departamentos d on d.id_d = pa.id_departamento_pag
@@ -18,8 +19,9 @@
 	if(isset($_GET['depto']) && $_GET['depto'] != 'x' && $_GET['depto'] != ''){//para las solicitudes con departamento
 		if(isset($_GET['saldos']) && $_GET['saldos'] == 'SI'){//para las solicitudes con saldos
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-				$sWhere = "WHERE ov.gran_total_ov > pa.pago_pag and ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]' and pa.id_departamento_pag = '$_GET[depto]'";
-			}else{$sWhere = "WHERE ov.gran_total_ov > pa.pago_pag" ;}
+				$sWhere = "WHERE ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]' and pa.id_departamento_pag = '$_GET[depto]'";
+                $group2 = "HAVING SUM(pa.pago_pag) < ov.gran_total_ov";
+			}else{$sWhere = "WHERE 1=1"; $group2 = "HAVING SUM(pa.pago_pag) < ov.gran_total_ov"; }
 		}else{//si no se solicitan los registros con saldo (que deben dinero)
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
 				$sWhere = "WHERE ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]' and pa.id_departamento_pag = '$_GET[depto]'";
@@ -28,8 +30,9 @@
 	}else{
 		if(isset($_GET['saldos']) && $_GET['saldos'] == 'SI'){//para las solicitudes con saldos
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-				$sWhere = "WHERE ov.gran_total_ov > pa.pago_pag and ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'";
-			}else{$sWhere = "WHERE ov.gran_total_ov > pa.pago_pag" ;}
+				$sWhere = "WHERE ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'";
+                $group2 = "HAVING SUM(pa.pago_pag) < ov.gran_total_ov";
+			}else{$sWhere = "WHERE 1=1"; $group2 = "HAVING SUM(pa.pago_pag) < ov.gran_total_ov";}
 		}else{//si no se solicitan los registros con saldo (que deben dinero)
 			if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
 				$sWhere = "WHERE ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'";
@@ -70,7 +73,7 @@
     $sOrder = "";
     /* if ( isset( $_GET['iSortCol_0'] ) )
     { */
-        $sOrder = "GROUP BY pa.referencia_pag ORDER BY ";
+        $sOrder = "GROUP BY pa.referencia_pag $group2 ORDER BY ";
         for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ )
         {
             if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" )
@@ -82,7 +85,7 @@
          
         $sOrder = substr_replace( $sOrder, "", -2 );
         if ( $sOrder == "ORDER BY" ) { $sOrder = ""; }
-		$sOrder = "GROUP BY pa.referencia_pag ORDER BY pa.fecha_pag desc";
+		$sOrder = "GROUP BY pa.referencia_pag $group2 ORDER BY pa.fecha_pag desc";
     // }
      
     /* 
@@ -284,7 +287,13 @@
         $row[6]="<select lang='$row[20]' class='form-control input-sm cambiar_suc' style='width:100%;' onChange='cambiar_forma_pago(this.value, this.lang)'>$sucs2</select>";
 		
         $row[4]="<select lang='$row[17]' class='form-control input-sm cambiar_suc' style='width:100%;' onChange='cambiar_suc(this.value, this.lang)'>$sucs</select>";
-		$row[1] ="<span lang='$row[1]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[1]</span><br><span style='font-size:12px'>$row[19]</span>";		
+		$row[1] ="<span lang='$row[1]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[1]</span><br><span style='font-size:12px'>$row[19]</span>";
+
+        //otenememos los cargos extra por separado debido a que los cargos aumentaban por error de la query y el uso de los joins.
+        mysql_select_db($database_horizonte, $horizonte);
+        $getCargosE = mysql_query("SELECT SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov + ov.adicionales_p_ov) from orden_venta ov WHERE ov.referencia_ov = $refi ", $horizonte) or die (mysql_error());
+        $cargosE = mysql_fetch_row($getCargosE);
+        $row[8] = $cargosE[0];		
 			
         $output['aaData'][] = $row;
     }
