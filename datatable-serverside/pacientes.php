@@ -239,11 +239,14 @@ require_once("../funciones/php/values.php");
 		
 		$visitaP = '"'.$row[2].' - '.$row[3].' '.$se.'"';
 		
+        //creamos el elemento del checkbox
+        $chbox = "<input type='checkbox' class='chkbox' value='$id_pa'>";
+
         //si el paciente no esta vigente no se muestra su informacion
         if($row[18]==0){
-            $row[2] = "<span style='cursor:not-allowed; text-decoration:underline;' >$row[2]</span>";
+            $row[2] = "$chbox <span style='cursor:not-allowed; text-decoration:underline;' >$row[2]</span>";
         }else{
-            $row[2] = "<span id='$row[11]' onClick='verPaciente(this.id);' style='cursor:pointer; text-decoration:underline;' >$row[2]</span>";
+            $row[2] = "$chbox <span id='$row[11]' onClick='verPaciente(this.id);' style='cursor:pointer; text-decoration:underline;' >$row[2]</span>";
         }
 		
 		$row[4] = "<div style='text-align:center;'>$row[4]</div>";

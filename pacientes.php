@@ -170,6 +170,7 @@ include_once 'recursos/datauser.php';
 				<th style="vertical-align:middle;">
 					<button class="btn btn-info btn-sm" type="button" onClick="nuevo_paciente();">PACIENTE <i class="fa fa-user-plus" aria-hidden="true"></i></button>
 					<button class="btn btn-info btn-sm" id="btn-buscar" name="btn-buscar" type="button">BUSQUEDA <i class="fa fa-search" aria-hidden="true"></i></button>
+					<button class="btn btn-info btn-sm" id="btn-send-email" name="btn-send-email" type="button" onClick="send_email_masivo();">Env. Correos. <i class="fa fa-send" aria-hidden="true"></i></button>
 					<!-- <input type="checkbox" id="busqueda-automatica" name="busqueda-automatica" onchange="verificarCheckbox()"><label for="busqueda-automatica">BUSQUEDA AUTOMÁTICA</label> -->
 				</th>
 				<th style="vertical-align:middle;">EDAD</th>
@@ -6742,6 +6743,45 @@ include_once 'recursos/datauser.php';
 				}
 			});
 		}
+	}
+
+	function send_email_masivo(){
+		var seleccionados = [];
+
+		$('.chkbox:checked').each(function() {
+			seleccionados.push($(this).val());
+		});
+
+		var datosSendE = {
+			lista_pacientes:seleccionados
+		}
+
+		swal({
+			title: "Enviando correos...",
+			text: "Por favor espera",
+			icon: "info",
+			buttons: false,
+			closeOnClickOutside: false,
+			closeOnEsc: false
+		});
+
+		$.post('pacientes/files-serverside/send_email_masivo.php', datosSendE).done(function(dataSendE) {
+			
+			if (dataSendE == 1) { 
+				swal({
+				title: "¡CONFIRMACIÓN!",
+				type: "success",
+				text: "Correos enviados",
+				timer: 1000,
+				showConfirmButton: false
+			});
+			return;
+			} else {
+				alert(dataSendE);
+			}
+		});
+
+		//alert("Seleccionados: " + seleccionados.join(", "));
 	}
 
 </script>
