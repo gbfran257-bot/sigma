@@ -32,25 +32,36 @@
 
     mysql_close($horizonte); */
 
-//obtenemos un numero que simule milisegundos
-$conteo = 0;
-$milisegundos = "";
 
 if (isset($_POST['lista_pacientes'])) {
     $checkboxes = $_POST['lista_pacientes'];
     if (is_array($checkboxes)) {
+        //variables que simulan milisegundos
+        $conteo = 0;
+        $milisegundos = "";
         foreach ($checkboxes as $id) {
             //obtenemos la referencia
-            $contador = 0; $noRef=0;
-
-            $now = sqlValue(date('Y-m-d H:i:s'), "date"); $fecha1="'".date('Y-m-d')." 00:00:00"."'";
-            $fecha2="'".date('Y-m-d')." 23:59:59"."'"; $da=date('Ymd');
+            $contador = 0; 
+            $noRef=0;
+            $now = sqlValue(date('Y-m-d H:i:s'), "date"); 
+            $fecha1="'".date('Y-m-d')." 00:00:00"."'";
+            $fecha2="'".date('Y-m-d')." 23:59:59"."'"; 
+            $da=date('Ymd');
         
             mysql_select_db($database_horizonte, $horizonte);
             $resultR = mysql_query("SELECT count(id_ov) from orden_venta where fecha_venta_ov between ".$fecha1." and ".$fecha2." ", $horizonte) or die(mysql_error());
             $rowR = mysql_fetch_row($resultR);
            
-            if($rowR[0]==0){ $noRef=$da."-"."1"; $noRef="'".$noRef."'"; $contador = 1;} else{ $daa=$rowR[0]+1; $noRef=$da."-".$daa; $noRef="'".$noRef."'"; $contador = $daa;}
+            if($rowR[0]==0){
+                $noRef=$da."-"."1";
+                $noRef="'".$noRef."'";
+                $contador = 1;
+            }else{
+                $daa=$rowR[0]+1;
+                $noRef=$da."-".$daa;
+                $noRef="'".$noRef."'";
+                $contador = $daa;
+            }
 
             //obtenemos el aleatorio
             if($conteo <=9){
