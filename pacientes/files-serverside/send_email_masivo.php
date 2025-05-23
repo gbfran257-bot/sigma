@@ -90,7 +90,7 @@
                 $ultimo_id = mysql_fetch_row($qry_ultimo_id);
 
                 //enviamos correo(se necesita instalar postfix en el servidor)
-                mail("david.pereira.p@outlook.com","CODIGO DE CUESTIONARIOS","Su codigo para acceder al cuestionario es: " . $ultimo_id[0]);
+                mail($datos_paciente[0],"CODIGO DE CUESTIONARIOS","Su codigo para acceder al cuestionario es: " . $ultimo_id[0]);
 
                 //sleep(1);
                 $conteo++;
