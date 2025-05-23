@@ -34,6 +34,8 @@ include_once 'recursos/datauser.php';
 	<script src="DataTables-1.12/DataTables-1.12.1/js/dataTables.bootstrap.min.js"></script>
 	<script src="DataTables-1.12/Select-1.4.0/js/dataTables.select.min.js"></script>
 
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 	<script src="DataTables-1.12/Buttons-2.2.3/js/dataTables.buttons.min.js"></script>
 	<script src="DataTables-1.12/JSZip-2.5.0/jszip.min.js"></script>
 	<script src="DataTables-1.12/Buttons-2.2.3/js/buttons.html5.min.js"></script>
@@ -86,6 +88,9 @@ include_once 'recursos/datauser.php';
 	<link rel="stylesheet" href="chosen/chosen.css">
 	<link rel="stylesheet" href="chosen/chosen-bootstrap.css">
 	<link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
+
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 	<style>
 		/* Inicio estilos generales del texto */
 		.font-size-14 {
@@ -150,6 +155,9 @@ include_once 'recursos/datauser.php';
 		.nuevoscampos{
 			text-align: center;
 		}
+		.select2-dropdown{
+			z-index: 9999;
+		}
 	</style>
 </head>
 <?php include_once 'partes/header.php';
@@ -171,6 +179,7 @@ include_once 'recursos/datauser.php';
 					<button class="btn btn-info btn-sm" type="button" onClick="nuevo_paciente();">PACIENTE <i class="fa fa-user-plus" aria-hidden="true"></i></button>
 					<button class="btn btn-info btn-sm" id="btn-buscar" name="btn-buscar" type="button">BUSQUEDA <i class="fa fa-search" aria-hidden="true"></i></button>
 					<button class="btn btn-info btn-sm" id="btn-send-email" name="btn-send-email" type="button" onClick="send_email_masivo();">Env. Correos. <i class="fa fa-send" aria-hidden="true"></i></button>
+					<select id="select-sucursal" class="form-control form-control-sm">
 					<!-- <input type="checkbox" id="busqueda-automatica" name="busqueda-automatica" onchange="verificarCheckbox()"><label for="busqueda-automatica">BUSQUEDA AUTOMÁTICA</label> -->
 				</th>
 				<th style="vertical-align:middle;">EDAD</th>
@@ -1315,6 +1324,8 @@ include_once 'recursos/datauser.php';
 			nuevo_paciente();
 		}
 		// FINAL DE LOS CAMBIOS PARA EL FUNCIONAMIENTO DE LOS PROVEEDORES //
+
+		select2ini("#select-sucursal", "sucursales-stock.php?id_u="+$('#id_user').val(), "Selecciona una sucursal para ver su stock", 0, "400px");
 	});
 	//se intento dejar checkbox para la busqueda automatica, pero generaba error, se deja en stand by
 	function verificarCheckbox() {
@@ -6746,42 +6757,85 @@ include_once 'recursos/datauser.php';
 	}
 
 	function send_email_masivo(){
-		var seleccionados = [];
+		if($("#select-sucursal").val() !== null){
+			var seleccionados = [];
 
-		$('.chkbox:checked').each(function() {
-			seleccionados.push($(this).val());
-		});
+			$('.chkbox:checked').each(function() {
+				seleccionados.push($(this).val());
+			});
 
-		var datosSendE = {
-			lista_pacientes:seleccionados
-		}
+			var datosSendE = {
+				lista_pacientes:seleccionados,
+				id_sucursal:$("#select-sucursal").val(),
+				id_usuario:$('#id_user').val()
+			}
 
-		swal({
-			title: "Enviando correos...",
-			text: "Por favor espera",
-			icon: "info",
-			buttons: false,
-			closeOnClickOutside: false,
-			closeOnEsc: false
-		});
-
-		$.post('pacientes/files-serverside/send_email_masivo.php', datosSendE).done(function(dataSendE) {
-			
-			if (dataSendE == 1) { 
+			if(seleccionados.length > 0){
 				swal({
-				title: "¡CONFIRMACIÓN!",
-				type: "success",
-				text: "Correos enviados",
+					title: "Enviando correos...",
+					text: "Por favor espera",
+					icon: "info",
+					buttons: false,
+					closeOnClickOutside: false,
+					closeOnEsc: false
+				});
+			}
+
+			$.post('pacientes/files-serverside/send_email_masivo.php', datosSendE).done(function(dataSendE) {
+				
+				if (dataSendE == 1) { 
+					swal({
+						title: "¡CONFIRMACIÓN!",
+						type: "success",
+						text: "Correos enviados",
+						timer: 1000,
+						showConfirmButton: false
+					});
+					return;
+				} else {
+					//alert(dataSendE);
+					swal({
+						title: dataSendE,
+						type: "error",
+						text: "",
+						timer: 1000,
+						showConfirmButton: false
+					});
+				}
+			});
+		}else{
+			swal({
+				title: "Debes elegir una sucursal",
+				type: "error",
+				text: "",
 				timer: 1000,
 				showConfirmButton: false
 			});
-			return;
-			} else {
-				alert(dataSendE);
-			}
-		});
+		}
+		
 
 		//alert("Seleccionados: " + seleccionados.join(", "));
+	}
+
+	function select2ini(donde, url, ph, id_su, width = "off"){
+		$(donde).select2({
+			language: "es",
+			width: width,
+			allowClear: true,
+			ajax: {
+				url: 'select/'+url,
+				type: "post",
+				data: function (params) {
+					var query = {
+						search: params.term,
+						page: params.page || 1,
+						idSu: id_su
+					};
+					return query;
+				}
+			},
+			placeholder: ph
+		});
 	}
 
 </script>
