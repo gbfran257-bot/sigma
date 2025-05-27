@@ -178,8 +178,6 @@ include_once 'recursos/datauser.php';
 				<th style="vertical-align:middle;">
 					<button class="btn btn-info btn-sm" type="button" onClick="nuevo_paciente();">PACIENTE <i class="fa fa-user-plus" aria-hidden="true"></i></button>
 					<button class="btn btn-info btn-sm" id="btn-buscar" name="btn-buscar" type="button">BUSQUEDA <i class="fa fa-search" aria-hidden="true"></i></button>
-					<button class="btn btn-info btn-sm" id="btn-send-email" name="btn-send-email" type="button" onClick="send_email_masivo();">Env. Correos. <i class="fa fa-send" aria-hidden="true"></i></button>
-					<select id="select-sucursal" class="form-control form-control-sm">
 					<!-- <input type="checkbox" id="busqueda-automatica" name="busqueda-automatica" onchange="verificarCheckbox()"><label for="busqueda-automatica">BUSQUEDA AUTOMÁTICA</label> -->
 				</th>
 				<th style="vertical-align:middle;">EDAD</th>
@@ -1325,7 +1323,6 @@ include_once 'recursos/datauser.php';
 		}
 		// FINAL DE LOS CAMBIOS PARA EL FUNCIONAMIENTO DE LOS PROVEEDORES //
 
-		select2ini("#select-sucursal", "sucursales-stock.php?id_u="+$('#id_user').val(), "Selecciona una sucursal para ver su stock", 0, "400px");
 	});
 	//se intento dejar checkbox para la busqueda automatica, pero generaba error, se deja en stand by
 	function verificarCheckbox() {
@@ -6754,88 +6751,6 @@ include_once 'recursos/datauser.php';
 				}
 			});
 		}
-	}
-
-	function send_email_masivo(){
-		if($("#select-sucursal").val() !== null){
-			var seleccionados = [];
-
-			$('.chkbox:checked').each(function() {
-				seleccionados.push($(this).val());
-			});
-
-			var datosSendE = {
-				lista_pacientes:seleccionados,
-				id_sucursal:$("#select-sucursal").val(),
-				id_usuario:$('#id_user').val()
-			}
-
-			if(seleccionados.length > 0){
-				swal({
-					title: "Enviando correos...",
-					text: "Por favor espera",
-					icon: "info",
-					buttons: false,
-					closeOnClickOutside: false,
-					closeOnEsc: false
-				});
-			}
-
-			$.post('pacientes/files-serverside/send_email_masivo.php', datosSendE).done(function(dataSendE) {
-				
-				if (dataSendE == 1) { 
-					swal({
-						title: "¡CONFIRMACIÓN!",
-						type: "success",
-						text: "Correos enviados",
-						timer: 1000,
-						showConfirmButton: false
-					});
-					return;
-				} else {
-					//alert(dataSendE);
-					swal({
-						title: dataSendE,
-						type: "error",
-						text: "",
-						timer: 1000,
-						showConfirmButton: false
-					});
-				}
-			});
-		}else{
-			swal({
-				title: "Debes elegir una sucursal",
-				type: "error",
-				text: "",
-				timer: 1000,
-				showConfirmButton: false
-			});
-		}
-		
-
-		//alert("Seleccionados: " + seleccionados.join(", "));
-	}
-
-	function select2ini(donde, url, ph, id_su, width = "off"){
-		$(donde).select2({
-			language: "es",
-			width: width,
-			allowClear: true,
-			ajax: {
-				url: 'select/'+url,
-				type: "post",
-				data: function (params) {
-					var query = {
-						search: params.term,
-						page: params.page || 1,
-						idSu: id_su
-					};
-					return query;
-				}
-			},
-			placeholder: ph
-		});
 	}
 
 </script>
