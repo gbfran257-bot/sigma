@@ -27,10 +27,10 @@ require("../../funciones/php/values.php");
     if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' ) { $sLimit = "LIMIT ".mysql_real_escape_string( $_GET['iDisplayStart'] ).", ". mysql_real_escape_string( $_GET['iDisplayLength'] ); }
      
     /* * Ordering */
-    $sOrder = "ORDER BY p.fechaR_p DESC";
+    $sOrder = "ORDER BY p.id_p DESC";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
-        $sOrder = "ORDER BY p.fechaR_p DESC";
+        $sOrder = "ORDER BY p.id_p DESC";
         for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ ) { if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" ) { $sOrder .= $aColumns[ intval( $_GET['iSortCol_'.$i] ) ]." ".mysql_real_escape_string( $_GET['sSortDir_'.$i] ) .", "; } }
          
         $sOrder = substr_replace( $sOrder, "", -2 );

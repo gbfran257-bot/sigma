@@ -158,7 +158,7 @@ $(document).ready(function(e) {
 });
 
 function send_email_masivo(){
-		/* if($("#select-sucursal").val() !== null){
+		if($("#select-sucursal").val() !== null){
 			var seleccionados = [];
 
 			$('.chkbox:checked').each(function() {
@@ -183,19 +183,19 @@ function send_email_masivo(){
 			}
 
 			$.post('pacientes/files-serverside/send_email_masivo.php', datosSendE).done(function(dataSendE) {
-				
-				if (dataSendE == 1) { 
+				var datosEmail = dataSendE.split(';-{');
+				if (datosEmail[0] == 1) { 
 					swal({
-						title: "¡CONFIRMACIÓN!",
+						title: "Correos enviados!",
 						type: "success",
-						text: "Correos enviados",
-						timer: 1000,
+						text: datosEmail[1],
+						timer: 3000,
 						showConfirmButton: false
 					});
 					return;
 				} else {
 					swal({
-						title: dataSendE,
+						title: datosEmail[0],
 						type: "error",
 						text: "",
 						timer: 1000,
@@ -211,14 +211,9 @@ function send_email_masivo(){
 				timer: 1000,
 				showConfirmButton: false
 			});
-		} */
+		}
 		
-        var seleccionados = [];
-
-			$('.chkbox:checked').each(function() {
-				seleccionados.push($(this).val());
-			});
-		alert("Seleccionados: " + seleccionados.join(", "));
+		//alert("Seleccionados: " + seleccionados.join(", "));
 	}
 
 	function select2ini(donde, url, ph, id_su, width = "off"){

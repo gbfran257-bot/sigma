@@ -13,6 +13,8 @@
             $conteo = 0;
             $contador_vc = 0;
             $milisegundos = "";
+            $correos_no_enviados = "Correos no enviados a: ";
+            $no_enviados = 0;
             foreach ($checkboxes as $id) {
                 //obtenemos la referencia
                 $contador = 0; 
@@ -82,21 +84,50 @@
 
                 //obtenemos correo
                 mysql_select_db($database_horizonte, $horizonte);
-                $qry_datos_paciente = mysql_query("SELECT email_p FROM pacientes WHERE id_p = $id", $horizonte) or die(mysql_error());
+                $qry_datos_paciente = mysql_query("SELECT COUNT(*), email_p FROM pacientes WHERE id_p = $id AND email_p IS NOT NULL", $horizonte) or die(mysql_error());
                 $datos_paciente = mysql_fetch_row($qry_datos_paciente);
                 //obtenemos ultimo id_ov agregado
                 mysql_select_db($database_horizonte, $horizonte);
                 $qry_ultimo_id = mysql_query("SELECT id_ov FROM orden_venta ORDER BY id_ov DESC LIMIT 1", $horizonte) or die(mysql_error());
                 $ultimo_id = mysql_fetch_row($qry_ultimo_id);
 
-                //enviamos correo(se necesita instalar postfix en el servidor)
-                mail($datos_paciente[0],"CODIGO DE CUESTIONARIOS","Su codigo para acceder al cuestionario es: " . $ultimo_id[0]);
+                if($datos_paciente[0] > 0){
+                    //enviamos correo(se necesita instalar postfix en el servidor)
+                    $enviado = mail($datos_paciente[1],"CODIGO DE CUESTIONARIOS","Su codigo para acceder al cuestionario es: " . $ultimo_id[0]);
+
+                    //en caso de correo invalido se agrega a un string
+                    if(!$enviado){
+                        $correos_no_enviados = $correos_no_enviados . $datos_paciente[1] . ", ";
+                        $no_enviados++;
+                    }else{
+                        //revisamos si existe registro de correo enviado
+                        mysql_select_db($database_horizonte, $horizonte);
+                        $qry_registro_enviado = mysql_query("SELECT COUNT(*) FROM historial_emails WHERE id_p_he = $id", $horizonte) or die(mysql_error());
+                        $registro_enviado = mysql_fetch_row($qry_registro_enviado);
+
+                        //creamos o modificamos segun sea el caso
+                        if ($registro_enviado[0] == 0){
+                            mysql_select_db($database_horizonte, $horizonte);
+                            $qry_ins_reg = "INSERT INTO historial_emails (id_p_he, fecha_he, usuario_he) VALUES ($id, $now, $id_usuario)";  
+                            $ins_reg = mysql_query($qry_ins_reg, $horizonte) or die (mysql_error());
+                        }else if($registro_enviado[0] > 0){
+                            mysql_select_db($database_horizonte, $horizonte);
+                            $qry_upd_reg = "UPDATE historial_emails SET fecha_he = $now WHERE id_p_he = $id LIMIT 1";  
+                            $upd_reg = mysql_query($qry_upd_reg, $horizonte) or die (mysql_error());
+                        }
+                    }
+                }
 
                 //sleep(1);
                 $conteo++;
                 usleep(500000); // Espera 0.5 segundos (500 milisegundos)
             }
-            echo 1;
+
+            if($no_enviados == 0){
+                $correos_no_enviados = "";
+            }
+
+            echo 1 . ';-{'.$correos_no_enviados;
         }
     } else {
         echo "No se seleccionaron registros.";
