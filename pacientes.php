@@ -34,6 +34,8 @@ include_once 'recursos/datauser.php';
 	<script src="DataTables-1.12/DataTables-1.12.1/js/dataTables.bootstrap.min.js"></script>
 	<script src="DataTables-1.12/Select-1.4.0/js/dataTables.select.min.js"></script>
 
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 	<script src="DataTables-1.12/Buttons-2.2.3/js/dataTables.buttons.min.js"></script>
 	<script src="DataTables-1.12/JSZip-2.5.0/jszip.min.js"></script>
 	<script src="DataTables-1.12/Buttons-2.2.3/js/buttons.html5.min.js"></script>
@@ -86,6 +88,9 @@ include_once 'recursos/datauser.php';
 	<link rel="stylesheet" href="chosen/chosen.css">
 	<link rel="stylesheet" href="chosen/chosen-bootstrap.css">
 	<link href="jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
+
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 	<style>
 		/* Inicio estilos generales del texto */
 		.font-size-14 {
@@ -149,6 +154,9 @@ include_once 'recursos/datauser.php';
 		}
 		.nuevoscampos{
 			text-align: center;
+		}
+		.select2-dropdown{
+			z-index: 9999;
 		}
 	</style>
 </head>
@@ -1314,6 +1322,7 @@ include_once 'recursos/datauser.php';
 			nuevo_paciente();
 		}
 		// FINAL DE LOS CAMBIOS PARA EL FUNCIONAMIENTO DE LOS PROVEEDORES //
+
 	});
 	//se intento dejar checkbox para la busqueda automatica, pero generaba error, se deja en stand by
 	function verificarCheckbox() {
