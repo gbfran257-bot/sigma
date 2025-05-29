@@ -3,6 +3,11 @@
 	include_once 'Connections/database.php';
 	include_once 'recursos/utilities.php';
 	include_once 'recursos/datauser.php';
+
+	mysql_select_db($database_horizonte, $horizonte); 
+	$resultRu = mysql_query("SELECT COUNT(*) FROM modificaciones_sigma WHERE nombre = 'nom35' AND habilitado = 1 ", $horizonte) or die(mysql_error()); 
+	$rowRu = mysql_fetch_row($resultRu);
+	$visualizarT2 = $rowRu[0];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -81,10 +86,13 @@
   <tr role="row" class="bg-primary">
 	  <th id="clickme" style="vertical-align:middle;">ID</th>
 	<th style="vertical-align:middle;" nowrap>
-        <button class="btn btn-info btn-sm" id="btn-send-email" name="btn-send-email" type="button" onClick="send_email_masivo();">
-            Env. Correos. <i class="fa fa-send" aria-hidden="true"></i>
-        </button>
-        <select id="select-sucursal" class="form-control form-control-sm">
+		<?php if($visualizarT2 > 0):  ?>
+			<button class="btn btn-info btn-sm" id="btn-send-email" name="btn-send-email" type="button" onClick="send_email_masivo();">
+				Env. Correos. <i class="fa fa-send" aria-hidden="true"></i>
+			</button>
+		<?php endif;?>
+        <select id="select-sucursal" class="form-control form-control-sm"></select>
+		<button class="btn btn-info btn-sm" id="btn-seleccionar" name="btn-seleccionar" type="button" onClick="seleccionar_todos();">MARCAR TODOS</button>
     </th>
     <th style="vertical-align:middle;" nowrap>EDAD</th>
 	<th style="vertical-align:middle;" nowrap>SEXO</th>
@@ -235,6 +243,14 @@ function send_email_masivo(){
 			},
 			placeholder: ph
 		});
+	}
+
+	function seleccionar_todos(){
+		if($(".chkbox").prop('checked') == false){
+			$('.chkbox').prop('checked', true);
+		}else{
+			$('.chkbox').prop('checked', false);
+		}
 	}
 
 </script>

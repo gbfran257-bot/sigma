@@ -92,8 +92,10 @@
                 $ultimo_id = mysql_fetch_row($qry_ultimo_id);
 
                 if($datos_paciente[0] > 0){
+                    //mensaje a enviar
+                    $mensaje = "Ingresa al siguiente enlace https://gloss-323916.web.app/ y escribe el codigo de acceso $ultimo_id[0] para comenzar tu cuestionario";
                     //enviamos correo(se necesita instalar postfix en el servidor)
-                    $enviado = mail($datos_paciente[1],"CODIGO DE CUESTIONARIOS","Su codigo para acceder al cuestionario es: " . $ultimo_id[0]);
+                    $enviado = mail($datos_paciente[1],"CODIGO DE CUESTIONARIOS",$mensaje);
 
                     //en caso de correo invalido se agrega a un string
                     if(!$enviado){
