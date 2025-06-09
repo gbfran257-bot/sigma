@@ -119,13 +119,13 @@
                         }
                     } */
 
-                    $api_key = 'KEY_API_DE_RESEND';
+                    $api_key = '';
 
                     $data = [
                         'from' => 'SIGMA NOM35 <sigmanom35@desarrollodpp.com>',
                         'to' => [$datos_paciente[1]],
                         'subject' => 'Código de acceso',
-                        'html' => '<p>Tu código es: <strong>123456</strong></p>'
+                        'html' => "<p>Ingresa al siguiente enlace https://gloss-323916.web.app/ y escribe el codigo de acceso <strong> $ultimo_id[0] </strong> para comenzar tu cuestionario</p>"
                     ];
 
                     $ch = curl_init('https://api.resend.com/emails');

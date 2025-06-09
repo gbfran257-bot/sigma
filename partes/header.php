@@ -63,7 +63,6 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                         </a>
                         <ul class="nav nav-second-level collapse">
                             <?php if ($permisos[0]) { ?><li class=""><a href="pacientes.php" id="m_r_pacientes"><i class="fa fa-users"></i> PACIENTES</a></li> <?php } ?>
-                            <?php if ($permisos[0]) { ?><li class=""><a href="pacientes_nom.php" id="nom_pacientes"><i class="fa fa-users"></i> NOM35</a></li> <?php } ?>
                             <?php if (substr($permisos, 1, 4) != "0000") { ?>
                                 <li>
                                     <a href="#"><i class="fa fa-dollar"></i> CORTE DE CAJA <span class="fa arrow"></span></a>
@@ -77,6 +76,18 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                             <?php } ?>
                             <?php if ($permisos[5]) { ?> <li><a href="agenda.php"><i class="fa fa-calendar"></i> AGENDA</a></li> <?php } ?>
                             <?php if ($permisos[6]) { ?> <li style="white-space:nowrap;"><a href="membresias.php"><i class="fa fa-address-card"></i> MEMBRESÍAS</a></li> <?php } ?>
+                        </ul>
+                    </li>
+                <?php } ?>
+                <?php if (substr($permisos, 0, 7) != "0000000") { ?>
+                    <li class=""> <!--class="active" -->
+                        <a href="" id="m_nom35">
+                            <i class="fa fa-address-book"></i> <span class="nav-label">NOM35</span><span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level collapse">
+                            <?php if ($permisos[0]) { ?><li class=""><a href="cuestionarios.php" id="m_r_pacientes"><i class="fa fa-users"></i> CUESTIONARIOS</a></li> <?php } ?>
+                            <?php if ($permisos[0]) { ?><li class=""><a href="pacientes_nom.php" id="nom_pacientes"><i class="fa fa-users"></i> EMAILS</a></li> <?php } ?>
+                            <?php if ($permisos[5]) { ?> <li><a href="importar_pacientes.php"><i class="fa fa-calendar"></i> IMPORTAR DESDE ARCHIVO</a></li> <?php } ?>
                         </ul>
                     </li>
                 <?php } ?>
