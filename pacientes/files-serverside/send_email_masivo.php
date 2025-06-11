@@ -90,43 +90,30 @@
                 mysql_select_db($database_horizonte, $horizonte);
                 $qry_ultimo_id = mysql_query("SELECT id_ov FROM orden_venta ORDER BY id_ov DESC LIMIT 1", $horizonte) or die(mysql_error());
                 $ultimo_id = mysql_fetch_row($qry_ultimo_id);
+                //obtenemos el texto que se enviara en los emails
+                mysql_select_db($database_horizonte, $horizonte);
+                $qry_texto_e = mysql_query("SELECT mensaje_mn FROM mensaje_nom35 WHERE id_mn = 1", $horizonte) or die (mysql_error());
+                $texto_email = mysql_fetch_row($qry_texto_e);
+                //reemplazamos <code> en la cadena de texto a enviar
+                $texto_email2 = str_replace("<code>","<strong>".$ultimo_id[0]."</strong>",$texto_email[0]);
 
                 if($datos_paciente[0] > 0){
                     
-                    /* $mensaje = "Ingresa al siguiente enlace https://gloss-323916.web.app/ y escribe el codigo de acceso $ultimo_id[0] para comenzar tu cuestionario";
-                    
-                    $enviado = mail($datos_paciente[1],"CODIGO DE CUESTIONARIOS",$mensaje);
-
-                    
-                    if(!$enviado){
-                        $correos_no_enviados = $correos_no_enviados . $datos_paciente[1] . ", ";
-                        $no_enviados++;
-                    }else{
-                        
-                        mysql_select_db($database_horizonte, $horizonte);
-                        $qry_registro_enviado = mysql_query("SELECT COUNT(*) FROM historial_emails WHERE id_p_he = $id", $horizonte) or die(mysql_error());
-                        $registro_enviado = mysql_fetch_row($qry_registro_enviado);
-
-                        
-                        if ($registro_enviado[0] == 0){
-                            mysql_select_db($database_horizonte, $horizonte);
-                            $qry_ins_reg = "INSERT INTO historial_emails (id_p_he, fecha_he, usuario_he) VALUES ($id, $now, $id_usuario)";  
-                            $ins_reg = mysql_query($qry_ins_reg, $horizonte) or die (mysql_error());
-                        }else if($registro_enviado[0] > 0){
-                            mysql_select_db($database_horizonte, $horizonte);
-                            $qry_upd_reg = "UPDATE historial_emails SET fecha_he = $now WHERE id_p_he = $id LIMIT 1";  
-                            $upd_reg = mysql_query($qry_upd_reg, $horizonte) or die (mysql_error());
-                        }
-                    } */
-
                     $api_key = '';
 
                     $data = [
                         'from' => 'SIGMA NOM35 <sigmanom35@desarrollodpp.com>',
                         'to' => [$datos_paciente[1]],
                         'subject' => 'Código de acceso',
-                        'html' => "<p>Ingresa al siguiente enlace https://gloss-323916.web.app/ y escribe el codigo de acceso <strong> $ultimo_id[0] </strong> para comenzar tu cuestionario</p>"
+                        'html' => "<p>$texto_email2</p>"
                     ];
+
+                    /* $data = [
+                        'from' => 'SIGMA NOM35 <sigmanom35@desarrollodpp.com>',
+                        'to' => [$datos_paciente[1]],
+                        'subject' => 'Código de acceso',
+                        'html' => "<p>Ingresa al siguiente enlace https://gloss-323916.web.app/ y escribe el codigo de acceso <strong> $ultimo_id[0] </strong> para comenzar tu cuestionario</p>"
+                    ]; */
 
                     $ch = curl_init('https://api.resend.com/emails');
 
@@ -164,7 +151,6 @@
 
                 }
 
-                //sleep(1);
                 $conteo++;
                 usleep(500000); // Espera 0.5 segundos (500 milisegundos)
             }
