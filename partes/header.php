@@ -87,7 +87,8 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                         <ul class="nav nav-second-level collapse">
                             <?php if ($permisos[0]) { ?><li class=""><a href="cuestionarios.php" id="m_r_pacientes"><i class="fa fa-users"></i> CUESTIONARIOS</a></li> <?php } ?>
                             <?php if ($permisos[0]) { ?><li class=""><a href="pacientes_nom.php" id="nom_pacientes"><i class="fa fa-users"></i> EMAILS</a></li> <?php } ?>
-                            <?php if ($permisos[5]) { ?> <li><a href="importar_pacientes.php"><i class="fa fa-calendar"></i> IMPORTAR DESDE ARCHIVO</a></li> <?php } ?>
+                            <?php if ($permisos[0]) { ?> <li><a href="importar_pacientes.php"><i class="fa fa-users"></i> IMPORTAR DESDE ARCHIVO</a></li> <?php } ?>
+                            <?php if ($permisos[0]) { ?> <li><a href="mensaje_nom35.php"><i class="fa fa-users"></i> TEXTO EMAIL</a></li> <?php } ?>
                         </ul>
                     </li>
                 <?php } ?>
