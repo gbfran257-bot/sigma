@@ -3,7 +3,7 @@
 require("../../../Connections/horizonte2.php");
 require("../../../funciones/php/values.php");
 
-$aColumns = array('s.id', 'tt.id_transferencia', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', 's.id', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 's.fecha_expiracion', 'pr.nombre_pr', 's.id', 's.id', 's.id_Producto');
+$aColumns = array('s.id', 'tt.id_transferencia', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', 's.id', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 's.fecha_expiracion', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_destino)', 's.id', 's.id', 's.id_Producto');
 
 $aTables = array('stock_has_bach s');
 
@@ -36,21 +36,21 @@ if(isset($_GET['s_colores']) && $_GET['s_colores'] == 0){
 switch($rowAU[0]){
     case 0://Solo vé lo suyo
         if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-          $sWhere="WHERE (s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]') AND s.es_traspaso = 1 $condicion_fecha";
+          $sWhere="WHERE (tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]') AND s.es_traspaso = 1 $condicion_fecha";
         }else{
           $sWhere = "where s.usuario_registro = '$_GET[idU]' AND s.es_traspaso = 1 $condicion_fecha";
         }
     break;
     case 2://Ve todo lo de su sucursal y lo suyo
         if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-          $sWhere="WHERE (s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]')) AND s.es_traspaso = 1 $condicion_fecha";
+          $sWhere="WHERE (tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]')) AND s.es_traspaso = 1 $condicion_fecha";
         }else{
           $sWhere = "WHERE (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') AND s.es_traspaso = 1 $condicion_fecha";
         }
     break;
     case 1://Ve todo de todas las sucursales
         if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-          $sWhere="WHERE (s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]') AND s.es_traspaso = 1 $condicion_fecha";
+          $sWhere="WHERE (tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]') AND s.es_traspaso = 1 $condicion_fecha";
         }else{
           $sWhere = "WHERE 1 = 1 AND s.es_traspaso = 1 $condicion_fecha";
         }
@@ -74,9 +74,9 @@ if (isset($_GET['iDisplayStart']) && $_GET['iDisplayLength'] != '-1') {
 }
 
 /* * Ordering */
-$sOrder = "order by s.id desc";
+$sOrder = "GROUP BY tt.id_temporal order by s.id desc";
 if (isset($_GET['iSortCol_0'])) {
-    $sOrder = "ORDER BY v.id_vc desc  ";
+    $sOrder = "GROUP BY tt.id_temporal ORDER BY v.id_vc desc  ";
     for ($i = 0; $i < intval($_GET['iSortingCols']); $i++) {
         if ($_GET['bSortable_' . intval($_GET['iSortCol_' . $i])] == "true") {
             $sOrder .= $aColumns[intval($_GET['iSortCol_' . $i])] . " " . mysqli_real_escape_string($gaSql['link'], $_GET['sSortDir_' . $i]) . ", ";
