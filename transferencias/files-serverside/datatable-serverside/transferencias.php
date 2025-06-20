@@ -3,7 +3,7 @@
 require("../../../Connections/horizonte2.php");
 require("../../../funciones/php/values.php");
 
-$aColumns = array('s.id', 'tt.id_transferencia', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', 's.id', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 's.fecha_expiracion', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_destino)', 's.id', 's.id', 's.id_Producto');
+$aColumns = array('s.id', 'tt.id_transferencia', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', 's.id', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 's.fecha_expiracion', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_destino)', 'pr.nombre_pr', 's.id', 's.id_Producto');
 
 $aTables = array('stock_has_bach s');
 
@@ -246,7 +246,7 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     } else {
         $row[12] = "<span>{$usuario_receptor}<br>{$receptor->fecha_recepcion}</span>";
     }
-    $row[11] = $row[10];
+
     $row[1] = "<a role=\"button\" onclick=\"verReporteEntregaTransferencia('{$folio}', '{$usuario_receptor}', $_GET[idU], '{$row[7]}');\">{$folio}</a>";
 
     $output['aaData'][] = $row;
