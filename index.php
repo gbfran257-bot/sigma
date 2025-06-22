@@ -3,6 +3,11 @@
 	include_once 'Connections/database.php';
 	include_once 'recursos/utilities.php';
 	include_once 'recursos/datauser.php';
+
+    mysql_select_db($database_horizonte, $horizonte); 
+	$qry_mod = mysql_query("SELECT COUNT(*) FROM modificaciones_sigma WHERE nombre = 'nom35' AND habilitado = 1 ", $horizonte) or die(mysql_error()); 
+	$result_qry_mod = mysql_fetch_row($qry_mod);
+	$mod_sigma = $result_qry_mod[0];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -81,7 +86,7 @@
                     </a>
                 </div>
             <?php }?>
-            <?php if(substr($permisos,13,2) != "00"){?>
+            <?php if(substr($permisos,13,2) != "00" && $mod_sigma == 0){?>
                 <div class="col-md-2">
                     <img src="imagenes/ig/Hospital-01.png" class="img-responsive fadeInLeft wow menu" data-id="#inicio-menuHospital" data-wow-delay="0.25s"
                     id="principal_hospital"
@@ -91,7 +96,7 @@
             <?php }?>
         </div>
         <div class="row animated alin">
-            <?php if(substr($permisos,15,6) != "000000"){?>
+            <?php if(substr($permisos,15,6) != "000000" && $mod_sigma == 0){?>
                 <div class="col-md-2">
                     <img src="imagenes/ig/Imagen-01.png" class="img-responsive fadeIn wow menu" data-id="#inicio-menuImagen" data-wow-delay="0.35s"
                     id="principal_imagen"
@@ -107,7 +112,7 @@
                     onmouseleave="returner(this.id);">
                 </div>
             <?php } ?>
-            <?php if(substr($permisos,28,3) != "000"){?>
+            <?php if(substr($permisos,28,3) != "000" && $mod_sigma == 0){?>
                 <div class="col-md-2">
                     <img src="imagenes/menu/_servicios.png" class="img-responsive fadeInLeft wow menu" data-id="#inicio-menuServicios" data-wow-delay="0.1s"
                     id="principal_serv"
@@ -115,7 +120,7 @@
                     onmouseleave="returner(this.id);">
                 </div>
             <?php } ?>
-            <?php if(substr($permisos,32,5) != "00000"){?>
+            <?php if(substr($permisos,32,5) != "00000" && $mod_sigma == 0){?>
                 <div class="col-md-2" style="width:15%">
                     <img src="imagenes/ig/Farmacia-01.png" class="img-responsive fadeInUp wow menu" data-id="#inicio-menuFarmacia" data-wow-delay="0.2s"
                     id="principal_farm"

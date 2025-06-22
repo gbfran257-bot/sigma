@@ -15,6 +15,12 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
     $resultS = mysql_query("SELECT sexo_u,permisos_u from usuarios where id_u = '$_SESSION[id]' limit 1", $horizonte) or die(mysql_error());
     $rowS = mysql_fetch_row($resultS);
     $permisos = $rowS[1];
+
+    mysql_select_db($database_horizonte, $horizonte); 
+	$qry_mod = mysql_query("SELECT COUNT(*) FROM modificaciones_sigma WHERE nombre = 'nom35' AND habilitado = 1 ", $horizonte) or die(mysql_error()); 
+	$result_qry_mod = mysql_fetch_row($qry_mod);
+	$mod_sigma = $result_qry_mod[0];
+
     ?>
 
     <style>
@@ -63,7 +69,6 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                         </a>
                         <ul class="nav nav-second-level collapse">
                             <?php if ($permisos[0]) { ?><li class=""><a href="pacientes.php" id="m_r_pacientes"><i class="fa fa-users"></i> PACIENTES</a></li> <?php } ?>
-                            <?php if ($permisos[0]) { ?><li class=""><a href="pacientes_nom.php" id="nom_pacientes"><i class="fa fa-users"></i> NOM35</a></li> <?php } ?>
                             <?php if (substr($permisos, 1, 4) != "0000") { ?>
                                 <li>
                                     <a href="#"><i class="fa fa-dollar"></i> CORTE DE CAJA <span class="fa arrow"></span></a>
@@ -77,6 +82,19 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                             <?php } ?>
                             <?php if ($permisos[5]) { ?> <li><a href="agenda.php"><i class="fa fa-calendar"></i> AGENDA</a></li> <?php } ?>
                             <?php if ($permisos[6]) { ?> <li style="white-space:nowrap;"><a href="membresias.php"><i class="fa fa-address-card"></i> MEMBRESÍAS</a></li> <?php } ?>
+                        </ul>
+                    </li>
+                <?php } ?>
+                <?php if (substr($permisos, 0, 7) != "0000000") { ?>
+                    <li class=""> <!--class="active" -->
+                        <a href="" id="m_nom35">
+                            <i class="fa fa-address-book"></i> <span class="nav-label">NOM35</span><span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level collapse">
+                            <?php if ($permisos[0]) { ?><li class=""><a href="cuestionarios.php" id="m_r_pacientes"><i class="fa fa-users"></i> CUESTIONARIOS</a></li> <?php } ?>
+                            <?php if ($permisos[0]) { ?><li class=""><a href="pacientes_nom.php" id="nom_pacientes"><i class="fa fa-users"></i> EMAILS</a></li> <?php } ?>
+                            <?php if ($permisos[0]) { ?> <li><a href="importar_pacientes.php"><i class="fa fa-users"></i> IMPORTAR DESDE ARCHIVO</a></li> <?php } ?>
+                            <?php if ($permisos[0]) { ?> <li><a href="mensaje_nom35.php"><i class="fa fa-users"></i> TEXTO EMAIL</a></li> <?php } ?>
                         </ul>
                     </li>
                 <?php } ?>
@@ -105,7 +123,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                     </ul> -->
                     </li>
                 <?php } ?>
-                <?php if (substr($permisos, 13, 2) != "00") { ?>
+                <?php if (substr($permisos, 13, 2) != "00" && $mod_sigma == 0) { ?>
                     <li>
                         <a href="#"><i class="fa fa-hospital-o"></i> <span class="nav-label">HOSPITAL</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
@@ -115,7 +133,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                         </ul>
                     </li>
                 <?php } ?>
-                <?php if (substr($permisos, 15, 6) != "000000") { ?>
+                <?php if (substr($permisos, 15, 6) != "000000"  && $mod_sigma == 0) { ?>
                     <li>
                         <a href="#"><i class="fa fa-file-image-o"></i> <span class="nav-label">IMAGEN</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
@@ -149,7 +167,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                         </ul>
                     </li>
                 <?php } ?>
-                <?php if (substr($permisos, 28, 3) != "000") { ?>
+                <?php if (substr($permisos, 28, 3) != "000"  && $mod_sigma == 0) { ?>
                     <li>
                         <a href="#"><i class="fa fa-plus-square"></i><span class="nav-label"> SERVICIOS</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
@@ -161,7 +179,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                         </ul>
                     </li>
                 <?php } ?>
-                <?php if (substr($permisos, 32, 5) != "00000") { ?>
+                <?php if (substr($permisos, 32, 5) != "00000"  && $mod_sigma == 0) { ?>
                     <li>
                         <a href="#">
                             <i class="fa fa-medkit"></i> <span class="nav-label">FARMACIA/INSUMOS</span><span class="fa arrow"></span>

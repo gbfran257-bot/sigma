@@ -15,7 +15,7 @@ $tipo_user = $_SESSION['MM_UserGroup'];
 $sucu_user = $_SESSION['MM_Usersucu'];
     /* Array of database columns which should be read and sent back to DataTables. Use a space where * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('v.id_vc', 'p.nombre_completo_p', 'v.referencia_vc', 'e.concepto_to', 'es.estatus_est', 'a.nombre_a','s.clave_su', 'p.amaterno_p', 'p.id_p', 'v.id_vc', 'v.contador_vc', 'e.id_area_to', 'a.nombre_a','s.nombre_su','s.id_su', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%m/%Y %H:%i")', 'au.usuario_u', 'DATE_FORMAT(v.fechaEdo4_e,"%d/%m/%Y %H:%i")', 'v.nota_radiologo_vc', 'o.id_ov' );
+	$aColumns = array('v.id_vc', 'p.nombre_completo_p', 'v.referencia_vc', 'e.concepto_to', 'es.estatus_est', 'a.nombre_a','s.clave_su', 'p.amaterno_p', 'p.id_p', 'v.id_vc', 'v.contador_vc', 'e.id_area_to', 'a.nombre_a','s.nombre_su','s.id_su', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%m/%Y %H:%i")', 'au.usuario_u', 'DATE_FORMAT(v.fechaEdo4_e,"%d/%m/%Y %H:%i")', 'v.nota_radiologo_vc', 'o.id_ov', 'CONCAT_WS(" ", au2.nombre_u, au2.apaterno_u, au2.amaterno_u)' );
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -24,7 +24,7 @@ $sucu_user = $_SESSION['MM_Usersucu'];
     $sIndexColumn = "v.id_vc";
      
 	 // Joins   
-	$sJoin = 'left JOIN pacientes p ON p.id_p = v.id_paciente_vc left join conceptos e on e.id_to = v.id_concepto_es left join estatus es on es.id_est = v.estatus_vc left join areas a on a.id_a = e.id_area_to left join orden_venta o on o.referencia_ov = v.referencia_vc left join sucursales s on s.id_su = o.sucursal_ov left join usuarios au on au.id_u = v.usuarioEdo4_e';
+	$sJoin = 'left JOIN pacientes p ON p.id_p = v.id_paciente_vc left join conceptos e on e.id_to = v.id_concepto_es left join estatus es on es.id_est = v.estatus_vc left join areas a on a.id_a = e.id_area_to left join orden_venta o on o.referencia_ov = v.referencia_vc left join sucursales s on s.id_su = o.sucursal_ov left join usuarios au on au.id_u = v.usuarioEdo4_e left join usuarios au2 on au2.id_u = v.id_personal_medico_vc';
 	//Vemos si el usuario es multisucursal
 	mysql_select_db($database_horizonte, $horizonte); 
 	$resultSu = mysql_query("SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[idU]'",$horizonte) or die (mysql_error());
@@ -122,7 +122,12 @@ $sucu_user = $_SESSION['MM_Usersucu'];
         {
             if ( $sWhere == "" ) { $sWhere = "WHERE "; }
             else { $sWhere .= " AND "; }
-            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+            if($i==8){
+                $sWhere .= "concat_ws(' ', au2.nombre_u, au2.apaterno_u, au2.amaterno_u)" . " LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+            }else{
+                $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+            }
+            //$sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
         }
     }
      
@@ -233,6 +238,8 @@ $sucu_user = $_SESSION['MM_Usersucu'];
         if(substr($row[3], 0, 12) == 'CUESTIONARIO'){
             $row[3] = $row[3] . "<br>" . "CODIGO: " . $row[19];
         }
+
+        $row[8] = $row[20];
 		
 		$output['aaData'][] = $row;
     }

@@ -16,7 +16,7 @@ include_once '../../recursos/datauser.php';
 
 	$id_user = $_SESSION['id']; $acceso_user = $_SESSION['MM_UserGroup'];
 	
-	$aColumns = array('v.id_vc', 'p.nombre_completo_p', 'v.referencia_vc', 'e.concepto_to', 'es.estatus_est', 'v.id_vc', 'v.id_vc', 'p.amaterno_p','a.nombre_a', 'su.clave_su', 'v.id_vc', 'x.procedencia_pr', 'v.referencia_vc', 'v.contador_vc', 'e.id_area_to', 'a.nombre_a', 'DATE_FORMAT(v.fecha_venta_vc,"%Y%m%d")', 'DATE_FORMAT(v.fecha_venta_vc,"%Y%n%d")', 'v.id_radiologo_externo', 'DATE_FORMAT(v.fecha_venta_vc,"%Y-%m-%d")', 'v.id_pacs', 'v.id_vc', 'p.id_p', 'su.nombre_su', 'v.id_concepto_es', 'usuario_transfiere_vc', 'DATE_FORMAT(v.fecha_transfiere_vc,"%Y-%m-%d %H:%i:%s")', 'su.id_su', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%m/%Y %H:%i")', 'au.usuario_u', 'DATE_FORMAT(v.fechaEdo4_e,"%d/%m/%Y %H:%i")', 'auc.usuario_u', 'DATE_FORMAT(v.fechaEdo5_e,"%d/%m/%Y %H:%i")', 'v.estatus_vc' );
+	$aColumns = array('v.id_vc', 'p.nombre_completo_p', 'v.referencia_vc', 'e.concepto_to', 'es.estatus_est', 'v.id_vc', 'v.id_vc', 'p.amaterno_p','a.nombre_a', 'su.clave_su', 'v.id_vc', 'x.procedencia_pr', 'v.referencia_vc', 'v.contador_vc', 'e.id_area_to', 'a.nombre_a', 'DATE_FORMAT(v.fecha_venta_vc,"%Y%m%d")', 'DATE_FORMAT(v.fecha_venta_vc,"%Y%n%d")', 'v.id_radiologo_externo', 'DATE_FORMAT(v.fecha_venta_vc,"%Y-%m-%d")', 'v.id_pacs', 'v.id_vc', 'p.id_p', 'su.nombre_su', 'v.id_concepto_es', 'usuario_transfiere_vc', 'DATE_FORMAT(v.fecha_transfiere_vc,"%Y-%m-%d %H:%i:%s")', 'su.id_su', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%m/%Y %H:%i")', 'au.usuario_u', 'DATE_FORMAT(v.fechaEdo4_e,"%d/%m/%Y %H:%i")', 'auc.usuario_u', 'DATE_FORMAT(v.fechaEdo5_e,"%d/%m/%Y %H:%i")', 'v.estatus_vc', 'CONCAT_WS(" ", au2.nombre_u, au2.apaterno_u, au2.amaterno_u)' );
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -25,7 +25,7 @@ include_once '../../recursos/datauser.php';
     $sIndexColumn = "v.id_vc";
      
 	 // Joins   
-	$sJoin = 'left join orden_venta o on o.referencia_ov = v.referencia_vc left JOIN pacientes p on p.id_p = v.id_paciente_vc left join conceptos e on e.id_to = v.id_concepto_es left join estatus es on es.id_est = v.estatus_vc left join areas a on a.id_a = e.id_area_to left join sucursales su on su.id_su = o.sucursal_ov left join procedencia x on x.id_pr = o.procedencia_ov left join usuarios au on au.id_u = v.usuarioEdo4_e left join usuarios auc on auc.id_u = v.usuarioEdo5_e';
+	$sJoin = 'left join orden_venta o on o.referencia_ov = v.referencia_vc left JOIN pacientes p on p.id_p = v.id_paciente_vc left join conceptos e on e.id_to = v.id_concepto_es left join estatus es on es.id_est = v.estatus_vc left join areas a on a.id_a = e.id_area_to left join sucursales su on su.id_su = o.sucursal_ov left join procedencia x on x.id_pr = o.procedencia_ov left join usuarios au on au.id_u = v.usuarioEdo4_e left join usuarios auc on auc.id_u = v.usuarioEdo5_e left join usuarios au2 on au2.id_u = v.id_personal_medico_vc';
 	
 	//Si es administrador ve todo
 	if($acceso_user == 1){
@@ -143,7 +143,12 @@ include_once '../../recursos/datauser.php';
         {
             if ( $sWhere == "" ) { $sWhere = "WHERE "; }
             else { $sWhere .= " AND "; }
-            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+			if($i==11){
+                $sWhere .= "concat_ws(' ', au2.nombre_u, au2.apaterno_u, au2.amaterno_u)" . " LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+            }else{
+                $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+            }
+            //$sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
         }
     }
      
@@ -352,6 +357,8 @@ include_once '../../recursos/datauser.php';
 		$row[10]="<div align='center'><button type='button' class='btn btn-xs btn-primary' name='$row[10]' lang='$row[10]' value='$row[10]' onClick='fotos(this.name, $clave_s)'><i class='fa fa-camera' aria-hidden='true'></i></button></div>";
 		
 		$row[2] = "$row[2]<br>$row[28]";
+
+		$row[11] = $row[34];
 		
 		$output['aaData'][] = $row;
     }

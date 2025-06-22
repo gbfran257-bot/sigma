@@ -45,158 +45,24 @@ $sucu_user = $_SESSION['MM_Usersucu'];
     //NOTA: la funcionalidad que involucra la variable  $_GET['cad'] se sustituyo por el select de colores "s_colores" por lo que no tiene ningun uso real
     switch($rowAU[0]){
 		case 0://Solo vé lo suyo
-            if(isset($_GET['cad']) && $_GET['cad'] == 'SI'){
-                mysql_select_db($database_horizonte, $horizonte); 
-                $resultAll = mysql_query("SELECT id, fecha_expiracion, existencias from stock_has_bach where existencias > 0 and usuario_registro = '$_GET[idU]' ",$horizonte) or die (mysql_error());
-                $listaID = array();
-                $cont = 0 ;
-
-                //OBTENER LOS ID DE LOS REGISTROS CADUCADOS
-                while ($fila = mysql_fetch_assoc($resultAll)) {
-                    //fecha  de caducidad que viene de BD
-                    $fechaCadu1 = substr($fila['fecha_expiracion'],0,10);
-                    //le restamos una mes a la fecha de caducidad para poder compararla
-                    $Alertafecha1 = date('Y-m-d', strtotime($fechaCadu1.'-1 month'));
-                    //sacar la fecha actual
-                    $now1 = date('Y-m-d');
-
-                    if($now1 > $Alertafecha1){
-                        $listaID[$cont]['id'] = $fila['id'];
-                        $listaID[$cont]['fecha_expiracion'] = $fila['fecha_expiracion'];
-                    }
-                    $cont++;
-                }
-                $sWhere = "";
-                if(count($listaID) > 0){
-                    //RECORRE EL ARREGLO PARA FORMAR EL WHERE 
-                    for ($i=0; $i < count($listaID); $i++) { 
-                        if ( $sWhere == "" ) { $sWhere = "WHERE s.usuario_registro = ".$_GET['idU']; } else { $sWhere .= " OR "; }
-                        $sWhere .= " s.id = ".$listaID[$i]['id'];
-                    }
-                }else{
-                    $sWhere="WHERE s.id = 0 ";
-                }
-            //         echo count($listaID);
-            //    print_r($listaID);
+            if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
+                $sWhere="WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]' AND s.existencias > 0 $condicion_fecha";
             }else{
-                if(isset($_GET['exi']) && $_GET['exi'] == 'SI'){
-                    if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-                        $sWhere="WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]' AND s.existencias > 0 $condicion_fecha";
-                    }else{
-                        $sWhere = "where s.usuario_registro = '$_GET[idU]' AND s.existencias > 0 $condicion_fecha";
-                    }
-                }else{
-                    if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-                        $sWhere="WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]' $condicion_fecha";
-                    }else{
-                        $sWhere = "where s.usuario_registro = '$_GET[idU]' $condicion_fecha";
-                    }
-                }
+                $sWhere = "where s.usuario_registro = '$_GET[idU]' AND s.existencias > 0 $condicion_fecha";
             }
 		break;
 		case 2://Ve todo lo de su sucursal y lo suyo
-            if(isset($_GET['cad']) && $_GET['cad'] == 'SI'){
-                mysql_select_db($database_horizonte, $horizonte); 
-                $resultAll = mysql_query("SELECT id, fecha_expiracion, existencias from stock_has_bach where existencias > 0 ",$horizonte) or die (mysql_error());
-                $listaID = array();
-                $cont = 0 ;
-
-                //OBTENER LOS ID DE LOS REGISTROS CADUCADOS
-                while ($fila = mysql_fetch_assoc($resultAll)) {
-                    //fecha  de caducidad que viene de BD
-                    $fechaCadu1 = substr($fila['fecha_expiracion'],0,10);
-                    //le restamos una mes a la fecha de caducidad para poder compararla
-                    $Alertafecha1 = date('Y-m-d', strtotime($fechaCadu1.'-1 month'));
-                    //sacar la fecha actual
-                    $now1 = date('Y-m-d');
-
-                    if($now1 > $Alertafecha1){
-                        $listaID[$cont]['id'] = $fila['id'];
-                        $listaID[$cont]['fecha_expiracion'] = $fila['fecha_expiracion'];
-                    }
-                    $cont++;
-                }
-                // print_r($listaID);
-                $sWhere = "";
-                if(count($listaID) > 0){
-                    //RECORRE EL ARREGLO PARA FORMAR EL WHERE 
-                    while ($i < count($listaID)) {
-                        if(isset($listaID[$i])){
-                            if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " OR "; }
-                            $sWhere .= "(s.id = ".$listaID[$i]['id']." AND (s1.id_su = $id_suc or s.usuario_registro = ".$_GET[idU]."))";
-                        }
-                       $i++;
-                    }
-                }else{
-                    $sWhere="WHERE s.id = 0 ";
-                }
-                // $sWhere .= " AND s.usuario_registro = '$_GET[idU]' ";
+            if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
+                $sWhere="WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') AND s.existencias > 0 $condicion_fecha";
             }else{
-                if(isset($_GET['exi']) && $_GET['exi'] == 'SI'){
-                    if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-                        $sWhere="WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') AND s.existencias > 0 $condicion_fecha";
-                    }else{
-                        $sWhere = "WHERE (s1.id_su = $id_suc or s.usuario_registro = $_GET[idU]) AND s.existencias > 0 $condicion_fecha";
-                    }
-                }else{
-                    if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-                        $sWhere="WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') $condicion_fecha";
-                    }else{
-                        $sWhere = "WHERE s1.id_su = $id_suc or s.usuario_registro = $_GET[idU] $condicion_fecha";
-                    }
-                }
+                $sWhere = "WHERE s1.id_su = $id_suc or s.usuario_registro = $_GET[idU] AND s.existencias > 0 $condicion_fecha";
             }
 		break;
 		case 1://Ve todo de todas las sucursales
-            if(isset($_GET['cad']) && $_GET['cad'] == 'SI'){
-                mysql_select_db($database_horizonte, $horizonte); 
-                $resultAll = mysql_query("SELECT id, fecha_expiracion, existencias from stock_has_bach where existencias > 0 ",$horizonte) or die (mysql_error());
-                $listaID = array();
-                $cont = 0 ;
-
-                //OBTENER LOS ID DE LOS REGISTROS CADUCADOS
-                while ($fila = mysql_fetch_assoc($resultAll)) {
-                    //fecha  de caducidad que viene de BD
-                    $fechaCadu1 = substr($fila['fecha_expiracion'],0,10);
-                    //le restamos una mes a la fecha de caducidad para poder compararla
-                    $Alertafecha1 = date('Y-m-d', strtotime($fechaCadu1.'-1 month'));
-                    //sacar la fecha actual
-                    $now1 = date('Y-m-d');
-
-                    if($now1 > $Alertafecha1){
-                        $listaID[$cont]['id'] = $fila['id'];
-                        $listaID[$cont]['fecha_expiracion'] = $fila['fecha_expiracion'];
-                        $cont++;
-                    }
-                    
-                }
-                $sWhere = "";
-                if(count($listaID) > 0){
-                    //RECORRE EL ARREGLO PARA FORMAR EL WHERE 
-                    for ($i=0; $i < count($listaID); $i++) { 
-                        if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " OR "; }
-                        $sWhere .= "s.id = ".$listaID[$i]['id'];
-                    }   
-                }
-                else{
-                    $sWhere="WHERE s.id = 0 ";
-                }
-            //     echo count($listaID);
-            //    print_r($listaID);
+            if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
+                $sWhere="WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' AND s.existencias > 0 $condicion_fecha";
             }else{
-                if(isset($_GET['exi']) && $_GET['exi'] == 'SI'){
-                    if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-                        $sWhere="WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' AND s.existencias > 0 $condicion_fecha";
-                    }else{
-                    $sWhere = "WHERE s.existencias > 0 ";
-                    }
-                }else{
-                    if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-                        $sWhere="WHERE s.fecha_update BETWEEN '$_GET[min]' AND '$_GET[max]' $condicion_fecha";
-                    }else{
-                    $sWhere = "WHERE 1 = 1 $condicion_fecha";
-                    }
-                }
+                $sWhere = "WHERE s.existencias > 0 $condicion_fecha";
             }
 		break;
 		default:
@@ -282,15 +148,12 @@ $sucu_user = $_SESSION['MM_Usersucu'];
         "iTotalDisplayRecords" => $iFilteredTotal,
         "aaData" => array()
     );
-	$hh=0;
 
-    
-    
-   
-     
+	//$hh=0;
+
     while ( $aRow = mysql_fetch_array( $rResult ) )
     {       
-		$hh++;
+		//$hh++;
         $row = array();
         for ( $i=0 ; $i<count($aColumns) ; $i++ )
         { if ( $aColumns[$i] == "version" ) { /* Special output formatting for 'version' column */ $row[] = ($aRow[ $aColumns[$i] ]=="0") ? '-' : $aRow[ $aColumns[$i] ]; } else if ( $aColumns[$i] != ' ' ) { /* General output */ $row[] = $aRow[$i]; } }
@@ -300,18 +163,8 @@ $sucu_user = $_SESSION['MM_Usersucu'];
 
         //fecha  de caducidad que viene de BD
         $fechaCadu = substr($row[4],0,10);
-        //le restamos una mes a la fecha de caducidad para poder compararla
-        /* $Alertafecha = date('Y-m-d', strtotime($fechaCadu.'-1 month'));
-         //sacar la fecha actual
-        $now = date('Y-m-d');
-        $feCad = $row[4];
-        //verificamos si la fecha actual supera a la fecha de caducidad que tiene un mes restado
-        if($now > $Alertafecha){
-            $row[4]= "<span class='btn btn-danger disabled' >".$fechaCadu."</span>";
-        }else{
-            $row[4]= $fechaCadu;
-        } */
 
+        //le restamos los meses a la fecha de caducidad segun sea necesario.
         $Alertafecha0 = date('Y-m-d', strtotime($fechaCadu.'-15 day'));
         $Alertafecha = date('Y-m-d', strtotime($fechaCadu.'-6 month'));
         $Alertafecha2 = date('Y-m-d', strtotime($fechaCadu.'-11 month'));
@@ -364,7 +217,7 @@ $sucu_user = $_SESSION['MM_Usersucu'];
        $row[15] =  $existencias;
 
         
-       $row[0]= $hh;
+       //$row[0]= $hh;
 		
 		$output['aaData'][] = $row;
     }

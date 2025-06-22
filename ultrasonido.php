@@ -30,6 +30,11 @@
     <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
     <script src="DataTables-1.10.13/media/js/dataTables.bootstrap.min.js"></script>
     <script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script>
+
+	<script src="DataTables-1.12/Buttons-2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="DataTables-1.12/JSZip-2.5.0/jszip.min.js"></script>
+    <script src="DataTables-1.12/Buttons-2.2.3/js/buttons.html5.min.js"></script> 
+
     <script src="bootstrap-validator/js/validator.js"></script>
     <script src="sweetalert/dist/sweetalert.min.js"></script>
     <script src="chosen/chosen.jquery.js" type="text/javascript"></script>
@@ -79,6 +84,7 @@
     <th style="vertical-align:middle;">ESTATUS</th>
     <th style="vertical-align:middle;">EDITAR</th>
 	<th style="vertical-align:middle;">IMÁGENES</th>
+	<th style="vertical-align:middle;" style="max-width:10px;">MEDICO REFIERE</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -90,6 +96,7 @@
             <th><input type="text" class="form-control input-sm" placeholder="-ESTATUS-"/></th>
             <th></th>
 			<th></th>
+			<th><input type="text" class="form-control input-sm" placeholder="-MEDICO-" style="max-width:200px;"/></th>
         </tr>
     </tfoot>
 </table>
@@ -110,9 +117,9 @@ $(document).ready(function(e) {
 		serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
-			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
+			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
 		],
-		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"iS><"proc"p>', 
+		"sDom": '<"filtro1Principal"f>B1<"data_tPrincipal"t><"infoPrincipal"iS><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
 		"sAjaxSource": "imagen/datatable-serverside/ultrasonidos.php",
 		"fnServerParams": function (aoData, fnCallback) { 

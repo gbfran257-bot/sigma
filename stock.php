@@ -96,7 +96,7 @@
     <th style="vertical-align:middle;">LOTE</th>
     <th style="vertical-align:middle;">MAX</th>
 	<th style="vertical-align:middle;">MIN</th>
-    <th style="vertical-align:middle;"><input type="checkbox" id="existencias" value="" /> EXIST LOTE  </th>
+    <th style="vertical-align:middle;"><!-- <input type="checkbox" id="existencias" value="" /> --> EXIST LOTE  </th>
 	<th style="vertical-align:middle;" nowrap>COSTO UNITARIO</th>
     <th style="vertical-align:middle;" nowrap>PRECIO PÚBLICO</th>
     <th style="vertical-align:middle;" nowrap>TOTAL COSTO</th>

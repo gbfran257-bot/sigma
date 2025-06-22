@@ -90,24 +90,49 @@
                 mysql_select_db($database_horizonte, $horizonte);
                 $qry_ultimo_id = mysql_query("SELECT id_ov FROM orden_venta ORDER BY id_ov DESC LIMIT 1", $horizonte) or die(mysql_error());
                 $ultimo_id = mysql_fetch_row($qry_ultimo_id);
+                //obtenemos el texto que se enviara en los emails
+                mysql_select_db($database_horizonte, $horizonte);
+                $qry_texto_e = mysql_query("SELECT mensaje_mn FROM mensaje_nom35 WHERE id_mn = 1", $horizonte) or die (mysql_error());
+                $texto_email = mysql_fetch_row($qry_texto_e);
+                //reemplazamos <code> en la cadena de texto a enviar
+                $texto_email2 = str_replace("<code>","<strong>".$ultimo_id[0]."</strong>",$texto_email[0]);
 
                 if($datos_paciente[0] > 0){
-                    //mensaje a enviar
-                    $mensaje = "Ingresa al siguiente enlace https://gloss-323916.web.app/ y escribe el codigo de acceso $ultimo_id[0] para comenzar tu cuestionario";
-                    //enviamos correo(se necesita instalar postfix en el servidor)
-                    $enviado = mail($datos_paciente[1],"CODIGO DE CUESTIONARIOS",$mensaje);
+                    
+                    $api_key = '';
 
-                    //en caso de correo invalido se agrega a un string
-                    if(!$enviado){
-                        $correos_no_enviados = $correos_no_enviados . $datos_paciente[1] . ", ";
-                        $no_enviados++;
-                    }else{
-                        //revisamos si existe registro de correo enviado
+                    $data = [
+                        'from' => 'SIGMA NOM35 <sigmanom35@desarrollodpp.com>',
+                        'to' => [$datos_paciente[1]],
+                        'subject' => 'Código de acceso',
+                        'html' => "<p>$texto_email2</p>"
+                    ];
+
+                    /* $data = [
+                        'from' => 'SIGMA NOM35 <sigmanom35@desarrollodpp.com>',
+                        'to' => [$datos_paciente[1]],
+                        'subject' => 'Código de acceso',
+                        'html' => "<p>Ingresa al siguiente enlace https://gloss-323916.web.app/ y escribe el codigo de acceso <strong> $ultimo_id[0] </strong> para comenzar tu cuestionario</p>"
+                    ]; */
+
+                    $ch = curl_init('https://api.resend.com/emails');
+
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                        'Authorization: Bearer ' . $api_key,
+                        'Content-Type: application/json',
+                    ]);
+                    curl_setopt($ch, CURLOPT_POST, true);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+                    $response = curl_exec($ch);
+                    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+                    if(!curl_errno($ch)) {
                         mysql_select_db($database_horizonte, $horizonte);
                         $qry_registro_enviado = mysql_query("SELECT COUNT(*) FROM historial_emails WHERE id_p_he = $id", $horizonte) or die(mysql_error());
                         $registro_enviado = mysql_fetch_row($qry_registro_enviado);
-
-                        //creamos o modificamos segun sea el caso
                         if ($registro_enviado[0] == 0){
                             mysql_select_db($database_horizonte, $horizonte);
                             $qry_ins_reg = "INSERT INTO historial_emails (id_p_he, fecha_he, usuario_he) VALUES ($id, $now, $id_usuario)";  
@@ -117,10 +142,15 @@
                             $qry_upd_reg = "UPDATE historial_emails SET fecha_he = $now WHERE id_p_he = $id LIMIT 1";  
                             $upd_reg = mysql_query($qry_upd_reg, $horizonte) or die (mysql_error());
                         }
+                    }else{
+                        $correos_no_enviados = $correos_no_enviados . $datos_paciente[1] . ", ";
+                        $no_enviados++;
                     }
+
+                    curl_close($ch);
+
                 }
 
-                //sleep(1);
                 $conteo++;
                 usleep(500000); // Espera 0.5 segundos (500 milisegundos)
             }
