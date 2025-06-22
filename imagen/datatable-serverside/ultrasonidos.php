@@ -2,7 +2,7 @@
 require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
 	
-	$aColumns = array('v.id_vc', 'p.nombre_completo_p', 'v.referencia_vc', 'e.concepto_to', 'es.estatus_est', 'a.nombre_a', 'p.amaterno_p','a.nombre_a', 'p.id_p', 'v.id_vc', 'v.referencia_vc', 'v.contador_vc', 'e.id_area_to', 'a.nombre_a', 'DATE_FORMAT(v.fecha_venta_vc,"%Y%c%d")', 'su.id_su', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%m/%Y %H:%i")', 'au.usuario_u', 'DATE_FORMAT(v.fechaEdo4_e,"%d/%m/%Y %H:%i")' );
+	$aColumns = array('v.id_vc', 'p.nombre_completo_p', 'v.referencia_vc', 'e.concepto_to', 'es.estatus_est', 'a.nombre_a', 'p.amaterno_p','a.nombre_a', 'p.id_p', 'v.id_vc', 'v.referencia_vc', 'v.contador_vc', 'e.id_area_to', 'a.nombre_a', 'DATE_FORMAT(v.fecha_venta_vc,"%Y%c%d")', 'su.id_su', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%m/%Y %H:%i")', 'au.usuario_u', 'DATE_FORMAT(v.fechaEdo4_e,"%d/%m/%Y %H:%i")', 'CONCAT_WS(" ", au2.nombre_u, au2.apaterno_u, au2.amaterno_u)' );
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -11,7 +11,7 @@ require("../../funciones/php/values.php");
     $sIndexColumn = "v.id_vc";
      
 	 // Joins   
-	$sJoin = 'left JOIN pacientes p on p.id_p = v.id_paciente_vc left join conceptos e on e.id_to = v.id_concepto_es left join estatus es on es.id_est = v.estatus_vc left join areas a on a.id_a = e.id_area_to left join orden_venta o on o.referencia_ov = v.referencia_vc left join sucursales su on su.id_su = o.sucursal_ov left join usuarios au on au.id_u = v.usuarioEdo4_e';
+	$sJoin = 'left JOIN pacientes p on p.id_p = v.id_paciente_vc left join conceptos e on e.id_to = v.id_concepto_es left join estatus es on es.id_est = v.estatus_vc left join areas a on a.id_a = e.id_area_to left join orden_venta o on o.referencia_ov = v.referencia_vc left join sucursales su on su.id_su = o.sucursal_ov left join usuarios au on au.id_u = v.usuarioEdo4_e left join usuarios au2 on au2.id_u = v.id_personal_medico_vc';
 	
 	//Vemos si el usuario es multisucursal
 	mysql_select_db($database_horizonte, $horizonte); 
@@ -108,7 +108,12 @@ require("../../funciones/php/values.php");
         {
             if ( $sWhere == "" ) { $sWhere = "WHERE "; }
             else { $sWhere .= " AND "; }
-            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+            if($i==7){
+                $sWhere .= "concat_ws(' ', au2.nombre_u, au2.apaterno_u, au2.amaterno_u)" . " LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+            }else{
+                $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+            }
+            //$sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
         }
     }
      
@@ -202,6 +207,8 @@ require("../../funciones/php/values.php");
 		}
 		
 		$row[2] = "$row[2]<br>$row[16]";
+
+        $row[7] = $row[19];
 				
 		$output['aaData'][] = $row;
     }
