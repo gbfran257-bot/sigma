@@ -100,7 +100,7 @@
             <th><input type="text" class="form-control input-sm" placeholder="-ÁREA-" style="max-width:100px;"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="-SUCURSAL-" style="max-width:100px;"/></th>
             <th></th>
-			<th><input type="text" class="form-control input-sm" placeholder="-MEDICO-" style="max-width:100px;"/></th>
+			<th><input type="text" class="form-control input-sm" placeholder="-MEDICO-" style="max-width:200px;"/></th>
         </tr>
     </tfoot>
 </table>

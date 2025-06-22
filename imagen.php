@@ -90,6 +90,7 @@
     <th style="vertical-align:middle;">ÁREA</th>
     <th style="vertical-align:middle;">SUCURSAL</th>
     <th style="vertical-align:middle;">FOTOS</th>
+	<th style="vertical-align:middle;" style="max-width:10px;">MEDICO REFIERE</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -105,6 +106,7 @@
             <th><input type="text" class="form-control input-sm" placeholder="-ÁREA-" style="width:80%;"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="-SUCURSAL-" style="width:90%;"/></th>
             <th></th>
+			<th><input type="text" class="form-control input-sm" placeholder="-MEDICO-" style="max-width:200px;"/></th>
         </tr>
     </tfoot>
 </table>
@@ -126,7 +128,7 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
-			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
+			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
