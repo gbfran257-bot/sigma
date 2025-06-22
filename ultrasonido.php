@@ -30,6 +30,11 @@
     <script src="DataTables-1.10.13/media/js/jquery.dataTables.min.js"></script>
     <script src="DataTables-1.10.13/media/js/dataTables.bootstrap.min.js"></script>
     <script src="DataTables-1.10.13/extensions/Select/js/dataTables.select.min.js"></script>
+
+	<script src="DataTables-1.12/Buttons-2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="DataTables-1.12/JSZip-2.5.0/jszip.min.js"></script>
+    <script src="DataTables-1.12/Buttons-2.2.3/js/buttons.html5.min.js"></script> 
+
     <script src="bootstrap-validator/js/validator.js"></script>
     <script src="sweetalert/dist/sweetalert.min.js"></script>
     <script src="chosen/chosen.jquery.js" type="text/javascript"></script>
@@ -114,7 +119,7 @@ $(document).ready(function(e) {
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true}
 		],
-		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"iS><"proc"p>', 
+		"sDom": '<"filtro1Principal"f>B1<"data_tPrincipal"t><"infoPrincipal"iS><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
 		"sAjaxSource": "imagen/datatable-serverside/ultrasonidos.php",
 		"fnServerParams": function (aoData, fnCallback) { 
