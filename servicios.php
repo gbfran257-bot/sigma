@@ -241,7 +241,7 @@ function procesoS(nameP, idS, nameC, id_pac, id_vc){
 				var firma_medico_atiende_x = datosTe[31], et_t_x = datosTe[34], et_a_x = datosTe[35], et_fc_x = datosTe[36];
 				var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
 				var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
-				var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46];
+				var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46]; var medico_atiende_ov = datosTe[77];
 																						   
 				var datos = {idS:idS, idU:$('#id_user').val()}
 				$.post('servicios/archivos_save_ajax/salvado.php', datos).done(function(data){
@@ -304,6 +304,7 @@ function procesoS(nameP, idS, nameC, id_pac, id_vc){
 								data = data.replace(/{et_logoe}/gi, et_logoe_x);
 								data = data.replace(/{et_logoee}/gi, et_logoee_x);
 								data = data.replace(/{et_logogm}/gi, et_logogm_x);
+								data = data.replace(/{medico_atiende_ov}/gi, medico_atiende_ov);
 								
 								tinymce.get("input").execCommand('mceSetContent', false, data);
 							});

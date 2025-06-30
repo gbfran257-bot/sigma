@@ -17,6 +17,7 @@
 	echo '<option value="{et_nombre_establecimiento}">NOMBRE DE LA CLÍNICA O CONSULTORIO</option>';
 	echo '<option value="{et_nombre_a_establecimiento}">NOMBRE ABREVIADO DE LA CLÍNICA O CONSULTORIO</option>';
 	echo '<option value="{et_nombre_medico_atiende}">NOMBRE DEL PERSONAL MÉDICO QUE ATIENDE</option>';
+	echo '<option value="{medico_atiende_ov}">NOMBRE DEL MÉDICO QUE ATIENDE DESDE OV</option>';
 	echo '<option value="{et_nombre_procedimiento}">NOMBRE DEL PROCEDIMIENTO O SERVICIO</option>';
 	echo '<option value="{et_numero_est_ov}">NÚMERO DE CONCEPTO DE LA ORDEN</option>';
 	echo '<option value="{et_total_cntos_ov}">TOTAL DE CONCEPTOS DE LA ORDEN</option>';
