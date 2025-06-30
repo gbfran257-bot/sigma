@@ -6145,6 +6145,14 @@ include_once 'recursos/datauser.php';
 											showConfirmButton: false
 										});
 										return;
+									} else if(data == 2) {
+										swal({
+											title: "LA ORDEN NO SE PUEDE CANCELAR",
+											type: "error",
+											text: "La orden tiene conceptos que se han procesado",
+											timer: 2000,
+											showConfirmButton: false
+										});
 									} else {
 										alert(data);
 									}
