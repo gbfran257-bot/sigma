@@ -225,6 +225,10 @@ require("../../funciones/php/values.php");
 	$resultM = mysql_query("SELECT concat(t.abreviacion_ti, ' ',u.nombre_u, ' ', u.apaterno_u), u.amaterno_u, concat('CÉDULA PROFESIONAL ',u.cedulaProfesional_u), u.cedulaProfesional_u, u.cedulaProfesionalE_u, e.nombre_especialidad, un.nombre_e, t.abreviacion_ti, u.temporal_u from usuarios u left join titulos t on t.id_ti = u.id_titulo_u left join especialidades e on e.id_es = u.especialidad_u left join catalogo_escuelas un on un.id_e = u.universidad_u where u.id_u = $idU ", $horizonte) or die (mysql_error());
  	$rowM = mysql_fetch_row($resultM); $temporal_u = sqlValue($rowM[8], "text");
 
+	mysql_select_db($database_horizonte, $horizonte);
+	$resultMedicoOV = mysql_query("SELECT CONCAT_WS(' ', u.nombre_u, u.apaterno_u, amaterno_u) from usuarios u LEFT JOIN venta_conceptos vc ON vc.id_personal_medico_vc = u.id_u where vc.id_vc = $id_vc", $horizonte) or die (mysql_error());
+ 	$rowMedicoOv = mysql_fetch_row($resultMedicoOV);
+
 	mysql_select_db($database_horizonte, $horizonte); 
 	$resultFrts = mysql_query("SELECT count(id_fc) from formatos_conceptos where id_concepto_fc = $id_vcc and temporal_fc = $temporal_u", $horizonte) or die (mysql_error());
 	$rowFrts = mysql_fetch_row($resultFrts);
@@ -553,7 +557,7 @@ require("../../funciones/php/values.php");
 		$row[4].'-{]'.$rowM[7].'-{]'.$rowVC[1].'-{]'.$rowVC[2].' '.$rowVC[3].'-{]'.$mes.'-{]'.$myFirma.'-{]'.$rowFrts[0].'-{]'.$rowVC[4].'-{]'.$row1s[0].
 		'-{]'.$row1s[1].'-{]'.$row1s[3].'-{]'.$row1s[2].'-{]'.$row1s[4].' ºC'.'-{]'.$rowVC[5].'-{]'.$rowVC[6].'-{]'.$rowVC[7].' '.$rowVC[8].'-{]'.$encaNM.
 		'-{]'.$encaNM1.'-{]'.$encaNM2.'-{]'.$encaNM3.'-{]'.$logoMedicina.'-{]'.$rowVC[10].'-{]'.$rowVC[11].'-{]'.$rowVC_1[0].'-{]'.$lista.'-{]'.$lista1.
-		'-{]'.$historia.'-{]'.$ahf.'-{]'.$apnp.'-{]'.$app.'-{]'.$ago.'-{]'.$feNac .'-{]'. $dx_cont .'-{]'.$md_cont .'-{]'.$row1s[15].'-{]'.$logosA1[0].'-{]'.$logosA1[1] .'-{]'. $logosA1[2] .'-{]'.$logosA1[3] .'-{]'.$logosA1[4].'-{]'.$logosA1[5].'-{]'.$logosA1[6] .'-{]'. $logosA1[7] .'-{]'.$logosA1[8] .'-{]'.$logosA1[9].'-{]'.$logosA1[10].'-{]'.$logosA1[11] .'-{]'. $logosA1[12] .'-{]'.$logosA1[13] .'-{]'.$logosA1[14] .'-{]'. $oxi_sv1;
+		'-{]'.$historia.'-{]'.$ahf.'-{]'.$apnp.'-{]'.$app.'-{]'.$ago.'-{]'.$feNac .'-{]'. $dx_cont .'-{]'.$md_cont .'-{]'.$row1s[15].'-{]'.$logosA1[0].'-{]'.$logosA1[1] .'-{]'. $logosA1[2] .'-{]'.$logosA1[3] .'-{]'.$logosA1[4].'-{]'.$logosA1[5].'-{]'.$logosA1[6] .'-{]'. $logosA1[7] .'-{]'.$logosA1[8] .'-{]'.$logosA1[9].'-{]'.$logosA1[10].'-{]'.$logosA1[11] .'-{]'. $logosA1[12] .'-{]'.$logosA1[13] .'-{]'.$logosA1[14] .'-{]'. $oxi_sv1 .'-{]'. $rowMedicoOv[0];
 	
 	echo $datos;
  	//Cerrar conexión a la Base de Datos
