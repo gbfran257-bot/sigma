@@ -2106,7 +2106,8 @@ function histo_pacs(mi_refer1){
 	var url=window.location.href, myL = url.split('http://'), myL1 = myL[1].split('/'), koby = myL1[0].split(':8888');
 	var link_1 = koby[0]+koby[1];
 	var mi_refer = mi_refer1.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
-	window.open('http://'+koby[0]+':8080/oviyam2/viewer.html?patientID='+mi_refer);
+	//window.open('http://'+koby[0]+':8080/oviyam2/viewer.html?patientID='+mi_refer);
+	window.open('http://' + koby[0] + ':8888/viewer.html?patientID=' + mi_refer);
 }
 function miImg(idM,opc){
 	$('.si_img_h').removeClass('hidden'); $('.no_img_h').addClass('hidden'); //$('#tab_histo_8').click(); //alert(opc);
