@@ -80,7 +80,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                                     </ul>
                                 </li>
                             <?php } ?>
-                            <?php if ($permisos[5]) { ?> <li><a href="agenda.php"><i class="fa fa-calendar"></i> AGENDA</a></li> <?php } ?>
+                            <?php if ($permisos[5]) { ?> <li><a href="agenda2.php"><i class="fa fa-calendar"></i> AGENDA</a></li> <?php } ?>
                             <?php if ($permisos[6]) { ?> <li style="white-space:nowrap;"><a href="membresias.php"><i class="fa fa-address-card"></i> MEMBRESÍAS</a></li> <?php } ?>
                         </ul>
                     </li>
