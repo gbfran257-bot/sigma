@@ -163,7 +163,7 @@
             <?php } ?>
             <?php if($permisos[5]){?>
                 <div class="col-md-2">
-                    <a href="agenda.php"><img src="imagenes/ig/Agenda-01.png" class="img-responsive fadeIn wow menu" data-wow-delay="0.25s"
+                    <a href="agenda2.php"><img src="imagenes/ig/Agenda-01.png" class="img-responsive fadeIn wow menu" data-wow-delay="0.25s"
                     id="recepcion_agenda"
                     onmouseenter="cambiar(this.id);" 
                     onmouseleave="returner(this.id);"

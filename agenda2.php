@@ -96,6 +96,9 @@ if (isset($_POST['from']))
         <div class="row">
             <!--<div class="page-header"><h4></h4></div>-->
             <div class="pull-left form-inline"><br>
+                <button class="btn btn-primary" style="margin-right:30px;" id="regresar" name="regresar">Regresar</button>
+            </div>
+            <div class="pull-left form-inline"><br>
                 <div class="btn-group">
                     <button class="btn btn-primary" data-calendar-nav="prev"><i class="fa fa-arrow-left"></i>  </button>
                     <button class="btn" data-calendar-nav="today">Hoy</button>
@@ -247,6 +250,10 @@ if (isset($_POST['from']))
     const fecha = $(this).data('cal-date');
     alert('Fecha seleccionada: ' + fecha);
 }); */
+
+        $('#regresar').on('click', function() {
+            window.location.href = 'index.php';
+        });
 
         </script>
 
