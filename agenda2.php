@@ -48,9 +48,10 @@ if (isset($_POST['from']))
         $id_departamento  = evaluar($_POST['id_departamento']);
         $id_doctor  = evaluar($_POST['id_doctor']);
         $id_paciente  = evaluar($_POST['id_paciente']);
+        $telefono_paciente  = evaluar($_POST['telefono_paciente']);
 
         // insertamos el evento
-        $query="INSERT INTO agenda VALUES(null,'$titulo','$body','','$clase','$inicio','$final','$inicio_normal','$final_normal','$id_departamento','$id_doctor','$id_paciente')";
+        $query="INSERT INTO agenda VALUES(null,'$titulo','$body','','$clase','$inicio','$final','$inicio_normal','$final_normal','$id_departamento','$id_doctor','$id_paciente','$telefono_paciente')";
 
         // Ejecutamos nuestra sentencia sql
         $conexion->query($query)or die('<script type="text/javascript">alert("Horario No Disponible ")</script>');
@@ -283,6 +284,18 @@ if (isset($_POST['from']))
                 width: '100%',
                 minimumResultsForSearch: 0,
                 dropdownParent: $('#add_evento') 
+            }).on('change', function () {
+                let valor = $(this).val();
+                var datos = { id_p:valor }
+                $.post('agenda2/obtener_datos_paciente.php', datos).done(function(data) {
+                    var datosP = data.split(';}');
+                    if (data) { 
+                        $("#telefono_paciente").val(datosP[0]);
+                    return;
+                    } else {
+                        alert(data);
+                    }
+                });
             });
 
             $('#id_paciente').load('agenda2/lista_pacientes.php', function(response, status, xhr) {
@@ -327,6 +340,12 @@ if (isset($_POST['from']))
                     </select>
 
                     <br><br>
+
+                    
+                    <label for="telefono_paciente">Teléfono Paciente</label>
+                    <input type="text" required autocomplete="off" name="telefono_paciente" class="form-control" id="telefono_paciente" placeholder="Introduce un teléfono">
+
+                    <br>
                     <!--  -->
                     <label for="from">Inicio</label>
                     <div class='input-group date' id='from'>
