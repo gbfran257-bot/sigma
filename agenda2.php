@@ -46,9 +46,10 @@ if (isset($_POST['from']))
 
         /* Valores agregados para agenda medica */
         $id_departamento  = evaluar($_POST['id_departamento']);
+        $id_doctor  = evaluar($_POST['id_doctor']);
 
         // insertamos el evento
-        $query="INSERT INTO agenda VALUES(null,'$titulo','$body','','$clase','$inicio','$final','$inicio_normal','$final_normal','$id_departamento')";
+        $query="INSERT INTO agenda VALUES(null,'$titulo','$body','','$clase','$inicio','$final','$inicio_normal','$final_normal','$id_departamento','$id_doctor')";
 
         // Ejecutamos nuestra sentencia sql
         $conexion->query($query)or die('<script type="text/javascript">alert("Horario No Disponible ")</script>');
@@ -261,13 +262,20 @@ if (isset($_POST['from']))
         });
 
         $(document).ready(function() {
-            $('#id_departamento').select2({
+            $('#id_doctor').select2({
                 placeholder: "Elige una opción",
                 allowClear: true,
                 width: '100%', // para que no se desborde
                 minimumResultsForSearch: 0,
                 dropdownParent: $('#add_evento') // o el id de tu modal
             });
+
+            $('#id_doctor').load('pacientes/genera/medicos_estudios.php', function(response, status, xhr) {
+                if (status == "success") {
+                    
+                }
+			});
+
         });
 
 
@@ -284,15 +292,20 @@ if (isset($_POST['from']))
                     <!-- campos agregados para agenda medica -->
                     <label for="id_departamento">Departamento</label>
                     <select class="form-control" name="id_departamento" id="id_departamento" required>
-                        <!-- <option value="" disabled selected hidden>Elige una opción</option> -->
+                        <option value="" disabled selected hidden>Elige una opción</option>
                         <option value="4">ASOCIACION MEDICA</option>
                         <option value="2">IMAGEN</option>
                         <option value="1">LABORATORIO</option>
                         <option value="3">FARMACIA</option>
                     </select>
 
-
                     <br>
+
+                    <label for="id_doctor">Doctor</label>
+                    <select class="form-control" name="id_doctor" id="id_doctor" required>
+                    </select>
+
+                    <br><br>
                     <!--  -->
                     <label for="from">Inicio</label>
                     <div class='input-group date' id='from'>
