@@ -91,6 +91,8 @@ if (isset($_POST['from']))
     <script src="<?=$base_url?>js/bootstrap.min.js"></script>
     <script src="<?=$base_url?>js/bootstrap-datetimepicker.js"></script>
     <link rel="stylesheet" href="<?=$base_url?>css/bootstrap-datetimepicker.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     
 </head>
 </head>
@@ -258,6 +260,17 @@ if (isset($_POST['from']))
             window.location.href = 'index.php';
         });
 
+        $(document).ready(function() {
+            $('#id_departamento').select2({
+                placeholder: "Elige una opción",
+                allowClear: true,
+                width: '100%', // para que no se desborde
+                minimumResultsForSearch: 0,
+                dropdownParent: $('#add_evento') // o el id de tu modal
+            });
+        });
+
+
         </script>
 
         <div class="modal fade" id="add_evento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
@@ -271,7 +284,7 @@ if (isset($_POST['from']))
                     <!-- campos agregados para agenda medica -->
                     <label for="id_departamento">Departamento</label>
                     <select class="form-control" name="id_departamento" id="id_departamento" required>
-                        <option value="" disabled selected hidden>Elige una opción</option>
+                        <!-- <option value="" disabled selected hidden>Elige una opción</option> -->
                         <option value="4">ASOCIACION MEDICA</option>
                         <option value="2">IMAGEN</option>
                         <option value="1">LABORATORIO</option>
