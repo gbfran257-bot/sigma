@@ -47,11 +47,10 @@ if (isset($_POST['from']))
         /* Valores agregados para agenda medica */
         $id_departamento  = evaluar($_POST['id_departamento']);
         $id_doctor  = evaluar($_POST['id_doctor']);
-        $id_paciente  = evaluar($_POST['id_paciente']);
         $telefono_paciente  = evaluar($_POST['telefono_paciente']);
 
         // insertamos el evento
-        $query="INSERT INTO agenda VALUES(null,'$titulo','$body','','$clase','$inicio','$final','$inicio_normal','$final_normal','$id_departamento','$id_doctor','$id_paciente','$telefono_paciente')";
+        $query="INSERT INTO agenda VALUES(null,'$titulo','$body','','$clase','$inicio','$final','$inicio_normal','$final_normal','$id_departamento','$id_doctor','$telefono_paciente')";
 
         // Ejecutamos nuestra sentencia sql
         $conexion->query($query)or die('<script type="text/javascript">alert("Horario No Disponible ")</script>');
@@ -318,6 +317,11 @@ if (isset($_POST['from']))
             <div class="modal-body">
                 <form action="" method="post">
                     <!-- campos agregados para agenda medica -->
+                    <label for="id_paciente">Paciente (Opcional)</label>
+                    <select class="form-control" name="id_paciente" id="id_paciente">
+                    </select>
+                    <hr style="border: none; height: 1px; background-color: orange;">
+
                     <label for="id_departamento">Departamento</label>
                     <select class="form-control" name="id_departamento" id="id_departamento" required>
                         <option value="" disabled selected hidden>Elige un departamento</option>
@@ -335,13 +339,6 @@ if (isset($_POST['from']))
 
                     <br><br>
 
-                    <label for="id_paciente">Paciente</label>
-                        <select class="form-control" name="id_paciente" id="id_paciente" required>
-                    </select>
-
-                    <br><br>
-
-                    
                     <label for="telefono_paciente">Teléfono Paciente</label>
                     <input type="text" required autocomplete="off" name="telefono_paciente" class="form-control" id="telefono_paciente" placeholder="Introduce un teléfono">
 

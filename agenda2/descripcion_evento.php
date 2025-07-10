@@ -3,10 +3,10 @@
 /** https://github.com/icodeart/Calendario-Bootstrap-php-mysql **/
     
     //incluimos nuestro archivo config
-    include '.././agenda2/config.php'; 
+    include './config.php'; 
 
     // Incluimos nuestro archivo de funciones
-    include '.././agenda2/funciones.php';
+    include './funciones.php';
 
     // Obtenemos el id del evento
     $id  = evaluar($_GET['id']);
@@ -37,8 +37,6 @@ if (isset($_POST['eliminar_evento']))
     if ($conexion->query($sql)) 
     {
         echo "Evento eliminado";
-        
-       
     }
     else
     {
@@ -52,7 +50,7 @@ if (isset($_POST['eliminar_evento']))
 <head>
 	<meta charset="UTF-8">
 	<title><?=$titulo?></title>
-          <link rel="stylesheet" type="text/css" href="<?=$base_url?>css/bootstrap.min.css">
+          <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
 </head>
 <body>
 	 <h3><?=$titulo?></h3>

@@ -20,7 +20,12 @@ if ($conexion->connect_errno) {
 }
 
 // Url donde estara el proyecto, debe terminar con un "/" al final
-$base_url="http://localhost/sigmacadit/agenda2/";
+//si no funciona la agenda, intenta reemplazar el codigo de abajo por la linea comentada y modificar manualmente los valores.
+//$base_url="http://localhost/sigmacadit/agenda2/";
+$protocolo = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+$host = $_SERVER['HTTP_HOST'];
+$path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/agenda2/';
+$base_url = $protocolo . $host . $path;
 
 ?>
 
