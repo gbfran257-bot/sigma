@@ -48,9 +48,13 @@ if (isset($_POST['from']))
         $id_departamento  = evaluar($_POST['id_departamento']);
         $id_doctor  = evaluar($_POST['id_doctor']);
         $telefono_paciente  = evaluar($_POST['telefono_paciente']);
+        $email_doctor  = evaluar($_POST['email_doctor']);
+        $nombre_paciente  = evaluar($_POST['nombre_paciente']);
+        $direccion_paciente  = evaluar($_POST['direccion_paciente']);
+        $email_paciente  = evaluar($_POST['email_paciente']);
 
         // insertamos el evento
-        $query="INSERT INTO agenda VALUES(null,'$titulo','$body','','$clase','$inicio','$final','$inicio_normal','$final_normal','$id_departamento','$id_doctor','$telefono_paciente')";
+        $query="INSERT INTO agenda VALUES(null,'$titulo','$body','','$clase','$inicio','$final','$inicio_normal','$final_normal','$id_departamento','$id_doctor','$telefono_paciente','$email_doctor','$nombre_paciente','$direccion_paciente','$email_paciente')";
 
         // Ejecutamos nuestra sentencia sql
         $conexion->query($query)or die('<script type="text/javascript">alert("Horario No Disponible ")</script>');
@@ -269,6 +273,18 @@ if (isset($_POST['from']))
                 width: '100%', // para que no se desborde
                 minimumResultsForSearch: 0,
                 dropdownParent: $('#add_evento') // o el id de tu modal
+            }).on('change', function () {
+                let valor1 = $(this).val();
+                var datos1 = { id_e_d:valor1 }
+                $.post('agenda2/obtener_email_doctor.php', datos1).done(function(data1) {
+                    var datosD = data1.split(';}');
+                    if (data1) { 
+                        $("#email_doctor").val(datosD[0]);
+                    return;
+                    } else {
+                        alert(data1);
+                    }
+                });
             });
 
             $('#id_doctor').load('pacientes/genera/medicos_estudios.php', function(response, status, xhr) {
@@ -290,6 +306,9 @@ if (isset($_POST['from']))
                     var datosP = data.split(';}');
                     if (data) { 
                         $("#telefono_paciente").val(datosP[0]);
+                        $("#nombre_paciente").val(datosP[1]);
+                        $("#direccion_paciente").val(datosP[2]);
+                        $("#email_paciente").val(datosP[3]);
                     return;
                     } else {
                         alert(data);
@@ -339,10 +358,29 @@ if (isset($_POST['from']))
 
                     <br><br>
 
-                    <label for="telefono_paciente">Teléfono Paciente</label>
-                    <input type="text" required autocomplete="off" name="telefono_paciente" class="form-control" id="telefono_paciente" placeholder="Introduce un teléfono">
+                    <label for="email_doctor">Email Doctor</label>
+                    <input type="email" autocomplete="off" name="email_doctor" class="form-control" id="email_doctor" placeholder="Introduce un Email">
+
+                    <hr style="border: none; height: 1px; background-color: orange;">
+
+                    <label for="nombre_paciente">Nombre Paciente</label>
+                    <input type="text" required autocomplete="off" name="nombre_paciente" class="form-control" id="nombre_paciente" placeholder="Introduce un Nombre">
 
                     <br>
+
+                    <label for="email_paciente">Email Paciente</label>
+                    <input type="email" autocomplete="off" name="email_paciente" class="form-control" id="email_paciente" placeholder="Introduce un Email">
+                    <br>
+
+                    <label for="telefono_paciente">Teléfono Paciente</label>
+                    <input type="text" required autocomplete="off" name="telefono_paciente" class="form-control" id="telefono_paciente" placeholder="Introduce un Teléfono">
+
+                    <br>
+
+                    <label for="direccion_paciente">Dirección Paciente</label>
+                    <input type="text" autocomplete="off" name="direccion_paciente" class="form-control" id="direccion_paciente" placeholder="Introduce una Dirección">
+
+                    <hr style="border: none; height: 1px; background-color: orange;">
                     <!--  -->
                     <label for="from">Inicio</label>
                     <div class='input-group date' id='from'>
