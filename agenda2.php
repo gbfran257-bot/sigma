@@ -123,7 +123,7 @@ if (isset($_POST['from']))
                 </div>
             </div>
             <div class="pull-right form-inline"><br>
-                <button class="btn btn-info" data-toggle='modal' data-target='#add_evento'>Añadir Evento</button>
+                <button class="btn btn-info" data-toggle='modal' data-target='#add_evento' id="mostrar_modal_nuevo">Añadir Evento</button>
             </div>
         </div>
         <br><br><br>
@@ -322,7 +322,39 @@ if (isset($_POST['from']))
                 }
 			});
 
-        });
+            $("#mostrar_modal_nuevo").on('click', function() {
+                $("#btn_nuevo").removeClass('hidden');
+            });
+            
+            });
+            
+            function editar_evento(id){
+                $('#add_evento').modal('show');
+                $("#btn_nuevo").addClass('hidden');
+
+                var datosAgenda = { id:id }
+                $.post('agenda2/obtener_datos_agenda.php', datosAgenda).done(function(dataAgenda) {
+                    var datosA = dataAgenda.split(';}');
+                    if (dataAgenda) { 
+                        $("#telefono_paciente").val(datosA[0]);
+                        $("#nombre_paciente").val(datosA[1]);
+                        $("#direccion_paciente").val(datosA[2]);
+                        $("#email_paciente").val(datosA[3]);
+
+                        var fecha_inicio = moment(datosA[4], 'DD-MM-YYYY HH:mm:ss');
+                        $('#from').datetimepicker('setDate', fecha_inicio.toDate());
+                        $('#from input').val(fecha_inicio.format('MM/DD/YYYY HH:mm:ss'));
+
+                        var fecha_fin = moment(datosA[5], 'DD-MM-YYYY HH:mm:ss');
+                        $('#to').datetimepicker('setDate', fecha_fin.toDate());
+                        $('#to input').val(fecha_fin.format('MM/DD/YYYY HH:mm:ss'));
+                    return;
+                    } else {
+                        alert(dataAgenda);
+                    }
+                });
+            }
+
 
 
         </script>
@@ -435,7 +467,7 @@ if (isset($_POST['from']))
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
-                  <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Agregar</button>
+                  <button type="submit" class="btn btn-success" id="btn_nuevo"><i class="fa fa-check"></i> Agregar</button>
               </form>
           </div>
       </div>
