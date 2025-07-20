@@ -47,14 +47,20 @@ if (isset($_POST['from']))
         /* Valores agregados para agenda medica */
         $id_departamento  = evaluar($_POST['id_departamento']);
         $id_doctor  = evaluar($_POST['id_doctor']);
+
         $telefono_paciente  = evaluar($_POST['telefono_paciente']);
+        $telefono_paciente = preg_replace('/\D/', '', $telefono_paciente); // \D significa "todo lo que no sea un dígito"
+
         $email_doctor  = evaluar($_POST['email_doctor']);
         $nombre_paciente  = evaluar($_POST['nombre_paciente']);
         $direccion_paciente  = evaluar($_POST['direccion_paciente']);
         $email_paciente  = evaluar($_POST['email_paciente']);
 
+        $telefono_doctor  = evaluar($_POST['telefono_doctor']);
+        $telefono_doctor = preg_replace('/\D/', '', $telefono_doctor); // \D significa "todo lo que no sea un dígito"
+
         // insertamos el evento
-        $query="INSERT INTO agenda VALUES(null,'$titulo','$body','','$clase','$inicio','$final','$inicio_normal','$final_normal','$id_departamento','$id_doctor','$telefono_paciente','$email_doctor','$nombre_paciente','$direccion_paciente','$email_paciente')";
+        $query="INSERT INTO agenda VALUES(null,'$titulo','$body','','$clase','$inicio','$final','$inicio_normal','$final_normal','$id_departamento','$id_doctor','$telefono_paciente','$email_doctor','$nombre_paciente','$direccion_paciente','$email_paciente','$telefono_doctor')";
 
         // Ejecutamos nuestra sentencia sql
         $conexion->query($query)or die('<script type="text/javascript">alert("Horario No Disponible ")</script>');
@@ -340,14 +346,24 @@ if (isset($_POST['from']))
                         $("#nombre_paciente").val(datosA[1]);
                         $("#direccion_paciente").val(datosA[2]);
                         $("#email_paciente").val(datosA[3]);
+                        $("#id_departamento").val(datosA[6]);
+                        $('#id_doctor').val(datosA[7]).trigger('change');
+                        $("#telefono_doctor").val(datosA[8]);
 
-                        var fecha_inicio = moment(datosA[4], 'DD-MM-YYYY HH:mm:ss');
+                        window.setTimeout(function() {
+                            $("#email_doctor").val(datosA[9]);
+						}, 800);
+
+                        $("#title").val(datosA[10]);
+                        $("#body").val(datosA[11]);
+
+                        /* var fecha_inicio = moment(datosA[4], 'DD-MM-YYYY HH:mm:ss');
                         $('#from').datetimepicker('setDate', fecha_inicio.toDate());
                         $('#from input').val(fecha_inicio.format('MM/DD/YYYY HH:mm:ss'));
 
                         var fecha_fin = moment(datosA[5], 'DD-MM-YYYY HH:mm:ss');
                         $('#to').datetimepicker('setDate', fecha_fin.toDate());
-                        $('#to input').val(fecha_fin.format('MM/DD/YYYY HH:mm:ss'));
+                        $('#to input').val(fecha_fin.format('MM/DD/YYYY HH:mm:ss')); */
                     return;
                     } else {
                         alert(dataAgenda);
@@ -387,8 +403,12 @@ if (isset($_POST['from']))
                     <label for="id_doctor">Doctor</label>
                         <select class="form-control" name="id_doctor" id="id_doctor" required>
                     </select>
+                    <br>
+                    <br>
 
-                    <br><br>
+                    <label for="telefono_doctor">Teléfono Doctor</label>
+                    <input type="text" required autocomplete="off" name="telefono_doctor" class="form-control" id="telefono_doctor" placeholder="Introduce un Teléfono">
+                    <br>
 
                     <label for="email_doctor">Email Doctor</label>
                     <input type="email" autocomplete="off" name="email_doctor" class="form-control" id="email_doctor" placeholder="Introduce un Email">
@@ -397,7 +417,6 @@ if (isset($_POST['from']))
 
                     <label for="nombre_paciente">Nombre Paciente</label>
                     <input type="text" required autocomplete="off" name="nombre_paciente" class="form-control" id="nombre_paciente" placeholder="Introduce un Nombre">
-
                     <br>
 
                     <label for="email_paciente">Email Paciente</label>
@@ -406,7 +425,6 @@ if (isset($_POST['from']))
 
                     <label for="telefono_paciente">Teléfono Paciente</label>
                     <input type="text" required autocomplete="off" name="telefono_paciente" class="form-control" id="telefono_paciente" placeholder="Introduce un Teléfono">
-
                     <br>
 
                     <label for="direccion_paciente">Dirección Paciente</label>
@@ -419,7 +437,6 @@ if (isset($_POST['from']))
                         <input type='text' id="from" name="from" class="form-control" readonly />
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                     </div>
-
                     <br>
 
                     <label for="to">Final</label>
@@ -427,10 +444,9 @@ if (isset($_POST['from']))
                         <input type='text' name="to" id="to" class="form-control" readonly />
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                     </div>
-
                     <br>
 
-                    <label for="tipo">Tipo de evento</label>
+                    <label for="tipo">Color de evento</label>
                     <select class="form-control" name="class" id="tipo">
                         <option value="event-info">Informacion</option>
                         <option value="event-success">Exito</option>
@@ -438,13 +454,11 @@ if (isset($_POST['from']))
                         <option value="event-warning">Advertencia</option>
                         <option value="event-special">Especial</option>
                     </select>
-
                     <br>
 
 
                     <label for="title">Título</label>
                     <input type="text" required autocomplete="off" name="title" class="form-control" id="title" placeholder="Introduce un título">
-
                     <br>
 
 
