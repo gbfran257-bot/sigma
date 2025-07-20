@@ -47,43 +47,45 @@ if (isset($_POST['from']))
         /* Valores agregados para agenda medica */
         $id_departamento  = evaluar($_POST['id_departamento']);
         $id_doctor  = evaluar($_POST['id_doctor']);
-
         $telefono_paciente  = evaluar($_POST['telefono_paciente']);
         $telefono_paciente = preg_replace('/\D/', '', $telefono_paciente); // \D significa "todo lo que no sea un dígito"
-
         $email_doctor  = evaluar($_POST['email_doctor']);
         $nombre_paciente  = evaluar($_POST['nombre_paciente']);
         $direccion_paciente  = evaluar($_POST['direccion_paciente']);
         $email_paciente  = evaluar($_POST['email_paciente']);
-
         $telefono_doctor  = evaluar($_POST['telefono_doctor']);
         $telefono_doctor = preg_replace('/\D/', '', $telefono_doctor); // \D significa "todo lo que no sea un dígito"
+        $editando  = evaluar($_POST['editando']);
 
-        // insertamos el evento
-        $query="INSERT INTO agenda VALUES(null,'$titulo','$body','','$clase','$inicio','$final','$inicio_normal','$final_normal','$id_departamento','$id_doctor','$telefono_paciente','$email_doctor','$nombre_paciente','$direccion_paciente','$email_paciente','$telefono_doctor')";
+        if($editando == 0){
+            // insertamos el evento
+            $query="INSERT INTO agenda VALUES(null,'$titulo','$body','','$clase','$inicio','$final','$inicio_normal','$final_normal','$id_departamento','$id_doctor','$telefono_paciente','$email_doctor','$nombre_paciente','$direccion_paciente','$email_paciente','$telefono_doctor')";
 
-        // Ejecutamos nuestra sentencia sql
-        $conexion->query($query)or die('<script type="text/javascript">alert("Horario No Disponible ")</script>');
+            // Ejecutamos nuestra sentencia sql
+            $conexion->query($query)or die('<script type="text/javascript">alert("Horario No Disponible ")</script>');
 
-        //header("Location:$base_url");        
+            // Obtenemos el ultimo id insetado
+            $im=$conexion->query("SELECT MAX(id) AS id FROM agenda");
+            $row = $im->fetch_row();  
+            $id = trim($row[0]);
 
+            // para generar el link del evento
+            $link = "$base_url"."descripcion_evento.php?id=$id";
 
-        // Obtenemos el ultimo id insetado
-        $im=$conexion->query("SELECT MAX(id) AS id FROM agenda");
-        $row = $im->fetch_row();  
-        $id = trim($row[0]);
+            // y actualizamos su link
+            $query="UPDATE agenda SET url = '$link' WHERE id = $id";
 
-        // para generar el link del evento
-        $link = "$base_url"."descripcion_evento.php?id=$id";
+            // Ejecutamos nuestra sentencia sql
+            $conexion->query($query); 
+        }else{
+            // Actualizamos el evento
+            $query="UPDATE agenda SET title = '$titulo', body = '$body', class = '$clase', start = '$inicio', end = '$final', inicio_normal = '$inicio_normal', final_normal = '$final_normal', id_departamento = '$id_departamento', id_doctor = '$id_doctor', telefono_paciente = '$telefono_paciente', email_doctor = '$email_doctor', nombre_paciente = '$nombre_paciente', direccion_paciente = '$direccion_paciente', email_paciente = '$email_paciente', telefono_doctor = '$telefono_doctor' WHERE id = $editando";
+            //var_dump($query);
+            $conexion->query($query)or die('<script type="text/javascript">alert("Error ")</script>');
+        }
 
-        // y actualizamos su link
-        $query="UPDATE agenda SET url = '$link' WHERE id = $id";
+       
 
-        // Ejecutamos nuestra sentencia sql
-        $conexion->query($query); 
-
-        // redireccionamos a nuestro calendario
-        //header("Location:$base_url"); 
     }
 }
 
@@ -336,8 +338,9 @@ if (isset($_POST['from']))
             
             function editar_evento(id){
                 $('#add_evento').modal('show');
-                $("#btn_nuevo").addClass('hidden');
-
+                $("#editando").val(id);
+                //$("#btn_nuevo").addClass('hidden');
+              
                 var datosAgenda = { id:id }
                 $.post('agenda2/obtener_datos_agenda.php', datosAgenda).done(function(dataAgenda) {
                     var datosA = dataAgenda.split(';}');
@@ -348,7 +351,7 @@ if (isset($_POST['from']))
                         $("#email_paciente").val(datosA[3]);
                         $("#id_departamento").val(datosA[6]);
                         $('#id_doctor').val(datosA[7]).trigger('change');
-                        $("#telefono_doctor").val(datosA[8]);
+                        $("#telefono_doctor").val(datosA[8]); 
 
                         window.setTimeout(function() {
                             $("#email_doctor").val(datosA[9]);
@@ -356,6 +359,7 @@ if (isset($_POST['from']))
 
                         $("#title").val(datosA[10]);
                         $("#body").val(datosA[11]);
+                        $("#tipo").val(datosA[12]);
 
                         /* var fecha_inicio = moment(datosA[4], 'DD-MM-YYYY HH:mm:ss');
                         $('#from').datetimepicker('setDate', fecha_inicio.toDate());
@@ -384,6 +388,7 @@ if (isset($_POST['from']))
             <div class="modal-body">
                 <form action="" method="post">
                     <!-- campos agregados para agenda medica -->
+                    <input type="text" id="editando" name="editando" value="0" class="hidden">
                     <label for="id_paciente">Paciente (Opcional)</label>
                     <select class="form-control" name="id_paciente" id="id_paciente">
                     </select>
@@ -397,7 +402,6 @@ if (isset($_POST['from']))
                         <option value="1">LABORATORIO</option>
                         <option value="3">FARMACIA</option>
                     </select>
-
                     <br>
 
                     <label for="id_doctor">Doctor</label>
@@ -448,11 +452,11 @@ if (isset($_POST['from']))
 
                     <label for="tipo">Color de evento</label>
                     <select class="form-control" name="class" id="tipo">
-                        <option value="event-info">Informacion</option>
-                        <option value="event-success">Exito</option>
-                        <option value="event-important">Importantante</option>
-                        <option value="event-warning">Advertencia</option>
-                        <option value="event-special">Especial</option>
+                        <option value="event-info">Azul</option>
+                        <option value="event-success">Verde</option>
+                        <option value="event-important">Rojo</option>
+                        <option value="event-warning">Amarillo</option>
+                        <option value="event-special">Morado</option>
                     </select>
                     <br>
 
