@@ -137,6 +137,50 @@ if (isset($_POST['from']))
             curl_close($ch);
         }         
 
+        if (isset($_POST['check_sms'])) {
+            $usuario = ''; // reemplaza con tu usuario de LabsMobile
+            $token = '';     // reemplaza con tu token real
+
+            $url = 'https://api.labsmobile.com/json/send';
+
+            $data = [
+                'message'   => 'Esta es una pueba desde php',
+                'tpoa'      => 'Sender', // remitente
+                'recipient' => [
+                    ['msisdn' => '527345249715'] // número destino
+                ]
+            ];
+
+            // Iniciar cURL
+            $ch = curl_init($url);
+
+            // Configurar cURL
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_USERPWD, "$usuario:$token");
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Cache-Control: no-cache',
+                'Content-Type: application/json'
+            ]);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+            // Ejecutar la solicitud
+            $response = curl_exec($ch);
+            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+            // Ver errores
+            if (curl_errno($ch)) {
+                echo 'Error en cURL: ' . curl_error($ch);
+            } else {
+                //echo "Código HTTP: $httpcode\n";
+                //echo "Respuesta: $response";
+            }
+
+            // Cerrar conexión
+            curl_close($ch);
+        }
+
     }
 }
 
@@ -522,7 +566,7 @@ if (isset($_POST['from']))
                     <br>
 
                     <input type="checkbox" id="check_email" name="check_email" value="1"> Email
-
+                    <input type="checkbox" id="check_sms" name="check_sms" value="1"> SMS
 
                     <script type="text/javascript">
                         $(function () {
