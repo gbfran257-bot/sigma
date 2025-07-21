@@ -139,17 +139,21 @@ if (isset($_POST['from']))
 
         if (isset($_POST['check_sms'])) {
 
+            $name_doctor=$conexion->query("SELECT CONCAT_WS(' ', nombre_u, apaterno_u, amaterno_u) FROM usuarios WHERE id_u = $id_doctor");
+            $rowname_doctor = $name_doctor->fetch_row();  
+
             if(isset($_POST['check_doctor_mx'])){
                 $telefono1 = "52" . $telefono_doctor;
             }
 
             $usuario = ''; // reemplaza con tu usuario de LabsMobile
             $token = '';     // reemplaza con tu token real
+            $mensajesms1 = "Estimado doctor $rowname_doctor[0] se ha registrado un evento con titulo $titulo y fecha $inicio_normal del paciente $nombre_paciente.";
 
             $url = 'https://api.labsmobile.com/json/send';
 
             $data = [
-                'message'   => 'Esta es una pueba desde php',
+                'message'   => $mensajesms1,
                 'tpoa'      => 'Sender', // remitente
                 'recipient' => [
                     ['msisdn' => $telefono1] // número destino
@@ -184,6 +188,54 @@ if (isset($_POST['from']))
 
             // Cerrar conexión
             curl_close($ch);
+
+            usleep(500000); 
+
+            if(isset($_POST['check_paciente_mx'])){
+                $telefono2 = "52" . $telefono_paciente;
+            }
+
+            $mensajesms2 = "Estimado $nombre_paciente se ha registrado un evento con titulo $titulo y fecha $inicio_normal";
+
+            $url = 'https://api.labsmobile.com/json/send';
+
+            $data = [
+                'message'   => $mensajesms2,
+                'tpoa'      => 'Sender', // remitente
+                'recipient' => [
+                    ['msisdn' => $telefono2] // número destino
+                ]
+            ];
+
+            // Iniciar cURL
+            $ch = curl_init($url);
+
+            // Configurar cURL
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_USERPWD, "$usuario:$token");
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Cache-Control: no-cache',
+                'Content-Type: application/json'
+            ]);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+            // Ejecutar la solicitud
+            $response = curl_exec($ch);
+            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+            // Ver errores
+            if (curl_errno($ch)) {
+                echo 'Error en cURL: ' . curl_error($ch);
+            } else {
+                //echo "Código HTTP: $httpcode\n";
+                //echo "Respuesta: $response";
+            }
+
+            // Cerrar conexión
+            curl_close($ch);
+
         }
 
     }
