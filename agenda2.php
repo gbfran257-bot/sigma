@@ -80,11 +80,37 @@ if (isset($_POST['from']))
         }else{
             // Actualizamos el evento
             $query="UPDATE agenda SET title = '$titulo', body = '$body', class = '$clase', start = '$inicio', end = '$final', inicio_normal = '$inicio_normal', final_normal = '$final_normal', id_departamento = '$id_departamento', id_doctor = '$id_doctor', telefono_paciente = '$telefono_paciente', email_doctor = '$email_doctor', nombre_paciente = '$nombre_paciente', direccion_paciente = '$direccion_paciente', email_paciente = '$email_paciente', telefono_doctor = '$telefono_doctor' WHERE id = $editando";
-            //var_dump($query);
             $conexion->query($query)or die('<script type="text/javascript">alert("Error ")</script>');
         }
 
-       
+        if (isset($_POST['check_email_doctor'])) {
+            $name_doctor=$conexion->query("SELECT CONCAT_WS(' ', nombre_u, apaterno_u, amaterno_u) FROM usuarios WHERE id_u = $id_doctor");
+            $rowname_doctor = $name_doctor->fetch_row();  
+
+            $api_key = '';
+            $mensaje = "Estimado/a $rowname_doctor[0] se ha registrado un evento en AGENDA SIGMA con titulo $titulo y fecha $inicio_normal <br><br> Este es un mensaje automático generado por el sistema. <br> No responda a este correo.";
+
+            $data = [
+                'from' => 'AGENDA SIGMA <sigmagenda@desarrollodpp.com>',
+                'to' => [$email_doctor],
+                'subject' => 'Se ha registrado un evento.',
+                'html' => "<p>$mensaje</p>"
+            ];
+
+            $ch = curl_init('https://api.resend.com/emails');
+
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Authorization: Bearer ' . $api_key,
+                'Content-Type: application/json',
+            ]);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            $response = curl_exec($ch);
+            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+        }         
 
     }
 }
@@ -468,6 +494,10 @@ if (isset($_POST['from']))
 
                     <label for="body">Descripción</label>
                     <textarea id="body" name="event" required class="form-control" rows="3"></textarea>
+                    <br>
+
+                    <input type="checkbox" id="check_email_doctor" name="check_email_doctor" value="1"> Email
+
 
                     <script type="text/javascript">
                         $(function () {
