@@ -29,6 +29,34 @@
     // Fecha Termino
     $final=$row['final_normal'];
 
+    $id_departamento=$row['id_departamento'];
+    $telefono_paciente=$row['telefono_paciente'];
+    $email_doctor=$row['email_doctor'];
+    $nombre_paciente=$row['nombre_paciente'];
+    $direccion_paciente=$row['direccion_paciente'];
+    $email_paciente=$row['email_paciente'];
+    $telefono_doctor=$row['telefono_doctor'];
+    $nombre_doctor=$row['nombre_doctor'];
+    $departamento = "";
+
+    switch ($id_departamento) {
+        case 1:
+            $departamento = "LABORATORIO";
+            break;
+        case 2:
+            $departamento = "IMAGEN";
+            break;
+        case 3:
+            $departamento = "FARMACIA";
+            break;
+        case 4:
+            $departamento = "ASOCIACION MEDICA";
+            break;
+        default:
+            $departamento = "Opción no válida";
+            break;
+    }
+
 // Eliminar evento
 if (isset($_POST['eliminar_evento'])) 
 {
@@ -55,6 +83,12 @@ if (isset($_POST['eliminar_evento']))
 <body>
 	 <h3><?=$titulo?></h3>
 	 <hr>
+     <b>Paciente:</b> <?=$nombre_paciente?> <br>
+     <b>Telefono paciente:</b> <?=$telefono_paciente?> <br>
+     <b>Dirección paciente:</b> <?=$direccion_paciente?> <br>
+     <b>Doctor:</b> <?=$nombre_doctor?> <br>
+     <b>Telefono Doctor:</b> <?=$telefono_doctor?> <br>
+     <b>Departamento:</b> <?=$departamento?> <br>
      <b>Fecha inicio:</b> <?=$inicio?> <br>
      <b>Fecha termino:</b> <?=$final?>  <br>
  	 <b>Descripcion:</b><p><?=$evento?></p>

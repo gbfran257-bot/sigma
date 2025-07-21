@@ -57,9 +57,12 @@ if (isset($_POST['from']))
         $telefono_doctor = preg_replace('/\D/', '', $telefono_doctor); // \D significa "todo lo que no sea un dígito"
         $editando  = evaluar($_POST['editando']);
 
+        $name_doctor=$conexion->query("SELECT CONCAT_WS(' ', nombre_u, apaterno_u, amaterno_u) FROM usuarios WHERE id_u = $id_doctor");
+        $rowname_doctor = $name_doctor->fetch_row();  
+
         if($editando == 0){
             // insertamos el evento
-            $query="INSERT INTO agenda VALUES(null,'$titulo','$body','','$clase','$inicio','$final','$inicio_normal','$final_normal','$id_departamento','$id_doctor','$telefono_paciente','$email_doctor','$nombre_paciente','$direccion_paciente','$email_paciente','$telefono_doctor')";
+            $query="INSERT INTO agenda VALUES(null,'$titulo','$body','','$clase','$inicio','$final','$inicio_normal','$final_normal','$id_departamento','$id_doctor','$telefono_paciente','$email_doctor','$nombre_paciente','$direccion_paciente','$email_paciente','$telefono_doctor','$rowname_doctor[0]')";
 
             // Ejecutamos nuestra sentencia sql
             $conexion->query($query)or die('<script type="text/javascript">alert("Horario No Disponible ")</script>');
@@ -79,13 +82,11 @@ if (isset($_POST['from']))
             $conexion->query($query); 
         }else{
             // Actualizamos el evento
-            $query="UPDATE agenda SET title = '$titulo', body = '$body', class = '$clase', start = '$inicio', end = '$final', inicio_normal = '$inicio_normal', final_normal = '$final_normal', id_departamento = '$id_departamento', id_doctor = '$id_doctor', telefono_paciente = '$telefono_paciente', email_doctor = '$email_doctor', nombre_paciente = '$nombre_paciente', direccion_paciente = '$direccion_paciente', email_paciente = '$email_paciente', telefono_doctor = '$telefono_doctor' WHERE id = $editando";
+            $query="UPDATE agenda SET title = '$titulo', body = '$body', class = '$clase', start = '$inicio', end = '$final', inicio_normal = '$inicio_normal', final_normal = '$final_normal', id_departamento = '$id_departamento', id_doctor = '$id_doctor', telefono_paciente = '$telefono_paciente', email_doctor = '$email_doctor', nombre_paciente = '$nombre_paciente', direccion_paciente = '$direccion_paciente', email_paciente = '$email_paciente', telefono_doctor = '$telefono_doctor', nombre_doctor = '$rowname_doctor[0]' WHERE id = $editando";
             $conexion->query($query)or die('<script type="text/javascript">alert("Error ")</script>');
         }
 
         if (isset($_POST['check_email'])) {
-            $name_doctor=$conexion->query("SELECT CONCAT_WS(' ', nombre_u, apaterno_u, amaterno_u) FROM usuarios WHERE id_u = $id_doctor");
-            $rowname_doctor = $name_doctor->fetch_row();  
 
             $api_key = '';
             $mensaje = "Estimado/a $rowname_doctor[0] se ha registrado un evento en AGENDA SIGMA con titulo $titulo y fecha $inicio_normal <br><br> Este es un mensaje automático generado por el sistema. <br> No responda a este correo.";
@@ -138,9 +139,6 @@ if (isset($_POST['from']))
         }         
 
         if (isset($_POST['check_sms'])) {
-
-            $name_doctor=$conexion->query("SELECT CONCAT_WS(' ', nombre_u, apaterno_u, amaterno_u) FROM usuarios WHERE id_u = $id_doctor");
-            $rowname_doctor = $name_doctor->fetch_row();  
 
             if(isset($_POST['check_doctor_mx'])){
                 $telefono1 = "52" . $telefono_doctor;
