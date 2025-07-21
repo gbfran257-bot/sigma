@@ -138,6 +138,11 @@ if (isset($_POST['from']))
         }         
 
         if (isset($_POST['check_sms'])) {
+
+            if(isset($_POST['check_doctor_mx'])){
+                $telefono1 = "52" . $telefono_doctor;
+            }
+
             $usuario = ''; // reemplaza con tu usuario de LabsMobile
             $token = '';     // reemplaza con tu token real
 
@@ -147,7 +152,7 @@ if (isset($_POST['from']))
                 'message'   => 'Esta es una pueba desde php',
                 'tpoa'      => 'Sender', // remitente
                 'recipient' => [
-                    ['msisdn' => '527345249715'] // número destino
+                    ['msisdn' => $telefono1] // número destino
                 ]
             ];
 
@@ -505,7 +510,7 @@ if (isset($_POST['from']))
                     <br>
                     <br>
 
-                    <label for="telefono_doctor">Teléfono Doctor</label>
+                    <label for="telefono_doctor">Teléfono Doctor</label> &nbsp; <input type="checkbox" id="check_doctor_mx" name="check_doctor_mx" value="1" checked> Lada MX
                     <input type="text" required autocomplete="off" name="telefono_doctor" class="form-control" id="telefono_doctor" placeholder="Introduce un Teléfono">
                     <br>
 
@@ -522,7 +527,7 @@ if (isset($_POST['from']))
                     <input type="email" autocomplete="off" name="email_paciente" class="form-control" id="email_paciente" placeholder="Introduce un Email">
                     <br>
 
-                    <label for="telefono_paciente">Teléfono Paciente</label>
+                    <label for="telefono_paciente">Teléfono Paciente</label> &nbsp; <input type="checkbox" id="check_paciente_mx" name="check_paciente_mx" value="1" checked> Lada MX
                     <input type="text" required autocomplete="off" name="telefono_paciente" class="form-control" id="telefono_paciente" placeholder="Introduce un Teléfono">
                     <br>
 
@@ -565,8 +570,8 @@ if (isset($_POST['from']))
                     <textarea id="body" name="event" required class="form-control" rows="3"></textarea>
                     <br>
 
-                    <input type="checkbox" id="check_email" name="check_email" value="1"> Email
-                    <input type="checkbox" id="check_sms" name="check_sms" value="1"> SMS
+                    <input type="checkbox" id="check_email" name="check_email" value="1"> <label for="check_email">Email</label>
+                    <input type="checkbox" id="check_sms" name="check_sms" value="1"> <label for="check_sms">SMS</label>
 
                     <script type="text/javascript">
                         $(function () {
