@@ -33,6 +33,7 @@
 							<th class="titulosTabs" align="center" width="" nowrap>SUSPENDER</th>
 							<th class="titulosTabs" align="center" width="" nowrap>APLICAR</th>
 							<th class="titulosTabs" align="center" width="" nowrap>PRECIO</th>
+							<th class="titulosTabs" align="center" width="" nowrap>ORIGEN</th>
 						  </tr>
 						</thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 						<tfoot style="display:;">
@@ -46,6 +47,7 @@
 								<th></th>
 								<th></th>
 								<th></th>
+								<th><input type="text" class="form-control input-sm" placeholder="-ORIGEN-" style="width: 99%"/></th>
 							</tr>
 						</tfoot>
 					</table>

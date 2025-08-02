@@ -4,7 +4,7 @@ require("../../funciones/php/values.php");
 
 	$idP = sqlValue($_GET["id_p"], "int");
 
-	$aColumns = array('m.id_mh', 'DATE_FORMAT(m.fecha_mh,"%d/%m/%Y")', 'mc.concepto_to', 'm.cantidad_texto_mh' ,'concat_ws(" ", t.abreviacion_ti, u.nombre_u, apaterno_u)', 'm.indicacion_mh','m.id_mh', 'm.id_hospitalizacion_mh', 'p.id_p', 'p.nombre_completo_p', 'o.sucursal_ov', 'm.id_mh', 'DATE_FORMAT(m.fecha_mh,"%H:%i:%s")','mc.precio_to','h.estatus_h','m.estatus_mh','u.cedulaProfesional_u');
+	$aColumns = array('m.id_mh', 'DATE_FORMAT(m.fecha_mh,"%d/%m/%Y")', 'mc.concepto_to', 'm.cantidad_texto_mh' ,'concat_ws(" ", t.abreviacion_ti, u.nombre_u, apaterno_u)', 'm.indicacion_mh','m.id_mh', 'm.id_hospitalizacion_mh', 'p.id_p', 'p.nombre_completo_p', 'o.sucursal_ov', 'm.id_mh', 'DATE_FORMAT(m.fecha_mh,"%H:%i:%s")','mc.precio_to','h.estatus_h','m.estatus_mh','u.cedulaProfesional_u', 'st.clave_su');
      
     // DB tables to use 
     $aTables = array( 'medicamentos_hospital m');
@@ -13,7 +13,7 @@ require("../../funciones/php/values.php");
     $sIndexColumn = "m.id_mh";
      
 	// Joins   hasta aqui
-	$sJoin = 'left join conceptos mc on mc.id_to = m.id_medicamento_mh left join usuarios u on u.id_u = m.id_u_mh left join titulos t on t.id_ti = u.id_titulo_u left join hospitalizacion h on h.id_h = m.id_hospitalizacion_mh left join pacientes p on p.id_p = h.id_paciente_h left join venta_conceptos v on v.id_vc = h.id_consulta_vc_h left join orden_venta o on o.referencia_ov = v.referencia_vc';
+	$sJoin = 'left join conceptos mc on mc.id_to = m.id_medicamento_mh left join usuarios u on u.id_u = m.id_u_mh left join titulos t on t.id_ti = u.id_titulo_u left join hospitalizacion h on h.id_h = m.id_hospitalizacion_mh left join pacientes p on p.id_p = h.id_paciente_h left join venta_conceptos v on v.id_vc = h.id_consulta_vc_h left join orden_venta o on o.referencia_ov = v.referencia_vc left join stock_has_bach shb on shb.id = m.ref_stock_pivote left join stock st on st.id = shb.id_stock';
 	 
     // CONDITIONS
 	$sWhere = "where m.id_hospitalizacion_mh = '$_GET[id_h]'";	
@@ -75,7 +75,12 @@ require("../../funciones/php/values.php");
         {
             if ( $sWhere == "" ) { $sWhere = "WHERE "; }
             else { $sWhere .= " AND "; }
-            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+            if($i==9){
+                $sWhere .= "st.clave_su LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+            }else{
+                $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+            }
+            //$sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
         }
     }
      
@@ -156,6 +161,8 @@ require("../../funciones/php/values.php");
         }else{
             $row[3] = "<p onClick='actualizarCantMed(".$row[11].", \"$row[3]\")' class='' style='cursor:pointer; text-decoration:underline;' id='editar_".$row[11]."'>".$row[3]."</p>";
         }
+
+        $row[9] = $row[17];
 		
 		$output['aaData'][] = $row;
 		
