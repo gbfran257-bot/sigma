@@ -248,6 +248,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                                         <?php if ($permisos[41]) { ?> <li style="white-space:nowrap;"><a href="ordenes_venta_a.php"><i class="fa fa-shopping-cart"></i> ÓRDENES DE VENTA</a></li> <?php } ?>
                                         <?php if ($permisos[42]) { ?> <li style="white-space:nowrap;"><a href="pagos_usuario_a.php"><i class="fa fa-dollar"></i> PAGOS</a></li> <?php } ?>
                                         <?php if ($permisos[43]) { ?> <li style="white-space:nowrap;"><a href="resumen_cc_pagos_sucursales.php"><i class="fa fa-dollar"></i> PAGOS SUCURSALES</a></li> <?php } ?>
+                                        <?php if ($permisos[43]) { ?> <li style="white-space:nowrap;"><a href="productividad_medicos.php"><i class="fa fa-dollar"></i> P. MEDICOS</a></li> <?php } ?>
                                         <?php if ($permisos[43]) { ?> <li style="white-space:nowrap;"><a href="resumen_cc.php"><i class="fa fa-dollar"></i> RESUMEN</a></li> <?php } ?>
                                         <?php if ($permisos[41]) { ?> <li style="white-space:nowrap;"> <a href="prodGral.php"> <i class="fa fa-dollar"></i> PROD. GENERAL </a> </li> <?php } ?>
                                         <?php if ($permisos[41]) { ?> <li style="white-space:nowrap;"> <a href="historial_modificaciones_pagos.php"> <i class="fa fa-dollar"></i> HISTORIAL MODIFICACIONES </a> </li> <?php } ?>
