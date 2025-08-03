@@ -12,7 +12,7 @@
     <meta name="description" content="SISTEMA DE EXPEDIENTE CLÍNICO ELECTRÓNICO">
     <meta name="author" content="ING JESUS DIAZ CONTRERAS">
     
-    <title>SISTEMA - REPORTE DE PRODUCTIVIDAD DE CONSULTAS VENTAS</title>
+    <title>SISTEMA - REPORTE DE PRODUCTIVIDAD MEDICOS</title>
     
     <link rel="shortcut icon" href="imagenes/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="imagenes/favicon.ico" type="image/x-icon">
@@ -110,7 +110,7 @@
 <script>
 $(document).ready(function(e) {
 	
-	$('#breadc').html('<li><a href="index.php">CONSULTAS MÉDICAS</a></li><li class="active"><strong>REPORTE DE PRODUCTIVIDAD</strong></li>');
+	$('#breadc').html('<li>ADMINISTRACIÓN</li><li>CORTE DE CAJA</li><li class="active"><strong>REPORTE DE PRODUCTIVIDAD MEDICOS</strong></li>');
 	
 	var tamP = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-210;
 	var oTableP = $('#dataTablePrincipal').DataTable({
