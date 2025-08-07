@@ -4,7 +4,7 @@ require("../../funciones/php/values.php");
 
 	$idP = sqlValue($_GET["id_p"], "int");
 
-	$aColumns = array('m.id_mh', 'DATE_FORMAT(m.fecha_mh,"%d/%m/%Y")', 'mc.concepto_to', 'm.cantidad_texto_mh' ,'concat_ws(" ", t.abreviacion_ti, u.nombre_u, apaterno_u)', 'm.indicacion_mh','m.id_mh', 'm.id_hospitalizacion_mh', 'p.id_p', 'p.nombre_completo_p', 'o.sucursal_ov', 'm.id_mh', 'DATE_FORMAT(m.fecha_mh,"%H:%i:%s")','mc.precio_to','h.estatus_h','m.estatus_mh','u.cedulaProfesional_u', 'st.clave_su');
+	$aColumns = array('m.id_mh', 'DATE_FORMAT(m.fecha_mh,"%d/%m/%Y")', 'mc.concepto_to', 'm.cantidad_texto_mh' ,'concat_ws(" ", t.abreviacion_ti, u.nombre_u, apaterno_u)', 'm.indicacion_mh','m.id_mh', 'm.id_hospitalizacion_mh', 'p.id_p', 'p.nombre_completo_p', 'o.sucursal_ov', 'm.id_mh', 'DATE_FORMAT(m.fecha_mh,"%H:%i:%s")','mc.precio_to','h.estatus_h','m.estatus_mh','u.cedulaProfesional_u', 'st.clave_su', 'shb.Lote');
      
     // DB tables to use 
     $aTables = array( 'medicamentos_hospital m');
@@ -162,7 +162,7 @@ require("../../funciones/php/values.php");
             $row[3] = "<p onClick='actualizarCantMed(".$row[11].", \"$row[3]\")' class='' style='cursor:pointer; text-decoration:underline;' id='editar_".$row[11]."'>".$row[3]."</p>";
         }
 
-        $row[9] = $row[17];
+        $row[9] = $row[17] . "<br>" . $row[18];
 		
 		$output['aaData'][] = $row;
 		
