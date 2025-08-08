@@ -215,4 +215,65 @@ $(document).ready(function(e) {
 /* function verOV(idP,fechaMin,fechaMax,concepto){
 	verOV_p(idP,fechaMin,fechaMax,concepto);
 } */
+
+function verConceptos(id_medico, nombre_medico){
+	$("#myModal").load('corte_caja/reportes/htmls/verConceptos.php', function( response, status, xhr ){
+		if(status=="success"){
+			$("#titulo_modal_medico").text("CONCEPTOS DEL MEDICO " + nombre_medico + " DE LAS FECHAS " + $('#fechaDe').val() + " A " + $('#fechaA').val());
+
+			//
+			var tamP2 = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-300-$('#breadc').height();
+			var oTableP2 = $('#dataTablePrincipal2').DataTable({
+				serverSide: true,"sScrollY": tamP2, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
+				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
+				"aoColumns":[ {"bVisible":true}, {"bVisible":true }, {"bVisible":true }, { "bVisible": true },
+						{ "bVisible": true }, { "bVisible": true }, { "bVisible": true }, { "bVisible": true }, { "bVisible": true }
+				],
+				"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
+				deferRender: true, select: false, "processing": false, 
+				"sAjaxSource": "corte_caja/reportes/datatable-serverside/DoctorConceptos.php",
+				"fnServerParams": function (aoData, fnCallback) { 
+					var nombre = $('#top-search').val();
+					var acceso = $('#acc_user').val(); var idU = $('#id_user').val();
+					var de = $('#fechaDe').val()+' 00:00:00';
+					var a = $('#fechaA').val()+' 23:59:59';
+					
+					aoData.push( {"name": "nombre", "value": nombre } );
+					aoData.push(  {"name": "accesoU", "value": acceso } );
+					aoData.push(  {"name": "idU", "value": idU } );
+					aoData.push(  {"name": "min", "value": de } ); 
+					aoData.push(  {"name": "max", "value": a } );
+					aoData.push(  {"name": "id_medico", "value": id_medico } );
+				},
+				"oLanguage": {
+					"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
+					"sInfo": "SERVICIOS FILTRADOS: _END_",
+					"sInfoEmpty": "NINGÚN SERVICIO FILTRADO.", "sInfoFiltered": " TOTAL DE SERVICIOS: _MAX_", "sSearch": "",
+					"oPaginate": { "sNext": "<span class='paginacionPrincipal'>Siguiente</span>", "sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;" }
+				},"iDisplayLength": 40, paging: true,
+			});
+
+			$('#clickme2').click(function(e) { oTableP2.draw(); }); window.setTimeout(function(){$('#clickme2').click();},500);
+	
+			oTableP2.columns().every( function () {
+				var that = this;
+		
+				$( 'input', this.footer() ).on( 'keyup change', function () {
+					if ( that.search() !== this.value ) { that .search( this.value ) .draw(); }
+				} );
+			} );
+			$('#top-search').keyup(function(e) {
+				$('#dataTablePrincipal_filter input').val($(this).val()); $('#dataTablePrincipal_filter input').keyup();
+			}).focus();
+			$('.filtro1Principal').addClass('hidden');
+			//
+
+			$('#myModal').modal('show');
+			$('#myModal').on('shown.bs.modal', function (e) { });
+			$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
+		}
+	});
+
+}
+
 </script>

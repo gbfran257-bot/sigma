@@ -126,6 +126,8 @@ require("../../../funciones/php/values.php");
         $row[2] = "<span class='btn btn-primary' onclick='verOV($row[8],\"$_GET[min]\",\"$_GET[max]\",\"$row[1]\")'>$row[2]</span>";
         $contV1++; */
 
+        $row[2] = "<button type='button' class='btn btn-primary btn-sm' onclick='verConceptos($row[0], \"$row[1]\");'>$row[2]</button>";
+
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );
