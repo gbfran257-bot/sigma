@@ -92,13 +92,13 @@
 	<tfoot>
 		<tr class="bg-primary">
 			<th><input type="hidden"></th>
-			<th><!-- <input type="text" class="form-control input-sm" placeholder ="Nombre de consulta"> --></th>
+			<th></th>
 			<th><input type="hidden" class="sCalculo" /></th>
 			<th><input type="hidden"></th>
 			<th><input type="hidden" class="sCalculo" /></th>
 			<th><input type="hidden" class="sCalculo" /></th>
 			<th><input type="hidden" class="sCalculo" /></th>
-			<th><!-- <input type="text" class="form-control input-sm" placeholder ="Línea"> --></th>
+			<th></th>
 		</tr>
 	</tfoot>
 </table>
@@ -198,30 +198,26 @@ $(document).ready(function(e) {
 	$("#fechaA").on('changeDate', function(e) { oTableP.draw(); });
 });
 
-/* function detalles(idC, min, max){
-	$("#myModal").load('consultas/htmls/productividad_cst_med.php', function(response, status, xhr){ if(status=="success"){
-	$('#titulo_modal').text('MÉDICOS QUE FINALIZARON LAS CONSULTAS'); 
-	
-	var datosCon = {idC:idC, min:min, max:max }
-	$.post('consultas/files-serverside/productividad_cst.php',datosCon).done(function(data){
-		$('#contenidoPcts').html(data);
-	});
-
-		$('#myModal').modal('show');
-		$('#myModal').on('shown.bs.modal', function(e){ $('#form-colonia').validator(); });
-		$('#myModal').on('hidden.bs.modal', function(e){ $(".modal-content").remove(); $("#myModal").empty(); });
-	}});
-} */
-/* function verOV(idP,fechaMin,fechaMax,concepto){
-	verOV_p(idP,fechaMin,fechaMax,concepto);
-} */
-
 function verConceptos(id_medico, nombre_medico){
 	$("#myModal").load('corte_caja/reportes/htmls/verConceptos.php', function( response, status, xhr ){
 		if(status=="success"){
 			$("#titulo_modal_medico").text("CONCEPTOS DEL MEDICO " + nombre_medico + " DE LAS FECHAS " + $('#fechaDe').val() + " A " + $('#fechaA').val());
 
+			//Este bloque tiene codigo necesario para mostrar informacion adicional
+			function fnFormatDetails ( oTableP2, nTr, x) { 
+				var tr = $(this).closest('tr');
+				var aData = oTableP2.row(tr).data();
+				var sOut = x; return sOut; 
+			}
+
+				var nCloneTh = document.createElement( 'th' );
+				var nCloneTd = document.createElement( 'td' );
+				nCloneTd.innerHTML = '<img src="imagenes/generales/details_open.png">';
+				nCloneTd.className = "center";
+				/* $('#dataTablePrincipal2 thead tr').each( function () { this.insertBefore( nCloneTh, this.childNodes[0] ); });
+				$('#dataTablePrincipal2 tbody tr').each( function () { this.insertBefore( nCloneTd.cloneNode( true ), this.childNodes[0] ); }); */
 			//
+
 			var tamP2 = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-300-$('#breadc').height();
 			var oTableP2 = $('#dataTablePrincipal2').DataTable({
 				serverSide: true,"sScrollY": tamP2, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
@@ -266,6 +262,59 @@ function verConceptos(id_medico, nombre_medico){
 				$('#dataTablePrincipal_filter input').val($(this).val()); $('#dataTablePrincipal_filter input').keyup();
 			}).focus();
 			$('.filtro1Principal').addClass('hidden');
+
+			/* $(document).delegate('#dataTablePrincipal2 tbody td img','click', function () {
+				var tr = $(this).closest('tr');
+var row = oTableP2.row(tr);
+
+if (row.child.isShown()) {
+    // Ya está abierto, lo cerramos
+    this.src = "imagenes/generales/details_open.png";
+    row.child.hide();
+} else {
+    // Está cerrado, lo abrimos
+    var aData = row.data();
+    this.src = "imagenes/generales/details_close.png";
+	var ref = aData[1];
+    var datoxOV = { ref: ref };
+
+    $.post('corte_caja/reportes/datatable-serverside/datosAdicionales.php', datoxOV, function(dataOV){
+        console.log(dataOV);
+        row.child(fnFormatDetails(oTableP2, tr, dataOV)).show();
+    });
+}
+
+			} ); */
+
+			// En este bloque colocamos la logica de los datos que se agregaran a los registros de la datatable
+			$(document).on('click', '#dataTablePrincipal2 tbody td img', function () {
+				const tr = $(this).closest('tr');
+				const row = oTableP2.row(tr);
+
+				if (!row.data()) {
+					console.warn("No se encontraron datos para esta fila");
+					return;
+				}
+
+				if (row.child.isShown()) {
+					this.src = "imagenes/generales/details_open.png";
+					row.child.hide();
+				} else {
+					this.src = "imagenes/generales/details_close.png";
+
+					const aData = row.data();
+					const ref = aData[1];
+
+					if (typeof ref === 'undefined') {
+						console.error("ref no está definido en aData[1]", aData);
+						return;
+					}
+
+					$.post('corte_caja/reportes/datatable-serverside/datosAdicionales.php', { ref: ref }, function (dataOV) {
+						row.child(fnFormatDetails(oTableP2, tr, dataOV)).show();
+					});
+				}
+			});
 			//
 
 			$('#myModal').modal('show');

@@ -106,7 +106,7 @@ require("../../../funciones/php/values.php");
 		/* $row [0] = $hh++;
 		$nombre = $row[1];
         $row[1] = "<button type='button' class='btn btn-link btn-xs' id='".$row[3]."' onClick='editar(this.id,\"$nombre\");'>".mb_strtoupper($row[1])."</button>";  */               
-		
+		$row[0] = "<img src='imagenes/generales/details_open.png' title='¡Información Adicional' border = '0' />";
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );
