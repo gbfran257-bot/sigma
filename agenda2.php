@@ -424,6 +424,12 @@ if (isset($_POST['from']))
             window.location.href = 'index.php';
         });
 
+        $('#mostrar_modal_nuevo').on('click', function() {
+            window.setTimeout(function() {
+                $("#editando").val(0);
+            }, 800);
+        });
+
         $(document).ready(function() {
             $('#id_doctor').select2({
                 placeholder: "Elige un Doctor",
