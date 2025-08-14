@@ -17,7 +17,7 @@ try {
                                 LEFT JOIN stock s ON shb.id_stock = s.id
                                 LEFT JOIN conceptos c ON shb.id_Producto = c.id_to
                                 LEFT JOIN medicamentos m ON c.id_medicamento_g = m.id_med
-                                WHERE s.id_su = {$id_sucursal}
+                                WHERE s.id_su = {$id_sucursal} AND shb.existencias > 0
                                 ORDER BY producto";
 
     if (!$resultado_query_productos_sucursal = mysqli_query($horizonte, $query_productos_sucursal)) {
