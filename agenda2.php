@@ -138,7 +138,7 @@ if (isset($_POST['from']))
             curl_close($ch);
         }         
 
-        if (isset($_POST['check_sms'])) {
+        if (isset($_POST['check_sms']) && strlen($telefono_doctor) == 10 && strlen($telefono_paciente) == 10) {
 
             if(isset($_POST['check_doctor_mx'])){
                 $telefono1 = "52" . $telefono_doctor;
