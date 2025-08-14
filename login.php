@@ -52,11 +52,25 @@ $(document).ready(function() {
 });
 </script>
 <style>
-	#header2, #footer2{
+	#header2{
 		background-color: #33447d;
 	}
 
-	#header_n, #footer_n{
+	#footer2{
+		background-color: #33447d;
+	}
+
+	#header_n{
+		background-color: #979798;
+		display: grid;
+		justify-content: center;
+		align-items: center;
+		max-height: 50px;
+		min-height: 50px;
+		
+	}
+
+	#footer_n{
 		background-color: #979798;
 		display: grid;
 		justify-content: center;

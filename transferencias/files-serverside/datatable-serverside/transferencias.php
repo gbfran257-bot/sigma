@@ -36,23 +36,23 @@ if(isset($_GET['s_colores']) && $_GET['s_colores'] == 0){
 switch($rowAU[0]){
     case 0://Solo vé lo suyo
         if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-          $sWhere="WHERE (tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]') AND s.es_traspaso = 1 $condicion_fecha";
+          $sWhere="WHERE (tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]') AND s.es_traspaso = 1 AND s.existencias > 1 $condicion_fecha";
         }else{
-          $sWhere = "where s.usuario_registro = '$_GET[idU]' AND s.es_traspaso = 1 $condicion_fecha";
+          $sWhere = "where s.usuario_registro = '$_GET[idU]' AND s.es_traspaso = 1 AND s.existencias > 1 $condicion_fecha";
         }
     break;
     case 2://Ve todo lo de su sucursal y lo suyo
         if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-          $sWhere="WHERE (tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]')) AND s.es_traspaso = 1 $condicion_fecha";
+          $sWhere="WHERE (tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]')) AND s.es_traspaso = 1 AND s.existencias > 1 $condicion_fecha";
         }else{
-          $sWhere = "WHERE (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') AND s.es_traspaso = 1 $condicion_fecha";
+          $sWhere = "WHERE (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') AND s.es_traspaso = 1 AND s.existencias > 1 $condicion_fecha";
         }
     break;
     case 1://Ve todo de todas las sucursales
         if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-          $sWhere="WHERE (tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]') AND s.es_traspaso = 1 $condicion_fecha";
+          $sWhere="WHERE (tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]') AND s.es_traspaso = 1 AND s.existencias > 1 $condicion_fecha";
         }else{
-          $sWhere = "WHERE 1 = 1 AND s.es_traspaso = 1 $condicion_fecha";
+          $sWhere = "WHERE 1 = 1 AND s.es_traspaso = 1 AND s.existencias > 1 $condicion_fecha";
         }
     break;
     default:

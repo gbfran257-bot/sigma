@@ -3,7 +3,7 @@
     require("../../funciones/php/values.php");
 
     $id = sqlValue($_POST["id"], "int");
-    $pago = sqlValue($_POST["pago"], "int");
+    $pago = sqlValue($_POST["pago"], "double");
     $id_u = sqlValue($_POST["id_u"], "int");
     $motivo = sqlValue($_POST["motivo"], "text");
     $now = sqlValue(date('Y-m-d H:i:s'), "date");

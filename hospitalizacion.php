@@ -240,7 +240,7 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 			var oTable = $('#dataTableMedicamentos').DataTable({
 				serverSide: true,"sScrollY": tam, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ){ }, scroller: false, responsive: true,
-				"aoColumns": [ {"bVisible":false}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{"bVisible": true },{"bVisible": true } ],
+				"aoColumns": [ {"bVisible":false}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{"bVisible": true },{"bVisible": true }, {"bVisible": true } ],
 				"sDom": '<"filtro1Principal"><"data_tPrincipal"t><"infoPrincipal"S><"proc">',
 				deferRender: true, select: false, "processing": false, "sAjaxSource": "hospital/datatable-serverside/medicamentos.php?id_h="+id_h,
 				"fnServerParams": function(aoData, fnCallback){ },

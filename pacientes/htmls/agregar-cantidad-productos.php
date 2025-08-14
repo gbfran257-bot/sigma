@@ -1,7 +1,7 @@
 <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 class="modal-title" id="exampleModalLabel">¿Cuántos <?php echo $_POST['nombreProducto']; ?> deseas agregar?</h3>
+            <h3 class="modal-title" id="exampleModalLabel">¿Cuántos <span style="color:red;"> <?php echo $_POST['nombreProducto']; ?> </span> con LOTE <span style="color:red; font-size: 1.3em;"> <?php echo $_POST['loteProducto']; ?> </span> deseas agregar?</h3>
         </div>
         <div class="modal-body" id="body-agregar-producto">
             <input id="cantidad-productos" type="number" min="1" max="<?php echo htmlspecialchars($_POST['cantidadMaxima']) ?>" step="1" required placeholder="Cantidad" class="form-control" value="1" />

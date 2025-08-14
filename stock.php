@@ -616,6 +616,7 @@ const getProductosSucursal = (idSucursal) => {
 		// Si el stock es mayor a 1 entonces se muestra un modal para que el usuario seleccione la cantidad a transferir
 		$("#modal_agregar_cantidad_productos").load("pacientes/htmls/agregar-cantidad-productos.php", {
 			nombreProducto: productoSeleccionado.producto,
+			loteProducto: productoSeleccionado.lote,
 			cantidadMaxima: parseInt(productoSeleccionado.stock),
 		}, (response, status, xhr) => {
 			$("#agregar-cantidad-producto").click(() => {

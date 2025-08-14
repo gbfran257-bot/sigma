@@ -138,7 +138,7 @@ if (isset($_POST['from']))
             curl_close($ch);
         }         
 
-        if (isset($_POST['check_sms'])) {
+        if (isset($_POST['check_sms']) && strlen($telefono_doctor) == 10 && strlen($telefono_paciente) == 10) {
 
             if(isset($_POST['check_doctor_mx'])){
                 $telefono1 = "52" . $telefono_doctor;
@@ -424,6 +424,13 @@ if (isset($_POST['from']))
             window.location.href = 'index.php';
         });
 
+        $('#mostrar_modal_nuevo').on('click', function() {
+            window.setTimeout(function() {
+                $("#editando").val(0);
+                $("#btn_limpiar").removeClass('hidden');
+            }, 800);
+        });
+
         $(document).ready(function() {
             $('#id_doctor').select2({
                 placeholder: "Elige un Doctor",
@@ -483,47 +490,63 @@ if (isset($_POST['from']))
             $("#mostrar_modal_nuevo").on('click', function() {
                 $("#btn_nuevo").removeClass('hidden');
             });
-            
+
+            $('#btn_limpiar').on('click', function(e) {
+                e.preventDefault();
+                $("#editando").val(0);
+                $("#telefono_doctor").val("");
+                $("#email_doctor").val("");
+                $("#nombre_paciente").val("");
+                $("#email_paciente").val("");
+                $("#telefono_paciente").val("");
+                $("#direccion_paciente").val("");
+                $("#title").val("");
+                $("#body").val("");
+                $("#id_departamento").val("");
+                $("#tipo").val("");
+                $('#id_doctor').val(null).trigger('change');
             });
             
-            function editar_evento(id){
-                $('#add_evento').modal('show');
-                $("#editando").val(id);
-                //$("#btn_nuevo").addClass('hidden');
-              
-                var datosAgenda = { id:id }
-                $.post('agenda2/obtener_datos_agenda.php', datosAgenda).done(function(dataAgenda) {
-                    var datosA = dataAgenda.split(';}');
-                    if (dataAgenda) { 
-                        $("#telefono_paciente").val(datosA[0]);
-                        $("#nombre_paciente").val(datosA[1]);
-                        $("#direccion_paciente").val(datosA[2]);
-                        $("#email_paciente").val(datosA[3]);
-                        $("#id_departamento").val(datosA[6]);
-                        $('#id_doctor').val(datosA[7]).trigger('change');
-                        $("#telefono_doctor").val(datosA[8]); 
+        });
+            
+        function editar_evento(id){
+            $('#add_evento').modal('show');
+            $("#editando").val(id);
+            $("#btn_limpiar").addClass('hidden');
+            
+            var datosAgenda = { id:id }
+            $.post('agenda2/obtener_datos_agenda.php', datosAgenda).done(function(dataAgenda) {
+                var datosA = dataAgenda.split(';}');
+                if (dataAgenda) { 
+                    $("#telefono_paciente").val(datosA[0]);
+                    $("#nombre_paciente").val(datosA[1]);
+                    $("#direccion_paciente").val(datosA[2]);
+                    $("#email_paciente").val(datosA[3]);
+                    $("#id_departamento").val(datosA[6]);
+                    $('#id_doctor').val(datosA[7]).trigger('change');
+                    $("#telefono_doctor").val(datosA[8]); 
 
-                        window.setTimeout(function() {
-                            $("#email_doctor").val(datosA[9]);
-						}, 800);
+                    window.setTimeout(function() {
+                        $("#email_doctor").val(datosA[9]);
+                    }, 800);
 
-                        $("#title").val(datosA[10]);
-                        $("#body").val(datosA[11]);
-                        $("#tipo").val(datosA[12]);
+                    $("#title").val(datosA[10]);
+                    $("#body").val(datosA[11]);
+                    $("#tipo").val(datosA[12]);
 
-                        /* var fecha_inicio = moment(datosA[4], 'DD-MM-YYYY HH:mm:ss');
-                        $('#from').datetimepicker('setDate', fecha_inicio.toDate());
-                        $('#from input').val(fecha_inicio.format('MM/DD/YYYY HH:mm:ss'));
+                    /* var fecha_inicio = moment(datosA[4], 'DD-MM-YYYY HH:mm:ss');
+                    $('#from').datetimepicker('setDate', fecha_inicio.toDate());
+                    $('#from input').val(fecha_inicio.format('MM/DD/YYYY HH:mm:ss'));
 
-                        var fecha_fin = moment(datosA[5], 'DD-MM-YYYY HH:mm:ss');
-                        $('#to').datetimepicker('setDate', fecha_fin.toDate());
-                        $('#to input').val(fecha_fin.format('MM/DD/YYYY HH:mm:ss')); */
-                    return;
-                    } else {
-                        alert(dataAgenda);
-                    }
-                });
-            }
+                    var fecha_fin = moment(datosA[5], 'DD-MM-YYYY HH:mm:ss');
+                    $('#to').datetimepicker('setDate', fecha_fin.toDate());
+                    $('#to input').val(fecha_fin.format('MM/DD/YYYY HH:mm:ss')); */
+                return;
+                } else {
+                    alert(dataAgenda);
+                }
+            });
+        }
 
 
 
@@ -532,9 +555,10 @@ if (isset($_POST['from']))
         <div class="modal fade" id="add_evento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
           <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Agregar nuevo evento</h4>
-            </div>
+                <div class="modal-header modal-alinear">
+                    <h4 class="modal-title" id="myModalLabel">Agregar nuevo evento</h4>
+                    <button type="button" class="btn btn-success" id="btn_limpiar"><i class="fa fa-eraser"></i> Limpiar Formulario</button>
+                </div>
             <div class="modal-body">
                 <form action="" method="post">
                     <!-- campos agregados para agenda medica -->
@@ -647,3 +671,10 @@ if (isset($_POST['from']))
 </div>
 </body>
 </html>
+<style>
+    .modal-alinear {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+</style>
