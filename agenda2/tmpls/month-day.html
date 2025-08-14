@@ -1,5 +1,10 @@
+<% 
+	var partes = data_day.split('-');
+	var fecha = new Date(partes[0], partes[1]-1, partes[2]);
+	var mes_corto = fecha.toLocaleString('es-MX', { month: 'short' });
+%>
 <div class="cal-month-day <%= cls %>">
-	<span class="pull-right" data-cal-date="<%= data_day %>" data-cal-view="day" data-toggle="tooltip" title="<%= tooltip %>"><%= day %></span>
+	<span class="pull-right" data-cal-date="<%= data_day %>" data-cal-view="day" data-toggle="tooltip" title="<%= tooltip %>"><%= day %> <%= mes_corto %></span>
 	<% if (events.length > 0) { %>
 		<div class="events-list" data-cal-start="<%= start %>" data-cal-end="<%= end %>">
 			<% _.each(events, function(event) { %>
