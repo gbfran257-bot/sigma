@@ -112,6 +112,29 @@
                     	</div> 
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-sm-6 col-xs-6"> 
+                        <div class="form-group">
+                            <label for="derechoabiencia">DERECHOABIENCIA</label>
+                            <!-- <input type="text" class="form-control" id="derechoabiencia" name="derechoabiencia" placeholder="Derechoabiencia" > -->
+                             <select class="form-control" id="derechoabiencia" name="derechoabiencia">
+                                <option value="" selected disabled>Elige una opción</option>
+                                <option value="1">IMSS</option>
+                                <option value="2">ISSSTE</option>
+                                <option value="0">N/A</option>
+                             </select>
+                            <div class="help-block with-errors"></div>
+                        </div> 
+                    </div>
+                    <div class="col-sm-6 col-xs-6">
+                        <div class="form-group">
+                            <label for="seccion_ine">SECCIÓN (INE)</label>
+                            <input type="number" class="form-control" id="seccion_ine" name="seccion_ine" placeholder="Sección" >
+                            <div class="help-block with-errors"></div>
+                        </div>
+                     </div>
+                </div>
               
                 <div class="row">
                     <div class="col-sm-3 col-xs-3"> <div class="form-group">
