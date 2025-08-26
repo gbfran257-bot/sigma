@@ -3,7 +3,7 @@
     require("funciones/php/values.php"); 
 
     mysql_select_db($database_horizonte, $horizonte); 
-    $preguntas = mysql_query("SELECT * FROM preguntas_encuesta",$horizonte) or die (mysql_error());
+    $preguntas = mysql_query("SELECT * FROM preguntas_encuesta WHERE clave_e = 1",$horizonte) or die (mysql_error());
 ?>
 
 <!DOCTYPE html>
@@ -14,6 +14,8 @@
   <title>Cuestionario con caritas</title>
   <script src="js/jquery-3.2.1.js"></script>
   <script src="bootstrap-validator/js/validator.js"></script>
+  <script src="sweetalert/dist/sweetalert.min.js"></script>
+  <link href="sweetalert/dist/sweetalert.css" rel="stylesheet">
   <!-- Iconos de Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
@@ -115,12 +117,21 @@
 </html>
 
 <script>
-    $('#form-encuesta').validator().on('submit', function (e) {
-        if (e.isDefaultPrevented()) { 
+  $('#form-encuesta').validator().on('submit', function (e) {
+      if (e.isDefaultPrevented()) { 
             
-        } else { 
-            e.preventDefault(); 
-            alert("dd");
-        }
-    });
+      } else { 
+          e.preventDefault(); 
+          var datos = $('#form-encuesta').serialize();
+          $.post('pacientes/files-serverside/add_encuesta.php',datos).done(function( data ) {
+            if (data==1){
+                swal({
+                  title: "¡CONFIRMACIÓN!", type: "success", text: "La encuesta se ha registrado.",
+                  timer: 1900, showConfirmButton: false
+                }); return;
+              } else{alert(data);}
+          });
+      }
+  });
 </script>
+
