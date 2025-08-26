@@ -116,7 +116,7 @@
                 <div class="row">
                     <div class="col-sm-6 col-xs-6"> 
                         <div class="form-group">
-                            <label for="derechoabiencia">DERECHOABIENCIA</label>
+                            <label for="derechoabiencia">DERECHOHABIENCIA</label>
                             <!-- <input type="text" class="form-control" id="derechoabiencia" name="derechoabiencia" placeholder="Derechoabiencia" > -->
                              <select class="form-control" id="derechoabiencia" name="derechoabiencia">
                                 <option value="" selected disabled>Elige una opción</option>

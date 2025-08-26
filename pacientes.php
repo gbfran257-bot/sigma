@@ -1961,6 +1961,9 @@ include_once 'recursos/datauser.php';
 					$('#instagram_p').val(datosI[64]);
 					$('#puesto_p').val(datosI[69]);
 					$('#clave_p').val(datosI[66]);
+					//datos municipio zapata
+					$('#derechoabiencia').val(datosI[77]);
+					$('#seccion_ine').val(datosI[78]);
 
 					// Datos del tarjeton
 					$("#tarjeton-parentesco").val(datosI[70]);

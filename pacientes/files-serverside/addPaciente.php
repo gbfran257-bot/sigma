@@ -37,6 +37,10 @@ require("../../funciones/php/values.php");
  $clave = sqlValue($_POST['tarjeton-clave-trabajador'], "text");
  $tipo = sqlValue($_POST['tarjeton-tipo-trabajador'], "text");
  $departamento = sqlValue($_POST['tarjeton-departamento'], "text");
+
+ //datos municipio zapata
+ $derechoabiencia = sqlValue($_POST['derechoabiencia'], "int");
+ $seccion_ine = sqlValue($_POST['seccion_ine'], "int");
  
  //Datos de dirección
  if(isset($_POST["estado_dir_p"])){$estado = sqlValue($_POST["estado_dir_p"], "int");}else{$estado = 'NULL';}
@@ -69,12 +73,12 @@ require("../../funciones/php/values.php");
  "cp_p, calle_p, tTrabajo_p, extensionTt_p, email_p, fechaR_p, entidad_nacimiento_p, razon_social_p, calle_pf, ".
  "entidadFederativa_pf, municipio_pf, ciudad_pf, colonia_pf, cp_pf, rfc_f_p, tSanguineo_p, nombre_completo_p, ".
  "coordenadas_p, email_pf, contactoEmergencia_p, tEmergencia_p, facebook, instagram, puesto_p, clave_p, ".
- "titular, paciente_titular, parentesco, clave_t, tipo_trabajador, departamento)";
+ "titular, paciente_titular, parentesco, clave_t, tipo_trabajador, departamento, derechohabiencia_p, seccion_ine_p)";
  $sql.= "VALUES ($idU, $nombre, $apaterno, $amaterno, $idSexo, $id_pais, $fechaNacimiento, $tCelular, $tParticular, ".
  "$curp, $rfc, $id_sucu, $estado, $municipio, $ciudad, $colonia, $cp, $calle, $telefonoTrabajo, $extensionTT, $email, ".
  "$now, $entidadNacimiento, $razon, $calleF, $estadoF, $municipioF, $ciudadF, $coloniaF, $cpF, $rfcF, $tSangreP, ".
  "$nombre_completo, GeomFromText('POINT($latitud $longitud)'), $email_pf, $avisara, $temergencia, $facebook, $instagram, $puesto_p, $clave_p, ".
- "$titular, $titular_tarjeton, $parentesco, $clave, $tipo, $departamento)";
+ "$titular, $titular_tarjeton, $parentesco, $clave, $tipo, $departamento, $derechoabiencia, $seccion_ine)";
   
  $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	
