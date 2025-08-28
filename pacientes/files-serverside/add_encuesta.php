@@ -9,27 +9,35 @@ require("../../funciones/php/values.php");
     $comentarios = sqlValue($_POST['comentarios'], "text");
     $cont = 0;
 
-    mysql_select_db($database_horizonte, $horizonte); 
-    $preguntas = mysql_query("SELECT * FROM preguntas_encuesta WHERE clave_e = 1",$horizonte) or die (mysql_error());
-    
-    while ($fila = mysql_fetch_assoc($preguntas)){
-        $clave_p = sqlValue($fila['clave_p'], "text");
-        $respuesta = $_POST[$fila['clave_p']];
-        if($cont>0){
-            $comentarios = "NULL"; //para evitar tener el mismo comentario en todas las respuestas solo lo guardamos una vez
+    mysql_select_db($database_horizonte, $horizonte);
+    $buscarEnc = mysql_query("SELECT count(*) from respuestas_encuesta where ref_re = $ref", $horizonte) or die (mysql_error());
+    $enc = mysql_fetch_row($buscarEnc);
+
+    if($enc[0] > 0){
+        echo "Esta encuesta ya fue realizada";
+    }else{
+        mysql_select_db($database_horizonte, $horizonte); 
+        $preguntas = mysql_query("SELECT * FROM preguntas_encuesta WHERE clave_e = 1",$horizonte) or die (mysql_error());
+        
+        while ($fila = mysql_fetch_assoc($preguntas)){
+            $clave_p = sqlValue($fila['clave_p'], "text");
+            $respuesta = $_POST[$fila['clave_p']];
+            if($cont>0){
+                $comentarios = "NULL"; //para evitar tener el mismo comentario en todas las respuestas solo lo guardamos una vez
+            }
+            mysql_select_db($database_horizonte, $horizonte);
+            $sql = "INSERT INTO respuestas_encuesta (clave_e_re, clave_p_re, id_p_re, id_u_re, fecha_re, respuesta_re, comentario_re, ref_re) VALUES (1, $clave_p, $idp, $idu, $now, $respuesta, $comentarios, $ref)";
+            $insert = mysql_query($sql, $horizonte) or die (mysql_error());
+            $cont++;
         }
-        mysql_select_db($database_horizonte, $horizonte);
-        $sql = "INSERT INTO respuestas_encuesta (clave_e_re, clave_p_re, id_p_re, id_u_re, fecha_re, respuesta_re, comentario_re, ref_re) VALUES (1, $clave_p, $idp, $idu, $now, $respuesta, $comentarios, $ref)";
-        $insert = mysql_query($sql, $horizonte) or die (mysql_error());
-        $cont++;
+    
+        if(!$insert){
+            echo "ocurrio un error";
+        }else{ 
+            echo 1; 
+        }
+    
+        mysql_close($horizonte);
     }
 
-    if(!$insert){
-        echo "ocurrio un error";
-    }else{ 
-        echo 1; 
-    }
-
-    //Cerrar conexión a la Base de Datos
-    mysql_close($horizonte);
 ?>

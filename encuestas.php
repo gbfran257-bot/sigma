@@ -148,7 +148,12 @@
                 title: "¡CONFIRMACIÓN!", type: "success", text: "La encuesta se ha registrado.",
                 timer: 1900, showConfirmButton: false
               }); return;
-            } else{alert(data);}
+            } else{
+              swal({
+                title: "Advertencia", type: "warning", text: data,
+                timer: 1900, showConfirmButton: false
+              }); return;
+            }
           });
       }
   });
