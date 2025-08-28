@@ -11,7 +11,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cuestionario con caritas</title>
+  <title>encuesta</title>
   <script src="js/jquery-3.2.1.js"></script>
   <script src="bootstrap-validator/js/validator.js"></script>
   <script src="sweetalert/dist/sweetalert.min.js"></script>
@@ -94,29 +94,43 @@
       </div>
     </div> -->
     <form method="POST" name="form-encuesta" id="form-encuesta">
-        <?php while ($fila = mysql_fetch_assoc($preguntas)): ?>
-            <div class="pregunta">
-                <h3><?php echo $fila['pregunta_p']; ?></h3>
-                <div class="opciones">
-                    <input type="radio" id="<?php echo $fila['clave_p'] . '_feliz'; ?>" name="<?php echo $fila['clave_p']; ?>" value="1" required>
-                    <label class="opcion" for="<?php echo $fila['clave_p'] . '_feliz'; ?>"><i class="fa-regular fa-face-smile"></i></label>
+      <input id="idp" name="idp" type="hidden" value="">
+      <input id="idu" name="idu" type="hidden" value="">
+      <input id="ref" name="ref" type="hidden" value="">
+      <?php while ($fila = mysql_fetch_assoc($preguntas)): ?>
+        <div class="pregunta">
+            <h3><?php echo $fila['pregunta_p']; ?></h3>
+            <div class="opciones">
+                <input type="radio" id="<?php echo $fila['clave_p'] . '_feliz'; ?>" name="<?php echo $fila['clave_p']; ?>" value="1" required>
+                <label class="opcion" for="<?php echo $fila['clave_p'] . '_feliz'; ?>"><i class="fa-regular fa-face-smile"></i></label>
 
-                    <input type="radio" id="<?php echo $fila['clave_p'] . '_medio'; ?>" name="<?php echo $fila['clave_p']; ?>" value="2">
-                    <label class="opcion" for="<?php echo $fila['clave_p'] . '_medio'; ?>"><i class="fa-regular fa-face-meh"></i></label>
+                <input type="radio" id="<?php echo $fila['clave_p'] . '_medio'; ?>" name="<?php echo $fila['clave_p']; ?>" value="2">
+                <label class="opcion" for="<?php echo $fila['clave_p'] . '_medio'; ?>"><i class="fa-regular fa-face-meh"></i></label>
 
-                    <input type="radio" id="<?php echo $fila['clave_p'] . '_triste'; ?>" name="<?php echo $fila['clave_p']; ?>" value="3">
-                    <label class="opcion" for="<?php echo $fila['clave_p'] . '_triste'; ?>"><i class="fa-regular fa-face-frown"></i></label>
-                </div>
+                <input type="radio" id="<?php echo $fila['clave_p'] . '_triste'; ?>" name="<?php echo $fila['clave_p']; ?>" value="3">
+                <label class="opcion" for="<?php echo $fila['clave_p'] . '_triste'; ?>"><i class="fa-regular fa-face-frown"></i></label>
             </div>
-        <?php endwhile; ?>
-
-        <button type="submit">Enviar respuestas</button>
+        </div>
+      <?php endwhile; ?>
+      <button type="submit">Enviar respuestas</button>
     </form>
   </div>
 </body>
 </html>
 
 <script>
+  $(document).ready(function(e) {
+
+    window.setTimeout(function() {
+      // Obtiene toda la query string de la URL actual
+      let params = new URLSearchParams(window.location.search);
+      $("#idp").val(params.get("patid"));
+      $("#idu").val(params.get("usid"));
+      $("#ref").val(params.get("reftarget"));
+    }, 500);
+
+  });
+
   $('#form-encuesta').validator().on('submit', function (e) {
       if (e.isDefaultPrevented()) { 
             
