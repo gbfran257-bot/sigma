@@ -125,11 +125,12 @@
           var datos = $('#form-encuesta').serialize();
           $.post('pacientes/files-serverside/add_encuesta.php',datos).done(function( data ) {
             if (data==1){
-                swal({
-                  title: "¡CONFIRMACIÓN!", type: "success", text: "La encuesta se ha registrado.",
-                  timer: 1900, showConfirmButton: false
-                }); return;
-              } else{alert(data);}
+              $("#form-encuesta input[type='radio']").prop("checked", false);
+              swal({
+                title: "¡CONFIRMACIÓN!", type: "success", text: "La encuesta se ha registrado.",
+                timer: 1900, showConfirmButton: false
+              }); return;
+            } else{alert(data);}
           });
       }
   });
