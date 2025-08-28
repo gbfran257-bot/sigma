@@ -122,6 +122,7 @@
         <h3>Comentarios</h3>
         <textarea class="form-control" style="width: 100%;" id="comentarios" name="comentarios" rows="4" placeholder="Escribe aquí tus comentarios..."></textarea>
       </div>
+      <br>
       <button type="submit">Enviar respuestas</button>
     </form>
   </div>
@@ -137,6 +138,14 @@
       $("#idp").val(params.get("patid"));
       $("#idu").val(params.get("usid"));
       $("#ref").val(params.get("reftarget"));
+
+      var datosenc = {ref:params.get("reftarget")}
+      $.post('pacientes/files-serverside/revisar_encuesta.php',datosenc).done(function( dataenc ) {
+        if(dataenc==1){
+          $("#titulo_encuesta").addClass("hidden");
+          $("#alerta_encuesta").removeClass("hidden");
+        }
+      });
     }, 500);
 
   });
