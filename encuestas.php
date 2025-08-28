@@ -16,6 +16,7 @@
   <script src="bootstrap-validator/js/validator.js"></script>
   <script src="sweetalert/dist/sweetalert.min.js"></script>
   <link href="sweetalert/dist/sweetalert.css" rel="stylesheet">
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Iconos de Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
@@ -78,7 +79,12 @@
 </head>
 <body>
   <div class="cuestionario">
-    <h2>Cuestionario de satisfacción</h2>
+    <h2 id="titulo_encuesta" name="titulo_encuesta">Cuestionario de satisfacción</h2>
+    <div class="alert alert-warning text-center hidden" role="alert" id="alerta_encuesta" name="alerta_encuesta">
+      <h2 class="alert-heading">Esta encuesta ya fue realizada.</h2>
+      <h3>Favor de cerrar esta ventana.</h3>
+    </div>
+
 
     <!-- <div class="pregunta">
       <h3>1. ¿Qué tan satisfecho estás con el servicio?</h3>
@@ -144,6 +150,8 @@
           $.post('pacientes/files-serverside/add_encuesta.php',datos).done(function( data ) {
             if (data==1){
               $("#form-encuesta input[type='radio']").prop("checked", false);
+              $("#titulo_encuesta").addClass("hidden");
+              $("#alerta_encuesta").removeClass("hidden");
               swal({
                 title: "¡CONFIRMACIÓN!", type: "success", text: "La encuesta se ha registrado.",
                 timer: 1900, showConfirmButton: false
