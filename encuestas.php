@@ -112,6 +112,10 @@
             </div>
         </div>
       <?php endwhile; ?>
+      <div class="mb-3">
+        <h3>Comentarios</h3>
+        <textarea class="form-control" style="width: 100%;" id="comentarios" name="comentarios" rows="4" placeholder="Escribe aquí tus comentarios..."></textarea>
+      </div>
       <button type="submit">Enviar respuestas</button>
     </form>
   </div>

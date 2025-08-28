@@ -3,20 +3,25 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
 
     $now = sqlValue(date('Y-m-d H:i:s'), "date");
+    $idp = sqlValue($_POST['idp'], "int");
+    $idu = sqlValue($_POST['idu'], "int");
+    $ref = sqlValue($_POST['ref'], "text");
+    $comentarios = sqlValue($_POST['comentarios'], "text");
+    $cont = 0;
 
     mysql_select_db($database_horizonte, $horizonte); 
     $preguntas = mysql_query("SELECT * FROM preguntas_encuesta WHERE clave_e = 1",$horizonte) or die (mysql_error());
     
     while ($fila = mysql_fetch_assoc($preguntas)){
         $clave_p = sqlValue($fila['clave_p'], "text");
-        $idp = sqlValue($_POST['idp'], "int");
-        $idu = sqlValue($_POST['idu'], "int");
-        $ref = sqlValue($_POST['ref'], "text");
         $respuesta = $_POST[$fila['clave_p']];
-
+        if($cont>0){
+            $comentarios = "NULL"; //para evitar tener el mismo comentario en todas las respuestas solo lo guardamos una vez
+        }
         mysql_select_db($database_horizonte, $horizonte);
-        $sql = "INSERT INTO respuestas_encuesta (clave_e_re, clave_p_re, id_p_re, id_u_re, fecha_re, respuesta_re, comentario_re, ref_re) VALUES (1, $clave_p, $idp, $idu, $now, $respuesta, 'sdfsdf', $ref)";
+        $sql = "INSERT INTO respuestas_encuesta (clave_e_re, clave_p_re, id_p_re, id_u_re, fecha_re, respuesta_re, comentario_re, ref_re) VALUES (1, $clave_p, $idp, $idu, $now, $respuesta, $comentarios, $ref)";
         $insert = mysql_query($sql, $horizonte) or die (mysql_error());
+        $cont++;
     }
 
     if(!$insert){
