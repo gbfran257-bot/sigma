@@ -26,7 +26,7 @@
       padding: 20px;
     }
     .cuestionario {
-      max-width: 600px;
+      max-width: 60%;
       margin: auto;
       background: #fff;
       padding: 20px;
@@ -80,7 +80,7 @@
     .nuevotitle::after {
       content: attr(data-title);
       position: absolute;
-      bottom: 120%; /* arriba del botón */
+      bottom: 110%; /* arriba del botón */
       left: 50%;
       transform: translateX(-50%);
       background: #4D4D4D;
@@ -145,13 +145,13 @@
             <h3><?php echo $fila['pregunta_p']; ?></h3>
             <div class="opciones">
                 <input type="radio" id="<?php echo $fila['clave_p'] . '_feliz'; ?>" name="<?php echo $fila['clave_p']; ?>" value="1" required>
-                <label data-title="Bueno." class="opcion nuevotitle" for="<?php echo $fila['clave_p'] . '_feliz'; ?>"><i class="fa-regular fa-face-smile"></i></label>
+                <label data-title="Bueno." class="opcion nuevotitle" for="<?php echo $fila['clave_p'] . '_feliz'; ?>"><i class="fa-regular fa-face-smile fa-2x"></i></label>
 
                 <input type="radio" id="<?php echo $fila['clave_p'] . '_medio'; ?>" name="<?php echo $fila['clave_p']; ?>" value="2">
-                <label data-title="Regular." class="opcion nuevotitle" for="<?php echo $fila['clave_p'] . '_medio'; ?>"><i class="fa-regular fa-face-meh"></i></label>
+                <label data-title="Regular." class="opcion nuevotitle" for="<?php echo $fila['clave_p'] . '_medio'; ?>"><i class="fa-regular fa-face-meh fa-2x"></i></label>
 
                 <input type="radio" id="<?php echo $fila['clave_p'] . '_triste'; ?>" name="<?php echo $fila['clave_p']; ?>" value="3">
-                <label data-title="Malo." class="opcion nuevotitle" for="<?php echo $fila['clave_p'] . '_triste'; ?>"><i class="fa-regular fa-face-frown"></i></label>
+                <label data-title="Malo." class="opcion nuevotitle" for="<?php echo $fila['clave_p'] . '_triste'; ?>"><i class="fa-regular fa-face-frown fa-2x"></i></label>
             </div>
         </div>
       <?php endwhile; ?>
