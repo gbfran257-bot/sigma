@@ -1,3 +1,12 @@
+<?php //guard(); para cerrar la sisión por inactividad
+	include_once 'recursos/utilities.php';
+	include_once 'partes/parseLogin.php';
+    include_once 'recursos/session.php';
+    if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) {
+    } else {
+        echo "<script> window.location.href = 'login.php'; </script>";
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,6 +18,7 @@
     <link rel="stylesheet" href="pacientes/firmas/estilo.css">
     <script src="sweetalert/dist/sweetalert.min.js"></script>
     <link href="sweetalert/dist/sweetalert.css" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
