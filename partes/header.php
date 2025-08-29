@@ -69,6 +69,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                         </a>
                         <ul class="nav nav-second-level collapse">
                             <?php if ($permisos[0]) { ?><li class=""><a href="pacientes.php" id="m_r_pacientes"><i class="fa fa-users"></i> PACIENTES</a></li> <?php } ?>
+                            <?php if ($permisos[0]) { ?><li class=""><a href="firmas.php" id="m_r_firmas"><i class="fa fa-users"></i> FIRMAS</a></li> <?php } ?>
                             <?php if (substr($permisos, 1, 4) != "0000") { ?>
                                 <li>
                                     <a href="#"><i class="fa fa-dollar"></i> CORTE DE CAJA <span class="fa arrow"></span></a>

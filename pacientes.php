@@ -1961,6 +1961,9 @@ include_once 'recursos/datauser.php';
 					$('#instagram_p').val(datosI[64]);
 					$('#puesto_p').val(datosI[69]);
 					$('#clave_p').val(datosI[66]);
+					//datos municipio zapata
+					$('#derechoabiencia').val(datosI[77]);
+					$('#seccion_ine').val(datosI[78]);
 
 					// Datos del tarjeton
 					$("#tarjeton-parentesco").val(datosI[70]);
@@ -3331,11 +3334,12 @@ include_once 'recursos/datauser.php';
 												$('#myModal4').modal('hide');
 												swal({
 													title: "VENTA REALIZADA",
-													text: "¿Deseas imprimir el ticket de venta " + datil[1] + "?",
+													text: "¿Deseas imprimir el ticket de venta " + datil[1] + "?<br><a href='encuestas.php?patid="+idP+"&usid="+$('#id_user').val()+"&reftarget="+datil[1]+"' target='_blank' id='linkEncuesta'>Realizar encuesta</a>",
 													type: "success",
 													showCancelButton: true,
 													confirmButtonText: "Imprimir",
 													cancelButtonText: "Salir",
+													html: true,
 													closeOnConfirm: false
 												},
 												function() {
@@ -5939,6 +5943,9 @@ include_once 'recursos/datauser.php';
 						});
 						var acceso = $('#acc_user').val();
 						aoData.push(  {"name": "accesoU", "value": acceso } );
+
+						var idu = $('#id_user').val();
+						aoData.push(  {"name": "idu", "value": idu } );
 					},
 					"sDom": '<"filtroCt"><"infoCt"><"data_tCt"t>',
 					"aLengthMenu": [

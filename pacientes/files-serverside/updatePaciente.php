@@ -44,6 +44,10 @@ require("../../funciones/php/values.php");
  $clave = sqlValue($_POST['tarjeton-clave-trabajador'], "text");
  $tipo = sqlValue($_POST['tarjeton-tipo-trabajador'], "text");
  $departamento = sqlValue($_POST['tarjeton-departamento'], "text");
+
+  //datos municipio zapata
+  $derechoabiencia = sqlValue($_POST['derechoabiencia'], "int");
+  $seccion_ine = sqlValue($_POST['seccion_ine'], "int");
  
  //Datos de dirección
  if(isset($_POST["estado_dir_p"])){$estado = sqlValue($_POST["estado_dir_p"], "int");}else{$estado = 'NULL';}
@@ -80,7 +84,8 @@ require("../../funciones/php/values.php");
  "cp_pf = $cpF, rfc_f_p = $rfcF, tSanguineo_p = $tSangreP, nombre_completo_p = $nombre_completo, ".
  "email_pf = $email_pf, contactoEmergencia_p = $avisara, ".
  "tEmergencia_p = $temergencia, facebook = $facebook, instagram = $instagram, ".
- "facturar = {$facturar}, proveedor = {$proveedor}, regimen_fiscal = {$regimen_fiscal}, uso_cfdi = '{$uso_cfdi}', puesto_p = '{$puesto_paciente}', titular = $titular, paciente_titular = $titular_tarjeton, parentesco = $parentesco, clave_t = $clave, tipo_trabajador = $tipo, departamento = $departamento where id_p = $idP limit 1 ";
+ "facturar = {$facturar}, proveedor = {$proveedor}, regimen_fiscal = {$regimen_fiscal}, uso_cfdi = '{$uso_cfdi}', puesto_p = '{$puesto_paciente}', titular = $titular, paciente_titular = $titular_tarjeton, parentesco = $parentesco, clave_t = $clave, tipo_trabajador = $tipo, departamento = $departamento, " .
+ "derechohabiencia_p = $derechoabiencia, seccion_ine_p = $seccion_ine where id_p = $idP limit 1 ";
   
  $update = mysql_query($sql, $horizonte) or die (mysql_error());
 	

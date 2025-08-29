@@ -189,7 +189,7 @@ require_once("../../funciones/php/values.php");
             $row[3] = "<span title='$nombreU'> <a type='button' class='btn btn-link btn-xs' onclick='abrir_ov(\"$row[19]\",$row[21],\"$edad_p\",\"$row[20]\")'>$row[3]</a> </span>";
         }
 					
-		$row[4] = "<div style='text-align:center;'>$tRu</div>";
+		$row[4] = "<div style='text-align:center;'>$tRu - <a href='encuestas.php?patid=".$id_pa."&usid=".$_GET['idu']."&reftarget=".$row[2]."' target='_blank' id='linkEncuesta'>Encuesta</a></div>";
 		
 		$query_Recordset1a = "SELECT distinct(fecha_pag) from pagos_ov where referencia_pag = '$row[2]' ";
 		$Recordset1a = mysql_query($query_Recordset1a, $horizonte) or die(mysql_error());
