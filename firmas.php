@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitar firma</title>
     <link rel="stylesheet" href="pacientes/firmas/estilo.css">
+    <script src="sweetalert/dist/sweetalert.min.js"></script>
+    <link href="sweetalert/dist/sweetalert.css" rel="stylesheet">
 </head>
 
 <body>

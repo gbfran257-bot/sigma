@@ -74,11 +74,15 @@ window.obtenerImagen = () => {
 
 $btnGuardarFirma.onclick = () => {
     const imagen = $canvas.toDataURL("image/png"); // Base64
+    const idf = document.getElementById("idf").value;
     
     // Enviar al servidor con fetch
     fetch("pacientes/files-serverside/guardar_img_firma.php", {
         method: "POST",
-        body: JSON.stringify({ imagen: imagen }),
+        body: JSON.stringify({
+            imagen: imagen,
+            idf: idf
+        }),
         headers: {
             "Content-Type": "application/json"
         }
@@ -88,6 +92,10 @@ $btnGuardarFirma.onclick = () => {
         //alert("Servidor respondió: " + data);
         limpiarCanvas();
         document.getElementById("idf").value = "";
+        swal({
+            title: "¡CONFIRMACIÓN!", type: "success", text: "La firma se ha registrado.",
+            timer: 1900, showConfirmButton: false
+          }); return;
     })
     .catch(err => console.error(err));
 };
