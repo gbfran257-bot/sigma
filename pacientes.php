@@ -5943,6 +5943,9 @@ include_once 'recursos/datauser.php';
 						});
 						var acceso = $('#acc_user').val();
 						aoData.push(  {"name": "accesoU", "value": acceso } );
+
+						var idu = $('#id_user').val();
+						aoData.push(  {"name": "idu", "value": idu } );
 					},
 					"sDom": '<"filtroCt"><"infoCt"><"data_tCt"t>',
 					"aLengthMenu": [

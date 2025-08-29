@@ -75,6 +75,43 @@
     button:hover {
       background: #005fcc;
     }
+
+    /* Tooltip */
+    .nuevotitle::after {
+      content: attr(data-title);
+      position: absolute;
+      bottom: 120%; /* arriba del botón */
+      left: 50%;
+      transform: translateX(-50%);
+      background: #4D4D4D;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      opacity: 0;
+      white-space: nowrap;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    /* Flecha */
+    .nuevotitle::before {
+      content: "";
+      position: absolute;
+      bottom: 90%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: black;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .nuevotitle:hover::after,
+    .nuevotitle:hover::before {
+      opacity: 1;
+    }
+    /* Tooltip */
   </style>
 </head>
 <body>
@@ -108,13 +145,13 @@
             <h3><?php echo $fila['pregunta_p']; ?></h3>
             <div class="opciones">
                 <input type="radio" id="<?php echo $fila['clave_p'] . '_feliz'; ?>" name="<?php echo $fila['clave_p']; ?>" value="1" required>
-                <label class="opcion" for="<?php echo $fila['clave_p'] . '_feliz'; ?>"><i class="fa-regular fa-face-smile"></i></label>
+                <label data-title="Bueno." class="opcion nuevotitle" for="<?php echo $fila['clave_p'] . '_feliz'; ?>"><i class="fa-regular fa-face-smile"></i></label>
 
                 <input type="radio" id="<?php echo $fila['clave_p'] . '_medio'; ?>" name="<?php echo $fila['clave_p']; ?>" value="2">
-                <label class="opcion" for="<?php echo $fila['clave_p'] . '_medio'; ?>"><i class="fa-regular fa-face-meh"></i></label>
+                <label data-title="Regular." class="opcion nuevotitle" for="<?php echo $fila['clave_p'] . '_medio'; ?>"><i class="fa-regular fa-face-meh"></i></label>
 
                 <input type="radio" id="<?php echo $fila['clave_p'] . '_triste'; ?>" name="<?php echo $fila['clave_p']; ?>" value="3">
-                <label class="opcion" for="<?php echo $fila['clave_p'] . '_triste'; ?>"><i class="fa-regular fa-face-frown"></i></label>
+                <label data-title="Malo." class="opcion nuevotitle" for="<?php echo $fila['clave_p'] . '_triste'; ?>"><i class="fa-regular fa-face-frown"></i></label>
             </div>
         </div>
       <?php endwhile; ?>
