@@ -89,13 +89,18 @@ $btnGuardarFirma.onclick = () => {
     })
     .then(res => res.text())
     .then(data => {
-        //alert("Servidor respondió: " + data);
-        limpiarCanvas();
-        document.getElementById("idf").value = "";
-        swal({
-            title: "¡CONFIRMACIÓN!", type: "success", text: "La firma se ha registrado.",
-            timer: 1900, showConfirmButton: false
-          }); return;
+        if(data == 1){
+            limpiarCanvas();
+            document.getElementById("idf").value = "";
+            /* swal({
+                title: "¡CONFIRMACIÓN!", type: "success", text: "La firma se ha registrado.",
+                timer: 1900, showConfirmButton: false
+            }); return; */
+            alert("La firma se ha registrado.");
+        }else{
+            alert(data);
+        }
+
     })
     .catch(err => console.error(err));
 };
