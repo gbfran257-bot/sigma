@@ -91,7 +91,7 @@ $btnGuardarFirma.onclick = () => {
     .then(data => {
         if(data == 1){
             limpiarCanvas();
-            document.getElementById("idf").value = "";
+            //document.getElementById("idf").value = "";
             /* swal({
                 title: "¡CONFIRMACIÓN!", type: "success", text: "La firma se ha registrado.",
                 timer: 1900, showConfirmButton: false
