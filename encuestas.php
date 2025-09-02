@@ -156,7 +156,7 @@
         </div>
       <?php endwhile; ?>
       <div class="mb-3">
-        <h3>Comentarios</h3>
+        <h3>Su opinión es muy importante para nosotros. ¿Tiene algún comentario o sugerencia para mejorar nuestro servicio?.</h3>
         <textarea class="form-control" style="width: 100%;" id="comentarios" name="comentarios" rows="4" placeholder="Escribe aquí tus comentarios..."></textarea>
       </div>
       <br>
