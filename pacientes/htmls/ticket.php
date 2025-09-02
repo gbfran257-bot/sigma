@@ -149,6 +149,7 @@
     </table>
     </td>
   </tr>
+  <tr> <td align="center" id="firmaPaciente"> </td> </tr>
   <tr> <td><div style="text-align:center;"><strong>¡GRACIAS POR SU PREFERENCIA!</strong></div></td> </tr>
   <tr>
     <td style="border-bottom:1px dotted black;">
@@ -324,6 +325,7 @@
     </table>
     </td>
   </tr>
+   <tr> <td align="center" id="firmaPaciente"> </td> </tr>
   <tr> <td><div style="text-align:center;"><strong>¡GRACIAS POR SU PREFERENCIA!</strong></div></td> </tr>
   <tr>
     <td style="border-bottom:1px dotted black;">

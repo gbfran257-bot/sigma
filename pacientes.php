@@ -3046,6 +3046,18 @@ include_once 'recursos/datauser.php';
 					$('#emailSucursal').text(datosT[23]);
 					$('#descuentoT').text(datosT[24]);
 					$('#subTotalT').text(datosT[29]);
+					//obtenemos la firma asociada a la referencia
+					var referenciaConFecha = datosT[1];
+					var resultado = referenciaConFecha.split(" '")[0];
+					var datosFirmaP = { ref: "firma_" + resultado }
+					$.post('pacientes/files-serverside/obtenerFirmaPaciente.php', datosFirmaP).done(function(dataFP) {
+						if(dataFP >= 1){
+							$('#firmaPaciente').html('<img src=pacientes/documentos/fotos/' + dataFP + '.png width="150" style="border:5px none white; background-color:rgba(255, 255, 255, 1);">');
+						}else{
+							$('#firmaPaciente').html(dataFP);
+						}
+					});
+					//
 					if (datosT[25] > 0) {
 						x = 'sucursales/documentos/files/' + datosT[26] + '.' + datosT[27] + '?' + Math.round(Math.random() * 1000);
 						$('#myLogoS').html('<img src=' + x + ' width="150" style="border:5px none white; background-color:rgba(255, 255, 255, 1);">');
