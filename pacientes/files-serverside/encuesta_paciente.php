@@ -43,7 +43,7 @@
     $pdf->SetFont('Arial', '', 13);
 
     mysql_select_db($database_horizonte, $horizonte);
-    $consulta = "SELECT pe.pregunta_p, re.respuesta_re, re.comentario_re FROM preguntas_encuesta pe LEFT JOIN respuestas_encuesta re ON pe.clave_p = re.clave_p_re WHERE re.ref_re = $ref";
+    $consulta = "SELECT pe.pregunta_p, re.respuesta_re FROM preguntas_encuesta pe LEFT JOIN respuestas_encuesta re ON pe.clave_p = re.clave_p_re WHERE re.ref_re = $ref";
     $ejecutar_query = mysql_query($consulta, $horizonte);
 
     while ($resultado = mysql_fetch_assoc($ejecutar_query)) {
@@ -60,11 +60,21 @@
             $pdf->SetTextColor(255, 0, 0);
             $r = "Malo";
         }else{
-
+            $r = "Respuesta no registrada";
         }
         
         $pdf->Cell(190,11,utf8_decode($r),0,1,'L');
     }
+
+    /* obtenemos el comentario */
+    mysql_select_db($database_horizonte, $horizonte);
+    $qryComentario =mysql_query("SELECT COALESCE( (SELECT comentario_re FROM respuestas_encuesta WHERE comentario_re IS NOT NULL AND ref_re = $ref LIMIT 1), 'Sin comentarios.')", $horizonte) or die (mysql_error());
+    $comentario = mysql_fetch_row($qryComentario);
+
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->Cell(190,11,utf8_decode("Comentario:"),0,1,'L');
+    $pdf->SetFont('Arial', 'B', 13);
+    $pdf->Cell(190,11,utf8_decode($comentario[0]),0,1,'L');
 
     
 
