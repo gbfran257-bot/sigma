@@ -279,20 +279,21 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                                     <ul class="nav nav-third-level collapse">
                                         <li><a href="catalogo_areas.php"><i class="fa fa-thermometer-half"></i> ÁREAS</a></li>
                                         <li><a href="catalogo_consumibles.php"><i class="fa fa-thermometer-half"></i> CONSUMIBLES</a></li>
-                                        <li><a href="unidades_medida.php"><i class="fa fa-thermometer-half"></i> UNIDADES DE MEDIDA</a></li>
-                                        <li><a href="catalogo_bases_referencias.php"><i class="fa fa-thermometer-half"></i> REFERENCIAS DE BASES LAB</a></li>
-                                        <li><a href="catalogo_profesiones.php"><i class="fa fa-briefcase"></i> PROFESIONES</a></li>
+                                        <li><a href="catalogo_diagnosticos.php"><i class="fa fa-dollar"></i> DIAGNOSTICOS</a></li>
                                         <li><a href="catalogo_direcciones.php"><i class="fa fa-address-book-o"></i> DIRECCIONES</a></li>
+                                        <li><a href="catalogo_descuentos.php"><i class="fa fa-briefcase"></i> DESCUENTOS</a></li>
+                                        <li><a href="catalogo_derechohabiencias.php"><i class="fa fa-briefcase"></i> DERECHOHABIENCIAS</a></li>
+                                        <li><a href="catalogo_estatus.php"><i class="fa fa-briefcase"></i> ESTATUS</a></li>
+                                        <li><a href="catalogo_lineas_cr.php"><i class="fa fa-briefcase"></i> LINEAS</a></li>
                                         <li><a href="catalogo_met_lab.php"><i class="fa fa-flask"></i> METODOS LABORATORIO</a></li>
                                         <li><a href="catalogo_medicamento_g.php"><i class="fa fa-medkit"></i> MEDICAMENTO GENERICO</a></li>
-                                        <li><a href="catalogo_estatus.php"><i class="fa fa-briefcase"></i> ESTATUS</a></li>
-                                        <li><a href="catalogo_lineas_cr.php"><i class="fa fa-briefcase"></i> LINEAS CR</a></li>
-                                        <li><a href="catalogo_descuentos.php"><i class="fa fa-briefcase"></i> DESCUENTOS</a></li>
-                                        <li><a href="catalogo_sat.php"><i class="fa fa-briefcase"></i> SAT</a></li>
-                                        <li><a href="catalogo_regimen.php"><i class="fa fa-briefcase"></i> REGIMEN</a></li>
                                         <li><a href="muestras_laboratorio.php"><i class="fa fa-briefcase"></i> MUESTRAS</a></li>
+                                        <li><a href="catalogo_profesiones.php"><i class="fa fa-briefcase"></i> PROFESIONES</a></li>
+                                        <li><a href="catalogo_bases_referencias.php"><i class="fa fa-thermometer-half"></i> REFERENCIAS DE BASES LAB</a></li>
+                                        <li><a href="catalogo_regimen.php"><i class="fa fa-briefcase"></i> REGIMEN</a></li>
+                                        <li><a href="catalogo_sat.php"><i class="fa fa-briefcase"></i> SAT</a></li>
                                         <li><a href="catalogo_t_pago.php"><i class="fa fa-dollar"></i> T. PAGO</a></li>
-                                        <li><a href="catalogo_diagnosticos.php"><i class="fa fa-dollar"></i> DIAGNOSTICOS</a></li>
+                                        <li><a href="unidades_medida.php"><i class="fa fa-thermometer-half"></i> UNIDADES DE MEDIDA</a></li>
                                     </ul>
                                 </li>
                             <?php } ?>
