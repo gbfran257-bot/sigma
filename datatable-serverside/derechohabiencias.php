@@ -3,7 +3,7 @@ require("../Connections/horizonte.php");
 require("../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('cd.id_d', 'cd.clave_d', 'cd.nombre_d', 'CONCAT_WS(" ", u.nombre_u, u.apaterno_u, u.amaterno_u)');
+	$aColumns = array('cd.id_d', 'cd.clave_d', 'cd.nombre_d', 'CONCAT_WS(" ", u.nombre_u, u.apaterno_u, u.amaterno_u, DATE_FORMAT(cd.fecha_d, "%d/%m/%Y"))');
      
     // DB tables to use 
     $aTables = array( 'catalogo_nuevas_derechohabiencias cd');
