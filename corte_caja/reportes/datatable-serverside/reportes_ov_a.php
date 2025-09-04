@@ -3,7 +3,7 @@
 <?php
 	// consulta para horizonte
 	$obligatorio = 0;
-	$aColumns = array('pa.referencia_pag','pa.referencia_pag', 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'fp.forma_pago_fp','ov.subtotal_ov', 'SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov + ov.adicionales_p_ov)', 'ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv+ov.t_desc_pro', 'ov.gran_total_ov', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'ov.gran_total_ov-SUM(pa.pago_pag)', 'p.amaterno_p', 'ov.no_temp_ov', 'ov.no_temp_ov', 'ov.sucursal_ov','DATE_FORMAT(ov.fecha_venta_ov,"%d/%m/%Y %H:%i")','pa.referencia_pag','fp.id_fp');
+	$aColumns = array('pa.referencia_pag','pa.referencia_pag', 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'fp.forma_pago_fp','ov.subtotal_ov', 'SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov + ov.adicionales_p_ov)', 'ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv+ov.t_desc_pro', 'ov.gran_total_ov', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'ov.gran_total_ov-SUM(pa.pago_pag)', 'p.amaterno_p', 'ov.no_temp_ov', 'ov.no_temp_ov', 'ov.sucursal_ov','DATE_FORMAT(ov.fecha_venta_ov,"%d/%m/%Y %H:%i")','pa.referencia_pag','fp.id_fp', 'ov.encuesta_zapata');
      
     // DB tables to use 
     $aTables = array( 'orden_venta ov');
@@ -288,6 +288,14 @@
 		
         $row[4]="<select lang='$row[17]' class='form-control input-sm cambiar_suc' style='width:100%;' onChange='cambiar_suc(this.value, this.lang)'>$sucs</select>";
 		$row[1] ="<span lang='$row[1]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[1]</span><br><span style='font-size:12px'>$row[19]</span>";
+
+        if($row[22] == 1){
+            $datosEncuesta = "<a href='pacientes/files-serverside/encuesta_paciente.php?ref=".$row[20]."' target='_blank'> <i class='fa fa-comments-o' aria-hidden='true'></i> </a>";
+        }else{
+            $datosEncuesta = "";
+        }
+
+        $row[2] = $row[2] . " $datosEncuesta";
 
         //otenememos los cargos extra por separado debido a que los cargos aumentaban por error de la query y el uso de los joins.
         mysql_select_db($database_horizonte, $horizonte);

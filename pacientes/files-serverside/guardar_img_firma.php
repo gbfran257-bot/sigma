@@ -12,10 +12,10 @@ if(isset($data["imagen"]) && isset($data["idf"]) && $data["idf"] != "") {
 
     //Buscamos si existe el id del paciente
     mysql_select_db($database_horizonte, $horizonte);
-    $resultid = mysql_query("SELECT COUNT(*) FROM pacientes WHERE id_p = $idf", $horizonte) or die (mysql_error());
+    $resultid = mysql_query("SELECT referencia_ov, id_paciente_ov FROM orden_venta WHERE usuario_ov = $idf ORDER BY id_ov DESC limit 1", $horizonte) or die (mysql_error());
     $idpaciente = mysql_fetch_row($resultid);
 
-    if($idpaciente[0] >= 1){
+    if($idpaciente[1] >= 1){
         // Quitar encabezado "data:image/png;base64,"
         $imagen = str_replace("data:image/png;base64,", "", $imagen);
         $imagen = str_replace(" ", "+", $imagen);
@@ -24,12 +24,12 @@ if(isset($data["imagen"]) && isset($data["idf"]) && $data["idf"] != "") {
         $imagenBinaria = base64_decode($imagen);
     
         //obtenemos el valor de time
-        $time = time();
+        //$time = time();
     
         //guardamos el registro en bd
         mysql_select_db($database_horizonte, $horizonte);
         $sql = "INSERT INTO documentos (nombre_do, ext_do, aleatorio_do, tipo_quien_do, usuario_do, fecha_do, que_es_do)";
-        $sql.= "VALUES ('firma_$time', 'png', $idf, 1, 1, $now, 'IMAGEN')";
+        $sql.= "VALUES ('firma_".$idpaciente[0]."', 'png', ".$idpaciente[1].", 1, ".$idf.", $now, 'IMAGEN')";
         $update = mysql_query($sql, $horizonte) or die (mysql_error());
     
         //obtenemos el ultimo id guardado para nombrar la imagen como id.png

@@ -955,7 +955,7 @@ function verUsuario(idU, nombre_u, tempi_u){
 		tinymce.remove("#input"); tinymce.remove("#input1"); tinymce.remove("#inputFI"); $('#btn_update_nota, #btn_update_receta, #btn_update_formato_i').hide();
 		$('#aleatorio_nmed, #aleatorio_rmed, #aleatorio_formai').val('');
 		
-		$('#btn_registro_u').text('Actualizar'); $('#registroModalLabel').text('FICHA DE DATOS DEL USUARIO '+nombre_u);
+		$('#btn_registro_u').text('Actualizar'); $('#registroModalLabel').text('FICHA DE DATOS DEL USUARIO '+nombre_u+' CLAVE: '+idU);
 		$('#username').replaceWith('<input name="username" id="username" type="text" class="form-control form-control-sm" readonly>');
 		
 		$('#idUsuarioP').val($('#id_user').val()); $('#idUsuarioN').val(idU); $('#btn_cancel_registro').text('Cerrar');
