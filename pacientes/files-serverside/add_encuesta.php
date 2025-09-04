@@ -10,10 +10,10 @@ require("../../funciones/php/values.php");
     $cont = 0;
 
     mysql_select_db($database_horizonte, $horizonte);
-    $buscarEnc = mysql_query("SELECT count(*) from respuestas_encuesta where ref_re = $ref", $horizonte) or die (mysql_error());
+    $buscarEnc = mysql_query("SELECT encuesta_zapata FROM orden_venta WHERE referencia_ov = $ref", $horizonte) or die (mysql_error());
     $enc = mysql_fetch_row($buscarEnc);
 
-    if($enc[0] > 0){
+    if($enc[0] == 1){
         echo "Esta encuesta ya fue realizada";
     }else{
         mysql_select_db($database_horizonte, $horizonte); 
@@ -30,6 +30,11 @@ require("../../funciones/php/values.php");
             $insert = mysql_query($sql, $horizonte) or die (mysql_error());
             $cont++;
         }
+
+        //guardamos en tabla OV si la encuesta se contesto
+        mysql_select_db($database_horizonte, $horizonte);
+        $qrySql = "UPDATE orden_venta SET encuesta_zapata = 1 WHERE referencia_ov = $ref LIMIT 1";
+        $actualizar = mysql_query($qrySql, $horizonte) or die (mysql_error());
     
         if(!$insert){
             echo "ocurrio un error";

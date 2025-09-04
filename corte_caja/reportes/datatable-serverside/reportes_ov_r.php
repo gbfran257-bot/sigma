@@ -10,7 +10,7 @@
 
 	// consulta para horizonte
 	$obligatorio = 0;
-	$aColumns = array('pa.referencia_pag','pa.referencia_pag' , 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'fp.forma_pago_fp', 'ov.subtotal_ov', 'SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov + ov.adicionales_p_ov)', 'ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv+ov.t_desc_pro', 'ov.gran_total_ov', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'ov.gran_total_ov-SUM(pa.pago_pag)', 'p.amaterno_p', 'ov.no_temp_ov', 'ov.no_temp_ov','pa.referencia_pag','DATE_FORMAT(ov.fecha_venta_ov,"%d/%c/%Y %H:%m")');
+	$aColumns = array('pa.referencia_pag','pa.referencia_pag' , 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'fp.forma_pago_fp', 'ov.subtotal_ov', 'SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov + ov.adicionales_p_ov)', 'ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv+ov.t_desc_pro', 'ov.gran_total_ov', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'ov.gran_total_ov-SUM(pa.pago_pag)', 'p.amaterno_p', 'ov.no_temp_ov', 'ov.no_temp_ov','pa.referencia_pag','DATE_FORMAT(ov.fecha_venta_ov,"%d/%c/%Y %H:%m")', 'ov.encuesta_zapata');
      
     // DB tables to use 
     $aTables = array( 'orden_venta ov');
@@ -251,6 +251,14 @@
 		}else{$row[15]="<div style='text-align:center;'>SI</div>";} //if($row[6] == 0){$row[1]="<span class='erase1'>$row[1]</span>";}
 		
 		if(isset($_GET['saldos']) && $_GET['saldos'] == 'SI'){ if($row[14] == 0){ $row[1]="<span class='erase1'>$row[1]</span>"; } }
+
+        if($row[20] == 1){
+            $datosEncuesta = "<a href='pacientes/files-serverside/encuesta_paciente.php?ref=".$row[18]."' target='_blank'> <i class='fa fa-comments-o' aria-hidden='true'></i> </a>";
+        }else{
+            $datosEncuesta = "";
+        }
+
+        $row[2] = $row[2] . " $datosEncuesta";
 
         $row[1] ="<span lang='$row[1]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[1]</span><br><span style='font-size:12px;'>$row[19]</span>";	
 				
