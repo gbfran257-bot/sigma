@@ -97,7 +97,7 @@ include_once 'recursos/datauser.php';
 				<th style="vertical-align:middle; white-space:nowrap;" nowrap>PRECIO P</th>
 				<th style="vertical-align:middle; white-space:nowrap;" nowrap>PRECIO H</th>
 				<th style="vertical-align:middle; white-space:nowrap;" nowrap>PRECIO M</th>
-				<th style="vertical-align:middle; white-space:nowrap;" nowrap>EXISTENCIAS</th>
+				<th style="vertical-align:middle; white-space:nowrap;" nowrap>EXISTENCIAS <input type="checkbox" id="existencias_cb" name="existencias_cb" value="1" checked /> </th>
 				<th style="vertical-align:middle; white-space:nowrap;" nowrap>LÍNEA</th>
 				<th style="vertical-align:middle; white-space:nowrap;" nowrap>MIN_MAX</th>
 			</tr>
@@ -203,6 +203,7 @@ include_once 'recursos/datauser.php';
 				var acceso = $('#acc_user').val();
 				var idU = $('#id_user').val();
 				var de = $("#miSucursal").val();
+				var existenciasOn = $("#existencias_cb").is(":checked") ? 1 : 0;
 
 				aoData.push({
 					"name": "nombre",
@@ -219,6 +220,10 @@ include_once 'recursos/datauser.php';
 				aoData.push({
 					"name": "idSu",
 					"value": de
+				});
+				aoData.push({
+					"name": "existenciasOn",
+					"value": existenciasOn
 				});
 			},
 			"oLanguage": {
@@ -281,6 +286,11 @@ include_once 'recursos/datauser.php';
 			nuevoEstudio();
 		}
 		// FINAL DE LOS CAMBIOS PARA EL FUNCIONAMIENTO DE LOS PROVEEDORES //
+
+		$('#existencias_cb').click(function(e) {
+			if($(this).prop('checked')==true){ $(this).val(1); }else{$(this).val(0);}
+			oTableP.draw();
+		});
 	});
 
 	function nuevoEstudio() {
