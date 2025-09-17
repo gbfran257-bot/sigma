@@ -216,6 +216,8 @@ $sucu_user = $_SESSION['MM_Usersucu'];
         }
        $row[15] =  $existencias;
 
+       $row[6] = "<span id='$row[0]' onclick='agrupar(this.id,\"$row[1]\");' style='cursor:pointer; text-decoration:underline;'>$row[6]</span>";
+
         
        //$row[0]= $hh;
 		

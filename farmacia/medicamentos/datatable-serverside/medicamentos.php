@@ -20,9 +20,19 @@ require("../../../Connections/horizonte.php");
     $sIndexColumn = "c.id_to";
      
 	 // Joins   
-	$sJoin = 'left join medicamentos g on g.id_med = c.id_medicamento_g';
+	$sJoin = 'left join medicamentos g on g.id_med = c.id_medicamento_g LEFT JOIN stock_has_bach shb ON shb.id_Producto = c.id_to left JOIN stock st ON st.id = shb.id_stock LEFT JOIN sucursales s ON s.id_su = st.id_su';
+
+    $existencias = "";
+    $where2 = "";
+    if(isset($_GET['existenciasOn']) && $_GET['existenciasOn'] == 1){
+        $existencias = "HAVING SUM(shb.existencias > 0)";
+    }
+
+    if(isset($_GET['idSu']) && $_GET['idSu'] != '' && isset($_GET['existenciasOn']) && $_GET['existenciasOn'] == 1){
+        $where2 = "s.id_su = " . $_GET['idSu'] . " AND";
+    }
 	
-	$sWhere = "where c.id_tipo_concepto_to = 5 ";
+	$sWhere = "where $where2 c.id_tipo_concepto_to = 5 ";
 	
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;
@@ -39,10 +49,10 @@ require("../../../Connections/horizonte.php");
     if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' ) { $sLimit = "LIMIT ".mysql_real_escape_string( $_GET['iDisplayStart'] ).", ". mysql_real_escape_string( $_GET['iDisplayLength'] ); }
      
     /* * Ordering */
-    $sOrder = " ORDER BY g.nombre_generico_med ASC ";
+    $sOrder = " GROUP BY c.id_to $existencias ORDER BY g.nombre_generico_med ASC ";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
-        $sOrder = "ORDER BY v.id_vc desc  ";
+        $sOrder = "GROUP BY c.id_to $existencias ORDER BY g.nombre_generico_med ASC  ";
         for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ ) { if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" ) { $sOrder .= $aColumns[ intval( $_GET['iSortCol_'.$i] ) ]." ".mysql_real_escape_string( $_GET['sSortDir_'.$i] ) .", "; } }
          
         $sOrder = substr_replace( $sOrder, "", -2 );

@@ -92,7 +92,7 @@
 	<tfoot>
 		<tr class="bg-primary">
 			<th><input type="hidden"></th>
-			<th></th>
+			<th><input type="text" class="form-control input-sm" placeholder="MÉDICO"/></th>
 			<th><input type="hidden" class="sCalculo" /></th>
 			<th><input type="hidden"></th>
 			<th><input type="hidden" class="sCalculo" /></th>

@@ -932,4 +932,61 @@ function verMedicamento(id_medi, nombre_m){
 		$('#myModalx').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModalx").empty(); });
 	} });
 }
+
+function agrupar(id_s, concepto){
+	$("#myModal").load('farmacia/stock/htmls/ficha_agrupacion.php', function( response, status, xhr ){ if(status=="success"){
+
+		//
+		$('#titulo_modal').text('AGRUPACION DEL MEDICAMENTO ' + concepto);
+		var tamP = 400;
+		var oTableP = $('#dataTableUsuariosQx').DataTable({
+			serverSide: true,"sScrollY": tamP, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
+			"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
+			"aoColumns":[ {"bVisible":true}, {"bVisible":true }, {"bVisible":true }, { "bVisible": true }],
+			"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
+			deferRender: true, select: false, "processing": false, 
+			"sAjaxSource": "farmacia/stock/datatable-serverside/agrupacion.php",
+			"fnServerParams": function (aoData, fnCallback) { 
+				var nombre = $('#top-search').val();
+				var acceso = $('#acc_user').val(); var idU = $('#id_user').val();
+				
+				aoData.push( {"name": "id", "value": id_s } );
+			},
+			"oLanguage": {
+				"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
+				"sInfo": "SERVICIOS FILTRADOS: _END_",
+				"sInfoEmpty": "NINGÚN SERVICIO FILTRADO.", "sInfoFiltered": " TOTAL DE SERVICIOS: _MAX_", "sSearch": "",
+				"oPaginate": { "sNext": "<span class='paginacionPrincipal'>Siguiente</span>", "sPrevious": "<span class='paginacionPrincipal'>Anterior</span>&nbsp;&nbsp;&nbsp;&nbsp;" }
+			},"iDisplayLength": 20, paging: true,
+		});
+		
+		$('#clickmeA').click(function(e) { oTableP.draw(); }); window.setTimeout(function(){$('#clickmeA').click();},500);
+		
+		oTableP.columns().every( function () {
+			var that = this;
+	
+			$( 'input', this.footer() ).on( 'keyup change', function () {
+				if ( that.search() !== this.value ) { that .search( this.value ) .draw(); }
+			} );
+		} );
+		$('#top-search').keyup(function(e) {
+			$('#dataTablePrincipal_filter input').val($(this).val()); $('#dataTablePrincipal_filter input').keyup();
+		}).focus();
+		$('.filtro1Principal').addClass('hidden');
+
+		$("#btn_agrupar").click(function() {
+			var datosP = {id:id_s}
+			$.post('farmacia/stock/files-serverside/agrupar.php',datosP).done(function( dataG ) {
+				if(dataG == 1){
+					$('#clickmeA').click();
+				}
+			});
+		});
+		//
+
+		$('#myModal').modal('show');
+		$('#myModal').on('shown.bs.modal', function (e) { });
+		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
+	}});
+}
 </script>

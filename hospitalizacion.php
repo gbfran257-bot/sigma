@@ -233,7 +233,10 @@ function egresar (id, id_cama) {
 	
 function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 	$("#myModal2").load('hospital/htmls/medicamentos.php', function( response, status, xhr ){ if(status=="success"){
-		$('#titulo_modal').text('MEDICAMENTOS PARA EL PACIENTE '+nombre_p);
+		var datosMotivo = {id_h:id_h}
+		$.post('hospital/files-serverside/obetener_motivo_h.php',datosMotivo).done(function(dataMotivo){
+			$('#titulo_modal').text('MEDICAMENTOS PARA EL PACIENTE ' + nombre_p + ' MOTIVO: ' + dataMotivo);
+		});
 		
 		window.setTimeout(function(){
 			var tam = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height() - $('#breadc').height() - 300;
@@ -628,7 +631,10 @@ function guardar_add_medi(id_h, id_p, id_m, indicacion, stock_pivote){
 }
 function notasMedicasEnfermeria(id_h, id_p, nombre_p, id_s, estatus,tUser){
 	$("#myModal").load('hospital/htmls/notas.php', function( response, status, xhr ){ if(status=="success"){
-		$('#titulo_modal').text('NOTAS DE HOSPITAL PARA EL PACIENTE '+nombre_p);
+		var datosMotivo = {id_h:id_h}
+		$.post('hospital/files-serverside/obetener_motivo_h.php',datosMotivo).done(function(dataMotivo){
+			$('#titulo_modal').text('NOTAS DE HOSPITAL PARA EL PACIENTE ' + nombre_p + ' MOTIVO: ' + dataMotivo);
+		});
 		
 		window.setTimeout(function(){
 			var tam = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height() - $('#breadc').height() - 245;
@@ -674,7 +680,10 @@ function notasMedicasEnfermeria(id_h, id_p, nombre_p, id_s, estatus,tUser){
 }
 function notasMedicas(id_h, id_p, nombre_p, id_s, estatus,tUser){
 	$("#myModal").load('hospital/htmls/notas_medicas.php', function( response, status, xhr ){ if(status=="success"){
-		$('#titulo_modal').text('NOTAS DE HOSPITAL PARA EL PACIENTE '+nombre_p);
+		var datosMotivo = {id_h:id_h}
+		$.post('hospital/files-serverside/obetener_motivo_h.php',datosMotivo).done(function(dataMotivo){
+			$('#titulo_modal').text('NOTAS DE HOSPITAL PARA EL PACIENTE ' + nombre_p + ' MOTIVO: ' + dataMotivo);
+		});
 		
 		window.setTimeout(function(){
 			var tam = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height() - $('#breadc').height() - 245;
@@ -2285,7 +2294,10 @@ function verHC(id_h, id_p, nombre_p, id_s, tUser, tUser1){
 		$("#myModalx").load('hospital/htmls/historial.php', function( response, status, xhr ){ 
 			if(status=="success"){
 				// tinymce.remove("#notaMedicaC");
-				$('#titulo_modal').text('HISTORIAL CLÍNICO DEL PACIENTE:  '+nombre_p);
+				var datosMotivo = {id_h:id_h}
+				$.post('hospital/files-serverside/obetener_motivo_h.php',datosMotivo).done(function(dataMotivo){
+					$('#titulo_modal').text('HISTORIAL CLÍNICO DEL PACIENTE: ' + nombre_p + ' MOTIVO: ' + dataMotivo);
+				});
 				$('#idUsuario_hc').val($('#id_user').val()); 
 				$('#id_cons').val(id_h); 
 				$('#idPaciente_c').val(id_p);
