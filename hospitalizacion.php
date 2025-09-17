@@ -628,7 +628,10 @@ function guardar_add_medi(id_h, id_p, id_m, indicacion, stock_pivote){
 }
 function notasMedicasEnfermeria(id_h, id_p, nombre_p, id_s, estatus,tUser){
 	$("#myModal").load('hospital/htmls/notas.php', function( response, status, xhr ){ if(status=="success"){
-		$('#titulo_modal').text('NOTAS DE HOSPITAL PARA EL PACIENTE '+nombre_p);
+		var datosMotivo = {id_h:id_h}
+		$.post('hospital/files-serverside/obetener_motivo_h.php',datosMotivo).done(function(dataMotivo){
+			$('#titulo_modal').text('NOTAS DE HOSPITAL PARA EL PACIENTE ' + nombre_p + ' MOTIVO: ' + dataMotivo);
+		});
 		
 		window.setTimeout(function(){
 			var tam = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height() - $('#breadc').height() - 245;
