@@ -119,10 +119,10 @@
                             <label for="derechoabiencia">DERECHOHABIENCIA</label>
                             <!-- <input type="text" class="form-control" id="derechoabiencia" name="derechoabiencia" placeholder="Derechoabiencia" > -->
                              <select class="form-control" id="derechoabiencia" name="derechoabiencia">
-                                <option value="" selected disabled>Elige una opción</option>
+                                <!-- <option value="" selected disabled>Elige una opción</option>
                                 <option value="1">IMSS</option>
                                 <option value="2">ISSSTE</option>
-                                <option value="0">N/A</option>
+                                <option value="0">N/A</option> -->
                              </select>
                             <div class="help-block with-errors"></div>
                         </div> 

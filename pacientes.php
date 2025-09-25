@@ -1558,6 +1558,10 @@ include_once 'recursos/datauser.php';
 
 				$('#sangre_p').load('pacientes/files-serverside/genera_tsangre.php', function(response, status, xhr) {});
 
+				window.setTimeout(function() {
+					$("#derechoabiencia").load('pacientes/files-serverside/genera_derechohabiencias.php', function(response, status, xhr) {});
+				}, 500);
+
 				$("#estado_dir_p").load('pacientes/files-serverside/genera_estados.php', function(response, status, xhr) {
 					if (status == "success") {
 						$("#estado_dir_p").change(function(event) {
@@ -1962,7 +1966,7 @@ include_once 'recursos/datauser.php';
 					$('#puesto_p').val(datosI[69]);
 					$('#clave_p').val(datosI[66]);
 					//datos municipio zapata
-					$('#derechoabiencia').val(datosI[77]);
+					setTimeout(() => { $('#derechoabiencia').val(datosI[77]); }, 1200);
 					$('#seccion_ine').val(datosI[78]);
 
 					// Datos del tarjeton
@@ -2165,6 +2169,10 @@ include_once 'recursos/datauser.php';
 					$('#calle_us').val(datosI[25]);
 					$('#cp_us').val(datosI[31]);
 				});
+
+				window.setTimeout(function() {
+					$("#derechoabiencia").load('pacientes/files-serverside/genera_derechohabiencias.php', function(response, status, xhr) {});
+				}, 500);
 
 
 
