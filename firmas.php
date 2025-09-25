@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <label>Identificador:</label>
+    <label>ID Paciente:</label>
     <input type="number" id="idf" name="idf"></input>
     <p>Firmar a continuación:</p>
     <canvas id="canvas"></canvas>
