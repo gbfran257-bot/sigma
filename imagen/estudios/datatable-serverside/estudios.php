@@ -168,7 +168,7 @@ include_once '../../../recursos/utilities.php';
             else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; }
         }
 		
-		$row[0]="<span>$hh</span>";
+		$row[0]="<span>$row[0]</span>";
 		
 		if($acceso_user==1 or $acceso_user==5){
 			$row[1]= "<span class='text-info' style='cursor:pointer; text-decoration:underline;' id='$row[9]' lang='$row[1]'  onClick='fichaEstudio(this.id, this.lang, \"$row[13]\");'>$row[1]</span>";

@@ -156,7 +156,7 @@ include_once '../../../recursos/utilities.php';
             else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; }
         }
 		
-		$row[0]="<span>$hh</span>";
+		$row[0]="<span>$row[0]</span>";
 		
 		if($_GET['accesoU']==1 && $_GET['enExcel'] == 0){//globalisima
 			$row[1]= "<span class='text-info' style='cursor:pointer; text-decoration:underline;' lang='$row[14]' id='$row[13]' onClick='fichaEstudio(this.id, this.lang);'>$row[1]</span>";
