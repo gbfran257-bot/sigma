@@ -1558,6 +1558,10 @@ include_once 'recursos/datauser.php';
 
 				$('#sangre_p').load('pacientes/files-serverside/genera_tsangre.php', function(response, status, xhr) {});
 
+				window.setTimeout(function() {
+					$("#derechoabiencia").load('pacientes/files-serverside/genera_derechohabiencias.php', function(response, status, xhr) {});
+				}, 500);
+
 				$("#estado_dir_p").load('pacientes/files-serverside/genera_estados.php', function(response, status, xhr) {
 					if (status == "success") {
 						$("#estado_dir_p").change(function(event) {
@@ -1609,9 +1613,11 @@ include_once 'recursos/datauser.php';
 					if ($(this).val() != '') {
 						$('#btn_add_doc').removeClass('disabled');
 						$('#btn_send_doc').removeClass('disabled');
+						$('#btn_take_photo').removeClass('disabled');
 					} else {
 						$('#btn_add_doc').addClass('disabled');
 						$('#btn_send_doc').addClass('disabled');
+						$('#btn_take_photo').addClass('disabled');
 					}
 				});
 
@@ -1962,7 +1968,7 @@ include_once 'recursos/datauser.php';
 					$('#puesto_p').val(datosI[69]);
 					$('#clave_p').val(datosI[66]);
 					//datos municipio zapata
-					$('#derechoabiencia').val(datosI[77]);
+					setTimeout(() => { $('#derechoabiencia').val(datosI[77]); }, 1200);
 					$('#seccion_ine').val(datosI[78]);
 
 					// Datos del tarjeton
@@ -2166,6 +2172,10 @@ include_once 'recursos/datauser.php';
 					$('#cp_us').val(datosI[31]);
 				});
 
+				window.setTimeout(function() {
+					$("#derechoabiencia").load('pacientes/files-serverside/genera_derechohabiencias.php', function(response, status, xhr) {});
+				}, 500);
+
 
 
 				$('#tImagen').click(function(e) {
@@ -2183,9 +2193,11 @@ include_once 'recursos/datauser.php';
 					if ($(this).val() != '') {
 						$('#btn_add_doc').removeClass('disabled');
 						$('#btn_send_doc').removeClass('disabled');
+						$('#btn_take_photo').removeClass('disabled');
 					} else {
 						$('#btn_add_doc').addClass('disabled');
 						$('#btn_send_doc').addClass('disabled');
+						$('#btn_take_photo').addClass('disabled');
 					}
 				});
 
@@ -2232,6 +2244,10 @@ include_once 'recursos/datauser.php';
 						// El usuario no ha seleccionado archivos
 						alert("Selecciona un archivo");
 					}
+				});
+
+				$('#btn_take_photo').click(function(e) {
+					window.open("foto_webcam/foto.html?id="+idP+"&name="+$("#titulo_foto").val(), "_blank");
 				});
 
 				$('#form-ficha_us').validator().on('submit', function(e) {

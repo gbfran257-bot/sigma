@@ -102,7 +102,7 @@
 <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" id="dataTablePrincipal" class="table table-hover table-striped dataTables-example dataTable table-condensed" role="grid"> 
 <thead id="cabecera_tBusquedaPrincipal">
   <tr role="row" class="bg-primary">
-    <th id="clickme" style="vertical-align:middle;">#</th>
+    <th id="clickme" style="vertical-align:middle;">ID</th>
     <th style="vertical-align:middle; white-space:nowrap;"><button type='button' class='btn btn-default btn-xs' id='btnAddEstudio' onClick='nuevoEstudio()' title='Agregar un nuevo estudio'><i class='fa fa-plus' aria-hidden='true'></i> ESTUDIO</button></th>
     <th style="vertical-align:middle;">ÁREA</th>
 	<th style="vertical-align:middle;" nowrap>DÍAS</th>

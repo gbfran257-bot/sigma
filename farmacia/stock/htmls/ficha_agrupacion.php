@@ -12,7 +12,7 @@
             <thead id="my_head">
             <tr class="bg-info">
                 <th align="center" id="clickmeA" style="vertical-align: middle; width: 100px;">ID</th>
-                <th align="center">LOTE</th>
+                <th align="center">LOTE | CADUCIDAD</th>
                 <th align="center">EXISTENCIA ACTUAL</th>
                 <th align="center">EXISTENCIA NUEVA</th>
             </tr>

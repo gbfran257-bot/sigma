@@ -14,7 +14,7 @@ require("../../../funciones/php/values.php");
 
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('id', 'Lote', 'existencias', 'id');
+	$aColumns = array('id', 'CONCAT_WS(" | ", Lote, DATE_FORMAT(fecha_expiracion, "%Y/%m/%d"))', 'existencias', 'id');
      
     // DB tables to use 
     $aTables = array( 'stock_has_bach');

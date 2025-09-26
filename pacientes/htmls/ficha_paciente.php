@@ -119,10 +119,10 @@
                             <label for="derechoabiencia">DERECHOHABIENCIA</label>
                             <!-- <input type="text" class="form-control" id="derechoabiencia" name="derechoabiencia" placeholder="Derechoabiencia" > -->
                              <select class="form-control" id="derechoabiencia" name="derechoabiencia">
-                                <option value="" selected disabled>Elige una opción</option>
+                                <!-- <option value="" selected disabled>Elige una opción</option>
                                 <option value="1">IMSS</option>
                                 <option value="2">ISSSTE</option>
-                                <option value="0">N/A</option>
+                                <option value="0">N/A</option> -->
                              </select>
                             <div class="help-block with-errors"></div>
                         </div> 
@@ -399,13 +399,16 @@
                         <label class="col-sm-3 col-md-3 text-center" for="">Título de la imagen:</label>
                         <input name="titulo_foto" type="text" class="form-control col-sm-6 col-md-6" id="titulo_foto" maxlength="50">
                         <div class="row boton_img  col-sm-3 col-md-3">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <button type="button" class="btn btn-default btn-sm disabled" id="btn_add_doc"><i class="fa fa-file-text fa-4x cel" aria-hidden="true"></i><i class="fa fa-file-text compu fa-1x" aria-hidden="true"></i></button>
                                 <input id="fileupload_foto" type="file" name="files[]" class="hide" accept="image/jpg, image/jpeg, image/png">
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <button type="button" class="btn btn-default btn-sm disabled" id="btn_send_doc"><i class="fa fa-cloud-upload fa-4x cel" aria-hidden="true">                               
                                 </i><i class="fa fa-cloud-upload compu fa-1x" aria-hidden="true"></i></button>
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-default btn-sm disabled" id="btn_take_photo"><i class="fa fa-camera fa-1x" aria-hidden="true"></i></button>
                             </div>
                         </div>
                     </div>
