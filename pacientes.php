@@ -1613,9 +1613,11 @@ include_once 'recursos/datauser.php';
 					if ($(this).val() != '') {
 						$('#btn_add_doc').removeClass('disabled');
 						$('#btn_send_doc').removeClass('disabled');
+						$('#btn_take_photo').removeClass('disabled');
 					} else {
 						$('#btn_add_doc').addClass('disabled');
 						$('#btn_send_doc').addClass('disabled');
+						$('#btn_take_photo').addClass('disabled');
 					}
 				});
 
@@ -2191,9 +2193,11 @@ include_once 'recursos/datauser.php';
 					if ($(this).val() != '') {
 						$('#btn_add_doc').removeClass('disabled');
 						$('#btn_send_doc').removeClass('disabled');
+						$('#btn_take_photo').removeClass('disabled');
 					} else {
 						$('#btn_add_doc').addClass('disabled');
 						$('#btn_send_doc').addClass('disabled');
+						$('#btn_take_photo').addClass('disabled');
 					}
 				});
 
@@ -2240,6 +2244,10 @@ include_once 'recursos/datauser.php';
 						// El usuario no ha seleccionado archivos
 						alert("Selecciona un archivo");
 					}
+				});
+
+				$('#btn_take_photo').click(function(e) {
+					window.open("foto_webcam/foto.html?id="+idP+"&name="+$("#titulo_foto").val(), "_blank");
 				});
 
 				$('#form-ficha_us').validator().on('submit', function(e) {
