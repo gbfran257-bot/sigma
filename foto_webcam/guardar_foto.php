@@ -9,6 +9,8 @@
 require("../Connections/horizonte.php");
 require("../funciones/php/values.php");
 
+$now = sqlValue(date('Y-m-d H:i:s'), "date");
+
 //guardamos el registro en bd
 mysql_select_db($database_horizonte, $horizonte);
 $sql = "INSERT INTO documentos (nombre_do, ext_do, aleatorio_do, tipo_quien_do, usuario_do, fecha_do, que_es_do)";
