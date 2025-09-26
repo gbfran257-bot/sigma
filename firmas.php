@@ -22,6 +22,7 @@
 </head>
 
 <body>
+    <input id="userId" name="userId" type="hidden" value="1" />
     <label>ID Paciente:</label>
     <input type="number" id="idf" name="idf"></input>
     <p>Firmar a continuación:</p>
@@ -36,3 +37,9 @@
 </body>
 
 </html>
+
+<script>
+    // Toma el valor de la sesión PHP y lo asigna a una variable JavaScript
+    var userId1 = <?php echo json_encode($_SESSION['id']); ?>;
+    document.getElementById("userId").value = userId1;
+</script>

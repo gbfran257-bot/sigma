@@ -8,6 +8,7 @@ if(isset($data["imagen"]) && isset($data["idf"]) && $data["idf"] != "") {
 
     $imagen = $data["imagen"];
     $idf    = $data["idf"];
+    $idu    = $data["idu"];
     $now = sqlValue(date('Y-m-d H:i:s'), "date");
 
     //Buscamos si existe el id del paciente
@@ -29,7 +30,7 @@ if(isset($data["imagen"]) && isset($data["idf"]) && $data["idf"] != "") {
         //guardamos el registro en bd
         mysql_select_db($database_horizonte, $horizonte);
         $sql = "INSERT INTO documentos (nombre_do, ext_do, aleatorio_do, tipo_quien_do, usuario_do, fecha_do, que_es_do)";
-        $sql.= "VALUES ('firma_".$idpaciente[0]."', 'png', ".$idpaciente[1].", 1, 1, $now, 'IMAGEN')";
+        $sql.= "VALUES ('firma_".$idpaciente[0]."', 'png', ".$idpaciente[1].", 1, ".$idu.", $now, 'IMAGEN')";
         $update = mysql_query($sql, $horizonte) or die (mysql_error());
     
         //obtenemos el ultimo id guardado para nombrar la imagen como id.png
