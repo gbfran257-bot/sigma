@@ -153,7 +153,11 @@ const llenarSelectConDispositivosDisponibles = () => {
                         .then(nombreDeLaFoto => {
                             // nombreDeLaFoto trae el nombre de la imagen que le dio PHP
                             console.log("La foto fue enviada correctamente");
-                            $estado.innerHTML = `Foto guardada con éxito. Puedes verla <a target='_blank' href='./${nombreDeLaFoto}'> aquí</a>`;
+                            $estado.innerHTML = `La pagina se cerrara pronto`;
+                            //$estado.innerHTML = `Foto guardada con éxito. Puedes verla <a target='_blank' href='./${nombreDeLaFoto}'> aquí</a>`;
+                            setTimeout(() => {
+                                window.close();
+                            }, 3000); 
                         })
 
                     //Reanudar reproducción

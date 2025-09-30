@@ -135,7 +135,7 @@ $btnGuardarFirma.onclick = () => {
             limpiarCanvas();
             document.getElementById("idf").value = "";
             alert("La firma se ha registrado.");
-            if(refPaciente !== null){ window.location.href = "index.php"; }
+            if(refPaciente !== null){ window.close(); }
         }else{
             alert(data);
         }
