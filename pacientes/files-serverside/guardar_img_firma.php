@@ -28,10 +28,18 @@ if(isset($data["imagen"]) && isset($data["idf"]) && $data["idf"] != "") {
         //$time = time();
     
         //guardamos el registro en bd
-        mysql_select_db($database_horizonte, $horizonte);
-        $sql = "INSERT INTO documentos (nombre_do, ext_do, aleatorio_do, tipo_quien_do, usuario_do, fecha_do, que_es_do)";
-        $sql.= "VALUES ('firma_".$idpaciente[0]."', 'png', ".$idpaciente[1].", 1, ".$idu.", $now, 'IMAGEN')";
-        $update = mysql_query($sql, $horizonte) or die (mysql_error());
+
+        if(isset($data["idPaciente1"]) && isset($data["refPaciente"]) && $data["refPaciente"] != "") {
+            mysql_select_db($database_horizonte, $horizonte);
+            $sql = "INSERT INTO documentos (nombre_do, ext_do, aleatorio_do, tipo_quien_do, usuario_do, fecha_do, que_es_do)";
+            $sql.= "VALUES ('firma_".$data["refPaciente"]."', 'png', ".$data["idPaciente1"].", 1, ".$idu.", $now, 'IMAGEN')";
+            $update = mysql_query($sql, $horizonte) or die (mysql_error());
+        }else{
+            mysql_select_db($database_horizonte, $horizonte);
+            $sql = "INSERT INTO documentos (nombre_do, ext_do, aleatorio_do, tipo_quien_do, usuario_do, fecha_do, que_es_do)";
+            $sql.= "VALUES ('firma_".$idpaciente[0]."', 'png', ".$idpaciente[1].", 1, ".$idu.", $now, 'IMAGEN')";
+            $update = mysql_query($sql, $horizonte) or die (mysql_error());
+        }
     
         //obtenemos el ultimo id guardado para nombrar la imagen como id.png
         mysql_select_db($database_horizonte, $horizonte);

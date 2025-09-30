@@ -264,7 +264,7 @@
         $countFirma = mysql_fetch_row($qryCountFirma);
 
         if($countFirma[0] == 0){
-            $iconFirma = "<a href='firmas.php?id=".$row[21]."' target='_blank'> <i class='fa fa-pencil' aria-hidden='true'></i> </a>";
+            $iconFirma = "<a href='firmas.php?id=".$row[21]."&ref=".$row[18]."' target='_blank'> <i class='fa fa-pencil' aria-hidden='true'></i> </a>";
         }else{
             $iconFirma = "";
         }

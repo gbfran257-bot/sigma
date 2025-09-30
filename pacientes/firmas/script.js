@@ -72,12 +72,11 @@ window.obtenerImagen = () => {
     window.open("documento.html");
 }; */
 
-$btnGuardarFirma.onclick = () => {
+/* $btnGuardarFirma.onclick = () => { -- original
     const imagen = $canvas.toDataURL("image/png"); // Base64
     const idf = document.getElementById("idf").value;
     const idu = document.getElementById("userId").value;
     
-    // Enviar al servidor con fetch
     fetch("pacientes/files-serverside/guardar_img_firma.php", {
         method: "POST",
         body: JSON.stringify({
@@ -94,11 +93,49 @@ $btnGuardarFirma.onclick = () => {
         if(data == 1){
             limpiarCanvas();
             document.getElementById("idf").value = "";
-            /* swal({
-                title: "¡CONFIRMACIÓN!", type: "success", text: "La firma se ha registrado.",
-                timer: 1900, showConfirmButton: false
-            }); return; */
             alert("La firma se ha registrado.");
+        }else{
+            alert(data);
+        }
+
+    })
+    .catch(err => console.error(err));
+}; */
+
+$btnGuardarFirma.onclick = () => {
+    const imagen = $canvas.toDataURL("image/png"); // Base64
+    const idf = document.getElementById("idf").value;
+    const idu = document.getElementById("userId").value;
+
+    const url = new URL(window.location.href);
+    const idPaciente1 = url.searchParams.get("id");
+    const refPaciente = url.searchParams.get("ref");
+
+    let dataGF = {
+        imagen: imagen,
+        idf: idf,
+        idu: idu
+    };    
+
+    if(refPaciente !== null){
+        dataGF.idPaciente1 = idPaciente1;
+        dataGF.refPaciente = refPaciente;
+    }
+    
+    fetch("pacientes/files-serverside/guardar_img_firma.php", {
+        method: "POST",
+        body: JSON.stringify(dataGF),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(res => res.text())
+    .then(data => {
+        if(data == 1){
+            limpiarCanvas();
+            document.getElementById("idf").value = "";
+            alert("La firma se ha registrado.");
+            if(refPaciente !== null){ window.location.href = "index.php"; }
         }else{
             alert(data);
         }
