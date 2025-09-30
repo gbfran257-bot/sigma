@@ -42,4 +42,11 @@
     // Toma el valor de la sesión PHP y lo asigna a una variable JavaScript
     var userId1 = <?php echo json_encode($_SESSION['id']); ?>;
     document.getElementById("userId").value = userId1;
+
+    const url = new URL(window.location.href);
+    const idPaciente = url.searchParams.get("id");
+
+    if(idPaciente !== null){
+        document.getElementById("idf").value = idPaciente;
+    }
 </script>
