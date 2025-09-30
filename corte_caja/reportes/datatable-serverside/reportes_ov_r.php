@@ -10,7 +10,7 @@
 
 	// consulta para horizonte
 	$obligatorio = 0;
-	$aColumns = array('pa.referencia_pag','pa.referencia_pag' , 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'fp.forma_pago_fp', 'ov.subtotal_ov', 'SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov + ov.adicionales_p_ov)', 'ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv+ov.t_desc_pro', 'ov.gran_total_ov', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'ov.gran_total_ov-SUM(pa.pago_pag)', 'p.amaterno_p', 'ov.no_temp_ov', 'ov.no_temp_ov','pa.referencia_pag','DATE_FORMAT(ov.fecha_venta_ov,"%d/%c/%Y %H:%m")', 'ov.encuesta_zapata');
+	$aColumns = array('pa.referencia_pag','pa.referencia_pag' , 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'fp.forma_pago_fp', 'ov.subtotal_ov', 'SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov + ov.adicionales_p_ov)', 'ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv+ov.t_desc_pro', 'ov.gran_total_ov', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'ov.gran_total_ov-SUM(pa.pago_pag)', 'p.amaterno_p', 'ov.no_temp_ov', 'ov.no_temp_ov','pa.referencia_pag','DATE_FORMAT(ov.fecha_venta_ov,"%d/%c/%Y %H:%m")', 'ov.encuesta_zapata', 'p.id_p');
      
     // DB tables to use 
     $aTables = array( 'orden_venta ov');
@@ -258,7 +258,19 @@
             $datosEncuesta = "";
         }
 
-        $row[2] = $row[2] . " $datosEncuesta";
+        //bloque para verificar si la orden de venta ligada a la referencia ya tiene una firma registrada
+        mysql_select_db($database_horizonte, $horizonte);
+        $qryCountFirma = mysql_query("SELECT COUNT(*) FROM documentos WHERE nombre_do = 'firma_" . $row[18]."'", $horizonte) or die (mysql_error());
+        $countFirma = mysql_fetch_row($qryCountFirma);
+
+        if($countFirma[0] == 0){
+            $iconFirma = "<a href='firmas.php?id=".$row[21]."&ref=".$row[18]."' target='_blank'> <i class='fa fa-pencil' aria-hidden='true'></i> </a>";
+        }else{
+            $iconFirma = "";
+        }
+        //esta bloque sirve unicamente para el sistema de zapata
+
+        $row[2] = $row[2] . " $datosEncuesta $iconFirma";
 
         $row[1] ="<span lang='$row[1]' style='text-decoration:underline; cursor:pointer;' onClick='ver_ov(this.lang)'>$row[1]</span><br><span style='font-size:12px;'>$row[19]</span>";	
 				
