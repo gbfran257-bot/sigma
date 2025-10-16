@@ -27,10 +27,7 @@ include_once '../../recursos/utilities.php';
 	if($acceso_user==1){//Si es administrador
 		if(isset($_GET['nombre']) and $_GET['nombre']!=''){ $sWhere = "where u.nombre_u like '$_GET[nombre]' " ; }else{$sWhere = "where 1=1 " ;}
 	}else{
-		//if(isset($_GET['nombre']) and $_GET['nombre']!=''){
-			//$sWhere = "where u.nombre_u like '$_GET[nombre]' and u.idSucursal_u in(select su.id_sucursal_su from sucursales_usuarios su where su.aleatorio_su = $aleatorio_u)" ;
-		//}else{$sWhere = "where u.idSucursal_u in(select su.id_sucursal_su from sucursales_usuarios su where su.aleatorio_su = $aleatorio_u)" ;}
-		if($rowF[1]==0){//Usuario simple, solo vé su propio usuario
+		/*if($rowF[1]==0){//Usuario simple, solo vé su propio usuario
 			$sWhere = "where u.id_u = $id_user";
 		}
 		if($rowF[1]==1){//Multisucursal
@@ -38,7 +35,8 @@ include_once '../../recursos/utilities.php';
 		}
 		if($rowF[1]==2){//Multisucursal
 			$sWhere = "where u.idSucursal_u = $sucursal_us";
-		}
+		}*/
+        $sWhere = "where 1=0 " ;
 	}
 	 	 
     /* Database connection information */
