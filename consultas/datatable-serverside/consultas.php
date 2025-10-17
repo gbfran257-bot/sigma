@@ -205,22 +205,33 @@ require("../../funciones/php/values.php");
 		//if($rowH[0]==0){$row[6] = "<div align='center'><button lang='$row[12]' class='icono_verInfo botonaso' onClick='historiaCvacia(this.lang)' style='height:25px;width:25px;cursor:pointer;'></button></div>";}
 		
 		if ($row[19] == "PENDIENTE"){ 
+			mysql_select_db($database_horizonte, $horizonte); 
+			$qryPendiente = mysql_query("SELECT CONCAT_WS(' ', u.nombre_u, u.apaterno_u, u.amaterno_u), DATE_FORMAT(vc.fechaEdo1_e,'%d/%m/%Y %H:%i:%s') FROM venta_conceptos vc LEFT JOIN usuarios u ON u.id_u = vc.usuarioEdo1_e WHERE id_vc = " . $row[0],$horizonte) or die (mysql_error());
+			$pendiente = mysql_fetch_row($qryPendiente);
+
 			// $row[7] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang, this.id,1,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[7]</span>";
-			$row[10] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang, this.id,1,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[19]</span>";
+			$row[10] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang, this.id,1,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[19]</span><br>$pendiente[0]<br>$pendiente[1]";
 			/* $row[8] = "<div align='center'>-</div>"; */ 
 			$row[11] = "<div align='center'>-</div>"; 
 			// $row[9] = "<div align='center'>-</div>";
 			$row[12] = "<div align='center'>-</div>";
 		}
 		else if($row[19] == "PROCESO"){
+			mysql_select_db($database_horizonte, $horizonte); 
+			$qryProceso = mysql_query("SELECT CONCAT_WS(' ', u.nombre_u, u.apaterno_u, u.amaterno_u), DATE_FORMAT(vc.fechaEdo2_e,'%d/%m/%Y %H:%i:%s') FROM venta_conceptos vc LEFT JOIN usuarios u ON u.id_u = vc.usuarioEdo2_e WHERE id_vc = " . $row[0],$horizonte) or die (mysql_error());
+			$proceso = mysql_fetch_row($qryProceso);
+
 			// $row[7] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang, this.id,2,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[7]</span>";
-			$row[10] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang, this.id,2,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[19]</span>";
+			$row[10] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang, this.id,2,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[19]</span><br>$proceso[0]<br>$proceso[1]";
 			/* $row[8] = "<div align='center'>-</div>"; */ 
 			$row[11] = "<div align='center'>-</div>"; 
 			// $row[9] = "<div align='center'>-</div>";
 			$row[12] = "<div align='center'>-</div>";
 		}
 		else if($row[19] == "FINALIZADA"){
+			$qryFinalizada = mysql_query("SELECT CONCAT_WS(' ', u.nombre_u, u.apaterno_u, u.amaterno_u), DATE_FORMAT(vc.fechaEdo3_e,'%d/%m/%Y %H:%i:%s') FROM venta_conceptos vc LEFT JOIN usuarios u ON u.id_u = vc.usuarioEdo3_e WHERE id_vc = " . $row[0],$horizonte) or die (mysql_error());
+			$finalizada = mysql_fetch_row($qryFinalizada);
+
 			//para el contador de tiempo
 			$fecha1 = new DateTime($row[17]); $fecha2 = new DateTime($row[16]); $fecha = $fecha1->diff($fecha2);
 			$anos=$fecha->y; $meses=$fecha->m; $dias=$fecha->d; $horas=$fecha->h; $minutos=$fecha->i; $segundos=$fecha->s;
@@ -229,7 +240,7 @@ require("../../funciones/php/values.php");
 		
 			//$row[7] = "<span id='$row[17]' lang='$row[12]' onClick='preImprimir($row[9], $row[12])' style='cursor:pointer; text-decoration:underline;'>$row[7]</span>";ya estaba comentado
 			// $row[7] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang,this.id,3,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[7]</span>";
-			$row[10] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang,this.id,3,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[19]</span>";
+			$row[10] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang,this.id,3,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[19]</span><br>$finalizada[0]<br>$finalizada[1]";
 						
 			// $row[5] = "<div align='center'><span id='$row[14]' lang='$row[11]' class='miContaX'>$row[5]</span></div>";
 			$row[8] = "<div align='center'><span id='$row[14]' lang='$row[11]' class='miContaX'>$row[8]</span></div>";
