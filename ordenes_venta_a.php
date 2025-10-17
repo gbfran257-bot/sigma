@@ -111,6 +111,7 @@
         <th width="10px">SALDO</th>
         <th width="10px">PAGADO</th>
         <th width="20px">FACTURADO</th>
+        <th width="20px">MOTIVO DESC.</th>
       </tr>
     </thead>
     <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
@@ -133,6 +134,7 @@
             <th><input type="hidden" class="" /></th>
             <th><input type="hidden" placeholder="Facturado" class="" /></th>
             <th></th>
+			<th><input type="text" id="input-motivo-d" name="input-motivo-d" placeholder="Motivo" class="form-control input-sm entrada-texto"/></th>
 		</tr>
 	</tfoot>
   </table>
@@ -354,6 +356,7 @@ $(document).ready(function(e) {
 		oTable.fnFilter($("#input-sucursal").val(), 4);
 		oTable.fnFilter($("#input-usuario").val(), 5);
 		oTable.fnFilter($("#input-pago").val(), 6);
+		oTable.fnFilter($("#input-motivo-d").val(), 7);
 		oTable.fnDraw();
     });
 	 /*

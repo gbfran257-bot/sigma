@@ -3,7 +3,7 @@
 <?php
 	// consulta para horizonte
 	$obligatorio = 0;
-	$aColumns = array('pa.referencia_pag','pa.referencia_pag', 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'fp.forma_pago_fp','ov.subtotal_ov', 'SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov + ov.adicionales_p_ov)', 'ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv+ov.t_desc_pro', 'ov.gran_total_ov', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'ov.gran_total_ov-SUM(pa.pago_pag)', 'p.amaterno_p', 'ov.no_temp_ov', 'ov.no_temp_ov', 'ov.sucursal_ov','DATE_FORMAT(ov.fecha_venta_ov,"%d/%m/%Y %H:%i")','pa.referencia_pag','fp.id_fp', 'ov.encuesta_zapata');
+	$aColumns = array('pa.referencia_pag','pa.referencia_pag', 'p.nombre_completo_p', 'DATE_FORMAT(ov.fecha_venta_ov,GET_FORMAT(DATE,"ISO"))', 's.clave_su', 'u.usuario_u', 'fp.forma_pago_fp','ov.subtotal_ov', 'SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov + ov.adicionales_p_ov)', 'ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv+ov.t_desc_pro', 'ov.gran_total_ov', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'SUM(pa.pago_pag)', 'ov.gran_total_ov-SUM(pa.pago_pag)', 'p.amaterno_p', 'ov.no_temp_ov', 'ov.no_temp_ov', 'ov.sucursal_ov','DATE_FORMAT(ov.fecha_venta_ov,"%d/%m/%Y %H:%i")','pa.referencia_pag','fp.id_fp', 'ov.encuesta_zapata', 'CONCAT_WS("-", ov.motivo_desc_c_ov, ov.motivo_desc_i_ov, ov.motivo_desc_l_ov, ov.motivo_desc_s_ov, ov.motivo_desc_f_ov)');
      
     // DB tables to use 
     $aTables = array( 'orden_venta ov');
@@ -113,7 +113,12 @@
         {
             if ( $sWhere == "" ) { $sWhere = "WHERE "; }
             else { $sWhere .= " AND "; }
-            $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+            if($i==7){
+                $sWhere .= $aColumns[23]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+            }else{
+                $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+
+            }
         }
     }
      
@@ -302,6 +307,8 @@
         $getCargosE = mysql_query("SELECT SUM(ov.adicionales_c_ov + ov.adicionales_ei_ov + ov.adicionales_el_ov + ov.adicionales_s_ov + ov.adicionales_p_ov) from orden_venta ov WHERE ov.referencia_ov = $refi ", $horizonte) or die (mysql_error());
         $cargosE = mysql_fetch_row($getCargosE);
         $row[8] = $cargosE[0];		
+
+        $row[17] = $row[23];
 			
         $output['aaData'][] = $row;
     }
