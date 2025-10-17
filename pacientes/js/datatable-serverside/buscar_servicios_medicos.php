@@ -143,6 +143,9 @@ require("../../../funciones/php/values.php");
 		}
 	}
 
+	//ocultamos registros que no sirven(no se eliminan porque se encuentran en alguna ov y daria error)
+	$sWhere .= "AND concepto_to NOT LIKE 'X%' ";
+
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;
     $gaSql['password']   = $password_horizonte;
