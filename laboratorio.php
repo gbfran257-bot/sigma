@@ -935,6 +935,8 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
 				var datosFT = dataFT.split('*}');
 				$("#fecha_hora").text(datosFT[0])
 				$("#observacionPro").text(datosFT[1]);
+				$('#status_a_i').val(datosFT[2]);
+				$('#estatus_label').html('ESTATUS A/I:<br>'+datosFT[3]);
 			});
 			
 			//Checamos si no tiene ninguna base el estudio poner formato libre

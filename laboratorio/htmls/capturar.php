@@ -44,7 +44,7 @@
     <td class="sucursal_ocu" colspan="2"><select name="sucursal_ocu" id="sucursal_ocu" class="form-control input-sm"> </select></td>
   </tr>
   <tr class="hidden" id="tr_status_a_i">
-    <td align="right" width="1px" nowrap valign="top"><strong>ESTATUS A/I: </strong></td>
+    <td align="right" width="1px" nowrap valign="top"><strong id="estatus_label">ESTATUS A/I: </strong></td>
     <td class="td_status_a_i" colspan="2">
       <select name="status_a_i" id="status_a_i" class="form-control input-sm">
         <option value="0">NO SELECCIONADO</option>
