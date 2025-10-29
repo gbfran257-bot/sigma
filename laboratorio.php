@@ -910,7 +910,7 @@ function guardarAutorizado(id_estudio, id_usuario){
 function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del estudio en vc en venta de conceptos
 	$("#myModal1").load('laboratorio/htmls/capturar.php', function(response, status, xhr){ if(status == "success"){
 		$('#cargaPDF').hide(); $('#idPacientePro').val(a); $('#idEstudioPro').val(b); $('#tr_sucursalex').removeClass('hidden');
-		$('#btn_capturar_e, #btn_reiniciar_e').remove(); $('#btn_imprimir_e').removeClass('hidden');
+		$('#btn_capturar_e, #btn_reiniciar_e').remove(); $('#btn_imprimir_e').removeClass('hidden'); $('#tr_status_a_i').removeClass('hidden');
 
 		//evitamos que el usuario pueda escribir sobre los inputs de los resultaados
 		window.setTimeout(function(){
@@ -1049,6 +1049,14 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
 			$('#btn_imprimir_e').click(function(e) {
                 $('#myModal1').modal('hide'); window.setTimeout(function(){preImprimir(a,b,n,$("#sucursal_ocu1").val());},1000);
             });
+		});
+
+		$('#status_a_i').on('change', function() {
+			var valor_a_i = $(this).val();
+			var datoAI = {valor_a_i:valor_a_i, id_e:b, usuario:$('#id_user').val()}
+			$.post('laboratorio/archivos_save_ajax/actualizar_activo_inactivo.php', datoAI).done(function( data ) {
+				
+			})
 		});
 		
 		$('#myModal1').modal('show');
