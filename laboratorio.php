@@ -917,6 +917,9 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
 			$("#p_contenido :input").on('keydown', function(e){
 				e.preventDefault();
 			});
+			if($('#acc_user').val()==14){
+				$('#tr_status_a_i').addClass('hidden');
+			}
 		},600);
 		
 		var datoP = {idP:a, idE:b}
