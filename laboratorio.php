@@ -918,7 +918,8 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
 				e.preventDefault();
 			});
 			if($('#acc_user').val()==14){
-				$('#tr_status_a_i').addClass('hidden');
+				$('#status_a_i').prop('disabled', true);
+				$('#notaPro').prop('disabled', true);
 			}
 		},600);
 		
