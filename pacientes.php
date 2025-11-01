@@ -4958,7 +4958,8 @@ include_once 'recursos/datauser.php';
 			id_con_bene: id_con_bene,
 			fechaC: $('#fichaNV').val() + ' ' + $('#horaNV').val(),
 			ocupado: ocup,
-			cantidad: 1
+			cantidad: 1,
+			fecha_temporal:$("#dtLocal").val()
 		}
 		$.post('pacientes/files-serverside/guardarEstudioNV.php', datosSENV).done(function(data) {
 			if (data == 1) {
@@ -4989,7 +4990,8 @@ include_once 'recursos/datauser.php';
 			fechaC: $('#fichaNV').val() + ' ' + $('#horaNV').val(),
 			ocupado: ocup,
 			precio_original: po,
-			cantidad:1
+			cantidad:1,
+			fecha_temporal:$("#dtLocal").val()
 		}
 		$.post('pacientes/files-serverside/guardarEstudioNV.php', datosSENV).done(function(data) {
 			if (data == 1) {
@@ -5019,7 +5021,8 @@ include_once 'recursos/datauser.php';
 			id_con_bene: id_con_bene,
 			fechaC: $('#fichaNV').val() + ' ' + $('#horaNV').val(),
 			ocupado: ocup,
-			cantidad:1
+			cantidad:1,
+			fecha_temporal:$("#dtLocal").val()
 		}
 		$.post('pacientes/files-serverside/guardarEstudioNV.php', datosSENV).done(function(data) {
 			if (data == 1) {
@@ -5050,7 +5053,8 @@ include_once 'recursos/datauser.php';
 			fechaC: $('#fichaNV').val() + ' ' + $('#horaNV').val(),
 			ocupado: ocup,
 			honor: honor,
-			cantidad:1
+			cantidad:1,
+			fecha_temporal:$("#dtLocal").val()
 		}
 		$.post('pacientes/files-serverside/guardarEstudioNV.php', datosSENV).done(function(data) {
 			if (data == 1) {
@@ -5080,7 +5084,8 @@ include_once 'recursos/datauser.php';
 			fechaC: $('#fichaNV').val() + ' ' + $('#horaNV').val(),
 			ocupado: ocup,
 			cantidad,
-			id_shb:id_stock_has_bach
+			id_shb:id_stock_has_bach,
+			fecha_temporal:$("#dtLocal").val()
 		}
 		$.post('pacientes/files-serverside/guardarEstudioNV.php', datosSENV).done(function(data) {
 			if (data == 1) {

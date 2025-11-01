@@ -81,7 +81,28 @@ require("../../funciones/php/values.php");
  
  $now = sqlValue(date('Y-m-d H:i:s'), "date"); $fecha1="'".date('Y-m-d')." 00:00:00"."'";
  $fecha2="'".date('Y-m-d')." 23:59:59"."'"; $da=date('Ymd');
- 
+
+/* bloque de codigo para sistema TEMPORAL que va a ocultar las fechas de proceso y autorizacion en el pdf  */
+mysql_select_db($database_horizonte, $horizonte); 
+$resultRu = mysql_query("SELECT COUNT(*) FROM modificaciones_sigma WHERE nombre = 'dateNoView' AND habilitado = 1 ", $horizonte) or die(mysql_error()); 
+$rowRu = mysql_fetch_row($resultRu);
+$ocultarFechas = $rowRu[0];
+
+if($ocultarFechas > 0){
+    $fecha_temporal = str_replace("T", " ", $_POST['dtLocal']);
+	$fecha_corta_temporal = substr($_POST['dtLocal'], 0, 10);
+
+	$now = sqlValue($fecha_temporal, "date");
+	$fecha1="'".$fecha_corta_temporal." 00:00:00"."'";
+	$fecha2="'".$fecha_corta_temporal." 23:59:59"."'";
+
+	//actualizamos las fechas de la tabla venta_conceptos de esa referencia.
+	mysql_select_db($database_horizonte, $horizonte);
+	$qryUpdFT = "UPDATE venta_conceptos SET fecha_venta_vc = $now, fechaEdo1_e = $now WHERE no_temp_vc = $aleatorio";
+	$updateFT = mysql_query($qryUpdFT, $horizonte) or die (mysql_error());
+}
+//
+
  mysql_select_db($database_horizonte, $horizonte);
  $resultR = mysql_query("SELECT count(id_ov) from orden_venta where fecha_venta_ov between ".$fecha1." and ".$fecha2." ", $horizonte) or die(mysql_error());
  $rowR = mysql_fetch_row($resultR);
