@@ -62,8 +62,8 @@
               <li role="presentation"><a href="#tFarmacia" aria-controls="tFarmacia" role="tab" data-toggle="tab" id="t_farm">FARMACIA / INSUMOS</a></li>
               <li role="presentation"> <a href="#tResumen" aria-controls="tResumen" role="tab" data-toggle="tab">RESUMEN</a> </li>
               <div class="nuevoscampos">
-              <input type="text" name="expediente_externo" id="expediente_externo" class="nvocampo"><label for="expediente_externo" class="nvocampo">EXPEDIENTE:</label>
-              <input type="text" name="folio_externo" id="folio_externo" class="nvocampo"><label for="folio_externo" class="nvocampo">FOLIO:</label>
+              <input type="text" name="expediente_externo" id="expediente_externo" class="nvocampo"><label for="expediente_externo" class="nvocampo">Expediente:</label>
+              <input type="text" name="folio_externo" id="folio_externo" class="nvocampo"><label for="folio_externo" class="nvocampo">Afiliación:</label>
               </div>
               
             </ul>
@@ -154,6 +154,9 @@
 
                     <div class="col-sm-12 col-xs-12" align="right"><br>
                       <button type="button" class="btn btn-info btn-sm" id="btn_liquidar_ov"><i class="fa fa-dollar" aria-hidden="true"></i> Liquidar</button>
+                    </div>
+                    <div class="col-sm-12 col-xs-12" align="right"><br>
+                      <input id="dtLocal" type="datetime-local" name="dtLocal" value="2025-01-01T11:00">
                     </div>
                     <!--<div class="col-sm-12 col-xs-12"> <br>
 								<select id="sucursal_fi_p" name="sucursal_fi_p" class="form-control" required> </select>

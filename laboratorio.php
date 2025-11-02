@@ -910,13 +910,17 @@ function guardarAutorizado(id_estudio, id_usuario){
 function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del estudio en vc en venta de conceptos
 	$("#myModal1").load('laboratorio/htmls/capturar.php', function(response, status, xhr){ if(status == "success"){
 		$('#cargaPDF').hide(); $('#idPacientePro').val(a); $('#idEstudioPro').val(b); $('#tr_sucursalex').removeClass('hidden');
-		$('#btn_capturar_e, #btn_reiniciar_e').remove(); $('#btn_imprimir_e').removeClass('hidden');
+		$('#btn_capturar_e, #btn_reiniciar_e').remove(); $('#btn_imprimir_e').removeClass('hidden'); $('#tr_status_a_i').removeClass('hidden');
 
 		//evitamos que el usuario pueda escribir sobre los inputs de los resultaados
 		window.setTimeout(function(){
 			$("#p_contenido :input").on('keydown', function(e){
 				e.preventDefault();
 			});
+			if($('#acc_user').val()==14){
+				$('#status_a_i').prop('disabled', true);
+				$('#notaPro').prop('disabled', true);
+			}
 		},600);
 		
 		var datoP = {idP:a, idE:b}
@@ -935,6 +939,8 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
 				var datosFT = dataFT.split('*}');
 				$("#fecha_hora").text(datosFT[0])
 				$("#observacionPro").text(datosFT[1]);
+				$('#status_a_i').val(datosFT[2]);
+				$('#estatus_label').html('ESTATUS A/I:<br>'+datosFT[3]+'<br>'+datosFT[4]);
 			});
 			
 			//Checamos si no tiene ninguna base el estudio poner formato libre
@@ -1049,6 +1055,14 @@ function autorizado(a,b,n,id_s){//alert(id_s);//a es el id del paciente y b del 
 			$('#btn_imprimir_e').click(function(e) {
                 $('#myModal1').modal('hide'); window.setTimeout(function(){preImprimir(a,b,n,$("#sucursal_ocu1").val());},1000);
             });
+		});
+
+		$('#status_a_i').on('change', function() {
+			var valor_a_i = $(this).val();
+			var datoAI = {valor_a_i:valor_a_i, id_e:b, usuario:$('#id_user').val()}
+			$.post('laboratorio/archivos_save_ajax/actualizar_activo_inactivo.php', datoAI).done(function( data ) {
+				
+			})
 		});
 		
 		$('#myModal1').modal('show');

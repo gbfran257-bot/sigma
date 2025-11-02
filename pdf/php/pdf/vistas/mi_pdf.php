@@ -34,6 +34,27 @@ if($registros[0] == 0){
     $actualizarReg = mysql_query($sqlActualizarReg, $horizonte) or die (mysql_error());   
 }
 //
+
+/* bloque de codigo para sistema TEMPORAL que va a ocultar las fechas de proceso y autorizacion en el pdf  */
+mysql_select_db($database_horizonte, $horizonte); 
+$resultRu = mysql_query("SELECT COUNT(*) FROM modificaciones_sigma WHERE nombre = 'dateNoView' AND habilitado = 1 ", $horizonte) or die(mysql_error()); 
+$rowRu = mysql_fetch_row($resultRu);
+$ocultarFechas = $rowRu[0];
+
+if($ocultarFechas > 0){
+    // Expresión regular flexible para fechas tipo d/m/yyyy h:m:s (1 o 2 dígitos)
+    $pattern = '/\b\d{1,2}\/\d{1,2}\/\d{4}\s+\d{1,2}:\d{2}:\d{2}\b/';
+    $texto = $row_usuario['variable_temporal5_u'];
+    $texto = preg_replace($pattern, '', $texto);
+    $row_usuario['variable_temporal5_u'] = $texto;
+
+    $pattern2 = '/REFERENCIA:\s*\d{6,}-\d+\s*/i';
+    $texto2 =  $row_usuario['variable_temporal1_u'];
+    $texto2 = preg_replace($pattern2, '', $texto2);
+    $row_usuario['variable_temporal1_u'] = $texto2;
+}
+
+//
  
 ?>
 

@@ -15,7 +15,7 @@ $tipo_user = $_SESSION['MM_UserGroup'];
 $sucu_user = $_SESSION['MM_Usersucu'];
     /* Array of database columns which should be read and sent back to DataTables. Use a space where * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('v.id_vc', 'p.nombre_completo_p', 'v.referencia_vc', 'e.concepto_to', 'es.estatus_est', 'a.nombre_a','s.clave_su', 'p.amaterno_p', 'p.id_p', 'v.id_vc', 'v.contador_vc', 'e.id_area_to', 'a.nombre_a','s.nombre_su','s.id_su', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%m/%Y %H:%i")', 'au.usuario_u', 'DATE_FORMAT(v.fechaEdo4_e,"%d/%m/%Y %H:%i")', 'v.nota_radiologo_vc', 'o.id_ov', 'CONCAT_WS(" ", au2.nombre_u, au2.apaterno_u, au2.amaterno_u)' );
+	$aColumns = array('v.id_vc', 'p.nombre_completo_p', 'v.referencia_vc', 'e.concepto_to', 'es.estatus_est', 'a.nombre_a','s.clave_su', 'p.amaterno_p', 'p.id_p', 'v.id_vc', 'v.contador_vc', 'e.id_area_to', 'a.nombre_a','s.nombre_su','s.id_su', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%m/%Y %H:%i")', 'au.usuario_u', 'DATE_FORMAT(v.fechaEdo4_e,"%d/%m/%Y %H:%i")', 'v.nota_radiologo_vc', 'o.id_ov', 'CONCAT_WS(" ", au2.nombre_u, au2.apaterno_u, au2.amaterno_u)', 'v.estudio_a_i' );
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -188,6 +188,14 @@ $sucu_user = $_SESSION['MM_Usersucu'];
 		
 		$row[0]=$hh; $nombreP = '"'.$row[1].'"';
 		$nombreEstu = '"'.$row[3].'"'; $referenciaE = '"'.$row[2].'"';
+
+        if($row[21]==1){
+            $colorai = "color:green;";
+        }else if($row[21]==2){
+            $colorai = "color:red;";
+        }else{
+            $colorai = "";
+        }
 		
 		$row[7] = "<div align='center'><button type='button' class='btn btn-xs btn-primary disabled' name='$row[8]' id='$row[9]' lang='$row[9]' value='$row[9]'><i class='fa fa-pencil' aria-hidden='true'></i></button></div>";
 		
@@ -214,7 +222,7 @@ $sucu_user = $_SESSION['MM_Usersucu'];
 		}
 		if ($row[4] == "AUTORIZADO"){ 
             //if($tipo_user >= 3){
-			    $row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[9]' value='$row[3]' onClick='autorizado(this.id, this.lang, $nombreEstu,$row[14],this.value)' style='cursor:pointer; text-decoration:underline;'> $row[4] </span><br>$row[16] $row[17]";
+			    $row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[9]' value='$row[3]' onClick='autorizado(this.id, this.lang, $nombreEstu,$row[14],this.value)' style='cursor:pointer; text-decoration:underline; $colorai'> $row[4] </span><br>$row[16] $row[17]";
             if($tipo_user!=14){
 				$row[7] = "<div align='center'><button type='button' class='btn btn-xs btn-primary' name='$row[8]' id='$row[8]' lang='$row[9]' value='' onClick='editar(this.lang, $nombreEstu, $referenciaE, $nombreP)'><i class='fa fa-pencil' aria-hidden='true'></i></button></div>";
 			}else{
@@ -224,7 +232,7 @@ $sucu_user = $_SESSION['MM_Usersucu'];
 		if ($row[4] == "CARGADO"){ 
             //comparamos el concepto para saber si en su nombre lleva la palabra CUESTIONARIO, de ser el caso pasamos el enlace completo en lugar del id_vc
             if(substr($row[3], 0, 12) == 'CUESTIONARIO'){
-                $row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[18]' value='$row[18]' ".(empty($_GET['_essucur'])?"onClick='visualizar(this.lang, this.lang)'":'')." style='cursor:pointer; text-decoration:underline;'> $row[4] </span>"; 
+                $row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[18]' value='$row[18]' ".(empty($_GET['_essucur'])?"onClick='visualizar(this.lang, this.lang)'":'')." style='cursor:pointer; text-decoration:underline; $colorai'> $row[4] </span>"; 
             }else{
                 //cadena original, si no se usa el cuestionario, reemplazar todo el if por la misma.
                 $row[4] = "<span name='$row[8]' id='$row[8]' lang='$row[9]' value='$row[9]' ".(empty($_GET['_essucur'])?"onClick='visualizar(this.lang, this.lang)'":'')." style='cursor:pointer; text-decoration:underline;'> $row[4] </span>"; 
