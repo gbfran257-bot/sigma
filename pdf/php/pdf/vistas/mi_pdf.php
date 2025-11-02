@@ -47,6 +47,11 @@ if($ocultarFechas > 0){
     $texto = $row_usuario['variable_temporal5_u'];
     $texto = preg_replace($pattern, '', $texto);
     $row_usuario['variable_temporal5_u'] = $texto;
+
+    $pattern2 = '/REFERENCIA:\s*\d{6,}-\d+\s*/i';
+    $texto2 =  $row_usuario['variable_temporal1_u'];
+    $texto2 = preg_replace($pattern2, '', $texto2);
+    $row_usuario['variable_temporal1_u'] = $texto2;
 }
 
 //
