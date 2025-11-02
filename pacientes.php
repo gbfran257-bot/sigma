@@ -4544,6 +4544,20 @@ include_once 'recursos/datauser.php';
 					$("#myModal4 .modal-content").remove();
 					$("#myModal4").empty();
 				});
+
+				window.setTimeout(function() {
+					var datosNewFecha = { hola:1 }
+					$.post('pacientes/files-serverside/obtenerFechaTemporal.php', datosNewFecha).done(function(dataNF) {
+						var datosNF = dataNF.split(';]{');
+						var ahora = new Date();
+						var horas = ahora.getHours();
+						var minutos = ahora.getMinutes();
+						var segundos = ahora.getSeconds();
+
+						cadenaFecha = datosNF[0] + "T" + horas + ":" + minutos + ":" + segundos;
+						document.getElementById('dtLocal').value = cadenaFecha;
+					});
+				}, 500);	
 			}
 		});
 	}
