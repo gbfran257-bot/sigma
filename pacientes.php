@@ -4550,14 +4550,15 @@ include_once 'recursos/datauser.php';
 					$.post('pacientes/files-serverside/obtenerFechaTemporal.php', datosNewFecha).done(function(dataNF) {
 						var datosNF = dataNF.split(';]{');
 						var ahora = new Date();
-						var horas = ahora.getHours();
-						var minutos = ahora.getMinutes();
-						var segundos = ahora.getSeconds();
+						var horas = String(ahora.getHours()).padStart(2, '0');
+						var minutos = String(ahora.getMinutes()).padStart(2, '0');
+						var segundos = String(ahora.getSeconds()).padStart(2, '0');
+
 
 						cadenaFecha = datosNF[0] + "T" + horas + ":" + minutos + ":" + segundos;
 						document.getElementById('dtLocal').value = cadenaFecha;
 					});
-				}, 500);	
+				}, 800);	
 			}
 		});
 	}
