@@ -223,10 +223,23 @@ require("../../funciones/php/values.php");
 
 			// $row[7] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang, this.id,2,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[7]</span>";
 			$row[10] = "<span id='$row[14]' lang='$row[9]' onClick='atenderC(this.lang, this.id,2,$row[21],$row[21])' style='cursor:pointer; text-decoration:underline;'>$row[19]</span><br>$proceso[0]<br>$proceso[1]";
-			/* $row[8] = "<div align='center'>-</div>"; */ 
-			$row[11] = "<div align='center'>-</div>"; 
-			// $row[9] = "<div align='center'>-</div>";
-			$row[12] = "<div align='center'>-</div>";
+
+			mysql_select_db($database_horizonte, $horizonte); 
+			$qryZapataC = mysql_query("SELECT COUNT(*) FROM modificaciones_sigma WHERE nombre = 'zapata' AND habilitado = 1 ", $horizonte) or die(mysql_error()); 
+			$zapataC = mysql_fetch_row($qryZapataC);
+			$permiso = $zapataC[0];
+
+			if($permiso > 0){
+				$row[11] = "<button id='$row[14]' lang='$row[9]' class='btn btn-xs btn-primary' onClick='imprimirNM(this.lang,this.id, {$row[21]})'><svg style='fill: #FFF;' xmlns='http://www.w3.org/2000/svg' height='1em' viewBox='0 0 512 512'><path d='M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zM432 248a24 24 0 1 1 0 48 24 24 0 1 1 0-48z' /></svg></button> <button onClick='verArchivos($row[14],\"$row[31]\")' class='btn $estilo_boton btn-xs' id='btnCargarArch' name='btnCargarArch' type='button'> <i class='fa fa-file-pdf-o' aria-hidden='true'></i> </button>";
+				
+				$row[12] = "<button id='$row[14]' lang='$row[9]' class='btn btn-xs btn-primary' onClick='imprimirRM(this.lang,this.id, {$row[21]})'><svg style='fill: #FFF;' xmlns='http://www.w3.org/2000/svg' height='1em' viewBox='0 0 512 512'><path d='M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zM432 248a24 24 0 1 1 0 48 24 24 0 1 1 0-48z' /></svg></button>";
+			}else{
+				/* $row[8] = "<div align='center'>-</div>"; */ 
+				$row[11] = "<div align='center'>-</div>"; 
+				// $row[9] = "<div align='center'>-</div>";
+				$row[12] = "<div align='center'>-</div>";
+			}
+
 		}
 		else if($row[19] == "FINALIZADA"){
 			$qryFinalizada = mysql_query("SELECT CONCAT_WS(' ', u.nombre_u, u.apaterno_u, u.amaterno_u), DATE_FORMAT(vc.fechaEdo3_e,'%d/%m/%Y %H:%i:%s') FROM venta_conceptos vc LEFT JOIN usuarios u ON u.id_u = vc.usuarioEdo3_e WHERE id_vc = " . $row[0],$horizonte) or die (mysql_error());
