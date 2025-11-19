@@ -4568,6 +4568,13 @@ include_once 'recursos/datauser.php';
 						document.getElementById('dtLocal').value = cadenaFecha;
 					});
 				}, 800); */	
+				window.setTimeout(function() {
+					$.post('pacientes/files-serverside/verificarPermisoPolic.php').done(function(dataVPP) {
+						if(dataVPP==1){
+							$('#dtLocal').removeClass('hidden');
+						}
+					});
+				}, 500);
 			}
 		});
 	}
