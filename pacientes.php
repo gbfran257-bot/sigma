@@ -5115,6 +5115,12 @@ include_once 'recursos/datauser.php';
 		}
 		$.post('pacientes/files-serverside/guardarEstudioNV.php', datosSENV).done(function(data) {
 			if (data == 1) {
+				$('input[name="te1"]').val('');
+				$('input[name="te2"]').val('');
+				$('input[name="te3"]').val('');
+				$('input[name="te4"]').val('');
+				$('input[name="te5"]').val('');
+				$('input[name="te7"]').val('');
 				$('#clickmePr,#clickmePS').click();
 				totales_productos(p, $('#po_descuento_p').val(), $('#da_descuento_p').val(), $('#cargo_extra_p').val());
 				calcular_totales();
