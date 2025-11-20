@@ -65,6 +65,7 @@ mysqli_close($horizonte);
         border: solid #40698e;
         margin: 0px;
         padding: 0px;
+        font-size: 10px;
     }
 
     #resumen th {
@@ -107,18 +108,18 @@ mysqli_close($horizonte);
                     <tr>
                         <th style="padding: 5px;"><strong>#</strong></th>
                         <th style="padding: 5px;"><strong>PRODUCTO</strong></th>
-                        <th style="padding: 5px;"><strong>NOMBRE GENÉRICO</strong></th>
+                        <th style="padding: 5px;"><strong>NOMBRE GENERICO</strong></th>
                         <th style="padding: 5px;"><strong>LOTE</strong></th>
-                        <th style="padding: 5px;"><strong>CANTIDAD A TRANSFERIR</strong></th>
+                        <th style="padding: 5px;"><strong>CANT. A TRANSF.</strong></th>
                     </tr>
                     <?php $cont = 0; ?>
                     <?php foreach ($transferencias as $transferencia) : ?>
                         <tr>
-                            <td style="width: 140px;"><?php echo ++$cont; ?></td>
-                            <td style="width: 140px;"><?php echo $transferencia['producto']; ?></td>
-                            <td style="width: 140px;"><?php echo $transferencia['nombre_generico']; ?></td>
+                            <td style="width: 35px;"><?php echo ++$cont; ?></td>
+                            <td style="width: 230px;"><?php echo $transferencia['producto']; ?></td>
+                            <td style="width: 215px;"><?php echo $transferencia['nombre_generico']; ?></td>
                             <td style="width: 140px;"><?php echo $transferencia['lote']; ?></td>
-                            <td style="width: 140px;"><?php echo $transferencia['cantidad_transferir']; ?></td>
+                            <td style="width: 100px;"><?php echo $transferencia['cantidad_transferir']; ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </table>
