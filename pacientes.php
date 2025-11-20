@@ -4268,7 +4268,7 @@ include_once 'recursos/datauser.php';
 					}, {
 						"bVisible": true
 					}, {
-						"bVisible": true
+						"bVisible": false
 					}, {
 						"bVisible": true
 					}, {
@@ -4278,7 +4278,7 @@ include_once 'recursos/datauser.php';
 					}, {
 						"bVisible": true,
 					}, {
-						"bVisible": true
+						"bVisible": false
 					}, {
 						"bVisible": true
 					}, {
