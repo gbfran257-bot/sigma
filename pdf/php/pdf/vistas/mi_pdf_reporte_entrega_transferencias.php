@@ -116,8 +116,8 @@ mysqli_close($horizonte);
                     <?php foreach ($transferencias as $transferencia) : ?>
                         <tr>
                             <td style="width: 35px;"><?php echo ++$cont; ?></td>
-                            <td style="width: 230px;"><?php echo $transferencia['producto']; ?></td>
-                            <td style="width: 215px;"><?php echo $transferencia['nombre_generico']; ?></td>
+                            <td style="width: 230px;"><?php echo substr($transferencia['producto'], 0, 40); ?></td>
+                            <td style="width: 215px;"><?php echo substr($transferencia['nombre_generico'], 0, 40); ?></td>
                             <td style="width: 140px;"><?php echo $transferencia['lote']; ?></td>
                             <td style="width: 100px;"><?php echo $transferencia['cantidad_transferir']; ?></td>
                         </tr>
