@@ -12,7 +12,8 @@ try {
                                     Lote AS lote,
                                     existencias AS stock,
                                     DATE_FORMAT(fecha_expiracion, '%d-%m-%Y') AS caducidad,
-                                    shb.id AS id_stock_hb
+                                    shb.id AS id_stock_hb,
+                                    c.codigo_barras_to AS codigo_barras
                                 FROM stock_has_bach shb
                                 LEFT JOIN stock s ON shb.id_stock = s.id
                                 LEFT JOIN conceptos c ON shb.id_Producto = c.id_to
@@ -33,6 +34,7 @@ try {
             "stock" => $producto->stock,
             "caducidad" => $producto->caducidad,
             "id_stock_hb" => $producto->id_stock_hb,
+            "codigo_barras" => $producto->codigo_barras,
         ]);
     }
 

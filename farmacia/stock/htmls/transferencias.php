@@ -44,6 +44,7 @@ $id_del_user = $_SESSION['id'];
                                 <tr class="bg-info">
                                     <th align="center" id="clickmePr">PRODUCTOS DISPONIBLES</th>
                                     <th align="center">NOMBRE GENÉRICO</th>
+                                    <th align="center">CODIGO BARRAS</th>
                                     <th align="center">LOTE</th>
                                     <th align="center">STOCK</th>
                                     <th align="center">CADUCIDAD</th>
@@ -58,6 +59,9 @@ $id_del_user = $_SESSION['id'];
                                     </th>
                                     <th>
                                         <input type="text" class="form-control input-sm" placeholder="Nombre genérico">
+                                    </th>
+                                    <th>
+                                        <input type="text" class="form-control input-sm" placeholder="Código de barras">
                                     </th>
                                     <th>
                                         <input type="text" class="form-control input-sm" placeholder="Lote">
