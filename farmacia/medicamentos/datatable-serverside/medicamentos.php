@@ -8,9 +8,9 @@ require("../../../Connections/horizonte.php");
 		if($existsT){ $precio_nor = $_GET['idSu'].'_precio'; $precio_ur = $_GET['idSu'].'_precio_u'; }
 		else{ $precio_nor = 'c.precio_to'; $precio_ur = 'c.precio_urgencia_to'; }
 		
-		$aColumns = array('c.id_to', 'g.nombre_generico_med', 'c.concepto_to', 'g.cantidad_med', 'g.presentacion_med', 'g.via_administracion_med', 'SUBSTRING(c.descripcion_to,1,25)', 'g.grupo_med','c.costo_maquila_to',$precio_nor, 'c.precio_h', 'c.precio1_to', 'c.id_to','c.linea_c','c.id_to','c.id_to', 'c.id_to', 'c.id_to', 'c.id_to');
+		$aColumns = array('c.id_to', 'g.nombre_generico_med', 'c.concepto_to', 'g.cantidad_med', 'g.presentacion_med', 'c.codigo_barras_to', 'SUBSTRING(c.descripcion_to,1,25)', 'g.grupo_med','c.costo_maquila_to',$precio_nor, 'c.precio_h', 'c.precio1_to', 'c.id_to','c.linea_c','c.id_to','c.id_to', 'c.id_to', 'c.id_to', 'c.id_to');
 	}else{
-		$aColumns = array('c.id_to', 'g.nombre_generico_med', 'c.concepto_to', 'g.cantidad_med', 'g.presentacion_med', 'g.via_administracion_med', 'SUBSTRING(c.descripcion_to,1,25)', 'g.grupo_med','c.costo_maquila_to','c.precio_to', 'c.precio_h', 'c.precio1_to', 'c.id_to','c.linea_c','c.id_to','c.id_to', 'c.id_to', 'c.id_to', 'c.id_to');
+		$aColumns = array('c.id_to', 'g.nombre_generico_med', 'c.concepto_to', 'g.cantidad_med', 'g.presentacion_med', 'c.codigo_barras_to', 'SUBSTRING(c.descripcion_to,1,25)', 'g.grupo_med','c.costo_maquila_to','c.precio_to', 'c.precio_h', 'c.precio1_to', 'c.id_to','c.linea_c','c.id_to','c.id_to', 'c.id_to', 'c.id_to', 'c.id_to');
 	}
      
     // DB tables to use 
