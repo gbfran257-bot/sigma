@@ -4268,7 +4268,7 @@ include_once 'recursos/datauser.php';
 					}, {
 						"bVisible": true
 					}, {
-						"bVisible": true
+						"bVisible": false
 					}, {
 						"bVisible": true
 					}, {
@@ -4278,7 +4278,7 @@ include_once 'recursos/datauser.php';
 					}, {
 						"bVisible": true,
 					}, {
-						"bVisible": true
+						"bVisible": false
 					}, {
 						"bVisible": true
 					}, {
@@ -4568,6 +4568,13 @@ include_once 'recursos/datauser.php';
 						document.getElementById('dtLocal').value = cadenaFecha;
 					});
 				}, 800); */	
+				window.setTimeout(function() {
+					$.post('pacientes/files-serverside/verificarPermisoPolic.php').done(function(dataVPP) {
+						if(dataVPP==1){
+							$('#dtLocal').removeClass('hidden');
+						}
+					});
+				}, 500);
 			}
 		});
 	}
@@ -5108,6 +5115,12 @@ include_once 'recursos/datauser.php';
 		}
 		$.post('pacientes/files-serverside/guardarEstudioNV.php', datosSENV).done(function(data) {
 			if (data == 1) {
+				$('input[name="te1"]').val('');
+				$('input[name="te2"]').val('');
+				$('input[name="te3"]').val('');
+				$('input[name="te4"]').val('');
+				$('input[name="te5"]').val('');
+				$('input[name="te7"]').val('');
 				$('#clickmePr,#clickmePS').click();
 				totales_productos(p, $('#po_descuento_p').val(), $('#da_descuento_p').val(), $('#cargo_extra_p').val());
 				calcular_totales();

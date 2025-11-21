@@ -156,7 +156,7 @@
                       <button type="button" class="btn btn-info btn-sm" id="btn_liquidar_ov"><i class="fa fa-dollar" aria-hidden="true"></i> Liquidar</button>
                     </div>
                     <div class="col-sm-12 col-xs-12" align="right"><br>
-                      <input id="dtLocal" type="datetime-local" name="dtLocal" value="2025-01-01T11:00">
+                      <input id="dtLocal" type="datetime-local" name="dtLocal" value="2026-01-01T11:00" class="hidden">
                     </div>
                     <!--<div class="col-sm-12 col-xs-12"> <br>
 								<select id="sucursal_fi_p" name="sucursal_fi_p" class="form-control" required> </select>

@@ -561,6 +561,7 @@ const getProductosSucursal = (idSucursal) => {
 		columns: [
 			{ data: "producto" },
 			{ data: "nombre_generico" },
+			{ data: "codigo_barras" },
 			{ data: "lote" },
 			{ data: "stock" },
 			{ data: "caducidad" },

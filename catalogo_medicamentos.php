@@ -90,7 +90,7 @@ include_once 'recursos/datauser.php';
 				<th style="vertical-align:middle; white-space:nowrap;" nowrap><button type='button' class='btn btn-default btn-xs' id='btnAddEstudio' onClick='nuevoEstudio()' title='Agregar un nuevo estudio'><i class='fa fa-plus' aria-hidden='true'></i> NOMBRE COMERCIAL</button></th>
 				<th style="vertical-align:middle;">CANTIDAD</th>
 				<th style="vertical-align:middle;">PRESENTACIÓN</th>
-				<th style="vertical-align:middle;">VÍA</th>
+				<th style="vertical-align:middle;">CODIGO BARRAS</th>
 				<th style="vertical-align:middle;">DOSIS</th>
 				<th style="vertical-align:middle;" nowrap>GRUPO</th>
 				<th style="vertical-align:middle;" nowrap>COSTO</th>
@@ -114,7 +114,7 @@ include_once 'recursos/datauser.php';
 				<th><input type="text" class="form-control input-sm" placeholder="Nombre comercial" /></th>
 				<th><input type="text" class="form-control input-sm" placeholder="Cantidad" style="max-width:80px;" /></th>
 				<th><input type="text" class="form-control input-sm" placeholder="Presentación" style="max-width:90px;" /></th>
-				<th><input type="text" class="form-control input-sm" placeholder="Vía" style="max-width:90px;" /></th>
+				<th><input type="text" class="form-control input-sm" placeholder="Codigo de Barras" style="max-width:90px;" /></th>
 				<th><!-- <input type="text" class="form-control input-sm" placeholder="Nivel" style="max-width:90px;" /> --></th>
 				<th><input type="text" class="form-control input-sm" placeholder="Grupo" style="max-width:100px;" /></th>
 				<th></th>
