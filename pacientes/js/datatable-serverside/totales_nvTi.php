@@ -7,7 +7,7 @@ require("../../../Connections/horizonte.php");
     if($rowRu[0] <= 0){
         $aColumns = array('vc.id_vc' , 'a.nombre_a', 't.tipo_concepto_tc','CONCAT(concepto_to, " $", precio_vc, " x ", cantidad)', 'vc.precio_vc', 'precio_vc * cantidad', 'vc.id_vc', 'c.id_tipo_concepto_to', 'd.nombre_d',);
     }else{
-        $aColumns = array('vc.id_vc' , 'a.nombre_a', 't.tipo_concepto_tc','concepto_to', 'vc.precio_vc', 'precio_vc * cantidad', 'vc.id_vc', 'c.id_tipo_concepto_to', 'd.nombre_d',);
+        $aColumns = array('vc.id_vc' , 'a.nombre_a', 't.tipo_concepto_tc','CONCAT_WS(" x ", vc.cantidad, c.concepto_to)', 'vc.precio_vc', 'precio_vc * cantidad', 'vc.id_vc', 'c.id_tipo_concepto_to', 'd.nombre_d',);
     }
 
 
