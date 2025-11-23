@@ -82,6 +82,7 @@
     <th id="clickme" style="vertical-align:middle;">#</th>
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>PRODUCTO</th>
     <th style="vertical-align:middle; white-space:nowrap;" nowrap>NOMBRE GENERICO</th>
+	<th style="vertical-align:middle; white-space:nowrap;" nowrap>CÓDIGO BARRAS</th>
 	<th style="vertical-align:middle; white-space:nowrap;" nowrap>SUCURSAL</th>
     <th style="vertical-align:middle;">
 		<select id="s_colores" name="s_colores" style="color:black;">
@@ -110,6 +111,7 @@
             <th></th>
 			<th><input type="text" class="form-control input-sm" placeholder="Producto" /></th>
             <th><input type="text" class="form-control input-sm" placeholder="Nombre Generico" style="max-width:90px;"/></th>
+			<th><input type="text" class="form-control input-sm" placeholder="Código Barras" style="max-width:90px;"/></th>
             <th><input type="text" class="form-control input-sm" placeholder="Sucursal" style="max-width:100px;"/></th>
 			<th></th>
 			<th><input type="text" class="form-control input-sm" placeholder="Usuario" style="max-width:100px;"/></th>
@@ -165,7 +167,7 @@ $(document).ready(function(e) {
             // nCells[6].innerHTML = redondear((parseFloat(iTotalUtilidad) * 100)/100,2);
 		 }, scroller: false, responsive: true,
 		"aoColumns": [
-			{"bVisible":true}, {"bVisible":true}, {"bVisible":true},
+			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, {"bVisible":true},
 			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, 
 			{"bVisible":true}, {"bVisible":true}, {"bVisible":true},
 			{"bVisible":true}, {"bVisible":true}, {"bVisible":true}, 
