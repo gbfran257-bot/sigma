@@ -10,7 +10,7 @@ include_once '../../../recursos/utilities.php';
 $tipo_user = $_SESSION['MM_UserGroup'];
 $sucu_user = $_SESSION['MM_Usersucu'];
      
-    $aColumns = array('s.id', 'c.concepto_to', 'g.nombre_generico_med','su.nombre_su', 's.fecha_expiracion', 'u.usuario_u','s.Lote','s.id_Producto','s.id_Producto','s.existencias','s.costo_unitario', 'c.precio_to', 's.id', 's.id', 's.id', 's.id','su.id_su','s.referencia_compra','DATE_FORMAT(s.fecha_update,"%d/%c/%Y %H:%i")');
+    $aColumns = array('s.id', 'c.concepto_to', 'g.nombre_generico_med', 'c.codigo_barras_to', 'su.nombre_su', 's.fecha_expiracion', 'u.usuario_u','s.Lote','s.id_Producto','s.id_Producto','s.existencias','s.costo_unitario', 'c.precio_to', 's.id', 's.id', 's.id', 's.id','su.id_su','s.referencia_compra','DATE_FORMAT(s.fecha_update,"%d/%c/%Y %H:%i")');
     // DB tables to use 
     $aTables = array( 'stock_has_bach s');
      
@@ -162,7 +162,7 @@ $sucu_user = $_SESSION['MM_Usersucu'];
 
 
         //fecha  de caducidad que viene de BD
-        $fechaCadu = substr($row[4],0,10);
+        $fechaCadu = substr($row[5],0,10);
 
         //le restamos los meses a la fecha de caducidad segun sea necesario.
         $Alertafecha0 = date('Y-m-d', strtotime($fechaCadu.'-15 day'));
@@ -172,51 +172,51 @@ $sucu_user = $_SESSION['MM_Usersucu'];
         $now = date('Y-m-d');
 
         if($Alertafecha3 >= $now){
-            $row[4]= "<span class='btn btn-success disabled' style='color:black;'>".$fechaCadu."</span>";
+            $row[5]= "<span class='btn btn-success disabled' style='color:black;'>".$fechaCadu."</span>";
        }else if($Alertafecha >= $now && $Alertafecha2 <= $now){
-            $row[4]= "<span class='btn btn-warning disabled' style='color:black;'>".$fechaCadu."</span>";
+            $row[5]= "<span class='btn btn-warning disabled' style='color:black;'>".$fechaCadu."</span>";
        }else if($Alertafecha0 > $now && $Alertafecha <= $now){
-            $row[4]= "<span class='btn btn-danger disabled' style='color:black;'>".$fechaCadu."</span>";
+            $row[5]= "<span class='btn btn-danger disabled' style='color:black;'>".$fechaCadu."</span>";
        }else if($Alertafecha0 <= $now){
-            $row[4]= "<span class='btn disabled' style='color:white; background-color:black'>".$fechaCadu."</span>";
+            $row[5]= "<span class='btn disabled' style='color:white; background-color:black'>".$fechaCadu."</span>";
        }else{
-            $row[4]= "<span>".$fechaCadu."</span>";
+            $row[5]= "<span>".$fechaCadu."</span>";
        }
 
         //OBTENEMOS EL MAXIMO Y MINIMO
         mysql_select_db($database_horizonte, $horizonte); 
-        $min_max = mysql_query("SELECT max_mm, min_mm from max_min_stock where id_producto = $row[7] and id_suc = $row[16]",$horizonte) or die (mysql_error());
+        $min_max = mysql_query("SELECT max_mm, min_mm from max_min_stock where id_producto = $row[8] and id_suc = $row[17]",$horizonte) or die (mysql_error());
         $rowMM = mysql_fetch_row($min_max); 
 
-        $row[5] ="<span>$row[5] <br> $row[18]</span>";
+        $row[6] ="<span>$row[6] <br> $row[19]</span>";
         if(!empty($rowMM[0])){
-            $row[7] = $rowMM[0];
-            $row[8] = $rowMM[1];
+            $row[8] = $rowMM[0];
+            $row[9] = $rowMM[1];
         }else{
-            $row[7] = "<span>-</span>";
             $row[8] = "<span>-</span>";
+            $row[9] = "<span>-</span>";
         }
         
 
-        $row[12] = $row[9] * $row[10];
-        $row[13] = $row[9] * $row[11];
-        $existencias =$row[9];
-        if($row[9] > 0){
-            $row[14] ="<span class='btn btn-primary' onclick='transferencias($row[15], $existencias,$row[16],\"$row[1]\");' ><i class='fa fa-exchange'></i></span>"; 
+        $row[13] = $row[10] * $row[11];
+        $row[14] = $row[10] * $row[12];
+        $existencias =$row[10];
+        if($row[10] > 0){
+            $row[15] ="<span class='btn btn-primary' onclick='transferencias($row[16], $existencias,$row[17],\"$row[1]\");' ><i class='fa fa-exchange'></i></span>"; 
         }else{
-            $row[14] ="<span class='btn btn-primary disabled'><i class='fa fa-exchange'></i></span>"; 
+            $row[15] ="<span class='btn btn-primary disabled'><i class='fa fa-exchange'></i></span>"; 
         }
        
-        if($row[9] <= $rowMM[1] && $rowMM[1] != '' && $tipo_user != 15){
-            $row[9] ="<span class='btn btn-danger' disabled='true'>$row[9]</span>";
-        }else if($row[9] >= $rowMM[0] && $rowMM[0] != '' && $tipo_user != 15){
-            $row[9] ="<span class='btn btn-success' disabled='true'>$row[9]</span>";
+        if($row[10] <= $rowMM[1] && $rowMM[1] != '' && $tipo_user != 15){
+            $row[10] ="<span class='btn btn-danger' disabled='true'>$row[10]</span>";
+        }else if($row[10] >= $rowMM[0] && $rowMM[0] != '' && $tipo_user != 15){
+            $row[10] ="<span class='btn btn-success' disabled='true'>$row[10]</span>";
         }else if($tipo_user == 15){
-            $row[9] = "<span class='btn btn-primary' onclick='cambiarExistencias($row[15],$row[9],\"$row[3]\",\"$feCad\")'>$row[9]</span>"; 
+            $row[10] = "<span class='btn btn-primary' onclick='cambiarExistencias($row[16],$row[10],\"$row[3]\",\"$feCad\")'>$row[10]</span>"; 
         }
-       $row[15] =  $existencias;
+       $row[16] =  $existencias;
 
-       $row[6] = "<span id='$row[0]' onclick='agrupar(this.id,\"$row[1]\");' style='cursor:pointer; text-decoration:underline;'>$row[6]</span>";
+       $row[7] = "<span id='$row[0]' onclick='agrupar(this.id,\"$row[1]\");' style='cursor:pointer; text-decoration:underline;'>$row[7]</span>";
 
         
        //$row[0]= $hh;
