@@ -275,7 +275,7 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 			body.append("id_u", $("#id_user").val());
 			body.append("existencias_producto", cantExis);
 
-			const respuesta = await fetch("farmacia/stock/files-serverside/transferencia.php", {
+			/*const respuesta = await fetch("farmacia/stock/files-serverside/transferencia.php", {
 				method: "POST",
 				body
 			})
@@ -286,12 +286,22 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 					}
 					return response.success;
 				})
-				.catch(error => console.error(error));
+				.catch(error => console.error(error)); -- original */
+
+			//Para transferir hasta que se reciba el material
+			var datosTV = { id_temporal: localStorage.getItem("id_transferencia_temporal") };
+			$.post('farmacia/stock/files-serverside/update_transf_valida.php',datosTV).done(function( dataTV ) {
+				if (dataTV==1){
+					console.log("Transferencia validada correctamente");
+				}else{	
+					console.log("Error al validar la transferencia: "+dataTV);
+				}
+			});
 
 			swal({
 				type: "success",
 				title: "¡HECHO!",
-				text: respuesta,
+				text: "Se ha registrado la solcitud de transferencia correctamente.",
 				showConfirmButton: false,
 				timer: 1800,
 			});

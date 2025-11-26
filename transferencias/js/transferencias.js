@@ -41,7 +41,7 @@ const initDataTablePrincipal = () => {
             }, {
                 "bVisible": true,
             }, {
-                "bVisible": true,
+                "bVisible": false,
             }, {
                 "bVisible": true,
             }, {

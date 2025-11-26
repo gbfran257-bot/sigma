@@ -1,15 +1,18 @@
 <?php
 
 try {
-    $folio = htmlentities($_POST['f'], ENT_QUOTES, "utf-8");
-    $id_usuario = intval(htmlentities($_POST['u'], ENT_QUOTES, "utf-8"));
+    //$folio = htmlentities($_POST['f'], ENT_QUOTES, "utf-8");
+    //$id_usuario = intval(htmlentities($_POST['u'], ENT_QUOTES, "utf-8"));
+    $id_temporal = $_POST['id_temporal'];
+    $id_u = intval($_POST['id_u']);
 
     date_default_timezone_set("America/Mexico_City");
     $fecha_recepcion = date("Y-m-d H-i-s");
 
     require("../../Connections/horizonte2.php");
 
-    $query_actualizar_receptor = "UPDATE transferencia_temporal SET id_usuario_receptor = {$id_usuario}, fecha_recepcion = '{$fecha_recepcion}' WHERE id_transferencia = '{$folio}'";
+    //$query_actualizar_receptor = "UPDATE transferencia_temporal SET id_usuario_receptor = {$id_usuario}, fecha_recepcion = '{$fecha_recepcion}' WHERE id_transferencia = '{$folio}'";
+    $query_actualizar_receptor = "UPDATE transferencia_temporal SET id_usuario_receptor = {$id_u}, fecha_recepcion = '{$fecha_recepcion}' WHERE id_temporal = '{$id_temporal}' AND transf_valida = 1";
     if (!mysqli_query($horizonte, $query_actualizar_receptor)) {
         throw new Exception(mysqli_error($horizonte));
     }

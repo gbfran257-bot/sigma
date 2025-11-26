@@ -82,7 +82,7 @@
     <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" id="dataTablePrincipal" class="table table-hover table-striped dataTables-example dataTable table-condensed" role="grid">
         <thead id="cabecera_tBusquedaPrincipal">
             <tr role="row" class="bg-primary">
-                <th id="clickme" style="vertical-align:middle;"><button type='button' class='btn btn-default btn-md' id='nueva_transferencia' onClick='nuevaTransferencia()' title='Hacer una nueva transferencia'><i class='fa fa-exchange' aria-hidden='true'></i></button></th>
+                <th style="vertical-align:middle;"><button type='button' class='btn btn-default btn-md' id='nueva_transferencia' onClick='nuevaTransferencia()' title='Hacer una nueva transferencia'><i class='fa fa-exchange' aria-hidden='true'></i></button></th>
                 <th id="clickme" style="vertical-align:middle;">REF. DE TRANS.</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>REF. DE<br>COMPRA</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>MED. GENERICO</th>
@@ -153,6 +153,56 @@
 </div>
 
 <!--Contenido de la página-->
+
+<script>
+    /*function resolverTransferencia(id_temporal){
+        var datosVT = { id_temporal: id_temporal, id_t_t: id_temporal, id_u:$("#id_user").val() };
+        $.post('farmacia/stock/files-serverside/verificarStockTransf.php',datosVT).done(function( dataVT ) {
+            if (dataVT>0){
+                alert("No hay stock suficiente");
+            }else{	
+                $.post('farmacia/stock/files-serverside/transferencia.php',datosVT).done(function( dataVT ) {
+                    let response = JSON.parse(dataVT);
+                     if (response.success) {
+                        alert("transferido");
+                    }
+                });
+            }
+        });
+    }*/
+    function resolverTransferencia(id_temporal){
+
+        swal({
+            title: "¿Recibir transferencia?",
+            text: "¿Deseas recibir esta transferencia?",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Sí, recibir",
+            closeOnConfirm: false
+        }, function(isConfirm){
+
+            if (!isConfirm) return;
+
+            var datosVT = { id_temporal: id_temporal, id_t_t: id_temporal, id_u:$("#id_user").val() };
+            $.post('farmacia/stock/files-serverside/verificarStockTransf.php',datosVT).done(function( dataVT ) {
+                if (dataVT>0){
+                    swal("Sin stock", "No hay stock suficiente", "error");
+                }else{	
+                    $.post('farmacia/stock/files-serverside/transferencia.php',datosVT).done(function( dataVT ) {
+                        let response = JSON.parse(dataVT);
+                        if (response.success) {
+                            $.post('transferencias/files-serverside/actualizar_receptor_transferencia.php',datosVT).done(function( dataVT ) {  });
+                            swal("¡Hecho!", response.success, "success");
+                        }
+                    });
+                }
+            });
+
+        });
+    }
+
+</script>
 
 <?php include_once("./partes/footer.php"); ?>
 

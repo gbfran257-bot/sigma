@@ -3,56 +3,40 @@
 require("../../../Connections/horizonte2.php");
 require("../../../funciones/php/values.php");
 
-$aColumns = array('s.id', 'tt.id_transferencia', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', 's.id', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 's.fecha_expiracion', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_destino)', 'pr.nombre_pr', 's.id', 's.id_Producto');
+/*$aColumns = array('s.id', 'tt.id_transferencia', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', 's.id', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 's.fecha_expiracion', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_destino)', 's.id', 's.id', 's.id_Producto'); -- Original de jacinto */ 
 
-$aTables = array('stock_has_bach s');
+$aColumns = array('s.id', 'tt.id_transferencia', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_origen)', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 's.fecha_expiracion', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_destino)', 'tt.id_temporal', 's.id', 's.id_Producto');
 
-$sIndexColumn = "s.id";
+$aTables = array('transferencia_temporal tt');
 
-$sJoin = 'left join transferencia_temporal tt on s.referencia_traspaso_temporal = tt.id_temporal left join conceptos c on c.id_to = s.id_Producto left join stock s1 on s1.id = s.id_stock left join usuarios u on u.id_u = s.usuario_registro left join sucursales su on su.id_su = s1.id_su left join medicamentos g on g.id_med = c.id_medicamento_g left join proveedores pr on pr.clave_pr = s.id_proveedor';
+$sIndexColumn = "tt.id_temporal";
+
+$sJoin = 'left join stock_has_bach s on s.id = tt.id_stock_has_bach left join conceptos c on c.id_to = s.id_Producto left join stock s1 on s1.id = s.id_stock left join usuarios u on u.id_u = s.usuario_registro left join sucursales su on su.id_su = s1.id_su left join medicamentos g on g.id_med = c.id_medicamento_g';
 
 $resultAU = mysqli_query($horizonte, "SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[idU]'") or die(mysqli_error($horizonte));
 $rowAU = mysqli_fetch_row($resultAU);
 $id_suc = sqlValue($rowAU[1], "int");
 
-$todos = "";
-$verde = " AND fecha_expiracion >= CURDATE() + INTERVAL 12 MONTH ";
-$amarillo = " AND fecha_expiracion > CURDATE() + INTERVAL 6 MONTH AND fecha_expiracion <= CURDATE() + INTERVAL 11 MONTH ";
-$rojo = " AND fecha_expiracion > CURDATE() + INTERVAL 15 DAY AND fecha_expiracion <= CURDATE() + INTERVAL 6 MONTH ";
-$negro = " AND fecha_expiracion <= CURDATE() + INTERVAL 15 DAY ";
-
-if(isset($_GET['s_colores']) && $_GET['s_colores'] == 0){
-    $condicion_fecha = $todos;
-}else if(isset($_GET['s_colores']) && $_GET['s_colores'] == 1){
-    $condicion_fecha = $verde;
-}else if(isset($_GET['s_colores']) && $_GET['s_colores'] == 2){
-    $condicion_fecha = $amarillo;
-}else if(isset($_GET['s_colores']) && $_GET['s_colores'] == 3){
-    $condicion_fecha = $rojo;
-}else if(isset($_GET['s_colores']) && $_GET['s_colores'] == 4){
-    $condicion_fecha = $negro;
-}
-
 switch($rowAU[0]){
     case 0://Solo vé lo suyo
         if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-          $sWhere="WHERE (tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]') AND s.es_traspaso = 1 AND s.existencias >= 1 $condicion_fecha";
+          $sWhere="WHERE (tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]' and s.usuario_registro = '$_GET[idU]') AND tt.transf_valida = 1 AND s.existencias >= 1";
         }else{
-          $sWhere = "where s.usuario_registro = '$_GET[idU]' AND s.es_traspaso = 1 AND s.existencias >= 1 $condicion_fecha";
+          $sWhere = "where s.usuario_registro = '$_GET[idU]' AND tt.transf_valida = 1 AND s.existencias >= 1";
         }
     break;
     case 2://Ve todo lo de su sucursal y lo suyo
         if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-          $sWhere="WHERE (tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]')) AND s.es_traspaso = 1 AND s.existencias >= 1 $condicion_fecha";
+          $sWhere="WHERE (tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]' and (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]')) AND tt.transf_valida = 1 AND s.existencias >= 1";
         }else{
-          $sWhere = "WHERE (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') AND s.es_traspaso = 1 AND s.existencias >= 1 $condicion_fecha";
+          $sWhere = "WHERE (s1.id_su = $id_suc or s.usuario_registro = '$_GET[idU]') AND tt.transf_valida = 1 AND s.existencias >= 1";
         }
     break;
     case 1://Ve todo de todas las sucursales
         if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
-          $sWhere="WHERE (tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]') AND s.es_traspaso = 1 AND s.existencias >= 1 $condicion_fecha";
+          $sWhere="WHERE (tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]') AND tt.transf_valida = 1 AND s.existencias >= 1";
         }else{
-          $sWhere = "WHERE 1 = 1 AND s.es_traspaso = 1 AND s.existencias >= 1 $condicion_fecha";
+          $sWhere = "WHERE 1 = 1 AND tt.transf_valida = 1 AND s.existencias >= 1";
         }
     break;
     default:
@@ -172,55 +156,23 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     }
 
     $id_stock = $row[0];
-    $row[0] = "<span onClick='resumenTransferencias(\"$row[2]\");'class='btn btn-primary' ><i class='fa fa-eye' ></i></span>";
+    $row[0] = "<span onClick='resumenTransferencias(\"$row[1]\");'class='btn btn-primary' ><i class='fa fa-eye' ></i></span>";
 
     if ($row[8] == "PENDIENTE") {
         $row[8] = "<span id='$row[0]' onClick='estatus(this.id)' style='cursor:pointer; text-decoration:underline;'>PENDIENTE</span>";
-    }
-
-    //fecha  de caducidad que viene de BD
-    $fechaCadu = substr($row[9], 0, 10);
-    //le restamos una mes a la fecha de caducidad para poder compararla
-    /* $Alertafecha = date('Y-m-d', strtotime($fechaCadu . '-1 month'));
-    //sacar la fecha actual
-    $now = date('Y-m-d');
-
-    //verificamos si la fecha actual supera a la fecha de caducidad que tiene un mes restado
-    if ($now > $Alertafecha) {
-        $row[9] = "<span class='btn btn-danger disabled' >" . $fechaCadu . "</span>";
-    } else {
-        $row[9] = $fechaCadu;
-    } */
-
-    $Alertafecha0 = date('Y-m-d', strtotime($fechaCadu.'-15 day'));
-    $Alertafecha = date('Y-m-d', strtotime($fechaCadu.'-6 month'));
-    $Alertafecha2 = date('Y-m-d', strtotime($fechaCadu.'-11 month'));
-    $Alertafecha3 = date('Y-m-d', strtotime($fechaCadu.'-12 month'));
-    $now = date('Y-m-d');
-
-    if($Alertafecha3 >= $now){
-        $row[4]= "<span class='btn btn-success disabled' style='color:black;'>".$fechaCadu."</span>";
-    }else if($Alertafecha >= $now && $Alertafecha2 <= $now){
-        $row[4]= "<span class='btn btn-warning disabled' style='color:black;'>".$fechaCadu."</span>";
-     }else if($Alertafecha0 > $now && $Alertafecha <= $now){
-        $row[4]= "<span class='btn btn-danger disabled' style='color:black;'>".$fechaCadu."</span>";
-    }else if($Alertafecha0 <= $now){
-        $row[4]= "<span class='btn disabled' style='color:white; background-color:black'>".$fechaCadu."</span>";
-    }else{
-        $row[4]= "<span>".$fechaCadu."</span>";
     }
 
     // Se coloca la funcionalidad de abrir el reporte de entrega de la transferencia
     $folio = $row[1];
 
     // Consultamos la sucursal de origen //
-    $query_datos_transferencia_temporal = "SELECT s.nombre_su AS sucursal_origen
+    /*$query_datos_transferencia_temporal = "SELECT s.nombre_su AS sucursal_origen
                                             FROM sucursales s
                                             LEFT JOIN transferencia_temporal tt ON tt.id_sucursal_origen = s.id_su
                                             LEFT JOIN stock_has_bach shb ON shb.referencia_traspaso_temporal = tt.id_temporal AND shb.id_Producto = tt.id_producto
                                             WHERE shb.id = {$id_stock}";
     $resultado_query_sucursal_origen = mysqli_query($horizonte, $query_datos_transferencia_temporal) or die(mysqli_error($horizonte));
-    $row[6] = $resultado_query_sucursal_origen->fetch_object()->sucursal_origen;
+    $row[6] = $resultado_query_sucursal_origen->fetch_object()->sucursal_origen;*/
 
     $referencia = $row[2];
     $query_factura_compra = "SELECT nombre_factura FROM compra_factura WHERE referencia_compra = '{$referencia}'";
@@ -236,12 +188,13 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     $fecha_hora = $info_usuario->fecha_hora;
     $row[13] = "<button type='button' onclick='verFacturaCompra(this, {$facturado}, \"{$nombre_factura}\", \"{$usuario_responsable}\", \"{$fecha_hora}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
 
-    $query_receptor = "SELECT usuario_u, DATE_FORMAT(fecha_recepcion, '%d/%m/%Y<br>%H:%i:%s') AS fecha_recepcion FROM usuarios LEFT JOIN transferencia_temporal ON transferencia_temporal.id_usuario_receptor = usuarios.id_u WHERE transferencia_temporal.id_transferencia = '{$folio}' LIMIT 1";
+    $query_receptor = "SELECT usuario_u, DATE_FORMAT(fecha_recepcion, '%d/%m/%Y<br>%H:%i:%s') AS fecha_recepcion FROM usuarios LEFT JOIN transferencia_temporal ON transferencia_temporal.id_usuario_receptor = usuarios.id_u WHERE transferencia_temporal.id_temporal = '{$row[11]}' LIMIT 1";
     $resultado_query_receptor = mysqli_query($horizonte, $query_receptor);
     $receptor = mysqli_fetch_object($resultado_query_receptor);
     $usuario_receptor = $receptor->usuario_u;
     if (empty($usuario_receptor)) {
-        $row[12] = "<a role=\"button\" onclick=\"modificarReceptorTransferencia('{$folio}', this);\">PENDIENTE</a>";
+        //$row[12] = "<a role=\"button\" onclick=\"modificarReceptorTransferencia('{$folio}', this);\">PENDIENTE</a>";
+        $row[12] = "<a role=\"button\" onclick='resolverTransferencia(\"$row[11]\");'>PENDIENTE</a>";
         $usuario_receptor = "Sin receptor";
     } else {
         $row[12] = "<span>{$usuario_receptor}<br>{$receptor->fecha_recepcion}</span>";

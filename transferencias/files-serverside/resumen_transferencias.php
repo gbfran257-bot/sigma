@@ -6,7 +6,8 @@ try {
     include_once("../../Connections/horizonte2.php");
 
     // Obtenemos la referencia de la orden de los traspasos
-    $query_id_temporal = "SELECT referencia_traspaso_temporal AS id_temporal FROM stock_has_bach WHERE referencia_compra = \"{$referencia}\" AND referencia_traspaso_temporal != \"\" LIMIT 1";
+    //$query_id_temporal = "SELECT referencia_traspaso_temporal AS id_temporal FROM stock_has_bach WHERE referencia_compra = \"{$referencia}\" AND referencia_traspaso_temporal != \"\" LIMIT 1";
+    $query_id_temporal = "SELECT id_temporal AS id_temporal FROM transferencia_temporal WHERE id_transferencia = \"{$referencia}\" LIMIT 1";
     $resultado_query_id_temporal = mysqli_query($horizonte, $query_id_temporal);
     $id_temporal = mysqli_fetch_object($resultado_query_id_temporal)->id_temporal;
 
@@ -17,7 +18,8 @@ try {
     $num_transferencias = mysqli_num_rows($resultado_query_datos_traspaso_temporal);
 
     // Obtenemos el precio unitario y el total
-    $query_datos_stock = "SELECT shb.id AS id, shb.costo_unitario AS precio_unitario, shb.costo_unitario * shb.cantidad AS total, shb.cantidad AS cant FROM stock_has_bach shb WHERE shb.referencia_traspaso_temporal = \"{$id_temporal}\"";
+    //$query_datos_stock = "SELECT shb.id AS id, shb.costo_unitario AS precio_unitario, shb.costo_unitario * shb.cantidad AS total, shb.cantidad AS cant FROM stock_has_bach shb WHERE shb.referencia_traspaso_temporal = \"{$id_temporal}\"";
+    $query_datos_stock = "SELECT shb.id As id, shb.costo_unitario AS precio_unitario, shb.costo_unitario * tt.cantidad_transferir AS total, tt.cantidad_transferir AS cant FROM stock_has_bach shb LEFT JOIN transferencia_temporal tt on tt.id_stock_has_bach = shb.id WHERE tt.id_transferencia = \"{$referencia}\"";
     $resultado_query_datos_stock = mysqli_query($horizonte, $query_datos_stock);
     $datos_stock = mysqli_fetch_all($resultado_query_datos_stock, MYSQLI_ASSOC);
 
