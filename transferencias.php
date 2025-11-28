@@ -192,7 +192,9 @@
                     $.post('farmacia/stock/files-serverside/transferencia.php',datosVT).done(function( dataVT ) {
                         let response = JSON.parse(dataVT);
                         if (response.success) {
-                            $.post('transferencias/files-serverside/actualizar_receptor_transferencia.php',datosVT).done(function( dataVT ) {  });
+                            $.post('transferencias/files-serverside/actualizar_receptor_transferencia.php',datosVT).done(function( dataVT ) { 
+                                $("#clickme").click();
+                             });
                             swal("¡Hecho!", response.success, "success");
                         }
                     });
