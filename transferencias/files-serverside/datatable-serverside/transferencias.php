@@ -5,7 +5,7 @@ require("../../../funciones/php/values.php");
 
 /*$aColumns = array('s.id', 'tt.id_transferencia', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', 's.id', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 's.fecha_expiracion', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_destino)', 's.id', 's.id', 's.id_Producto'); -- Original de jacinto */ 
 
-$aColumns = array('s.id', 'tt.id_transferencia', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_origen)', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 's.fecha_expiracion', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_destino)', 'tt.id_temporal', 's.id', 's.id_Producto');
+$aColumns = array('s.id', 'tt.id_transferencia', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_origen)', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 'DATE_FORMAT(s.fecha_expiracion, "%d-%m-%Y")', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_destino)', 'tt.id_temporal', 's.id', 's.id_Producto');
 
 $aTables = array('transferencia_temporal tt');
 
@@ -194,7 +194,7 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     $usuario_receptor = $receptor->usuario_u;
     if (empty($usuario_receptor)) {
         //$row[12] = "<a role=\"button\" onclick=\"modificarReceptorTransferencia('{$folio}', this);\">PENDIENTE</a>";
-        $row[12] = "<a role=\"button\" onclick='resolverTransferencia(\"$row[11]\");'>PENDIENTE</a>";
+        $row[12] = "<a role=\"button\" onclick='resolverTransferencia(\"$row[11]\");'>PENDIENTE</a> <br> <a role=\"button\" style='color: red;' onclick='cancelarTransferencia(\"$row[11]\");'>CANCELAR</a>";
         $usuario_receptor = "Sin receptor";
     } else {
         $row[12] = "<span>{$usuario_receptor}<br>{$receptor->fecha_recepcion}</span>";
