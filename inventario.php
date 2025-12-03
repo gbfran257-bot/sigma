@@ -12,7 +12,7 @@
     <meta name="description" content="SISTEMA DE EXPEDIENTE CLÍNICO ELECTRÓNICO">
     <meta name="author" content="ING JESUS DIAZ CONTRERAS">
     
-    <title>SISTEMA - FARMACIA - INVENTARIO</title>
+    <title>FARMACIA - INVENTARIO</title>
     
     <link rel="shortcut icon" href="imagenes/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="imagenes/favicon.ico" type="image/x-icon">
@@ -91,7 +91,7 @@
 		<th style="vertical-align:middle;" nowrap>PRODUCTO</th>
 		<th style="vertical-align:middle;" nowrap>LOTE</th>
 		<th style="vertical-align:middle;" nowrap>F. CADUCIDAD</th>
-		<th style="vertical-align:middle;" nowrap>EXISTENCIAS</th>
+		<th style="vertical-align:middle;" nowrap>EXIST.</th>
 	  </tr>
 	</thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
 	<tfoot>
@@ -112,6 +112,7 @@
             <td><select name='miSucursal' id='miSucursal' class='form-control input-sm'></select></td>
         </tr>
     </table>
+	<input type='hidden' name='name_user_pdf' id='name_user_pdf'/>
 </div>
 </div>
 <div id="auxiliar" class="hidden"></div> <div id="auxiliar1" class="hidden"></div>
@@ -120,6 +121,9 @@
 
 <script>
 $(document).ready(function(e) {
+
+	var horaPDF = new Date().toLocaleTimeString('es-MX', { hour12: false });
+
 	//breadcrumb
 	$('#breadc').html('<li><a href="index.php">FARMACIA</a></li><li class="active"><strong>INVENTARIO</strong></li>');
 	
@@ -141,8 +145,26 @@ $(document).ready(function(e) {
 		buttons: [ 
 			{ extend: 'copyHtml5', footer: true },
             { extend: 'excelHtml5', footer: true },
-            { extend: 'pdfHtml5', footer: true }
-			],
+            //{ extend: 'pdfHtml5', footer: true },
+			{
+				extend: 'pdfHtml5',
+				footer: true,
+				customize: function (doc) {
+
+					doc.content.unshift({
+						text: $("#name_user_pdf").val() + " " + new Date().toLocaleTimeString('es-MX', { hour12: false }),
+						style: 'titulo',
+						alignment: 'center',
+						margin: [0, 0, 0, 20] // margen inferior
+					});
+
+					doc.styles.titulo = {
+						fontSize: 14,
+						bold: true
+					};
+				}
+			}
+		],
 		deferRender: true, 
 		select: false, 
 		"processing": false,
@@ -186,32 +208,6 @@ $(document).ready(function(e) {
     }).focus();
 	$('.filtro1Principal').addClass('hidden');
 	
-	$('.infoPrincipal').append('<div id="divRangoFechas" style="text-align:left;"> <table width="100%" border="0" cellpadding="4" cellspacing="2" style="color:black; float:left;"> <tr> <td width="10px">De &nbsp;</td> <td width="1%"><input name="fechaDe" class="fechas form-control datetimepicker-input" style="width:140px;" type="text" id="fechaDe" data-toggle="datetimepicker" data-target="#fechaDe" value="<?php echo date("Y-m-d ")."00:00"; ?>"/></td> <td width="10px">&nbsp; A &nbsp;</td> <td width="1%"> <input style="width:140px;" name="fechaA" type="text" class="fechas form-control" data-toggle="datetimepicker" id="fechaA" value="<?php echo date("Y-m-d ")."23:59"; ?>"/> </td> <td id="rangosFechas">&nbsp; <input type="radio" class="rad" id="radio1" name="radio" /><label for="radio1">&nbsp; Hoy &nbsp;</label> <input type="radio" class="rad" id="radio2" name="radio" /><label for="radio2">&nbsp; Todos &nbsp;</label> </td> </tr> </table> </div>');
-	
-	$('#radio1').click(function(e){
-		$('#fechaDe').val('<?php echo date("Y-m-d"); ?>');$('#fechaA').val('<?php echo date("Y-m-d"); ?>'); oTableP.draw();
-	});
-	
-	$('#radio2').click(function(e){
-		$('#fechaDe').val('2024-01-01'); $('#fechaA').val('<?php echo date("Y-m-d"); ?>'); oTableP.draw();
-	});
-	
-	$("#fechaDe, #fechaA").datetimepicker({
-		locale: 'es-MX',
-		format: 'YYYY-MM-DD HH:mm',
-		useCurrent: false
-	});
-	$('#fechaA').data("DateTimePicker").minDate($('#fechaDe').val());
-	$('#fechaDe').data("DateTimePicker").maxDate($('#fechaA').val());
-	$('#fechaDe').on('dp.change', function(e) { 
-        $('#fechaA').data("DateTimePicker").minDate(e.date);
-		oTableP.draw();
-	});
-	$('#fechaA').on('dp.change', function(e) { 
-        $('#fechaDe').data("DateTimePicker").maxDate(e.date);
-		oTableP.draw();
-	});
-
     $("#miSucursal").load('pacientes/genera/genera_sucursales_ov.php?idU=' + $('#id_user').val(), function(response, status, xhr) {
         if (status = "success") {
             var datosUS = {
@@ -225,6 +221,11 @@ $(document).ready(function(e) {
                 });
             });
         }
+    });
+
+	var datosUS = { idU: $('#id_user').val() }
+	$.post('farmacia/files-serverside/getNameUser.php', datosUS).done(function(dataNUP) {
+        $("#name_user_pdf").val(dataNUP);
     });
 
 });
