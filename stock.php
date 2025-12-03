@@ -301,25 +301,13 @@ function transferencias(idProd, cantExis, id_su, nombreProd){
 			swal({
 				type: "success",
 				title: "¡HECHO!",
-				text: "Se ha registrado la solcitud de transferencia correctamente.",
+				text: "Se ha registrado la solicitud de transferencia correctamente.",
 				showConfirmButton: false,
 				timer: 1800,
 			});
 
 			setTimeout(() => {
-				swal({
-					type: "info",
-					title: "Hoja de entrega",
-					text: "¿Deseas imprimir la hoja de entrega?",
-					confirmButtonText: "Imprimir",
-					showCancelButton: true,
-					cancelButtonText: "No imprimir",
-				}, function(response) {
-					if (!response) {
-						return window.location.reload();
-					}
-					return imprimirHojaEntrega();
-				});
+				return window.location.reload();
 			}, 2000);
 		});
 
