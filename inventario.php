@@ -122,8 +122,6 @@
 <script>
 $(document).ready(function(e) {
 
-	var horaPDF = new Date().toLocaleTimeString('es-MX', { hour12: false });
-
 	//breadcrumb
 	$('#breadc').html('<li><a href="index.php">FARMACIA</a></li><li class="active"><strong>INVENTARIO</strong></li>');
 	
@@ -152,7 +150,7 @@ $(document).ready(function(e) {
 				customize: function (doc) {
 
 					doc.content.unshift({
-						text: $("#name_user_pdf").val() + " " + new Date().toLocaleTimeString('es-MX', { hour12: false }),
+						text: $("#name_user_pdf").val() + " - " + new Date().toLocaleTimeString('es-MX', { hour12: false }),
 						style: 'titulo',
 						alignment: 'center',
 						margin: [0, 0, 0, 20] // margen inferior

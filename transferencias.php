@@ -87,13 +87,7 @@
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>REF. DE<br>COMPRA</th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap>MED. GENERICO</th>
                 <th style="vertical-align:middle;">
-                    <select id="s_colores" name="s_colores" style="color:black;">
-                        <option value="0">Todos</option>
-                        <option value="1">Verde</option>
-                        <option value="2">Amarillo</option>
-                        <option value="3">Rojo</option>
-                        <option value="4">Negro</option>
-                    </select>
+                    PRODUCTO
                 </th>
                 <th style="vertical-align:middle; white-space:nowrap;" nowrap> LOTE</th>
                 <th style="vertical-align:middle;">SUCURSAL ORIGEN</th>
@@ -198,6 +192,32 @@
                             swal("¡Hecho!", response.success, "success");
                         }
                     });
+                }
+            });
+
+        });
+    }
+
+    function cancelarTransferencia(id_temporal){
+
+        swal({
+            title: "¿Cancelar transferencia?",
+            text: "¿Deseas cancelar esta transferencia?",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonText: "No, regresar",
+            confirmButtonText: "Sí, cancelar",
+            closeOnConfirm: false
+        }, function(isConfirm){
+
+            if (!isConfirm) return;
+
+            var datosVT = { id_temporal: id_temporal, id_u:$("#id_user").val() };
+            $.post('transferencias/files-serverside/cancelar_transferencia.php',datosVT).done(function( dataVT ) {
+                let response = JSON.parse(dataVT);
+                if (response.success) {
+                    $("#clickme").click();
+                    swal("¡Hecho!", response.success, "success");
                 }
             });
 
