@@ -25,19 +25,19 @@ const initDataTablePrincipal = () => {
             }, {
                 "bVisible": true,
             }, {
-                "bVisible": true,
+                "bVisible": false,
+            }, {
+                "bVisible": false,
+            }, {
+                "bVisible": false,
             }, {
                 "bVisible": true,
             }, {
                 "bVisible": true,
             }, {
-                "bVisible": true,
+                "bVisible": false,
             }, {
-                "bVisible": true,
-            }, {
-                "bVisible": true,
-            }, {
-                "bVisible": true,
+                "bVisible": false,
             }, {
                 "bVisible": true,
             }, {
