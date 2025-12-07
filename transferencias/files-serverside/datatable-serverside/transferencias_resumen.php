@@ -3,7 +3,7 @@ require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('tt.id_transferencia', 'tt.id_transferencia', 'm.nombre_generico_med', 'c.concepto_to', 'tt.cantidad_transferir', 'tt.lote', 'tt.caducidad', 's.nombre_su', 's1.nombre_su');
+	$aColumns = array('tt.id_transferencia', 'tt.id_transferencia', 'm.nombre_generico_med', 'c.concepto_to', 'tt.cantidad_transferir', 'tt.lote', 'tt.caducidad', 's.nombre_su', 's1.nombre_su', 'tt.id_usuario_receptor', 'u1.usuario_u', 'tt.id_usuario_transferencia', 'u.usuario_u', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(tt.fecha_transferencia,"%d/%m/%Y"), DATE_FORMAT(tt.fecha_transferencia,"%H:%i:%s"))');
      
     // DB tables to use 
     $aTables = array( 'transferencia_temporal tt');
@@ -12,7 +12,7 @@ require("../../../funciones/php/values.php");
     $sIndexColumn = "tt.id_transferencia";
      
 	 // Joins   
-	$sJoin = 'left join conceptos c on c.id_to = tt.id_producto left join medicamentos m on m.id_med = c.id_medicamento_g left join sucursales s on s.id_su = tt.id_sucursal_origen left join sucursales s1 on s1.id_su = tt.id_sucursal_destino';
+	$sJoin = 'left join conceptos c on c.id_to = tt.id_producto left join medicamentos m on m.id_med = c.id_medicamento_g left join sucursales s on s.id_su = tt.id_sucursal_origen left join sucursales s1 on s1.id_su = tt.id_sucursal_destino left join usuarios u on u.id_u = tt.id_usuario_transferencia left join usuarios u1 on u1.id_u = tt.id_usuario_receptor';
 
     $sWhere="";
 
@@ -26,7 +26,7 @@ require("../../../funciones/php/values.php");
         }
     }
     if ( $sWhere == "" ) { $sWhere = "WHERE "; } else { $sWhere .= " AND "; }
-	$sWhere.=" transf_valida = 1 AND tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]' ";
+	$sWhere.=" transf_valida = 1 AND tt.id_usuario_receptor NOT IN(0) AND tt.fecha_transferencia BETWEEN '$_GET[min]' AND '$_GET[max]' ";
 	
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;
@@ -110,7 +110,14 @@ require("../../../funciones/php/values.php");
         for ( $j=0 ; $j<count($aColumns) ; $j++ ) { if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; } else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; } }
 		
 		$row[0] = "<span>$hh</span>";
+
+        if($row[9]=='0'){
+            $usuario_receptor = 'Sin receptor';
+        }else{
+            $usuario_receptor = $row1[10];
+        }
 		
+        $row[1] = "<a role=\"button\" onclick=\"verReporteEntregaTransferencia('$row[1]', '$usuario_receptor', $row[9], '$row[13]');\">$row[1]</a>";
 
 		$output['aaData'][] = $row;
     }

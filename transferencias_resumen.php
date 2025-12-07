@@ -218,3 +218,5 @@ $(document).ready(function(e) {
 	});
 });
 </script>
+
+<script src="./transferencias/js/verReporteEntregaTransferencias.js"></script>
