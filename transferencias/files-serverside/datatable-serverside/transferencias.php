@@ -5,13 +5,13 @@ require("../../../funciones/php/values.php");
 
 /*$aColumns = array('s.id', 'tt.id_transferencia', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', 's.id', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 's.fecha_expiracion', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_destino)', 's.id', 's.id', 's.id_Producto'); -- Original de jacinto */ 
 
-$aColumns = array('s.id', 'tt.id_transferencia', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_origen)', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(s.fecha_update,"%d/%c/%Y"), DATE_FORMAT(s.fecha_update,"%H:%i:%s"))', 's.cantidad', 'DATE_FORMAT(s.fecha_expiracion, "%d-%m-%Y")', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_destino)', 'tt.id_temporal', 's.id', 's.id_Producto');
+$aColumns = array('s.id', 'tt.id_transferencia', 's.referencia_compra', 'g.nombre_generico_med', 'c.concepto_to', 's.Lote', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_origen)', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(tt.fecha_transferencia,"%d/%m/%Y"), DATE_FORMAT(tt.fecha_transferencia,"%H:%i:%s"))', 's.cantidad', 'DATE_FORMAT(s.fecha_expiracion, "%d-%m-%Y")', '(select nombre_su from sucursales WHERE id_su = tt.id_sucursal_destino)', 'tt.id_temporal', 's.id', 's.id_Producto');
 
 $aTables = array('transferencia_temporal tt');
 
 $sIndexColumn = "tt.id_temporal";
 
-$sJoin = 'left join stock_has_bach s on s.id = tt.id_stock_has_bach left join conceptos c on c.id_to = s.id_Producto left join stock s1 on s1.id = s.id_stock left join usuarios u on u.id_u = s.usuario_registro left join sucursales su on su.id_su = s1.id_su left join medicamentos g on g.id_med = c.id_medicamento_g';
+$sJoin = 'left join stock_has_bach s on s.id = tt.id_stock_has_bach left join conceptos c on c.id_to = s.id_Producto left join stock s1 on s1.id = s.id_stock left join usuarios u on u.id_u = tt.id_usuario_transferencia left join sucursales su on su.id_su = s1.id_su left join medicamentos g on g.id_med = c.id_medicamento_g';
 
 $resultAU = mysqli_query($horizonte, "SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[idU]'") or die(mysqli_error($horizonte));
 $rowAU = mysqli_fetch_row($resultAU);
