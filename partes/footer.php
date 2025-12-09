@@ -59,6 +59,11 @@
             <div id="modal_reporte_entrega_transferencias" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 
+        <!--Transferencias resumen-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/sigma/transferencias_resumen.php" || strpos($_SERVER['REQUEST_URI'], "/transferencias_resumen.php") !== false) : ?>
+            <div id="modal_reporte_entrega_transferencias" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
+
         <!--Pedidos-->
         <?php if ($_SERVER['REQUEST_URI'] == "/sigma/pedidos.php" || strpos($_SERVER['REQUEST_URI'], "/pedidos.php") !== false) : ?>
             <div id="modal_impresion_reporte_pedidos" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
@@ -107,6 +112,11 @@
         <?php if ($_SERVER['REQUEST_URI'] == "/transferencias.php" || strpos($_SERVER['REQUEST_URI'], "/transferencias.php") !== false) : ?>
             <div id="modal_ver_factura_compra" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
             <div id="modal_resumen_transferencia" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+            <div id="modal_reporte_entrega_transferencias" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+        <?php endif; ?>
+
+        <!--Transferencias resumen-->
+        <?php if ($_SERVER['REQUEST_URI'] == "/sigma/transferencias_resumen.php" || strpos($_SERVER['REQUEST_URI'], "/transferencias_resumen.php") !== false) : ?>
             <div id="modal_reporte_entrega_transferencias" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 

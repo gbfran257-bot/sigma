@@ -655,6 +655,7 @@ const agregarTransferenciaTemporalProducto = (producto, cantidadTranferir, idPro
 	body.append("id_sucursal_destino", $("#sucursal-destino").val());
 	body.append("id_producto_seleccionado", idProductoSeleccionado);
 	body.append("nombre_producto_seleccionado", nombreProductoSeleccionado);
+	body.append("id_usuario", $("#id_user").val());
 	body.append("producto", JSON.stringify(producto));
 
 	fetch(`farmacia/stock/files-serverside/agregarTransferenciaTemporalProducto.php`, {

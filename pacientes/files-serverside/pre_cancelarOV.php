@@ -62,6 +62,17 @@ require("../../funciones/php/values.php");
 	if (!$res3) {
 		die('Invalid query: ' . mysql_error());
 	}
+
+	/* Verificamos si existen conceptos de farmacia, de ser el caso devolvemos el stock */
+	mysql_select_db($database_horizonte, $horizonte); 
+	$qry_return_stock = mysql_query("SELECT id_vc_shb, cantidad FROM venta_conceptos vc left join conceptos c on c.id_to = vc.id_concepto_es where c.id_tipo_concepto_to = 5 AND vc.referencia_vc = $refe",$horizonte) or die (mysql_error());
+
+	while ($filaReturn = mysql_fetch_assoc($qry_return_stock)) {
+		mysql_select_db($database_horizonte, $horizonte); 
+		$sqlR = "UPDATE stock_has_bach SET existencias = existencias + ".$filaReturn['cantidad']." WHERE id = ".$filaReturn['id_vc_shb'] . " LIMIT 1";
+		$updateR = mysql_query($sqlR, $horizonte) or die (mysql_error());
+	}
+
 	echo 1;
 
  }else{

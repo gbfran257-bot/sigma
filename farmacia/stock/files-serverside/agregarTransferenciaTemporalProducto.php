@@ -8,6 +8,7 @@ try {
     $id_sucursal_destino = intval(htmlentities($_POST['id_sucursal_destino'], ENT_QUOTES, "utf-8"));
     $id_producto_seleccionado = intval(htmlentities($_POST['id_producto_seleccionado'], ENT_QUOTES, "utf-8"));
     $nombre_producto_seleccionado = htmlentities($_POST['nombre_producto_seleccionado'], ENT_QUOTES, "utf-8");
+    $id_usuario = $_POST['id_usuario'];
     $producto_seleccionado = json_decode($_POST['producto']);
 
     require("../../../Connections/horizonte2.php");
@@ -26,7 +27,7 @@ try {
     if ($existe_transferencia_producto == 1) {
         $query = "UPDATE transferencia_temporal SET cantidad_transferir = {$cantidad_transferir}, id_sucursal_destino = {$id_sucursal_destino} WHERE id_temporal = '{$id_transferencia_temporal}' AND id_producto = {$id_producto_seleccionado}";
     } else {
-        $query = "INSERT INTO transferencia_temporal VALUES('{$id_transferencia_temporal}', '{$nombre_producto_seleccionado}', '{$producto_seleccionado->nombre_generico}', '{$producto_seleccionado->lote}', '{$producto_seleccionado->caducidad}', {$cantidad_transferir}, {$id_sucursal_origen}, {$id_sucursal_destino}, {$id_producto_seleccionado}, '{$fecha}', '{$id_transferencia}', 0, '0000-00-00 00:00:00', {$producto_seleccionado->id_stock_hb}, 0)";
+        $query = "INSERT INTO transferencia_temporal VALUES('{$id_transferencia_temporal}', '{$nombre_producto_seleccionado}', '{$producto_seleccionado->nombre_generico}', '{$producto_seleccionado->lote}', '{$producto_seleccionado->caducidad}', {$cantidad_transferir}, {$id_sucursal_origen}, {$id_sucursal_destino}, {$id_producto_seleccionado}, '{$fecha}', '{$id_transferencia}', 0, '0000-00-00 00:00:00', {$producto_seleccionado->id_stock_hb}, 0, {$id_usuario})";
     }
 
     if (!$resultado_query = mysqli_query($horizonte, $query)) {

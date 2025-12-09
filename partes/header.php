@@ -198,6 +198,7 @@ if ((isset($_SESSION['MM_Username']) || isCookieValid($db))) { //echo 'bienvenid
                             <!--Se agrega la opción de traspasos. Queda pendiente hacer la verificación del permiso requerido para visualizar esta opción-->
                             <?php if ($permisos[50]) : ?>
                                 <li><a href="transferencias.php"><i class="fa fa-exchange"></i> TRANSFERENCIAS</a></li>
+                                <li><a href="transferencias_resumen.php"><i class="fa fa-exchange"></i> TRANSFERENCIAS RESUMEN</a></li>
                             <?php endif; ?>
 
                             <!--Se agrega la opción de pedido. Queda pendiente hacer la verificación del permiso requerido para visualizar esta opción-->
