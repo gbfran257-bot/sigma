@@ -720,7 +720,9 @@ const getListaProvedores = () => {
 			}
 
 			provedores.forEach((proveedor) => $("#select-proveedores").append(proveedor));
-			$("#select-proveedores").select2();
+			$("#select-proveedores").select2({
+				dropdownParent: $('#myModal .modal-body')
+			});
 		})
 		.catch(error => console.error(error));
 };
@@ -750,6 +752,7 @@ function select2ini(donde, url, ph, width = "off"){
         language: "es",
         width: width,
         allowClear: true,
+		dropdownParent: $('#myModal .modal-body'),
         ajax: {
             url: 'select/'+url,
             type: "post",
