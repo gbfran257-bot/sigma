@@ -18,7 +18,7 @@ require("../../funciones/php/values.php");
 	if($row[0]<1){
 		
 		mysql_select_db($database_horizonte, $horizonte);
-		$sql = "INSERT INTO medicamentos_hospital(id_hospitalizacion_mh, id_medicamento_mh, id_u_mh, fecha_mh, indicacion_mh, estatus_mh, ref_stock_pivote) values($id_h, $id_m, $id_u, $now, $indicacion,$estatus,$stock_pivote)";
+		$sql = "INSERT INTO medicamentos_hospital(id_hospitalizacion_mh, id_medicamento_mh, id_u_mh, fecha_mh, indicacion_mh, estatus_mh, ref_stock_pivote, aleatorio_mh) values($id_h, $id_m, $id_u, $now, $indicacion,$estatus,$stock_pivote, '')";
 		$update = mysql_query($sql, $horizonte) or die (mysql_error());
 
 		if(!$update){echo $sql;} else{ echo 1; }

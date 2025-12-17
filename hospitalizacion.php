@@ -261,10 +261,13 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 				var that = this; $('input',this.footer()).on('keyup change', function (){ if(that.search() !== this.value){ that .search( this.value ) .draw(); } } );
 			}); //fin filtros individuales por campo de texto
 			
-			if(estatus =='EGRESADO'){
-				$('#btn_add_medicamento').addClass('hide');
-				$('#title_medicamento').html('MEDICAMENTO');
-			}
+			window.setTimeout(function(){
+				if(estatus =='EGRESO'){
+					$('#btn_add_medicamento').addClass('hide');
+					$('#title_medicamento').html('MEDICAMENTO');
+				}
+			},500);
+
 			$('#btn_add_medicamento').click(function(e){ nuevo_medicamento(id_h, id_p, nombre_p, id_s, $("#select-sucursal-u").val()); });
 			
 			var oTableA = $('#dataTableMedicamentosA').DataTable({
@@ -341,9 +344,9 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 				
 			}});
 
-			$("#select-sucursal-u").change(function(e) {
+			/*$("#select-sucursal-u").change(function(e) {
 				$('#btn_add_medicamento').removeClass('hidden');
-			});
+			});*/
 
 		},200);
 		
@@ -553,7 +556,7 @@ function nuevo_medicamento(id_h, id_p, nombre_p, id_s, id_su_user){ $('#myModal2
 				var oTable = $('#dataTableMeds').DataTable({
 					serverSide: true,"sScrollY": tam, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 					"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ){ }, scroller: false, responsive: true,
-					"aoColumns": [ {"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true} ],
+					"aoColumns": [ {"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":false},{"bVisible":false} ],
 					"sDom": '<"filtro1Principal"><"data_tPrincipal"t><"infoPrincipal"S><"proc">',
 					deferRender: true, select: { style: 'single' }, "processing": false, "sAjaxSource": "hospital/datatable-serverside/buscar_medicamentos.php",
 					"fnServerParams": function(aoData, fnCallback){ 
