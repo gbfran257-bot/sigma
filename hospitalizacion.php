@@ -200,6 +200,8 @@ $(document).ready(function(e) {
 	
 	$('#fechaDe').on('changeDate', function(e) { oTableP.draw(); });
 	$("#fechaA").on('changeDate', function(e) { oTableP.draw(); });
+
+	elegir_sucursal();
 });
 
 function egresar (id, id_cama) {
@@ -2641,6 +2643,31 @@ function eliminarArchivoEncuestas(id_consulta){
 			});
 			//fin eliminar
 	});
+}
+
+function elegir_sucursal(){
+	$("#myModal2").load('hospital/htmls/elegir_sucursal_usuario.php', function( response, status, xhr ){ if(status=="success"){
+
+		$("#select-sucursal-u2").load('hospital/files-serverside/select_sucursales_usuario.php?id_u='+$('#id_user').val());
+
+			$('#form_cov').validator().on('submit', function (e) {
+				if (e.isDefaultPrevented()) { 
+					// handle the invalid form...
+				} else { 
+					e.preventDefault(); 
+					var datosu = { id_u:$('#id_user').val(), id_su:$('#select-sucursal-u2').val() }
+					$.post('hospital/files-serverside/update_sucursal_hospital.php',datosu).done(function( dataUpdSucH ) {
+						if (dataUpdSucH==1){
+							$('#myModal2').modal('hide'); 
+						} else{alert(dataUpdSucH);}
+					});	
+				}
+			});
+
+		$('#myModal2').modal('show'); $('#myModal2').on('shown.bs.modal', function (e){});
+		$('#myModal2').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal2").empty(); });
+
+	}});
 }
 
 </script>
