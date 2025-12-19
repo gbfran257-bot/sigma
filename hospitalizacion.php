@@ -357,7 +357,7 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 	}});
 }
 var unaSolaVez = 0;
-function poner_medi(id_mh,med,paciente){
+/*function poner_medi(id_mh,med,paciente){ --funcion original
 	unaSolaVez = 0;
 	swal({
 	  title: "¿APLICAR " + med + " AL PACIENTE "+ paciente +"?", text: "", type: "warning", showCancelButton: true, confirmButtonColor: "#DD6B55",
@@ -380,7 +380,40 @@ function poner_medi(id_mh,med,paciente){
 			});
 		}
 	});
+}*/
+
+function poner_medi(id_mh,med,paciente){
+	$("#myModal1").load("hospital/htmls/medicamentos_lotes.php", function(response,status,xhr){ 
+		if(status == "success"){
+			var daTabla = {id_mh:id_mh, id_u:$('#id_user').val() }
+			$.post('hospital/datatable-serverside/medicamentos_lotes.php',daTabla).done(function( data ) { 
+				$('#tbodyContentMS2').html(data);
+				$('#titulo_modal2').text('Registro de suspensión del medicamento');
+			});
+
+			//$("#btn_aplicar").addClass("hidden");
+		
+			$('#myModal1').modal('show');
+			$('#myModal1').on('shown.bs.modal', function (e){ });
+			$('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
+		} 
+	});
 }
+
+function aplicarMedNuevo(id_mh, id_u, id_shb){
+	var datosMedNuevo = {  id_mh:id_mh, id_u:id_u, id_shb:id_shb }
+	$.post('hospital/files-serverside/aplicar_medi.php',datosMedNuevo).done(function( dataMedNuevo ) {
+		if (dataMedNuevo==1){
+			$('#clickmeMdtosA').click(); 
+			$('#myModal1').modal('hide');
+			swal({
+				title: "¡CONFIRMACIÓN!", type: "success", text: "El medicamento ha sido aplicado al paciente.",
+				timer: 1500, showConfirmButton: false
+			}); return;
+		} else{alert(dataMedNuevo);}
+	});
+}
+
 function suspender_medi(id_mh, medicamento, paciente){
 	var dat = {id_mh:id_mh}
 		$.post('hospital/files-serverside/verificar_medi.php',dat).done(function( data ) {
