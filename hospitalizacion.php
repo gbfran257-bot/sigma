@@ -388,7 +388,7 @@ function poner_medi(id_mh,med,paciente){
 			var daTabla = {id_mh:id_mh, id_u:$('#id_user').val() }
 			$.post('hospital/datatable-serverside/medicamentos_lotes.php',daTabla).done(function( data ) { 
 				$('#tbodyContentMS2').html(data);
-				$('#titulo_modal2').text('Registro de suspensión del medicamento');
+				$('#titulo_modal2').text('APLICACIÓN DE MEDICAMENTO AL PACIENTE ' + paciente);
 			});
 
 			//$("#btn_aplicar").addClass("hidden");
