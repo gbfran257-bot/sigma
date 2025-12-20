@@ -549,8 +549,10 @@ function actualizarCantMed(id,cantidad){
 	$("#nueva-cantidad").blur(() => {
 		
 		if($("#nueva-cantidad").val() === ""){
-			$("#nueva-cantidad").focus();
-			return swal("¡Atencion!", "Escribe una cantidad valida", "info");
+			/*$("#nueva-cantidad").focus();
+			return swal("¡Atencion!", "Escribe una cantidad valida", "info");*/
+			$("#nueva-cantidad").replaceWith(`<p onClick='actualizarCantMed(`+id+`,"`+$("#nueva-cantidad").val()+`")' class='' style='cursor:pointer; text-decoration:underline;' id='editar_`+id+`'>Editar</p>`);
+			return;
 		}
 
 		if($("#nueva-cantidad").val() === "0"){
