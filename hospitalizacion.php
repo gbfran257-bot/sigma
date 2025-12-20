@@ -414,6 +414,43 @@ function aplicarMedNuevo(id_mh, id_u, id_shb){
 	});
 }
 
+function modificar_indicacion(id_mh){
+	$("#myModal1").load("hospital/htmls/modificar_indicacion.php", function(response,status,xhr){ 
+		if(status == "success"){
+			//$('#titulo_modal1').text(str);
+			var datosIndicacion = { id_mh:id_mh }
+			$.post('hospital/files-serverside/get_indicacion.php',datosIndicacion).done(function( dataIndicacion ) {
+				window.setTimeout(function(){
+					$('#m_indicacion').val(dataIndicacion);
+				},500);
+			});
+	
+			$('#form_cov3').validator().on('submit', function (e) {
+				if (e.isDefaultPrevented()) {
+				} else { 
+					e.preventDefault();
+					//alert($('#m_indicacion').val());
+					var datosUpdateInd = { id_mh:id_mh, indi_mh:$('#m_indicacion').val() }
+					$.post('hospital/files-serverside/update_indicacion.php',datosUpdateInd).done(function( dataUpdateInd ) {
+						if (dataUpdateInd==1){
+							$("#clickmeMdtos").click();
+							$('#myModal1').modal('hide');
+							swal({
+								title: "", type: "success", text: "La indicación del medicamento ha sido actualizada.", timer: 1000, showConfirmButton: false
+							}); return;
+						} else{alert(dataUpdateInd);}
+					});
+
+				}
+			});
+					
+			$('#myModal1').modal('show');
+			$('#myModal1').on('shown.bs.modal', function (e){ });
+			$('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
+		}
+	});
+}
+
 function suspender_medi(id_mh, medicamento, paciente){
 	var dat = {id_mh:id_mh}
 		$.post('hospital/files-serverside/verificar_medi.php',dat).done(function( data ) {

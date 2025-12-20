@@ -163,6 +163,8 @@ require("../../funciones/php/values.php");
         }
 
         $row[9] = $row[17] . "<br>" . $row[18];
+
+        $row[5] = "<span>$row[5]</span><p style='cursor:pointer; text-decoration:underline;' onClick='modificar_indicacion($row[11])'>Editar</p>";
 		
 		$output['aaData'][] = $row;
 		
