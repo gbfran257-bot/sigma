@@ -200,6 +200,8 @@ $(document).ready(function(e) {
 	
 	$('#fechaDe').on('changeDate', function(e) { oTableP.draw(); });
 	$("#fechaA").on('changeDate', function(e) { oTableP.draw(); });
+
+	elegir_sucursal();
 });
 
 function egresar (id, id_cama) {
@@ -261,10 +263,13 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 				var that = this; $('input',this.footer()).on('keyup change', function (){ if(that.search() !== this.value){ that .search( this.value ) .draw(); } } );
 			}); //fin filtros individuales por campo de texto
 			
-			if(estatus =='EGRESADO'){
-				$('#btn_add_medicamento').addClass('hide');
-				$('#title_medicamento').html('MEDICAMENTO');
-			}
+			window.setTimeout(function(){
+				if(estatus =='EGRESO'){
+					$('#btn_add_medicamento').addClass('hide');
+					$('#title_medicamento').html('MEDICAMENTO');
+				}
+			},500);
+
 			$('#btn_add_medicamento').click(function(e){ nuevo_medicamento(id_h, id_p, nombre_p, id_s, $("#select-sucursal-u").val()); });
 			
 			var oTableA = $('#dataTableMedicamentosA').DataTable({
@@ -341,9 +346,9 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 				
 			}});
 
-			$("#select-sucursal-u").change(function(e) {
+			/*$("#select-sucursal-u").change(function(e) {
 				$('#btn_add_medicamento').removeClass('hidden');
-			});
+			});*/
 
 		},200);
 		
@@ -352,7 +357,7 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 	}});
 }
 var unaSolaVez = 0;
-function poner_medi(id_mh,med,paciente){
+/*function poner_medi(id_mh,med,paciente){ --funcion original
 	unaSolaVez = 0;
 	swal({
 	  title: "¿APLICAR " + med + " AL PACIENTE "+ paciente +"?", text: "", type: "warning", showCancelButton: true, confirmButtonColor: "#DD6B55",
@@ -375,7 +380,77 @@ function poner_medi(id_mh,med,paciente){
 			});
 		}
 	});
+}*/
+
+function poner_medi(id_mh,med,paciente){
+	$("#myModal1").load("hospital/htmls/medicamentos_lotes.php", function(response,status,xhr){ 
+		if(status == "success"){
+			var daTabla = {id_mh:id_mh, id_u:$('#id_user').val() }
+			$.post('hospital/datatable-serverside/medicamentos_lotes.php',daTabla).done(function( data ) { 
+				$('#tbodyContentMS2').html(data);
+				$('#titulo_modal2').text('APLICACIÓN DE MEDICAMENTO AL PACIENTE ' + paciente);
+			});
+
+			//$("#btn_aplicar").addClass("hidden");
+		
+			$('#myModal1').modal('show');
+			$('#myModal1').on('shown.bs.modal', function (e){ });
+			$('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
+		} 
+	});
 }
+
+function aplicarMedNuevo(id_mh, id_u, id_shb){
+	var datosMedNuevo = {  id_mh:id_mh, id_u:id_u, id_shb:id_shb }
+	$.post('hospital/files-serverside/aplicar_medi.php',datosMedNuevo).done(function( dataMedNuevo ) {
+		if (dataMedNuevo==1){
+			$('#clickmeMdtosA').click(); 
+			$('#myModal1').modal('hide');
+			swal({
+				title: "¡CONFIRMACIÓN!", type: "success", text: "El medicamento ha sido aplicado al paciente.",
+				timer: 1500, showConfirmButton: false
+			}); return;
+		} else{alert(dataMedNuevo);}
+	});
+}
+
+function modificar_indicacion(id_mh){
+	$("#myModal1").load("hospital/htmls/modificar_indicacion.php", function(response,status,xhr){ 
+		if(status == "success"){
+			//$('#titulo_modal1').text(str);
+			var datosIndicacion = { id_mh:id_mh }
+			$.post('hospital/files-serverside/get_indicacion.php',datosIndicacion).done(function( dataIndicacion ) {
+				window.setTimeout(function(){
+					$('#m_indicacion').val(dataIndicacion);
+				},500);
+			});
+	
+			$('#form_cov3').validator().on('submit', function (e) {
+				if (e.isDefaultPrevented()) {
+				} else { 
+					e.preventDefault();
+					//alert($('#m_indicacion').val());
+					var datosUpdateInd = { id_mh:id_mh, indi_mh:$('#m_indicacion').val() }
+					$.post('hospital/files-serverside/update_indicacion.php',datosUpdateInd).done(function( dataUpdateInd ) {
+						if (dataUpdateInd==1){
+							$("#clickmeMdtos").click();
+							$('#myModal1').modal('hide');
+							swal({
+								title: "", type: "success", text: "La indicación del medicamento ha sido actualizada.", timer: 1000, showConfirmButton: false
+							}); return;
+						} else{alert(dataUpdateInd);}
+					});
+
+				}
+			});
+					
+			$('#myModal1').modal('show');
+			$('#myModal1').on('shown.bs.modal', function (e){ });
+			$('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
+		}
+	});
+}
+
 function suspender_medi(id_mh, medicamento, paciente){
 	var dat = {id_mh:id_mh}
 		$.post('hospital/files-serverside/verificar_medi.php',dat).done(function( data ) {
@@ -511,8 +586,10 @@ function actualizarCantMed(id,cantidad){
 	$("#nueva-cantidad").blur(() => {
 		
 		if($("#nueva-cantidad").val() === ""){
-			$("#nueva-cantidad").focus();
-			return swal("¡Atencion!", "Escribe una cantidad valida", "info");
+			/*$("#nueva-cantidad").focus();
+			return swal("¡Atencion!", "Escribe una cantidad valida", "info");*/
+			$("#nueva-cantidad").replaceWith(`<p onClick='actualizarCantMed(`+id+`,"`+$("#nueva-cantidad").val()+`")' class='' style='cursor:pointer; text-decoration:underline;' id='editar_`+id+`'>Editar</p>`);
+			return;
 		}
 
 		if($("#nueva-cantidad").val() === "0"){
@@ -553,7 +630,7 @@ function nuevo_medicamento(id_h, id_p, nombre_p, id_s, id_su_user){ $('#myModal2
 				var oTable = $('#dataTableMeds').DataTable({
 					serverSide: true,"sScrollY": tam, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
 					"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ){ }, scroller: false, responsive: true,
-					"aoColumns": [ {"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true} ],
+					"aoColumns": [ {"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":true},{"bVisible":false},{"bVisible":false} ],
 					"sDom": '<"filtro1Principal"><"data_tPrincipal"t><"infoPrincipal"S><"proc">',
 					deferRender: true, select: { style: 'single' }, "processing": false, "sAjaxSource": "hospital/datatable-serverside/buscar_medicamentos.php",
 					"fnServerParams": function(aoData, fnCallback){ 
@@ -2638,6 +2715,31 @@ function eliminarArchivoEncuestas(id_consulta){
 			});
 			//fin eliminar
 	});
+}
+
+function elegir_sucursal(){
+	$("#myModal2").load('hospital/htmls/elegir_sucursal_usuario.php', function( response, status, xhr ){ if(status=="success"){
+
+		$("#select-sucursal-u2").load('hospital/files-serverside/select_sucursales_usuario.php?id_u='+$('#id_user').val());
+
+			$('#form_cov').validator().on('submit', function (e) {
+				if (e.isDefaultPrevented()) { 
+					// handle the invalid form...
+				} else { 
+					e.preventDefault(); 
+					var datosu = { id_u:$('#id_user').val(), id_su:$('#select-sucursal-u2').val() }
+					$.post('hospital/files-serverside/update_sucursal_hospital.php',datosu).done(function( dataUpdSucH ) {
+						if (dataUpdSucH==1){
+							$('#myModal2').modal('hide'); 
+						} else{alert(dataUpdSucH);}
+					});	
+				}
+			});
+
+		$('#myModal2').modal('show'); $('#myModal2').on('shown.bs.modal', function (e){});
+		$('#myModal2').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal2").empty(); });
+
+	}});
 }
 
 </script>

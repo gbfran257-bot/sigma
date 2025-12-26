@@ -10,7 +10,7 @@ require("../../funciones/php/values.php");
     $row_s = mysql_fetch_row($result_s);
     $id_stock = $row_s[0];
 
-	$aColumns = array('m.id_to', 'm1.nombre_generico_med', 'm.concepto_to', 'm1.cantidad_med', 'm1.via_administracion_med', 'm.codigo_barras_to', 'm1.grupo_med', 'm.id_to', 'm.id_to', 'shb.Lote', 'DATE_FORMAT(shb.fecha_expiracion,"%d/%m/%Y")', 'shb.id');
+	$aColumns = array('m.id_to', 'm1.nombre_generico_med', 'm.concepto_to', 'm1.cantidad_med', 'm1.via_administracion_med', 'm.codigo_barras_to', 'm1.grupo_med', 'm.id_to', 'm.id_to', 'm.id_to', 'm.id_to', 'm.id_to');
      
     // DB tables to use 
     $aTables = array( 'conceptos m');
@@ -19,10 +19,10 @@ require("../../funciones/php/values.php");
     $sIndexColumn = "m.id_to";
      
 	 // Joins   hasta aqui
-	$sJoin = 'left join medicamentos m1 on m1.id_med = m.id_medicamento_g LEFT JOIN stock_has_bach shb ON shb.id_Producto = m.id_to';
+	$sJoin = 'left join medicamentos m1 on m1.id_med = m.id_medicamento_g';
 	 
     // CONDITIONS
-	$sWhere = "where m.id_tipo_concepto_to = 5  AND shb.id_stock = $id_stock AND shb.existencias > 0";	
+	$sWhere = "where m.id_tipo_concepto_to = 5";	
 	
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;
