@@ -56,7 +56,7 @@
 							<a href="#"type="button" class="btn btn-info " id="btn_printMI">IMPRIMIR</a>
 						</div>
 						<div class="form-group col-md-10">
-							<select name="select-sucursal-u" id="select-sucursal-u" class="form-control form-control-sm" style="width: 50%"> </select>
+							<!--<select name="select-sucursal-u" id="select-sucursal-u" class="form-control form-control-sm" style="width: 50%"> </select>-->
 						</div>
 					</div>
 				</div>
