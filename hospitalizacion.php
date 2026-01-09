@@ -289,7 +289,7 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 						nCells[7].innerHTML = "$" + redondear(parseFloat(iAdicionales * 100)/100,2);
 						
 				 },
-				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": false }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
+				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
 				"sDom": '<"filtro1Principal"><"data_tPrincipal"t><"infoPrincipal"S><"proc">',
 				deferRender: true, select: false, "processing": false, "sAjaxSource": "hospital/datatable-serverside/medicamentosA.php?id_h="+id_h,
 				"fnServerParams": function(aoData, fnCallback){ },

@@ -67,7 +67,7 @@
 							<tr class="bg-primary" style="font-size: 1.1em;">
 								<th id="clickmeMdtosA"class="titulosTabs"align="center" nowrap width="1px">#</th>
 								<th class="" align="center" width="">MEDICAMENTO</th>
-								<th class="" align="center" width="" nowrap>PRESENTACIÓN</th>
+								<th class="" align="center" width="" nowrap>LOTE/CADUCIDAD</th>
 								<th class="" align="center" width="" nowrap>INDICACIÓN</th>
 								<th class="" align="center" width="" nowrap>APLICÓ</th>
 								<th class="" align="center" width="" nowrap>FECHA/HORA</th>
