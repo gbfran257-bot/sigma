@@ -235,7 +235,7 @@ function egresar (id, id_cama) {
 	
 function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 	$("#myModal2").load('hospital/htmls/medicamentos.php', function( response, status, xhr ){ if(status=="success"){
-		var datosMotivo = {id_h:id_h}
+		var datosMotivo = {id_h:id_h, id_u:$('#id_user').val()};
 		$.post('hospital/files-serverside/obetener_motivo_h.php',datosMotivo).done(function(dataMotivo){
 			$('#titulo_modal').text('MEDICAMENTOS PARA EL PACIENTE ' + nombre_p + ' MOTIVO: ' + dataMotivo);
 		});
@@ -285,8 +285,8 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 						/* Modify the footer row to match what we want */
 						var nCells = nRow.getElementsByTagName('th');
 						//console.log(iTotal);
-						nCells[5].innerHTML = "Total: $" + redondear(parseFloat(iTotal * 100)/100,2);
-						nCells[7].innerHTML = "$" + redondear(parseFloat(iAdicionales * 100)/100,2);
+						nCells[6].innerHTML = "Total: $" + redondear(parseFloat(iTotal * 100)/100,2);
+						nCells[8].innerHTML = "$" + redondear(parseFloat(iAdicionales * 100)/100,2);
 						
 				 },
 				"aoColumns": [ {"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
@@ -351,7 +351,7 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 			});*/
 
 		},200);
-		
+		$("#myModal2 .modal-dialog").css("width", "90%"); //aumentamos el tamaño del modal
 		$('#myModal2').modal('show'); $('#myModal2').on('shown.bs.modal', function (e){});
 		$('#myModal2').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal2").empty(); });
 	}});
