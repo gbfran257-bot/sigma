@@ -166,7 +166,7 @@ require("../../funciones/php/values.php");
 		
 		mysql_select_db($database_horizonte, $horizonte); 
 		$resultH = mysql_query("SELECT temporal_hc from historia_clinica where id_paciente_hc = $row[12] ", $horizonte) or die (mysql_error()); $rowH = mysql_fetch_row($resultH);
-		if($rowH[0]==0){
+		if($rowH[0]>0){
 			$row[7] = "<div align='center'><button type='button' class='btn btn-link btn-sm' id='$row[17]' lang='$row[12]' onClick='verSignosV(this.lang, this.id,1,\"$row[21]\",\"$row[21]\",1)'>$rowH2[0]</button></div>";
 		}
 		

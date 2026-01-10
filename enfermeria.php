@@ -749,8 +749,14 @@ function tomar_sv(idP,control,idC, id_s){//si control es 1 al cerrar la ventana 
 					swal({
 					  title: "¡CONFIRMACIÓN!", type: "success", text: "Los signos vitales se han guardado satisfactoriamente.",
 					  timer: 2500, showConfirmButton: false
-					});$('#myModalx').modal('hide');
-					verSignosV(idP,idC,2,0,id_s); window.setTimeout(function(){$('#tab_sv_1').click();},1500);
+					});
+					$('#myModalx').modal('hide');
+					window.setTimeout(function(){
+						verSignosV(idP,idC,2,0,id_s);
+						window.setTimeout(function(){
+							$('#tab_sv_1').click();
+						},1500);
+					},600);
 				} else{alert(data);}
 			});
 		  }
