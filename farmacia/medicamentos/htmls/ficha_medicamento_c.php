@@ -233,7 +233,7 @@
                     <input type="text" class="form-control" style="margin-top:10px;" name="cant_m">
                   </div>
                   <div class="form-group col-md-2">
-                    <label class="control-label" for="inputError1">Nivel del medicamento</label>
+                    <label class="control-label" for="inputError1">Fracción del medicamento</label>
                     <input type="text" class="form-control" style="margin-top:10px;" name="nivel_m">
                   </div>
                   <div class="form-group col-md-2">

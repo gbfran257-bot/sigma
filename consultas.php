@@ -3134,7 +3134,8 @@ include_once 'recursos/datauser.php';
 											et_logo12 = datosTe[72],
 											et_logo13 = datosTe[73],
 											et_logo14 = datosTe[74],
-											et_logo15 = datosTe[75];;
+											et_logo15 = datosTe[75];
+											et_oximetria = datosTe[76];
 
 										data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
 										data = data.replace(/{ET_EDAD}/gi, edadx1);
@@ -3265,6 +3266,7 @@ include_once 'recursos/datauser.php';
 										data1 = data1.replace(/{et_logo13}/gi, et_logo13);
 										data1 = data1.replace(/{et_logo14}/gi, et_logo14);
 										data1 = data1.replace(/{et_logo15}/gi, et_logo15);
+										data = data.replace(/{et_oximetria}/gi, et_oximetria);
 
 										$('#notaMedicaC').val(data);
 										$('#indiF').val(data1);

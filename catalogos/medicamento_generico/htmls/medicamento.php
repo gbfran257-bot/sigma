@@ -53,7 +53,7 @@
                   </select>
                 </div>
                 <div class="form-group col-md-3">
-                  <label class="control-label" for="nivel_m" >Nivel del medicamento</label>
+                  <label class="control-label" for="nivel_m" >Fracción del medicamento</label>
                   <input type="text" class="form-control" style="margin-top:10px;" name="nivel_m" id="nivel_m">
                 </div>
               </div>
