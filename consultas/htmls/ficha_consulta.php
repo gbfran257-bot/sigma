@@ -1141,6 +1141,15 @@ Sin embargo, en sentido estricto se suele denominar cardiopatía a las enfermeda
                 </td>
               </tr>
               <tr height="1">
+                <td nowrap align="left">
+                  <i id="aOXI" class="fa fa-exclamation-triangle text-danger hidden" aria-hidden="true"></i> OXIMETRIA
+                </td>
+                <td align="right"><span id="oxi0"></span></td>
+                <td class="small">
+                  <span id="graficaOxi" style="cursor:pointer;" onClick="graficas(9)"></span>
+                </td>
+              </tr>
+              <tr height="1">
                 <td class="text-primary small" align="" colspan="3" style="">
                   <span id="usuario_svi">USER</span> <span id="fechaHoraC">15/10/15 22:49</span>
                 </td>

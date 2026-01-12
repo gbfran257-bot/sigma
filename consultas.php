@@ -716,6 +716,7 @@ include_once 'recursos/datauser.php';
 			$('#talla0').text(datos[4]);
 			$('#imc0').text(datos[5]);
 			$('#dex0').text(datos[25]);
+			$('#oxi0').text(datos[17]);
 
 			//checamos los valores normales de los SV para poner u ocultar su *
 			var datosFC = {
