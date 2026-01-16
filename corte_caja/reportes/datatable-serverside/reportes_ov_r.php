@@ -51,6 +51,10 @@
     if(isset($_GET['filtro_pago']) && $_GET['filtro_pago'] > 0){
         $sWhere .= " AND pa.forma_pago_pag = " . $_GET['filtro_pago'];
     }
+
+    if(isset($_GET['filtro_sucursal']) && $_GET['filtro_sucursal'] > 0){
+        $sWhere .= " AND ov.sucursal_ov = " . $_GET['filtro_sucursal'];
+    }
 	 
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;
