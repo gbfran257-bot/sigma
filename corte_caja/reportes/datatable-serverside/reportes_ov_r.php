@@ -47,6 +47,10 @@
 			}else{$sWhere = "WHERE ov.usuario_ov = $id_user  " ;}
 		}
 	}
+
+    if(isset($_GET['filtro_pago']) && $_GET['filtro_pago'] > 0){
+        $sWhere .= " AND pa.forma_pago_pag = " . $_GET['filtro_pago'];
+    }
 	 
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;

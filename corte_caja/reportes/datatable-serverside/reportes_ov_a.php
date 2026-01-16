@@ -39,6 +39,11 @@
 			}else{$sWhere = "WHERE 1=1 " ;}
 		}
 	}
+
+    if(isset($_GET['filtro_pago']) && $_GET['filtro_pago'] > 0){
+        $sWhere .= " AND pa.forma_pago_pag = " . $_GET['filtro_pago'];
+    }
+
     mysql_select_db($database_horizonte, $horizonte);
     $resultSu = mysql_query("SELECT multisucursal_u, idSucursal_u from usuarios where id_u = '$_GET[usuario]'",$horizonte) or die (mysql_error());
 	$rowAU = mysql_fetch_row($resultSu); $id_suc = sqlValue($rowAU[1], "int");

@@ -98,7 +98,8 @@
             <th><input type="hidden" class=""></th>
 			<th> <input type="hidden" class=""> <input type="text" placeholder="Convenio" class="form-control input-sm"/> </th>
 			<th><input type="text" placeholder="Usuario" class="form-control input-sm" /></th>
-			<th><input type="text" placeholder="Tipo Pago" class="form-control input-sm" /></th>
+			<!--<th><input type="text" placeholder="Tipo Pago" class="form-control input-sm" /></th>-->
+			<th> <select class='form-control input-sm select_forma_pago' id='select_forma_pago' style='width:100%;' onChange='filtro_forma_pago(this.value)'></select> </th>
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
@@ -229,12 +230,14 @@ $(document).ready(function(e) {
 			   var saldos = $('#saldos').val();
 			   var filtroDepto = $('#miFiltroDeptos').val();
 			   var usuario = $('#id_user').val();
+			   var filtro_pago = $('#select_forma_pago').val();
 
                aoData.push(  {"name": "min", "value": de /*'2013-02-01 00:00:00'*/ } );
                aoData.push(  {"name": "max", "value": a /*'2013-02-15 23:59:59'*/ } );
 			   aoData.push(  {"name": "saldos", "value": saldos /*'2013-02-15 23:59:59'*/ } );
 			   aoData.push(  {"name": "depto", "value": filtroDepto /*'2013-02-15 23:59:59'*/ } );
 			   aoData.push(  {"name": "usuario", "value": usuario } );
+			   aoData.push(  {"name": "filtro_pago", "value": filtro_pago } );
         },
 		"aLengthMenu": [[7, 15, 30, 100, -1], [7, 15, 30, 100, "Todos"]],
 		"oLanguage": {
@@ -306,6 +309,8 @@ $(document).ready(function(e) {
     $("tfoot input").blur( function (i) {
         if ( this.value == "" ) { this.className = "search_init form-control input-sm"; this.value = asInitVals[$("tfoot input").index(this)]; }
     } );
+
+	$('#select_forma_pago').load('corte_caja/reportes/files-serverside/getFormaPago.php');
 });
 
 function ver_ov(ref){
@@ -478,4 +483,9 @@ function su_pago_p(v,id){
 	if(parseFloat(v)=='' || parseFloat(v)<0){$('#'+id).val(0);} if(!parseFloat(v)){if(parseFloat(v)==''){}else{$('#'+id).val('');}}
 	if(parseFloat(v)>parseFloat($('#1total_p').text())){$('#'+id).val(parseFloat($('#1total_p').text()));}
 }
+
+function filtro_forma_pago(id){
+	$('#clickme').click();
+}
+
 </script>
