@@ -97,7 +97,7 @@
 			<th><input type="text" placeholder="Paciente" class="form-control input-sm" /></th>
             <th><input type="hidden" class=""></th>
 			<!--<th> <input type="hidden" class=""> <input type="text" placeholder="Convenio" class="form-control input-sm"/> </th>-->
-			<th> <select class='form-control input-sm select_filtro_sucursal' id='select_filtro_sucursal' style='width:100%;' onChange='filtro_sucursal_ov(this.value)'></select> </th>
+			<th> <input type="hidden" class=""> <input type="hidden" class=""> <select class='form-control input-sm select_filtro_sucursal' id='select_filtro_sucursal' style='width:100%;' onChange='filtro_sucursal_ov(this.value)'></select> </th>
 			<th><input type="text" placeholder="Usuario" class="form-control input-sm" /></th>
 			<!--<th><input type="text" placeholder="Tipo Pago" class="form-control input-sm" /></th>-->
 			<th> <select class='form-control input-sm select_forma_pago' id='select_forma_pago' style='width:100%;' onChange='filtro_forma_pago(this.value)'></select> </th>
