@@ -93,16 +93,16 @@
 			PACIENTE
             <button class="btn btn-info btn-xs" id="btn-buscar" name="btn-buscar" type="button">BUSQUEDA <i class="fa fa-search" aria-hidden="true"></i></button>
 		</th>
-        <th width="100px">SUCURSAL</th>
-        <th width="160px">USUARIO</th>
-		<th width="160px">F. PAGO</th>
+        <th width="">SUCURSAL</th>
+        <th width="">USUARIO</th>
+		<th width="">F. PAGO</th>
         <th width="10px">SUBTOTAL</th>
         <th width="10px" nowrap style="white-space:nowrap">EXTRAS</th>
         <th width="10px">DESCUENTO</th>
         <th width="10px">TOTAL</th>
         <th width="10px">ABONADO</th>
         <th width="10px">SALDO</th>
-        <th width="20px">C. PROD.</th>
+        <th width="">C. PROD.</th>
         <th width="20px">UTILIDAD</th>
       </tr>
     </thead>
@@ -112,9 +112,9 @@
 			<th><input type="hidden"></th>
             <th><input type="text" id="input-referencia" name="input-referencia" placeholder="Referencia" class="form-control input-sm entrada-texto"/></th>
             <th><input type="text" id="input-paciente" name="input-paciente" placeholder="Paciente" class="form-control input-sm entrada-texto" /></th>
-            <th> <input type="hidden" class=""> <input type="text" id="input-sucursal" name="input-sucursal" placeholder="Sucursal" class="form-control input-sm entrada-texto"/> </th>
+            <th> <input type="hidden" class=""> <select class='form-control input-sm select_filtro_sucursal' id='select_filtro_sucursal' style='width:100%;' onChange='filtro_sucursal_ov(this.value)'></select> </th>
             <th><input type="text" id="input-usuario" name="input-usuario" placeholder="Usuario" class="form-control input-sm entrada-texto" /></th>
-            <th><input type="text" id="input-pago" name="input-pago" placeholder="Tipo Pago" class="form-control input-sm entrada-texto" /></th>
+            <th><select class='form-control input-sm select_forma_pago' id='select_forma_pago' style='width:100%;' onChange='filtro_forma_pago(this.value)'></select></th>
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
@@ -141,6 +141,9 @@
     <td id="rangosFechas">
     	<input type="radio" class="rad" id="radio1" name="radio" /><label for="radio1">Hoy</label>
         <input type="radio" class="rad" id="radio2" name="radio" /><label for="radio2">Todos</label>
+    </td>
+    <td>
+        <label style="color: #0003adff; font-size:20px;">UTILIDAD REAL: </label> <span id="utilidadReal" name="utilidadReal" style="font-size:20px;"></span>
     </td>
   </tr>
 </table>
@@ -190,26 +193,44 @@ $(document).ready(function(e) {
 			$('.opcTable').css('float','left');
 			$('span.DataTables_sort_icon').remove();
             /* Calculate the market share for browsers on this page */
-            /*var iTotal = 0, iDescuento=0, iIngreso = 0, iAbonado = 0, iSaldo = 0, iSubT = 0, iCargosE = 0;
-            for ( var i=iStart ; i<iEnd ; i++ )
+			//window.setTimeout(function(){$('.erase1').each(function(index, element){ $(this).parent().parent().remove(); });},200);*/
+
+            var subtotal = 0;
+            var extras = 0;
+            var descuento = 0;
+            var total = 0;
+            var abonado = 0;
+            var saldo = 0;
+            var costo_produccion = 0;
+            var utilidad = 0;
+            
+            for (var i=iStart ; i<iEnd ; i++ )
             {
-				iDescuento += aaData[ aiDisplay[i] ][9]*1;
-                iTotal += aaData[ aiDisplay[i] ][10]*1;
-				iAbonado += aaData[ aiDisplay[i] ][13]*1;
-				iSaldo += aaData[ aiDisplay[i] ][14]*1;
-				iSubT += aaData[ aiDisplay[i] ][7]*1;
-				iCargosE += aaData[ aiDisplay[i] ][8]*1;
-            }*/
-             
-            /* Modify the footer row to match what we want */
-            /*var nCells = nRow.getElementsByTagName('th');
-			nCells[8].innerHTML = '$'+redondear(parseFloat(iDescuento * 100)/100,2);
-            nCells[9].innerHTML = '$'+redondear(parseFloat(iTotal * 100)/100,2);
-			nCells[10].innerHTML = '$'+redondear(parseFloat(iAbonado * 100)/100,2);
-			nCells[11].innerHTML = '$'+redondear(parseFloat(iSaldo * 100)/100,2);
-			nCells[6].innerHTML = '$'+redondear(parseFloat(iSubT * 100)/100,2);
-			nCells[7].innerHTML = '$'+redondear(parseFloat(iCargosE * 100)/100,2);
-			window.setTimeout(function(){$('.erase1').each(function(index, element){ $(this).parent().parent().remove(); });},200);*/
+                subtotal += aaData[ aiDisplay[i] ][6]*1;
+                extras += aaData[ aiDisplay[i] ][7]*1;
+                descuento += aaData[ aiDisplay[i] ][8]*1;
+                total += aaData[ aiDisplay[i] ][9]*1;
+                abonado += aaData[ aiDisplay[i] ][10]*1;
+                saldo += aaData[ aiDisplay[i] ][11]*1;
+                costo_produccion += aaData[ aiDisplay[i] ][12]*1;
+                utilidad += aaData[ aiDisplay[i] ][13]*1;
+            }
+
+            var nCells = nRow.getElementsByTagName('th');
+            nCells[6].innerHTML = '$'+redondear(parseFloat(subtotal * 100)/100,2);
+            nCells[7].innerHTML = '$'+redondear(parseFloat(extras * 100)/100,2);
+            nCells[8].innerHTML = '$'+redondear(parseFloat(descuento * 100)/100,2);
+            nCells[9].innerHTML = '$'+redondear(parseFloat(total * 100)/100,2);
+            nCells[10].innerHTML = '$'+redondear(parseFloat(abonado * 100)/100,2);
+            nCells[11].innerHTML = '$'+redondear(parseFloat(saldo * 100)/100,2);
+            nCells[12].innerHTML = '$'+redondear(parseFloat(costo_produccion * 100)/100,2);
+            nCells[13].innerHTML = '$'+redondear(parseFloat(utilidad * 100)/100,2);
+
+            utilidadRed = redondear(parseFloat(utilidad * 100)/100,2);
+            saldoRed = redondear(parseFloat(saldo * 100)/100,2);
+            utilidad_real = redondear(utilidadRed - saldoRed,2);
+
+            $("#utilidadReal").text("$" + utilidad_real);
         },
 		//fin de funciones para calcular los totales en los campos del pie de página
 		"bJQueryUI": false, "sScrollY": tam-60, "bAutoWidth": true, "bPaginate": true, "sPaginationType": "two_button", 
@@ -230,10 +251,14 @@ $(document).ready(function(e) {
 			   var de = $('#fechaDe').val();
 			   var a = $('#fechaA').val();
 			   var usuario = $('#id_user').val();
+               var filtro_pago = $('#select_forma_pago').val();
+			   var filtro_sucursal = $('#select_filtro_sucursal').val();
 
                aoData.push(  {"name": "min", "value": de } );
                aoData.push(  {"name": "max", "value": a } );
 			   aoData.push(  {"name": "usuario", "value": usuario } );
+               aoData.push(  {"name": "filtro_pago", "value": filtro_pago } );
+			   aoData.push(  {"name": "filtro_sucursal", "value": filtro_sucursal } );
         },
 		"aLengthMenu": [[7, 15, 30, 100, -1], [7, 15, 30, 100, "Todos"]],
 		"oLanguage": {
@@ -251,8 +276,6 @@ $(document).ready(function(e) {
     });
 
 	$('#clickme').click(function(e) { oTable.fnDraw(); });
-	
-	$('.regis').append('<div id="filtroDepto" style="border:1px none red; white-space:nowrap; width:60%; float:right;" align="right" class="hidden"><table width="100%" border="0" cellspacing="0" cellpadding="2"><tr style="display:;"><td align="right"><select style="max-width:300px;" name="miFiltroDeptos" id="miFiltroDeptos" class="form-control input-sm"><option value="x">-DEPARTAMENTOS-</option><?php do { ?> <option value="<?php echo $row_departamentosOV['id_d']?>"><?php echo $row_departamentosOV['nombre_d']?></option><?php } while ($row_departamentosOV = mysql_fetch_assoc($departamentosOV)); $rows = mysql_num_rows($departamentosOV); if($rows > 0) { mysql_data_seek($departamentosOV, 0); $row_departamentosOV = mysql_fetch_assoc($departamentosOV); }?></select></td></tr></table></div>');
 	
 	$('#nuevoVale').button({ icons: { primary: "ui-icon-plusthick" }, text: true });
 	$('#nuevoVale').click(function(event) { event.preventDefault(); });
@@ -322,7 +345,18 @@ $(document).ready(function(e) {
     /*$("tfoot input").blur( function (i) {
         if ( this.value == "" ) { this.className = "search_init form-control input-sm"; this.value = asInitVals[$("tfoot input").index(this)]; }
     } );*/
+
+    $('#select_forma_pago').load('corte_caja/reportes/files-serverside/getFormaPago.php');
+	$('#select_filtro_sucursal').load('corte_caja/reportes/files-serverside/getSucursales.php');
 });
+
+function filtro_forma_pago(id){
+	$('#clickme').click();
+}
+
+function filtro_sucursal_ov(id){
+	$('#clickme').click();
+}
 
 
 
