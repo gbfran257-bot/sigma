@@ -92,8 +92,8 @@ $(document).ready(function() {
 	<div class="row bg-primary" id="header_n"> <div class="col-md-12" style=" height:50px;">
     	<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
           <tr> <td align="center" valign="middle">
-          	<h5 class="visible-xs">INNOVACIÓN EN CONTROL DE CALIDAD INTEGRAL</h5>
-            <h2 class="hidden-xs"><strong>INNOVACIÓN EN CONTROL DE CALIDAD INTEGRAL</strong></h2>
+          	<!--<h5 class="visible-xs">INNOVACIÓN EN CONTROL DE CALIDAD INTEGRAL</h5>
+            <h2 class="hidden-xs"><strong>INNOVACIÓN EN CONTROL DE CALIDAD INTEGRAL</strong></h2>-->
           </td> </tr>
         </table>
     </div> </div>

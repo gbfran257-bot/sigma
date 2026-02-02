@@ -56,7 +56,7 @@
 							<a href="#"type="button" class="btn btn-info " id="btn_printMI">IMPRIMIR</a>
 						</div>
 						<div class="form-group col-md-10">
-							<select name="select-sucursal-u" id="select-sucursal-u" class="form-control form-control-sm" style="width: 50%"> </select>
+							<!--<select name="select-sucursal-u" id="select-sucursal-u" class="form-control form-control-sm" style="width: 50%"> </select>-->
 						</div>
 					</div>
 				</div>
@@ -67,7 +67,7 @@
 							<tr class="bg-primary" style="font-size: 1.1em;">
 								<th id="clickmeMdtosA"class="titulosTabs"align="center" nowrap width="1px">#</th>
 								<th class="" align="center" width="">MEDICAMENTO</th>
-								<th class="" align="center" width="" nowrap>PRESENTACIÓN</th>
+								<th class="" align="center" width="" nowrap>LOTE/CADUCIDAD</th>
 								<th class="" align="center" width="" nowrap>INDICACIÓN</th>
 								<th class="" align="center" width="" nowrap>APLICÓ</th>
 								<th class="" align="center" width="" nowrap>FECHA/HORA</th>

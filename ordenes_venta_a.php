@@ -121,9 +121,11 @@
             <th><input type="text" id="input-referencia" name="input-referencia" placeholder="Referencia" class="form-control input-sm entrada-texto"/></th>
             <th><input type="text" id="input-paciente" name="input-paciente" placeholder="Paciente" class="form-control input-sm entrada-texto" /></th>
             <th><input type="hidden" class=""></th>
-            <th> <input type="hidden" class=""> <input type="text" id="input-sucursal" name="input-sucursal" placeholder="Sucursal" class="form-control input-sm entrada-texto"/> </th>
+            <!--<th> <input type="hidden" class=""> <input type="text" id="input-sucursal" name="input-sucursal" placeholder="Sucursal" class="form-control input-sm entrada-texto"/> </th>-->
+			<th> <select class='form-control input-sm select_filtro_sucursal' id='select_filtro_sucursal' style='width:100%;' onChange='filtro_sucursal_ov(this.value)'></select> </th>
             <th><input type="text" id="input-usuario" name="input-usuario" placeholder="Usuario" class="form-control input-sm entrada-texto" /></th>
-            <th><input type="text" id="input-pago" name="input-pago" placeholder="Tipo Pago" class="form-control input-sm entrada-texto" /></th>
+            <!--<th><input type="text" id="input-pago" name="input-pago" placeholder="Tipo Pago" class="form-control input-sm entrada-texto" /></th>-->
+			<th> <select class='form-control input-sm select_forma_pago' id='select_forma_pago' style='width:100%;' onChange='filtro_forma_pago(this.value)'></select> </th>
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
@@ -260,12 +262,16 @@ $(document).ready(function(e) {
 			   var saldos = $('#saldos').val();
 			   var filtroDepto = $('#miFiltroDeptos').val();
 			   var usuario = $('#id_user').val();
+			   var filtro_pago = $('#select_forma_pago').val();
+			   var filtro_sucursal = $('#select_filtro_sucursal').val();
 
                aoData.push(  {"name": "min", "value": de /*'2013-02-01 00:00:00'*/ } );
                aoData.push(  {"name": "max", "value": a /*'2013-02-15 23:59:59'*/ } );
 			   aoData.push(  {"name": "saldos", "value": saldos /*'2013-02-15 23:59:59'*/ } );
 			   aoData.push(  {"name": "depto", "value": filtroDepto /*'2013-02-15 23:59:59'*/ } );
 			   aoData.push(  {"name": "usuario", "value": usuario } );
+			   aoData.push(  {"name": "filtro_pago", "value": filtro_pago } );
+			   aoData.push(  {"name": "filtro_sucursal", "value": filtro_sucursal } );
         },
 		"aLengthMenu": [[7, 15, 30, 100, -1], [7, 15, 30, 100, "Todos"]],
 		"oLanguage": {
@@ -372,6 +378,9 @@ $(document).ready(function(e) {
     $("tfoot input").blur( function (i) {
         // if ( this.value == "" ) { this.className = "search_init form-control input-sm"; this.value = asInitVals[$("tfoot input").index(this)]; }
     } );
+
+	$('#select_forma_pago').load('corte_caja/reportes/files-serverside/getFormaPago.php');
+	$('#select_filtro_sucursal').load('corte_caja/reportes/files-serverside/getSucursales.php');
 });
 
 function ver_reporte(){
@@ -705,4 +714,13 @@ function su_pago_p(v,id){
 	if(parseFloat(v)=='' || parseFloat(v)<0){$('#'+id).val(0);} if(!parseFloat(v)){if(parseFloat(v)==''){}else{$('#'+id).val('');}}
 	if(parseFloat(v)>parseFloat($('#1total_p').text())){$('#'+id).val(parseFloat($('#1total_p').text()));}
 }
+
+function filtro_forma_pago(id){
+	$("#btn-buscar").click();
+}
+
+function filtro_sucursal_ov(id){
+	$("#btn-buscar").click();
+}
+
 </script>

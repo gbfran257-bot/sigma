@@ -4,7 +4,7 @@ require("../../funciones/php/values.php");
 
 	$idP = sqlValue($_GET["id_p"], "int");
 
-	$aColumns = array('m.id_mah', 'mc.concepto_to', 'm.id_mah', 'm.id_mah', 'concat(t.abreviacion_ti," ",u.nombre_u," ",apaterno_u)', 'DATE_FORMAT(m.fecha_mah,"%d/%m/%Y")', 'm.id_mah', 'DATE_FORMAT(m.fecha_mah,"%H:%i:%s")','mc.precio_to','m.check_adicional','m1.indicacion_mh');
+	$aColumns = array('m.id_mah', 'mc.concepto_to', 'CONCAT_WS("<br>", shb.Lote, DATE_FORMAT(shb.fecha_expiracion, "%d/%m/%Y"))', 'm.id_mah', 'concat(t.abreviacion_ti," ",u.nombre_u," ",apaterno_u)', 'DATE_FORMAT(m.fecha_mah,"%d/%m/%Y")', 'm.id_mah', 'DATE_FORMAT(m.fecha_mah,"%H:%i:%s")','mc.precio_to','m.check_adicional','m1.indicacion_mh');
      
     // DB tables to use 
     $aTables = array( 'medicamentos_aplicados_hospi m');
@@ -13,7 +13,7 @@ require("../../funciones/php/values.php");
     $sIndexColumn = "m.id_mah";
      
 	// Joins   hasta aqui
-	$sJoin = 'left join medicamentos_hospital m1 on m1.id_mh = m.id_medicamento_hospital_mah left join conceptos mc on mc.id_to = m1.id_medicamento_mh left join usuarios u on u.id_u = m.id_usuario_mah left join titulos t on t.id_ti = u.id_titulo_u';
+	$sJoin = 'left join medicamentos_hospital m1 on m1.id_mh = m.id_medicamento_hospital_mah left join conceptos mc on mc.id_to = m1.id_medicamento_mh left join usuarios u on u.id_u = m.id_usuario_mah left join titulos t on t.id_ti = u.id_titulo_u left join stock_has_bach shb on shb.id = m.id_stock';
 	 
     // CONDITIONS
 	$sWhere = "where m1.id_hospitalizacion_mh = '$_GET[id_h]'";	
@@ -136,10 +136,10 @@ require("../../funciones/php/values.php");
         $row[6] = $row[8];
 
         if($row[9]==0){
-            $row[7] = "<div align='center'><input type='checkbox' lang='0' id='cbox_adicionales' name='cbox_adicionales' value='' onclick='agregarAdicionalesMA(this.lang, $row[2]);' /></div>";
+            $row[7] = "<div align='center'><input type='checkbox' lang='0' id='cbox_adicionales' name='cbox_adicionales' value='' onclick='agregarAdicionalesMA(this.lang, $row[3]);' /></div>";
             $row[8] = "0";
         }else if($row[9]==1){
-            $row[7] = "<div align='center'><input type='checkbox' lang='1' id='cbox_adicionales' name='cbox_adicionales' value='' onclick='agregarAdicionalesMA(this.lang, $row[2]);' checked/></div>";
+            $row[7] = "<div align='center'><input type='checkbox' lang='1' id='cbox_adicionales' name='cbox_adicionales' value='' onclick='agregarAdicionalesMA(this.lang, $row[3]);' checked/></div>";
             $row[8] = $row[8];
         }
 
