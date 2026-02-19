@@ -238,7 +238,7 @@ $(document).ready(function(e) {
 		"aoColumnDefs": [ 
 			{"bSortable":false, "aTargets":[0]}
 		],
-		"aaSorting": [[3, "desc"]], "iDisplayLength": 500000000000000, "bLengthChange": false,
+		"aaSorting": [[3, "desc"]], "iDisplayLength": 6000, "bLengthChange": false,
 		"bProcessing": false, "bServerSide": true,
 		"sDom": '<"opcTable"T><"filtro1"><"regis"l>B1<"data_t"t><"infoPrincipal"i>',
 		buttons: [ 
