@@ -12,7 +12,7 @@
     <meta name="description" content="SISTEMA DE EXPEDIENTE CLÍNICO ELECTRÓNICO">
     <meta name="author" content="ING JESUS DIAZ CONTRERAS">
     
-    <title>SISTEMA - REPORTE DE PRODUCTIVIDAD DE RECEPCIÓN</title>
+    <title>SISTEMA - RESUMEN DE TRANSFERENCIAS</title>
     
     <link rel="shortcut icon" href="imagenes/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="imagenes/favicon.ico" type="image/x-icon">
@@ -91,6 +91,7 @@
         <th style="vertical-align:middle;" nowrap>CADUCIDAD</th>
         <th style="vertical-align:middle;" nowrap>ORIGEN</th>
         <th style="vertical-align:middle;" nowrap>DESTINO</th>
+		<th style="vertical-align:middle;" nowrap>PDF</th>
 	  </tr>
 	</thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
 	<tfoot>
@@ -104,6 +105,7 @@
             <th><input type="hidden"></th>
             <th><input type="text" class="form-control input-sm" placeholder ="Origen"></th>
             <th><input type="text" class="form-control input-sm" placeholder ="Destino"></th>
+			<th><input type="hidden"></th>
 		</tr>
 	</tfoot>
 </table>
@@ -132,7 +134,7 @@ $(document).ready(function(e) {
 		},
 		"aoColumns":[
             {"bVisible":true}, {"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },
-            {"bVisible":true}, {"bVisible":true },{ "bVisible": true }
+            {"bVisible":true}, {"bVisible":true },{ "bVisible": true }, { "bVisible": true }
         ],
 		// "sDom": '<"filtro1Principal"f>rT<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		"sDom": '<"filtro1Principal"f>Bl<"data_tPrincipal"t><"infoPrincipal"S>',
@@ -220,3 +222,4 @@ $(document).ready(function(e) {
 </script>
 
 <script src="./transferencias/js/verReporteEntregaTransferencias.js"></script>
+<script src="./transferencias/js/verFacturaTransferencia.js"></script>

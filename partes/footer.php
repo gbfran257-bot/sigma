@@ -62,6 +62,7 @@
         <!--Transferencias resumen-->
         <?php if ($_SERVER['REQUEST_URI'] == "/sigma/transferencias_resumen.php" || strpos($_SERVER['REQUEST_URI'], "/transferencias_resumen.php") !== false) : ?>
             <div id="modal_reporte_entrega_transferencias" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+            <div id="modal_ver_factura_compra" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 
         <!--Pedidos-->
@@ -118,6 +119,7 @@
         <!--Transferencias resumen-->
         <?php if ($_SERVER['REQUEST_URI'] == "/sigma/transferencias_resumen.php" || strpos($_SERVER['REQUEST_URI'], "/transferencias_resumen.php") !== false) : ?>
             <div id="modal_reporte_entrega_transferencias" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
+            <div id="modal_ver_factura_compra" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false"></div>
         <?php endif; ?>
 
         <!--Pedidos-->
