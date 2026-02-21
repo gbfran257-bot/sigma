@@ -237,7 +237,7 @@ function medicamentos(id_h, id_p, nombre_p, id_s, estatus){
 	$("#myModal2").load('hospital/htmls/medicamentos.php', function( response, status, xhr ){ if(status=="success"){
 		var datosMotivo = {id_h:id_h, id_u:$('#id_user').val()};
 		$.post('hospital/files-serverside/obetener_motivo_h.php',datosMotivo).done(function(dataMotivo){
-			$('#titulo_modal').text('MEDICAMENTOS PARA EL PACIENTE ' + nombre_p + ' MOTIVO: ' + dataMotivo);
+			$('#titulo_modal').html('MEDICAMENTOS PARA EL <span style="color:blue; font-size: 1.3em;">PACIENTE:</span> ' + nombre_p + ' <span style="color:blue; font-size: 1.3em;">MOTIVO:</span> ' + dataMotivo);
 		});
 		
 		window.setTimeout(function(){

@@ -3,7 +3,7 @@ require("../../../Connections/horizonte.php");
 require("../../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('tt.id_transferencia', 'tt.id_transferencia', 'm.nombre_generico_med', 'c.concepto_to', 'tt.cantidad_transferir', 'tt.lote', 'tt.caducidad', 's.nombre_su', 's1.nombre_su', 'tt.id_usuario_receptor', 'u1.usuario_u', 'tt.id_usuario_transferencia', 'u.usuario_u', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(tt.fecha_transferencia,"%d/%m/%Y"), DATE_FORMAT(tt.fecha_transferencia,"%H:%i:%s"))');
+	$aColumns = array('tt.id_transferencia', 'tt.id_transferencia', 'm.nombre_generico_med', 'c.concepto_to', 'tt.cantidad_transferir', 'tt.lote', 'tt.caducidad', 's.nombre_su', 's1.nombre_su', 'tt.id_stock_has_bach', 'u1.usuario_u', 'tt.id_usuario_transferencia', 'u.usuario_u', 'CONCAT_WS("<br>", u.usuario_u, DATE_FORMAT(tt.fecha_transferencia,"%d/%m/%Y"), DATE_FORMAT(tt.fecha_transferencia,"%H:%i:%s"))', 'tt.id_usuario_receptor');
      
     // DB tables to use 
     $aTables = array( 'transferencia_temporal tt');
@@ -111,13 +111,33 @@ require("../../../funciones/php/values.php");
 		
 		$row[0] = "<span>$hh</span>";
 
-        if($row[9]=='0'){
-            $usuario_receptor = 'Sin receptor';
+        mysql_select_db($database_horizonte, $horizonte);
+        $query_nombre_receptor = mysql_query("SELECT CONCAT_WS(' ', nombre_u, apaterno_u) FROM usuarios WHERE id_u = $row[14]", $horizonte) or die (mysql_error());
+        $nombreReceptor = mysql_fetch_row($query_nombre_receptor);
+        $usuario_receptor = $nombreReceptor[0];
+
+        mysql_select_db($database_horizonte, $horizonte);
+        $query_factura_compra = mysql_query("SELECT nombre_factura FROM compra_factura WHERE referencia_compra = (SELECT referencia_compra FROM stock_has_bach WHERE id = $row[9])", $horizonte) or die (mysql_error());
+        $datosFactC = mysql_fetch_row($query_factura_compra);
+        
+        if($datosFactC[0] == ''){
+            $class_factura = "btn-danger";
         }else{
-            $usuario_receptor = $row1[10];
+            $class_factura = "btn-success";
         }
+
+        $nombre_factura = $datosFactC[0];
+        $facturado = $class_factura == "btn-danger" ? 0 : 1;
+
+        mysql_select_db($database_horizonte, $horizonte);
+        $query_usuario_subio_factura = mysql_query("SELECT u.usuario_u, fecha_hora FROM usuarios u LEFT JOIN compra_factura cf ON cf.id_usuario = u.id_u WHERE cf.referencia_compra = (SELECT referencia_compra FROM stock_has_bach WHERE id = $row[9])", $horizonte) or die (mysql_error());
+        $datosFactU = mysql_fetch_row($query_usuario_subio_factura);
+        $usuario_responsable = $datosFactU[0];
+        $fecha_hora = $datosFactU[1];
+        
+        $row[9] = "<button type='button' onclick='verFacturaCompra(this, {$facturado}, \"{$nombre_factura}\", \"{$usuario_responsable}\", \"{$fecha_hora}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
 		
-        $row[1] = "<a role=\"button\" onclick=\"verReporteEntregaTransferencia('$row[1]', '$usuario_receptor', $row[9], '$row[13]');\">$row[1]</a>";
+        $row[1] = "<a role=\"button\" onclick=\"verReporteEntregaTransferencia('$row[1]', '$usuario_receptor', $row[14], '$row[13]');\">$row[1]</a>";
 
 		$output['aaData'][] = $row;
     }
