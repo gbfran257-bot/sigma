@@ -15,7 +15,7 @@
     // Verificamos si hubo resultados
     if (mysql_num_rows($result) > 0) {
         $row = mysql_fetch_row($result);
-        echo $row[0] . " SUCURSAL: " . $rowSuc[0]; // Mostramos el valor de motivo_h
+        echo $row[0] . " <span style='color:blue; font-size: 1.3em;'>SUCURSAL:</span> " . $rowSuc[0]; // Mostramos el valor de motivo_h
     } else {
         echo "Motivo no encontrado SUCURSAL: " . $rowSuc[0];
     }
