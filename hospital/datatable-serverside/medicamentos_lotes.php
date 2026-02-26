@@ -18,7 +18,8 @@
     $id_stock = $result_id_stock[0];
 
     mysql_select_db($database_horizonte, $horizonte);
-    $resultAl = mysql_query("SELECT shb.id, c.concepto_to, shb.Lote FROM stock_has_bach shb left join conceptos c on c.id_to = shb.id_Producto WHERE shb.id_Producto = $medicamento and shb.id_stock = $id_stock and shb.existencias > 0 group by shb.Lote", $horizonte) or die (mysql_error());
+    //$resultAl = mysql_query("SELECT shb.id, c.concepto_to, shb.Lote FROM stock_has_bach shb left join conceptos c on c.id_to = shb.id_Producto WHERE shb.id_Producto = $medicamento and shb.id_stock = $id_stock and shb.existencias > 0 group by shb.Lote", $horizonte) or die (mysql_error());
+    $resultAl = mysql_query("SELECT shb.id, c.concepto_to, shb.Lote FROM stock_has_bach shb left join conceptos c on c.id_to = shb.id_Producto WHERE c.id_medicamento_g = (select id_medicamento_g from conceptos where id_to = $medicamento) and shb.id_stock = $id_stock and shb.existencias > 0 group by shb.Lote", $horizonte) or die (mysql_error());
     $salida = "";
     $cont = 1;
     while ($fila = mysql_fetch_assoc($resultAl)) {
