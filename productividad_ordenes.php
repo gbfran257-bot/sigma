@@ -313,7 +313,7 @@ $(document).ready(function(e) {
 			this.src = "imagenes/generales/details_close.png";
 			var so = aData[5], so1=aData[8],ref=aData[1], depto = aData[6], area = aData[7], total = aData[9];
 			var datoxOV ={ ref:ref }
-			$.post('corte_caja/reportes/datatable-serverside/datosAdicionales.php',datoxOV,processDataOV);//salva la OV
+			$.post('corte_caja/reportes/datatable-serverside/datosAdicionalesRepOrdenes.php',datoxOV,processDataOV);//salva la OV
 			function processDataOV(dataOV) {
 		  		console.log(dataOV); var text = dataOV.split('/');
 	            oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr, dataOV/*text[0], text[1], text[2]*/), 'details' );
