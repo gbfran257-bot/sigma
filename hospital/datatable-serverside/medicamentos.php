@@ -4,7 +4,7 @@ require("../../funciones/php/values.php");
 
 	$idP = sqlValue($_GET["id_p"], "int");
 
-	$aColumns = array('m.id_mh', 'DATE_FORMAT(m.fecha_mh,"%d/%m/%Y")', 'm2.nombre_generico_med', 'm.cantidad_texto_mh' ,'concat_ws(" ", t.abreviacion_ti, u.nombre_u, apaterno_u)', 'm.indicacion_mh','m.id_mh', 'm.id_hospitalizacion_mh', 'p.id_p', 'p.nombre_completo_p', 'o.sucursal_ov', 'm.id_mh', 'DATE_FORMAT(m.fecha_mh,"%H:%i:%s")','mc.precio_to','h.estatus_h','m.estatus_mh','u.cedulaProfesional_u');
+	$aColumns = array('m.id_mh', 'DATE_FORMAT(m.fecha_mh,"%d/%m/%Y")', 'm2.nombre_generico_med', 'm.cantidad_texto_mh' ,'concat_ws(" ", t.abreviacion_ti, u.nombre_u, apaterno_u)', 'm.indicacion_mh','m.id_mh', 'm.id_hospitalizacion_mh', 'p.id_p', 'p.nombre_completo_p', 'o.sucursal_ov', 'm.id_mh', 'DATE_FORMAT(m.fecha_mh,"%H:%i:%s")','mc.precio_to','h.estatus_h','m.estatus_mh','u.cedulaProfesional_u', 'm.id_medicamento_mh', 'm.id_hospitalizacion_mh');
      
     // DB tables to use 
     $aTables = array( 'medicamentos_hospital m');
@@ -164,7 +164,7 @@ require("../../funciones/php/values.php");
 
         //$row[9] = $row[17] . "<br>" . $row[18];
 
-        $row[5] = "<span>$row[5]</span><p style='cursor:pointer; text-decoration:underline;' onClick='modificar_indicacion($row[11])'>Editar</p>";
+        $row[5] = "<span>$row[5]</span><p style='cursor:pointer; text-decoration:underline;' onClick='modificar_indicacion($row[11],$row[17],$row[18])'>Editar</p> <button onClick='verHistorialInd($row[17],$row[18])'  class='btn btn-success btn-xs ver_nota'><i class='fa fa-eye' aria-hidden='true'></i> </button>";
 		
 		$output['aaData'][] = $row;
 		

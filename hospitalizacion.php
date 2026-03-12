@@ -414,7 +414,7 @@ function aplicarMedNuevo(id_mh, id_u, id_shb){
 	});
 }
 
-function modificar_indicacion(id_mh){
+function modificar_indicacion(id_mh, id_medicamento_mh, id_hospitalizacion_mh){
 	$("#myModal1").load("hospital/htmls/modificar_indicacion.php", function(response,status,xhr){ 
 		if(status == "success"){
 			//$('#titulo_modal1').text(str);
@@ -430,7 +430,7 @@ function modificar_indicacion(id_mh){
 				} else { 
 					e.preventDefault();
 					//alert($('#m_indicacion').val());
-					var datosUpdateInd = { id_mh:id_mh, indi_mh:$('#m_indicacion').val() }
+					var datosUpdateInd = { id_mh:id_mh, indi_mh:$('#m_indicacion').val(), id_medicamento_mh:id_medicamento_mh, id_u:$('#id_user').val(), id_hospitalizacion_mh:id_hospitalizacion_mh }
 					$.post('hospital/files-serverside/update_indicacion.php',datosUpdateInd).done(function( dataUpdateInd ) {
 						if (dataUpdateInd==1){
 							$("#clickmeMdtos").click();
@@ -568,6 +568,24 @@ function verHistorialMed(id_mh){
 			$.post('hospital/datatable-serverside/medicamentos_suspendidos.php',daTabla).done(function( data ) { 
 				$('#tbodyContentMS').html(data);
 				$('#titulo_modal2').text('Registro de suspensión del medicamento');
+			});
+
+			$("#btn_aplicar").addClass("hidden");
+		
+			$('#myModal1').modal('show');
+			$('#myModal1').on('shown.bs.modal', function (e){ });
+			$('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
+		} 
+	});
+}
+
+function verHistorialInd(id_medicamento, id_hospitalizacion){
+	$("#myModal1").load("hospital/htmls/historial_indicaciones_med.php", function(response,status,xhr){ 
+		if(status == "success"){
+			var daTabla = {id_medicamento:id_medicamento, id_u:$('#id_user').val(), id_hospitalizacion:id_hospitalizacion }
+			$.post('hospital/datatable-serverside/historial_indicaciones_med.php',daTabla).done(function( data ) { 
+				$('#tbodyContentMS').html(data);
+				$('#titulo_modal2').text('Historial de indicaciones del medicamento');
 			});
 
 			$("#btn_aplicar").addClass("hidden");
