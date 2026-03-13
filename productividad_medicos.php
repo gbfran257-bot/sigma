@@ -247,8 +247,17 @@ function verConceptos(id_medico, nombre_medico){
 				"aoColumns":[ {"bVisible":true}, {"bVisible":true }, {"bVisible":true }, { "bVisible": true },
 						{ "bVisible": true }, { "bVisible": true }, { "bVisible": true }, { "bVisible": true }, { "bVisible": true }
 				],
-				"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
-				deferRender: true, select: false, "processing": false, 
+				"sDom": '<"filtro1Principal"f>Br<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
+				deferRender: true, select: false, "processing": false,
+				"oTableTools": {
+					"sSwfPath": "TableTools-2.1.5/media/swf/copy_csv_xls_pdf.swf",
+					"aButtons": [ 
+						{ "sExtends": "pdf", "sButtonText": "PDF", "sPdfOrientation": "landscape", "sPdfSize": "letter", "sPdfMessage": "Reporte de Ingresos." },
+						{ "sExtends": "xls", "sButtonText": "EXCEL" },
+						{ "sExtends": "copy", "sButtonText": "COPIAR" },
+						{ "sExtends": "print", "sButtonText": "IMPRIMIR", "sInfo": "</br>VISTA DE IMPRESIÓN </br></br></br> Presione SCAPE al terminar." }
+					]
+				}, 
 				"sAjaxSource": "corte_caja/reportes/datatable-serverside/DoctorConceptos.php",
 				"fnServerParams": function (aoData, fnCallback) { 
 					var nombre = $('#top-search').val();
