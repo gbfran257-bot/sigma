@@ -130,6 +130,28 @@ $(document).ready(function(e) {
 			nCells[4].innerHTML = redondear((parseFloat(iTotalTotal) * 100)/100,2);
             nCells[5].innerHTML = redondear((parseFloat(iTotalCosto) * 100)/100,2);
             nCells[6].innerHTML = redondear((parseFloat(iTotalUtilidad) * 100)/100,2); */
+
+			var iTotal = 0;
+			var iTotalAM = 0;
+			var iTotalI = 0;
+			var iTotalL = 0;
+			var iTotalDesc = 0;
+
+			for(var i=iStart ; i<iEnd ; i++){
+				iTotal += aaData[ aiDisplay[i] ][6]*1;
+				iTotalAM += aaData[ aiDisplay[i] ][3]*1;
+				iTotalI += aaData[ aiDisplay[i] ][4]*1;
+				iTotalL += aaData[ aiDisplay[i] ][5]*1;
+				iTotalDesc += aaData[ aiDisplay[i] ][7]*1; 
+			}
+
+			var nCells = nRow.getElementsByTagName('th');
+			nCells[6].innerHTML = redondear(parseFloat(iTotal * 100)/100,2);
+			nCells[3].innerHTML = redondear(parseFloat(iTotalAM * 100)/100,2);
+			nCells[4].innerHTML = redondear(parseFloat(iTotalI * 100)/100,2);
+			nCells[5].innerHTML = redondear(parseFloat(iTotalL * 100)/100,2);
+			nCells[7].innerHTML = redondear(parseFloat(iTotalDesc * 100)/100,2);
+
 		},
 		"aoColumns":[ {"bVisible":true}, {"bVisible":true },{ "bVisible": true },{"bVisible":true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true },{ "bVisible": true } ],
 		"sDom": '<"filtro1Principal"f>Bl<"data_tPrincipal"t><"infoPrincipal"S>',
