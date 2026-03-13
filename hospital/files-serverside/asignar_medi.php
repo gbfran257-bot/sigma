@@ -21,11 +21,22 @@ require("../../funciones/php/values.php");
 		$sql = "INSERT INTO medicamentos_hospital(id_hospitalizacion_mh, id_medicamento_mh, id_u_mh, fecha_mh, indicacion_mh, estatus_mh, ref_stock_pivote, aleatorio_mh) values($id_h, $id_m, $id_u, $now, $indicacion,$estatus,$stock_pivote, '')";
 		$update = mysql_query($sql, $horizonte) or die (mysql_error());
 
+		//insertamos en el historial de modificaciones
+		mysql_select_db($database_horizonte, $horizonte);
+		$update_historial_qry = "INSERT INTO modificaciones_dosis (id_md, id_hospitalizacion_md, id_medicamento_md, dosis_md, usuario_md, fecha_md, accion_md) VALUES (NULL, $id_h, $id_m, $indicacion, $id_u, $now, '0')";
+		$update_historial = mysql_query($update_historial_qry, $horizonte) or die (mysql_error());
+
 		if(!$update){echo $sql;} else{ echo 1; }
 	}else{
 		mysql_select_db($database_horizonte, $horizonte);
 		$sql_s_p = "UPDATE medicamentos_hospital SET indicacion_mh = $indicacion, ref_stock_pivote = $stock_pivote WHERE id_medicamento_mh = $id_m AND id_hospitalizacion_mh = $id_h";
 		$update_s_p = mysql_query($sql_s_p, $horizonte) or die (mysql_error());
+
+		//insertamos en el historial de modificaciones
+		mysql_select_db($database_horizonte, $horizonte);
+		$update_historial_qry = "INSERT INTO modificaciones_dosis (id_md, id_hospitalizacion_md, id_medicamento_md, dosis_md, usuario_md, fecha_md, accion_md) VALUES (NULL, $id_h, $id_m, $indicacion, $id_u, $now, '1')";
+		$update_historial = mysql_query($update_historial_qry, $horizonte) or die (mysql_error());
+
 		echo 1;
 	}
 
