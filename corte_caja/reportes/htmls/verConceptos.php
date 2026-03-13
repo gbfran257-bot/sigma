@@ -30,7 +30,7 @@
                     <th></th>
                     <th><input type="text" class="form-control input-sm" placeholder="REFERENCIA"/></th>
                     <th><input type="text" class="form-control input-sm" placeholder="PACIENTE"/></th>
-                    <th></th>
+                    <th><input type="text" class="form-control input-sm" placeholder="CONCEPTO"/></th>
                     <th><input type="text" class="form-control input-sm" placeholder="DEPARTAMENTO"/></th>
                     <th></th>
                     <th></th>

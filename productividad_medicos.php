@@ -243,7 +243,25 @@ function verConceptos(id_medico, nombre_medico){
 			var tamP2 = $('#referencia').height() - $('#navcit').height() - $('#my_footer').height()-300-$('#breadc').height();
 			var oTableP2 = $('#dataTablePrincipal2').DataTable({
 				serverSide: true,"sScrollY": tamP2, ordering: false, searching: true, scrollCollapse: false, "scrollX": true,
-				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
+				"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+					var iTotalPC = 0;
+					var iTotalPago = 0;
+					var iTotalDesc = 0;
+					var iTotalExtra = 0;
+
+					for(var i=iStart ; i<iEnd ; i++){
+						iTotalPC += aaData[ aiDisplay[i] ][5]*1;
+						iTotalPago += aaData[ aiDisplay[i] ][6]*1;
+						iTotalDesc += aaData[ aiDisplay[i] ][7]*1;
+						iTotalExtra += aaData[ aiDisplay[i] ][8]*1;
+					}
+
+					var nCells = nRow.getElementsByTagName('th');
+					nCells[5].innerHTML = redondear(parseFloat(iTotalPC * 100)/100,2);
+					nCells[6].innerHTML = redondear(parseFloat(iTotalPago * 100)/100,2);
+					nCells[7].innerHTML = redondear(parseFloat(iTotalDesc * 100)/100,2);
+					nCells[8].innerHTML = redondear(parseFloat(iTotalExtra * 100)/100,2);
+				}, scroller: false, responsive: true,
 				"aoColumns":[ {"bVisible":true}, {"bVisible":true }, {"bVisible":true }, { "bVisible": true },
 						{ "bVisible": true }, { "bVisible": true }, { "bVisible": true }, { "bVisible": true }, { "bVisible": true }
 				],
