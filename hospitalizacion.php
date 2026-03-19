@@ -414,7 +414,7 @@ function aplicarMedNuevo(id_mh, id_u, id_shb){
 	});
 }
 
-function modificar_indicacion(id_mh){
+function modificar_indicacion(id_mh, id_medicamento_mh, id_hospitalizacion_mh){
 	$("#myModal1").load("hospital/htmls/modificar_indicacion.php", function(response,status,xhr){ 
 		if(status == "success"){
 			//$('#titulo_modal1').text(str);
@@ -430,7 +430,7 @@ function modificar_indicacion(id_mh){
 				} else { 
 					e.preventDefault();
 					//alert($('#m_indicacion').val());
-					var datosUpdateInd = { id_mh:id_mh, indi_mh:$('#m_indicacion').val() }
+					var datosUpdateInd = { id_mh:id_mh, indi_mh:$('#m_indicacion').val(), id_medicamento_mh:id_medicamento_mh, id_u:$('#id_user').val(), id_hospitalizacion_mh:id_hospitalizacion_mh }
 					$.post('hospital/files-serverside/update_indicacion.php',datosUpdateInd).done(function( dataUpdateInd ) {
 						if (dataUpdateInd==1){
 							$("#clickmeMdtos").click();
@@ -579,6 +579,24 @@ function verHistorialMed(id_mh){
 	});
 }
 
+function verHistorialInd(id_medicamento, id_hospitalizacion){
+	$("#myModal1").load("hospital/htmls/historial_indicaciones_med.php", function(response,status,xhr){ 
+		if(status == "success"){
+			var daTabla = {id_medicamento:id_medicamento, id_u:$('#id_user').val(), id_hospitalizacion:id_hospitalizacion }
+			$.post('hospital/datatable-serverside/historial_indicaciones_med.php',daTabla).done(function( data ) { 
+				$('#tbodyContentMS').html(data);
+				$('#titulo_modal2').text('Historial de indicaciones del medicamento');
+			});
+
+			$("#btn_aplicar").addClass("hidden");
+		
+			$('#myModal1').modal('show');
+			$('#myModal1').on('shown.bs.modal', function (e){ });
+			$('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
+		} 
+	});
+}
+
 function actualizarCantMed(id,cantidad){
 	$("#editar_"+id).replaceWith('<input type="number" step="0.1" id="nueva-cantidad" class="form-control" />');
 	$("#nueva-cantidad").val(cantidad);
@@ -708,9 +726,10 @@ function guardar_add_medi(id_h, id_p, id_m, indicacion, stock_pivote){
 }
 function notasMedicasEnfermeria(id_h, id_p, nombre_p, id_s, estatus,tUser){
 	$("#myModal").load('hospital/htmls/notas.php', function( response, status, xhr ){ if(status=="success"){
-		var datosMotivo = {id_h:id_h}
+		var datosMotivo = {id_h:id_h, id_u:$('#id_user').val()}
 		$.post('hospital/files-serverside/obetener_motivo_h.php',datosMotivo).done(function(dataMotivo){
-			$('#titulo_modal').text('NOTAS DE HOSPITAL PARA EL PACIENTE ' + nombre_p + ' MOTIVO: ' + dataMotivo);
+			//$('#titulo_modal').html('NOTAS DE HOSPITAL PARA EL PACIENTE ' + nombre_p + ' MOTIVO: ' + dataMotivo);
+			$('#titulo_modal').html('NOTAS DE HOSPITAL PARA EL <span style="color:blue; font-size: 1.3em;">PACIENTE:</span> ' + nombre_p + ' <span style="color:blue; font-size: 1.3em;">MOTIVO:</span> ' + dataMotivo);
 		});
 		
 		window.setTimeout(function(){
@@ -757,9 +776,10 @@ function notasMedicasEnfermeria(id_h, id_p, nombre_p, id_s, estatus,tUser){
 }
 function notasMedicas(id_h, id_p, nombre_p, id_s, estatus,tUser){
 	$("#myModal").load('hospital/htmls/notas_medicas.php', function( response, status, xhr ){ if(status=="success"){
-		var datosMotivo = {id_h:id_h}
+		var datosMotivo = {id_h:id_h, id_u:$('#id_user').val()}
 		$.post('hospital/files-serverside/obetener_motivo_h.php',datosMotivo).done(function(dataMotivo){
-			$('#titulo_modal').text('NOTAS DE HOSPITAL PARA EL PACIENTE ' + nombre_p + ' MOTIVO: ' + dataMotivo);
+			//$('#titulo_modal').html('NOTAS DE HOSPITAL PARA EL PACIENTE ' + nombre_p + ' MOTIVO: ' + dataMotivo);
+			$('#titulo_modal').html('NOTAS DE HOSPITAL PARA EL <span style="color:blue; font-size: 1.3em;">PACIENTE:</span> ' + nombre_p + ' <span style="color:blue; font-size: 1.3em;">MOTIVO:</span> ' + dataMotivo);
 		});
 		
 		window.setTimeout(function(){
@@ -2371,9 +2391,10 @@ function verHC(id_h, id_p, nombre_p, id_s, tUser, tUser1){
 		$("#myModalx").load('hospital/htmls/historial.php', function( response, status, xhr ){ 
 			if(status=="success"){
 				// tinymce.remove("#notaMedicaC");
-				var datosMotivo = {id_h:id_h}
+				var datosMotivo = {id_h:id_h, id_u:$('#id_user').val()}
 				$.post('hospital/files-serverside/obetener_motivo_h.php',datosMotivo).done(function(dataMotivo){
-					$('#titulo_modal').text('HISTORIAL CLÍNICO DEL PACIENTE: ' + nombre_p + ' MOTIVO: ' + dataMotivo);
+					//$('#titulo_modal').text('HISTORIAL CLÍNICO DEL PACIENTE: ' + nombre_p + ' MOTIVO: ' + dataMotivo);
+					$('#titulo_modal').html('HISTORIAL CLÍNICO DEL <span style="color:blue; font-size: 1.3em;">PACIENTE:</span> ' + nombre_p + ' <span style="color:blue; font-size: 1.3em;">MOTIVO:</span> ' + dataMotivo);
 				});
 				$('#idUsuario_hc').val($('#id_user').val()); 
 				$('#id_cons').val(id_h); 
