@@ -6,6 +6,7 @@
       </div>
       <div class="modal-body" id="contenido_tabi">
 		  <div class="text-info"><strong>Selecciona un medicamento y si es necesario edita las indicaciones.</strong></div>
+		  EXISTENCIAS <input type="checkbox" id="existencias_cb" name="existencias_cb" value="1" checked />
 		  <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
 		  	<tr class="si_impre hidden"> <td> <input style="resize:none; text-align:left" name="mi_formato" id="mi_formato" type="text" value="" class=""> </td> </tr>
 			<tr class="no_impre">

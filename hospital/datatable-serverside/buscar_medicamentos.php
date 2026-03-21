@@ -2,11 +2,11 @@
 require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
 
-	$id_su = sqlValue($_GET["id_su"], "int");
+	$id_u = sqlValue($_GET["id_u"], "int");
 
     //obtenemos el id del stock
     mysql_select_db($database_horizonte, $horizonte);
-    $result_s = mysql_query("SELECT id FROM stock WHERE id_su = $id_su", $horizonte) or die (mysql_error());
+    $result_s = mysql_query("SELECT s.id FROM stock s left join sucursales su on su.id_su = s.id_su left join usuarios u on u.sucursal_hospital = su.id_su WHERE u.id_u = $id_u", $horizonte) or die (mysql_error());
     $row_s = mysql_fetch_row($result_s);
     $id_stock = $row_s[0];
 
@@ -23,6 +23,12 @@ require("../../funciones/php/values.php");
 	 
     // CONDITIONS
 	$sWhere = "where m.id_tipo_concepto_to = 5";	
+
+    //condicones para el checkbox de existencias
+    if(isset($_GET['existenciasOn']) && $_GET['existenciasOn'] == 1){
+        $sJoin .= " left join stock_has_bach shb on shb.id_Producto = m.id_to";
+        $sWhere .= " and shb.id_stock = $id_stock and shb.existencias > 0";
+    }
 	
     /* Database connection information */
     $gaSql['user']       = $username_horizonte;
@@ -98,6 +104,11 @@ require("../../funciones/php/values.php");
         }
     }
      
+    //condicones para el checkbox de existencias
+    if(isset($_GET['existenciasOn']) && $_GET['existenciasOn'] == 1){
+        $sOrder .= " group by m.id_to";
+    }
+
     /* * SQL queries * Get data to display */
     $sQuery = "
         SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."

@@ -652,7 +652,9 @@ function nuevo_medicamento(id_h, id_p, nombre_p, id_s, id_su_user){ $('#myModal2
 					"sDom": '<"filtro1Principal"><"data_tPrincipal"t><"infoPrincipal"S><"proc">',
 					deferRender: true, select: { style: 'single' }, "processing": false, "sAjaxSource": "hospital/datatable-serverside/buscar_medicamentos.php",
 					"fnServerParams": function(aoData, fnCallback){ 
-						aoData.push( {"name": "id_su", "value": id_su_user } );
+						var existenciasOn = $("#existencias_cb").is(":checked") ? 1 : 0;
+						aoData.push( {"name": "id_u", "value": $('#id_user').val() } );
+						aoData.push( {"name": "existenciasOn", "value": existenciasOn} );
 					 },
 					"oLanguage": {
 						"sLengthMenu": "MONSTRANDO _MENU_ records per page", "sZeroRecords": "SIN COINCIDENCIAS - LO SENTIMOS", 
@@ -662,6 +664,11 @@ function nuevo_medicamento(id_h, id_p, nombre_p, id_s, id_su_user){ $('#myModal2
 				});
 
 				$('#clickmeMeds').click(function(e) { oTable.draw(); }); window.setTimeout(function(){$('#clickmeMeds').click();},500);
+
+				$('#existencias_cb').click(function(e) {
+					if($(this).prop('checked')==true){ $(this).val(1); }else{$(this).val(0);}
+					oTable.draw();
+				});
 
 				//para los fintros individuales por campo de texto 
 				oTable.columns().every( function () {
