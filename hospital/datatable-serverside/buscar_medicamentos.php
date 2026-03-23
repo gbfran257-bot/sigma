@@ -5,10 +5,10 @@ require("../../funciones/php/values.php");
 	$id_u = sqlValue($_GET["id_u"], "int");
 
     //obtenemos el id del stock
-    mysql_select_db($database_horizonte, $horizonte);
+    /*mysql_select_db($database_horizonte, $horizonte);
     $result_s = mysql_query("SELECT s.id FROM stock s left join sucursales su on su.id_su = s.id_su left join usuarios u on u.sucursal_hospital = su.id_su WHERE u.id_u = $id_u", $horizonte) or die (mysql_error());
     $row_s = mysql_fetch_row($result_s);
-    $id_stock = $row_s[0];
+    $id_stock = $row_s[0];*/
 
 	$aColumns = array('m.id_to', 'm1.nombre_generico_med', 'm.concepto_to', 'm1.cantidad_med', 'm1.via_administracion_med', 'm.codigo_barras_to', 'm1.grupo_med', 'm.id_to', 'm.id_to', 'm.id_to', 'm.id_to', 'm.id_to');
      
@@ -27,7 +27,7 @@ require("../../funciones/php/values.php");
     //condicones para el checkbox de existencias
     if(isset($_GET['existenciasOn']) && $_GET['existenciasOn'] == 1){
         $sJoin .= " left join stock_has_bach shb on shb.id_Producto = m.id_to";
-        $sWhere .= " and shb.id_stock = $id_stock and shb.existencias > 0";
+        $sWhere .= " and shb.existencias > 0";
     }
 	
     /* Database connection information */
