@@ -103,6 +103,7 @@
         <th width="10px">ABONADO</th>
         <th width="10px">SALDO</th>
         <th width="">C. PROD.</th>
+        <th width="">HONORARIOS</th>
         <th width="20px">UTILIDAD</th>
       </tr>
     </thead>
@@ -122,7 +123,7 @@
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="" /></th>
-            <th><input type="hidden" placeholder="Facturado" class="" /></th>
+            <th><input type="hidden" placeholder="" class="" /></th>
 		</tr>
 	</tfoot>
   </table>
