@@ -103,6 +103,7 @@
         <th width="10px">ABONADO</th>
         <th width="10px">SALDO</th>
         <th width="">C. PROD.</th>
+        <th width="">HONORARIOS</th>
         <th width="20px">UTILIDAD</th>
       </tr>
     </thead>
@@ -122,7 +123,8 @@
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="sCalculo" /></th>
             <th><input type="hidden" class="" /></th>
-            <th><input type="hidden" placeholder="Facturado" class="" /></th>
+            <th><input type="hidden" placeholder="" class="" /></th>
+            <th><input type="hidden" class="" /></th>
 		</tr>
 	</tfoot>
   </table>
@@ -203,6 +205,7 @@ $(document).ready(function(e) {
             var saldo = 0;
             var costo_produccion = 0;
             var utilidad = 0;
+            var honorarios = 0;
             
             for (var i=iStart ; i<iEnd ; i++ )
             {
@@ -213,7 +216,8 @@ $(document).ready(function(e) {
                 abonado += aaData[ aiDisplay[i] ][10]*1;
                 saldo += aaData[ aiDisplay[i] ][11]*1;
                 costo_produccion += aaData[ aiDisplay[i] ][12]*1;
-                utilidad += aaData[ aiDisplay[i] ][13]*1;
+                honorarios += aaData[ aiDisplay[i] ][13]*1;
+                utilidad += aaData[ aiDisplay[i] ][14]*1;
             }
 
             var nCells = nRow.getElementsByTagName('th');
@@ -224,7 +228,8 @@ $(document).ready(function(e) {
             nCells[10].innerHTML = '$'+redondear(parseFloat(abonado * 100)/100,2);
             nCells[11].innerHTML = '$'+redondear(parseFloat(saldo * 100)/100,2);
             nCells[12].innerHTML = '$'+redondear(parseFloat(costo_produccion * 100)/100,2);
-            nCells[13].innerHTML = '$'+redondear(parseFloat(utilidad * 100)/100,2);
+            nCells[13].innerHTML = '$'+redondear(parseFloat(honorarios * 100)/100,2);
+            nCells[14].innerHTML = '$'+redondear(parseFloat(utilidad * 100)/100,2);
 
             utilidadRed = redondear(parseFloat(utilidad * 100)/100,2);
             saldoRed = redondear(parseFloat(saldo * 100)/100,2);
@@ -291,7 +296,7 @@ $(document).ready(function(e) {
 		format: 'YYYY-MM-DD HH:mm',
 		useCurrent: false
 	});
-	$('#fechaA').data("DateTimePicker").minDate($('#fechaDe').val());
+	/*$('#fechaA').data("DateTimePicker").minDate($('#fechaDe').val());
 	$('#fechaDe').data("DateTimePicker").maxDate($('#fechaA').val());
 	$('#fechaDe').on('dp.change', function(e) { 
         $('#fechaA').data("DateTimePicker").minDate(e.date);
@@ -300,7 +305,7 @@ $(document).ready(function(e) {
 	$('#fechaA').on('dp.change', function(e) { 
         $('#fechaDe').data("DateTimePicker").maxDate(e.date);
 		oTable.fnDraw();
-	});
+	});*/ //Este bloque se comenta para evitar que realize la busqueda en automatico al cambiar las fechas, sin embargo el codigo si funciona
 	
 	$(document).delegate('#dataTable tbody td img','click', function () {
         var nTr = $(this).parents('tr')[0];

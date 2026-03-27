@@ -3,7 +3,7 @@
 <?php
 	// consulta para horizonte
 	$obligatorio = 0;
-	$aColumns = array('ov.id_ov','ov.referencia_ov','CONCAT_WS(" ", p.nombre_p, p.apaterno_p, p.amaterno_p)','s.nombre_su','CONCAT_WS("<br>", u.nombre_u, DATE_FORMAT(ov.fecha_venta_ov, "%d/%m/%Y %H:%i"))','cfp.forma_pago_fp','ov.subtotal_ov','(ov.adicionales_c_ov+ov.adicionales_p_ov+ov.adicionales_ei_ov+ov.adicionales_el_ov+ov.adicionales_s_ov)','(ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv+ov.t_desc_pro)','ov.gran_total_ov','(SELECT SUM(pago_pag) FROM pagos_ov WHERE referencia_pag = ov.referencia_ov)','(ov.gran_total_ov-(SELECT SUM(pago_pag) FROM pagos_ov WHERE referencia_pag = ov.referencia_ov))','(SELECT COALESCE(sum(c.c_costo),0) FROM conceptos c LEFT JOIN venta_conceptos vc on vc.id_concepto_es = c.id_to WHERE c.id_tipo_concepto_to IN(1,2,3,4) AND vc.referencia_vc = ov.referencia_ov) + (SELECT COALESCE(sum(c.costo_maquila_to),0) FROM conceptos c LEFT JOIN venta_conceptos vc on vc.id_concepto_es = c.id_to WHERE c.id_tipo_concepto_to IN(5) AND vc.referencia_vc = ov.referencia_ov) + (SELECT COALESCE(sum(b.precio_maquila_b),0) FROM asignar_bases ab LEFT JOIN bases b on b.id_b = ab.id_base_ab LEFT JOIN conceptos c on c.aleatorio_c = ab.aleatorio_ab LEFT JOIN venta_conceptos vc on vc.id_concepto_es = c.id_to WHERE vc.referencia_vc = ov.referencia_ov)','ov.id_ov');
+	$aColumns = array('ov.id_ov','ov.referencia_ov','CONCAT_WS(" ", p.nombre_p, p.apaterno_p, p.amaterno_p)','s.nombre_su','CONCAT_WS("<br>", u.nombre_u, DATE_FORMAT(ov.fecha_venta_ov, "%d/%m/%Y %H:%i"))','cfp.forma_pago_fp','ov.subtotal_ov','(ov.adicionales_c_ov+ov.adicionales_p_ov+ov.adicionales_ei_ov+ov.adicionales_el_ov+ov.adicionales_s_ov)','(ov.t_desc_cta+ov.t_desc_img+ov.t_desc_lab+ov.t_desc_serv+ov.t_desc_pro)','ov.gran_total_ov','(SELECT SUM(pago_pag) FROM pagos_ov WHERE referencia_pag = ov.referencia_ov)','(ov.gran_total_ov-(SELECT SUM(pago_pag) FROM pagos_ov WHERE referencia_pag = ov.referencia_ov))','(SELECT COALESCE(sum(c.c_costo),0) FROM conceptos c LEFT JOIN venta_conceptos vc on vc.id_concepto_es = c.id_to WHERE c.id_tipo_concepto_to IN(1,2,3,4) AND vc.referencia_vc = ov.referencia_ov) + (SELECT COALESCE(sum(c.costo_maquila_to),0) FROM conceptos c LEFT JOIN venta_conceptos vc on vc.id_concepto_es = c.id_to WHERE c.id_tipo_concepto_to IN(5) AND vc.referencia_vc = ov.referencia_ov) + (SELECT COALESCE(sum(b.precio_maquila_b),0) FROM asignar_bases ab LEFT JOIN bases b on b.id_b = ab.id_base_ab LEFT JOIN conceptos c on c.aleatorio_c = ab.aleatorio_ab LEFT JOIN venta_conceptos vc on vc.id_concepto_es = c.id_to WHERE vc.referencia_vc = ov.referencia_ov)','(SELECT COALESCE(SUM(honorarios),0) FROM venta_conceptos WHERE referencia_vc = ov.referencia_ov)', 'ov.id_ov');
      
     // DB tables to use 
     $aTables = array( 'orden_venta ov');
@@ -150,7 +150,7 @@
         }
 
 		$row[0] = "<img src='imagenes/generales/details_open.png' title='¡Información Adicional' border = '0' />";	
-        $row[13] = $row[9]-$row[12];
+        $row[14] = $row[9]-($row[12]+$row[13]);
 
         $output['aaData'][] = $row;
     }
