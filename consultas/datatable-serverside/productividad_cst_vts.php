@@ -3,7 +3,7 @@ require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
     /* Array of database columns which should be read and sent back to DataTables. Use a space where  * you want to insert a non-database field (for example a counter or static image) */
 	
-	$aColumns = array('v.id_vc', 'e.concepto_to','count(v.id_vc) as suma', 'v.id_vc', 'sum(v.precio_vc)', 'sum(v.honorarios)', 'e.c_costo','e.linea_c','v.id_concepto_es');
+	$aColumns = array('v.id_vc', 'e.concepto_to','count(v.id_vc) as suma', 'v.id_vc', 'sum(v.precio_vc)', 'COALESCE(sum(e.c_costo), 0)', 'COALESCE(sum(v.honorarios), 0) as honorarios', 'v.id_concepto_es', 'e.linea_c');
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -130,11 +130,13 @@ require("../../funciones/php/values.php");
                
 		$suma = $row[2];
 		$porce = round(($suma*100)/$rowT[0],1);
-		$row[3] = "<span>$porce %</span>";
-	    $row[5] = $row[6];
-        $row[6] = $row[4] - $row[5];
         $row[9] = $row[2];
-        $row[2] = "<span class='btn btn-primary' onclick='verOV($row[8],\"$_GET[min]\",\"$_GET[max]\",\"$row[1]\")'>$row[2]</span>";
+        $row[2] = "<span class='btn btn-primary' onclick='verOV($row[7],\"$_GET[min]\",\"$_GET[max]\",\"$row[1]\")'>$row[2]</span>";
+		$row[3] = "<span>$porce %</span>";
+	    //$row[5] = $row[6];
+        //$row[6] = $row[4] - $row[5];
+        //$row[8] = $row[7];
+        $row[7] = $row[4] - ($row[5] + $row[6]);
         $contV1++;
 		$output['aaData'][] = $row;
     }
