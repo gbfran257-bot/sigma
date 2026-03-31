@@ -464,4 +464,59 @@ function select2ini(donde, url, ph){
 }
 
 function insertAtCaret(text) { tinymce.get("input").execCommand('mceInsertContent', false, text); $('#inserta_algo').val(''); }
+
+function modificar_clave_sat(id_estudio){
+	$("#myModal1").load('imagen/estudios/htmls/ficha_modificar_clave_sat.php', function(response, status, xhr) {
+		if (status == "success") {
+
+			$("#text_clave_sat").text("SELECCIONA CLAVE SAT*");
+
+			var datos ={idE:id_estudio, idSucursal:$('#miSucursal').val()}
+			$.post('imagen/estudios/files-serverside/fichaEstudio.php',datos).done(function(data1){
+				var datosI = data1.split('*}');
+
+				$("#id_clave_sat").html("<option value='"+datosI[18]+"' selected>"+datosI[19]+"</option>");
+				$("#id_clave_sat").select2("data", {
+					id: datosI[18],
+					text: datosI[19]
+				});
+				$("#id_clave_sat").trigger("change");
+
+			});
+
+			$('#form-selecciona-clave-sat').validator().on('submit', function (e) {
+				if (e.isDefaultPrevented()) { // handle the invalid form...
+				} else { // everything looks good!
+					e.preventDefault(); 
+					
+					swal({
+					title: "MODIFICACIÓN DE CLAVE SAT", text: "¿Estás seguro de modificar la clave?", type: "warning",
+					showCancelButton: true, confirmButtonColor: "#e2b92d", confirmButtonText: "Modificar", 
+					cancelButtonText: "Cerrar", closeOnConfirm: false
+					},
+					function(){
+					var datosModClaveSat = {id_estudio:id_estudio, clave_sat:$("#id_clave_sat").val()}
+						$.post('imagen/estudios/files-serverside/modificar_clave_sat.php',datosModClaveSat).done(function( dataModClave ) { 
+							if (dataModClave==1){ window.setTimeout(function(){$('#clickme').click(); $('#myModal1').modal('hide');},300);
+								swal({
+								title: "", type: "success", text: "La clave se ha modificado", timer: 2000, showConfirmButton: false
+								}); return;
+							} else{alert(dataModClave);} 
+						});
+					});
+				}
+			});
+
+			$('#myModal1').modal('show');
+			$('#myModal1').on('shown.bs.modal', function(e) {
+				$('#form-selecciona-clave-sat').validator();
+			});
+			$('#myModal1').on('hidden.bs.modal', function(e) {
+				$("#myModal1 .modal-content").remove();
+				$("#myModal1").empty();
+			});
+		}
+	});
+}
+
 </script>

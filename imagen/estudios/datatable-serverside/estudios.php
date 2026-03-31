@@ -57,7 +57,7 @@ include_once '../../../recursos/utilities.php';
     }
      
     /* * Ordering */
-    $sOrder = "";
+    $sOrder = "ORDER BY c.concepto_to ASC";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
         $sOrder = "ORDER BY  ";
@@ -168,7 +168,7 @@ include_once '../../../recursos/utilities.php';
             else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; }
         }
 		
-		$row[0]="<span>$row[0]</span>";
+		//$row[0]="<span>$row[0]</span>";
 		
 		if($acceso_user==1 or $acceso_user==5){
 			$row[1]= "<span class='text-info' style='cursor:pointer; text-decoration:underline;' id='$row[9]' lang='$row[1]'  onClick='fichaEstudio(this.id, this.lang, \"$row[13]\");'>$row[1]</span>";
@@ -177,6 +177,9 @@ include_once '../../../recursos/utilities.php';
 		
 		if($row[12]==1){$di = 'SI';}else{$di = 'NO';}
 		$row[9]="<span>$di</span>";
+
+        if ($row[11] == ""){ $row[11] = "Editar"; }
+        $row[11] = "<span style='text-decoration:underline; cursor:pointer; color:blue;' onclick='modificar_clave_sat($row[0])'>$row[11]</span>";
 										
 		$output['aaData'][] = $row;
     }
