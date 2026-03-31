@@ -18,9 +18,9 @@ include_once '../../../recursos/utilities.php';
 			$precio_nor = 'c.precio_to'; $precio_ur = 'c.precio_urgencia_to';
 		}
 		
-		$aColumns = array('c.id_to','c.concepto_to', 'a.nombre_a', $precio_nor,$precio_ur, 'c.costo_maquila_to','c.costo_maquila_u_to', 'c.precio1_to','c.precio_urgencia1_to','c.id_to','c.linea_c','c.sat_c','c.dicom','c.aleatorio_c');
+		$aColumns = array('c.id_to','c.concepto_to', 'a.nombre_a', $precio_nor,$precio_ur, 'c.costo_maquila_to','c.costo_maquila_u_to', 'c.precio1_to','c.precio_urgencia1_to','c.id_to','c.linea_c','c.sat_c','c.dicom','c.aleatorio_c', 'c.c_costo');
 	}else{
-		$aColumns = array('c.id_to', 'c.concepto_to', 'a.nombre_a', 'c.precio_to','c.precio_urgencia_to', 'c.costo_maquila_to','c.costo_maquila_u_to', 'c.precio1_to','c.precio_urgencia1_to','c.id_to','c.linea_c','c.sat_c','c.dicom','c.aleatorio_c');
+		$aColumns = array('c.id_to', 'c.concepto_to', 'a.nombre_a', 'c.precio_to','c.precio_urgencia_to', 'c.costo_maquila_to','c.costo_maquila_u_to', 'c.precio1_to','c.precio_urgencia1_to','c.id_to','c.linea_c','c.sat_c','c.dicom','c.aleatorio_c', 'c.c_costo');
 	}
 	    
     // DB tables to use 
@@ -57,7 +57,7 @@ include_once '../../../recursos/utilities.php';
     }
      
     /* * Ordering */
-    $sOrder = "";
+    $sOrder = "ORDER BY c.concepto_to ASC";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
         $sOrder = "ORDER BY  ";
@@ -168,7 +168,7 @@ include_once '../../../recursos/utilities.php';
             else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; }
         }
 		
-		$row[0]="<span>$row[0]</span>";
+		//$row[0]="<span>$row[0]</span>";
 		
 		if($acceso_user==1 or $acceso_user==5){
 			$row[1]= "<span class='text-info' style='cursor:pointer; text-decoration:underline;' id='$row[9]' lang='$row[1]'  onClick='fichaEstudio(this.id, this.lang, \"$row[13]\");'>$row[1]</span>";
@@ -177,6 +177,11 @@ include_once '../../../recursos/utilities.php';
 		
 		if($row[12]==1){$di = 'SI';}else{$di = 'NO';}
 		$row[9]="<span>$di</span>";
+
+        if ($row[11] == ""){ $row[11] = "Editar"; }
+        $row[11] = "<span style='text-decoration:underline; cursor:pointer; color:blue;' onclick='modificar_clave_sat($row[0])'>$row[11]</span>";
+
+        $row[12] = "<span style='text-decoration:underline; cursor:pointer; color:blue;' onclick='modificar_costo($row[0])'>$row[14]</span>";
 										
 		$output['aaData'][] = $row;
     }
