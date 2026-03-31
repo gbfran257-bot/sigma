@@ -97,6 +97,7 @@
     <th style="vertical-align:middle;" nowrap>DICOM</th>
 	<th style="vertical-align:middle;" nowrap>LÍNEA</th>
 	<th style="vertical-align:middle;" nowrap> CLAVE SAT</th>
+	<th style="vertical-align:middle;" nowrap> COSTO PROD.</th>
   </tr>
 </thead> <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody> 
 	<tfoot>
@@ -113,6 +114,7 @@
             <th></th>
 			<th><input type="text" class="form-control input-sm" placeholder="Línea" style="max-width:100px;"/></th>
 			<th><input type="text" class="form-control input-sm" placeholder="CLAVE SAT" style="max-width:100px;"/></th>
+			<th></th>
         </tr>
     </tfoot>
 </table>
@@ -135,7 +137,8 @@ $(document).ready(function(e) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) { }, scroller: false, responsive: true,
 		"aoColumns": [
 			{"bVisible":true}, {"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},
-			{"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true}, {"bVisible":true}
+			{"bVisible":true },{ "bVisible": true }, {"bVisible":true}, {"bVisible":true},{"bVisible":true}, {"bVisible":true}, {"bVisible":true},
+			{"bVisible":true}
 		],
 		"sDom": '<"filtro1Principal"f>r<"data_tPrincipal"t><"infoPrincipal"S><"proc"p>', 
 		deferRender: true, select: false, "processing": false, 
@@ -510,6 +513,55 @@ function modificar_clave_sat(id_estudio){
 			$('#myModal1').modal('show');
 			$('#myModal1').on('shown.bs.modal', function(e) {
 				$('#form-selecciona-clave-sat').validator();
+			});
+			$('#myModal1').on('hidden.bs.modal', function(e) {
+				$("#myModal1 .modal-content").remove();
+				$("#myModal1").empty();
+			});
+		}
+	});
+}
+
+function modificar_costo(id_estudio){
+	$("#myModal1").load('imagen/estudios/htmls/ficha_modificar_costo.php', function(response, status, xhr) {
+		if (status == "success") {
+
+			//$("#text_clave_sat").text("SELECCIONA CLAVE SAT*");
+
+			var datos ={ id_estudio:id_estudio }
+			$.post('imagen/estudios/files-serverside/ficha_datos_costo.php',datos).done(function(dataCostoP){
+				var datosCostoP = dataCostoP.split('*}');
+				$('#costo_produccion').val(datosCostoP[0]);
+				$('#motivo_costo').val(datosCostoP[1]);
+				$('#titulo_modal').text('FICHA DEL ESTUDIO: '+ datosCostoP[2]); 
+			});
+
+			$('#form-selecciona-costo').validator().on('submit', function (e) {
+				if (e.isDefaultPrevented()) { // handle the invalid form...
+				} else { // everything looks good!
+					e.preventDefault(); 
+					
+					swal({
+					title: "MODIFICACIÓN DATOS ESTUDIO", text: "¿Estás seguro de modificar los datos?", type: "warning",
+					showCancelButton: true, confirmButtonColor: "#e2b92d", confirmButtonText: "Modificar", 
+					cancelButtonText: "Cerrar", closeOnConfirm: false
+					},
+					function(){
+					var datosModClaveSat = {id_estudio:id_estudio, costo_produccion:$("#costo_produccion").val(), motivo_costo:$("#motivo_costo").val()}
+						$.post('imagen/estudios/files-serverside/modificar_costo_motivo.php',datosModClaveSat).done(function( dataModClave ) { 
+							if (dataModClave==1){ window.setTimeout(function(){$('#clickme').click(); $('#myModal1').modal('hide');},300);
+								swal({
+								title: "", type: "success", text: "Los datos se han modificado", timer: 2000, showConfirmButton: false
+								}); return;
+							} else{alert(dataModClave);} 
+						});
+					});
+				}
+			});
+
+			$('#myModal1').modal('show');
+			$('#myModal1').on('shown.bs.modal', function(e) {
+				$('#form-selecciona-costo').validator();
 			});
 			$('#myModal1').on('hidden.bs.modal', function(e) {
 				$("#myModal1 .modal-content").remove();
