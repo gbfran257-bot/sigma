@@ -484,6 +484,7 @@ function modificar_clave_sat(id_estudio){
 					text: datosI[19]
 				});
 				$("#id_clave_sat").trigger("change");
+				$('#titulo_modal').text('FICHA DEL ESTUDIO: '+ datosI[0]); 
 
 			});
 
