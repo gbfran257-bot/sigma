@@ -2,7 +2,7 @@
 require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
 
-	$aColumns = array('COUNT(o.id_ov)','SUM(o.gran_total_ov)', 'SUM(o.t_desc_cta)+ SUM(o.t_desc_img)+ SUM(o.t_desc_lab)+SUM(o.t_desc_serv) as descuentos');
+	$aColumns = array('COUNT(o.id_ov)','SUM(o.gran_total_ov)', 'SUM(o.t_desc_cta)+ SUM(o.t_desc_img)+ SUM(o.t_desc_lab)+SUM(o.t_desc_serv)+ SUM(o.t_desc_pro) as descuentos');
      
     // DB tables to use 
     $aTables = array('orden_venta o');
@@ -140,7 +140,7 @@ require("../../funciones/php/values.php");
 		// 	$totalRows_Recordset1a = mysql_num_rows($Recordset1a);
 		// 	$row[1] = $totalRows_Recordset1a;
         
-        $abonado = mysql_query("SELECT sum(p.pago_pag) from pagos_ov p left join orden_venta ov on p.referencia_pag = ov.referencia_ov WHERE p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
+        $abonado = mysql_query("SELECT sum(p.pago_pag) from pagos_ov p left join orden_venta ov on p.referencia_pag = ov.referencia_ov WHERE ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 			
         $saldos = mysql_query("SELECT ov.referencia_ov from pagos_ov p left join orden_venta ov on p.referencia_pag = ov.referencia_ov WHERE p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' GROUP by ov.referencia_ov", $horizonte) or die (mysql_error());
         $saldoArray  = array();

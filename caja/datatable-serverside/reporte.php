@@ -152,16 +152,16 @@ require("../../funciones/php/values.php");
 		
 		//if($rowT[0]==0){$row[0]="<span class='erase1'>$row[0]</span>";} 
 		
-		$resultTam = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 4 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
+		$resultTam = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p LEFT JOIN orden_venta ov on ov.referencia_ov = p.referencia_pag WHERE departamento_pa = 4 and ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 		$rowTam = mysql_fetch_row($resultTam);
 		
-		$resultTim = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 2 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
+		$resultTim = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p LEFT JOIN orden_venta ov on ov.referencia_ov = p.referencia_pag WHERE departamento_pa = 2 and ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 		$rowTim = mysql_fetch_row($resultTim);
 		
-		$resultTlb = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 1 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
+		$resultTlb = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p LEFT JOIN orden_venta ov on ov.referencia_ov = p.referencia_pag WHERE departamento_pa = 1 and ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 		$rowTlb = mysql_fetch_row($resultTlb);
 		
-		$resultTfa = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 3 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
+		$resultTfa = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p LEFT JOIN orden_venta ov on ov.referencia_ov = p.referencia_pag WHERE departamento_pa = 3 and ov.fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 		$rowTfa = mysql_fetch_row($resultTfa);
 
 
@@ -245,14 +245,20 @@ require("../../funciones/php/values.php");
                      $totalSaldo4 = $totalSaldo4 + $resta4;
         }
 
+        //obtenemos el total de la ov y los pagos por departamento para obtener el saldo
+        mysql_select_db($database_horizonte, $horizonte);
+
+        $qryTotalAsoc = mysql_query("SELECT sum(total_c)+sum(total_s), sum(total_p), sum(total_ei), sum(total_el) FROM orden_venta WHERE fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
+		$totalAsoc = mysql_fetch_row($qryTotalAsoc);
+
         //Asociación médica
-		if($row[6]==4){$row[5] = $totalSaldo4;}
+		if($row[6]==4){$row[5] = $totalAsoc[0] - $rowTam[0];}
 		//Imagen
-		else if($row[6]==2){$row[5] = $totalSaldo2;}
+		else if($row[6]==2){$row[5] = $totalAsoc[2] - $rowTim[0];}
 		//Laboratorio
-		else if($row[6]==1){$row[5] = $totalSaldo1; }
+		else if($row[6]==1){$row[5] = $totalAsoc[3] - $rowTlb[0]; }
 		//Farmacia si es que hay conceptos de farmacia
-		else if($row[6]==3){$row[5] = $totalSaldo3;}
+		else if($row[6]==3){$row[5] = $totalAsoc[1] - $rowTfa[0];}
 		//Enfermería si es que hay conceptos de Enfermería
 				
 		$output['aaData'][] = $row;

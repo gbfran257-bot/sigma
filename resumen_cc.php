@@ -230,6 +230,9 @@
 						&nbsp;<input type="radio" class="rad" id="radio1" name="radio" /><label for="radio1">&nbsp; Hoy &nbsp;</label>
 						<input type="radio" class="rad" id="radio2" name="radio" /><label for="radio2">&nbsp; Todos &nbsp;</label>
 					</td>
+          <td width="70%" align="left">
+            <button type="button" class="btn btn-primary btn-sm" id="buscar_dt" name="buscar_dt">BUSCAR</button>
+          </td>
 				</tr>
 			</table>
 		</div>
@@ -329,7 +332,7 @@ $(document).ready(function(e) {
     "bFilter": false, 
     "aaSorting": [[0, "asc"]],
 		"aoColumns":[
-			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"},	{ "bVisible": false}
+			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"},	{ "bVisible": true}
 		],
 		"iDisplayLength": 50, 
     "bLengthChange": false, 
@@ -533,15 +536,18 @@ $(document).ready(function(e) {
 	
 	$('#radio1').click(function(e){
 		$('#fechaDe').val('<?php echo date("Y-m-d"); ?>');$('#fechaA').val('<?php echo date("Y-m-d"); ?>'); 
-		oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw();
+		//oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw();
 	});
 	
 	$('#radio2').click(function(e){
 		$('#fechaDe').val('2000-01-01'); $('#fechaA').val('<?php echo date("Y-m-d"); ?>'); 
-		oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTableOV.fnDraw();  oTable1X.fnDraw();
+		//oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTableOV.fnDraw();  oTable1X.fnDraw();
 	});
 	
-	$('#fechaDe').on('changeDate', function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableOV.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
-	$("#fechaA").on('changeDate', function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
+	/*$('#fechaDe').on('changeDate', function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableOV.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
+	$("#fechaA").on('changeDate', function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); oTableOV.fnDraw(); });*/
+
+  $("#buscar_dt").click(function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); oTableOV.fnDraw(); });
+
 });
 </script>
