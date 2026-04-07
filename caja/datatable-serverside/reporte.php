@@ -126,19 +126,19 @@ require("../../funciones/php/values.php");
 		
 		if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
 			
-			$query_Recordset1 = "SELECT distinct(vc.id_paciente_vc) FROM pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE vc.temporal_vc != 1 and e.id_departamento_to = $row[1] and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'";
+			/*$query_Recordset1 = "SELECT distinct(vc.id_paciente_vc) FROM pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE vc.temporal_vc != 1 and e.id_departamento_to = $row[1] and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'";
 			$Recordset1 = mysql_query($query_Recordset1, $horizonte) or die(mysql_error());
 			$row_Recordset1 = mysql_fetch_assoc($Recordset1);
 			$totalRows_Recordset1 = mysql_num_rows($Recordset1);
-			$ali = $row[2];
-			$row[2] = $totalRows_Recordset1; 
+			$row[2] = $totalRows_Recordset1;*/
+            $ali = $row[2];
 			
-			$query_Recordset1a = "SELECT distinct(vc.referencia_vc) FROM pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE vc.temporal_vc != 1 and e.id_departamento_to = $row[1] and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'";
+			/*$query_Recordset1a = "SELECT distinct(vc.referencia_vc) FROM pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE vc.temporal_vc != 1 and e.id_departamento_to = $row[1] and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'";
 			$Recordset1a = mysql_query($query_Recordset1a, $horizonte) or die(mysql_error());
 			$row_Recordset1a = mysql_fetch_assoc($Recordset1a);
 			$totalRows_Recordset1a = mysql_num_rows($Recordset1a);
-			$row[1] = $totalRows_Recordset1a;
-			
+			$row[1] = $totalRows_Recordset1a;*/
+
 			// $resultTC = mysql_query("SELECT count(vc.id_vc) from pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE temporal_vc != 1 and e.id_departamento_to = $ali and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
             $resultTC = mysql_query("SELECT count(v.id_vc) FROM venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es WHERE temporal_vc = 0 and e.id_departamento_to = $ali and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 			
@@ -250,6 +250,14 @@ require("../../funciones/php/values.php");
 
         $qryTotalAsoc = mysql_query("SELECT sum(total_c)+sum(total_s), sum(total_p), sum(total_ei), sum(total_el) FROM orden_venta WHERE fecha_venta_ov BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 		$totalAsoc = mysql_fetch_row($qryTotalAsoc);
+
+        $qryPacientes = mysql_query("select count(distinct vc.id_paciente_vc) from venta_conceptos vc left join conceptos c on c.id_to = vc.id_concepto_es where c.id_departamento_to = $row[1] and vc.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and referencia_vc is not null", $horizonte) or die (mysql_error());
+        $pacientes = mysql_fetch_row($qryPacientes);
+        $row[2] = $pacientes[0];
+
+        $qryVisitas = mysql_query("select count(distinct vc.referencia_vc) from venta_conceptos vc left join conceptos c on c.id_to = vc.id_concepto_es where vc.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' and referencia_vc is not null and c.id_departamento_to = $row[1]", $horizonte) or die (mysql_error());
+        $visitas = mysql_fetch_row($qryVisitas);
+        $row[1] = $visitas[0];
 
         //Asociación médica
 		if($row[6]==4){$row[5] = $totalAsoc[0] - $rowTam[0];}
