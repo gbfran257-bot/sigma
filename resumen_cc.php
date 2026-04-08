@@ -141,6 +141,11 @@
     </td>
   </tr>
   <tr>
+    <td>
+      <span>En el periodo de </span> <span id="periodo1f" name="periodo1f" style="color:green;"> 20XX </span> a <span id="periodo2f" name="periodo2f" style="color:green;">20XX</span> <span>se cancelaron </span> <span id="numero_canceladas" name="numero_canceladas" style="color:blue;">7</span> <span>orden(es) de venta.</span>
+    </td>
+  </tr>
+  <tr>
     <td valign="top" id="tabla1">
     	<table width="100%" id="dataTable" class="table" height="100%">
             <thead id="cabecera_tBusquedaP">
@@ -547,7 +552,18 @@ $(document).ready(function(e) {
 	/*$('#fechaDe').on('changeDate', function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableOV.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
 	$("#fechaA").on('changeDate', function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); oTableOV.fnDraw(); });*/
 
-  $("#buscar_dt").click(function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); oTableOV.fnDraw(); });
+  $("#buscar_dt").click(function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); oTableOV.fnDraw(); get_canceladas_text(); });
+
+  get_canceladas_text();
 
 });
+
+function get_canceladas_text(){
+  datos = { min:$('#fechaDe').val()+' 00:00:00', max:$('#fechaA').val()+' 23:59:59' }
+  $.post('caja/files-serverside/data_canceladas.php',datos).done(function(data){ 
+    $("#numero_canceladas").text(data);
+    $("#periodo1f").text($('#fechaDe').val());
+    $("#periodo2f").text($('#fechaA').val());
+  });
+}
 </script>
