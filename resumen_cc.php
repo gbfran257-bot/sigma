@@ -573,7 +573,7 @@ function verOrdenesCanceladas(){
 			var datosOrdenC = { min:$('#fechaDe').val()+' 00:00:00', max:$('#fechaA').val()+' 23:59:59' }
 			$.post('caja/files-serverside/ordenes_canceladas_resumen.php',datosOrdenC).done(function( dataCanceladas ) { 
 				$('#tbodyContentMS').html(dataCanceladas);
-				$('#titulo_modal2').text('Registro de odenes de venta canceladas');
+				$('#titulo_modal2').text('REGISTRO DE ORDENES DE VENTA CANCELADAS');
 			});
 
 			$("#btn_aplicar").addClass("hidden");
@@ -619,7 +619,7 @@ function ver_resumen_saldos(){
       var datosResumenSaldos = { min:$('#fechaDe').val()+' 00:00:00', max:$('#fechaA').val()+' 23:59:59' }
       $.post('caja/files-serverside/resumen_saldos.php',datosResumenSaldos).done(function( dataResumenSaldos ) { 
         $('#tbodyContentMS').html(dataResumenSaldos);
-        $('#titulo_modal2').text('Resumen de saldos');
+        $('#titulo_modal2').text('RESUMEN DE SALDOS');
       });
 
       $("#btn_aplicar").addClass("hidden");

@@ -1,5 +1,5 @@
 <div class="modal-dialog modal-lg" role="document" id="contenido_ficha_consulta">
-    <div class="modal-content animated flipInY">
+    <div class="modal-content animated fadeIn">
       <div class="modal-header">
         <button type="button" class="close hidden" data-dismiss="modal" aria-label="Close">
         	<span aria-hidden="true">&times;</span>
