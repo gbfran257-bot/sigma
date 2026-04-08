@@ -166,6 +166,7 @@ require("../../funciones/php/values.php");
 		// $row[2] = $row[2]; 
         $row[3] = $abonadoR[0];
         $row[4] = $totalSaldo;
+        $row[4] ="<span style='text-decoration:underline; cursor:pointer; color:blue;' onClick='ver_resumen_saldos()'>$row[4]</span>";
 		
 		// $resultTam = mysql_query("SELECT vc.precio_vc FROM venta_conceptos vc left join conceptos c on c.id_to = vc.id_concepto_es left join pagos_ov p on p.referencia_pag = vc.referencia_vc WHERE c.linea_c = '$row[0]' AND vc.temporal_vc = 0 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 		// $totalAbonado =  0;

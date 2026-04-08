@@ -142,7 +142,7 @@
   </tr>
   <tr>
     <td>
-      <span>En el periodo de </span> <span id="periodo1f" name="periodo1f" style="color:green;"> 20XX </span> a <span id="periodo2f" name="periodo2f" style="color:green;">20XX</span> <span>se cancelaron </span> <span id="numero_canceladas" name="numero_canceladas" style="color:blue; cursor:pointer;" onClick="verOrdenesCanceladas();">7</span> <span>orden(es) de venta.</span>
+      <span>En el periodo de </span> <span id="periodo1f" name="periodo1f" style="color:green;"> 20XX </span> a <span id="periodo2f" name="periodo2f" style="color:green;">20XX</span> <span>se cancelaron </span> <span id="numero_canceladas" name="numero_canceladas" style="color:blue; cursor:pointer; text-decoration:underline;" onClick="verOrdenesCanceladas();">7</span> <span>orden(es) de venta.</span>
     </td>
   </tr>
   <tr>
@@ -611,6 +611,24 @@ function imprimirModalCanceladas(){
       ventana.close();
     };
 
+}
+
+function ver_resumen_saldos(){
+  $("#myModal1").load("caja/reportes/htmls/resumen_saldos.php", function(response,status,xhr){ 
+    if(status == "success"){
+      var datosResumenSaldos = { min:$('#fechaDe').val()+' 00:00:00', max:$('#fechaA').val()+' 23:59:59' }
+      $.post('caja/files-serverside/resumen_saldos.php',datosResumenSaldos).done(function( dataResumenSaldos ) { 
+        $('#tbodyContentMS').html(dataResumenSaldos);
+        $('#titulo_modal2').text('Resumen de saldos');
+      });
+
+      $("#btn_aplicar").addClass("hidden");
+    
+      $('#myModal1').modal('show');
+      $('#myModal1').on('shown.bs.modal', function (e){ });
+      $('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
+    } 
+  });
 }
 
 </script>
