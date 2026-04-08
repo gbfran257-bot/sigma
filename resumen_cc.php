@@ -142,7 +142,7 @@
   </tr>
   <tr>
     <td>
-      <span>En el periodo de </span> <span id="periodo1f" name="periodo1f" style="color:green;"> 20XX </span> a <span id="periodo2f" name="periodo2f" style="color:green;">20XX</span> <span>se cancelaron </span> <span id="numero_canceladas" name="numero_canceladas" style="color:blue;">7</span> <span>orden(es) de venta.</span>
+      <span>En el periodo de </span> <span id="periodo1f" name="periodo1f" style="color:green;"> 20XX </span> a <span id="periodo2f" name="periodo2f" style="color:green;">20XX</span> <span>se cancelaron </span> <span id="numero_canceladas" name="numero_canceladas" style="color:blue; cursor:pointer;" onClick="verOrdenesCanceladas();">7</span> <span>orden(es) de venta.</span>
     </td>
   </tr>
   <tr>
@@ -566,4 +566,51 @@ function get_canceladas_text(){
     $("#periodo2f").text($('#fechaA').val());
   });
 }
+
+function verOrdenesCanceladas(){
+	$("#myModal1").load("caja/reportes/htmls/ordenes_canceladas_resumen.php", function(response,status,xhr){ 
+		if(status == "success"){
+			var datosOrdenC = { min:$('#fechaDe').val()+' 00:00:00', max:$('#fechaA').val()+' 23:59:59' }
+			$.post('caja/files-serverside/ordenes_canceladas_resumen.php',datosOrdenC).done(function( dataCanceladas ) { 
+				$('#tbodyContentMS').html(dataCanceladas);
+				$('#titulo_modal2').text('Registro de odenes de venta canceladas');
+			});
+
+			$("#btn_aplicar").addClass("hidden");
+		
+			$('#myModal1').modal('show');
+			$('#myModal1').on('shown.bs.modal', function (e){ });
+			$('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
+		} 
+	});
+}
+
+function imprimirModalCanceladas(){
+    // con esto podemos imprimir todo el modal: var contenido = document.getElementById("contenido_ficha_consulta").innerHTML;
+
+    //con esto imprimimos solo la tabla del modal, sin el header ni el footer:
+    var contenido = document.querySelector("#contenido_ficha_consulta table").outerHTML;
+
+    var ventana = window.open('', '', 'height=800,width=1000');
+
+    ventana.document.write('<html><head><title>Imprimir</title>');
+    ventana.document.write('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">');
+    ventana.document.write('</head><body>');
+
+    ventana.document.write(contenido);
+
+    ventana.document.write('</body></html>');
+
+    ventana.document.close();
+
+    ventana.focus();
+
+    ventana.print();
+
+    ventana.onafterprint = function() {
+      ventana.close();
+    };
+
+}
+
 </script>
