@@ -153,7 +153,7 @@
                 <th id="clickme">DEPARTAMENTO</th>
                 <th nowrap>#VISITAS</th>
                 <th nowrap>#PACIENTES</th>
-                <th nowrap>#PRODUCTOS</th>
+                <th nowrap>#CONCEPTOS</th>
                 <th nowrap>ABONADO($)</th>
                 <th nowrap>SALDOS($)</th>
               </tr>
@@ -177,7 +177,7 @@
     	<table width="100%" id="dataTableA" class="table" height="100%">
             <thead id="cabecera_tBusquedaPA">
               <tr id="mymyA" class="bg-primary">
-                <th>AREA</th>
+                <th>LÍNEA</th>
                 <th nowrap>#VISITAS</th>
                 <th nowrap>#PACIENTES</th>
                 <th nowrap>#CONCEPTOS</th>
