@@ -12,7 +12,7 @@
     <meta name="description" content="SISTEMA DE EXPEDIENTE CLÍNICO ELECTRÓNICO">
     <meta name="author" content="ING JESUS DIAZ CONTRERAS">
     
-    <title>SISTEMA - LÍNEA CRUZ ROJA </title>
+    <title>SISTEMA - LÍNEAS</title>
     
     <link rel="shortcut icon" href="imagenes/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="imagenes/favicon.ico" type="image/x-icon">
@@ -98,7 +98,7 @@
 <script>
 $(document).ready(function(e) {
 	//breadcrumb
-	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>ADMINISTRACIÓN</li><li>CATÁLOGOS</li><li class="active"><strong>LÍNEA CRUZ ROJA</strong></li>');
+	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>ADMINISTRACIÓN</li><li>CATÁLOGOS</li><li class="active"><strong>LÍNEAS</strong></li>');
 	
 	$('#my_search').removeClass('hidden'); $.fn.datepicker.defaults.autoclose = true; 
 	

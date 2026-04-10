@@ -233,9 +233,9 @@
 					</td>
 					<td id="rangosFechas">
 						&nbsp;<input type="radio" class="rad" id="radio1" name="radio" /><label for="radio1">&nbsp; Hoy &nbsp;</label>
-						<input type="radio" class="rad" id="radio2" name="radio" /><label for="radio2">&nbsp; Todos &nbsp;</label>
+						<!--<input type="radio" class="rad" id="radio2" name="radio" /><label for="radio2">&nbsp; Todos &nbsp;</label>-->
 					</td>
-          <td width="70%" align="left">
+          <td width="80%" align="left">
             <button type="button" class="btn btn-primary btn-sm" id="buscar_dt" name="buscar_dt">BUSCAR</button>
           </td>
 				</tr>
@@ -541,7 +541,11 @@ $(document).ready(function(e) {
 	
 	$('#radio1').click(function(e){
 		$('#fechaDe').val('<?php echo date("Y-m-d"); ?>');$('#fechaA').val('<?php echo date("Y-m-d"); ?>'); 
-		//oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw();
+		oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); oTableOV.fnDraw(); get_canceladas_text();
+
+    var hoy = '<?php echo date("Y-m-d"); ?>';
+    $('#fechaDe').datepicker('update', hoy);
+    $('#fechaA').datepicker('update', hoy);
 	});
 	
 	$('#radio2').click(function(e){
