@@ -31,7 +31,7 @@ require("../../funciones/php/values.php");
     }
      
     /* * Ordering */
-    $sOrder = "";
+    $sOrder = "ORDER BY cl.nombre_l ASC";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
         $sOrder = "ORDER BY  ";
@@ -159,6 +159,9 @@ require("../../funciones/php/values.php");
         }
         $row[4] = $totalAbonado;*/
 		
+        if($row[0] == null){
+            $row[0] = "LINEA NO ASIGNADA";
+        }
 				
 		$output['aaData'][] = $row;
     }
