@@ -33,6 +33,10 @@
             </tfoot>
           </table>
 
+          <div style="margin-top:30px;" class="hidden" id="aclaraciones2" name="aclaraciones2">
+            <strong>Aclaraciones:</strong>
+            <div style="border:1px solid #000; height:120px; margin-top:10px; width:100%;"></div>
+          </div>
       </div>
 
       <div class="modal-footer">

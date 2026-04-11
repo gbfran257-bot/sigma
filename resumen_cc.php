@@ -590,10 +590,12 @@ function verOrdenesCanceladas(){
 }
 
 function imprimirModalCanceladas(){
+
+  $("#aclaraciones2").removeClass("hidden");
     // con esto podemos imprimir todo el modal: var contenido = document.getElementById("contenido_ficha_consulta").innerHTML;
 
-    //con esto imprimimos solo la tabla del modal, sin el header ni el footer:
-    var contenido = document.querySelector("#contenido_ficha_consulta table").outerHTML;
+    //con esto imprimimos solo el div modal-body, sin el header ni el footer:
+    var contenido = document.querySelector("#contenido_ficha_consulta .modal-body").outerHTML;
 
     var ventana = window.open('', '', 'height=800,width=1000');
 
@@ -612,6 +614,7 @@ function imprimirModalCanceladas(){
     ventana.print();
 
     ventana.onafterprint = function() {
+      $("#aclaraciones2").addClass("hidden");
       ventana.close();
     };
 
