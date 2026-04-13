@@ -61,7 +61,7 @@
 <div id="contenidoR" style="display:none; position:fixed; width:18.5cm; height:23cm; z-index:1;">
 <table width="100%" height="" border="0" cellspacing="0" cellpadding="3">
   <tr> <td align="center" style="font-size:1.1em" height="10"> REPORTE DE CAJA GENERAL. FECHAS <span id="fechaRde"></span> <span id="fechaRa"></span></td> </tr>
-  <tr>
+  <!--<tr>
     <td valign="top" height="" id="">
     	<table width="100%" height="" border="1" cellpadding="4" cellspacing="0" id="dataTableX">
             <thead id="cabecera_tBusquedaP"> <tr id="mymy"> 
@@ -83,7 +83,7 @@
             </tfoot>
           </table>
     </td>
-  </tr>
+  </tr>-->
   <tr>
     <td height="">
     	<table width="100%" height="" border="1" cellpadding="4" cellspacing="0" id="dataTable1X">
@@ -141,6 +141,11 @@
     </td>
   </tr>
   <tr>
+    <td>
+      <span>En el periodo de </span> <span id="periodo1f" name="periodo1f" style="color:green;"> 20XX </span> a <span id="periodo2f" name="periodo2f" style="color:green;">20XX</span> <span>se cancelaron </span> <span id="numero_canceladas" name="numero_canceladas" style="color:blue; cursor:pointer; text-decoration:underline;" onClick="verOrdenesCanceladas();">7</span> <span>orden(es) de venta.</span>
+    </td>
+  </tr>
+  <tr>
     <td valign="top" id="tabla1">
     	<table width="100%" id="dataTable" class="table" height="100%">
             <thead id="cabecera_tBusquedaP">
@@ -148,7 +153,7 @@
                 <th id="clickme">DEPARTAMENTO</th>
                 <th nowrap>#VISITAS</th>
                 <th nowrap>#PACIENTES</th>
-                <th nowrap>#PRODUCTOS</th>
+                <th nowrap>#CONCEPTOS</th>
                 <th nowrap>ABONADO($)</th>
                 <th nowrap>SALDOS($)</th>
               </tr>
@@ -172,7 +177,7 @@
     	<table width="100%" id="dataTableA" class="table" height="100%">
             <thead id="cabecera_tBusquedaPA">
               <tr id="mymyA" class="bg-primary">
-                <th>AREA</th>
+                <th>LÍNEA</th>
                 <th nowrap>#VISITAS</th>
                 <th nowrap>#PACIENTES</th>
                 <th nowrap>#CONCEPTOS</th>
@@ -228,8 +233,11 @@
 					</td>
 					<td id="rangosFechas">
 						&nbsp;<input type="radio" class="rad" id="radio1" name="radio" /><label for="radio1">&nbsp; Hoy &nbsp;</label>
-						<input type="radio" class="rad" id="radio2" name="radio" /><label for="radio2">&nbsp; Todos &nbsp;</label>
+						<!--<input type="radio" class="rad" id="radio2" name="radio" /><label for="radio2">&nbsp; Todos &nbsp;</label>-->
 					</td>
+          <td width="80%" align="left">
+            <button type="button" class="btn btn-primary btn-sm" id="buscar_dt" name="buscar_dt">BUSCAR</button>
+          </td>
 				</tr>
 			</table>
 		</div>
@@ -309,14 +317,14 @@ $(document).ready(function(e) {
                 iTotal    += aaData[ aiDisplay[i] ][2]*1;
                 iComision += aaData[ aiDisplay[i] ][3]*1;
                 iAbonado  += aaData[ aiDisplay[i] ][4]*1;
-                // iSaldo  += aaData[ aiDisplay[i] ][5]*1;
+                iSaldo  += aaData[ aiDisplay[i] ][5]*1;
             }
             var nCells = nRow.getElementsByTagName('th');
 			      nCells[1].innerHTML = parseInt(iVisitas  * 100)/100;
             nCells[2].innerHTML = parseInt(iTotal    * 100)/100;
             nCells[3].innerHTML = parseInt(iComision * 100)/100;
             nCells[4].innerHTML = '$'+parseInt(iAbonado  * 100)/100;
-            // nCells[5].innerHTML = '$'+parseInt(iSaldo  * 100)/100;
+            nCells[5].innerHTML = '$'+parseInt(iSaldo  * 100)/100;
 			
 			window.setTimeout(function(){$('.erase1').each(function(index, element) { $(this).parent().parent().remove(); });},200);
 		},
@@ -329,7 +337,7 @@ $(document).ready(function(e) {
     "bFilter": false, 
     "aaSorting": [[0, "asc"]],
 		"aoColumns":[
-			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"},	{ "bVisible": false}
+			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"},	{ "bVisible": true}
 		],
 		"iDisplayLength": 50, 
     "bLengthChange": false, 
@@ -533,15 +541,101 @@ $(document).ready(function(e) {
 	
 	$('#radio1').click(function(e){
 		$('#fechaDe').val('<?php echo date("Y-m-d"); ?>');$('#fechaA').val('<?php echo date("Y-m-d"); ?>'); 
-		oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw();
+		oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); oTableOV.fnDraw(); get_canceladas_text();
+
+    var hoy = '<?php echo date("Y-m-d"); ?>';
+    $('#fechaDe').datepicker('update', hoy);
+    $('#fechaA').datepicker('update', hoy);
 	});
 	
 	$('#radio2').click(function(e){
 		$('#fechaDe').val('2000-01-01'); $('#fechaA').val('<?php echo date("Y-m-d"); ?>'); 
-		oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTableOV.fnDraw();  oTable1X.fnDraw();
+		//oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTableOV.fnDraw();  oTable1X.fnDraw();
 	});
 	
-	$('#fechaDe').on('changeDate', function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableOV.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
-	$("#fechaA").on('changeDate', function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
+	/*$('#fechaDe').on('changeDate', function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableOV.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); });
+	$("#fechaA").on('changeDate', function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); oTableOV.fnDraw(); });*/
+
+  $("#buscar_dt").click(function(e) { oTable.fnDraw(); oTableA.fnDraw(); oTableX.fnDraw(); oTable1.fnDraw(); oTable1X.fnDraw(); oTableOV.fnDraw(); get_canceladas_text(); });
+
+  get_canceladas_text();
+
 });
+
+function get_canceladas_text(){
+  datos = { min:$('#fechaDe').val()+' 00:00:00', max:$('#fechaA').val()+' 23:59:59' }
+  $.post('caja/files-serverside/data_canceladas.php',datos).done(function(data){ 
+    $("#numero_canceladas").text(data);
+    $("#periodo1f").text($('#fechaDe').val());
+    $("#periodo2f").text($('#fechaA').val());
+  });
+}
+
+function verOrdenesCanceladas(){
+	$("#myModal1").load("caja/reportes/htmls/ordenes_canceladas_resumen.php", function(response,status,xhr){ 
+		if(status == "success"){
+			var datosOrdenC = { min:$('#fechaDe').val()+' 00:00:00', max:$('#fechaA').val()+' 23:59:59' }
+			$.post('caja/files-serverside/ordenes_canceladas_resumen.php',datosOrdenC).done(function( dataCanceladas ) { 
+				$('#tbodyContentMS').html(dataCanceladas);
+				$('#titulo_modal2').text('REGISTRO DE ORDENES DE VENTA CANCELADAS');
+			});
+
+			$("#btn_aplicar").addClass("hidden");
+		
+			$('#myModal1').modal('show');
+			$('#myModal1').on('shown.bs.modal', function (e){ });
+			$('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
+		} 
+	});
+}
+
+function imprimirModalCanceladas(){
+
+  $("#aclaraciones2").removeClass("hidden");
+    // con esto podemos imprimir todo el modal: var contenido = document.getElementById("contenido_ficha_consulta").innerHTML;
+
+    //con esto imprimimos solo el div modal-body, sin el header ni el footer:
+    var contenido = document.querySelector("#contenido_ficha_consulta .modal-body").outerHTML;
+
+    var ventana = window.open('', '', 'height=800,width=1000');
+
+    ventana.document.write('<html><head><title>Imprimir</title>');
+    ventana.document.write('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">');
+    ventana.document.write('</head><body>');
+
+    ventana.document.write(contenido);
+
+    ventana.document.write('</body></html>');
+
+    ventana.document.close();
+
+    ventana.focus();
+
+    ventana.print();
+
+    ventana.onafterprint = function() {
+      $("#aclaraciones2").addClass("hidden");
+      ventana.close();
+    };
+
+}
+
+function ver_resumen_saldos(){
+  $("#myModal1").load("caja/reportes/htmls/resumen_saldos.php", function(response,status,xhr){ 
+    if(status == "success"){
+      var datosResumenSaldos = { min:$('#fechaDe').val()+' 00:00:00', max:$('#fechaA').val()+' 23:59:59' }
+      $.post('caja/files-serverside/resumen_saldos.php',datosResumenSaldos).done(function( dataResumenSaldos ) { 
+        $('#tbodyContentMS').html(dataResumenSaldos);
+        $('#titulo_modal2').text('RESUMEN DE SALDOS');
+      });
+
+      $("#btn_aplicar").addClass("hidden");
+    
+      $('#myModal1').modal('show');
+      $('#myModal1').on('shown.bs.modal', function (e){ });
+      $('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
+    } 
+  });
+}
+
 </script>

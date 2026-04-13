@@ -2,18 +2,18 @@
 require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
 
-	$aColumns = array('c.linea_c', 'c.id_to');
+	$aColumns = array('cl.nombre_l', 'count(DISTINCT vc.referencia_vc)', 'count(DISTINCT vc.id_paciente_vc)', 'count(vc.id_concepto_es)', 'sum(vc.precio_vc)');
      
     // DB tables to use 
-    $aTables = array('conceptos c');
+    $aTables = array('venta_conceptos vc');
      
     // Indexed column (used for fast and accurate table cardinality) 
-    $sIndexColumn = " c.id_to ";
+    $sIndexColumn = " vc.id_vc";
      
 	// Joins   
-	$sJoin = ' ';
+	$sJoin = ' LEFT JOIN conceptos c on c.id_to = vc.id_concepto_es LEFT JOIN catalogo_lineas_cr cl on cl.nombre_l = c.linea_c ';
 
-	$sWhere =" group by c.linea_c order by c.linea_c asc ";
+	$sWhere =" WHERE vc.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]' AND vc.referencia_vc IS NOT NULL group by cl.nombre_l ";
     /* Database connection information */
     $gaSql['user'] = $username_horizonte; $gaSql['password'] = $password_horizonte; 
 	$gaSql['db']   = $database_horizonte; $gaSql['server']   = $hostname_horizonte;
@@ -31,7 +31,7 @@ require("../../funciones/php/values.php");
     }
      
     /* * Ordering */
-    $sOrder = "";
+    $sOrder = "ORDER BY cl.nombre_l ASC";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
         $sOrder = "ORDER BY  ";
@@ -122,7 +122,7 @@ require("../../funciones/php/values.php");
         }
 		
 		//Calculamos el número de pacientes por departamento
-		mysql_select_db($database_horizonte, $horizonte);
+		/*mysql_select_db($database_horizonte, $horizonte);
 		
 		if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
 			
@@ -141,7 +141,7 @@ require("../../funciones/php/values.php");
 			
 			$resultTC = mysql_query("SELECT count(vc.id_vc) from venta_conceptos vc left join  conceptos c on c.id_to = vc.id_concepto_es left join orden_venta ov on ov.referencia_ov = vc.referencia_vc  WHERE vc.temporal_vc != 1 and c.linea_c = '$row[0]' and vc.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 			
-			$resultT = mysql_query("SELECT SUM(p.pago_pag) from pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE e.linea_c = '$row[0]' and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' and vc.temporal_vc != 1", $horizonte) or die (mysql_error()); //Sacamos cuanto es el total por departamento de las ventas de conceptos, pero no es la de los pagos
+			$resultT = mysql_query("SELECT SUM(p.pago_pag) from pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE e.linea_c = '$row[0]' and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' and vc.temporal_vc != 1", $horizonte) or die (mysql_error());
 			
 		}else{ }
 		
@@ -157,8 +157,11 @@ require("../../funciones/php/values.php");
         while ($filaAbonado = mysql_fetch_assoc($resultTam)) {
             $totalAbonado = $totalAbonado +$filaAbonado['precio_vc'];
         }
-        $row[4] = $totalAbonado;
+        $row[4] = $totalAbonado;*/
 		
+        if($row[0] == null){
+            $row[0] = "LINEA NO ASIGNADA";
+        }
 				
 		$output['aaData'][] = $row;
     }

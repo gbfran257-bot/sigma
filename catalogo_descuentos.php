@@ -100,7 +100,7 @@
 <script>
 $(document).ready(function(e) {
 	//breadcrumb
-	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>ADMINISTRACIÓN</li><li>CATÁLOGOS</li><li class="active"><strong>LÍNEA CRUZ ROJA</strong></li>');
+	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>ADMINISTRACIÓN</li><li>CATÁLOGOS</li><li class="active"><strong>DESCUENTOS</strong></li>');
 	
 	$('#my_search').removeClass('hidden'); $.fn.datepicker.defaults.autoclose = true; 
 	

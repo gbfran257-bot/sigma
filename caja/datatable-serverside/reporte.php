@@ -2,18 +2,21 @@
 require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
 
-	$aColumns = array('d.nombre_d', 'd.id_d', 'd.id_d', 'd.id_d', 'd.id_d', 'd.id_d', 'd.id_d', 'd.id_d' );
+    $min = sqlValue($_GET["min"], "date");
+    $max = sqlValue($_GET["max"], "date");
+
+	$aColumns = array("d.nombre_d", "COUNT(DISTINCT vc.referencia_vc)", "COUNT(DISTINCT vc.id_paciente_vc)", "COUNT(vc.id_vc)", "(SELECT SUM(p1.pago_pag) FROM pagos_ov p1 LEFT JOIN orden_venta ov1 on ov1.referencia_ov = p1.referencia_pag WHERE p1.departamento_pa = d.id_d and ov1.fecha_venta_ov BETWEEN $min AND $max)", "(SELECT CASE d.id_d WHEN 1 THEN SUM(total_el) WHEN 2 THEN SUM(total_ei) WHEN 3 THEN SUM(total_p) WHEN 4 THEN SUM(total_c) + SUM(total_s) END FROM orden_venta WHERE fecha_venta_ov BETWEEN $min AND $max)");
      
     // DB tables to use 
-    $aTables = array('departamentos d');
+    $aTables = array(' venta_conceptos vc ');
      
     // Indexed column (used for fast and accurate table cardinality) 
-    $sIndexColumn = " d.id_d ";
+    $sIndexColumn = " vc.id_vc ";
      
 	// Joins   
-	$sJoin = ' ';
+	$sJoin = '  LEFT JOIN conceptos c on c.id_to = vc.id_concepto_es LEFT JOIN departamentos d on d.id_d = c.id_departamento_to ';
 
-	$sWhere =" WHERE d.id_d in (1,2,3,4) order by d.nombre_d asc ";
+	$sWhere =" WHERE vc.fecha_venta_vc BETWEEN $min AND $max AND vc.referencia_vc IS NOT NULL AND d.id_d IN (1,2,3,4) ";
     /* Database connection information */
     $gaSql['user'] = $username_horizonte; $gaSql['password'] = $password_horizonte; 
 	$gaSql['db']   = $database_horizonte; $gaSql['server']   = $hostname_horizonte;
@@ -31,10 +34,10 @@ require("../../funciones/php/values.php");
     }
      
     /* * Ordering */
-    $sOrder = "";
+    $sOrder = " ";
     if ( isset( $_GET['iSortCol_0'] ) )
     {
-        $sOrder = "ORDER BY  ";
+        $sOrder = "GROUP BY d.id_d ORDER BY d.nombre_d ASC  ";
         for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ )
         {
             if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" )
@@ -120,141 +123,9 @@ require("../../funciones/php/values.php");
             if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; }
             else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; }
         }
-		
-		//Calculamos el número de pacientes por departamento
-		mysql_select_db($database_horizonte, $horizonte);
-		
-		if(isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] != '' && $_GET['max'] != ''){
+
+        $row[5] = $row1[5] - $row1[4];
 			
-			$query_Recordset1 = "SELECT distinct(vc.id_paciente_vc) FROM pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE vc.temporal_vc != 1 and e.id_departamento_to = $row[1] and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'";
-			$Recordset1 = mysql_query($query_Recordset1, $horizonte) or die(mysql_error());
-			$row_Recordset1 = mysql_fetch_assoc($Recordset1);
-			$totalRows_Recordset1 = mysql_num_rows($Recordset1);
-			$ali = $row[2];
-			$row[2] = $totalRows_Recordset1; 
-			
-			$query_Recordset1a = "SELECT distinct(vc.referencia_vc) FROM pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE vc.temporal_vc != 1 and e.id_departamento_to = $row[1] and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'";
-			$Recordset1a = mysql_query($query_Recordset1a, $horizonte) or die(mysql_error());
-			$row_Recordset1a = mysql_fetch_assoc($Recordset1a);
-			$totalRows_Recordset1a = mysql_num_rows($Recordset1a);
-			$row[1] = $totalRows_Recordset1a;
-			
-			// $resultTC = mysql_query("SELECT count(vc.id_vc) from pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE temporal_vc != 1 and e.id_departamento_to = $ali and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
-            $resultTC = mysql_query("SELECT count(v.id_vc) FROM venta_conceptos v left join conceptos e on e.id_to = v.id_concepto_es WHERE temporal_vc = 0 and e.id_departamento_to = $ali and v.fecha_venta_vc BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
-			
-			$resultT = mysql_query("SELECT SUM(p.pago_pag) from pagos_ov p left join venta_conceptos vc on vc.referencia_vc = p.referencia_pag left join conceptos e on e.id_to = vc.id_concepto_es WHERE e.id_departamento_to = $row[3] and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' and vc.temporal_vc != 1", $horizonte) or die (mysql_error()); //Sacamos cuanto es el total por departamento de las ventas de conceptos, pero no es la de los pagos
-			
-		}else{ }
-		
-		$rowTC = mysql_fetch_row($resultTC); $rowT = mysql_fetch_row($resultT);
-		
-		$row[2] = $row[2]; $row[3] = $rowTC[0];
-		
-		//if($rowT[0]==0){$row[0]="<span class='erase1'>$row[0]</span>";} 
-		
-		$resultTam = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 4 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
-		$rowTam = mysql_fetch_row($resultTam);
-		
-		$resultTim = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 2 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
-		$rowTim = mysql_fetch_row($resultTim);
-		
-		$resultTlb = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 1 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
-		$rowTlb = mysql_fetch_row($resultTlb);
-		
-		$resultTfa = mysql_query("SELECT SUM(p.pago_pag) FROM pagos_ov p WHERE departamento_pa = 3 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
-		$rowTfa = mysql_fetch_row($resultTfa);
-
-
-						
-		//Asociación médica
-		if($row[6]==4){$row[4] = $rowTam[0];}
-		//Imagen
-		else if($row[6]==2){$row[4] = $rowTim[0];}
-		//Laboratorio
-		else if($row[6]==1){$row[4] = $rowTlb[0]; }
-		//Farmacia si es que hay conceptos de farmacia
-		else if($row[6]==3){$row[4] = $rowTfa[0];}
-		//Enfermería si es que hay conceptos de Enfermería
-
-
-        $saldos = mysql_query("SELECT ov.referencia_ov from pagos_ov p left join orden_venta ov on p.referencia_pag = ov.referencia_ov WHERE p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]' group by ov.referencia_ov", $horizonte) or die (mysql_error());
-        $saldoArray  = array();
-        $contS = 0;
-        $dep = array();
-        $totalSaldo1 = 0;
-        $totalSaldo2 = 0;
-        $totalSaldo4 = 0;
-        $totalSaldo3 = 0;
-        while ($filaSaldos = mysql_fetch_assoc($saldos)) {
-            $saldoArray[$contS] = $filaSaldos['referencia_ov'];
-            $dep[$contS] = $filaSaldos['departamento_pa'];
-            $contS++;
-        }
-        for ($i=0; $i < count($saldoArray) ; $i++) { 
-                    $arrayCF = array();
-                    $arrayPF = array();
-                   
-                    $ic= 0;
-                    $precioL = 0;
-                    $precioS = 0;
-                    $precioF = 0;
-                    $precioI = 0;
-                    $cantidadS3 = mysql_query("SELECT ov.gran_total_ov, vc.precio_vc, vc.id_concepto_es from venta_conceptos vc left join pagos_ov p on p.referencia_pag = vc.referencia_vc left join orden_venta ov on p.referencia_pag = ov.referencia_ov WHERE vc.referencia_vc  = '$saldoArray[$i]' group by vc.id_concepto_es ", $horizonte) or die (mysql_error());
-                    while ($conceptosF = mysql_fetch_assoc($cantidadS3)) {
-                        $arrayCF[$ic] = $conceptosF['id_concepto_es'];
-                        $arrayPF[$ic] = $conceptosF['precio_vc'];
-                        $ic++;
-                    }
-
-                    for ($a=0; $a < count($arrayCF); $a++) { 
-                        $queryD = mysql_query("SELECT c.id_departamento_to  from venta_conceptos vc left join conceptos c on c.id_to = vc.id_concepto_es  where vc.referencia_vc = '$saldoArray[$i]' AND c.id_to = $arrayCF[$a]", $horizonte) or die (mysql_error());
-                        $rowd = mysql_fetch_row($queryD);
-                        if($rowd[0] == 1){
-                            $precioL =  $precioL + $arrayPF[$a];
-                        }
-                        if($rowd[0] == 2){
-                            $precioI =  $precioI + $arrayPF[$a];
-                        }
-                        if($rowd[0] == 3){
-                            $precioF =  $precioF + $arrayPF[$a];
-                        }
-                        if($rowd[0] == 4){
-                            $precioS =  $precioS + $arrayPF[$a];
-                        }
-
-                    }
-                     //saldo laboratorio
-                     $queryD1 = mysql_query("SELECT SUM(pago_pag) from pagos_ov where referencia_pag = '$saldoArray[$i]' AND departamento_pa = 1", $horizonte) or die (mysql_error());
-                     $rowS1 = mysql_fetch_row($queryD1);
-                     $resta1 = $precioL - $rowS1[0];
-                     $totalSaldo1 = $totalSaldo1 + $resta1;
-                      //saldo imagen
-                    $queryD2 = mysql_query("SELECT SUM(pago_pag) from pagos_ov where referencia_pag = '$saldoArray[$i]' AND departamento_pa = 2", $horizonte) or die (mysql_error());
-                    $rowS2 = mysql_fetch_row($queryD2);
-                    $resta2 = $precioI - $rowS2[0];
-                    $totalSaldo2 = $totalSaldo2 + $resta2;
-                    //saldo farmacia
-                    $queryD3 = mysql_query("SELECT SUM(pago_pag) from pagos_ov where referencia_pag = '$saldoArray[$i]' AND departamento_pa = 3", $horizonte) or die (mysql_error());
-                    $rowS3 = mysql_fetch_row($queryD3);
-                    $resta3 = $precioF - $rowS3[0];
-                    $totalSaldo3 = $totalSaldo3 + $resta3;
-                     //saldo asociasion
-                     $queryD4 = mysql_query("SELECT SUM(pago_pag) from pagos_ov where referencia_pag = '$saldoArray[$i]' AND departamento_pa = 4", $horizonte) or die (mysql_error());
-                     $rowS4 = mysql_fetch_row($queryD4);
-                     $resta4 = $precioS - $rowS4[0];
-                     $totalSaldo4 = $totalSaldo4 + $resta4;
-        }
-
-        //Asociación médica
-		if($row[6]==4){$row[5] = $totalSaldo4;}
-		//Imagen
-		else if($row[6]==2){$row[5] = $totalSaldo2;}
-		//Laboratorio
-		else if($row[6]==1){$row[5] = $totalSaldo1; }
-		//Farmacia si es que hay conceptos de farmacia
-		else if($row[6]==3){$row[5] = $totalSaldo3;}
-		//Enfermería si es que hay conceptos de Enfermería
-				
 		$output['aaData'][] = $row;
     }
     echo json_encode( $output );
