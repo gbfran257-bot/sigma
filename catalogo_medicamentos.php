@@ -833,7 +833,8 @@ include_once 'recursos/datauser.php';
 		var datosMPS = {
 			id_to:id_to,
 			id_s:$('#miSucursal').val(),
-			precio:$('#precio_'+id_to).val()
+			precio:$('#precio_'+id_to).val(),
+			usuario:$('#id_user').val()
 		}
 		$.post('farmacia/compras/files-serverside/updatePreciosCatalogoM.php',datosMPS).done(function(data_mps){
 			if(data_mps==1){ /* $('#clickme').click(); */

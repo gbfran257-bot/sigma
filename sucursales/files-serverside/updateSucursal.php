@@ -129,9 +129,9 @@ if(!$insertar){ echo $sql; }else{
 		//Para laboratorio
 		if($row2[3]!=$tab_lab){ /// hubo cambio
 			if($tab_lab==1){//tabulador base maquila
-				$sql3 = "update conceptos set $k1 = costo_maquila_to, $k2 = costo_maquila_u_to where id_tipo_concepto_to = 3";
+				$sql3 = "update conceptos set $k1 = costo_maquila_to, $k2 = costo_maquila_u_to, usuario_to = $idUsuario, fecha_to = $now where id_tipo_concepto_to = 3";
 			}else{//tabulador base sucursal
-				$sql3 = "update conceptos set $k1 = precio_to, $k2 = precio_urgencia_to where id_tipo_concepto_to = 3";
+				$sql3 = "update conceptos set $k1 = precio_to, $k2 = precio_urgencia_to, usuario_to = $idUsuario, fecha_to = $now where id_tipo_concepto_to = 3";
 			}
 			$update3 = mysql_query($sql3, $horizonte);
 		}

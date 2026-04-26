@@ -6,6 +6,8 @@ $para = $_POST["para"]; $idU = sqlValue($_POST["idU"], "int"); $pass = sqlValue(
 $p_t_i = sqlValue($_POST["p_t_i"], "int"); $p_t_l = sqlValue($_POST["p_t_l"], "int"); $p_t_s = sqlValue($_POST["p_t_s"], "int");
 $tipo_tab_i = sqlValue($_POST["tipo_tab_i"], "int"); $tipo_tab_l = sqlValue($_POST["tipo_tab_l"], "int");
 $idS = sqlValue($_POST["idS"], "int"); $k1 = $_POST["idS"].'_precio'; $k2 = $_POST["idS"].'_precio_u';
+$usuario = sqlValue($_POST["usuario"], "int");
+$now = sqlValue(date('Y-m-d H:i:s'), "date");
 
  mysql_select_db($database_horizonte, $horizonte);
  $result = mysql_query("SELECT usuario_u from usuarios where id_u = $idU ", $horizonte) or die (mysql_error());
@@ -21,9 +23,9 @@ $idS = sqlValue($_POST["idS"], "int"); $k1 = $_POST["idS"].'_precio'; $k2 = $_PO
 	 if($para=='i'){
 		$uno = $p_t_i*0.01;
 		if($_POST["tipo_tab_i"]==1){//tabulador base maquila
-			$sql2 = "update conceptos set $k1 = precio_to*$uno, $k2 = precio_urgencia_to*$uno where id_tipo_concepto_to = 4";
+			$sql2 = "update conceptos set $k1 = precio_to*$uno, $k2 = precio_urgencia_to*$uno, usuario_to = $usuario, fecha_to = $now where id_tipo_concepto_to = 4";
 		}else{//tabulador base sucursal
-			$sql2 = "update conceptos set $k1 = precio1_to*$uno, $k2 = precio_urgencia1_to*$uno where id_tipo_concepto_to = 4";
+			$sql2 = "update conceptos set $k1 = precio1_to*$uno, $k2 = precio_urgencia1_to*$uno, usuario_to = $usuario, fecha_to = $now where id_tipo_concepto_to = 4";
 		}
 		$update2 = mysql_query($sql2, $horizonte) or die (mysql_error());
 		if (!$update2) { $ok = $sql2; }else{
@@ -38,9 +40,9 @@ $idS = sqlValue($_POST["idS"], "int"); $k1 = $_POST["idS"].'_precio'; $k2 = $_PO
 	 elseif($para=='l'){
 		$dos = $p_t_l*0.01;
 		if($_POST["tipo_tab_l"]==1){//tabulador base maquila
-			$sql3 = "update conceptos set $k1 = precio_to*$dos, $k2 = precio_urgencia_to*$dos where id_tipo_concepto_to = 3";
+			$sql3 = "update conceptos set $k1 = precio_to*$dos, $k2 = precio_urgencia_to*$dos, usuario_to = $usuario, fecha_to = $now where id_tipo_concepto_to = 3";
 		}else{//tabulador base sucursal
-			$sql3 = "update conceptos set $k1 = precio1_to*$dos, $k2 = precio_urgencia1_to*$dos where id_tipo_concepto_to = 3";
+			$sql3 = "update conceptos set $k1 = precio1_to*$dos, $k2 = precio_urgencia1_to*$dos, usuario_to = $usuario, fecha_to = $now where id_tipo_concepto_to = 3";
 		}
 		$update3 = mysql_query($sql3, $horizonte) or die (mysql_error());
 		if (!$update3) { $ok = $sql3; }else{
@@ -54,7 +56,7 @@ $idS = sqlValue($_POST["idS"], "int"); $k1 = $_POST["idS"].'_precio'; $k2 = $_PO
 	 }
 	 elseif($para=='s'){
 		$tres = $p_t_s*0.01;
-		$sql4 = "update conceptos set $k1 = precio_to*$tres, $k2 = precio_urgencia_to*$tres where id_tipo_concepto_to = 2";
+		$sql4 = "update conceptos set $k1 = precio_to*$tres, $k2 = precio_urgencia_to*$tres, usuario_to = $usuario, fecha_to = $now where id_tipo_concepto_to = 2";
 		$update4 = mysql_query($sql4, $horizonte) or die (mysql_error());
 		if (!$update4) { $ok=$sql4; }else{
 			$sqlz="UPDATE seguros SET p_tabulador_s_su = $p_t_s where id_su = $idS limit 1";
@@ -70,22 +72,22 @@ $idS = sqlValue($_POST["idS"], "int"); $k1 = $_POST["idS"].'_precio'; $k2 = $_PO
 		$uno = $p_t_i*0.01;
 		//Para imagen
 		if($_POST["tipo_tab_i"]==1){//tabulador base maquila
-			$sql2 = "update conceptos set $k1 = precio_to*$uno, $k2 = precio_urgencia_to*$uno where id_tipo_concepto_to = 4";
+			$sql2 = "update conceptos set $k1 = precio_to*$uno, $k2 = precio_urgencia_to*$uno, usuario_to = $usuario, fecha_to = $now where id_tipo_concepto_to = 4";
 		}else{//tabulador base sucursal
-			$sql2 = "update conceptos set $k1 = precio1_to*$uno, $k2 = precio_urgencia1_to*$uno where id_tipo_concepto_to = 4";
+			$sql2 = "update conceptos set $k1 = precio1_to*$uno, $k2 = precio_urgencia1_to*$uno, usuario_to = $usuario, fecha_to = $now where id_tipo_concepto_to = 4";
 		}
 		//Para laboratorio
 		$update2 = mysql_query($sql2, $horizonte) or die (mysql_error());
 		if (!$update2) { $ok = $sql2; }else{ $dos = $p_t_l*0.01;
 			if($_POST["tipo_tab_l"]==1){//tabulador base maquila
-				$sql3 = "update conceptos set $k1 = precio_to*$dos, $k2 = precio_urgencia_to*$dos where id_tipo_concepto_to = 3";
+				$sql3 = "update conceptos set $k1 = precio_to*$dos, $k2 = precio_urgencia_to*$dos, usuario_to = $usuario, fecha_to = $now where id_tipo_concepto_to = 3";
 			}else{//tabulador base sucursal
-				$sql3 = "update conceptos set $k1 = precio1_to*$dos, $k2 = precio_urgencia1_to*$dos where id_tipo_concepto_to = 3";
+				$sql3 = "update conceptos set $k1 = precio1_to*$dos, $k2 = precio_urgencia1_to*$dos, usuario_to = $usuario, fecha_to = $now where id_tipo_concepto_to = 3";
 			}
 			//Para servicios
 			$update3 = mysql_query($sql3, $horizonte) or die (mysql_error());
 			if (!$update3) { $ok = $sql3; }else{ $tres = $p_t_s*0.01;
-				$sql4 = "update conceptos set $k1 = precio_to*$tres, $k2 = precio_urgencia_to*$tres where id_tipo_concepto_to = 2";
+				$sql4 = "update conceptos set $k1 = precio_to*$tres, $k2 = precio_urgencia_to*$tres, usuario_to = $usuario, fecha_to = $now where id_tipo_concepto_to = 2";
 				$update4 = mysql_query($sql4, $horizonte) or die (mysql_error());
 				if (!$update4) { $ok=$sql4; }else{
 					$sqlz = "UPDATE seguros SET tipo_tabulador_su = $tipo_tab_l, tipo_tabulador_i_su = $tipo_tab_i, p_tabulador_i_su = $p_t_i, p_tabulador_l_su = $p_t_l, p_tabulador_s_su = $p_t_s where id_su = $idS limit 1";

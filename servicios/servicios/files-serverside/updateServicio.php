@@ -21,7 +21,7 @@ require("../../../funciones/php/values.php");
 		//$precio_nor_me = 'precio_membrecia_to'; $precio_ur_me = 'precio_membrecia1';
 	}
    
- $sql = "UPDATE conceptos SET concepto_to = $nombre, $precio_nor = $precio, $precio_ur = $precioU where id_to = $idS limit 1";
+ $sql = "UPDATE conceptos SET concepto_to = $nombre, $precio_nor = $precio, $precio_ur = $precioU, usuario_to = $idUsuario, fecha_to = $now where id_to = $idS limit 1";
 
 mysql_select_db($database_horizonte, $horizonte);
 $insertar = mysql_query($sql, $horizonte);
