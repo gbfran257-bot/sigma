@@ -117,9 +117,11 @@
             <thead id="cabecera_tBusquedaP1">
               <tr id="mymy1" class="bg-primary">
                 <th id="clickme1">#ORDENES DE VENTA</th>
-                <th nowrap>TOTAL</th>
-                <th nowrap>DESCUENTOS</th>
+                <th>SUBTOTAL</th>
+                <th>CARGOS EXTRAS</th>
                 <th nowrap>ABONADO($)</th>
+                <th nowrap>DESCUENTOS</th>
+                <th nowrap>TOTAL</th>
                 <th nowrap>SALDOS($)</th>
               </tr>
             </thead>
@@ -130,6 +132,8 @@
             </tbody>
             <tfoot>
                 <tr class="bg-primary">
+                  <th><input type="hidden" value=""></th>
+                  <th><input type="hidden" value=""></th>
                   <th><input type="hidden" value=""></th>
                   <th><input type="hidden" value=""></th>
                   <th><input type="hidden" value=""></th>
@@ -283,7 +287,7 @@ $(document).ready(function(e) {
     "bFilter": false, 
     "aaSorting": [[0, "asc"]],
 		"aoColumns":[
-			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}
+			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}
 		],
 		"iDisplayLength": 50, 
     "bLengthChange": false, 

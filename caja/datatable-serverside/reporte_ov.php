@@ -2,7 +2,7 @@
 require("../../Connections/horizonte.php");
 require("../../funciones/php/values.php");
 
-	$aColumns = array('COUNT(o.id_ov)','SUM(o.gran_total_ov)', 'SUM(o.t_desc_cta)+ SUM(o.t_desc_img)+ SUM(o.t_desc_lab)+SUM(o.t_desc_serv)+ SUM(o.t_desc_pro) as descuentos');
+	$aColumns = array('COUNT(o.id_ov)', 'SUM(o.subtotal_ov)', 'SUM(o.adicionales_c_ov)+SUM(o.adicionales_p_ov)+SUM(o.adicionales_ei_ov)+SUM(o.adicionales_el_ov)+SUM(o.adicionales_s_ov)', 'SUM(o.gran_total_ov)', 'SUM(o.t_desc_cta)+ SUM(o.t_desc_img)+ SUM(o.t_desc_lab)+SUM(o.t_desc_serv)+ SUM(o.t_desc_pro) as descuentos');
      
     // DB tables to use 
     $aTables = array('orden_venta o');
@@ -163,10 +163,10 @@ require("../../funciones/php/values.php");
 		// $rowTC = mysql_fetch_row($resultTC); 
         $abonadoR= mysql_fetch_row($abonado);
 		
-		// $row[2] = $row[2]; 
+        $row[5] = $row[3]; 
         $row[3] = $abonadoR[0];
-        $row[4] = $totalSaldo;
-        $row[4] ="<span style='text-decoration:underline; cursor:pointer; color:blue;' onClick='ver_resumen_saldos()'>$row[4]</span>";
+        $row[6] = $totalSaldo;
+        $row[6] ="<span style='text-decoration:underline; cursor:pointer; color:blue;' onClick='ver_resumen_saldos()'>$row[6]</span>";
 		
 		// $resultTam = mysql_query("SELECT vc.precio_vc FROM venta_conceptos vc left join conceptos c on c.id_to = vc.id_concepto_es left join pagos_ov p on p.referencia_pag = vc.referencia_vc WHERE c.linea_c = '$row[0]' AND vc.temporal_vc = 0 and p.fecha_pag BETWEEN '$_GET[min]' AND '$_GET[max]'", $horizonte) or die (mysql_error());
 		// $totalAbonado =  0;
