@@ -91,7 +91,7 @@
             <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
             <tfoot>
                 <tr>
-                    <th><input type="hidden" value=""></th>
+                    <th><input type="hidden" value="">TOTALES</th>
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none; color:white;" value="0"></th>
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none; color:white;" value="0.00"></th>
                 </tr>
@@ -155,7 +155,7 @@
             <thead id="cabecera_tBusquedaP">
               <tr id="mymy" class="bg-primary">
                 <th id="clickme">DEPARTAMENTO</th>
-                <th nowrap>#VISITAS</th>
+                <th nowrap>#ORDENES</th>
                 <th nowrap>#PACIENTES</th>
                 <th nowrap>#CONCEPTOS</th>
                 <th nowrap>ABONADO($)</th>
@@ -182,7 +182,7 @@
             <thead id="cabecera_tBusquedaPA">
               <tr id="mymyA" class="bg-primary">
                 <th>LÍNEA</th>
-                <th nowrap>#VISITAS</th>
+                <th nowrap>#ORDENES</th>
                 <th nowrap>#PACIENTES</th>
                 <th nowrap>#CONCEPTOS</th>
                 <th nowrap>TOTAL($)</th>
