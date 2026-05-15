@@ -160,6 +160,7 @@
                 <th nowrap>#CONCEPTOS</th>
                 <th nowrap>ABONADO($)</th>
                 <th nowrap>SALDOS($)</th>
+                <th nowrap>ABONADO(Total)</th>
               </tr>
             </thead>
             <tbody align=""> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
@@ -171,6 +172,7 @@
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none;" value="0"/></th>
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none;" value="0.00"/></th>
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none;" value="0.00"/></th>
+                    <th><input type="hidden" value=""></th>
                   </tr>
             </tfoot>
           </table>
@@ -314,7 +316,7 @@ $(document).ready(function(e) {
 	
 	oTable = $('#dataTable').dataTable({
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
-            var iTotal = 0, iComision=0, iAbonado = 0, iVisitas = 0, iSaldo = 0;
+            var iTotal = 0, iComision=0, iAbonado = 0, iVisitas = 0, iSaldo = 0, abonadototal = 0;
             for ( var i=iStart ; i<iEnd ; i++ )
             {
 				        iVisitas  += aaData[ aiDisplay[i] ][1]*1;
@@ -322,6 +324,7 @@ $(document).ready(function(e) {
                 iComision += aaData[ aiDisplay[i] ][3]*1;
                 iAbonado  += aaData[ aiDisplay[i] ][4]*1;
                 iSaldo  += aaData[ aiDisplay[i] ][5]*1;
+                abonadototal += aaData[ aiDisplay[i] ][6]*1;
             }
             var nCells = nRow.getElementsByTagName('th');
 			      nCells[1].innerHTML = parseInt(iVisitas  * 100)/100;
@@ -329,6 +332,7 @@ $(document).ready(function(e) {
             nCells[3].innerHTML = parseInt(iComision * 100)/100;
             nCells[4].innerHTML = '$'+parseInt(iAbonado  * 100)/100;
             nCells[5].innerHTML = '$'+parseInt(iSaldo  * 100)/100;
+            nCells[6].innerHTML = '$'+parseInt(abonadototal  * 100)/100;
 			
 			window.setTimeout(function(){$('.erase1').each(function(index, element) { $(this).parent().parent().remove(); });},200);
 		},
@@ -341,7 +345,7 @@ $(document).ready(function(e) {
     "bFilter": false, 
     "aaSorting": [[0, "asc"]],
 		"aoColumns":[
-			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"},	{ "bVisible": true}
+			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}, { "bVisible": true}, { "bVisible": true}
 		],
 		"iDisplayLength": 50, 
     "bLengthChange": false, 
