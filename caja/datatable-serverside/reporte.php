@@ -5,7 +5,7 @@ require("../../funciones/php/values.php");
     $min = sqlValue($_GET["min"], "date");
     $max = sqlValue($_GET["max"], "date");
 
-	$aColumns = array("d.nombre_d", "COUNT(DISTINCT vc.referencia_vc)", "COUNT(DISTINCT vc.id_paciente_vc)", "COUNT(vc.id_vc)", "(SELECT SUM(p1.pago_pag) FROM pagos_ov p1 LEFT JOIN orden_venta ov1 on ov1.referencia_ov = p1.referencia_pag WHERE p1.departamento_pa = d.id_d and ov1.fecha_venta_ov BETWEEN $min AND $max)", "(SELECT CASE d.id_d WHEN 1 THEN SUM(total_el) WHEN 2 THEN SUM(total_ei) WHEN 3 THEN SUM(total_p) WHEN 4 THEN SUM(total_c) + SUM(total_s) END FROM orden_venta WHERE fecha_venta_ov BETWEEN $min AND $max)", "(SELECT SUM(p2.pago_pag) FROM pagos_ov p2 INNER JOIN usuarios u ON u.id_u = p2.usuario_pag WHERE p2.departamento_pa = d.id_d AND p2.fecha_pag BETWEEN $min AND $max)");
+	$aColumns = array("d.nombre_d", "COUNT(DISTINCT vc.referencia_vc)", "COUNT(DISTINCT vc.id_paciente_vc)", "COUNT(vc.id_vc)", "(SELECT SUM(p1.pago_pag) FROM pagos_ov p1 LEFT JOIN orden_venta ov1 on ov1.referencia_ov = p1.referencia_pag WHERE p1.departamento_pa = d.id_d and ov1.fecha_venta_ov BETWEEN $min AND $max)", "(SELECT CASE d.id_d WHEN 1 THEN SUM(total_el) WHEN 2 THEN SUM(total_ei) WHEN 3 THEN SUM(total_p) WHEN 4 THEN SUM(total_c) + SUM(total_s) END FROM orden_venta WHERE fecha_venta_ov BETWEEN $min AND $max)", "(SELECT SUM(p2.pago_pag) FROM pagos_ov p2 LEFT JOIN usuarios u ON u.id_u = p2.usuario_pag WHERE p2.departamento_pa = d.id_d AND p2.fecha_pag BETWEEN $min AND $max)", "d.id_d");
      
     // DB tables to use 
     $aTables = array(' venta_conceptos vc ');
@@ -124,7 +124,11 @@ require("../../funciones/php/values.php");
             else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; }
         }
 
-        $row[5] = $row1[5] - $row1[4];
+        $abonado_total = $row[6];
+
+        $row[5] = $row[5] - $row[4];
+        $row[6] ="<span style='text-decoration:underline; cursor:pointer; color:blue;' onClick='ver_resumen_departamentos($row[7], \"$row[0]\")'>$row[6]</span>";
+        $row[7] = $abonado_total;
 			
 		$output['aaData'][] = $row;
     }

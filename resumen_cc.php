@@ -324,7 +324,7 @@ $(document).ready(function(e) {
                 iComision += aaData[ aiDisplay[i] ][3]*1;
                 iAbonado  += aaData[ aiDisplay[i] ][4]*1;
                 iSaldo  += aaData[ aiDisplay[i] ][5]*1;
-                abonadototal += aaData[ aiDisplay[i] ][6]*1;
+                abonadototal += aaData[ aiDisplay[i] ][7]*1;
             }
             var nCells = nRow.getElementsByTagName('th');
 			      nCells[1].innerHTML = parseInt(iVisitas  * 100)/100;
@@ -638,6 +638,22 @@ function ver_resumen_saldos(){
       });
 
       $("#btn_aplicar").addClass("hidden");
+    
+      $('#myModal1').modal('show');
+      $('#myModal1').on('shown.bs.modal', function (e){ });
+      $('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
+    } 
+  });
+}
+
+function ver_resumen_departamentos(id_departamento, nombre_departamento){
+  $("#myModal1").load("caja/reportes/htmls/resumen_departamentos.php", function(response,status,xhr){ 
+    if(status == "success"){
+      var datosResumenDepartamentos = { min:$('#fechaDe').val()+' 00:00:00', max:$('#fechaA').val()+' 23:59:59', id_departamento: id_departamento }
+      $.post('caja/files-serverside/resumen_departamentos.php',datosResumenDepartamentos).done(function( dataResumenDepartamentos ) { 
+        $('#tbodyContentMS').html(dataResumenDepartamentos);
+        $('#titulo_modal2').text('RESUMEN DE DEPARTAMENTO: '+nombre_departamento);
+      });
     
       $('#myModal1').modal('show');
       $('#myModal1').on('shown.bs.modal', function (e){ });
