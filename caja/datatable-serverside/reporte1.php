@@ -133,6 +133,7 @@ require("../../Connections/horizonte.php");
 				
 		$row[1] = $totalRows_Recordset1;
 		$row[2] = $rowTC[0];
+        $row[3] = "";
 				
 		$output['aaData'][] = $row;
     }

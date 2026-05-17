@@ -87,13 +87,14 @@
   <tr>
     <td height="">
     	<table width="100%" height="" border="1" cellpadding="4" cellspacing="0" id="dataTable1X">
-            <thead id="cabecera_tBusquedaP1"> <tr id="mymy1"> <th id="clickme1X">USUARIO</th> <th nowrap>#PAGOS</th> <th nowrap>TOTAL($)</th> </tr> </thead>
+            <thead id="cabecera_tBusquedaP1"> <tr id="mymy1"> <th id="clickme1X">USUARIO</th> <th nowrap>#PAGOS</th> <th nowrap>TOTAL($)</th> <th nowrap>FIRMA</th> </tr> </thead>
             <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
             <tfoot>
                 <tr>
                     <th><input type="hidden" value="">TOTALES</th>
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none; color:white;" value="0"></th>
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none; color:white;" value="0.00"></th>
+                    <th><input type="hidden" value=""></th>
                 </tr>
             </tfoot>
           </table>
@@ -538,7 +539,7 @@ $(document).ready(function(e) {
             nCells[2].innerHTML = '$'+parseInt(iIngreso  * 100)/100;
 		},
 		"bJQueryUI": false, "bScrollInfinite": true, "bScrollCollapse": true, "bAutoWidth": false, "bStateSave": false, "bInfo": true, "bFilter": true, "aaSorting": [[0, "asc"]],
-		"aoColumns":[{ "bSortable": false },{ "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}],
+		"aoColumns":[{ "bSortable": false },{ "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"}],
 		"iDisplayLength": 50, "bLengthChange": false, "bProcessing": false, "bServerSide": true, "sDom": '<"data_t"t><"info">', "sAjaxSource": "caja/datatable-serverside/reporte1.php",
 		"fnServerParams": function (aoData, fnCallback) { var de = document.getElementById('fechaDe').value+' 00:00:00'; var a = $('#fechaA').val()+' 23:59:59'; aoData.push(  {"name": "min", "value": de } ); aoData.push(  {"name": "max", "value": a } ); },
 		"aLengthMenu": [[9, 25, 50, 100, -1], [9, 25, 50, 100, "Todos"]],
