@@ -87,13 +87,14 @@
   <tr>
     <td height="">
     	<table width="100%" height="" border="1" cellpadding="4" cellspacing="0" id="dataTable1X">
-            <thead id="cabecera_tBusquedaP1"> <tr id="mymy1"> <th id="clickme1X">USUARIO</th> <th nowrap>#PAGOS</th> <th nowrap>TOTAL($)</th> </tr> </thead>
+            <thead id="cabecera_tBusquedaP1"> <tr id="mymy1"> <th id="clickme1X">USUARIO</th> <th nowrap>#PAGOS</th> <th nowrap>TOTAL($)</th> <th nowrap>FIRMA</th> </tr> </thead>
             <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
             <tfoot>
                 <tr>
-                    <th><input type="hidden" value=""></th>
+                    <th><input type="hidden" value="">TOTALES</th>
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none; color:white;" value="0"></th>
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none; color:white;" value="0.00"></th>
+                    <th><input type="hidden" value=""></th>
                 </tr>
             </tfoot>
           </table>
@@ -117,9 +118,11 @@
             <thead id="cabecera_tBusquedaP1">
               <tr id="mymy1" class="bg-primary">
                 <th id="clickme1">#ORDENES DE VENTA</th>
-                <th nowrap>TOTAL</th>
-                <th nowrap>DESCUENTOS</th>
+                <th>SUBTOTAL</th>
+                <th>CARGOS EXTRAS</th>
                 <th nowrap>ABONADO($)</th>
+                <th nowrap>DESCUENTOS</th>
+                <th nowrap>TOTAL</th>
                 <th nowrap>SALDOS($)</th>
               </tr>
             </thead>
@@ -130,6 +133,8 @@
             </tbody>
             <tfoot>
                 <tr class="bg-primary">
+                  <th><input type="hidden" value=""></th>
+                  <th><input type="hidden" value=""></th>
                   <th><input type="hidden" value=""></th>
                   <th><input type="hidden" value=""></th>
                   <th><input type="hidden" value=""></th>
@@ -151,11 +156,12 @@
             <thead id="cabecera_tBusquedaP">
               <tr id="mymy" class="bg-primary">
                 <th id="clickme">DEPARTAMENTO</th>
-                <th nowrap>#VISITAS</th>
+                <th nowrap>#ORDENES</th>
                 <th nowrap>#PACIENTES</th>
                 <th nowrap>#CONCEPTOS</th>
                 <th nowrap>ABONADO($)</th>
                 <th nowrap>SALDOS($)</th>
+                <th nowrap>ABONADO(Total)</th>
               </tr>
             </thead>
             <tbody align=""> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
@@ -167,6 +173,7 @@
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none;" value="0"/></th>
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none;" value="0.00"/></th>
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none;" value="0.00"/></th>
+                    <th><input type="hidden" value=""></th>
                   </tr>
             </tfoot>
           </table>
@@ -178,7 +185,7 @@
             <thead id="cabecera_tBusquedaPA">
               <tr id="mymyA" class="bg-primary">
                 <th>LÍNEA</th>
-                <th nowrap>#VISITAS</th>
+                <th nowrap>#ORDENES</th>
                 <th nowrap>#PACIENTES</th>
                 <th nowrap>#CONCEPTOS</th>
                 <th nowrap>TOTAL($)</th>
@@ -283,7 +290,7 @@ $(document).ready(function(e) {
     "bFilter": false, 
     "aaSorting": [[0, "asc"]],
 		"aoColumns":[
-			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}
+			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}
 		],
 		"iDisplayLength": 50, 
     "bLengthChange": false, 
@@ -310,7 +317,7 @@ $(document).ready(function(e) {
 	
 	oTable = $('#dataTable').dataTable({
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
-            var iTotal = 0, iComision=0, iAbonado = 0, iVisitas = 0, iSaldo = 0;
+            var iTotal = 0, iComision=0, iAbonado = 0, iVisitas = 0, iSaldo = 0, abonadototal = 0;
             for ( var i=iStart ; i<iEnd ; i++ )
             {
 				        iVisitas  += aaData[ aiDisplay[i] ][1]*1;
@@ -318,6 +325,7 @@ $(document).ready(function(e) {
                 iComision += aaData[ aiDisplay[i] ][3]*1;
                 iAbonado  += aaData[ aiDisplay[i] ][4]*1;
                 iSaldo  += aaData[ aiDisplay[i] ][5]*1;
+                abonadototal += aaData[ aiDisplay[i] ][7]*1;
             }
             var nCells = nRow.getElementsByTagName('th');
 			      nCells[1].innerHTML = parseInt(iVisitas  * 100)/100;
@@ -325,6 +333,7 @@ $(document).ready(function(e) {
             nCells[3].innerHTML = parseInt(iComision * 100)/100;
             nCells[4].innerHTML = '$'+parseInt(iAbonado  * 100)/100;
             nCells[5].innerHTML = '$'+parseInt(iSaldo  * 100)/100;
+            nCells[6].innerHTML = '$'+parseInt(abonadototal  * 100)/100;
 			
 			window.setTimeout(function(){$('.erase1').each(function(index, element) { $(this).parent().parent().remove(); });},200);
 		},
@@ -337,7 +346,7 @@ $(document).ready(function(e) {
     "bFilter": false, 
     "aaSorting": [[0, "asc"]],
 		"aoColumns":[
-			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"},	{ "bVisible": true}
+			{"bSortable":false},{"bSortable":false, "sClass": "centrado"},{"bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}, { "bVisible": true}, { "bVisible": true}
 		],
 		"iDisplayLength": 50, 
     "bLengthChange": false, 
@@ -530,7 +539,7 @@ $(document).ready(function(e) {
             nCells[2].innerHTML = '$'+parseInt(iIngreso  * 100)/100;
 		},
 		"bJQueryUI": false, "bScrollInfinite": true, "bScrollCollapse": true, "bAutoWidth": false, "bStateSave": false, "bInfo": true, "bFilter": true, "aaSorting": [[0, "asc"]],
-		"aoColumns":[{ "bSortable": false },{ "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}],
+		"aoColumns":[{ "bSortable": false },{ "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"}],
 		"iDisplayLength": 50, "bLengthChange": false, "bProcessing": false, "bServerSide": true, "sDom": '<"data_t"t><"info">', "sAjaxSource": "caja/datatable-serverside/reporte1.php",
 		"fnServerParams": function (aoData, fnCallback) { var de = document.getElementById('fechaDe').value+' 00:00:00'; var a = $('#fechaA').val()+' 23:59:59'; aoData.push(  {"name": "min", "value": de } ); aoData.push(  {"name": "max", "value": a } ); },
 		"aLengthMenu": [[9, 25, 50, 100, -1], [9, 25, 50, 100, "Todos"]],
@@ -630,6 +639,22 @@ function ver_resumen_saldos(){
       });
 
       $("#btn_aplicar").addClass("hidden");
+    
+      $('#myModal1').modal('show');
+      $('#myModal1').on('shown.bs.modal', function (e){ });
+      $('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
+    } 
+  });
+}
+
+function ver_resumen_departamentos(id_departamento, nombre_departamento){
+  $("#myModal1").load("caja/reportes/htmls/resumen_departamentos.php", function(response,status,xhr){ 
+    if(status == "success"){
+      var datosResumenDepartamentos = { min:$('#fechaDe').val()+' 00:00:00', max:$('#fechaA').val()+' 23:59:59', id_departamento: id_departamento }
+      $.post('caja/files-serverside/resumen_departamentos.php',datosResumenDepartamentos).done(function( dataResumenDepartamentos ) { 
+        $('#tbodyContentMS').html(dataResumenDepartamentos);
+        $('#titulo_modal2').text('RESUMEN DE DEPARTAMENTO: '+nombre_departamento);
+      });
     
       $('#myModal1').modal('show');
       $('#myModal1').on('shown.bs.modal', function (e){ });

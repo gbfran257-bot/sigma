@@ -425,7 +425,7 @@ function reset_tab(a,idS){ $(document).ready(function(e) { var ok=0;
 					var datos = {
 						para:a, idU:$('#idUser').val(), pass:$('#contrasenaU').val(), p_t_i:$('#p_t_i').val(),
 						p_t_l:$('#p_t_l').val(), p_t_s:$('#p_t_s').val(), tipo_tab_i:$('#tab_img').val(),
-						tipo_tab_l:$('#tab_lab').val(), idS:idS
+						tipo_tab_l:$('#tab_lab').val(), idS:idS, usuario: $('#idUser').val()
 					}
 					$.post('files-serverside/reset_tabulador.php',datos).done(function(data){
 						if(data==0){ $('#dialog-nivel2').parent().effect( "shake", "slow" );$('#contrasenaU').focus(); }
