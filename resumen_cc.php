@@ -61,7 +61,7 @@
 <div id="contenidoR" style="display:none; position:fixed; width:18.5cm; height:23cm; z-index:1;">
 <table width="100%" height="" border="0" cellspacing="0" cellpadding="3">
   <tr> <td align="center" style="font-size:1.1em" height="10"> REPORTE DE CAJA GENERAL. FECHAS <span id="fechaRde"></span> <span id="fechaRa"></span></td> </tr>
-  <!--<tr>
+  <tr>
     <td valign="top" height="" id="">
     	<table width="100%" height="" border="1" cellpadding="4" cellspacing="0" id="dataTableX">
             <thead id="cabecera_tBusquedaP"> <tr id="mymy"> 
@@ -83,7 +83,7 @@
             </tfoot>
           </table>
     </td>
-  </tr>-->
+  </tr>
   <tr>
     <td height="">
     	<table width="100%" height="" border="1" cellpadding="4" cellspacing="0" id="dataTable1X">
