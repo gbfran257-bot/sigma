@@ -1,4 +1,3 @@
-imagen.php
 <?php
 	session_start();
 	//include_once 'recursos/session.php';
@@ -1002,7 +1001,3 @@ function insertAtCaret(text){
 	tinymce.get("input").execCommand('mceInsertContent', false, text); 
 }
 </script>
-
-mi_estudio.php
-estudios.php
-estudios.php
