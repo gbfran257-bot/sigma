@@ -45,8 +45,6 @@
     <script src="funciones/js/jquery.sparkline.min.js" type="text/javascript"></script>
     <script src="jQuery-TE_v.1.4.0/uncompressed/jquery-te-1.4.0.js" charset="utf-8"></script>
     <script src='tinymce/tinymce.min.js'></script>
-    <script src='c3/c3.min.js'></script>
-    <script src='c3/d3/d3.min.js'></script>
     <script src="imagen/takeArchivos/ajaxupload.js" type="text/javascript"></script>
     <!-- Input Mask-->
     <script src="jasny-bootstrap/js/jasny-bootstrap.min.js"></script> 
@@ -826,21 +824,29 @@ function est(a,b,idPacs){/*a es id del estudio, b es el id del estudio ambos en 
 				$('#paciente_est').val(dataE[0]); $('#folio_est').val(dataE[8]);
 				var pu = 'http://csantonio.ddns.net:8887/dcm4chee-arc/aets/DCM4CHEE/wado/wado?requestType=PATIENT&studyUID='+dataE[16];
 				var linkOsiL = 'osirix://?methodName=DownloadURL&Display=YES&URL='+encodeURI(pu);
-				var ka = '<a href='+dataE[17]+' id="myOsirixL"><img src="imagenes/osirix.png"></a>';
+				var ka = '<a href='+dataE[17]+' id="localhost"><img src="imagenes/osirix.png"></a>';
 				$('#chosto').html(''); //
+				var studyUID = dataE[35];
+				$('#chosto').text(
+					dataE[19] + 'viewer.html?StudyInstanceUIDs=' + studyUID
+				);
+				$('#chosto1').text(
+					dataE[19] + 'weasis-pacs-connector/viewer?StudyInstanceUIDs=' + studyUID
+				);
 				var mi_referCh = $('#referencia_est').val().replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
-				$('#chosto').text(dataE[19]+'viewer.html?patientID='+mi_referCh);
-				$('#chosto1').text(dataE[19]+'weasis-pacs-connector/viewer?patientID='+mi_referCh);
+				$('#chosto').text(dataE[19]+'viewer.html?StudyInstanceUIDs='+mi_referCh);
+				$('#chosto1').text(dataE[19]+'weasis-pacs-connector/viewer?StudyInstanceUIDs='+mi_referCh);
 				$('#chosto').append(ka);
-				
+				var studyUID = dataE[35];
 				$('#btn_v_html').click(function(e) {
 					var mi_refer = $('#referencia_est').attr("refe");//val().replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
-					window.open('http://'+koby[0]+':8888/viewer.html?patientID='+mi_refer);
+					window.open('http://localhost:81/viewer?StudyInstanceUIDs='+studyUID);
                 });
 				$('#btn_v_avanzado').click(function(e) {
-					var mi_refer = $('#referencia_est').val().replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
-					window.open('weasis://'+koby[0]+':8080/weasis-pacs-connector/weasis?patientID='+mi_refer);
-                });
+					window.open(
+						'http://localhost:81/viewer?StudyInstanceUIDs='+studyUID
+					);
+				});
 				if(($('#acc_user').val()==1 || $('#acc_user').val()==11 || $('#acc_user').val()==3) & $('#multisu_s').val()!=0){
 					$('#btn_reasignar_id').click(function(e){ noest(a, dataE[8], dataE[0], dataE[1], dataE[33], idPacs); });
 				}

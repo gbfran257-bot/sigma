@@ -115,13 +115,28 @@ require("../../funciones/php/values.php");
 	
 	$referenciaPacs = $row[20];
 	
-	$idPP = sqlValue($referenciaPacs, "text");
+	$idPP = $referenciaPacs;
+	//$idPP = sqlValue($referenciaPacs, "text");
 	
 	//Seleccionamos el id del paciente en la tabla patient de la DB del ipacs
 	//mysql_select_db($database_ipacs, $ipacs);
   
-	$resultP1 = pg_query($ipacs, "SELECT pk from patient where pat_id = $idPP ");
- 	$rowP1 = pg_fetch_row($resultP1); $idPP1 = sqlValue($rowP1[0], "int");//Is id de patient $idPP
+
+	$resultUID = pg_query($ipacs,"
+	SELECT s.study_iuid
+	FROM patient p
+	JOIN patient_id pid ON pid.pk = p.patient_id_fk
+	JOIN study s ON s.patient_fk = p.pk
+	WHERE pid.pat_id = '$idPP'
+	LIMIT 1
+	");
+
+	$rowUID = pg_fetch_row($resultUID);
+	$studyUID = $rowUID[0];
+	//$resultP1 = pg_query($ipacs, "SELECT p.pk from patient p  JOIN patient_id pid ON pid.pk = p.patient_id_fk where pid.pat_id = $idPP ");
+ 	//$rowUID = pg_fetch_row($resultUID);
+	//$studyUID = $rowUID[0];
+	//$rowP1 = pg_fetch_row($resultP1); $idPP1 = sqlValue($rowP1[0], "int");//Is id de patient $idPP
 	
 	//Seleccionamos el número de imágenes en el estudio completo de la DB del ipacs
 	//mysql_select_db($database_ipacs, $ipacs);
@@ -161,7 +176,8 @@ require("../../funciones/php/values.php");
  	
 	if(!$updateX){ echo $sqlX; }
  	else{
-		echo $nombre.';*}-{'.$row[0].';*}-{'.$row1[0].';*}-{'.$row1[1].";*}-{".$row[3].";*}-{".$row[1].";*}-{".$row[2].";*}-{".$medicoEstudio.";*}-{".$row3[0].";*}-{".$medicoInterpreta.";*}-{".$row4[3].";*}-{".$row[7].".png".";*}-{".$referenciaPacs.";*}-{".$row[10].";*}-{".$row1[4].";*}-{".$row4[5].";*}-{".$ni.";*}-{".$lista.";*}-{".$row4[6].";*}-{".$linkP.";*}-{".$row1x[0].';*}-{'.$row[16].';*}-{'.$rowMa[0].';*}-{'.$row4[7].';*}-{'.$row4[8].';*}-{'.$rowDo[0].';*}-{'.$rowMNE[0].';*}-{'.$rowMNE[1].';*}-{'.$rowMNE[2].';*}-{'.$rowMNP[0].';*}-{'.$rowMNP[1].';*}-{'.$rowMNP[2].';*}-{'.$row[15].';*}-{'.$row[21].';*}-{'.$refre;
+		echo $nombre.';*}-{'.$row[0].';*}-{'.$row1[0].';*}-{'.$row1[1].";*}-{".$row[3].";*}-{".$row[1].";*}-{".$row[2].";*}-{".$medicoEstudio.";*}-{".$row3[0].";*}-{".$medicoInterpreta.";*}-{".$row4[3].";*}-{".$row[7].".png".";*}-{".$referenciaPacs.";*}-{".$row[10].";*}-{".$row1[4].";*}-{".$row4[5].";*}-{".$ni.";*}-{".$lista.";*}-{".$row4[6].";*}-{".$linkP.";*}-{".$row1x[0].';*}-{'.$row[16].';*}-{'.$rowMa[0].';*}-{'.$row4[7].';*}-{'.$row4[8].';*}-{'.$rowDo[0].';*}-{'.$rowMNE[0].';*}-{'.$rowMNE[1].';*}-{'.$rowMNE[2].';*}-{'.$rowMNP[0].';*}-{'.$rowMNP[1].';*}-{'.$rowMNP[2].';*}-{'.$row[15].';*}-{'.$row[21].';*}-{'.$refre.';*}-{'.$studyUID;
+		
 	}
 	
  //Cerrar conexión a la Base de Datos
