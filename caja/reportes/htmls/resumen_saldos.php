@@ -16,6 +16,7 @@
                     <th>TOTAL</th>
                     <th>ABONADO</th>
                     <th>SALDO</th>
+                    <th>SUCURSAL</th>
                 </tr>
             </thead>
             <tbody id="tbodyContentMS">
@@ -23,6 +24,7 @@
             </tbody>
             <tfoot>
                 <tr>
+                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>
