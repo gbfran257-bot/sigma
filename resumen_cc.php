@@ -69,7 +69,9 @@
                 <th nowrap>#VISITAS</th> 
                 <th nowrap>#PACIENTES</th> 
                 <th nowrap>#CONCEPTOS</th> 
-                <th nowrap>TOTAL($)</th> 
+                <th nowrap>ABONADO</th> 
+                <th nowrap>SALDO</th> 
+                <th nowrap>ABONADO T.($)</th> 
             </tr> </thead>
             <tbody> <tr> <td class="dataTables_empty">Cargando datos del servidor</td> </tr> </tbody>
             <tfoot>
@@ -78,6 +80,8 @@
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none; color:white;" value="0"/></th>
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none; color:white;" value="0"/></th>
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none; color:white;" value="0"/></th>
+                    <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none; color:white;" value="0.00"/></th>
+                    <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none; color:white;" value="0.00"/></th>
                     <th><input type="text" class="sCalculo" readonly style="background-color:transparent; border:none; color:white;" value="0.00"/></th>
                 </tr>
             </tfoot>
@@ -508,7 +512,7 @@ $(document).ready(function(e) {
 				        iVisitas  += aaData[ aiDisplay[i] ][1]*1;
                 iTotal    += aaData[ aiDisplay[i] ][2]*1;
                 iComision += aaData[ aiDisplay[i] ][3]*1;
-                iIngreso  += aaData[ aiDisplay[i] ][4]*1;
+                iIngreso  += aaData[ aiDisplay[i] ][7]*1;
             }
             var nCells = nRow.getElementsByTagName('th');
             nCells[1].innerHTML = parseInt(iVisitas    * 100)/100;
@@ -517,7 +521,7 @@ $(document).ready(function(e) {
             nCells[4].innerHTML = '$'+parseInt(iIngreso  * 100)/100;
 		},
 		"bJQueryUI": false, "bScrollInfinite": true, "bScrollCollapse": true, "bAutoWidth": false, "bStateSave": false, "bInfo": true, "bFilter": true, "aaSorting": [[0, "asc"]],
-		"aoColumns": [{ "bSortable": false }, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"}],
+		"aoColumns": [{ "bSortable": false }, { "bSortable": false, "sClass": "centrado"},{ "bSortable": false, "sClass": "centrado"}, { "bSortable": false, "sClass": "centrado"}, { "bVisible": false }, { "bVisible": false }, { "bVisible": true}],
 		"iDisplayLength": 50, "bLengthChange": false, "bProcessing": false, "bServerSide": true, "sDom": '<"data_t"t><"info">', "sAjaxSource": "caja/datatable-serverside/reporte.php",
 		"fnServerParams": function (aoData, fnCallback) { var de = document.getElementById('fechaDe').value+' 00:00:00'; var a = $('#fechaA').val()+' 23:59:59'; aoData.push(  {"name": "min", "value": de } ); aoData.push(  {"name": "max", "value": a } ); },
 		"aLengthMenu": [[9, 25, 50, 100, -1], [9, 25, 50, 100, "Todos"]],
