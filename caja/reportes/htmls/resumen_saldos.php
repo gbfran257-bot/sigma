@@ -7,6 +7,19 @@
         <h4 class="modal-title"><strong><span id="titulo_modal2"></span></strong></h4>
       </div>
       <div class="modal-body">
+          <div style="margin-bottom: 15px;">
+              <div class="row">
+                  <div class="col-md-4">
+                      <input type="text" id="filtro_referencia" class="form-control" placeholder="Filtrar por referencia">
+                  </div>
+                  <div class="col-md-4">
+                      <input type="text" id="filtro_paciente" class="form-control" placeholder="Filtrar por paciente">
+                  </div>
+                  <div class="col-md-4">
+                      <input type="text" id="filtro_sucursal" class="form-control" placeholder="Filtrar por sucursal">
+                  </div>
+              </div>
+          </div>
           <table width="100%" height="100%" border="0" class="table-condensed table-striped table-bordered table-hover" style="overflow: hidden;"">
             <thead>
                 <tr class="bg-primary" style="font-size: 1.1em;">
