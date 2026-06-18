@@ -640,6 +640,11 @@ function ver_resumen_saldos(){
       $.post('caja/files-serverside/resumen_saldos.php',datosResumenSaldos).done(function( dataResumenSaldos ) { 
         $('#tbodyContentMS').html(dataResumenSaldos);
         $('#titulo_modal2').text('RESUMEN DE SALDOS');
+        
+        // Agregar event listeners para los filtros
+        $('#filtro_referencia').on('keyup', function() { filtrarTablaSaldos(); });
+        $('#filtro_paciente').on('keyup', function() { filtrarTablaSaldos(); });
+        $('#filtro_sucursal').on('keyup', function() { filtrarTablaSaldos(); });
       });
 
       $("#btn_aplicar").addClass("hidden");
@@ -648,6 +653,36 @@ function ver_resumen_saldos(){
       $('#myModal1').on('shown.bs.modal', function (e){ });
       $('#myModal1').on('hidden.bs.modal', function (e) { $("#myModal1").empty(); });
     } 
+  });
+}
+
+function filtrarTablaSaldos(){
+  var filtroReferencia = $('#filtro_referencia').val().toUpperCase();
+  var filtroPaciente = $('#filtro_paciente').val().toUpperCase();
+  var filtroSucursal = $('#filtro_sucursal').val().toUpperCase();
+  
+  $('#tbodyContentMS tr').each(function(){
+    var referencia = $(this).find('td').eq(1).text().toUpperCase();
+    var paciente = $(this).find('td').eq(2).text().toUpperCase();
+    var sucursal = $(this).find('td').eq(6).text().toUpperCase();
+    
+    var mostrar = true;
+    
+    if(filtroReferencia && referencia.indexOf(filtroReferencia) === -1){
+      mostrar = false;
+    }
+    if(filtroPaciente && paciente.indexOf(filtroPaciente) === -1){
+      mostrar = false;
+    }
+    if(filtroSucursal && sucursal.indexOf(filtroSucursal) === -1){
+      mostrar = false;
+    }
+    
+    if(mostrar){
+      $(this).show();
+    } else {
+      $(this).hide();
+    }
   });
 }
 
