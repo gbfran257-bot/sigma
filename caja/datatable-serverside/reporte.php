@@ -5,7 +5,7 @@ require("../../funciones/php/values.php");
     $min = sqlValue($_GET["min"], "date");
     $max = sqlValue($_GET["max"], "date");
 
-	$aColumns = array("d.nombre_d", "COUNT(DISTINCT vc.referencia_vc)", "COUNT(DISTINCT vc.id_paciente_vc)", "COUNT(vc.id_vc)", "(SELECT SUM(p1.pago_pag) FROM pagos_ov p1 LEFT JOIN orden_venta ov1 on ov1.referencia_ov = p1.referencia_pag WHERE p1.departamento_pa = d.id_d and ov1.fecha_venta_ov BETWEEN $min AND $max)", "(SELECT CASE d.id_d WHEN 1 THEN SUM(total_el) WHEN 2 THEN SUM(total_ei) WHEN 3 THEN SUM(total_p) WHEN 4 THEN SUM(total_c) + SUM(total_s) END FROM orden_venta WHERE fecha_venta_ov BETWEEN $min AND $max)", "(SELECT SUM(p2.pago_pag) FROM pagos_ov p2 LEFT JOIN usuarios u ON u.id_u = p2.usuario_pag WHERE p2.departamento_pa = d.id_d AND p2.fecha_pag BETWEEN $min AND $max)", "d.id_d");
+	$aColumns = array("d.nombre_d", "COUNT(DISTINCT vc.referencia_vc)", "COUNT(DISTINCT vc.id_paciente_vc)", "COUNT(vc.id_vc)", "d.id_d", "d.id_d", "d.id_d", "d.id_d");
      
     // DB tables to use 
     $aTables = array(' venta_conceptos vc ');
@@ -123,6 +123,24 @@ require("../../funciones/php/values.php");
             if ( $aColumns[$j] == "version" ) { $row1[] = ($aRow[ $aColumns[$j] ]=="0") ? '-' : $aRow[ $aColumns[$j] ]; }
             else if ( $aColumns[$j] != ' ' ) { $row1[] = $aRow[$j]; }
         }
+
+        //abonado
+        mysql_select_db($database_horizonte, $horizonte);
+        $queryAbonado = mysql_query("SELECT SUM(p1.pago_pag) FROM pagos_ov p1 LEFT JOIN orden_venta ov1 on ov1.referencia_ov = p1.referencia_pag WHERE p1.departamento_pa = $row[4] and ov1.fecha_venta_ov BETWEEN $min AND $max", $horizonte) or die (mysql_error());
+        $abonado = mysql_fetch_row($queryAbonado);
+        $row[4] = $abonado[0];
+
+        //total departamento
+        mysql_select_db($database_horizonte, $horizonte);
+        $queryTotalDepartamento = mysql_query("SELECT CASE $row[5] WHEN 1 THEN SUM(total_el) WHEN 2 THEN SUM(total_ei) WHEN 3 THEN SUM(total_p) WHEN 4 THEN SUM(total_c) + SUM(total_s) END FROM orden_venta WHERE fecha_venta_ov BETWEEN $min AND $max", $horizonte) or die (mysql_error());
+        $total_departamento = mysql_fetch_row($queryTotalDepartamento);
+        $row[5] = $total_departamento[0];
+
+        //abonado total
+        mysql_select_db($database_horizonte, $horizonte);
+        $queryAbonadoTotal = mysql_query("SELECT SUM(p2.pago_pag) FROM pagos_ov p2 LEFT JOIN usuarios u ON u.id_u = p2.usuario_pag WHERE p2.departamento_pa = $row[6] AND p2.fecha_pag BETWEEN $min AND $max", $horizonte) or die (mysql_error());
+        $abonado_total = mysql_fetch_row($queryAbonadoTotal);
+        $row[6] = $abonado_total[0];
 
         $abonado_total = $row[6];
 
