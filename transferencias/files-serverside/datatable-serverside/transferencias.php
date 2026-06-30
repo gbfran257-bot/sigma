@@ -186,7 +186,22 @@ while ($aRow = mysqli_fetch_array($rResult)) {
     $info_usuario = mysqli_fetch_object($resultado_query_usuario_subio_factura);
     $usuario_responsable = $info_usuario->usuario == "" ? $_GET['idU'] : $info_usuario->usuario;
     $fecha_hora = $info_usuario->fecha_hora;
-    $row[13] = "<button type='button' onclick='verFacturaCompra(this, {$facturado}, \"{$nombre_factura}\", \"{$usuario_responsable}\", \"{$fecha_hora}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
+
+    //querys de comporbante de transferencia
+    $referenciaC = $row[1];
+    $query_comp_transf = "SELECT nombre_archivo FROM comprobante_transferencia WHERE referencia = '{$referenciaC}'";
+    $resultado_query_comp_transf = mysqli_query($horizonte, $query_comp_transf) or die(mysqli_error($horizonte));
+    $class_transferido = mysqli_num_rows($resultado_query_comp_transf) == 0 ? "btn-danger" : "btn-success";
+    $nombre_archivo = mysqli_fetch_object($resultado_query_comp_transf)->nombre_archivo;
+    $transferido = $class_transferido == "btn-danger" ? 0 : 1;
+
+    $query_fecha_transf = "SELECT tt.fecha_recepcion, u.nombre_u FROM transferencia_temporal tt LEFT JOIN usuarios u ON u.id_u = tt.id_usuario_receptor WHERE tt.id_transferencia = '{$referenciaC}'";
+    $resultado_query_fecha_transf = mysqli_query($horizonte, $query_fecha_transf) or die(mysqli_error($horizonte));
+    $info_comprobante_transferencia = mysqli_fetch_object($resultado_query_fecha_transf);
+    $fecha_recepcion = $info_comprobante_transferencia->fecha_recepcion;
+    $usuarioC = $info_comprobante_transferencia->nombre_u;
+
+    $row[13] = "<button type='button' onclick='verFacturaCompra(this, {$facturado}, \"{$nombre_factura}\", \"{$usuario_responsable}\", \"{$fecha_hora}\");' class='btn {$class_factura} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button> <button type='button' onclick='verComprobanteTransferencia(this, {$transferido}, \"{$nombre_archivo}\", \"{$usuarioC}\", \"{$fecha_recepcion}\", \"{$referenciaC}\");' class='btn {$class_transferido} btn-sm'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></button>";
 
     $query_receptor = "SELECT usuario_u, DATE_FORMAT(fecha_recepcion, '%d/%m/%Y<br>%H:%i:%s') AS fecha_recepcion FROM usuarios LEFT JOIN transferencia_temporal ON transferencia_temporal.id_usuario_receptor = usuarios.id_u WHERE transferencia_temporal.id_temporal = '{$row[11]}' LIMIT 1";
     $resultado_query_receptor = mysqli_query($horizonte, $query_receptor);

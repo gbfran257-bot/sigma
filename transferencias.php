@@ -97,7 +97,7 @@
                 <th style="vertical-align:middle;" nowrap>SUCURSAL DESTINO</th>
                 <th style="vertical-align:middle;" nowrap>PROVEEDOR</th>
                 <th style="vertical-align:middle;" nowrap>RECEPTOR</th>
-                <th style="vertical-align:middle;" nowrap>PDF</th>
+                <th style="vertical-align:middle;" nowrap>FACTURA/COMPROBANTE</th>
             </tr>
         </thead>
         <tbody>
@@ -223,6 +223,92 @@
 
         });
     }
+
+    //funciones de carga de comprobantes de transferencia
+    const verComprobanteTransferencia = (button, compraFacturada, nombreArchivo, usuario, fecha_hora, referencia) => {
+        // Abrimos el modal que permite visualizar o cargar el archivo
+        $("#modal_ver_factura_compra").load("farmacia/compras/htmls/ver_factura_compra.php", {
+            compraFacturada,
+            nombreArchivo,
+            usuario,
+            fecha_hora,
+            referencia
+        }, (response, status, xhr) => {
+            if (status === "success") {
+                $("#titulo_modal_ver_factura_compra").text("Comprobante de transferencia");
+                // Función para enviar la imagen
+                $("#comprobante_factura").on("change", (e) => {
+                    const comprobante = e.target.files[0];
+                    const body = new FormData();
+                    body.append("comprobante_factura", comprobante);
+                    body.append("referencia", referencia);
+                    body.append("id_usuario", $("#id_user").val());
+                    subirComprobanteTransferencia(body);
+                });
+
+                $("img.media_comprobante_factura").media({
+                    width: 100 + "%",
+                    height: "600px",
+                    src: "./farmacia/transferencias/comprobantes/" + nombreArchivo,
+                });
+
+                // Comportamiento del modal
+                $('#modal_ver_factura_compra').modal('show');
+                $('#modal_ver_factura_compra').on('hidden.bs.modal', (e) => {
+                    $(".modal-content").remove();
+                    $("#modal_ver_factura_compra").empty();
+                });
+            }
+        });
+    };
+
+    const subirComprobanteTransferencia = (body) => {
+        fetch("farmacia/transferencias/subir_comprobante_transferencia.php", {
+            method: "POST",
+            body,
+        })
+            .then(response => response.json())
+            .then(respuesta => {
+                if (respuesta.error) {
+                    throw new Error(respuesta.error);
+                }
+                
+                swal({
+                    type: "success",
+                    title: "¡HECHO!",
+                    text: respuesta.success,
+                }, () => {
+                    $("#dataTablePrincipal").DataTable().ajax.reload()
+                    $("#modal_ver_factura_compra").modal("hide");
+                });
+            })
+            .catch(error => console.error(error));
+    };
+
+    const eliminarFacturaCompra = referencia => {
+        const body = new FormData();
+        body.append("referencia_compra", referencia);
+        fetch("farmacia/transferencias/eliminar_comprobante.php", {
+            method: "POST",
+            body,
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) {
+                    throw new Error(response.error);
+                }
+                
+                return swal({
+                    type: "success",
+                    title: "¡HECHO!",
+                    text: response.success,
+                }, function () {
+                    $("#dataTablePrincipal").DataTable().ajax.reload();
+                    $("#btn_cancel_registro").click();
+                });
+            })
+            .catch(error => console.error(error));
+    };
 
 </script>
 
