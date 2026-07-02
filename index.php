@@ -697,9 +697,49 @@
     </div>
 </div>
 <!-- FIN Contenido -->  
+<?php if(isset($_SESSION['show_login_modal']) && $_SESSION['show_login_modal'] == 1){ ?>
+<div class="modal fade" id="modalBienvenida" tabindex="-1" role="dialog" aria-labelledby="modalBienvenidaLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalBienvenidaLabel">Titulo del modal</h4>
+            </div>
+            <div class="modal-body">
+                <p id="modalBienvenidaMessage">Mensaje.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">ACEPTAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
 <?php include_once 'partes/footer.php'; ?>
+
 <script src="js/plugins/wow/wow.min.js"></script>
 <script>
+<?php if(isset($_SESSION['show_login_modal']) && $_SESSION['show_login_modal'] == 1){ ?>
+    $(function(){
+        $.post('genera/datos_modal_inicio.php').done(function(dataInicio) {
+
+            var datosInicio = dataInicio.split('*;');
+
+            if(datosInicio[0] == '1' || datosInicio[0] == 1){
+                $('#modalBienvenida').modal('show');
+                $('#modalBienvenidaLabel').text(datosInicio[1]);
+                $('#modalBienvenidaMessage').text(datosInicio[2]);
+                $('#modalBienvenida').on('shown.bs.modal', function(){
+                    $.post('recursos/clear_login_modal.php');
+                });
+            }
+
+		});
+        
+    });
+<?php } ?>
+
     function cambiar(id){
         const ALMACEN_IMAGENES_MENU_AZUL = {
             //inicios

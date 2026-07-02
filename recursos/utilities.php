@@ -167,6 +167,7 @@ function signout(){ //echo 'die';
 	unset($_SESSION['MM_UserGroup']);
 	unset($_SESSION['last_active']);
 	unset($_SESSION['fingerprint']);
+	unset($_SESSION['show_login_modal']);
 
    if(isset($_COOKIE['rememberUserCookie'])){
         unset($_COOKIE['rememberUserCookie']);
@@ -262,6 +263,7 @@ function prepLogin ($id, $username, $remember, $access, $usersucu){
     $_SESSION['MM_Username'] = $username;
 	$_SESSION['MM_Usersucu'] = $usersucu;
 	$_SESSION['MM_UserGroup'] = $access;
+	$_SESSION['show_login_modal'] = 1;
 
     $fingerprint = md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
     $_SESSION['last_active'] = time();

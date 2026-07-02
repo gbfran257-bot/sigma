@@ -447,7 +447,7 @@
 <script>
 $(document).ready(function(e) {
 	//breadcrumb
-	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>ADMINISTRACIÓN</li><li class="active"><strong>CONFIGURACIÓN</strong></li>');
+	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>ADMINISTRACIÓN</li><li class="active"><strong>CONFIGURACIÓN</strong> <a href="configurar_alerta.php" style="cursor: default;"> <i class="fa fa-cog"> </i> </a> </li>');
 	
 	$(".insers").load('genera/inserciones.php', function( response, status, xhr ) { if ( status == "success" ) { } });
 	
