@@ -50,6 +50,24 @@
         #inicio-menuPrincipal .menu{
             cursor: pointer;
         }
+
+        #modalBienvenida {
+            text-align: center;
+            padding: 0 !important;
+        }
+
+        #modalBienvenida:before {
+            content: '';
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+        }
+
+        #modalBienvenida .modal-dialog {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+        }
     </style>
 </head>
 <?php include_once 'partes/header.php'; ?>
@@ -699,14 +717,14 @@
 <!-- FIN Contenido -->  
 <?php if(isset($_SESSION['show_login_modal']) && $_SESSION['show_login_modal'] == 1){ ?>
 <div class="modal fade" id="modalBienvenida" tabindex="-1" role="dialog" aria-labelledby="modalBienvenidaLabel">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="width:80%;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="modalBienvenidaLabel">Titulo del modal</h4>
+                <h1 class="modal-title" id="modalBienvenidaLabel" style="color: red;">Titulo del modal</h1>
             </div>
             <div class="modal-body">
-                <p id="modalBienvenidaMessage">Mensaje.</p>
+                <h2 id="modalBienvenidaMessage">Mensaje.</h2>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">ACEPTAR</button>
@@ -729,7 +747,7 @@
             if(datosInicio[0] == '1' || datosInicio[0] == 1){
                 $('#modalBienvenida').modal('show');
                 $('#modalBienvenidaLabel').text(datosInicio[1]);
-                $('#modalBienvenidaMessage').text(datosInicio[2]);
+                $('#modalBienvenidaMessage').html(datosInicio[2]);
                 $('#modalBienvenida').on('shown.bs.modal', function(){
                     $.post('recursos/clear_login_modal.php');
                 });
