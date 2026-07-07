@@ -165,38 +165,66 @@ function nuevo_formato(){
 						$('#dpa_imprimir1').html(res); $('#dpa_imprimir1').printElement();
 					}
 				});
-				    editor.addButton('bordePunteado', {
-						text: 'Borde punteado',
-						onclick: function () {
+				//seleccion de celda unica
+				/*editor.addButton('bordePunteado', {
+					text: 'Borde punteado',
+					onclick: function () {
 
-							var celda = editor.dom.getParent(
-								editor.selection.getNode(),
-								'td,th'
-							);
+						var celda = editor.dom.getParent(
+							editor.selection.getNode(),
+							'td,th'
+						);
 
+						if (celda) {
+							editor.dom.setStyle(celda, 'border', '1px dotted #000000');
+						} else {
+							alert('Selecciona una celda.');
+						}
+					}
+				});*/
+				//selección múltiple de celdas y poner borde lineal
+				editor.addButton('bordeLineal', {
+					text: 'Borde lineal',
+					onclick: function () {
+
+						var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+						// Si no hay selección múltiple, toma la celda actual
+						if (celdas.length === 0) {
+							var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
 							if (celda) {
-								editor.dom.setStyle(celda, 'border', '1px dotted #000000');
-							} else {
-								alert('Selecciona una celda.');
+								celdas = [celda];
 							}
 						}
-					});
-					editor.addButton('bordeLineal', {
-						text: 'Borde lineal',
-						onclick: function () {
 
-							var celda = editor.dom.getParent(
-								editor.selection.getNode(),
-								'td,th'
-							);
+						celdas.forEach(function(celda) {
+							editor.dom.setStyle(celda, 'border', '1px solid #000');
+						});
 
+						editor.nodeChanged();
+					}
+				});
+				editor.addButton('bordePunteado', {
+					text: 'Borde punteado',
+					onclick: function () {
+
+						var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+						// Si no hay selección múltiple, toma la celda actual
+						if (celdas.length === 0) {
+							var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
 							if (celda) {
-								editor.dom.setStyle(celda, 'border', '1px solid #000000');
-							} else {
-								alert('Selecciona una celda.');
+								celdas = [celda];
 							}
 						}
-					});
+
+						celdas.forEach(function(celda) {
+							editor.dom.setStyle(celda, 'border', '1px dashed #000');
+						});
+
+						editor.nodeChanged();
+					}
+				});
 			}
 		});
 		
@@ -252,7 +280,8 @@ function ficha_formato(nf, idf){
 							$('#dpa_imprimir1').html(res); $('#dpa_imprimir1').printElement();
 						}
 					});
-					editor.addButton('bordePunteado', {
+					//seleccion de celda unica
+					/*editor.addButton('bordePunteado', {
 						text: 'Borde punteado',
 						onclick: function () {
 
@@ -267,21 +296,48 @@ function ficha_formato(nf, idf){
 								alert('Selecciona una celda.');
 							}
 						}
-					});
+					});*/
+					//selección múltiple de celdas y poner borde lineal
 					editor.addButton('bordeLineal', {
 						text: 'Borde lineal',
 						onclick: function () {
 
-							var celda = editor.dom.getParent(
-								editor.selection.getNode(),
-								'td,th'
-							);
+							var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
 
-							if (celda) {
-								editor.dom.setStyle(celda, 'border', '1px solid #000000');
-							} else {
-								alert('Selecciona una celda.');
+							// Si no hay selección múltiple, toma la celda actual
+							if (celdas.length === 0) {
+								var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+								if (celda) {
+									celdas = [celda];
+								}
 							}
+
+							celdas.forEach(function(celda) {
+								editor.dom.setStyle(celda, 'border', '1px solid #000');
+							});
+
+							editor.nodeChanged();
+						}
+					});
+					editor.addButton('bordePunteado', {
+						text: 'Borde punteado',
+						onclick: function () {
+
+							var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+							// Si no hay selección múltiple, toma la celda actual
+							if (celdas.length === 0) {
+								var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+								if (celda) {
+									celdas = [celda];
+								}
+							}
+
+							celdas.forEach(function(celda) {
+								editor.dom.setStyle(celda, 'border', '1px dashed #000');
+							});
+
+							editor.nodeChanged();
 						}
 					});
 				}
