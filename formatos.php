@@ -153,7 +153,7 @@ function nuevo_formato(){
 				"table, charmap, emoticons, textcolor colorpicker, hr, image imagetools, image, insertdatetime, lists, noneditable, pagebreak, paste, preview, print, visualblocks, wordcount, code, importcss",
 			relative_urls: true, image_advtab: true, menubar: false, plugin_preview_width: $('#referencia').width()*0.8,
 			toolbar:
-				"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor  | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP |",
+				"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor  | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP | bordePunteado | bordeLineal | sinBorde",
 			insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
 			paste_data_images: true, paste_as_text: true, browser_spellcheck: true, image_advtab: true,
 			setup: function(editor){
@@ -163,6 +163,88 @@ function nuevo_formato(){
 						var res = tinyMCE.get("input").getContent().replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); //alert(res);
 						$('#dpa_imprimir1').html(res).css('background-image','url(imagenes/vista_previa.png)').css('background-size','65%');
 						$('#dpa_imprimir1').html(res); $('#dpa_imprimir1').printElement();
+					}
+				});
+				//seleccion de celda unica
+				/*editor.addButton('bordePunteado', {
+					text: 'Borde punteado',
+					onclick: function () {
+
+						var celda = editor.dom.getParent(
+							editor.selection.getNode(),
+							'td,th'
+						);
+
+						if (celda) {
+							editor.dom.setStyle(celda, 'border', '1px dotted #000000');
+						} else {
+							alert('Selecciona una celda.');
+						}
+					}
+				});*/
+				//selección múltiple de celdas y poner borde lineal
+				editor.addButton('bordeLineal', {
+					text: 'Borde lineal',
+					onclick: function () {
+
+						var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+						// Si no hay selección múltiple, toma la celda actual
+						if (celdas.length === 0) {
+							var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+							if (celda) {
+								celdas = [celda];
+							}
+						}
+
+						celdas.forEach(function(celda) {
+							editor.dom.setStyle(celda, 'border', '1px solid #000');
+						});
+
+						editor.nodeChanged();
+					}
+				});
+				editor.addButton('bordePunteado', {
+					text: 'Borde punteado',
+					onclick: function () {
+
+						var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+						// Si no hay selección múltiple, toma la celda actual
+						if (celdas.length === 0) {
+							var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+							if (celda) {
+								celdas = [celda];
+							}
+						}
+
+						celdas.forEach(function(celda) {
+							editor.dom.setStyle(celda, 'border', '1px dashed #000');
+						});
+
+						editor.nodeChanged();
+					}
+				});
+				editor.addButton('sinBorde', {
+					text: 'Sin borde',
+					onclick: function () {
+
+						var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+						// Si no hay selección múltiple, toma la celda actual
+						if (celdas.length === 0) {
+							var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+							if (celda) {
+								celdas = [celda];
+							}
+						}
+
+						celdas.forEach(function(celda) {
+							editor.dom.setStyle(celda, 'border', '');
+							// o editor.dom.setStyle(celda, 'border', 'none');
+						});
+
+						editor.nodeChanged();
 					}
 				});
 			}
@@ -208,7 +290,7 @@ function ficha_formato(nf, idf){
 					"table, charmap, emoticons, textcolor colorpicker, hr, image imagetools, image, insertdatetime, lists, noneditable, pagebreak, paste, preview, print, visualblocks, wordcount, code, importcss",
 				relative_urls: true, image_advtab: true, menubar: false, plugin_preview_width: $('#referencia').width()*0.8,
 				toolbar:
-					"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor  | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP |",
+					"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor  | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP | bordePunteado | bordeLineal | sinBorde",
 				insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
 				paste_data_images: true, paste_as_text: true, browser_spellcheck: true, image_advtab: true,
 				setup: function(editor){
@@ -218,6 +300,88 @@ function ficha_formato(nf, idf){
 							var res = tinyMCE.get("input").getContent().replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); //alert(res);
 							$('#dpa_imprimir1').html(res).css('background-image','url(imagenes/vista_previa.png)').css('background-size','65%');
 							$('#dpa_imprimir1').html(res); $('#dpa_imprimir1').printElement();
+						}
+					});
+					//seleccion de celda unica
+					/*editor.addButton('bordePunteado', {
+						text: 'Borde punteado',
+						onclick: function () {
+
+							var celda = editor.dom.getParent(
+								editor.selection.getNode(),
+								'td,th'
+							);
+
+							if (celda) {
+								editor.dom.setStyle(celda, 'border', '1px dashed #000000');
+							} else {
+								alert('Selecciona una celda.');
+							}
+						}
+					});*/
+					//selección múltiple de celdas y poner borde lineal
+					editor.addButton('bordeLineal', {
+						text: 'Borde lineal',
+						onclick: function () {
+
+							var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+							// Si no hay selección múltiple, toma la celda actual
+							if (celdas.length === 0) {
+								var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+								if (celda) {
+									celdas = [celda];
+								}
+							}
+
+							celdas.forEach(function(celda) {
+								editor.dom.setStyle(celda, 'border', '1px solid #000');
+							});
+
+							editor.nodeChanged();
+						}
+					});
+					editor.addButton('bordePunteado', {
+						text: 'Borde punteado',
+						onclick: function () {
+
+							var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+							// Si no hay selección múltiple, toma la celda actual
+							if (celdas.length === 0) {
+								var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+								if (celda) {
+									celdas = [celda];
+								}
+							}
+
+							celdas.forEach(function(celda) {
+								editor.dom.setStyle(celda, 'border', '1px dashed #000');
+							});
+
+							editor.nodeChanged();
+						}
+					});
+					editor.addButton('sinBorde', {
+						text: 'Sin borde',
+						onclick: function () {
+
+							var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+							// Si no hay selección múltiple, toma la celda actual
+							if (celdas.length === 0) {
+								var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+								if (celda) {
+									celdas = [celda];
+								}
+							}
+
+							celdas.forEach(function(celda) {
+								editor.dom.setStyle(celda, 'border', '');
+								// o editor.dom.setStyle(celda, 'border', 'none');
+							});
+
+							editor.nodeChanged();
 						}
 					});
 				}
