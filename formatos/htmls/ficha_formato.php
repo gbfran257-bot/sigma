@@ -56,6 +56,7 @@
 				  <option value="{et_fr}">SIGNO VITAL FR DEL PACIENTE</option>
 				  <option value="{et_temp}">SIGNO VITAL TEMP DEL PACIENTE</option>
 				  <option value="{et_tiposan}">TIPO SANGUÍNEO DEL PACIENTE</option>
+				  <option value="{et_oximetria}">OXIMETRIA</option>
 				  <!--<option value="{et_titulom}">TÍTULO DEL MÉDICO</option>-->
 				</select></td>
 				<td align="right" width="1%" nowrap class="text-primary">FORMATO:</td>
