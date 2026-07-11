@@ -428,7 +428,7 @@ function realizar(a,b,n,id_s){//a es el id del paciente y b es el id del estudio
 								"table, charmap, emoticons, textcolor colorpicker, hr, image imagetools, image, insertdatetime, lists, noneditable, pagebreak, paste, preview, print, visualblocks, wordcount, code, importcss", table_default_styles: { width: '100%' },
 							relative_urls: true, image_advtab: true, menubar: false, plugin_preview_width: $('#referencia').width()*0.8,
 							toolbar: 
-								"undo redo | insert_ | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP |",
+								"undo redo | insert_ | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP | bordePunteado | bordeLineal | sinBorde",
 							insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
 							paste_data_images: true, paste_as_text: true, browser_spellcheck: true,
 							setup: function (editor) {
@@ -438,6 +438,70 @@ function realizar(a,b,n,id_s){//a es el id del paciente y b es el id del estudio
 										var res = tinyMCE.get("notaLibre").getContent().replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); //alert(res);
 										$('#dpa_imprimir1').html(res).css('background-image','url(imagenes/vista_previa.png)').css('background-size','65%');
 										$('#dpa_imprimir1').html(res); $('#dpa_imprimir1').printElement();
+									}
+								});
+								editor.addButton('bordeLineal', {
+									text: 'Borde lineal',
+									onclick: function () {
+
+										var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+										// Si no hay selección múltiple, toma la celda actual
+										if (celdas.length === 0) {
+											var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+											if (celda) {
+												celdas = [celda];
+											}
+										}
+
+										celdas.forEach(function(celda) {
+											editor.dom.setStyle(celda, 'border', '1px solid #000');
+										});
+
+										editor.nodeChanged();
+									}
+								});
+								editor.addButton('bordePunteado', {
+									text: 'Borde punteado',
+									onclick: function () {
+
+										var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+										// Si no hay selección múltiple, toma la celda actual
+										if (celdas.length === 0) {
+											var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+											if (celda) {
+												celdas = [celda];
+											}
+										}
+
+										celdas.forEach(function(celda) {
+											editor.dom.setStyle(celda, 'border', '1px dashed #000');
+										});
+
+										editor.nodeChanged();
+									}
+								});
+								editor.addButton('sinBorde', {
+									text: 'Sin borde',
+									onclick: function () {
+
+										var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+										// Si no hay selección múltiple, toma la celda actual
+										if (celdas.length === 0) {
+											var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+											if (celda) {
+												celdas = [celda];
+											}
+										}
+
+										celdas.forEach(function(celda) {
+											editor.dom.setStyle(celda, 'border', '');
+											// o editor.dom.setStyle(celda, 'border', 'none');
+										});
+
+										editor.nodeChanged();
 									}
 								});
 							}
@@ -457,7 +521,7 @@ function realizar(a,b,n,id_s){//a es el id del paciente y b es el id del estudio
 							var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
 							var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
 							var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_nombre_a_sucu_x = datosTe[47];
-							var et_numero_est_ov_x = datosTe[48], et_total_cntos_ov_x = datosTe[49], et_muestra_x = datosTe[50], et_metodo_x = datosTe[51];
+							var et_numero_est_ov_x = datosTe[48], et_total_cntos_ov_x = datosTe[49], et_muestra_x = datosTe[50], et_metodo_x = datosTe[51], et_oximetria = datosTe[76];
 
 							var dato = { idVC:b, idP:a, idU:$('#id_user').val() }
 							$.post('laboratorio/files-serverside/datosCaptura_fm.php',dato).done(function(datas){ var datos = datas.split('*}');
@@ -513,6 +577,7 @@ function realizar(a,b,n,id_s){//a es el id del paciente y b es el id del estudio
 								data = data.replace(/{et_total_cntos_ov}/gi, et_total_cntos_ov_x);
 								data = data.replace(/{et_muestra}/gi, et_muestra_x);
 								data = data.replace(/{et_metodo}/gi, et_metodo_x);
+								data = data.replace(/{et_oximetria}/gi, et_oximetria);
 
 								tinymce.get("notaLibre").execCommand('mceSetContent', false, data);
 							});
@@ -757,7 +822,7 @@ function interpretar(a,b,n,id_s){//a es el id del paciente y b del estudio en vc
 								"table, charmap, emoticons, textcolor colorpicker, hr, image imagetools, image, insertdatetime, lists, noneditable, pagebreak, paste, preview, print, visualblocks, wordcount, code, importcss", table_default_styles: { width: '100%' },
 							relative_urls: true, image_advtab: true, menubar: false, plugin_preview_width: $('#referencia').width()*0.8,
 							toolbar: 
-								"undo redo | insert_ | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP |",
+								"undo redo | insert_ | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP | bordePunteado | bordeLineal | sinBorde",
 							insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
 							paste_data_images: true, paste_as_text: true, browser_spellcheck: true, 
 							setup: function (editor) {
@@ -767,6 +832,70 @@ function interpretar(a,b,n,id_s){//a es el id del paciente y b del estudio en vc
 										var res = tinyMCE.get("notaLibre").getContent().replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); //alert(res);
 										$('#dpa_imprimir1').html(res).css('background-image','url(imagenes/vista_previa.png)').css('background-size','65%');
 										$('#dpa_imprimir1').html(res); $('#dpa_imprimir1').printElement();
+									}
+								});
+								editor.addButton('bordeLineal', {
+									text: 'Borde lineal',
+									onclick: function () {
+
+										var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+										// Si no hay selección múltiple, toma la celda actual
+										if (celdas.length === 0) {
+											var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+											if (celda) {
+												celdas = [celda];
+											}
+										}
+
+										celdas.forEach(function(celda) {
+											editor.dom.setStyle(celda, 'border', '1px solid #000');
+										});
+
+										editor.nodeChanged();
+									}
+								});
+								editor.addButton('bordePunteado', {
+									text: 'Borde punteado',
+									onclick: function () {
+
+										var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+										// Si no hay selección múltiple, toma la celda actual
+										if (celdas.length === 0) {
+											var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+											if (celda) {
+												celdas = [celda];
+											}
+										}
+
+										celdas.forEach(function(celda) {
+											editor.dom.setStyle(celda, 'border', '1px dashed #000');
+										});
+
+										editor.nodeChanged();
+									}
+								});
+								editor.addButton('sinBorde', {
+									text: 'Sin borde',
+									onclick: function () {
+
+										var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+										// Si no hay selección múltiple, toma la celda actual
+										if (celdas.length === 0) {
+											var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+											if (celda) {
+												celdas = [celda];
+											}
+										}
+
+										celdas.forEach(function(celda) {
+											editor.dom.setStyle(celda, 'border', '');
+											// o editor.dom.setStyle(celda, 'border', 'none');
+										});
+
+										editor.nodeChanged();
 									}
 								});
 							}
