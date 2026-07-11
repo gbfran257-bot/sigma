@@ -3204,6 +3204,7 @@ include_once 'recursos/datauser.php';
 										data = data.replace(/{et_logo13}/gi, et_logo13);
 										data = data.replace(/{et_logo14}/gi, et_logo14);
 										data = data.replace(/{et_logo15}/gi, et_logo15);
+										data = data.replace(/{et_oximetria}/gi, et_oximetria);
 
 										data1 = data1.replace(/{ET_ALERGIAS}/gi, alergiasx);
 										data1 = data1.replace(/{ET_EDAD}/gi, edadx1);
@@ -3269,7 +3270,7 @@ include_once 'recursos/datauser.php';
 										data1 = data1.replace(/{et_logo13}/gi, et_logo13);
 										data1 = data1.replace(/{et_logo14}/gi, et_logo14);
 										data1 = data1.replace(/{et_logo15}/gi, et_logo15);
-										data = data.replace(/{et_oximetria}/gi, et_oximetria);
+										data1 = data1.replace(/{et_oximetria}/gi, et_oximetria);
 
 										$('#notaMedicaC').val(data);
 										$('#indiF').val(data1);
@@ -3280,9 +3281,7 @@ include_once 'recursos/datauser.php';
 									$('#indiF').val(datos[16]);
 								}
 							});
-							window.setTimeout(function() {
-								$("#tipoRecetaMed").change();
-							}, 2500); //se ejecuta después de 2.5 segundos para que cargue correctamente el texto de la receta médica
+							
 							//$('#my_tb_nm').click(function(e) { insertarMED();});
 							$('#salvarConsulta').click(function(e) {
 								salvarConsulta(idC, idP);
