@@ -877,7 +877,7 @@ function editar_nota(id_h, id_p, nombre_p, id_s, id_n, tUser, estatus){
 					table_default_styles: { width: '100%' },
 					relative_urls: true, image_advtab: true, menubar: false, plugin_preview_width: $('#referencia').width()*0.8,
 					toolbar: 
-						"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP |",
+						"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP | bordePunteado | bordeLineal | sinBorde",
 					insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
 					paste_data_images: true, paste_as_text: true, browser_spellcheck: true, 
 					setup: function (editor) {
@@ -899,7 +899,7 @@ function editar_nota(id_h, id_p, nombre_p, id_s, id_n, tUser, estatus){
 					table_default_styles: { width: '100%' },
 					relative_urls: true, image_advtab: true, menubar: false, plugin_preview_width: $('#referencia').width()*0.8,
 					toolbar: 
-						"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP |",
+						"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP | bordePunteado | bordeLineal | sinBorde",
 					insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
 					paste_data_images: true, paste_as_text: true, browser_spellcheck: true, 
 					setup: function (editor) {
@@ -909,6 +909,70 @@ function editar_nota(id_h, id_p, nombre_p, id_s, id_n, tUser, estatus){
 								var res = tinyMCE.get("notaMedicaC").getContent().replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); //alert(res);
 								$('#dpa_imprimir1').html(res).css('background-image','url(imagenes/vista_previa.png)').css('background-size','65%');
 								$('#dpa_imprimir1').html(res); $('#dpa_imprimir1').printElement();
+							}
+						});
+						editor.addButton('bordeLineal', {
+							text: 'Borde lineal',
+							onclick: function () {
+
+								var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+								// Si no hay selección múltiple, toma la celda actual
+								if (celdas.length === 0) {
+									var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+									if (celda) {
+										celdas = [celda];
+									}
+								}
+
+								celdas.forEach(function(celda) {
+									editor.dom.setStyle(celda, 'border', '1px solid #000');
+								});
+
+								editor.nodeChanged();
+							}
+						});
+						editor.addButton('bordePunteado', {
+							text: 'Borde punteado',
+							onclick: function () {
+
+								var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+								// Si no hay selección múltiple, toma la celda actual
+								if (celdas.length === 0) {
+									var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+									if (celda) {
+										celdas = [celda];
+									}
+								}
+
+								celdas.forEach(function(celda) {
+									editor.dom.setStyle(celda, 'border', '1px dashed #000');
+								});
+
+								editor.nodeChanged();
+							}
+						});
+						editor.addButton('sinBorde', {
+							text: 'Sin borde',
+							onclick: function () {
+
+								var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+								// Si no hay selección múltiple, toma la celda actual
+								if (celdas.length === 0) {
+									var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+									if (celda) {
+										celdas = [celda];
+									}
+								}
+
+								celdas.forEach(function(celda) {
+									editor.dom.setStyle(celda, 'border', '');
+									// o editor.dom.setStyle(celda, 'border', 'none');
+								});
+
+								editor.nodeChanged();
 							}
 						});
 					}
@@ -1205,7 +1269,7 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 				var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
 				var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
 				var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
-				var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56], et_Fnac = datosTe[57], et_dx = datosTe[58], et_Med = datosTe[59],et_destroxtis = datosTe[60], et_logo1 = datosTe[61],et_logo2 = datosTe[62],et_logo3 = datosTe[63],et_logo4 = datosTe[64],et_logo5 = datosTe[65],et_logo6 = datosTe[66],et_logo7 = datosTe[67],et_logo8 = datosTe[68],et_logo9 = datosTe[69],et_logo10 = datosTe[70],et_logo11 = datosTe[71],et_logo12 = datosTe[72],et_logo13 = datosTe[73],et_logo14 = datosTe[74],et_logo15 = datosTe[75];
+				var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56], et_Fnac = datosTe[57], et_dx = datosTe[58], et_Med = datosTe[59],et_destroxtis = datosTe[60], et_logo1 = datosTe[61],et_logo2 = datosTe[62],et_logo3 = datosTe[63],et_logo4 = datosTe[64],et_logo5 = datosTe[65],et_logo6 = datosTe[66],et_logo7 = datosTe[67],et_logo8 = datosTe[68],et_logo9 = datosTe[69],et_logo10 = datosTe[70],et_logo11 = datosTe[71],et_logo12 = datosTe[72],et_logo13 = datosTe[73],et_logo14 = datosTe[74],et_logo15 = datosTe[75], et_oximetria = datosTe[76];
 				$("#tipoNotaMed").change(function(e) {//alert('Cambia');
 					var datos = {idNM:$("#tipoNotaMed").val(),idC:id_h}
 					$.post('consultas/files-serverside/textoNotaM.php',datos).done(function(data){ //alert(data);
@@ -1278,6 +1342,7 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 						data = data.replace(/{et_logo13}/gi, et_logo13);
 						data = data.replace(/{et_logo14}/gi, et_logo14);
 						data = data.replace(/{et_logo15}/gi, et_logo15);
+						data = data.replace(/{et_oximetria}/gi, et_oximetria);
 						tinymce.get('notaMedicaC').setContent(data);
 						//$('#tabs_nnm #tabs-1n .jqte_editor').html(data);
 					});
@@ -1303,7 +1368,7 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 				var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
 				var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
 				var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56];
-				var data = datosNI[1],et_Fnac = datosTe[57], et_dx = datosTe[58], et_Med = datosTe[59], et_destroxtis = datosTe[60], et_logo1 = datosTe[61],et_logo2 = datosTe[62],et_logo3 = datosTe[63],et_logo4 = datosTe[64],et_logo5 = datosTe[65],et_logo6 = datosTe[66],et_logo7 = datosTe[67],et_logo8 = datosTe[68],et_logo9 = datosTe[69],et_logo10 = datosTe[70],et_logo11 = datosTe[71],et_logo12 = datosTe[72],et_logo13 = datosTe[73],et_logo14 = datosTe[74],et_logo15 = datosTe[75]; 
+				var data = datosNI[1],et_Fnac = datosTe[57], et_dx = datosTe[58], et_Med = datosTe[59], et_destroxtis = datosTe[60], et_logo1 = datosTe[61],et_logo2 = datosTe[62],et_logo3 = datosTe[63],et_logo4 = datosTe[64],et_logo5 = datosTe[65],et_logo6 = datosTe[66],et_logo7 = datosTe[67],et_logo8 = datosTe[68],et_logo9 = datosTe[69],et_logo10 = datosTe[70],et_logo11 = datosTe[71],et_logo12 = datosTe[72],et_logo13 = datosTe[73],et_logo14 = datosTe[74],et_logo15 = datosTe[75], et_oximetria = datosTe[76];
 
 				data = data.replace(/{ET_DIAGNOSTICO_PACIENTE}/gi, et_dx);
 				data = data.replace(/{ET_MEDICAMENTOS_PACIENTE}/gi, et_Med);
@@ -1374,6 +1439,7 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 				data = data.replace(/{et_logo13}/gi, et_logo13);
 				data = data.replace(/{et_logo14}/gi, et_logo14);
 				data = data.replace(/{et_logo15}/gi, et_logo15);
+				data = data.replace(/{et_oximetria}/gi, et_oximetria);
 
 				$('#notaMedicaC').val(data);
 			});
@@ -1411,7 +1477,7 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 				table_default_styles: { width: '100%' },
 				relative_urls: true, image_advtab: true, menubar: false, plugin_preview_width: $('#referencia').width()*0.8,
 				toolbar: 
-					"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP |",
+					"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP | bordePunteado | bordeLineal | sinBorde",
 				insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
 				paste_data_images: true, paste_as_text: true, browser_spellcheck: true, 
 				setup: function (editor) {
@@ -1421,6 +1487,70 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 							var res = tinyMCE.get("notaMedicaC").getContent().replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); //alert(res);
 							$('#dpa_imprimir1').html(res).css('background-image','url(imagenes/vista_previa.png)').css('background-size','65%');
 							$('#dpa_imprimir1').html(res); $('#dpa_imprimir1').printElement();
+						}
+					});
+					editor.addButton('bordeLineal', {
+						text: 'Borde lineal',
+						onclick: function () {
+
+							var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+							// Si no hay selección múltiple, toma la celda actual
+							if (celdas.length === 0) {
+								var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+								if (celda) {
+									celdas = [celda];
+								}
+							}
+
+							celdas.forEach(function(celda) {
+								editor.dom.setStyle(celda, 'border', '1px solid #000');
+							});
+
+							editor.nodeChanged();
+						}
+					});
+					editor.addButton('bordePunteado', {
+						text: 'Borde punteado',
+						onclick: function () {
+
+							var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+							// Si no hay selección múltiple, toma la celda actual
+							if (celdas.length === 0) {
+								var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+								if (celda) {
+									celdas = [celda];
+								}
+							}
+
+							celdas.forEach(function(celda) {
+								editor.dom.setStyle(celda, 'border', '1px dashed #000');
+							});
+
+							editor.nodeChanged();
+						}
+					});
+					editor.addButton('sinBorde', {
+						text: 'Sin borde',
+						onclick: function () {
+
+							var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+							// Si no hay selección múltiple, toma la celda actual
+							if (celdas.length === 0) {
+								var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+								if (celda) {
+									celdas = [celda];
+								}
+							}
+
+							celdas.forEach(function(celda) {
+								editor.dom.setStyle(celda, 'border', '');
+								// o editor.dom.setStyle(celda, 'border', 'none');
+							});
+
+							editor.nodeChanged();
 						}
 					});
 				}

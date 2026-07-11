@@ -351,7 +351,7 @@ function capturar(a,b,radExt,es_masto,es,id_s){//alert(es);//es_masto = 0;//a es
 					var firma_medico_atiende_x = datosTe[31], et_t_x = datosTe[34], et_a_x = datosTe[35], et_fc_x = datosTe[36];
 					var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
 					var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
-					var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46];
+					var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_oximetria = datosTe[76];
 
 							var data = datos[11];
 							data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
@@ -400,7 +400,7 @@ function capturar(a,b,radExt,es_masto,es,id_s){//alert(es);//es_masto = 0;//a es
 							data = data.replace(/{et_logoe}/gi, et_logoe_x);
 							data = data.replace(/{et_logoee}/gi, et_logoee_x);
 							data = data.replace(/{et_logogm}/gi, et_logogm_x);
-
+							data = data.replace(/{et_oximetria}/gi, et_oximetria);
 							//tinymce.get('notaMedicaC').setContent(data);
 							$('#tCaptura #input').val(data);
 							//Checamos si el estudio tiene formatos individuales de quién lo va a interpretar, si es así, entonces puede escoger su machote
@@ -482,7 +482,7 @@ function capturar(a,b,radExt,es_masto,es,id_s){//alert(es);//es_masto = 0;//a es
 						table_default_styles: { width: '100%' },
 						relative_urls: true, image_advtab: true, menubar: false, plugin_preview_width: $('#myModal2').width()*0.8,
 						toolbar: 
-							"undo redo | insert | styleselect_ | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent_ indent_ | link unlink anchor | forecolor backcolor  | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP | mybutton1 |",
+							"undo redo | insert | styleselect_ | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent_ indent_ | link unlink anchor | forecolor backcolor  | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP | mybutton1 | bordePunteado | bordeLineal | sinBorde",
 						insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1 ',
 						paste_data_images: true, paste_as_text: true, browser_spellcheck: true, image_advtab: true,
 						setup: function(editor){
@@ -493,6 +493,70 @@ function capturar(a,b,radExt,es_masto,es,id_s){//alert(es);//es_masto = 0;//a es
 									var res = tinyMCE.get("input").getContent().replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); //alert(res);
 									$('#dpa_imprimir1').html(res).css('background-image','url(imagenes/vista_previa.png)').css('background-size','65%');
 									$('#dpa_imprimir1').html(res); $('#dpa_imprimir1').printElement();
+								}
+							});
+							editor.addButton('bordeLineal', {
+								text: 'Borde lineal',
+								onclick: function () {
+
+									var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+									// Si no hay selección múltiple, toma la celda actual
+									if (celdas.length === 0) {
+										var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+										if (celda) {
+											celdas = [celda];
+										}
+									}
+
+									celdas.forEach(function(celda) {
+										editor.dom.setStyle(celda, 'border', '1px solid #000');
+									});
+
+									editor.nodeChanged();
+								}
+							});
+							editor.addButton('bordePunteado', {
+								text: 'Borde punteado',
+								onclick: function () {
+
+									var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+									// Si no hay selección múltiple, toma la celda actual
+									if (celdas.length === 0) {
+										var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+										if (celda) {
+											celdas = [celda];
+										}
+									}
+
+									celdas.forEach(function(celda) {
+										editor.dom.setStyle(celda, 'border', '1px dashed #000');
+									});
+
+									editor.nodeChanged();
+								}
+							});
+							editor.addButton('sinBorde', {
+								text: 'Sin borde',
+								onclick: function () {
+
+									var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+									// Si no hay selección múltiple, toma la celda actual
+									if (celdas.length === 0) {
+										var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+										if (celda) {
+											celdas = [celda];
+										}
+									}
+
+									celdas.forEach(function(celda) {
+										editor.dom.setStyle(celda, 'border', '');
+										// o editor.dom.setStyle(celda, 'border', 'none');
+									});
+
+									editor.nodeChanged();
 								}
 							});
 						}

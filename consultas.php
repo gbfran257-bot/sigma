@@ -2969,6 +2969,7 @@ include_once 'recursos/datauser.php';
 											et_logo13 = datosTe[73],
 											et_logo14 = datosTe[74],
 											et_logo15 = datosTe[75];
+											et_oximetria = datosTe[76];
 
 										$("#tipoRecetaMed").change(function(e) {
 											var datos = {
@@ -3046,6 +3047,7 @@ include_once 'recursos/datauser.php';
 												data = data.replace(/{et_logo13}/gi, et_logo13);
 												data = data.replace(/{et_logo14}/gi, et_logo14);
 												data = data.replace(/{et_logo15}/gi, et_logo15);
+												data = data.replace(/{et_oximetria}/gi, et_oximetria);
 												tinymce.get('indiF').setContent(data);
 												//$('#tabs_nnm #tabs-1n .jqte_editor').html(data);
 											});
@@ -3202,6 +3204,7 @@ include_once 'recursos/datauser.php';
 										data = data.replace(/{et_logo13}/gi, et_logo13);
 										data = data.replace(/{et_logo14}/gi, et_logo14);
 										data = data.replace(/{et_logo15}/gi, et_logo15);
+										data = data.replace(/{et_oximetria}/gi, et_oximetria);
 
 										data1 = data1.replace(/{ET_ALERGIAS}/gi, alergiasx);
 										data1 = data1.replace(/{ET_EDAD}/gi, edadx1);
@@ -3267,7 +3270,7 @@ include_once 'recursos/datauser.php';
 										data1 = data1.replace(/{et_logo13}/gi, et_logo13);
 										data1 = data1.replace(/{et_logo14}/gi, et_logo14);
 										data1 = data1.replace(/{et_logo15}/gi, et_logo15);
-										data = data.replace(/{et_oximetria}/gi, et_oximetria);
+										data1 = data1.replace(/{et_oximetria}/gi, et_oximetria);
 
 										$('#notaMedicaC').val(data);
 										$('#indiF').val(data1);
@@ -3278,6 +3281,7 @@ include_once 'recursos/datauser.php';
 									$('#indiF').val(datos[16]);
 								}
 							});
+							
 							//$('#my_tb_nm').click(function(e) { insertarMED();});
 							$('#salvarConsulta').click(function(e) {
 								salvarConsulta(idC, idP);
@@ -3442,7 +3446,7 @@ include_once 'recursos/datauser.php';
 								image_advtab: true,
 								menubar: false,
 								plugin_preview_width: $('#referencia').width() * 0.8,
-								toolbar: "undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybutton | mybuttonIDX | mybuttonVP |",
+								toolbar: "undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybutton | mybuttonIDX | mybuttonVP | bordePunteado | bordeLineal | sinBorde",
 								insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
 								paste_data_images: true,
 								paste_as_text: true,
@@ -3478,6 +3482,70 @@ include_once 'recursos/datauser.php';
 											insertar_dxs(idC);
 										}
 									});
+									editor.addButton('bordeLineal', {
+										text: 'Borde lineal',
+										onclick: function () {
+
+											var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+											// Si no hay selección múltiple, toma la celda actual
+											if (celdas.length === 0) {
+												var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+												if (celda) {
+													celdas = [celda];
+												}
+											}
+
+											celdas.forEach(function(celda) {
+												editor.dom.setStyle(celda, 'border', '1px solid #000');
+											});
+
+											editor.nodeChanged();
+										}
+									});
+									editor.addButton('bordePunteado', {
+										text: 'Borde punteado',
+										onclick: function () {
+
+											var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+											// Si no hay selección múltiple, toma la celda actual
+											if (celdas.length === 0) {
+												var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+												if (celda) {
+													celdas = [celda];
+												}
+											}
+
+											celdas.forEach(function(celda) {
+												editor.dom.setStyle(celda, 'border', '1px dashed #000');
+											});
+
+											editor.nodeChanged();
+										}
+									});
+									editor.addButton('sinBorde', {
+										text: 'Sin borde',
+										onclick: function () {
+
+											var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+											// Si no hay selección múltiple, toma la celda actual
+											if (celdas.length === 0) {
+												var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+												if (celda) {
+													celdas = [celda];
+												}
+											}
+
+											celdas.forEach(function(celda) {
+												editor.dom.setStyle(celda, 'border', '');
+												// o editor.dom.setStyle(celda, 'border', 'none');
+											});
+
+											editor.nodeChanged();
+										}
+									});
 								}
 							});
 							tinymce.init({
@@ -3494,7 +3562,7 @@ include_once 'recursos/datauser.php';
 								image_advtab: true,
 								menubar: false,
 								plugin_preview_width: $('#referencia').width() * 0.8,
-								toolbar: "undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybutton | mybuttonIMe | mybuttonVP |",
+								toolbar: "undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybutton | mybuttonIMe | mybuttonVP | bordePunteado | bordeLineal | sinBorde",
 								insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
 								paste_data_images: true,
 								paste_as_text: true,
@@ -3527,6 +3595,70 @@ include_once 'recursos/datauser.php';
 										tooltip: 'Insertar los medicamentos en la receta',
 										onclick: function() {
 											insertar_medicamentos(idC);
+										}
+									});
+									editor.addButton('bordeLineal', {
+										text: 'Borde lineal',
+										onclick: function () {
+
+											var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+											// Si no hay selección múltiple, toma la celda actual
+											if (celdas.length === 0) {
+												var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+												if (celda) {
+													celdas = [celda];
+												}
+											}
+
+											celdas.forEach(function(celda) {
+												editor.dom.setStyle(celda, 'border', '1px solid #000');
+											});
+
+											editor.nodeChanged();
+										}
+									});
+									editor.addButton('bordePunteado', {
+										text: 'Borde punteado',
+										onclick: function () {
+
+											var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+											// Si no hay selección múltiple, toma la celda actual
+											if (celdas.length === 0) {
+												var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+												if (celda) {
+													celdas = [celda];
+												}
+											}
+
+											celdas.forEach(function(celda) {
+												editor.dom.setStyle(celda, 'border', '1px dashed #000');
+											});
+
+											editor.nodeChanged();
+										}
+									});
+									editor.addButton('sinBorde', {
+										text: 'Sin borde',
+										onclick: function () {
+
+											var celdas = editor.dom.select('td[data-mce-selected="1"], th[data-mce-selected="1"]');
+
+											// Si no hay selección múltiple, toma la celda actual
+											if (celdas.length === 0) {
+												var celda = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+												if (celda) {
+													celdas = [celda];
+												}
+											}
+
+											celdas.forEach(function(celda) {
+												editor.dom.setStyle(celda, 'border', '');
+												// o editor.dom.setStyle(celda, 'border', 'none');
+											});
+
+											editor.nodeChanged();
 										}
 									});
 								}

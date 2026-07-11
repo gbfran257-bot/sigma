@@ -509,7 +509,8 @@ include_once 'recursos/datauser.php';
 					et_logo_suc_x = datosTe[43];
 				var et_logoe_x = datosTe[44],
 					et_logoee_x = datosTe[45],
-					et_logogm_x = datosTe[46];
+					et_logogm_x = datosTe[46],
+					et_oximetria = datosTe[76];
 				var data = datax;
 
 				data = data.replace(/{ET_ALERGIAS}/gi, alergiasx);
@@ -558,6 +559,7 @@ include_once 'recursos/datauser.php';
 				data = data.replace(/{et_logoe}/gi, et_logoe_x);
 				data = data.replace(/{et_logoee}/gi, et_logoee_x);
 				data = data.replace(/{et_logogm}/gi, et_logogm_x);
+				data = data.replace(/{et_oximetria}/gi, et_oximetria);
 
 				//$('#mi_formato').html(data);
 				tinymce.get('mi_formato').setContent(data);
