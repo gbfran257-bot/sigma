@@ -2969,6 +2969,7 @@ include_once 'recursos/datauser.php';
 											et_logo13 = datosTe[73],
 											et_logo14 = datosTe[74],
 											et_logo15 = datosTe[75];
+											et_oximetria = datosTe[76];
 
 										$("#tipoRecetaMed").change(function(e) {
 											var datos = {
@@ -3046,6 +3047,7 @@ include_once 'recursos/datauser.php';
 												data = data.replace(/{et_logo13}/gi, et_logo13);
 												data = data.replace(/{et_logo14}/gi, et_logo14);
 												data = data.replace(/{et_logo15}/gi, et_logo15);
+												data = data.replace(/{et_oximetria}/gi, et_oximetria);
 												tinymce.get('indiF').setContent(data);
 												//$('#tabs_nnm #tabs-1n .jqte_editor').html(data);
 											});
@@ -3278,6 +3280,9 @@ include_once 'recursos/datauser.php';
 									$('#indiF').val(datos[16]);
 								}
 							});
+							window.setTimeout(function() {
+								$("#tipoRecetaMed").change();
+							}, 2500); //se ejecuta después de 2.5 segundos para que cargue correctamente el texto de la receta médica
 							//$('#my_tb_nm').click(function(e) { insertarMED();});
 							$('#salvarConsulta').click(function(e) {
 								salvarConsulta(idC, idP);
