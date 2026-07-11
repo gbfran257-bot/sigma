@@ -1205,7 +1205,7 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 				var et_fr_x = datosTe[37], et_temp_x = datosTe[38], et_dx_envio_x = datosTe[39], et_referencia_x = datosTe[40];
 				var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
 				var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
-				var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56], et_Fnac = datosTe[57], et_dx = datosTe[58], et_Med = datosTe[59],et_destroxtis = datosTe[60], et_logo1 = datosTe[61],et_logo2 = datosTe[62],et_logo3 = datosTe[63],et_logo4 = datosTe[64],et_logo5 = datosTe[65],et_logo6 = datosTe[66],et_logo7 = datosTe[67],et_logo8 = datosTe[68],et_logo9 = datosTe[69],et_logo10 = datosTe[70],et_logo11 = datosTe[71],et_logo12 = datosTe[72],et_logo13 = datosTe[73],et_logo14 = datosTe[74],et_logo15 = datosTe[75];
+				var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56], et_Fnac = datosTe[57], et_dx = datosTe[58], et_Med = datosTe[59],et_destroxtis = datosTe[60], et_logo1 = datosTe[61],et_logo2 = datosTe[62],et_logo3 = datosTe[63],et_logo4 = datosTe[64],et_logo5 = datosTe[65],et_logo6 = datosTe[66],et_logo7 = datosTe[67],et_logo8 = datosTe[68],et_logo9 = datosTe[69],et_logo10 = datosTe[70],et_logo11 = datosTe[71],et_logo12 = datosTe[72],et_logo13 = datosTe[73],et_logo14 = datosTe[74],et_logo15 = datosTe[75], et_oximetria = datosTe[76];
 				$("#tipoNotaMed").change(function(e) {//alert('Cambia');
 					var datos = {idNM:$("#tipoNotaMed").val(),idC:id_h}
 					$.post('consultas/files-serverside/textoNotaM.php',datos).done(function(data){ //alert(data);
@@ -1278,6 +1278,7 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 						data = data.replace(/{et_logo13}/gi, et_logo13);
 						data = data.replace(/{et_logo14}/gi, et_logo14);
 						data = data.replace(/{et_logo15}/gi, et_logo15);
+						data = data.replace(/{et_oximetria}/gi, et_oximetria);
 						tinymce.get('notaMedicaC').setContent(data);
 						//$('#tabs_nnm #tabs-1n .jqte_editor').html(data);
 					});
@@ -1303,7 +1304,7 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 				var et_nombre_anestesiologo_x = datosTe[41], et_firma_medico_atiende_x = datosTe[42], et_logo_suc_x = datosTe[43];
 				var et_logoe_x = datosTe[44], et_logoee_x = datosTe[45], et_logogm_x = datosTe[46], et_historia_clinica_x = datosTe[52];
 				var et_historia_clinica_AHF_x = datosTe[53], et_historia_clinica_APNP_x = datosTe[54], et_historia_clinica_APP_x = datosTe[55], et_historia_clinica_AGO_x = datosTe[56];
-				var data = datosNI[1],et_Fnac = datosTe[57], et_dx = datosTe[58], et_Med = datosTe[59], et_destroxtis = datosTe[60], et_logo1 = datosTe[61],et_logo2 = datosTe[62],et_logo3 = datosTe[63],et_logo4 = datosTe[64],et_logo5 = datosTe[65],et_logo6 = datosTe[66],et_logo7 = datosTe[67],et_logo8 = datosTe[68],et_logo9 = datosTe[69],et_logo10 = datosTe[70],et_logo11 = datosTe[71],et_logo12 = datosTe[72],et_logo13 = datosTe[73],et_logo14 = datosTe[74],et_logo15 = datosTe[75]; 
+				var data = datosNI[1],et_Fnac = datosTe[57], et_dx = datosTe[58], et_Med = datosTe[59], et_destroxtis = datosTe[60], et_logo1 = datosTe[61],et_logo2 = datosTe[62],et_logo3 = datosTe[63],et_logo4 = datosTe[64],et_logo5 = datosTe[65],et_logo6 = datosTe[66],et_logo7 = datosTe[67],et_logo8 = datosTe[68],et_logo9 = datosTe[69],et_logo10 = datosTe[70],et_logo11 = datosTe[71],et_logo12 = datosTe[72],et_logo13 = datosTe[73],et_logo14 = datosTe[74],et_logo15 = datosTe[75], et_oximetria = datosTe[76];
 
 				data = data.replace(/{ET_DIAGNOSTICO_PACIENTE}/gi, et_dx);
 				data = data.replace(/{ET_MEDICAMENTOS_PACIENTE}/gi, et_Med);
@@ -1374,6 +1375,7 @@ function nueva_nota(id_h, id_p, nombre_p, id_s, tUser, tUser1){ $('#myModal').mo
 				data = data.replace(/{et_logo13}/gi, et_logo13);
 				data = data.replace(/{et_logo14}/gi, et_logo14);
 				data = data.replace(/{et_logo15}/gi, et_logo15);
+				data = data.replace(/{et_oximetria}/gi, et_oximetria);
 
 				$('#notaMedicaC').val(data);
 			});
