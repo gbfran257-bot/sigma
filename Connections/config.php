@@ -4,8 +4,8 @@
 // Datos de conexión para base de datos "prueba"
 $db_host = "localhost";
 $db_user = "sigmauser";
-$db_password = "";
-$db_name = "";
+$db_password = "root";
+$db_name = "pacsdb";
 
 // Crear conexión usando MySQLi
 $mysql = mysqli_connect($db_host, $db_user, $db_password, $db_name);

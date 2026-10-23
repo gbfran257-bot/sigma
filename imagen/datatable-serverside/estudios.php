@@ -284,7 +284,14 @@ include_once '../../recursos/datauser.php';
 		}
 		$miRef = strtoupper($miRef);
 		$su_id_pacs = '"'.strtoupper($miRef).'"';
-		
+
+		if($row[14]==55){//Si es un RX
+			$resultPc2 = pg_query_params($ipacs,
+				"SELECT count(*) FROM patient p JOIN patient_id pid ON pid.pk = p.patient_id_fk WHERE pid.pat_id = $1",
+				array($miRef)
+			);
+			$rowPc2 = pg_fetch_row($resultPc2);
+		/*
 		if($row[14]==55){//Si es un RX
 			//Checamos que $miRef exista en la lista de pacientes de la db del pacs
 			///mysql_select_db($database_ipacs, $ipacs);
@@ -304,7 +311,7 @@ include_once '../../recursos/datauser.php';
 					}
 				}
 				$soloCinco--;
-			}
+			}*/
 			if($rowPc2[0]>0){//Hay por lo menos un estudio de la db del pacs ligado a uno de sigma
 				$row[7] = "<span name='$row[22]' id='$row[22]' lang='$row[10]' onClick='est(this.lang, this.lang, $su_id_pacs)' style='cursor:pointer;' class='text-success'><h3><u>$miRef</u></h3></span>";
 			}else{//No hay estudios ligados
@@ -316,9 +323,14 @@ include_once '../../recursos/datauser.php';
 				$updateX = mysql_query($sqlX, $horizonte) or die (mysql_error());//if (!$updateX) { echo $sqlX; }else{ echo 1;}
 			}
 		}else{ //Preguntar si los rayos se van a agrupar en el pacs
+				$resultPc1 = pg_query_params($ipacs,
+					"SELECT count(*) FROM patient p JOIN patient_id pid ON pid.pk = p.patient_id_fk WHERE pid.pat_id = $1",
+					array($miRef)
+				);
+				$rowPc1 = pg_fetch_row($resultPc1);
 			//Checamos que $miRef exista en la lista de pacientes de la db del pacs
 			///mysql_select_db($database_ipacs, $ipacs);
-			$resultPc1=pg_query($ipacs, "SELECT count(pk) from patient where pat_id = '$miRef' ");
+			/*$resultPc1=pg_query($ipacs, "SELECT count(pk) from patient where pat_id = '$miRef' ");
 			$rowPc1 = pg_fetch_row($resultPc1); 
 
 			if($rowPc1[0]==0 && $soloCinco > 0){
@@ -335,7 +347,8 @@ include_once '../../recursos/datauser.php';
 					}
 				}
 				$soloCinco--;
-			}
+			}*/
+			
 			if($rowPc1[0]>0){//Hay por lo menos un estudio de la db del pacs ligado a uno de sigma
 				$row[7] = "<span name='$row[22]' id='$row[22]' lang='$row[10]' onClick='est(this.lang, this.lang, $su_id_pacs)' style='cursor:pointer;' class='text-success'><h3><u>$miRef</u></h3></span>";
 			}else{//No hay estudios ligados

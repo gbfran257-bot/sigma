@@ -107,6 +107,8 @@
 
 <script>
 $(document).ready(function(e) {
+	//permite escribir en los diálogos de TinyMCE que se abren encima de los modales de Bootstrap
+	$.fn.modal.Constructor.prototype.enforceFocus = function(){};
 	//breadcrumb
 	$('#breadc').html('<li><a href="index.php">HOME</a></li><li>IMAGEN</li><li class="active"><strong>ULTRASONIDO</strong></li>');
 	
@@ -194,7 +196,7 @@ function fichaEstudio(e,i,idPx1a,id_s){ //e es el estatus del estudio e i es el 
 						"table, charmap, emoticons, textcolor colorpicker, hr, image imagetools, image, insertdatetime, lists, noneditable, pagebreak, paste, preview, print, visualblocks, wordcount, code, importcss", table_default_styles: { width: '100%' },
 					relative_urls: true, image_advtab: true, menubar: false, plugin_preview_width: $('#myModal').width()*0.8,
 					toolbar: 
-						"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor  | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP | mybutton | mybutton1 |",
+						"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor  | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP | mybutton | mybutton1 | mybuttonPACS |",
 					insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
 					paste_data_images: true, paste_as_text: true, browser_spellcheck: true, 
 					force_br_newlines : true, force_p_newlines : false, orced_root_block : '', 
@@ -207,6 +209,10 @@ function fichaEstudio(e,i,idPx1a,id_s){ //e es el estatus del estudio e i es el 
 						  		}
 						});
 						editor.addButton( 'mybutton1', { text: 'DICTAR', icon: false, onclick:function(){ procesarV(); } });
+						editor.addButton( 'mybuttonPACS', {
+							text: 'IMGS PACS', icon: false, tooltip: 'Insertar imágenes del estudio del PACS',
+							onclick:function(){ insertarImgsPACS(editor, i, idPx1a); }
+						});
 						editor.addButton( 'mybuttonVP', {
 							text: 'VPI', icon: false, tooltip: 'Vista previa de impresión',
 							onclick:function(){
@@ -477,7 +483,7 @@ function fichaEstudio(e,i,idPx1a,id_s){ //e es el estatus del estudio e i es el 
 							"table, charmap, emoticons, textcolor colorpicker, hr, image imagetools, image, insertdatetime, lists, noneditable, pagebreak, paste, preview, print, visualblocks, wordcount, code, importcss", table_default_styles: { width: '100%' },
 						relative_urls: true, image_advtab: true, menubar: false, plugin_preview_width: $('#myModal').width()*0.8,
 						toolbar: 
-							"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor  | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP | mybutton | mybutton1 |",
+							"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent1 indent1 | link unlink anchor | forecolor backcolor  | print_ preview_ code_ | emoticons_ | table | responsivefilemanager_ | mybuttonVP | mybutton | mybutton1 | mybuttonPACS |",
 						insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
 						paste_data_images: true, paste_as_text: true, browser_spellcheck: true, 
 						force_br_newlines : true, force_p_newlines : false, orced_root_block : '', 
@@ -490,6 +496,10 @@ function fichaEstudio(e,i,idPx1a,id_s){ //e es el estatus del estudio e i es el 
 									}
 							});
 							editor.addButton( 'mybutton1', { text: 'DICTAR', icon: false, onclick:function(){ procesarV(); } });
+							editor.addButton( 'mybuttonPACS', {
+								text: 'IMGS PACS', icon: false, tooltip: 'Insertar imágenes del estudio del PACS',
+								onclick:function(){ insertarImgsPACS(editor, i, idPx1a); }
+							});
 							editor.addButton( 'mybuttonVP', {
 								text: 'VPI', icon: false, tooltip: 'Vista previa de impresión',
 								onclick:function(){
@@ -636,6 +646,74 @@ function cargarImagenesCanvas(i){
 function cargarImagenesReporte(i){
 	$("#imagenesEndo").load("imagen/img_usg/procesa.php?action=listFotos2&carpeta="+i,function(response,status,xhr){ });
 }
+
+/* ============================================================
+   IMÁGENES DEL PACS -> DOCUMENTO DE INTERPRETACIÓN
+   Botón "IMGS PACS" del editor. Abre un diálogo para elegir
+   cuántas imágenes por fila, formato, número de serie y máximo;
+   recuerda la última selección (localStorage).
+   Endpoint: imagen/files-serverside/imagenesPacsUSG.php
+   ============================================================ */
+function insertarImgsPACS(editor, idVC, idPx){
+	var pref = { cols:3, fmt:'jpg', serie:1, max:12, alto:'', solo:'' };
+	try{ var g = JSON.parse(localStorage.getItem('usgPacsOpc')); if(g){ pref = $.extend(pref, g); } }catch(ex){}
+	var nums = $.map([1,2,3,4,5,6], function(v){ return { text:String(v), value:String(v) }; });
+	
+	editor.windowManager.open({
+		title: 'Imágenes del PACS', minWidth: 480,
+		body: [
+			{ type:'listbox', name:'cols', label:'Imágenes por fila', values:nums, value:String(pref.cols) },
+			{ type:'listbox', name:'fmt', label:'Formato', values:[{text:'JPG',value:'jpg'},{text:'PNG',value:'png'}], value:pref.fmt },
+			{ type:'textbox', name:'max', label:'Máximo de imágenes (1-100)', value:String(pref.max) },
+			{ type:'textbox', name:'alto', label:'Alto máx. por imagen en px (vacío = automático)', value:String(pref.alto) },
+			{ type:'textbox', name:'solo', label:'Solo la serie número (vacío = todas)', value:String(pref.solo) },
+			{ type:'checkbox', name:'serie', label:'Mostrar número de serie e imagen', checked:(pref.serie==1) }
+		],
+		onsubmit: function(e){
+			var d = e.data;
+			var opc = {
+				cols:  Math.max(1, Math.min(6, parseInt(d.cols) || 3)),
+				fmt:   (d.fmt == 'png') ? 'png' : 'jpg',
+				max:   Math.max(1, Math.min(100, parseInt(d.max) || 12)),
+				alto:  parseInt(d.alto) || '',
+				solo:  parseInt(d.solo) || '',
+				serie: d.serie ? 1 : 0
+			};
+			try{ localStorage.setItem('usgPacsOpc', JSON.stringify(opc)); }catch(ex){}
+			window.setTimeout(function(){ traerImgsPACS(editor, idVC, idPx, opc); }, 200);
+		}
+	});
+}
+function traerImgsPACS(editor, idVC, idPx, opc){
+	editor.setProgressState(true);
+	$.post('imagen/files-serverside/datosInterpretar.php',
+		{ idE:idVC, idP:idPx, idU:$('#id_user').val(), h:location.hostname }
+	).done(function(d){
+		var dataE = d.split(';*}-{');
+		console.log('datosInterpretar:', dataE);
+		// UIDs posibles (como en est() de imagen.php) y referencias posibles; el servidor prueba cada una
+		var uids = $.grep([dataE[35], dataE[16], dataE[34]], function(v){ return $.trim(v||'') != ''; }).join('|');
+		var refs = $.grep([dataE[12], dataE[34], dataE[1]],  function(v){ return $.trim(v||'') != ''; }).join('|');
+		if(uids == '' && refs == ''){
+			editor.setProgressState(false);
+			swal({title:"",type:"error",text:"El estudio no tiene ID de PACS ni referencia",timer:2500,showConfirmButton:false});
+			return;
+		}
+		$.post('imagen/files-serverside/imagenesPacsUSG.php',
+			{ idVC:idVC, uids:uids, refs:refs, fmt:opc.fmt, cols:opc.cols, serie:opc.serie, max:opc.max, alto:opc.alto, solo:opc.solo }
+		).done(function(html){
+			editor.setProgressState(false);
+			console.log('imagenesPacsUSG:', html);
+			html = $.trim(html);
+			if(html.indexOf('ERROR') === 0){
+				swal({title:"No se pudieron traer las imágenes",type:"error",text:html.replace(/^ERROR:\s*/,'')});
+			}else if(html == ''){
+				swal({title:"",type:"error",text:"El servidor no devolvió contenido (revisa el log de PHP)",timer:3000,showConfirmButton:false});
+			}else{ editor.insertContent(html); }
+		}).fail(function(xhr){ editor.setProgressState(false); alert('Error HTTP '+xhr.status+' en imagenesPacsUSG.php\n'+$('<div>').html(xhr.responseText||'').text().substring(0,400)); });
+	}).fail(function(){ editor.setProgressState(false); alert('Error al obtener los datos del estudio'); });
+}
+
 function miImg(idImg){ //alert(idImg);
 	$('#mi_video_ver').addClass('hidden'); $('#mi_foto_ver').removeClass('hidden');
 	var d = new Date(); var xo = d.format('YmdHisu').substring(0,22); $('#foto_ver').html('<img src="'+idImg+'?'+xo+'">');

@@ -114,14 +114,14 @@ require("../../funciones/php/values.php");
 	$medicoInterpreta = $row4[6]." ".$row4[0]." ".$row4[1]." ".$row4[2];
 	
 	$referenciaPacs = $row[20];
-	
 	$idPP = $referenciaPacs;
 	//$idPP = sqlValue($referenciaPacs, "text");
 	
 	//Seleccionamos el id del paciente en la tabla patient de la DB del ipacs
 	//mysql_select_db($database_ipacs, $ipacs);
   
-
+	//Ultima modificacion comentamos
+	
 	$resultUID = pg_query($ipacs,"
 	SELECT s.study_iuid
 	FROM patient p
@@ -130,6 +130,7 @@ require("../../funciones/php/values.php");
 	WHERE pid.pat_id = '$idPP'
 	LIMIT 1
 	");
+
 
 	$rowUID = pg_fetch_row($resultUID);
 	$studyUID = $rowUID[0];
@@ -158,6 +159,51 @@ require("../../funciones/php/values.php");
 	while ($fila = pg_fetch_array($query)) { $c++;
 		$lista = '"'.'osirix://?methodName=DownloadURL&amp;Display=YES&amp;URL='."'".'http://'.$host.':8887/dcm4chee-arc/aets/DCM4CHEE/wado?requestType=WADO&studyUID='.$fila['me'].'&seriesUID='.$fila['ms'].'&objectUID='.$fila['mi'].'&contentType=application%2Fdicom&transferSyntax=1.2.840.10008.1.2.1'."'".'"';
 	};
+
+
+	 //Fin de la ultima modificacion
+	/*$resultUID = pg_query_params($ipacs, "
+        SELECT s.study_iuid, p.pk as patient_pk, s.num_instances
+        FROM patient p
+        JOIN patient_id pid ON pid.pk = p.patient_id_fk
+        JOIN study s ON s.patient_fk = p.pk
+        WHERE pid.pat_id = $1
+        LIMIT 1
+    ", array($idPP));
+
+    $studyUID = "";
+    $ni = 0;
+    $patient_pk = "";
+
+    if ($resultUID && $rowUID = pg_fetch_assoc($resultUID)) {
+        $studyUID = $rowUID['study_iuid'];
+        $patient_pk = $rowUID['patient_pk'];
+        $ni = $rowUID['num_instances'];
+    }
+
+    $refre = $ni;
+    $i = 0; $j = 0;
+    $lista = '';
+    
+    // 2. Si encontramos el PK del paciente, consultamos las instancias para construir la lista de descarga
+    if (!empty($patient_pk)) {
+        $consulta = "SELECT i.sop_iuid as mi, s.series_iuid as ms, e.study_iuid as me 
+                     FROM instance i 
+                     LEFT JOIN series s ON s.pk = i.series_fk 
+                     LEFT JOIN study e ON e.pk = s.study_fk 
+                     LEFT JOIN patient p ON p.pk = e.patient_fk 
+                     WHERE p.pk = $1";
+        $query = pg_query_params($ipacs, $consulta, array($patient_pk));
+        
+        if ($query) {
+            while ($fila = pg_fetch_array($query)) { 
+                $c++;
+                $lista = '"'.'osirix://?methodName=DownloadURL&amp;Display=YES&amp;URL='."'".'http://'.$host.':8887/dcm4chee-arc/aets/DCM4CHEE/wado?requestType=WADO&studyUID='.$fila['me'].'&seriesUID='.$fila['ms'].'&objectUID='.$fila['mi'].'&contentType=application%2Fdicom&transferSyntax=1.2.840.10008.1.2.1'."'".'"';
+            }
+        }
+    }
+	*/
+	//Fin de nueva modificacion
 	
 	$tabla = '<div style=" width:100%; text-align:center; border:1px none red;" align="center"> <table id="p_contenido1" width="15cm" border="0" cellspacing="4" cellpadding="0"> <tr> <td width="360">PACIENTE: '.$row1[2].' '.$row1[3].'</td> <td nowrap>EDAD: '.$row1[0].' SEXO: '.$row1[1].' </td> </tr> <tr> <td class="myMedicoP">'.$miMedico.'</td> <td nowrap>FECHA '.$row[3].'</td> </tr> <tr> <td align="left" style="font-weight:bold;" nowrap>'.$row3[0].'</td> <td nowrap> REFERENCIA: '.$row[0].' </td> </tr> </table></div>';
 	

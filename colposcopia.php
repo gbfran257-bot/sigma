@@ -634,6 +634,7 @@ function cargarImagenesCanvas(i){
 	$("#deCanvas").load("imagen/img_colpo/procesa.php?action=listFotos1&carpeta="+i,function(response,status,xhr){ }); 
 	window.setTimeout(function(){ $('#divCanvas').css('height',$('#tamHcanvas').val()).css('overflow','scroll');},500);
 }
+
 function cargarImagenesReporte(i){
 	$("#imagenesEndo").load("imagen/img_colpo/procesa.php?action=listFotos2&carpeta="+i,function(response,status,xhr){ });
 }

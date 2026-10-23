@@ -32,20 +32,40 @@
             </td> 
           </tr>
           
-          <tr> 
-            <td class="titulosTabla" nowrap>LINK V-SIMPLE</td> 
-            <td align="left" id="chosto" class="text-warning" colspan="3"> </td>
-          
-            <!--<td class="titulosTabla" nowrap></td> 
-            <td align="left"> -->
-                    
-            </td> 
-          </tr>
-          <tr> 
-            <td class="titulosTabla" nowrap>LINK V-AVANZADO</td> 
-            <td align="left" id="chosto1" class="text-warning" colspan="3"> </td>
-            </td> 
-          </tr>
+        <tr>
+            <td class="titulosTabla" nowrap>STUDY_IUID</td>
+            <td align="left" colspan="3">
+                <input
+                    class="campoDatosTabla"
+                    id="studyUID"
+                    type="text"
+                    style="text-align:left;width:99%;"
+                    readonly>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="titulosTabla" nowrap>ENLACE</td>
+            <td align="left" colspan="3">
+                <input
+                    class="campoDatosTabla"
+                    id="enlaceGenerado"
+                    type="text"
+                    style="text-align:left;width:99%;"
+                    readonly>
+            </td>
+        </tr>
+          <tr>
+            <td class="titulosTabla" nowrap>WhatsApp</td>
+            <td align="left" colspan="3">
+                <input
+                    class="campoDatosTabla"
+                    id="telefonoWhatsapp"
+                    type="text"
+                    placeholder="52"
+                    style="text-align:left;width:99%;">
+            </td>
+        </tr>
         </table>
         <input name="idEstudioPacs" type="hidden" value="" id="idEstudioPacs">
 </div>
@@ -53,8 +73,9 @@
 <div class="modal-footer">
     <div class="form-group">
     <div class="col-sm-offset-0 col-sm-12">
-        <button type='submit' id="btn_v_html" class="btn btn-primary btn-sm">Visualizador html</button>
-        <button type='submit' id="btn_v_avanzado" class="btn btn-primary btn-sm">Visualizador avanzado</button>
+        <button type='submit' id="btn_gen_enla" class="btn btn-primary btn-sm">Generar enlace</button>    
+        <button type='submit' id="btn_comp_enlace" class="btn btn-primary btn-sm">Compartir url</button>
+        <button type='submit' id="btn_v_avanzado" class="btn btn-primary btn-sm">Visualizador html</button>
         <button type='submit' id="btn_reasignar_id" class="btn btn-primary btn-sm">Reasignar IDPACS</button>
         <button type='button' class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>     
     </div>
