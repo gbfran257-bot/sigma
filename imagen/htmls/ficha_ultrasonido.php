@@ -20,7 +20,11 @@
 					<a href="#tImagenes" aria-controls="tImagenes" role="tab" data-toggle="tab">IMÁGENES</a>
 				  </li>
 				  <li role="presentation" class="hidden" id="t-interpretacion">
-					<a href="#tInterpretacion" aria-controls="tInterpretacion"role="tab" data-toggle="tab"id="st-interpretacion">INTERPRETACIÓN</a>
+					<a href="#tInterpretacion" aria-controls="tInterpretacion" role="tab" data-toggle="tab" id="st-interpretacion">INTERPRETACIÓN</a>
+				  </li>
+				  <!-- NUEVA PESTAÑA: se muestra desde ultrasonido.php cuando el estudio ya está realizado (estatus >= 3) -->
+				  <li role="presentation" class="hidden" id="t-interpretacion-img">
+					<a href="#tInterpretacionImg" aria-controls="tInterpretacionImg" role="tab" data-toggle="tab" id="st-interpretacion-img">INTERPRETACIÓN EN IMAGEN</a>
 				  </li>
 				  <li role="presentation" class="hidden" id="t-estudio">
 					<a href="#tEstudio" aria-controls="tEstudio" role="tab" data-toggle="tab">ESTUDIO</a>
@@ -33,6 +37,7 @@
 			<td nowrap>
 				<button type='submit' class="btn btn-primary btn-sm hidden" id="guardarE">Guardar</button> 
     			<button type='submit' class="btn btn-success btn-sm hidden" id="finalizarE">Finalizar</button>
+        		<button type='button' class="btn btn-info btn-sm hidden" id="compartirE"><i class="fa fa-whatsapp" aria-hidden="true"></i> Compartir</button>
         		<button type='button' class="btn btn-primary btn-sm hidden" id="imprimirE">Imprimir</button> 
         		<button type='button' class="btn btn-warning btn-sm" data-dismiss="modal">Salir</button>
 			</td>
@@ -93,6 +98,10 @@
             	<input style="height:90px; resize:none;" name="input" id="input" type="text" class="required"> 
             	<input name="miDiagnostico" id="miDiagnostico" type="hidden">
           	</form>
+        </div>
+        <!-- NUEVO PANEL: segundo editor (se inicia desde ultrasonido.php la primera vez que se abre la pestaña) -->
+        <div role="tabpanel" class="tab-pane" id="tInterpretacionImg"><br>
+        	<textarea name="input2" id="input2" style="height:90px; resize:none;"></textarea>
         </div>
         <div role="tabpanel" class="tab-pane" id="tEstudio"><br>
         	<div id="gallery" style="display:none;"> </div>

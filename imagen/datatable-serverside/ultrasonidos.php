@@ -1,8 +1,9 @@
 <?php
 require("../../Connections/horizonte.php");
+require("../../Connections/ipacs.php");
 require("../../funciones/php/values.php");
-	
-	$aColumns = array('v.id_vc', 'p.nombre_completo_p', 'v.referencia_vc', 'e.concepto_to', 'es.estatus_est', 'a.nombre_a', 'p.amaterno_p','a.nombre_a', 'p.id_p', 'v.id_vc', 'v.referencia_vc', 'v.contador_vc', 'e.id_area_to', 'a.nombre_a', 'DATE_FORMAT(v.fecha_venta_vc,"%Y%c%d")', 'su.id_su', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%m/%Y %H:%i")', 'au.usuario_u', 'DATE_FORMAT(v.fechaEdo4_e,"%d/%m/%Y %H:%i")', 'CONCAT_WS(" ", au2.nombre_u, au2.apaterno_u, au2.amaterno_u)' );
+
+	$aColumns = array('v.id_vc', 'p.nombre_completo_p', 'v.referencia_vc', 'e.concepto_to', 'es.estatus_est', 'a.nombre_a', 'p.amaterno_p','a.nombre_a', 'p.id_p', 'v.id_vc', 'v.referencia_vc', 'v.contador_vc', 'e.id_area_to', 'a.nombre_a', 'DATE_FORMAT(v.fecha_venta_vc,"%Y%c%d")', 'su.id_su', 'DATE_FORMAT(v.fecha_venta_vc,"%d/%m/%Y %H:%i")', 'au.usuario_u', 'DATE_FORMAT(v.fechaEdo4_e,"%d/%m/%Y %H:%i")', 'CONCAT_WS(" ", au2.nombre_u, au2.apaterno_u, au2.amaterno_u)', 'v.id_pacs', 'DATE_FORMAT(v.fecha_venta_vc,"%Y-%m-%d")' );
      
     // DB tables to use 
     $aTables = array( 'venta_conceptos v');
@@ -108,12 +109,12 @@ require("../../funciones/php/values.php");
         {
             if ( $sWhere == "" ) { $sWhere = "WHERE "; }
             else { $sWhere .= " AND "; }
-            if($i==7){
+            // OJO: con la columna ID-PACS insertada, el filtro de MEDICO REFIERE pasó de la columna 7 a la 8
+            if($i==8){
                 $sWhere .= "concat_ws(' ', au2.nombre_u, au2.apaterno_u, au2.amaterno_u)" . " LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
             }else{
                 $sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
             }
-            //$sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
         }
     }
      
@@ -182,6 +183,7 @@ require("../../funciones/php/values.php");
 		$nombreEstud = '"'.$row[3].'"';
 		$referenciaE = '"'.$row[2].'"';
 		$nombreP = '"'.$row[1].'"';
+		$fechaEst = '"'.$row[21].'"';
 		
 		$row[5] = "<div align='center'><button type='button' class='btn btn-sm btn-primary disabled' ><i class='fa fa-pencil' aria-hidden='true'></i></button></div>";
 		$row[6] = "<div align='center'>-</div>";
@@ -206,12 +208,58 @@ require("../../funciones/php/values.php");
 			$row[6] = "<div align='center'><button type='button' class='btn btn-sm btn-primary' name='$row[8]' id='$row[8]' lang='$row[9]' value='' onClick='p_imagenes(this.lang, $row[8], $referenciaE, $id_suc)'><i class='fa fa-print' aria-hidden='true'></i></button></div>";
 		}
 		
+		// ===== ID-PACS =====
+		// En ULTRASONIDO el PACS guarda como ID la referencia SIN guion (20260115-21 -> 2026011521).
+		$idUsg    = strtoupper(str_replace("-", "", trim($row[10])));
+		$guardado = strtoupper(trim($row[20])); // v.id_pacs actual en venta_conceptos
+
+		// Candidatos: primero el ID guardado (si es valido) y luego la referencia sin guion
+		$candidatos = array();
+		if($guardado != '' && $guardado != '0' && $guardado != '0K'){ $candidatos[] = $guardado; }
+		if(!in_array($idUsg, $candidatos)){ $candidatos[] = $idUsg; }
+
+		$miRef = $idUsg; $existe = false;
+		foreach($candidatos as $c){
+			$rC = pg_query_params($ipacs,
+				"SELECT count(*) FROM patient p JOIN patient_id pid ON pid.pk = p.patient_id_fk WHERE pid.pat_id = $1",
+				array($c)
+			);
+			if($rC){
+				$rwC = pg_fetch_row($rC);
+				if($rwC[0] > 0){ $miRef = $c; $existe = true; break; }
+			}
+		}
+		$su_id_pacs = '"'.$miRef.'"';
+		
+		// Lo que SE MUESTRA en pantalla: el ID hexadecimal (formula de imagen). Lo que LIGA con el PACS es $miRef (referencia sin guion).
+		$mHex = str_replace("-", "", substr($row[10], 2)).$row[11];
+		$hexVista = ctype_digit($mHex) ? strtoupper(dechex($mHex)) : $miRef;
+		
+		if($existe){ // hay estudio en el PACS ligado a este ID
+			$celdaPacs = "<span name='$row[9]' id='pacs$row[9]' lang='$row[9]' onClick='est(this.lang, this.lang, $su_id_pacs)' style='cursor:pointer;' title='ID en el PACS: $miRef' class='text-success'><u style='font-size:15px; font-weight:600;'>$hexVista</u></span>";
+		}else{       // no esta ligado: noest() permite asignarlo
+			$celdaPacs = "<span name='$row[9]' id='pacs$row[9]' lang='$row[9]' onClick='noest(this.lang, $nombreEstud, $nombreP, $referenciaE, $fechaEst, $su_id_pacs)' style='cursor:pointer;' title='Estudio no ligado al pacs! (ID en el PACS: $miRef)' class='text-danger'><u style='font-size:15px; font-weight:600;'>$hexVista</u></span>";
+		}
+		
+		// Si el ID guardado es distinto del correcto, se corrige en venta_conceptos
+		// (datosInterpretar.php y est() leen v.id_pacs para encontrar el estudio en el PACS)
+		if($guardado != $miRef){
+			mysql_select_db($database_horizonte, $horizonte);
+			mysql_query("UPDATE venta_conceptos SET id_pacs = '$miRef' where id_vc = $row[9] limit 1", $horizonte) or die (mysql_error());
+		}
+		// =====================================================
+		
 		$row[2] = "$row[2]<br>$row[16]";
 
         $row[7] = $row[19];
+		
+		// Inserta la celda ID-PACS en la posición 6 (después de EDITAR, antes de IMÁGENES).
+		// Resultado: 0 #, 1 PACIENTE, 2 REFERENCIA, 3 ESTUDIO, 4 ESTATUS, 5 EDITAR, 6 ID-PACS, 7 IMÁGENES, 8 MÉDICO
+		array_splice($row, 6, 0, array($celdaPacs));
 				
 		$output['aaData'][] = $row;
     }
      
     echo json_encode( $output );
+    pg_close($ipacs);
 ?>
