@@ -702,7 +702,7 @@ function fichaEstudio(e,i,idPx1a,id_s){ //e es el estatus del estudio e i es el 
 					"table, charmap, emoticons, textcolor colorpicker, hr, image imagetools, image, insertdatetime, lists, noneditable, pagebreak, paste, preview, print, visualblocks, wordcount, code, importcss", table_default_styles: { width: '100%' },
 				relative_urls: true, image_advtab: true, menubar: false, plugin_preview_width: $('#myModal').width()*0.8,
 				toolbar: 
-					"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist | link unlink anchor | forecolor backcolor | table | mybuttonVP | mybutton | mybuttonPACS | mybuttonDatos | mybuttonMb |",
+					"undo redo | insert | bold italic fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist | link unlink anchor | forecolor backcolor | table | mybuttonVP | mybutton | mybuttonPACS | mybuttonMb |",
 				insert_button_items: 'charmap | cut copy | hr | insertdatetime | pagebreak1',
 				paste_data_images: true, paste_as_text: true, browser_spellcheck: true, 
 				force_br_newlines : true, force_p_newlines : false, orced_root_block : '', 
@@ -729,7 +729,7 @@ function fichaEstudio(e,i,idPx1a,id_s){ //e es el estatus del estudio e i es el 
 					editor.addButton( 'mybuttonVP', {
 						text: 'VPI', icon: false, tooltip: 'Vista previa de impresión',
 						onclick:function(){
-							imprimirInforme(editor.getContent(), $.extend({}, usgMembreteBase || membreteDefault()));
+							var htmlVP = editor.getContent(); obtenerMembrete(i, idPx1a).then(function(cfgVP){ imprimirInforme(htmlVP, cfgVP); });
 						}
 					});
 				},
@@ -739,7 +739,7 @@ function fichaEstudio(e,i,idPx1a,id_s){ //e es el estatus del estudio e i es el 
 					var ed1 = tinymce.get('input'), cab = contenidoInicialImagen(ed1 ? ed1.getContent() : '');
 					$.post('ultrasonido.php?usg_ajax=1', { accion:'leer', idE:i }).done(function(r){
 						r = $.trim(r);
-						if(r.indexOf('OK|') === 0 && r.length > 3){ editor.setContent(r.substring(3)); }
+						if(r.indexOf('OK|') === 0 && r.length > 3){ editor.setContent(quitarBloqueDatos(r.substring(3))); }
 						else{
 							editor.setContent(cab); cursorAlInicio(editor);
 							// si el editor principal aún no cargaba su plantilla, se reintenta
@@ -834,12 +834,12 @@ function imprimir(x,idPa,y,id_s){//x=id del estudio, y es si se imprimen los enc
 		$("#myModal").height($("#referencia").height()*0.85);
 		var dato = { idE:x, idP:idPa, idU:$('#id_user').val() }
 		$.post('imagen/files-serverside/datosInterpretar.php', dato).done(function(data){ var datos = data.split(';*}-{'); //alert(data);
-			var res = datos[5].replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); $("#impresion_inter").html(res);
+			var res = datos[5].replace(/<p/g, "<div"); res = res.replace(/<\/p>/g, "</div>"); $("#impresion_inter").html(res); if(cfgEst){ pintarMembretePreview(cfgEst, res); }
 		});
 
 		var cfgEst = null;
-		obtenerMembrete(x, idPa).then(function(cfg){ cfgEst = cfg; pintarMembretePreview(cfg); });
-		$('#btn_membrete_i').click(function(){ editarMembrete(function(){ obtenerMembrete(x, idPa).then(function(cfg){ cfgEst = cfg; pintarMembretePreview(cfg); }); }); });
+		obtenerMembrete(x, idPa).then(function(cfg){ cfgEst = cfg; pintarMembretePreview(cfg, $('#impresion_inter').html()); });
+		$('#btn_membrete_i').click(function(){ editarMembrete(function(){ obtenerMembrete(x, idPa).then(function(cfg){ cfgEst = cfg; pintarMembretePreview(cfg, $('#impresion_inter').html()); }); }); });
 		$('#btn_imprimir_i').click(function(e) {
 			if($(selImpresionActiva()).data('vacio')){ swal({title:"",type:"error",text:"No hay interpretación para imprimir",timer:2500,showConfirmButton:false}); return; }
 			imprimirInforme(htmlImpresionActiva(), cfgEst || membreteDefault());
@@ -850,7 +850,7 @@ function imprimir(x,idPa,y,id_s){//x=id del estudio, y es si se imprimen los enc
 		$.post('ultrasonido.php?usg_ajax=1', { accion:'leer', idE:x }).done(function(r){
 			r = $.trim(r);
 			if(r.indexOf('OK|') === 0 && $.trim(r.substring(3)) != ''){
-				$('#impresion_inter_img').html(r.substring(3).replace(/<p(?=[\s>])/g,'<div').replace(/<\/p>/g,'</div>'));
+				$('#impresion_inter_img').html(quitarBloqueDatos(r.substring(3)).replace(/<p(?=[\s>])/g,'<div').replace(/<\/p>/g,'</div>'));
 			}else{
 				$('#impresion_inter_img').data('vacio',1).html('<p class="text-muted text-center" style="padding:30px;">Este estudio no tiene INTERPRETACIÓN EN IMAGEN guardada.<br>Se captura y se guarda desde la ficha del estudio (pestaña INTERPRETACIÓN EN IMAGEN, botón Guardar).</p>');
 			}
@@ -859,7 +859,7 @@ function imprimir(x,idPa,y,id_s){//x=id del estudio, y es si se imprimen los enc
 		});
 		
 		$('#myModal').modal('show');
-		$('#myModal').on('shown.bs.modal', function (e) { if(cfgEst){ pintarMembretePreview(cfgEst); } });
+		$('#myModal').on('shown.bs.modal', function (e) { if(cfgEst){ pintarMembretePreview(cfgEst, $('#impresion_inter').html()); } });
 		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
 	}}); //alert(idPa);
 }//fin imprimir
@@ -896,6 +896,8 @@ function cargarImagenesReporte(i){
    ============================================================ */
 /* ============================================================
    ENCABEZADO Y PIE DEL INFORME (impresión y PDF)
+   - Mismo formato de hoja que el informe de imagenología (encabezado de 38 mm con barras,
+     hojita, título a la derecha y datos del paciente junto al logo; pie de 30 mm).
    - Los datos (título, médico, cédula, horario, dirección, teléfono, correo, logo) son editables
      con el botón ENCABEZADO / PIE y se guardan en imagen/membrete_usg.json.
    - Si se activa "tomar el médico del estudio", el nombre/cédula/especialidad se jalan del estudio
@@ -921,31 +923,77 @@ function cargarMembreteBase(){
 		}).fail(function(){ usgMembreteBase = membreteDefault(); resolve(usgMembreteBase); });
 	});
 }
-function obtenerMembrete(idVC, idPa){ // datos guardados + (si está activado) el médico que trae el estudio
+function obtenerMembrete(idVC, idPa){ // datos guardados + datos del paciente del estudio + (si está activado) el médico que trae el estudio
 	return cargarMembreteBase().then(function(base){
-		var cfg = $.extend({}, base);
-		if(!base.auto || !idPa || !idVC){ return cfg; }
+		var cfg = $.extend({}, base); cfg.pac = {};
+		if(!idPa || !idVC){ return cfg; }
 		return new Promise(function(resolve){
 			$.post('consultas/files-serverside/cat_texts.php', { idP:idPa, idU:$('#id_user').val(), id_vc:idVC }).done(function(dataT){
 				var d = String(dataT).split('-{]'), g = function(k){ return $.trim(d[k] || ''); };
-				var nombre = g(11), titulo = g(27), esp = g(16), ced = g(14), uni = g(22);
-				if(nombre){ cfg.medico = $.trim(titulo+' '+nombre); }
-				if(esp && ced){ cfg.linea = 'Médico '+esp+'  Ced. de Esp. '+ced+(uni ? ' '+uni : ''); }
+				// datos del paciente (respaldo por si el texto de la interpretación no los trae)
+				var fecha = (g(17) && g(18) && g(19)) ? g(17)+'/'+g(18)+'/'+g(19) : '';
+				cfg.pac = { nombre:g(3), edad:(g(12) || g(15) || g(1)), sexo:(g(2) || g(25)), fecha:fecha };
+				if(base.auto){
+					var nombre = g(11), titulo = g(27), esp = g(16), ced = g(14), uni = g(22);
+					if(nombre){ cfg.medico = $.trim(titulo+' '+nombre); }
+					if(esp && ced){ cfg.linea = 'Médico '+esp+'  Ced. de Esp. '+ced+(uni ? ' '+uni : ''); }
+				}
 				resolve(cfg);
 			}).fail(function(){ resolve(cfg); });
 		});
 	});
 }
-function membreteHTML(c){ // usa --m como 1 mm de la hoja (hoja carta: 215.9 mm de ancho)
+function datosPacienteEncabezado(html, pac){
+	// Los datos pueden venir en el cuerpo de la interpretación, en el título del estudio o en los datos del estudio (pac).
+	pac = pac || {};
+	var cuerpo = $('<div>').html((html || '').replace(/<br\s*\/?\s*>|<\/(?:p|div|tr|li)>/gi, '$&\n')).text();
+	var titulo = $('#titulo_modal').text() || '';
+	var extra = ''; try{ var e1 = tinymce.get('input'); if(e1){ extra += '\n' + $('<div>').html(e1.getContent().replace(/<br\s*\/?\s*>|<\/(?:p|div|tr|li)>/gi, '$&\n')).text(); } }catch(ex){}
+	extra += '\n' + $('<div>').html(($('#impresion_inter').html() || '').replace(/<br\s*\/?\s*>|<\/(?:p|div|tr|li)>/gi, '$&\n')).text();
+	var txt = (cuerpo + extra + '\n' + titulo).replace(/\u00a0/g, ' ').replace(/[\t ]+/g, ' ');
+	var limpiar = function(v){ return $.trim(String(v || '').replace(/\s+/g, ' ').replace(/\s*[-–|]\s*$/, '')); };
+	var TODOS = 'NOMBRE\\s+DEL\\s+PACIENTE|PACIENTE|SEXO|EDAD|F\\.?\\s*NAC|FECHA|M[ÉE]DICO|ID|REFERENCIA|FOLIO';
+	var campo = function(etiqueta, siguiente){
+		var re = new RegExp('(?:^|[\\n|]|[-–])\\s*(?:' + etiqueta + ')\\s*:\\s*([\\s\\S]*?)(?=\\s*(?:[-–|]\\s*)?\\b(?:' + (siguiente || TODOS) + ')\\s*:|\\n|$)', 'i');
+		var m = re.exec(txt); return m ? limpiar(m[1]) : '';
+	};
+	var nombre = campo('NOMBRE\\s+DEL\\s+PACIENTE|PACIENTE');
+	if(!nombre){
+		var nm = /PACIENTE\s*:\s*([\s\S]*?)(?=\s*(?:[-–|]\s*)?\b(?:SEXO|EDAD|F\.?\s*NAC|FECHA)\s*:|\n|$)/i.exec(txt);
+		nombre = nm ? limpiar(nm[1]) : '';
+	}
+	return {
+		nombre: nombre || pac.nombre || '',
+		id: campo('ID|REFERENCIA|FOLIO'),
+		fecha: campo('FECHA') || pac.fecha || '',
+		nacimiento: campo('F\\.?\\s*NAC|FECHA\\s+DE\\s+NACIMIENTO'),
+		edad: campo('EDAD') || pac.edad || '',
+		sexo: campo('SEXO') || pac.sexo || '',
+		medico: campo('M[ÉE]DICO(?:\\s+(?:REFIERE|SOLICITA))?')
+	};
+}
+function membreteHTML(c, htmlPaciente){ // mismo formato que la hoja de imagenología; --m = 1 mm
+	var p = datosPacienteEncabezado(htmlPaciente || '', c.pac);
 	var f = 'font-family:Arial,Helvetica,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-sizing:border-box;';
+	var nac = p.nacimiento ? p.nacimiento + (p.edad ? ' ('+p.edad+')' : '') : (p.edad || '');
+	var datos = [['Paciente',p.nombre],['ID',p.id],['Fecha',p.fecha],['Nacimiento',nac],['Sexo',p.sexo],['Médico',p.medico]];
+	var filas = $.map(datos, function(d){
+		return '<div style="display:flex;gap:calc(1.5 * var(--m));align-items:baseline;font-size:calc(2.9 * var(--m));line-height:1.25;">'
+			+ '<b style="white-space:nowrap;color:#2e2a6e;font-weight:600;">'+d[0]+':</b>'
+			+ '<span style="flex:1;min-width:0;min-height:calc(3.4 * var(--m));overflow:hidden;white-space:nowrap;color:#222;">'+escH(d[1])+'</span></div>';
+	}).join('');
+	var barra = function(top,left,alto,color){
+		return '<div style="position:absolute;top:calc('+top+' * var(--m));left:calc('+left+' * var(--m));right:calc(-8 * var(--m));height:calc('+alto+' * var(--m));background:'+color+';border-radius:calc(3 * var(--m)) 0 0 calc(3 * var(--m));transform:skewX(-30deg);"></div>';
+	};
 	var hdr = '<div style="position:relative;width:100%;height:calc(38 * var(--m));background:#f6f6f6;overflow:hidden;'+f+'">'
-		+ (c.logo ? '<img src="'+escH(c.logo)+(c.logoV ? '?v='+c.logoV : '')+'" style="position:absolute;left:calc(8 * var(--m));top:calc(4 * var(--m));height:calc(30 * var(--m));max-width:calc(60 * var(--m));">' : '')
-		+ '<div style="position:absolute;top:calc(3 * var(--m));left:calc(78 * var(--m));right:calc(-8 * var(--m));height:calc(3.6 * var(--m));background:#2e2a6e;border-radius:calc(3 * var(--m)) 0 0 calc(3 * var(--m));transform:skewX(-30deg);"></div>'
+		+ (c.logo ? '<img src="'+escH(c.logo)+(c.logoV ? '?v='+c.logoV : '')+'" style="position:absolute;left:calc(8 * var(--m));top:calc(4 * var(--m));height:calc(30 * var(--m));max-width:calc(45 * var(--m));object-fit:contain;">' : '')
+		+ barra(3,78,3.6,'#2e2a6e')
 		+ '<div style="position:absolute;top:calc(8 * var(--m));left:calc(70 * var(--m));width:calc(9 * var(--m));height:calc(5 * var(--m));background:#7ab51d;border-radius:0 100% 0 100%;"></div>'
-		+ '<div style="position:absolute;top:calc(8 * var(--m));left:calc(92 * var(--m));right:calc(-8 * var(--m));height:calc(3 * var(--m));background:#7ab51d;border-radius:calc(3 * var(--m)) 0 0 calc(3 * var(--m));transform:skewX(-30deg);"></div>'
-		+ '<div style="position:absolute;right:calc(8 * var(--m));bottom:calc(3 * var(--m));width:calc(112 * var(--m));text-align:center;color:#2e2a6e;">'
+		+ barra(8,92,3,'#7ab51d')
+		+ '<div style="position:absolute;z-index:2;left:calc(55 * var(--m));top:calc(13 * var(--m));width:calc(62 * var(--m));color:#222;">'+filas+'</div>'
+		+ '<div style="position:absolute;right:calc(8 * var(--m));bottom:calc(3 * var(--m));width:calc(88 * var(--m));text-align:center;color:#2e2a6e;">'
 		+ '<div style="font-size:calc(7.76 * var(--m));line-height:1.1;margin:0 0 calc(2 * var(--m));font-weight:500;">'+escH(c.titulo)+'</div>'
-		+ $.map([c.medico, c.linea, c.certificacion, c.horario], function(t){ return t ? '<p style="margin:0;font-size:calc(3.18 * var(--m));line-height:1.35;">'+escH(t)+'</p>' : null; }).join('')
+		+ $.map([c.medico, c.linea, c.certificacion, c.horario], function(t){ return t ? '<div style="margin:0;font-size:calc(3.18 * var(--m));line-height:1.35;">'+escH(t)+'</div>' : null; }).join('')
 		+ '</div></div>';
 	var ftr = '<div style="position:relative;width:100%;height:calc(30 * var(--m));background:#f6f6f6;padding:calc(4 * var(--m)) calc(8 * var(--m)) calc(3 * var(--m));display:flex;flex-direction:column;justify-content:space-between;color:#2e2a6e;'+f+'">'
 		+ '<div style="display:flex;align-items:center;">'
@@ -955,23 +1003,28 @@ function membreteHTML(c){ // usa --m como 1 mm de la hoja (hoja carta: 215.9 mm 
 		+ '<div style="display:flex;justify-content:space-between;font-size:calc(2.65 * var(--m));"><span>&#8962; '+escH(c.direccion)+'</span><span>&#9990;&#xFE0E; '+escH(c.telefono)+'</span><span>&#9993;&#xFE0E; '+escH(c.correo)+'</span></div></div>';
 	return { hdr:hdr, ftr:ftr };
 }
-function pintarMembretePreview(cfg){ // vista previa dentro de la ventana de impresión
-	var mb = membreteHTML(cfg), w = $('#impPaneInter > .modal-body').width() || 800, m = (w/215.9).toFixed(3);
+function pintarMembretePreview(cfg, bodyHtml){ // vista previa dentro de la ventana de impresión
+	bodyHtml = bodyHtml || $('#impresion_inter').html() || '';
+	var mb = membreteHTML(cfg, bodyHtml), w = $('#impPaneInter > .modal-body').width() || 800, m = (w/215.9).toFixed(3);
 	$('.usg-mb-h').html('<div style="--m:'+m+'px;">'+mb.hdr+'</div>');
 	$('.usg-mb-f').html('<div style="--m:'+m+'px;">'+mb.ftr+'</div>');
 }
 function pintarMembreteEditor(editor, idVC, idPa){ // encabezado arriba y pie abajo del editor (solo en pantalla, no se guardan)
 	var cont = $(editor.getContainer());
 	obtenerMembrete(idVC, idPa).then(function(cfg){
-		var mb = membreteHTML(cfg);
 		var poner = function(){
 			if(!editor.getContainer()){ return; }
+			// La interpretación principal contiene los datos originales del paciente.
+			var edPaciente = tinymce.get('input');
+			var htmlPaciente = edPaciente ? edPaciente.getContent() : editor.getContent();
+			var mb = membreteHTML(cfg, htmlPaciente);
 			var m = (cont.outerWidth() / 215.9).toFixed(3);   // 1 mm de la hoja, en px
 			cont.prev('.usg-ed-h').remove(); cont.next('.usg-ed-f').remove();
 			cont.before('<div class="usg-ed-h" style="--m:'+m+'px; overflow:hidden; border:1px solid #ddd; border-bottom:0;">'+mb.hdr+'</div>');
 			cont.after('<div class="usg-ed-f" style="--m:'+m+'px; overflow:hidden; border:1px solid #ddd; border-top:0;">'+mb.ftr+'</div>');
 		};
 		poner();
+		editor.on('SetContent change', poner);
 		$(window).off('resize.usgEd').on('resize.usgEd', poner);
 	});
 }
@@ -1002,11 +1055,11 @@ function editarMembrete(alGuardar){
 	});
 }
 function limpiarCuerpoInforme(html){ // rutas relativas, <p> a <div> y quita el espacio en blanco del inicio (lo reemplaza el encabezado)
-	html = (html||'').replace(/src="(?:\.\.\/)+/g,'src="').replace(/<p(?=[\s>])/g,'<div').replace(/<\/p>/g,'</div>');
+	html = quitarBloqueDatos(html||'').replace(/src="(?:..\/)+/g,'src="').replace(/<p(?=[\s>])/g,'<div').replace(/<\/p>/g,'</div>');
 	return html.replace(/^(?:\s|&nbsp;|<br\s*\/?>|<(?:div|p)[^>]*>(?:\s|&nbsp;|<br\s*\/?>)*<\/(?:div|p)>)+/i,'');
 }
 function imprimirInforme(bodyHtml, cfg){ // ventana de impresión con encabezado y pie fijos en cada hoja
-	var mb = membreteHTML(cfg), base = location.href.replace(/[?#].*$/,'').replace(/[^\/]*$/,'');
+	var mb = membreteHTML(cfg, bodyHtml), base = location.href.replace(/[?#].*$/,'').replace(/[^\/]*$/,'');
 	var w = window.open('', '_blank');
 	if(!w){ swal({title:"",type:"error",text:"El navegador bloqueó la ventana de impresión. Permite las ventanas emergentes para este sitio."}); return; }
 	var css = '@page{margin:0}*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}'
@@ -1036,7 +1089,7 @@ function canvasDeBloque(htmlBloque){ // dibuja el encabezado o el pie en un canv
 	});
 }
 function pdfConMembrete(html, cfg){ // PDF carta con encabezado y pie en cada hoja
-	var mb = membreteHTML(cfg), W = 215.9, H = 279.4, HH = 38, FF = 30, LR = 8;
+	var mb = membreteHTML(cfg, html), W = 215.9, H = 279.4, HH = 38, FF = 30, LR = 8;
 	var body = document.createElement('div');
 	body.style.cssText = 'width:'+(W-2*LR)+'mm; background:#fff; color:#000; font-family:Arial,Helvetica,sans-serif; font-size:13px; line-height:1.35;';
 	body.innerHTML = limpiarCuerpoInforme(html);
@@ -1083,9 +1136,14 @@ function bloqueDatosImagen(html){ // cuadro "Nombre del paciente / Fecha / Fecha
 		+ fila('Nombre del paciente', nombre) + fila('Fecha', fecha) + fila('Fecha de nacimiento', fnac) + fila('Sexo', sexo) + fila('Médico', medico)
 		+ '</tbody></table>';
 }
-function contenidoInicialImagen(html){ // zona vacía arriba (para las imágenes) y los datos del paciente abajo
-	var b = bloqueDatosImagen(html);
-	return b ? '<div><br></div><div><br></div>'+b : '';
+function quitarBloqueDatos(html){ // quita del cuerpo el cuadro "Nombre del paciente..." (esos datos van en el encabezado)
+	if(!html){ return ''; }
+	var $d = $('<div>').html(html);
+	$d.find('table').each(function(){ if(/Nombre\s+del\s+paciente\s*:/i.test($(this).text())){ $(this).remove(); } });
+	return $d.html();
+}
+function contenidoInicialImagen(html){ // solo una zona vacía para las imágenes (los datos del paciente van en el encabezado)
+	return '<div><br></div>';
 }
 function cursorAlInicio(editor){ try{ var b = editor.getBody(); if(b.firstChild){ editor.selection.setCursorLocation(b.firstChild, 0); } }catch(ex){} }
 function encabezadoInterpretacion(html){
@@ -1100,7 +1158,7 @@ function encabezadoInterpretacion(html){
 	return html.split(/<br\s*\/?>/i).slice(0,6).join('<br>'); // sin línea de fecha: primeras líneas
 }
 function htmlAPdfBlob(html){
-	var h = (html||'').replace(/src="(?:\.\.\/)+/g,'src="').replace(/<p(?=[\s>])/g,'<div').replace(/<\/p>/g,'</div>');
+	var h = (html||'').replace(/src="(?:..\/)+/g,'src="').replace(/<p(?=[\s>])/g,'<div').replace(/<\/p>/g,'</div>');
 	var el = document.createElement('div');
 	el.style.cssText = 'width:700px; background:#fff; color:#000; font-family:Arial,Helvetica,sans-serif; font-size:13px; line-height:1.35;';
 	el.innerHTML = h;
