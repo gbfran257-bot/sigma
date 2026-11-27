@@ -125,6 +125,7 @@
     <script src="chosen/chosen.jquery.js" type="text/javascript"></script>
     <script src="funciones/js/jquery.media.js" type="text/javascript"></script>
     <script src="funciones/js/jquery.printElement.min.js" type="text/javascript"></script>
+    <script src="funciones/js/impresion_membrete.js" type="text/javascript"></script>
     <script src="funciones/js/jquery.sparkline.min.js" type="text/javascript"></script>
     <script src="jQuery-TE_v.1.4.0/uncompressed/jquery-te-1.4.0.js" charset="utf-8"></script>
     <script src='tinymce/tinymce.min.js'></script>
@@ -337,6 +338,9 @@ function preguntaX(n,r,e,i){//n es el nombre del paciente, r es la referencia e 
 }
 
 function fichaEstudio(e,i,idPx1a,id_s){ //e es el estatus del estudio e i es el id de vc
+	// Estudio ya finalizado: sólo se imprime. Se pregunta con/sin membrete SIN abrir la ficha, porque el modal
+	// de la ficha se abría encima de la pregunta y a veces la tapaba (parecía que no preguntaba).
+	if(e>4){ preImprimir(i,idPx1a,id_s); return; }
 	$("#myModal").load('imagen/htmls/ficha_ultrasonido.php',function(response,status,xhr){if(status=="success"){
 		tinymce.remove("#tInterpretacion #input");
 		tinymce.remove("#tInterpretacionImg #input2"); cargarMembreteBase();
@@ -669,7 +673,7 @@ function fichaEstudio(e,i,idPx1a,id_s){ //e es el estatus del estudio e i es el 
 		}
 		if(e>=4){ }
 		if(e>4){
-			preImprimir(i,idPx1a,id_s);
+			//preImprimir(i,idPx1a,id_s); (ahora se hace al inicio de fichaEstudio)
 			/*$('#start, #capture, #stop, #guardarE, #finalizarE, #dictado').remove();
 			var dato = { idE:i, idU:$('#id_user').val() }
 			$.post('imagen/files-serverside/datosInterpretarEn.php', dato).done(function( data ) { //alert(data);
@@ -805,21 +809,78 @@ function fichaEstudio(e,i,idPx1a,id_s){ //e es el estatus del estudio e i es el 
 		$('#myModal').on('hidden.bs.modal', function(e){$(".modal-content").remove(); $("#myModal").empty(); });
 	}});
 }
-function preImprimir(x,idPa,id_s){//a =id paciente, b id estudio en vc
-	/*var datoP = {idE:x}
-	$.post('imagen/archivos_save_ajax/datosPrintMemUSG.php', datoP).done(function(data){ //alert(data);
-		if(data!=1){ imprimir(x,idPa,0,id_s); }
-		else{
-			swal({
-			  title: "IMPRIMIR EL ESTUDIO",
-			  text: '<table class="table table-condensed"><tr><td align="center" colspan="2">Selecciona el tipo de impresión</td></tr><tr><td align="center"><button id="btn_imp_cm" type="button" class="btn btn-info">Con membrete</button></td><td align="center"><button id="btn_imp_sm" type="button" class="btn btn-info">Sin membrete</button></td></tr></table>',
-			  html: true, showCancelButton: true, showConfirmButton: false, cancelButtonText: "Cerrar"
-			});
-			$('#btn_imp_cm').click(function(e) { imprimir(x,idPa,1,id_s); swal.close(); });
-			$('#btn_imp_sm').click(function(e) { imprimir(x,idPa,0,id_s); swal.close(); });
+/* IMPRIMIR: pregunta "Con membrete / Sin membrete" SOLO si la sucursal tiene membrete cargado
+   (Sucursales > Membretes > Estudios de ultrasonido). Si no hay membrete cargado, no pregunta y
+   se usa automáticamente el membrete del sistema (el de ultrasonido.php con "Agregar datos"). */
+/* IMPRIMIR: SIEMPRE pregunta "Con membrete / Sin membrete".
+   - Con membrete: si la sucursal tiene membrete cargado (Sucursales > Membretes > Estudios de ultrasonido) se usa ese;
+     si NO tiene ninguno cargado, se usa automáticamente el membrete del sistema (el de ultrasonido.php con "Agregar datos").
+   - Sin membrete: se imprime sin ningún membrete, tenga o no la sucursal uno cargado. */
+function preImprimir(x,idPa,id_s){ // x = id del estudio (venta_conceptos), idPa = id del paciente
+	$.post('imagen/files-serverside/datosInterpretarEn.php', { idE:x, idU:$('#id_user').val() }).done(function(data){
+		var d = String(data).split(';*-');
+		var hayMembrete = (parseInt(d[24], 10) > 0 || parseInt(d[27], 10) > 0); // encabezado o pie cargado en la sucursal
+		preguntarMembrete(x,idPa,id_s,hayMembrete);
+	}).fail(function(){ preguntarMembrete(x,idPa,id_s,false); }); // si falla la consulta, "con membrete" usará el del sistema
+}
+function preguntarMembrete(x,idPa,id_s,hayMembrete){
+	swal({
+	  title: "IMPRIMIR EL ESTUDIO",
+	  text: '<table class="table table-condensed"><tr><td align="center" colspan="2">Selecciona el tipo de impresión</td></tr><tr><td align="center"><button id="btn_imp_cm" type="button" class="btn btn-info">Con membrete</button></td><td align="center"><button id="btn_imp_sm" type="button" class="btn btn-info">Sin membrete</button></td></tr></table>',
+	  html: true, showCancelButton: true, showConfirmButton: false, cancelButtonText: "Cerrar"
+	});
+	$('#btn_imp_cm').click(function(e){
+		swal.close();
+		if(hayMembrete){ imprimirSucursal(x,idPa,1,id_s); }   // membrete cargado en la sucursal
+		else{ imprimir(x,idPa,0,id_s); }                       // no hay: membrete del sistema
+	});
+	//$('#btn_imp_sm').click(function(e){ swal.close(); imprimirSucursal(x,idPa,0,id_s); }); // sin ningún membrete
+	$('#btn_imp_sm').click(function(e){
+	swal.close();
+	var w = window.open('about:blank','_blank'); // se abre aquí, con el clic, para que el navegador no la bloquee
+	imprimirSinMembrete(x, idPa, w);
+	}); // sin ningún membrete: se arma en el navegador, no depende del PDF del servidor
+}
+function imprimirSinMembrete(x, idPa, w){ // imprime la interpretación sin encabezado ni pie, armada en el navegador
+	if(!w){ swal({title:"",type:"error",text:"El navegador bloqueó la ventana de impresión. Permite las ventanas emergentes para este sitio."}); return; }
+	try{ w.document.write('<p style="font-family:Arial">Preparando impresión...</p>'); }catch(ex){}
+	$.post('imagen/files-serverside/datosInterpretar.php', { idE:x, idP:idPa, idU:$('#id_user').val() }).done(function(data){
+		var datos = String(data).split(';*}-{'), html = datos[5] || '';
+		if(!$.trim($('<div>').html(html).text()) && !/<img/i.test(html)){
+			try{ w.close(); }catch(ex){}
+			swal({title:"",type:"error",text:"No hay interpretación para imprimir",timer:2500,showConfirmButton:false}); return;
 		}
-	});*/
-	imprimir(x,idPa,0,id_s);
+		html = html.replace(/src="(?:..\/)+/g,'src="').replace(/<p(?=[\s>])/g,'<div').replace(/<\/p>/g,'</div>');
+		var base = location.href.replace(/[?#].*$/,'').replace(/[^\/]*$/,'');
+		//var css = '@page{size:letter;margin:12mm}*{box-sizing:border-box}html,body{margin:0;background:#fff;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.35;color:#000}img{max-width:100%}';
+		var css = '@page{size:letter;margin:0}*{box-sizing:border-box}html,body{margin:0;background:#fff;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.35;color:#000}img{max-width:100%}'
+			+ 'table.pg{width:100%;border-collapse:collapse}.sp{height:12mm}.cuerpo{padding:0 12mm}';
+		w.document.open();
+		//w.document.write('<html><head><meta charset="utf-8"><title></title><base href="'+base+'"><style>'+css+'</style></head><body>'+html+'</body></html>');
+		w.document.write('<html><head><meta charset="utf-8"><title>&nbsp;</title><base href="'+base+'"><style>'+css+'</style></head><body>'
+			+ '<table class="pg"><thead><tr><td><div class="sp"></div></td></tr></thead><tfoot><tr><td><div class="sp"></div></td></tr></tfoot>'
+			+ '<tbody><tr><td><div class="cuerpo">'+html+'</div></td></tr></tbody></table></body></html>');
+		w.document.close();
+		var imprimirYa = function(){ try{ w.focus(); w.print(); }catch(ex){} };
+		var imgs = w.document.images, pend = 0;
+		for(var k=0; k<imgs.length; k++){ if(!imgs[k].complete){ pend++; imgs[k].onload = imgs[k].onerror = function(){ pend--; if(pend == 0){ imprimirYa(); } }; } }
+		if(pend == 0){ w.setTimeout(imprimirYa, 300); }
+	}).fail(function(xhr){
+		try{ w.close(); }catch(ex){}
+		swal({title:"No se pudo imprimir", type:"error", text:'Error HTTP '+xhr.status+' en datosInterpretar.php'});
+	});
+}
+
+function imprimirSucursal(x,idPa,y,id_s){ // PDF carta con (y=1) o sin (y=0) el membrete cargado en Sucursales
+	$("#myModal").load('imagen/htmls/imprimir.php',function(response,status,xhr){ if(status=="success"){
+		$("#myModal").height($("#referencia").height()*0.85);
+		// en este modo no aplican las pestañas, el botón de encabezado ni Compartir (usan el membrete del sistema)
+		$('#tabs_imp_nav, #btn_membrete_i, #btn_compartir_i').addClass('hidden');
+		$("#impresion_inter").height($("#referencia").height()*0.65).html(iframePdfMembrete('usg', x, id_s, y));
+		$('#btn_imprimir_i').click(function(e) { imprimirPdfMembrete('#impresion_inter'); });
+		$('#myModal').modal('show');
+		$('#myModal').on('hidden.bs.modal', function (e) { $(".modal-content").remove(); $("#myModal").empty(); });
+	}});
 }
 function imprimir(x,idPa,y,id_s){//x=id del estudio, y es si se imprimen los encabe
 	$("#myModal").load('imagen/htmls/imprimir.php',function(response,status,xhr){ if(status=="success"){
@@ -838,6 +899,7 @@ function imprimir(x,idPa,y,id_s){//x=id del estudio, y es si se imprimen los enc
 		});
 
 		var cfgEst = null;
+		usgRefrescar = function(){ obtenerMembrete(x, idPa).then(function(cfg){ cfgEst = cfg; pintarMembretePreview(cfg, $('#impresion_inter').html()); }); };
 		obtenerMembrete(x, idPa).then(function(cfg){ cfgEst = cfg; pintarMembretePreview(cfg, $('#impresion_inter').html()); });
 		$('#btn_membrete_i').click(function(){ editarMembrete(function(){ obtenerMembrete(x, idPa).then(function(cfg){ cfgEst = cfg; pintarMembretePreview(cfg, $('#impresion_inter').html()); }); }); });
 		$('#btn_imprimir_i').click(function(e) {
@@ -903,8 +965,71 @@ function cargarImagenesReporte(i){
    - Si se activa "tomar el médico del estudio", el nombre/cédula/especialidad se jalan del estudio
      (consultas/files-serverside/cat_texts.php, los mismos datos que usa la plantilla) cuando los trae.
    - El logo se sube desde el mismo cuadro (se guarda como imagen/logo_informe.png|jpg|gif).
+   - DATOS ADICIONALES: el botón "Agregar datos (paciente / doctor)" bajo el encabezado permite sumar
+     filas extra (etiqueta y valor) junto a los datos del paciente y líneas extra del lado del doctor.
+     Se guardan en el navegador por estudio (localStorage) y el encabezado crece solo.
    ============================================================ */
 var usgMembreteBase = null; console.log('ultrasonido.php: encabezado con datos del paciente v3');
+var usgRefrescar = null, usgExtraMem = {};
+function leerExtras(idVC){
+	var o = null;
+	try{ var r = localStorage.getItem('usgDatosExtra_'+idVC); if(r){ o = JSON.parse(r); } }catch(ex){}
+	if(!o && usgExtraMem[idVC]){ o = usgExtraMem[idVC]; }
+	o = o || {};
+	return { pac: $.isArray(o.pac) ? o.pac : [], doc: $.isArray(o.doc) ? o.doc : [] };
+}
+function guardarExtras(idVC, o){
+	usgExtraMem[idVC] = o;
+	try{ localStorage.setItem('usgDatosExtra_'+idVC, JSON.stringify(o)); }catch(ex){}
+}
+function barraDatosExtra(idVC){ // barra con el botón (solo en pantalla, no se imprime)
+	if(!idVC){ return ''; }
+	return '<div style="padding:3px 6px; background:#fff; border:1px solid #ddd; border-top:0; text-align:left;">'
+		+ '<button type="button" class="btn btn-default btn-xs usg-btn-extra" data-id="'+idVC+'"><i class="fa fa-plus"></i> Agregar datos (paciente / doctor)</button></div>';
+}
+$(document).off('click.usgExtra', '.usg-btn-extra').on('click.usgExtra', '.usg-btn-extra', function(){
+	editarDatosExtra($(this).data('id'), function(){ if(typeof usgRefrescar === 'function'){ usgRefrescar(); } });
+});
+function editarDatosExtra(idVC, alGuardar){
+	var ex = leerExtras(idVC);
+	$('#modalExtra').remove();
+	var h = '<div class="modal fade" id="modalExtra" tabindex="-1" role="dialog" data-backdrop="false" style="z-index:1090;"><div class="modal-dialog"><div class="modal-content">'
+		+ '<div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h4 class="modal-title"><strong>DATOS ADICIONALES DEL ENCABEZADO</strong></h4></div>'
+		+ '<div class="modal-body" style="max-height:70vh; overflow:auto;">'
+		+ '<h5><strong>Datos del paciente</strong> <small>(junto a Paciente, ID, Fecha...)</small></h5><div id="ex_pac"></div>'
+		+ '<button type="button" class="btn btn-default btn-xs" id="ex_add_pac"><i class="fa fa-plus"></i> Agregar dato</button>'
+		+ '<hr><h5><strong>Datos del doctor</strong> <small>(lado derecho, debajo del horario)</small></h5><div id="ex_doc"></div>'
+		+ '<button type="button" class="btn btn-default btn-xs" id="ex_add_doc"><i class="fa fa-plus"></i> Agregar línea</button>'
+		+ '<p class="help-block" style="margin-top:10px;">Se guardan en este equipo para este estudio.</p></div>'
+		+ '<div class="modal-footer"><button type="button" class="btn btn-primary btn-sm" id="ex_guardar">GUARDAR</button> <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">CANCELAR</button></div>'
+		+ '</div></div></div>';
+	$('body').append(h);
+	var filaPac = function(l, v){
+		$('#ex_pac').append('<div class="row ex-fila" style="margin-bottom:4px;">'
+			+ '<div class="col-xs-4"><input type="text" class="form-control input-sm ex-l" placeholder="Etiqueta (ej. Teléfono)" value="'+escH(l)+'"></div>'
+			+ '<div class="col-xs-6"><input type="text" class="form-control input-sm ex-v" placeholder="Valor" value="'+escH(v)+'"></div>'
+			+ '<div class="col-xs-2"><button type="button" class="btn btn-danger btn-xs ex-del">&times;</button></div></div>');
+	};
+	var filaDoc = function(t){
+		$('#ex_doc').append('<div class="row ex-fila" style="margin-bottom:4px;">'
+			+ '<div class="col-xs-10"><input type="text" class="form-control input-sm ex-t" placeholder="Texto de la línea" value="'+escH(t)+'"></div>'
+			+ '<div class="col-xs-2"><button type="button" class="btn btn-danger btn-xs ex-del">&times;</button></div></div>');
+	};
+	$.each(ex.pac, function(k, d){ filaPac(d[0], d[1]); });
+	$.each(ex.doc, function(k, t){ filaDoc(t); });
+	$('#ex_add_pac').click(function(){ filaPac('', ''); $('#ex_pac .ex-l').last().focus(); });
+	$('#ex_add_doc').click(function(){ filaDoc(''); $('#ex_doc .ex-t').last().focus(); });
+	$('#modalExtra').on('click', '.ex-del', function(){ $(this).closest('.ex-fila').remove(); });
+	$('#ex_guardar').click(function(){
+		var pac = [], doc = [];
+		$('#ex_pac .ex-fila').each(function(){ var l = $.trim($(this).find('.ex-l').val()), v = $.trim($(this).find('.ex-v').val()); if(l || v){ pac.push([l, v]); } });
+		$('#ex_doc .ex-fila').each(function(){ var t = $.trim($(this).find('.ex-t').val()); if(t){ doc.push(t); } });
+		guardarExtras(idVC, { pac:pac, doc:doc });
+		$('#modalExtra').modal('hide');
+		if(alGuardar){ alGuardar(); }
+	});
+	$('#modalExtra').on('hidden.bs.modal', function(){ $(this).remove(); }).modal('show');
+}
 function escH(v){ return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function membreteDefault(){
 	return { titulo:'Informe Imagenología', medico:'Dra. Ma. Victoria Aguilera Navarro',
@@ -925,7 +1050,7 @@ function cargarMembreteBase(){
 }
 function obtenerMembrete(idVC, idPa){ // datos guardados + datos del paciente del estudio + (si está activado) el médico que trae el estudio
 	return cargarMembreteBase().then(function(base){
-		var cfg = $.extend({}, base); cfg.pac = {};
+		var cfg = $.extend({}, base); cfg.pac = {}; cfg.idVC = idVC; cfg.extra = leerExtras(idVC);
 		if(!idPa || !idVC){ return cfg; }
 		return new Promise(function(resolve){
 			$.post('consultas/files-serverside/cat_texts.php', { idP:idPa, idU:$('#id_user').val(), id_vc:idVC }).done(function(dataT){
@@ -977,23 +1102,30 @@ function membreteHTML(c, htmlPaciente){ // mismo formato que la hoja de imagenol
 	var f = 'font-family:Arial,Helvetica,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-sizing:border-box;';
 	var nac = p.nacimiento ? p.nacimiento + (p.edad ? ' ('+p.edad+')' : '') : (p.edad || '');
 	var datos = [['Paciente',p.nombre],['ID',p.id],['Fecha',p.fecha],['Nacimiento',nac],['Sexo',p.sexo],['Médico',p.medico]];
+	// datos adicionales (botón "Agregar datos"): del paciente (etiqueta y valor) y del doctor (líneas)
+	var ex = c.extra || {};
+	var exP = $.grep($.isArray(ex.pac) ? ex.pac : [], function(d){ return d && ($.trim(d[0]) || $.trim(d[1])); });
+	var exD = $.grep($.isArray(ex.doc) ? ex.doc : [], function(t){ return $.trim(t); });
+	$.each(exP, function(k, d){ datos.push([$.trim(d[0]).replace(/:\s*$/, ''), d[1]]); });
+	var hh = Math.round((38 + Math.max(exP.length * 3.65, exD.length * 3.98)) * 10) / 10; // alto del encabezado en mm
+	var altoDatos = (21.9 + exP.length * 3.65).toFixed(2);
 	var filas = $.map(datos, function(d){
 		return '<div style="display:flex;gap:calc(1.5 * var(--m));align-items:baseline;font-size:calc(2.9 * var(--m));line-height:1.25;">'
-			+ '<b style="white-space:nowrap;color:#2e2a6e;font-weight:600;">'+d[0]+':</b>'
+			+ '<b style="white-space:nowrap;color:#2e2a6e;font-weight:600;">'+escH(d[0])+':</b>'
 			+ '<span style="flex:1;min-width:0;min-height:calc(3.4 * var(--m));overflow:hidden;white-space:nowrap;color:#222;">'+escH(d[1])+'</span></div>';
 	}).join('');
 	var barra = function(top,left,alto,color){
 		return '<div style="position:absolute;top:calc('+top+' * var(--m));left:calc('+left+' * var(--m));right:calc(-8 * var(--m));height:calc('+alto+' * var(--m));background:'+color+';border-radius:calc(3 * var(--m)) 0 0 calc(3 * var(--m));transform:skewX(-30deg);"></div>';
 	};
-	var hdr = '<div style="position:relative;width:100%;height:calc(38 * var(--m));background:#f6f6f6;overflow:hidden;'+f+'">'
+	var hdr = '<div style="position:relative;width:100%;height:calc('+hh+' * var(--m));background:#f6f6f6;overflow:hidden;'+f+'">'
 		+ (c.logo ? '<img src="'+escH(c.logo)+(c.logoV ? '?v='+c.logoV : '')+'" style="position:absolute;left:calc(8 * var(--m));top:calc(4 * var(--m));height:calc(30 * var(--m));max-width:calc(45 * var(--m));object-fit:contain;">' : '')
 		+ barra(3,78,3.6,'#2e2a6e')
 		+ '<div style="position:absolute;top:calc(8 * var(--m));left:calc(70 * var(--m));width:calc(9 * var(--m));height:calc(5 * var(--m));background:#7ab51d;border-radius:0 100% 0 100%;"></div>'
 		+ barra(8,92,3,'#7ab51d')
-		+ '<div style="position:absolute;z-index:2;left:calc(55 * var(--m));top:calc(15.5 * var(--m));height:calc(21.9 * var(--m));width:calc(62 * var(--m));display:flex;flex-direction:column;justify-content:space-between;color:#222;">'+filas+'</div>'
+		+ '<div style="position:absolute;z-index:2;left:calc(55 * var(--m));top:calc(15.5 * var(--m));height:calc('+altoDatos+' * var(--m));width:calc(62 * var(--m));display:flex;flex-direction:column;justify-content:space-between;color:#222;">'+filas+'</div>'
 		+ '<div style="position:absolute;right:calc(8 * var(--m));top:calc(12.5 * var(--m));width:calc(88 * var(--m));text-align:center;color:#2e2a6e;">'
 		+ '<div style="font-size:calc(6.8 * var(--m));line-height:1.1;margin:0 0 calc(1.5 * var(--m));font-weight:500;">'+escH(c.titulo)+'</div>'
-		+ $.map([c.medico, c.linea, c.certificacion, c.horario], function(t){ return t ? '<div style="margin:0;font-size:calc(3.18 * var(--m));line-height:1.25;">'+escH(t)+'</div>' : null; }).join('')
+		+ $.map([c.medico, c.linea, c.certificacion, c.horario].concat(exD), function(t){ return t ? '<div style="margin:0;font-size:calc(3.18 * var(--m));line-height:1.25;">'+escH(t)+'</div>' : null; }).join('')
 		+ '</div></div>';
 	var ftr = '<div style="position:relative;width:100%;height:calc(30 * var(--m));background:#f6f6f6;padding:calc(4 * var(--m)) calc(8 * var(--m)) calc(3 * var(--m));display:flex;flex-direction:column;justify-content:space-between;color:#2e2a6e;'+f+'">'
 		+ '<div style="display:flex;align-items:center;">'
@@ -1001,32 +1133,36 @@ function membreteHTML(c, htmlPaciente){ // mismo formato que la hoja de imagenol
 		+ '<div style="flex:1;text-align:center;font-size:calc(5.29 * var(--m));">'+escH(c.gracias)+'</div></div>'
 		+ '<div style="height:calc(4 * var(--m));background:#2e2a6e;border-radius:calc(2 * var(--m));"></div>'
 		+ '<div style="display:flex;justify-content:space-between;font-size:calc(2.65 * var(--m));"><span>&#8962; '+escH(c.direccion)+'</span><span>&#9990;&#xFE0E; '+escH(c.telefono)+'</span><span>&#9993;&#xFE0E; '+escH(c.correo)+'</span></div></div>';
-	return { hdr:hdr, ftr:ftr };
+	return { hdr:hdr, ftr:ftr, hh:hh };
 }
 function pintarMembretePreview(cfg, bodyHtml){ // vista previa dentro de la ventana de impresión
 	bodyHtml = bodyHtml || $('#impresion_inter').html() || '';
 	var mb = membreteHTML(cfg, bodyHtml), w = $('#impPaneInter > .modal-body').width() || 800, m = (w/215.9).toFixed(3);
-	$('.usg-mb-h').html('<div style="--m:'+m+'px;">'+mb.hdr+'</div>');
+	$('.usg-mb-h').html('<div style="--m:'+m+'px;">'+mb.hdr+'</div>' + barraDatosExtra(cfg.idVC));
 	$('.usg-mb-f').html('<div style="--m:'+m+'px;">'+mb.ftr+'</div>');
 }
 function pintarMembreteEditor(editor, idVC, idPa){ // encabezado arriba y pie abajo del editor (solo en pantalla, no se guardan)
 	var cont = $(editor.getContainer());
+	usgRefrescar = function(){ pintarMembreteEditor(editor, idVC, idPa); };
 	obtenerMembrete(idVC, idPa).then(function(cfg){
-		var poner = function(){
-			if(!editor.getContainer()){ return; }
-			// La interpretación principal contiene los datos originales del paciente.
-			var edPaciente = tinymce.get('input');
-			var htmlPaciente = edPaciente ? edPaciente.getContent() : editor.getContent();
-			var mb = membreteHTML(cfg, htmlPaciente);
-			var m = (cont.outerWidth() / 215.9).toFixed(3);   // 1 mm de la hoja, en px
-			cont.prev('.usg-ed-h').remove(); cont.next('.usg-ed-f').remove();
-			cont.before('<div class="usg-ed-h" style="--m:'+m+'px; overflow:hidden; border:1px solid #ddd; border-bottom:0;">'+mb.hdr+'</div>');
-			cont.after('<div class="usg-ed-f" style="--m:'+m+'px; overflow:hidden; border:1px solid #ddd; border-top:0;">'+mb.ftr+'</div>');
-		};
-		poner();
-		window.setTimeout(poner, 1800); window.setTimeout(poner, 3500); // la plantilla principal tarda en cargar
-		editor.on('SetContent change', poner);
-		$(window).off('resize.usgEd').on('resize.usgEd', poner);
+		editor.usgCfg = cfg; // siempre se pinta con los datos más recientes
+		var primera = !editor.usgPoner;
+		if(primera){
+			editor.usgPoner = function(){
+				if(!editor.getContainer() || !editor.usgCfg){ return; }
+				var edPaciente = tinymce.get('input'); // la interpretación principal trae los datos originales del paciente
+				var htmlPaciente = edPaciente ? edPaciente.getContent() : editor.getContent();
+				var mb = membreteHTML(editor.usgCfg, htmlPaciente);
+				var m = (cont.outerWidth() / 215.9).toFixed(3);   // 1 mm de la hoja, en px
+				cont.prev('.usg-ed-h').remove(); cont.next('.usg-ed-f').remove();
+				cont.before('<div class="usg-ed-h" style="--m:'+m+'px; overflow:hidden; border:1px solid #ddd; border-bottom:0;">'+mb.hdr+barraDatosExtra(editor.usgCfg.idVC)+'</div>');
+				cont.after('<div class="usg-ed-f" style="--m:'+m+'px; overflow:hidden; border:1px solid #ddd; border-top:0;">'+mb.ftr+'</div>');
+			};
+			editor.on('SetContent change', editor.usgPoner);
+			$(window).off('resize.usgEd').on('resize.usgEd', editor.usgPoner);
+			window.setTimeout(editor.usgPoner, 1800); window.setTimeout(editor.usgPoner, 3500); // la plantilla principal tarda en cargar
+		}
+		editor.usgPoner();
 	});
 }
 function editarMembrete(alGuardar){
@@ -1055,8 +1191,8 @@ function editarMembrete(alGuardar){
 		$('#modalMembrete').on('hidden.bs.modal', function(){ $(this).remove(); }).modal('show');
 	});
 }
-function limpiarCuerpoInforme(html){ // rutas relativas, <p> a <div> y quita el espacio en blanco del inicio (lo reemplaza el encabezado)
-	html = quitarBloqueDatos(html||'').replace(/src="(?:..\/)+/g,'src="').replace(/<p(?=[\s>])/g,'<div').replace(/<\/p>/g,'</div>');
+function limpiarCuerpoInforme(html, conservarDatos){ // rutas relativas, <p> a <div> y quita el espacio en blanco del inicio (lo reemplaza el encabezado)
+	html = (conservarDatos ? (html||'') : quitarBloqueDatos(html||'')).replace(/src="(?:..\/)+/g,'src="').replace(/<p(?=[\s>])/g,'<div').replace(/<\/p>/g,'</div>');
 	return html.replace(/^(?:\s|&nbsp;|<br\s*\/?>|<(?:div|p)[^>]*>(?:\s|&nbsp;|<br\s*\/?>)*<\/(?:div|p)>)+/i,'');
 }
 function imprimirInforme(bodyHtml, cfg){ // ventana de impresión con encabezado y pie fijos en cada hoja
@@ -1067,7 +1203,7 @@ function imprimirInforme(bodyHtml, cfg){ // ventana de impresión con encabezado
 		+ 'html,body{margin:0;background:#fff;font-family:Arial,Helvetica,sans-serif}'
 		+ ':root{--m:calc(100vw / 215.9)}@media (orientation:landscape){:root{--m:calc(100vw / 279.4)}}'
 		+ '.hdr{position:fixed;top:0;left:0;right:0}.ftr{position:fixed;bottom:0;left:0;right:0}'
-		+ 'table.pg{width:100%;border-collapse:collapse}.sp-h{height:calc(38 * var(--m))}.sp-f{height:calc(30 * var(--m))}'
+		+ 'table.pg{width:100%;border-collapse:collapse}.sp-h{height:calc('+mb.hh+' * var(--m))}.sp-f{height:calc(30 * var(--m))}'
 		+ '.cuerpo{padding:calc(3 * var(--m)) calc(8 * var(--m));font-size:calc(3.44 * var(--m));line-height:1.35;color:#000}.cuerpo img{max-width:100%}';
 	w.document.open();
 	w.document.write('<html><head><meta charset="utf-8"><title>Informe de ultrasonido</title><base href="'+base+'"><style>'+css+'</style></head><body>'
@@ -1090,7 +1226,7 @@ function canvasDeBloque(htmlBloque){ // dibuja el encabezado o el pie en un canv
 	});
 }
 function pdfConMembrete(html, cfg){ // PDF carta con encabezado y pie en cada hoja
-	var mb = membreteHTML(cfg, html), W = 215.9, H = 279.4, HH = 38, FF = 30, LR = 8;
+	var mb = membreteHTML(cfg, html), W = 215.9, H = 279.4, HH = mb.hh, FF = 30, LR = 8;
 	var body = document.createElement('div');
 	body.style.cssText = 'width:'+(W-2*LR)+'mm; background:#fff; color:#000; font-family:Arial,Helvetica,sans-serif; font-size:13px; line-height:1.35;';
 	body.innerHTML = limpiarCuerpoInforme(html);
@@ -1173,6 +1309,59 @@ function htmlAPdfBlob(html){
 		}).from(el).outputPdf('blob').then(resolve, reject);
 	});
 }
+/* ---- Membrete de la SUCURSAL para el PDF de WhatsApp (imágenes de encabezado y pie cargadas en Sucursales > Membretes) ---- */
+function datosMembreteSucursal(idVC){ // devuelve {hdr, ftr} con las rutas de las imágenes, o null si la sucursal no tiene membrete cargado
+	return new Promise(function(resolve){
+		$.post('imagen/files-serverside/datosInterpretarEn.php', { idE:idVC, idU:$('#id_user').val() }).done(function(data){
+			var d = String(data).split(';*-');
+			var hdr = (parseInt(d[24],10) > 0) ? 'sucursales/membretes/files/'+d[25]+'.'+d[26]+'?'+Math.round(Math.random()*1000) : '';
+			var ftr = (parseInt(d[27],10) > 0) ? 'sucursales/membretes/files/'+d[28]+'.'+d[29]+'?'+Math.round(Math.random()*1000) : '';
+			resolve((hdr || ftr) ? { hdr:hdr, ftr:ftr } : null);
+		}).fail(function(){ resolve(null); });
+	});
+}
+function cargarImgPromesa(url){
+	return new Promise(function(resolve){
+		if(!url){ resolve(null); return; }
+		var im = new Image(); im.onload = function(){ resolve(im); }; im.onerror = function(){ resolve(null); }; im.src = url;
+	});
+}
+function imgADataURL(im){
+	var c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight;
+	var cx = c.getContext('2d'); cx.fillStyle = '#ffffff'; cx.fillRect(0,0,c.width,c.height); cx.drawImage(im,0,0);
+	return c.toDataURL('image/jpeg', 0.92);
+}
+function pdfConMembreteSucursal(html, suc){ // PDF carta con las imágenes de encabezado y pie de la sucursal en cada hoja
+	return Promise.all([cargarImgPromesa(suc.hdr), cargarImgPromesa(suc.ftr)]).then(function(im){
+		var W = 215.9, H = 279.4, LR = 8, hI = im[0], fI = im[1];
+		var hh = hI ? W * hI.naturalHeight / hI.naturalWidth : 0;
+		var fh = fI ? W * fI.naturalHeight / fI.naturalWidth : 0;
+		var body = document.createElement('div');
+		body.style.cssText = 'width:'+(W-2*LR)+'mm; background:#fff; color:#000; font-family:Arial,Helvetica,sans-serif; font-size:13px; line-height:1.35;';
+		body.innerHTML = limpiarCuerpoInforme(html, true); // aquí SÍ se conservan los datos del paciente (el membrete de la sucursal no los trae)
+		$(body).find('img').css('max-width','100%');
+		var hData = hI ? imgADataURL(hI) : null, fData = fI ? imgADataURL(fI) : null;
+		return new Promise(function(resolve, reject){
+			html2pdf().set({
+				margin: [hh+3, LR, fh+3, LR], image:{ type:'jpeg', quality:0.92 },
+				html2canvas:{ scale:1.6, useCORS:true, backgroundColor:'#ffffff', logging:false },
+				jsPDF:{ unit:'mm', format:'letter', orientation:'portrait' },
+				pagebreak:{ mode:['css','legacy'], avoid:['img','table','tr'] }
+			}).from(body).toPdf().get('pdf').then(function(pdf){
+				var n = pdf.internal.getNumberOfPages();
+				for(var pg=1; pg<=n; pg++){
+					pdf.setPage(pg);
+					if(hData){ pdf.addImage(hData,'JPEG',0,0,W,hh); }
+					if(fData){ pdf.addImage(fData,'JPEG',0,H-fh,W,fh); }
+				}
+			}).outputPdf('blob').then(resolve, reject);
+		});
+	});
+}
+
+/* COMPARTIR POR WHATSAPP: primero pregunta Con membrete / Sin membrete y luego pide el número.
+   Con membrete: el de la sucursal si existe; si no existe, el del sistema (ultrasonido.php con "Agregar datos").
+   Sin membrete: PDF sin encabezado ni pie. */
 function compartirPDFWhatsApp(html, idVC, idPa, sinMembrete){
 	if(!$.trim($('<div>').html(html||'').text()) && !/<img/i.test(html||'')){
 		swal({title:"",type:"error",text:"No hay interpretación para compartir",timer:2500,showConfirmButton:false}); return;
@@ -1180,6 +1369,16 @@ function compartirPDFWhatsApp(html, idVC, idPa, sinMembrete){
 	if(typeof html2pdf === 'undefined'){
 		swal({title:"",type:"error",text:"No se cargó la librería html2pdf (revisa funciones/js/html2pdf.bundle.min.js)"}); return;
 	}
+	if(sinMembrete === true){ pedirTelefonoWA(html, idVC, idPa, 'sin'); return; } // p_imagenes: siempre sin membrete, no se pregunta
+	swal({
+	  title: "COMPARTIR PDF POR WHATSAPP",
+	  text: '<table class="table table-condensed"><tr><td align="center" colspan="2">Selecciona el tipo de PDF</td></tr><tr><td align="center"><button id="btn_wa_cm" type="button" class="btn btn-info">Con membrete</button></td><td align="center"><button id="btn_wa_sm" type="button" class="btn btn-info">Sin membrete</button></td></tr></table>',
+	  html: true, showCancelButton: true, showConfirmButton: false, cancelButtonText: "Cerrar"
+	});
+	$('#btn_wa_cm').click(function(e){ swal.close(); window.setTimeout(function(){ pedirTelefonoWA(html, idVC, idPa, 'con'); }, 300); });
+	$('#btn_wa_sm').click(function(e){ swal.close(); window.setTimeout(function(){ pedirTelefonoWA(html, idVC, idPa, 'sin'); }, 300); });
+}
+function pedirTelefonoWA(html, idVC, idPa, modo){ // modo: 'con' o 'sin' membrete
 	var ultimo = ''; try{ ultimo = localStorage.getItem('usgWaTel') || ''; }catch(ex){}
 	swal({
 		title: "COMPARTIR PDF POR WHATSAPP", text: "Número de WhatsApp (10 dígitos o con lada):",
@@ -1197,8 +1396,16 @@ function compartirPDFWhatsApp(html, idVC, idPa, sinMembrete){
 		if(w){ try{ w.document.write('<p style="font-family:Arial">Generando PDF del estudio...</p>'); }catch(ex){} }
 		window.setTimeout(function(){ swal({title:"GENERANDO PDF", text:"Un momento por favor...", showConfirmButton:false}); }, 100);
 		
-		var pdfBlob = null;
-		(sinMembrete ? htmlAPdfBlob(html) : obtenerMembrete(idVC, idPa).then(function(cfgM){ return pdfConMembrete(html, cfgM); })).then(function(blob){
+		var pdfBlob = null, pPdf;
+		if(modo == 'sin'){
+			pPdf = htmlAPdfBlob(html);                                   // sin ningún membrete
+		}else{
+			pPdf = datosMembreteSucursal(idVC).then(function(suc){
+				if(suc){ return pdfConMembreteSucursal(html, suc); }     // membrete cargado en la sucursal
+				return obtenerMembrete(idVC, idPa).then(function(cfgM){ return pdfConMembrete(html, cfgM); }); // no hay: membrete del sistema
+			});
+		}
+		pPdf.then(function(blob){
 			pdfBlob = blob; var fd = new FormData();
 			fd.append('pdf', blob, 'estudio.pdf'); fd.append('idVC', idVC); fd.append('idU', $('#id_user').val());
 			return $.ajax({ url:'ultrasonido.php?usg_ajax=1&accion=pdf', type:'POST', data:fd, processData:false, contentType:false });
